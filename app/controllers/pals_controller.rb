@@ -1,0 +1,2 @@
+class PalsController < ApplicationController
+end
