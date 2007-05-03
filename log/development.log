@@ -1,1159 +1,216 @@
 
 
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 12:29:39) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
+Processing HomeController#index (for 127.0.0.1 at 2007-05-03 11:54:39) [GET]
+  Session ID: bb14e4813934a57b258ad28930ea70d0
+  Parameters: {"action"=>"index", "controller"=>"home"}
+Rendering  within layouts/default
+Rendering home/index
+Completed in 0.01056 (94 reqs/sec) | Rendering: 0.00952 (90%) | 200 OK [http://localhost/home]
+
+
+Processing SearchController#index (for 127.0.0.1 at 2007-05-03 11:54:43) [GET]
+  Session ID: bb14e4813934a57b258ad28930ea70d0
+  Parameters: {"action"=>"index", "controller"=>"search"}
+
+
+ActionController::UnknownAction (No action responded to index):
+    /opt/local/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/filters.rb:632:in `call_filter'
+    /opt/local/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/filters.rb:619:in `perform_action_without_benchmark'
+    /opt/local/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/benchmarking.rb:66:in `perform_action_without_rescue'
+    /opt/local/lib/ruby/1.8/benchmark.rb:293:in `measure'
+    /opt/local/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/benchmarking.rb:66:in `perform_action_without_rescue'
+    /opt/local/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/rescue.rb:83:in `perform_action'
+    /opt/local/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/base.rb:430:in `send'
+    /opt/local/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/base.rb:430:in `process_without_filters'
+    /opt/local/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/filters.rb:624:in `process_without_session_management_support'
+    /opt/local/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/session_management.rb:114:in `process'
+    /opt/local/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/base.rb:330:in `process'
+    /opt/local/lib/ruby/gems/1.8/gems/rails-1.2.3/lib/dispatcher.rb:41:in `dispatch'
+    /opt/local/lib/ruby/gems/1.8/gems/rails-1.2.3/lib/webrick_server.rb:113:in `handle_dispatch'
+    /opt/local/lib/ruby/gems/1.8/gems/rails-1.2.3/lib/webrick_server.rb:79:in `service'
+    /opt/local/lib/ruby/1.8/webrick/httpserver.rb:104:in `service'
+    /opt/local/lib/ruby/1.8/webrick/httpserver.rb:65:in `run'
+    /opt/local/lib/ruby/1.8/webrick/server.rb:173:in `start_thread'
+    /opt/local/lib/ruby/1.8/webrick/server.rb:162:in `start'
+    /opt/local/lib/ruby/1.8/webrick/server.rb:162:in `start_thread'
+    /opt/local/lib/ruby/1.8/webrick/server.rb:95:in `start'
+    /opt/local/lib/ruby/1.8/webrick/server.rb:92:in `each'
+    /opt/local/lib/ruby/1.8/webrick/server.rb:92:in `start'
+    /opt/local/lib/ruby/1.8/webrick/server.rb:23:in `start'
+    /opt/local/lib/ruby/1.8/webrick/server.rb:82:in `start'
+    /opt/local/lib/ruby/gems/1.8/gems/rails-1.2.3/lib/webrick_server.rb:63:in `dispatch'
+    /opt/local/lib/ruby/gems/1.8/gems/rails-1.2.3/lib/commands/servers/webrick.rb:59
+    /opt/local/lib/ruby/vendor_ruby/1.8/rubygems/custom_require.rb:27:in `gem_original_require'
+    /opt/local/lib/ruby/vendor_ruby/1.8/rubygems/custom_require.rb:27:in `require'
+    /opt/local/lib/ruby/gems/1.8/gems/activesupport-1.4.2/lib/active_support/dependencies.rb:495:in `require'
+    /opt/local/lib/ruby/gems/1.8/gems/activesupport-1.4.2/lib/active_support/dependencies.rb:342:in `new_constants_in'
+    /opt/local/lib/ruby/gems/1.8/gems/activesupport-1.4.2/lib/active_support/dependencies.rb:495:in `require'
+    /opt/local/lib/ruby/gems/1.8/gems/rails-1.2.3/lib/commands/server.rb:39
+    /opt/local/lib/ruby/vendor_ruby/1.8/rubygems/custom_require.rb:27:in `gem_original_require'
+    /opt/local/lib/ruby/vendor_ruby/1.8/rubygems/custom_require.rb:27:in `require'
+    script/server:3
+
+
+Rendering /opt/local/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/templates/rescues/layout.rhtml (404 Page Not Found)
+
+
+Processing HelpController#index (for 127.0.0.1 at 2007-05-03 11:54:46) [GET]
+  Session ID: bb14e4813934a57b258ad28930ea70d0
+  Parameters: {"action"=>"index", "controller"=>"help"}
+
+
+ActionController::UnknownAction (No action responded to index):
+    /opt/local/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/filters.rb:632:in `call_filter'
+    /opt/local/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/filters.rb:619:in `perform_action_without_benchmark'
+    /opt/local/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/benchmarking.rb:66:in `perform_action_without_rescue'
+    /opt/local/lib/ruby/1.8/benchmark.rb:293:in `measure'
+    /opt/local/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/benchmarking.rb:66:in `perform_action_without_rescue'
+    /opt/local/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/rescue.rb:83:in `perform_action'
+    /opt/local/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/base.rb:430:in `send'
+    /opt/local/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/base.rb:430:in `process_without_filters'
+    /opt/local/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/filters.rb:624:in `process_without_session_management_support'
+    /opt/local/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/session_management.rb:114:in `process'
+    /opt/local/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/base.rb:330:in `process'
+    /opt/local/lib/ruby/gems/1.8/gems/rails-1.2.3/lib/dispatcher.rb:41:in `dispatch'
+    /opt/local/lib/ruby/gems/1.8/gems/rails-1.2.3/lib/webrick_server.rb:113:in `handle_dispatch'
+    /opt/local/lib/ruby/gems/1.8/gems/rails-1.2.3/lib/webrick_server.rb:79:in `service'
+    /opt/local/lib/ruby/1.8/webrick/httpserver.rb:104:in `service'
+    /opt/local/lib/ruby/1.8/webrick/httpserver.rb:65:in `run'
+    /opt/local/lib/ruby/1.8/webrick/server.rb:173:in `start_thread'
+    /opt/local/lib/ruby/1.8/webrick/server.rb:162:in `start'
+    /opt/local/lib/ruby/1.8/webrick/server.rb:162:in `start_thread'
+    /opt/local/lib/ruby/1.8/webrick/server.rb:95:in `start'
+    /opt/local/lib/ruby/1.8/webrick/server.rb:92:in `each'
+    /opt/local/lib/ruby/1.8/webrick/server.rb:92:in `start'
+    /opt/local/lib/ruby/1.8/webrick/server.rb:23:in `start'
+    /opt/local/lib/ruby/1.8/webrick/server.rb:82:in `start'
+    /opt/local/lib/ruby/gems/1.8/gems/rails-1.2.3/lib/webrick_server.rb:63:in `dispatch'
+    /opt/local/lib/ruby/gems/1.8/gems/rails-1.2.3/lib/commands/servers/webrick.rb:59
+    /opt/local/lib/ruby/vendor_ruby/1.8/rubygems/custom_require.rb:27:in `gem_original_require'
+    /opt/local/lib/ruby/vendor_ruby/1.8/rubygems/custom_require.rb:27:in `require'
+    /opt/local/lib/ruby/gems/1.8/gems/activesupport-1.4.2/lib/active_support/dependencies.rb:495:in `require'
+    /opt/local/lib/ruby/gems/1.8/gems/activesupport-1.4.2/lib/active_support/dependencies.rb:342:in `new_constants_in'
+    /opt/local/lib/ruby/gems/1.8/gems/activesupport-1.4.2/lib/active_support/dependencies.rb:495:in `require'
+    /opt/local/lib/ruby/gems/1.8/gems/rails-1.2.3/lib/commands/server.rb:39
+    /opt/local/lib/ruby/vendor_ruby/1.8/rubygems/custom_require.rb:27:in `gem_original_require'
+    /opt/local/lib/ruby/vendor_ruby/1.8/rubygems/custom_require.rb:27:in `require'
+    script/server:3
+
+
+Rendering /opt/local/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/templates/rescues/layout.rhtml (404 Page Not Found)
+
+
+Processing HomeController#index (for 127.0.0.1 at 2007-05-03 11:55:21) [GET]
+  Session ID: bb14e4813934a57b258ad28930ea70d0
   Parameters: {"action"=>"index", "controller"=>"home"}
-
-
-NoMethodError (undefined method `default' for #<HomeController:0x2553b28>):
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/layout.rb:218:in `send'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/layout.rb:218:in `active_layout'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/layout.rb:286:in `pick_layout'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/layout.rb:237:in `render_without_benchmark'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/benchmarking.rb:50:in `render'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/1.8/benchmark.rb:293:in `measure'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/benchmarking.rb:50:in `render'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/base.rb:1096:in `perform_action_without_filters'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/filters.rb:632:in `call_filter'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/filters.rb:619:in `perform_action_without_benchmark'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/benchmarking.rb:66:in `perform_action_without_rescue'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/1.8/benchmark.rb:293:in `measure'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/benchmarking.rb:66:in `perform_action_without_rescue'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/rescue.rb:83:in `perform_action'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/base.rb:430:in `process_without_filters'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/filters.rb:624:in `process_without_session_management_support'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/session_management.rb:114:in `process'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/base.rb:330:in `process'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/rails-1.2.3/lib/dispatcher.rb:41:in `dispatch'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel/rails.rb:84:in `process'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/1.8/sync.rb:229:in `synchronize'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel/rails.rb:83:in `process'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel.rb:580:in `process_client'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel.rb:579:in `process_client'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel.rb:686:in `run'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel.rb:686:in `run'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel.rb:673:in `run'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel/configurator.rb:267:in `run'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel/configurator.rb:266:in `run'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/bin/mongrel_rails:127:in `run'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel/command.rb:211:in `run'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/bin/mongrel_rails:231
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/bin/mongrel_rails:18
-
-
-Rendering /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/templates/rescues/layout.rhtml (500 Internal Error)
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 12:30:22) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.02021 (49 reqs/sec) | Rendering: 0.01601 (79%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 12:30:52) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.02604 (38 reqs/sec) | Rendering: 0.02201 (84%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 12:31:12) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.01345 (74 reqs/sec) | Rendering: 0.01070 (79%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 12:31:35) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.01300 (76 reqs/sec) | Rendering: 0.01033 (79%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 12:32:04) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.00758 (131 reqs/sec) | Rendering: 0.00419 (55%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 12:33:05) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.01238 (80 reqs/sec) | Rendering: 0.00942 (76%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 12:33:19) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.00632 (158 reqs/sec) | Rendering: 0.00373 (59%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 14:25:14) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.01725 (57 reqs/sec) | Rendering: 0.01448 (83%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 14:32:51) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.00773 (129 reqs/sec) | Rendering: 0.00388 (50%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 14:33:19) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.01229 (81 reqs/sec) | Rendering: 0.00955 (77%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 14:38:05) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.01295 (77 reqs/sec) | Rendering: 0.00982 (75%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 14:48:10) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.01675 (59 reqs/sec) | Rendering: 0.00819 (48%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 14:52:02) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.00780 (128 reqs/sec) | Rendering: 0.00404 (51%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 14:52:34) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.00695 (143 reqs/sec) | Rendering: 0.00394 (56%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 14:53:48) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.00698 (143 reqs/sec) | Rendering: 0.00392 (56%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 14:58:47) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.03137 (31 reqs/sec) | Rendering: 0.01988 (63%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 14:59:22) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.01246 (80 reqs/sec) | Rendering: 0.00955 (76%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 15:01:39) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.25400 (3 reqs/sec) | Rendering: 0.25119 (98%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 15:02:29) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.03278 (30 reqs/sec) | Rendering: 0.03000 (91%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 15:02:38) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.02945 (33 reqs/sec) | Rendering: 0.01786 (60%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 15:05:30) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.03004 (33 reqs/sec) | Rendering: 0.02738 (91%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 15:06:48) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.03382 (29 reqs/sec) | Rendering: 0.02875 (85%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 15:07:52) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.05156 (19 reqs/sec) | Rendering: 0.04773 (92%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 15:08:48) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.25745 (3 reqs/sec) | Rendering: 0.25444 (98%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 15:09:59) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.03519 (28 reqs/sec) | Rendering: 0.03222 (91%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 15:11:16) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.03573 (27 reqs/sec) | Rendering: 0.03235 (90%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 15:12:19) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.28450 (3 reqs/sec) | Rendering: 0.26236 (92%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 15:13:16) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.02161 (46 reqs/sec) | Rendering: 0.01877 (86%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 15:14:33) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.03425 (29 reqs/sec) | Rendering: 0.03082 (89%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 15:22:55) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.02906 (34 reqs/sec) | Rendering: 0.02613 (89%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 15:23:45) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.02680 (37 reqs/sec) | Rendering: 0.02407 (89%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 15:24:25) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.02688 (37 reqs/sec) | Rendering: 0.02400 (89%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 15:24:41) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.02231 (44 reqs/sec) | Rendering: 0.01959 (87%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 15:25:06) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.02388 (41 reqs/sec) | Rendering: 0.01928 (80%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 15:26:05) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.02888 (34 reqs/sec) | Rendering: 0.02393 (82%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 15:26:17) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.02129 (46 reqs/sec) | Rendering: 0.01796 (84%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 15:28:35) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.02478 (40 reqs/sec) | Rendering: 0.02094 (84%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 15:28:52) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.02211 (45 reqs/sec) | Rendering: 0.01670 (75%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 15:29:15) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.03161 (31 reqs/sec) | Rendering: 0.01905 (60%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 15:30:26) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.02346 (42 reqs/sec) | Rendering: 0.01929 (82%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 15:32:01) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.02000 (50 reqs/sec) | Rendering: 0.01732 (86%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 15:32:30) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.03711 (26 reqs/sec) | Rendering: 0.03371 (90%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 15:33:03) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.26265 (3 reqs/sec) | Rendering: 0.25815 (98%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 15:33:12) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.02212 (45 reqs/sec) | Rendering: 0.01890 (85%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:00:43) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.05750 (17 reqs/sec) | Rendering: 0.05458 (94%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:01:56) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.33569 (2 reqs/sec) | Rendering: 0.33199 (98%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:02:11) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.03338 (29 reqs/sec) | Rendering: 0.03035 (90%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:02:58) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.04018 (24 reqs/sec) | Rendering: 0.03691 (91%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:03:30) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.24763 (4 reqs/sec) | Rendering: 0.02311 (9%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:03:53) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.02790 (35 reqs/sec) | Rendering: 0.02511 (89%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:04:35) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.03164 (31 reqs/sec) | Rendering: 0.02886 (91%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:06:41) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.27322 (3 reqs/sec) | Rendering: 0.26978 (98%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:07:01) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.07405 (13 reqs/sec) | Rendering: 0.06031 (81%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#about (for 127.0.0.1 at 2007-05-02 16:07:05) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"about", "controller"=>"home"}
-
-
-ActionController::UnknownAction (No action responded to about):
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/filters.rb:632:in `call_filter'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/filters.rb:619:in `perform_action_without_benchmark'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/benchmarking.rb:66:in `perform_action_without_rescue'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/1.8/benchmark.rb:293:in `measure'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/benchmarking.rb:66:in `perform_action_without_rescue'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/rescue.rb:83:in `perform_action'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/base.rb:430:in `process_without_filters'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/filters.rb:624:in `process_without_session_management_support'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/session_management.rb:114:in `process'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/base.rb:330:in `process'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/rails-1.2.3/lib/dispatcher.rb:41:in `dispatch'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel/rails.rb:84:in `process'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/1.8/sync.rb:229:in `synchronize'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel/rails.rb:83:in `process'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel.rb:580:in `process_client'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel.rb:579:in `process_client'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel.rb:686:in `run'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel.rb:686:in `run'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel.rb:673:in `run'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel/configurator.rb:267:in `run'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel/configurator.rb:266:in `run'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/bin/mongrel_rails:127:in `run'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel/command.rb:211:in `run'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/bin/mongrel_rails:231
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/bin/mongrel_rails:18
-
-
-Rendering /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/templates/rescues/layout.rhtml (404 Page Not Found)
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:07:34) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.02777 (36 reqs/sec) | Rendering: 0.02469 (88%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:08:03) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.04067 (24 reqs/sec) | Rendering: 0.03744 (92%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:08:31) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.04698 (21 reqs/sec) | Rendering: 0.04295 (91%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:09:12) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.27793 (3 reqs/sec) | Rendering: 0.26539 (95%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:09:24) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.04085 (24 reqs/sec) | Rendering: 0.03777 (92%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:11:25) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.24131 (4 reqs/sec) | Rendering: 0.23688 (98%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:13:31) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.26583 (3 reqs/sec) | Rendering: 0.26055 (98%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:14:21) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.03608 (27 reqs/sec) | Rendering: 0.03301 (91%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:14:43) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.03563 (28 reqs/sec) | Rendering: 0.03182 (89%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:15:59) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.29295 (3 reqs/sec) | Rendering: 0.28387 (96%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:17:05) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.04192 (23 reqs/sec) | Rendering: 0.03437 (81%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:18:00) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.04221 (23 reqs/sec) | Rendering: 0.03908 (92%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:18:46) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.31408 (3 reqs/sec) | Rendering: 0.31058 (98%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:21:07) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.04767 (20 reqs/sec) | Rendering: 0.04427 (92%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:24:53) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.02960 (33 reqs/sec) | Rendering: 0.02522 (85%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:25:14) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.28514 (3 reqs/sec) | Rendering: 0.28168 (98%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:28:29) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
 Rendering  within layouts/default
 Rendering home/index
-Completed in 0.03997 (25 reqs/sec) | Rendering: 0.03681 (92%) | 200 OK [http://localhost/home]
+Completed in 0.01109 (90 reqs/sec) | Rendering: 0.01007 (90%) | 200 OK [http://localhost/home]
 
 
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:28:33) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
+Processing HomeController#index (for 127.0.0.1 at 2007-05-03 11:55:25) [GET]
+  Session ID: bb14e4813934a57b258ad28930ea70d0
   Parameters: {"action"=>"index", "controller"=>"home"}
 Rendering  within layouts/default
 Rendering home/index
-Completed in 0.03181 (31 reqs/sec) | Rendering: 0.02793 (87%) | 200 OK [http://localhost/home]
-
-
-Processing ApplicationController#index (for 127.0.0.1 at 2007-05-02 16:28:55) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {}
+Completed in 0.00486 (205 reqs/sec) | Rendering: 0.00394 (81%) | 200 OK [http://localhost/home]
 
 
-ActionController::RoutingError (no route found to match "/pals" with {:method=>:get}):
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/routing.rb:1292:in `recognize_path'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/routing.rb:1282:in `recognize'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/rails-1.2.3/lib/dispatcher.rb:40:in `dispatch'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel/rails.rb:84:in `process'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/1.8/sync.rb:229:in `synchronize'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel/rails.rb:83:in `process'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel.rb:580:in `process_client'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel.rb:579:in `process_client'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel.rb:686:in `run'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel.rb:686:in `run'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel.rb:673:in `run'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel/configurator.rb:267:in `run'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel/configurator.rb:266:in `run'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/bin/mongrel_rails:127:in `run'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/lib/mongrel/command.rb:211:in `run'
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/bin/mongrel_rails:231
-    /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/bin/mongrel_rails:18
+Processing SearchController#index (for 127.0.0.1 at 2007-05-03 11:55:27) [GET]
+  Session ID: bb14e4813934a57b258ad28930ea70d0
+  Parameters: {"action"=>"index", "controller"=>"search"}
 
 
-Rendering /Applications/Locomotive2/Bundles/standardRailsSept2006.locobundle/powerpc/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/templates/rescues/layout.rhtml (404 Page Not Found)
+ActionController::UnknownAction (No action responded to index):
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/filters.rb:632:in `call_filter'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/filters.rb:619:in `perform_action_without_benchmark'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/benchmarking.rb:66:in `perform_action_without_rescue'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/1.8/benchmark.rb:293:in `measure'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/benchmarking.rb:66:in `perform_action_without_rescue'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/rescue.rb:83:in `perform_action'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/base.rb:430:in `send'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/base.rb:430:in `process_without_filters'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/filters.rb:624:in `process_without_session_management_support'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/session_management.rb:114:in `process'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/base.rb:330:in `process'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/rails-1.2.3/lib/dispatcher.rb:41:in `dispatch'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel/rails.rb:78:in `process'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel/rails.rb:76:in `synchronize'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel/rails.rb:76:in `process'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:618:in `process_client'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:617:in `each'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:617:in `process_client'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:736:in `run'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:736:in `initialize'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:736:in `new'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:736:in `run'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:720:in `initialize'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:720:in `new'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:720:in `run'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel/configurator.rb:271:in `run'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel/configurator.rb:270:in `each'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel/configurator.rb:270:in `run'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/mongrel-1.0.1/bin/mongrel_rails:127:in `run'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel/command.rb:211:in `run'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/mongrel-1.0.1/bin/mongrel_rails:243
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/bin/mongrel_rails:16:in `load'
+    /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/bin/mongrel_rails:16
 
 
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:33:28) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.03939 (25 reqs/sec) | Rendering: 0.03589 (91%) | 200 OK [http://localhost/home]
+Rendering /Applications/Locomotive2/Bundles/standardRailsMar2007.locobundle/i386/lib/ruby/gems/1.8/gems/actionpack-1.13.3/lib/action_controller/templates/rescues/layout.rhtml (404 Page Not Found)
 
 
-Processing HomeController#about (for 127.0.0.1 at 2007-05-02 16:33:31) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
+Processing HomeController#about (for 127.0.0.1 at 2007-05-03 11:55:30) [GET]
+  Session ID: bb14e4813934a57b258ad28930ea70d0
   Parameters: {"action"=>"about", "controller"=>"home"}
 Rendering  within layouts/default
 Rendering home/about
-Completed in 0.26718 (3 reqs/sec) | Rendering: 0.26415 (98%) | 200 OK [http://localhost/home/about]
+Completed in 0.04314 (23 reqs/sec) | Rendering: 0.04219 (97%) | 200 OK [http://localhost/home/about]
 
 
-Processing HomeController#about (for 127.0.0.1 at 2007-05-02 16:34:08) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"about", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/about
-Completed in 0.02504 (39 reqs/sec) | Rendering: 0.02140 (85%) | 200 OK [http://localhost/home/about]
-
-
-Processing HomeController#about (for 127.0.0.1 at 2007-05-02 16:35:38) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"about", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/about
-Completed in 0.04786 (20 reqs/sec) | Rendering: 0.04431 (92%) | 200 OK [http://localhost/home/about]
-
-
-Processing HomeController#about (for 127.0.0.1 at 2007-05-02 16:36:21) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"about", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/about
-Completed in 0.32508 (3 reqs/sec) | Rendering: 0.02762 (8%) | 200 OK [http://localhost/home/about]
-
-
-Processing HomeController#about (for 127.0.0.1 at 2007-05-02 16:36:45) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"about", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/about
-Completed in 0.03452 (28 reqs/sec) | Rendering: 0.02163 (62%) | 200 OK [http://localhost/home/about]
-
-
-Processing HomeController#about (for 127.0.0.1 at 2007-05-02 16:38:04) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"about", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/about
-Completed in 0.02763 (36 reqs/sec) | Rendering: 0.02445 (88%) | 200 OK [http://localhost/home/about]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:38:05) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
+Processing HomeController#index (for 127.0.0.1 at 2007-05-03 11:58:07) [GET]
+  Session ID: bb14e4813934a57b258ad28930ea70d0
   Parameters: {"action"=>"index", "controller"=>"home"}
 Rendering  within layouts/default
 Rendering home/index
-Completed in 0.02863 (34 reqs/sec) | Rendering: 0.02383 (83%) | 200 OK [http://localhost/home]
+Completed in 0.00735 (136 reqs/sec) | Rendering: 0.00655 (89%) | 200 OK [http://localhost/home/]
 
 
-Processing HomeController#about (for 127.0.0.1 at 2007-05-02 16:38:08) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
+Processing HomeController#index (for 127.0.0.1 at 2007-05-03 11:58:12) [GET]
+  Session ID: bb14e4813934a57b258ad28930ea70d0
+  Parameters: {"action"=>"index", "controller"=>"home"}
+Rendering  within layouts/default
+Rendering home/index
+Completed in 0.00380 (263 reqs/sec) | Rendering: 0.00303 (79%) | 200 OK [http://localhost/home/]
+
+
+Processing HomeController#about (for 127.0.0.1 at 2007-05-03 11:58:14) [GET]
+  Session ID: bb14e4813934a57b258ad28930ea70d0
   Parameters: {"action"=>"about", "controller"=>"home"}
 Rendering  within layouts/default
 Rendering home/about
-Completed in 0.03836 (26 reqs/sec) | Rendering: 0.03479 (90%) | 200 OK [http://localhost/home/about]
+Completed in 0.00658 (151 reqs/sec) | Rendering: 0.00548 (83%) | 200 OK [http://localhost/home/about]
 
 
-Processing HomeController#about (for 127.0.0.1 at 2007-05-02 16:38:57) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
+Processing HomeController#index (for 127.0.0.1 at 2007-05-03 11:58:16) [GET]
+  Session ID: bb14e4813934a57b258ad28930ea70d0
+  Parameters: {"action"=>"index", "controller"=>"home"}
+Rendering  within layouts/default
+Rendering home/index
+Completed in 0.00389 (257 reqs/sec) | Rendering: 0.00306 (78%) | 200 OK [http://localhost/home]
+
+
+Processing HomeController#about (for 127.0.0.1 at 2007-05-03 11:58:17) [GET]
+  Session ID: bb14e4813934a57b258ad28930ea70d0
   Parameters: {"action"=>"about", "controller"=>"home"}
 Rendering  within layouts/default
 Rendering home/about
-Completed in 0.03008 (33 reqs/sec) | Rendering: 0.02401 (79%) | 200 OK [http://localhost/home/about]
+Completed in 0.00399 (250 reqs/sec) | Rendering: 0.00322 (80%) | 200 OK [http://localhost/home/about]
 
 
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:38:59) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.03469 (28 reqs/sec) | Rendering: 0.03163 (91%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#about (for 127.0.0.1 at 2007-05-02 16:39:03) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
+Processing HomeController#about (for 127.0.0.1 at 2007-05-03 11:58:27) [GET]
+  Session ID: bb14e4813934a57b258ad28930ea70d0
   Parameters: {"action"=>"about", "controller"=>"home"}
 Rendering  within layouts/default
 Rendering home/about
-Completed in 0.03639 (27 reqs/sec) | Rendering: 0.03303 (90%) | 200 OK [http://localhost/home/about]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 16:39:28) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.02959 (33 reqs/sec) | Rendering: 0.02606 (88%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#about (for 127.0.0.1 at 2007-05-02 16:39:41) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"about", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/about
-Completed in 0.03863 (25 reqs/sec) | Rendering: 0.03245 (84%) | 200 OK [http://localhost/home/about]
-
-
-Processing HomeController#disclaimers (for 127.0.0.1 at 2007-05-02 16:49:40) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"disclaimers", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/disclaimers
-Completed in 0.05249 (19 reqs/sec) | Rendering: 0.04886 (93%) | 200 OK [http://localhost/home/disclaimers]
-
-
-Processing HomeController#privacy (for 127.0.0.1 at 2007-05-02 16:51:02) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"privacy", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/privacy
-Completed in 0.26651 (3 reqs/sec) | Rendering: 0.26306 (98%) | 200 OK [http://localhost/home/privacy]
-
-
-Processing FeedbackController#index (for 127.0.0.1 at 2007-05-02 16:58:56) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"feedback"}
-Rendering  within layouts/default
-Rendering feedback/index
-Completed in 0.04928 (20 reqs/sec) | Rendering: 0.04474 (90%) | 200 OK [http://localhost/feedback]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 17:00:38) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.07670 (13 reqs/sec) | Rendering: 0.07237 (94%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#about (for 127.0.0.1 at 2007-05-02 17:00:42) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"about", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/about
-Completed in 0.05139 (19 reqs/sec) | Rendering: 0.04134 (80%) | 200 OK [http://localhost/home/about]
-
-
-Processing HomeController#about (for 127.0.0.1 at 2007-05-02 17:00:49) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"about", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/about
-Completed in 0.03313 (30 reqs/sec) | Rendering: 0.02885 (87%) | 200 OK [http://localhost/home/about]
-
-
-Processing HomeController#disclaimers (for 127.0.0.1 at 2007-05-02 17:00:51) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"disclaimers", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/disclaimers
-Completed in 0.02576 (38 reqs/sec) | Rendering: 0.02217 (86%) | 200 OK [http://localhost/home/disclaimers]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 17:01:00) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.38065 (2 reqs/sec) | Rendering: 0.05533 (14%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#about (for 127.0.0.1 at 2007-05-02 17:01:58) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"about", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/about
-Completed in 0.03219 (31 reqs/sec) | Rendering: 0.02880 (89%) | 200 OK [http://localhost/home/about]
-
-
-Processing HomeController#disclaimers (for 127.0.0.1 at 2007-05-02 17:02:01) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"disclaimers", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/disclaimers
-Completed in 0.03247 (30 reqs/sec) | Rendering: 0.02823 (86%) | 200 OK [http://localhost/home/disclaimers]
-
-
-Processing FeedbackController#index (for 127.0.0.1 at 2007-05-02 17:02:06) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"feedback"}
-Rendering  within layouts/default
-Rendering feedback/index
-Completed in 0.29819 (3 reqs/sec) | Rendering: 0.28926 (97%) | 200 OK [http://localhost/feedback]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 17:04:09) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.03470 (28 reqs/sec) | Rendering: 0.03180 (91%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#about (for 127.0.0.1 at 2007-05-02 17:04:11) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"about", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/about
-Completed in 0.07094 (14 reqs/sec) | Rendering: 0.06525 (91%) | 200 OK [http://localhost/home/about]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 17:04:29) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.41013 (2 reqs/sec) | Rendering: 0.04241 (10%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#disclaimers (for 127.0.0.1 at 2007-05-02 17:05:28) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"disclaimers", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/disclaimers
-Completed in 0.02650 (37 reqs/sec) | Rendering: 0.02283 (86%) | 200 OK [http://localhost/home/disclaimers]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-02 17:06:04) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.03167 (31 reqs/sec) | Rendering: 0.02832 (89%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#about (for 127.0.0.1 at 2007-05-03 00:03:24) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"about", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/about
-Completed in 0.48725 (2 reqs/sec) | Rendering: 0.45622 (93%) | 200 OK [http://localhost/home/about]
-
-
-Processing HomeController#disclaimers (for 127.0.0.1 at 2007-05-03 00:03:28) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"disclaimers", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/disclaimers
-Completed in 0.03027 (33 reqs/sec) | Rendering: 0.02716 (89%) | 200 OK [http://localhost/home/disclaimers]
-
-
-Processing HomeController#privacy (for 127.0.0.1 at 2007-05-03 00:03:36) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"privacy", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/privacy
-Completed in 0.03587 (27 reqs/sec) | Rendering: 0.03222 (89%) | 200 OK [http://localhost/home/privacy]
-
-
-Processing FeedbackController#index (for 127.0.0.1 at 2007-05-03 00:03:39) [GET]
-  Session ID: 581104c286c0f82c0bd709d64f2820df
-  Parameters: {"action"=>"index", "controller"=>"feedback"}
-Rendering  within layouts/default
-Rendering feedback/index
-Completed in 0.03748 (26 reqs/sec) | Rendering: 0.03317 (88%) | 200 OK [http://localhost/feedback]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-03 09:18:17) [GET]
-  Session ID: e58d6b2232b910f7826aba95388dbeee
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.12453 (8 reqs/sec) | Rendering: 0.12071 (96%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#about (for 127.0.0.1 at 2007-05-03 09:18:25) [GET]
-  Session ID: e58d6b2232b910f7826aba95388dbeee
-  Parameters: {"action"=>"about", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/about
-Completed in 0.05093 (19 reqs/sec) | Rendering: 0.04775 (93%) | 200 OK [http://localhost/home/about]
-
-
-Processing HomeController#disclaimers (for 127.0.0.1 at 2007-05-03 09:18:28) [GET]
-  Session ID: e58d6b2232b910f7826aba95388dbeee
-  Parameters: {"action"=>"disclaimers", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/disclaimers
-Completed in 0.32177 (3 reqs/sec) | Rendering: 0.31375 (97%) | 200 OK [http://localhost/home/disclaimers]
-
-
-Processing HomeController#disclaimers (for 127.0.0.1 at 2007-05-03 09:18:38) [GET]
-  Session ID: e58d6b2232b910f7826aba95388dbeee
-  Parameters: {"action"=>"disclaimers", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/disclaimers
-Completed in 0.04190 (23 reqs/sec) | Rendering: 0.03129 (74%) | 200 OK [http://localhost/home/disclaimers]
-
-
-Processing HomeController#privacy (for 127.0.0.1 at 2007-05-03 09:18:41) [GET]
-  Session ID: e58d6b2232b910f7826aba95388dbeee
-  Parameters: {"action"=>"privacy", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/privacy
-Completed in 0.03602 (27 reqs/sec) | Rendering: 0.02874 (79%) | 200 OK [http://localhost/home/privacy]
-
-
-Processing FeedbackController#index (for 127.0.0.1 at 2007-05-03 09:18:46) [GET]
-  Session ID: e58d6b2232b910f7826aba95388dbeee
-  Parameters: {"action"=>"index", "controller"=>"feedback"}
-Rendering  within layouts/default
-Rendering feedback/index
-Completed in 0.23825 (4 reqs/sec) | Rendering: 0.23508 (98%) | 200 OK [http://localhost/feedback]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-03 09:54:23) [GET]
-  Session ID: 07b59cb0320a1999a561ded45dc287a6
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.05755 (17 reqs/sec) | Rendering: 0.05397 (93%) | 200 OK [http://localhost/home]
-
-
-Processing FeedbackController#index (for 127.0.0.1 at 2007-05-03 09:54:27) [GET]
-  Session ID: 07b59cb0320a1999a561ded45dc287a6
-  Parameters: {"action"=>"index", "controller"=>"feedback"}
-Rendering  within layouts/default
-Rendering feedback/index
-DEPRECATION WARNING: start_form_tag is deprecated and will be removed from Rails 2.0 (use form_tag instead)  See http://www.rubyonrails.org/deprecation for details. (called from _run_rhtml_47app47views47feedback47index46rhtml at /Users/apecqueur/pha/config/../app/views/feedback/index.rhtml:7)
-DEPRECATION WARNING: end_form_tag is deprecated and will be removed from Rails 2.0  See http://www.rubyonrails.org/deprecation for details. (called from _run_rhtml_47app47views47feedback47index46rhtml at /Users/apecqueur/pha/config/../app/views/feedback/index.rhtml:85)
-Completed in 0.08915 (11 reqs/sec) | Rendering: 0.08552 (95%) | 200 OK [http://localhost/feedback]
-
-
-Processing FeedbackController#save_feedback (for 127.0.0.1 at 2007-05-03 09:54:57) [POST]
-  Session ID: 07b59cb0320a1999a561ded45dc287a6
-  Parameters: {"name"=>"Alex", "submit"=>"Continue", "type"=>"General Feedback", "action"=>"save_feedback", "availability"=>"anytime", "controller"=>"feedback", "phone"=>"404-663-3696", "email"=>"alex@golfbuzz.com"}
-Sent mail:
- Date: Thu, 3 May 2007 09:54:57 -0400
-From: Alex
-To: support@golfbuzz.com
-Subject: PensionHelp Feedback
-Mime-Version: 1.0
-Content-Type: multipart/alternative; boundary=mimepart_4639e9b1742b8_179128152413d
-
-
---mimepart_4639e9b1742b8_179128152413d
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: Quoted-printable
-Content-Disposition: inline
-
-Feedback Concern: anytime =
-
-Name: General Feedback
-Email: Alex
-Phone: alex@golfbuzz.com
-Availability: 404-663-3696
-
---mimepart_4639e9b1742b8_179128152413d--
-
-Redirected to http://localhost:3001/home
-Completed in 0.33073 (3 reqs/sec) | 302 Found [http://localhost/feedback/save_feedback]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-03 09:54:57) [GET]
-  Session ID: 07b59cb0320a1999a561ded45dc287a6
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.03042 (32 reqs/sec) | Rendering: 0.02043 (67%) | 200 OK [http://localhost/home]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-03 10:08:26) [GET]
-  Session ID: 07b59cb0320a1999a561ded45dc287a6
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.09294 (10 reqs/sec) | Rendering: 0.08953 (96%) | 200 OK [http://localhost/home]
-
-
-Processing FeedbackController#index (for 127.0.0.1 at 2007-05-03 10:08:28) [GET]
-  Session ID: 07b59cb0320a1999a561ded45dc287a6
-  Parameters: {"action"=>"index", "controller"=>"feedback"}
-Rendering  within layouts/default
-Rendering feedback/index
-DEPRECATION WARNING: start_form_tag is deprecated and will be removed from Rails 2.0 (use form_tag instead)  See http://www.rubyonrails.org/deprecation for details. (called from _run_rhtml_47app47views47feedback47index46rhtml at /Users/apecqueur/pha/config/../app/views/feedback/index.rhtml:7)
-DEPRECATION WARNING: end_form_tag is deprecated and will be removed from Rails 2.0  See http://www.rubyonrails.org/deprecation for details. (called from _run_rhtml_47app47views47feedback47index46rhtml at /Users/apecqueur/pha/config/../app/views/feedback/index.rhtml:85)
-Completed in 0.22214 (4 reqs/sec) | Rendering: 0.21828 (98%) | 200 OK [http://localhost/feedback]
-
-
-Processing FeedbackController#save_feedback (for 127.0.0.1 at 2007-05-03 10:08:42) [POST]
-  Session ID: 07b59cb0320a1999a561ded45dc287a6
-  Parameters: {"name"=>"name", "submit"=>"Continue", "type"=>"Broken Link(s)", "action"=>"save_feedback", "availability"=>"availability", "controller"=>"feedback", "phone"=>"phone", "email"=>"email"}
-Sent mail:
- Date: Thu, 3 May 2007 10:08:42 -0400
-From: email
-To: support@golfbuzz.com
-Subject: PensionHelp Feedback
-Mime-Version: 1.0
-Content-Type: multipart/alternative; boundary=mimepart_4639ecead2a0b_1791332950312
-
-
---mimepart_4639ecead2a0b_1791332950312
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: Quoted-printable
-Content-Disposition: inline
-
-Feedback Concern: Broken Link(s) =
-
-Name: name
-Email: email
-Phone: phone
-Availability: availability
-
---mimepart_4639ecead2a0b_1791332950312--
-
-Redirected to http://localhost:3001/home
-Completed in 0.71777 (1 reqs/sec) | 302 Found [http://localhost/feedback/save_feedback]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-03 10:08:43) [GET]
-  Session ID: 07b59cb0320a1999a561ded45dc287a6
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.02644 (37 reqs/sec) | Rendering: 0.02287 (86%) | 200 OK [http://localhost/home]
-
-
-Processing FeedbackController#index (for 127.0.0.1 at 2007-05-03 10:10:41) [GET]
-  Session ID: 07b59cb0320a1999a561ded45dc287a6
-  Parameters: {"action"=>"index", "controller"=>"feedback"}
-Rendering  within layouts/default
-Rendering feedback/index
-DEPRECATION WARNING: start_form_tag is deprecated and will be removed from Rails 2.0 (use form_tag instead)  See http://www.rubyonrails.org/deprecation for details. (called from _run_rhtml_47app47views47feedback47index46rhtml at /Users/apecqueur/pha/config/../app/views/feedback/index.rhtml:7)
-DEPRECATION WARNING: end_form_tag is deprecated and will be removed from Rails 2.0  See http://www.rubyonrails.org/deprecation for details. (called from _run_rhtml_47app47views47feedback47index46rhtml at /Users/apecqueur/pha/config/../app/views/feedback/index.rhtml:85)
-Completed in 0.08900 (11 reqs/sec) | Rendering: 0.05670 (63%) | 200 OK [http://localhost/feedback]
-
-
-Processing FeedbackController#save_feedback (for 127.0.0.1 at 2007-05-03 10:10:53) [POST]
-  Session ID: 07b59cb0320a1999a561ded45dc287a6
-  Parameters: {"name"=>"", "submit"=>"Continue", "type"=>"", "action"=>"save_feedback", "availability"=>"", "controller"=>"feedback", "phone"=>"", "email"=>""}
-Sent mail:
- Date: Thu, 3 May 2007 10:10:53 -0400
-To: support@golfbuzz.com
-Subject: PensionHelp Feedback
-Mime-Version: 1.0
-Content-Type: multipart/alternative; boundary=mimepart_4639ed6d5c4c2_179126f252530
-
-
---mimepart_4639ed6d5c4c2_179126f252530
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: Quoted-printable
-Content-Disposition: inline
-
-Feedback Concern:  =
-
-Name: =
-
-Email: =
-
-Phone: =
-
-Availability: =
-
-
---mimepart_4639ed6d5c4c2_179126f252530--
-
-Redirected to http://localhost:3001/home
-Completed in 0.35414 (2 reqs/sec) | 302 Found [http://localhost/feedback/save_feedback]
-
-
-Processing HomeController#index (for 127.0.0.1 at 2007-05-03 10:10:53) [GET]
-  Session ID: 07b59cb0320a1999a561ded45dc287a6
-  Parameters: {"action"=>"index", "controller"=>"home"}
-Rendering  within layouts/default
-Rendering home/index
-Completed in 0.03225 (31 reqs/sec) | Rendering: 0.02864 (88%) | 200 OK [http://localhost/home]
+Completed in 0.00846 (118 reqs/sec) | Rendering: 0.00765 (90%) | 200 OK [http://localhost/home/about]
