@@ -28,4 +28,13 @@ class Contact < ActiveRecord::Base
   has_one :help_net, :dependent => :destroy
   has_one :search_net, :dependent => :destroy
   belongs_to :profession, :dependent => :destroy
+  
+  validates_presence_of :first_name
+  validates_presence_of :last_name
+  validates_presence_of :line_1
+  validates_presence_of :city
+  validates_presence_of :state_abbrev
+  validates_presence_of :zip_code
+  validates_presence_of :phone
+  validates_presence_of :email  
 end

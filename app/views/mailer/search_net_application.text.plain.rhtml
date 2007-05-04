@@ -1,0 +1,33 @@
+First Name: <%= @contact.first_name %>
+Last Name: <%= @contact.last_name %>
+Middle Initial: <%= @contact.middle_initial %>
+Firm: <%= @contact.company %>
+Address Line 1: <%= @contact.line_1 %>
+Address Line 2: <%= @contact.line_2 %>
+City: <%= @contact.city %>
+State: <%= @contact.state_abbrev %>
+Zip Code: <%= @contact.zip_code %>
+Phone: <%= @contact.phone %>
+Fax: <%= @contact.fax %>
+Email: <%= @contact.email %>
+Website: <%= @contact.url %>
+<% if @contact.profession.name == "Other..." -%>
+Profession: <%= @contact.profession_other %>
+<% else -%>
+Profession: <%= @contact.profession.name %>
+<% end -%>
+Professional Affiliations: <%= @contact.affiliations %>
+I am most likely to have information about the following types of plans:
+-<%= @seach_net.info_plans %>
+I am most likely to have information about plans in the following geographic areas:
+-<%= @seach_net.info_geo %>
+I am most likely to have information about plans in the following industries:
+-<%= @seach_net.info_industries %>
+Please provide any other information that might be helpful in making appropriate referrals:
+-<%= @seach_net.info_referrals %>
+
+<% if @seach_net.wont_charge_fees -%>
+I will not charge any fees for my services
+<% else -%>
+I prefer to charge fees for my services
+<% end -%>

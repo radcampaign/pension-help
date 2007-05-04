@@ -1,0 +1,228 @@
+<style>.fieldWithErrors {padding: 2px; background-color: red; display: table;}</style>
+<% if (not @contact.nil? and not @contact.errors.empty?) -%>
+<div class="warningBox">
+	<table class="warningTable">
+		<tr class="warningRow">
+			<td class="warningCell1">
+				<%= image_tag "layout/icon_exclamation.gif" %>
+			</td>
+			<td class="warningCell2">
+				<% @contact.errors.full_messages.each do |msg| -%>
+			  		<p><%= msg %></p>
+			  	<% end -%>
+			</td>
+		</tr>
+	</table>
+</div>
+<br/>
+<% end -%>
+
+<h2>Become a part of PensionHelp America’s nationwide assistance Network!</h2>
+
+<p>If you are a pension attorney, actuary, or other pension professional interested in helping people with their pension and retirement savings plan questions, choose from the selections below.</p>
+
+<p>If you need a pension professional to help you, use our <%= link_to 'PensionHelp', :controller => :help %> services.</p>
+
+<h2>PensionSearch Network</h2>
+
+<p>Pension professionals joining this network are helping to end the “lost pension” problem in America. Once a member, you will be notified of “lost” plans registered in your area. If you know something about the plan, you can report it back to our database via e-mail, or by visiting this site. Complete the form below to join.</p>
+
+<h2>PensionHelp Network</h2>
+
+<p>Pension professionals joining this network are willing to donate small amounts of time to help the staff at PensionHelp America respond to the e-mail and telephone inquiries of plan participants who would not otherwise have a place to go for answers to their questions. Complete the form below to join.</p>
+
+<h3>Contact Information</h3>
+
+<%= start_form_tag :controller => :works, :action => :join %>
+
+<table class="form">
+	<tr>
+		<th><span class="reqnote">*</span>First Name:</th>
+		<td>
+			<table class="form" cellpadding="0" cellspacing="0">
+				<tr>
+					<td>
+						<%= text_field "contact", "first_name", :size => 15 %>
+					</td>
+					<th>&nbsp;M.I.:</th>
+					<td>
+						&nbsp;<%= text_field "contact", "middle_initial", :size => 3 %>
+					</td>
+					<th>&nbsp;<span class="reqnote">*</span>Last Name:</th>
+					<td>
+						&nbsp;<%= text_field "contact", "last_name", :size => 15 %>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<th>Firm:</th>
+		<td>
+			<%= text_field "contact", "company", :size => 60 %>
+		</td>
+	</tr>
+	<tr>
+		<th><span class="reqnote">*</span>Street Address:</th>
+		<td>
+			<%= text_field "contact", "line_1", :size => 60 %>
+		</td>
+	</tr>
+	<tr>
+		<th>Address 2:</th>
+		<td>
+			<%= text_field "contact", "line_2", :size => 60 %>
+		</td>
+	</tr>
+	<tr>
+		<th><span class="reqnote">*</span>City:</th>
+		<td>
+			<table cellpadding="0" cellspacing="0" class="form">
+				<tr>
+					<td>
+						<%= text_field "contact", "city", :size => 15 %>
+					</td>
+					<th>&nbsp;<span class="reqnote">*</span>State:</th>
+					<td>
+						<%= select("contact", "state_abbrev", State.find(:all).collect {|s| [s.abbrev, s.abbrev]}, {:include_blank => true}) %>
+					</td>
+					<th>&nbsp;<span class="reqnote">*</span>Zip:</th>
+					<td>
+						<%= text_field "contact", "zip_code", :size => 15 %>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<th><span class="reqnote">*</span>Telephone:</th>
+		<td>
+			<%= text_field "contact", "phone", :size => 15 %>
+		</td>
+	</tr>
+	<tr>
+		<th>Fax:</th>
+		<td>
+			<%= text_field "contact", "fax", :size => 15 %>
+		</td>
+	</tr>
+	<tr>
+		<th><span class="reqnote">*</span>E-Mail:</th>
+		<td>
+			<%= text_field "contact", "email", :size => 60 %>
+		</td>
+	</tr>
+	<tr>
+		<th>Website:</th>
+		<td>
+			<%= text_field "contact", "url", :size => 60 %>
+		</td>
+	</tr>
+</table>
+
+<h3>I am interested in joining:</h3>
+
+<p>
+	<input type="checkbox" name="wants_search" onClick="toggleSearch()" />
+	<label>
+		&nbsp;The PensionSearch Network
+	</label>
+</p>
+<p>
+	<input type="checkbox" name="wants_help" onClick="toggleHelp()" />
+	<label>
+		&nbsp;The PensionHelp Network
+	</label>
+</p>
+<p>
+	<%= check_box "contact", "wants_npln" %>
+	<label>
+		&nbsp;The National Pension Lawyers Network (NPLN)
+	</label>
+</p>
+<p>
+	<%= check_box "contact", "wants_aaa" %>
+	<label>
+		&nbsp;The Pension Assistance List (PAL)
+	</label>
+</p>
+<div id="professionalInfo" style="display:none">
+	<h3>Professional Information</h3>
+	<table class="form">
+		<tr>
+			<th>Profession:</th>
+			<td>
+				<%= select("contact", "profession_id", Profession.find(:all).collect {|s| [s.name, s.id]}, {:include_blank => true}) %>
+			</td>
+		</tr>
+		<tr>
+			<th>Other:</th>
+			<td>
+				<%= text_field "contact", "profession_other", :size => 60 %>
+			</td>
+		</tr>
+		<tr>
+			<th>Professional Affiliations:</th>
+			<td>
+				<%= text_area "contact", "affiliations", :cols => 40, :rows => 5 %>
+			</td>
+		</tr>
+	</table>
+</div>
+<div id="pensionSearch" style="display:none">
+	<h3>Fees</h3>
+	<p><%= check_box "search_net", "wont_charge_fees" %>&nbsp;I will not charge any fees for these PensionSearch Network services.</p>
+	<h3>Other Information</h3>
+	
+	<p>I am most likely to have information about the following types of plans:<br/>
+	<%= text_area "search_net", "info_plans", :cols => 40, :rows => 5 %></p>
+	
+	<p>I am most likely to have information about plans in the following geographic areas:<br/>
+	<%= text_area "search_net", "info_geo", :cols => 40, :rows => 5 %></p>
+	
+	<p>I am most likely to have information about plans in the following industries:<br/>
+	<%= text_area "search_net", "info_industries", :cols => 40, :rows => 5 %></p>
+	
+	<p>Please provide any other information that might be helpful in making appropriate referrals:<br/>
+	<%= text_area "search_net", "info_referrals", :cols => 40, :rows => 5 %></p>
+</div>
+<div id="pensionHelp" style="display:none">
+	<h3>Fees</h3>
+	<p><%= check_box "help_net", "wont_charge_fees" %>&nbsp;I will not charge any fees for these PensionHelp Network services.</p>
+	<h3>Experience (check all that apply)</h3>
+	<p><%= check_box "help_net", "exp_erisa_single" %>&nbsp;Single-employer private plans (ERISA)</p>
+	<p><%= check_box "help_net", "exp_erisa_multi" %>&nbsp;Multi-employer private plans (ERISA)</p>
+	<p><%= check_box "help_net", "exp_fed" %>&nbsp;Federal plans (FERS/CSRS/Military/Railroad)</p>
+	<p><%= check_box "help_net", "exp_state" %>&nbsp;State, county, and municipal plans</p>
+	<p><%= check_box "help_net", "exp_church" %>&nbsp;Church plans</p>
+	<p>Other: <%= text_field "help_net", "exp_other", :size => 15 %></p>
+	<p>Please provide any other information about the areas of practice or types
+	of referrals you are willing to take.<br>
+	<%= text_area "help_net", "other_info", :cols => 40, :rows => 5 %></p>
+</div>
+<br/>
+<%= image_submit_tag "buttons/button_next.jpg" %>
+<%= end_form_tag %>
+<script type="text/javascript" language="javascript">
+
+function toggleSearch() {
+	if ($('pensionSearch').style.display == 'none' ) {
+		Element.show('pensionSearch');
+		Element.show('professionalInfo');
+	} else {
+		Element.hide('pensionSearch');
+		if ($('pensionHelp').style.display == 'none' ) {Element.hide('professionalInfo')} 
+	}	
+}
+
+function toggleHelp() {
+	if ($('pensionHelp').style.display == 'none' ) {
+		Element.show('pensionHelp');
+		Element.show('professionalInfo');
+	} else {
+		Element.hide('pensionHelp');
+		if ($('pensionSearch').style.display == 'none' ) {Element.hide('professionalInfo')} 
+	}	
+}
+
+</script>
