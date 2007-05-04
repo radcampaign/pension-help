@@ -12,7 +12,7 @@ class Admin::ContentControllerTest < Test::Unit::TestCase
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
 
-    @first_id = contents(:first).id
+    @first_id = Content.find(1).id
   end
 
   def test_index

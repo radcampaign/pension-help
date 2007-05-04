@@ -9,6 +9,6 @@
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 one:
-  id: 1
+  abbrev: 'me'
 two:
-  id: 2
+  abbrev: 'ga'
