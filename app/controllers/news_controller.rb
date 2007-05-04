@@ -1,2 +1,2 @@
-class NewsController < ApplicationController
+class NewsController < ApplicationController  
 end
