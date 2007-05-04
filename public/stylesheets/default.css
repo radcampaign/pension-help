@@ -50,12 +50,39 @@ a img {
 
 /* Layout - Header */
 
-#header {
+.header {
 	width:773px;
 	height:91px;
-	background-image:url('/images/layout/header.jpg');
 	background-repeat:no-repeat;
 	float:left;
+}
+
+#site_header {
+	background-image:url('/images/layout/header-site.jpg');
+}
+
+#feedback_header {
+	background-image:url('/images/layout/header-site.jpg');
+}
+
+#help_header {
+	background-image:url('/images/layout/header-help.jpg');
+}
+
+#news_header {
+	background-image:url('/images/layout/header-news.jpg');
+}
+
+#works_header {
+	background-image:url('/images/layout/header-works.jpg');
+}
+
+#pals_header {
+	background-image:url('/images/layout/header-pals.jpg');
+}
+
+#search_header {
+	background-image:url('/images/layout/header-search.jpg');
 }
 
 /* Layout - Menu */

@@ -11,7 +11,7 @@
 </head>
 <body>
 	<div id="container">
-		<div id="header"></div>
+		<div class="header" id="<%= @request.request_parameters['controller'] %>_header"></div>
 		<div id="menu">
 			<ul>
 				<li id="top"><%= link_to image_tag('layout/button-help-off.jpg'), :controller => :help %></li>
