@@ -152,13 +152,13 @@ h5 {
 	margin:10px 0px 50px 10px;
 }
 
-b.blueheader {
+.blueheader {
 	font-size: 18px;
   font-weight: bold;
   color: #000088;
  }
 
-b.redheader {
+.redheader {
   font-size: 16px;
   font-weight: bold;
   color: #CC0000;

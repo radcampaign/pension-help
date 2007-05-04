@@ -1,0 +1,16 @@
+<%= error_messages_for 'content' %>
+
+<!--[form:content]-->
+<p><label for="content_url">Url</label><br/>
+<%= text_field 'content', 'url'  %></p>
+
+<p><label for="content_title">Title</label><br/>
+<%= text_field 'content', 'title'  %></p>
+
+<p><label for="content_content">Content</label><br/>
+<%= text_area 'content', 'content', :cols => 70  %></p>
+
+<p><label for="content_updated_by">Updated by</label><br/>
+<%= text_field 'content', 'updated_by'  %></p>
+<!--[eoform:content]-->
+
