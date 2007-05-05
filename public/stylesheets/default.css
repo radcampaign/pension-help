@@ -109,6 +109,14 @@ a img {
 	right:104px;
 }
 
+#mailto_link {
+	position:absolute;
+	height:8px;
+	width:11px;
+	top:35px;
+	right:44px;
+}
+
 /* Layout - Menu */
 
 #menu {
@@ -117,7 +125,10 @@ a img {
 	background-image:url('/images/layout/sidebar_top.jpg');
 	background-repeat:no-repeat;
 	float:left;
-	padding-top:13px;
+}
+
+#menu ul {
+	margin-top:-5px;
 }
 
 #menu ul li {
@@ -277,4 +288,14 @@ table.form table.form td {
 .successBox table.successTable td.successCell2 {
     text-align: left;
     padding: 0px 20px 0px 10px;
+}
+
+/* Safari Hacks */
+
+#menu ul {
+	margin-top:0px;#
+}
+
+#menu {
+	padding-top:13px;#
 }
