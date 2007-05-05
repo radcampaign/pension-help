@@ -7,11 +7,18 @@
 <meta name="robots" content="all" />
 <title>PensionHelp America</title>
 <%= javascript_include_tag :defaults %>
+<%= javascript_include_tag 'textsizer' %>
 <%= stylesheet_link_tag 'default', :media => 'all' %>
 </head>
 <body>
 	<div id="container">
-		<div class="header" id="<%= @request.request_parameters['controller'] %>_header"></div>
+		<div class="header" id="<%= @request.request_parameters['controller'] %>_header">
+			<div style="position:relative">
+			<a href="/" id="home_link"></a>
+			<%= link_to_function('',"ts('body',1)", :id => 'ts_increase_link')%>
+			<%= link_to_function('',"ts('body',-1)", :id => 'ts_decrease_link')%>
+			</div>
+		</div>
 		<div id="menu">
 			<ul>
 				<li id="top"><%= link_to image_tag('layout/button-help-off.jpg'), :controller => :help %></li>

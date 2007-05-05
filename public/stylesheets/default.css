@@ -45,7 +45,7 @@ a img {
 #header,#menu,#content,#footer {
 	overflow:hidden;
   /* Make these elements inline-block so we can set widths */
-	display:inline-block
+	display:inline-block;
 }
 
 /* Layout - Header */
@@ -83,6 +83,30 @@ a img {
 
 #search_header {
 	background-image:url('/images/layout/header-search.jpg');
+}
+
+#home_link {
+	position:absolute;
+	height:76px;
+	width:175px;
+	top:0px;
+	left:0px;
+}
+
+#ts_increase_link {
+	position:absolute;
+	height:10px;
+	width:10px;
+	top:16px;
+	right:92px;
+}
+
+#ts_decrease_link {
+	position:absolute;
+	height:10px;
+	width:10px;
+	top:16px;
+	right:104px;
 }
 
 /* Layout - Menu */
