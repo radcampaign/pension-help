@@ -170,8 +170,8 @@ h2 {
 }
 
 h2 a:link, h2 a:visited {
-  color: #cc0000;
-  text-decoration: none;
+  color: #000088;
+  text-decoration: underline;
 }
 
 h2 a:hover {
