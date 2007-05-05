@@ -1,20 +1,17 @@
-<h1>Listing contents</h1>
+<h2>Manage Content</h2>
 
-<table>
+<table width="100%">
   <tr>
-  <% for col in %w{title url updated_at updated_by} %>
-    <th><%= Content.columns_hash[col].human_name %></th>
-  <% end %>
+    <th>Title</th>
+    <th>URL</th>
+    <th>Updated By</th>
   </tr>
   
 <% for content in @contents %>
   <tr>
-  <% for col in %w{title url updated_at updated_by} %>
-    <td><%=h content.send(col) %></td>
-  <% end %>
-    <td><%= link_to 'Show', :action => 'show', :id => content %></td>
-    <td><%= link_to 'Edit', :action => 'edit', :id => content %></td>
-    <td><%= link_to 'Destroy', { :action => 'destroy', :id => content }, :confirm => 'Are you sure?', :method => :post %></td>
+    <td width="35%"><%= link_to h(content.title), :action => 'edit', :id => content %></td>
+    <td width="30%"><%= h content.url %></td>
+    <td><%= h content.updated_by %> on <%= h content.updated_at.strftime("%Y-%m-%d") %></td>
   </tr>
 <% end %>
 </table>
@@ -22,6 +19,3 @@
 <%= link_to 'Previous page', { :page => @content_pages.current.previous } if @content_pages.current.previous %>
 <%= link_to 'Next page', { :page => @content_pages.current.next } if @content_pages.current.next %> 
 
-<br />
-
-<%= link_to 'New content', :action => 'new' %>

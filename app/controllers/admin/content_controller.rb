@@ -1,4 +1,6 @@
 class Admin::ContentController < ApplicationController
+  before_filter :login_required
+  
   uses_tiny_mce(:options => {:theme => 'advanced',
                              :browsers => %w{msie gecko},
                              :theme_advanced_toolbar_location => "top",
@@ -27,7 +29,7 @@ class Admin::ContentController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @content_pages, @contents = paginate :contents, :per_page => 10
+    @content_pages, @contents = paginate :contents, :per_page => 20
   end
 
   def show
@@ -54,6 +56,7 @@ class Admin::ContentController < ApplicationController
 
   def update
     @content = Content.find(params[:id])
+    @content.updated_by = current_user.login
     if @content.update_attributes(params[:content])
       flash[:notice] = 'Content was successfully updated.'
       redirect_to :action => 'show', :id => @content
@@ -62,8 +65,4 @@ class Admin::ContentController < ApplicationController
     end
   end
 
-  def destroy
-    Content.find(params[:id]).destroy
-    redirect_to :action => 'list'
-  end
 end

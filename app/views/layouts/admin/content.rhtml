@@ -1,20 +1,78 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" >
 <head>
-  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <title>Admin::Content: <%= controller.action_name %></title>
-  <% # Include TinyMCE before other JS to avoid problems -%>
-  <%= javascript_include_tiny_mce_if_used %>
-  <%= tiny_mce if using_tiny_mce? %>
-  <%= stylesheet_link_tag 'scaffold' %>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="gradientblue.com" />
+<meta name="description" content="PensionHelp America" />
+<meta name="robots" content="all" />
+<title>PensionHelp America</title>
+<% # Include TinyMCE before other JS to avoid problems -%>
+<%= javascript_include_tiny_mce_if_used %>
+<%= tiny_mce if using_tiny_mce? %>
+<%= javascript_include_tag :defaults %>
+<%= javascript_include_tag 'textsizer' %>
+<%= stylesheet_link_tag 'default', :media => 'all' %>
 </head>
 <body>
-
-<p style="color: green"><%= flash[:notice] %></p>
+	<div id="container">
+		<div class="header" id="site_header">
+			<div style="position:relative">
+			<a href="/" id="home_link"></a>
+			<%= link_to_function('',"ts('body',1)", :id => 'ts_increase_link')%>
+			<%= link_to_function('',"ts('body',-1)", :id => 'ts_decrease_link')%>
+			</div>
+		</div>
+	<div id="content">
+		<div class="buffer">
+			<% if flash[:warning] || flash[:notice] -%>
+					<div class="warningBox">
+						<table class="warningTable">
+							<tr class="warningRow">
+								<td class="warningCell1">
+									<%= image_tag "layout/icon_exclamation.gif" %>
+								</td>
+								<td class="warningCell2">
+									<p><%= flash[:warning] %>  <%= flash[:notice] %></p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				<br/>
+		   <% end -%>
+			<% if flash[:success] -%>
+					<div class="successBox">
+						<table class="successTable">
+							<tr class="successRow">
+								<td class="successCell1">
+									<%= image_tag "layout/icon_checkmark.gif" %>
+								</td>
+								<td class="successCell2">
+									<p><%= flash[:success]%></p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				<br/>
+		    <% end -%>
 
 <%= yield  %>
-
+			</div>
+		</div>
+		<div id="footer">
+			<ul>
+				<li><%= link_to_unless_current 'Home', '/' %></li>
+				<li>|</li>
+				<li><%= link_to_unless_current 'About Us', '/about_us' %></li>
+				<li>|</li>
+				<li><%= link_to_unless_current 'Privacy',  '/privacy' %></li>
+				<li>|</li>
+				<li><%= link_to_unless_current 'Terms of Use',  '/terms_of_use' %></li>
+				<li>|</li>
+				<li><%= link_to_unless_current 'Disclaimers', '/disclaimers' %></li>
+				<li>|</li>
+				<li><%= link_to_unless_current 'Feedback', :controller => :feedback %></li>
+			</ul>
+			<%= link_to_unless_current "Copyright &copy;#{Time.now.strftime('%Y')} Pension Rights Center", '/copyright' %>
+		</div>
+	</div>
 </body>
-</html>
