@@ -183,7 +183,8 @@ a img {
 /* HTML element styles */
 
 p {
-	margin:10px 0px 10px 0px;
+	margin-top:10px;
+	margin-bottom: 10px;
 }
 
 h2 {
@@ -219,6 +220,11 @@ h5 {
   font-size: 14px;
   font-weight: normal;
   color: #004CB2;
+}
+
+ol, blockquote {
+   margin-left: 30px;
+   margin-right: 30px;
 }
 
 /* Misc */

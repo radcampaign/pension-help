@@ -5,18 +5,18 @@ class Admin::ContentController < ApplicationController
                              :browsers => %w{msie gecko},
                              :theme_advanced_toolbar_location => "top",
                              :theme_advanced_toolbar_align => "left",
-                             :theme_advanced_resizing => true,
-                             :theme_advanced_resize_horizontal => false,
                              :paste_auto_cleanup_on_paste => true,
-                             :content_css => '/stylesheets/default.css',
+                             :content_css => '/stylesheets/styles.css',
+                             :width => 631,
+                             :height => 400,
+                             :relative_urls => false,
                              :theme_advanced_styles => 'Red Header=redheader;Blue Header=blueheader',
-                             :theme_advanced_buttons1 => %w{bold italic underline separator strikethrough justifyleft justifycenter justifyright justifyfull separator bullist numlist separator undo redo separator link unlink separator styleselect formatselect separator code},
+                             :theme_advanced_buttons1 => %w{bold italic underline strikethrough separator justifyleft justifycenter justifyright separator indent outdent separator bullist numlist separator undo redo separator link unlink separator styleselect formatselect separator code},
                              :theme_advanced_buttons2 => [],
                              :theme_advanced_buttons3 => [],
                              :plugins => %w{contextmenu paste}},
-                             :extended_valid_elements => %w{a[name|href|target|title|onclick] img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name] hr[class|width|size|noshade] font[face|size|color|style] span[class|align|style]},
-                             :width => 680,
-                :only => [:new, :edit, :show, :index])
+                             :extended_valid_elements => %w{a[name|href|target|title|onclick] img[class|src|border=0|alt|title|hspace|vspace|width|height|align|name] hr[class|width|size|noshade] font[face|size|color|style] span[class|align|style]},
+                :only => [:new, :edit])
   
   
   def index
