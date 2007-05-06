@@ -1,0 +1,26 @@
+<h1>Manage News</h1>
+
+<table width="100%">
+  <tr>
+    <th>Title</th>
+    <th>Publish Date</th>
+    <th>Archive Date</th>
+    <th>Updated By</th>
+    <th>Internal?</th>
+  </tr>
+  
+<% for news in @news %>
+  <tr>
+    <td width="35%"><%= link_to h(news.title), :action => 'edit', :id => news %></td>
+    <td><%= h news.publish_date.strftime("%Y-%m-%d") %></td>
+    <td><%= h news.archive_date.strftime("%Y-%m-%d") %></td>
+    <td><%= h news.updated_by %> on <%= h news.updated_at.strftime("%Y-%m-%d") %></td>
+    <td><%= news.is_internal ? 'Yes' : '' %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @news_pages.current.previous } if @news_pages.current.previous %>
+<%= link_to 'Next page', { :page => @news_pages.current.next } if @news_pages.current.next %> 
+
+<br />

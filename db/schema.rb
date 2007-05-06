@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 7) do
+ActiveRecord::Schema.define(:version => 8) do
 
   create_table "contacts", :force => true do |t|
     t.column "first_name",       :string,  :limit => 80
@@ -44,6 +44,20 @@ ActiveRecord::Schema.define(:version => 7) do
     t.column "exp_other",        :string
     t.column "other_info",       :string
     t.column "wont_charge_fees", :boolean
+  end
+
+  create_table "news", :force => true do |t|
+    t.column "title",        :string
+    t.column "intro",        :text
+    t.column "article_url",  :string
+    t.column "source_url",   :string
+    t.column "is_internal",  :boolean
+    t.column "body",         :text
+    t.column "publish_date", :date
+    t.column "archive_date", :date
+    t.column "created_at",   :datetime
+    t.column "updated_at",   :datetime
+    t.column "updated_by",   :string
   end
 
   create_table "professions", :force => true do |t|

@@ -1,4 +1,4 @@
-class Admin::ContentController < ApplicationController
+class Admin::NewsController < ApplicationController
   before_filter :login_required
   layout "admin"
   
@@ -19,7 +19,6 @@ class Admin::ContentController < ApplicationController
                              :extended_valid_elements => %w{a[name|href|target|title|onclick] img[class|src|border=0|alt|title|hspace|vspace|width|height|align|name] hr[class|width|size|noshade] font[face|size|color|style] span[class|align|style]},
                 :only => [:new, :edit])
   
-  
   def index
     list
     render :action => 'list'
@@ -30,21 +29,21 @@ class Admin::ContentController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @content_pages, @contents = paginate :contents, :per_page => 20
+    @news_pages, @news = paginate :news, :per_page => 10
   end
 
   def show
-    @content = Content.find(params[:id])
+    @news = News.find(params[:id])
   end
 
   def new
-    @content = Content.new
+    @news = News.new
   end
 
   def create
-    @content = Content.new(params[:content])
-    if @content.save
-      flash[:notice] = 'Content was successfully created.'
+    @news = News.new(params[:news])
+    if @news.save
+      flash[:notice] = 'News was successfully created.'
       redirect_to :action => 'list'
     else
       render :action => 'new'
@@ -52,18 +51,21 @@ class Admin::ContentController < ApplicationController
   end
 
   def edit
-    @content = Content.find(params[:id])
+    @news = News.find(params[:id])
   end
 
   def update
-    @content = Content.find(params[:id])
-    @content.updated_by = current_user.login
-    if @content.update_attributes(params[:content])
-      flash[:notice] = 'Content was successfully updated.'
-      redirect_to :action => 'show', :id => @content
+    @news = News.find(params[:id])
+    if @news.update_attributes(params[:news])
+      flash[:notice] = 'News was successfully updated.'
+      redirect_to :action => 'show', :id => @news
     else
       render :action => 'edit'
     end
   end
 
+  def destroy
+    News.find(params[:id]).destroy
+    redirect_to :action => 'list'
+  end
 end

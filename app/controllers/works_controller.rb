@@ -24,7 +24,7 @@ class WorksController < ApplicationController
       Mailer.deliver_npln_application(@contact) if @contact.wants_npln
       Mailer.deliver_aaa_application(@contact) if @contact.wants_aaa
       flash[:success] = "Your application has been saved successfully."
-      redirect_to :controller => :home
+      redirect_to '/'
     else
       render :action => :index
     end

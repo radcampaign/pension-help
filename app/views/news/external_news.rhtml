@@ -1,0 +1,6 @@
+<h2>Pensions in the news</h2>
+
+<% for news in @external_news %>
+<h2><a href="<%= news.article_url %>" target="_blank"><%= news.title %></a></h2>
+<p><%= news.intro %></p>
+<% end -%>

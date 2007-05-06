@@ -1,0 +1,38 @@
+# == Schema Information
+# Schema version: 8
+#
+# Table name: news
+#
+#  id           :integer(11)   not null, primary key
+#  title        :string(255)   
+#  intro        :text          
+#  article_url  :string(255)   
+#  source_url   :string(255)   
+#  is_internal  :boolean(1)    
+#  body         :text          
+#  publish_date :date          
+#  archive_date :date          
+#  created_at   :datetime      
+#  updated_at   :datetime      
+#  updated_by   :string(255)   
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  title: MyString
+  intro: MyText
+  article_url: MyString
+  source_url: MyString
+  body: MyText
+  updated_at: 2007-05-06 14:40:58
+  updated_by: MyString
+two:
+  id: 2
+  title: MyString
+  intro: MyText
+  article_url: MyString
+  source_url: MyString
+  body: MyText
+  updated_at: 2007-05-06 14:40:58
+  updated_by: MyString

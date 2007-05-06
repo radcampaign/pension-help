@@ -1,0 +1,37 @@
+<%= error_messages_for 'news' %>
+
+<!--[form:news]-->
+<p><label for="news_title">Title</label><br/>
+<%= text_field 'news', 'title'  %></p>
+
+<p><label for="news_intro">Intro</label><br/>
+<%= text_area 'news', 'intro'  %></p>
+
+<p><label for="news_article_url">Article url</label><br/>
+<%= text_field 'news', 'article_url'  %></p>
+
+<p><label for="news_source_url">Source url</label><br/>
+<%= text_field 'news', 'source_url'  %></p>
+
+<p><label for="news_is_internal">Is internal</label><br/>
+<select id="news_is_internal" name="news[is_internal]"><option value="false">False</option><option value="true">True</option></select></p>
+
+<p><label for="news_body">Body</label><br/>
+<%= text_area 'news', 'body'  %></p>
+
+<p><label for="news_publish_date">Publish date</label><br/>
+<%= date_select 'news', 'publish_date'  %></p>
+
+<p><label for="news_archive_date">Archive date</label><br/>
+<%= date_select 'news', 'archive_date'  %></p>
+
+<p><label for="news_created_at">Created at</label><br/>
+<%= datetime_select 'news', 'created_at'  %></p>
+
+<p><label for="news_updated_at">Updated at</label><br/>
+<%= datetime_select 'news', 'updated_at'  %></p>
+
+<p><label for="news_updated_by">Updated by</label><br/>
+<%= text_field 'news', 'updated_by'  %></p>
+<!--[eoform:news]-->
+

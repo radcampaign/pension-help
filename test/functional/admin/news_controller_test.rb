@@ -1,18 +1,18 @@
 require File.dirname(__FILE__) + '/../../test_helper'
-require 'admin/contact_controller'
+require 'admin/news_controller'
 
 # Re-raise errors caught by the controller.
-class Admin::ContactController; def rescue_action(e) raise e end; end
+class Admin::NewsController; def rescue_action(e) raise e end; end
 
-class Admin::ContactControllerTest < Test::Unit::TestCase
-  fixtures :contacts
+class Admin::NewsControllerTest < Test::Unit::TestCase
+  fixtures :news
 
   def setup
-    @controller = Admin::ContactController.new
+    @controller = Admin::NewsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
 
-    @first_id = contacts(:first).id
+    @first_id = news(:first).id
   end
 
   def test_index
@@ -27,7 +27,7 @@ class Admin::ContactControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'list'
 
-    assert_not_nil assigns(:contacts)
+    assert_not_nil assigns(:news)
   end
 
   def test_show
@@ -36,8 +36,8 @@ class Admin::ContactControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'show'
 
-    assert_not_nil assigns(:contact)
-    assert assigns(:contact).valid?
+    assert_not_nil assigns(:news)
+    assert assigns(:news).valid?
   end
 
   def test_new
@@ -46,18 +46,18 @@ class Admin::ContactControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'new'
 
-    assert_not_nil assigns(:contact)
+    assert_not_nil assigns(:news)
   end
 
   def test_create
-    num_contacts = Contact.count
+    num_news = News.count
 
-    post :create, :contact => {}
+    post :create, :news => {}
 
     assert_response :redirect
     assert_redirected_to :action => 'list'
 
-    assert_equal num_contacts + 1, Contact.count
+    assert_equal num_news + 1, News.count
   end
 
   def test_edit
@@ -66,8 +66,8 @@ class Admin::ContactControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'edit'
 
-    assert_not_nil assigns(:contact)
-    assert assigns(:contact).valid?
+    assert_not_nil assigns(:news)
+    assert assigns(:news).valid?
   end
 
   def test_update
@@ -78,7 +78,7 @@ class Admin::ContactControllerTest < Test::Unit::TestCase
 
   def test_destroy
     assert_nothing_raised {
-      Contact.find(@first_id)
+      News.find(@first_id)
     }
 
     post :destroy, :id => @first_id
@@ -86,7 +86,7 @@ class Admin::ContactControllerTest < Test::Unit::TestCase
     assert_redirected_to :action => 'list'
 
     assert_raise(ActiveRecord::RecordNotFound) {
-      Contact.find(@first_id)
+      News.find(@first_id)
     }
   end
 end
