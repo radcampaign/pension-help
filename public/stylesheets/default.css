@@ -136,6 +136,15 @@ a img {
 	padding-top:13px;
 }
 
+#menuLink {
+	height:62px;
+}
+
+* html #menuLink {
+	height:62px;
+	margin-top:-5px;
+}
+
 /* Layout - Content */
 
 #content {
