@@ -1,3 +1,4 @@
+<h1>PensionWorks</h1>
 <style>.fieldWithErrors {padding: 2px; background-color: red; display: table;}</style>
 <% if (not @contact.nil? and not @contact.errors.empty?) -%>
 <div class="warningBox">
@@ -201,7 +202,7 @@
 	<%= text_area "help_net", "other_info", :cols => 40, :rows => 5 %></p>
 </div>
 <br/>
-<%= image_submit_tag "buttons/button_next.jpg" %>
+<%= submit_tag "Submit" %>
 <%= end_form_tag %>
 <script type="text/javascript" language="javascript">
 

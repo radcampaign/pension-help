@@ -11,7 +11,7 @@ class Admin::ContentController < ApplicationController
                              :width => 631,
                              :height => 400,
                              :relative_urls => false,
-                             :theme_advanced_styles => 'Red Header=redheader;Blue Header=blueheader',
+                             :theme_advanced_styles => 'Offsite Link=offsite',
                              :theme_advanced_buttons1 => %w{bold italic underline strikethrough separator justifyleft justifycenter justifyright separator indent outdent separator bullist numlist separator undo redo separator link unlink separator styleselect formatselect separator code},
                              :theme_advanced_buttons2 => [],
                              :theme_advanced_buttons3 => [],
@@ -30,7 +30,7 @@ class Admin::ContentController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @content_pages, @contents = paginate :contents, :per_page => 20
+    @content_pages, @contents = paginate :contents, :per_page => 20, :order => 'url'
   end
 
   def show
@@ -60,7 +60,7 @@ class Admin::ContentController < ApplicationController
     @content.updated_by = current_user.login
     if @content.update_attributes(params[:content])
       flash[:notice] = 'Content was successfully updated.'
-      redirect_to :action => 'show', :id => @content
+      redirect_to :action => 'list'
     else
       render :action => 'edit'
     end

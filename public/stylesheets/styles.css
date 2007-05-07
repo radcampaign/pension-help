@@ -1,40 +1,28 @@
-/* Generic site wide hypertext link selectors */
-
-a:link {
-    color: #000088;
-    text-decoration: underline;
+body {
+   font-size: 0.9em;
+   font-family: Verdana, Arial, sans-serif;
 }
 
-a:visited {
-    color: #000088;
-    text-decoration: underline;
-}
-
-a:hover {
-    color: #cc0033;
-    text-decoration: underline;
-}
-
-a:active {
-    color: #000088;
-    text-decoration: underline;
-}
-
-a img { 
-	border: none;
-}
 /* HTML element styles */
 
 p {
-  font-size: 14px;
-  font-family: Verdana, Arial, sans-serif;
-	margin:10px 0px 10px 0px;
+   margin-top: 0px;
+	margin-bottom: 10px;
+}
+
+h1 {
+   font-size: 1.1em;
+   font-weight: normal;
+   width: 100%;
+   color: #008;
+   border-bottom: 1px #008 solid;
+   margin-bottom: 10px;
 }
 
 h2 {
-  font-size: 16px;
-  font-weight: bold;
-  color: #cc0000;
+   font-size: 1.0em; 
+	font-weight: normal;
+   color: #008;
 }
 
 h2 a:link, h2 a:visited {
@@ -47,41 +35,31 @@ h2 a:hover {
 }
 
 h3 {
-  font-size: 14px;
-  font-weight: bold;
+  font-size: 0.9em;
   color: #cc0000;
   margin-top: 1.5em;
-	margin-bottom: 1.5em;
+  margin-bottom: 1.5em;
 }
 
 h4 {
-  font-size: 14px;
-  font-weight: normal;
+  font-size: 0.9em;
   color: #000000;
 }
 
 h5 {
-  font-size: 14px;
-  font-weight: normal;
+  font-size: 0.9em;
   color: #004CB2;
+}
+
+ol, blockquote {
+   margin-left: 30px;
+   margin-right: 30px;
 }
 
 /* Misc */
 
 .buffer {
 	margin:10px 0px 50px 10px;
-}
-
-.blueheader {
-	font-size: 18px;
-  font-weight: bold;
-  color: #000088;
- }
-
-.redheader {
-  font-size: 16px;
-  font-weight: bold;
-  color: #CC0000;
 }
 
 table.form th {
@@ -98,3 +76,4 @@ table.form td {
 table.form table.form td {
   padding-bottom: 0;
 }
+

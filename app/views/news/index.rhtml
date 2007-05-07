@@ -1,22 +1,21 @@
-<h2>New Developments at
-PensionHelp America</h2>
+<h1>New Developments at PensionHelp America</h1>
 
 <p>Read about new PensionHelp America information and referral resources, lost and found pension
 and retirement savings plans, and new PensionHelp America Partners and HelpNet members.</p>
 
 <% for news in @internal_news %>
 <h2><a href="<%= news.article_url %>"><%= news.title %></a></h2>
-<p><%= news.intro %></p>
+<%= news.intro %>
 <% end -%>
-
-<h2>Pensions in the news</h2>
+<br/><br/>
+<h1>Pensions in the News</h1>
 
 <p>Read current news articles and other announcements covering important developments related to
 pensions, retirement savings plans, and you the participant.</p> 
 
 <% for news in @external_news %>
-<h2><a href="<%= news.article_url %>" target="_blank"><%= news.title %></a></h2>
-<p><%= news.intro %></p>
+<h2><a href="<%= news.article_url %>" target="_blank" class="offsite"><%= news.title %></a></h2>
+<%= news.intro %>
 <% end -%>
 
 <%= link_to "Show all pensions in the news", :action => 'external_news' %>
