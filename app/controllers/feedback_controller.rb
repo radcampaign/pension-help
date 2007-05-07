@@ -13,7 +13,7 @@ class FeedbackController < ApplicationController
                               params[:phone],
                               params[:availability])
       flash[:success] = "Thank you. We appreciate your feedback."
-      redirect_to :controller => :home
+      redirect_to '/'
     else
       flash.now[:warning] = "Please provide us with the following information: #{msg}"
       render :action => :index
