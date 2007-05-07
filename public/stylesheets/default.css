@@ -133,18 +133,7 @@ a img {
 	background-image:url('/images/layout/sidebar_top.jpg');
 	background-repeat:no-repeat;
 	float:left;
-}
-
-#menu ul {
-	margin-top:-5px;
-}
-
-#menu ul li {
-	height:62px;
-}
-
-#menu ul li#top {
-	height:56px;
+	padding-top:13px;
 }
 
 /* Layout - Content */
@@ -284,16 +273,16 @@ table.form table.form td {
 
 .successBox {
 	width: 641px;
-  background-image:url("/images/layout/confirm_bkgrd.gif");
+	background-image:url("/images/layout/error_bkgrd.gif");
   background-repeat: repeat-x;
 	text-align: center;    
  }
 
 .successBox table.successTable {
-    margin: 0px auto;
-    color: #677836;
-    font-weight: bold;
-    font-size: .9em;
+  margin: 0px auto;
+  color: #CC0000;
+  font-weight: bold;
+  font-size: .9em;
 }
 
 .successBox table.successTable td.successCell1 {
