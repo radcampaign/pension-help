@@ -1,5 +1,4 @@
 body {
-  min-width:773px;
   font-size: 0.9em;
   font-family: Verdana, Arial, sans-serif;
 }
@@ -38,51 +37,72 @@ a img {
 /* Layout */
 
 #container {
-    width:773px;
-    margin:0px auto 0px 0px;	
+	width:773px;
+	margin:0px auto 0px 0px;
 }
 
 #header,#menu,#content,#footer {
 	overflow:hidden;
-  /* Make these elements inline-block so we can set widths */
-	display:inline-block;
+  /* Make these elements inline-block so we can set widths 
+	display:inline-block; */
 }
 
 /* Layout - Header */
 
 .header {
-	width:773px;
+	width:100%;
 	height:91px;
-	background-repeat:no-repeat;
-	float:left;
+	background-image:url(/images/layout/header_rhs.jpg);
+	background-repeat:repeat-x;
 }
 
 #site_header {
+	width:773px;
+	height:91px;
 	background-image:url('/images/layout/header-site.jpg');
+	background-repeat:no-repeat;
 }
 
 #feedback_header {
+	width:773px;
+	height:91px;
 	background-image:url('/images/layout/header-site.jpg');
+	background-repeat:no-repeat;
 }
 
 #help_header {
+	width:773px;
+	height:91px;
 	background-image:url('/images/layout/header-help.jpg');
+	background-repeat:no-repeat;
 }
 
 #news_header {
+	width:773px;
+	height:91px;
 	background-image:url('/images/layout/header-news.jpg');
+	background-repeat:no-repeat;
 }
 
 #works_header {
+	width:773px;
+	height:91px;
 	background-image:url('/images/layout/header-works.jpg');
+	background-repeat:no-repeat;
 }
 
 #pals_header {
+	width:773px;
+	height:91px;
 	background-image:url('/images/layout/header-pals.jpg');
+	background-repeat:no-repeat;
 }
 
 #search_header {
+	width:773px;
+	height:91px;
 	background-image:url('/images/layout/header-search.jpg');
+	background-repeat:no-repeat;
 }
 
 #home_link {
@@ -129,11 +149,18 @@ a img {
 
 #menu {
 	width:132px;
-	height:400px;
+}
+
+#menuTableCell {
+	background-image:url('/images/layout/sidebar_bg.jpg');
+	background-repeat:repeat-y;
+}
+
+#menuHeader {
+	width:132px;
+	height:13px;
 	background-image:url('/images/layout/sidebar_top.jpg');
 	background-repeat:no-repeat;
-	float:left;
-	padding-top:13px;
 }
 
 #menuLink {
@@ -149,18 +176,16 @@ a img {
 
 #content {
 	width:641px;
-	float:right;
 }
 
 /* Layout - Footer */
 
 #footer {
-	width:773px;
+	width:641px;
 	padding-bottom:30px;
 	color:#001384;
 	font-size: 0.9em;
 	text-align:center;
-	clear:both;
 }
 
 #footer ul {
@@ -307,8 +332,4 @@ table.form table.form td {
 
 #menu ul {
 	margin-top:0px;#
-}
-
-#menu {
-	padding-top:13px;#
 }
