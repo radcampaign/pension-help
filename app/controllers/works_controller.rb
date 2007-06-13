@@ -1,7 +1,7 @@
 class WorksController < ApplicationController
 
   def index
-    
+    @scroll = true
   end
   
   def join

@@ -149,6 +149,11 @@ a img {
 
 #menu {
 	width:132px;
+	min-height:550px;
+}
+
+* html #menu {
+	height:550px;
 }
 
 #menuTableCell {
@@ -170,6 +175,12 @@ a img {
 * html #menuLink {
 	height:62px;
 	margin-top:-5px;
+}
+
+#scrollDownIcon {
+	background:url('/images/layout/sidebar-bg.jpg');
+	width:132px;
+	height:139px;
 }
 
 /* Layout - Content */
@@ -272,7 +283,7 @@ table.form th {
 
 table.form td {
   text-align: left;
-  vertical-align: bottom;
+  vertical-align: top;
   padding-bottom: 5px;
 }
 
