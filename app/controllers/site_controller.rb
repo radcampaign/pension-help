@@ -1,4 +1,5 @@
 class SiteController < ApplicationController
+  
   def show_page
     url = params[:url].to_s
     @content = Content.find_by_url(url)
@@ -7,4 +8,9 @@ class SiteController < ApplicationController
       return
     end
   end
+  
+  def exit
+    @dest_url = "http://" + params[:dest]
+  end
+  
 end
