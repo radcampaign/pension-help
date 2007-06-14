@@ -149,11 +149,11 @@ a img {
 
 #menu {
 	width:132px;
-	min-height:550px;
+	min-height:610px;
 }
 
 * html #menu {
-	height:550px;
+	height:610px;
 }
 
 #menuTableCell {
