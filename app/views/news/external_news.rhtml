@@ -1,6 +1,6 @@
 <h1>Pensions in the news</h1>
 
 <% for news in @external_news %>
-<h2><a href="<%= news.article_url %>" target="_blank" class="offsite"><%= news.title %></a></h2>
+<h2><a href="/site/exit?dest=<%= news.article_url %>" class="offsite"><%= news.title %></a></h2>
 <%= news.intro %>
 <% end -%>
