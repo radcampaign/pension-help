@@ -11,7 +11,6 @@ class SiteController < ApplicationController
   
   def exit
     @dest_url = params[:dest]
-    @dest_url = "http://" + @dest_url unless @dest_url.include? "http://"
   end
   
 end

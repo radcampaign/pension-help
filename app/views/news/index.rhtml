@@ -14,7 +14,9 @@ and retirement savings plans, and new PensionHelp America Partners and HelpNet m
 pensions, retirement savings plans, and you the participant.</p> 
 
 <% for news in @external_news %>
-<h2><a href="/site/exit?dest=<%= news.article_url %>" class="offsite"><%= news.title %></a></h2>
+<h2>
+	<%= offiste_link news.title, news.article_url %>
+</h2>
 <%= news.intro %>
 <% end -%>
 
