@@ -1,0 +1,36 @@
+<%= image_tag "layout/stepcircle-one.jpg", :style => 'float:right' %>
+
+<h1>Counseling &amp; Assistance</h1>
+
+<p>Welcome to our Counseling and Assistance service area. To make sure you get the right type of referral, we&#39;d like you to answer a few questions. When you have completed these, click <b style="color: #cc0000">NEXT</b> at the bottom of the page to continue.</p>
+
+<h2>What type of employer?</h2>
+
+<p>This will help us determine what law governs your pension question. Make the menu selection that best describes the employer offering the pension or retirement savings plan you have a question about.</p>
+
+<% form_tag :action => :step_2 do -%>
+
+<p>Employer type: <%= remote_select "", @options, 'help', 'show_second_question', @selected_value_1 %></p>
+
+<div id="q2">
+	<% if @next_question_2 -%>
+		<%= render :partial => 'next_question', :locals => {'question' => @next_question_2, 'selected_value' => @selected_value_2} %>
+	<% end -%>
+</div>
+<div id="q3">
+	<% if @next_question_3 -%>
+		<%= render :partial => 'next_question', :locals => {'question' => @next_question_3, 'selected_value' => @selected_value_3} %>
+	<% end -%>
+</div>
+<div id="q4">
+	<% if @next_question_4 -%>
+		<%= render :partial => 'next_question', :locals => {'question' => @next_question_4, 'selected_value' => @selected_value_4} %>
+	<% end -%>
+</div>
+
+<p>&nbsp;</p>
+
+<div id="nextLink"><%= submit_tag 'NEXT >' , :id => 'nextLinkButton' %></div>
+
+<% end -%>
+<p>&nbsp;</p>

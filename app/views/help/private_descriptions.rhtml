@@ -1,0 +1,49 @@
+<%= image_tag "layout/stepcircle-one.jpg", :style => 'float:right' %>
+
+<h1>Counseling &amp; Assistance</h1>
+
+<h2>Don’t know the type of private employment?</h2>
+
+<p>Read the descriptions below and make the selection that best describes the private employer offering the pension or retirement savings plan you are asking about. Then click <b style="color: #cc0000; ">NEXT</b> to continue.</p>
+
+<% form_tag :action => :counseling do -%>
+<%= hidden_field_tag "id_2", "PRV_EMP" %>
+
+<p>
+	<table id="caDescTable">
+		<tr>
+			<td valign="top"><%= radio_button_tag "id_3", "PRV_PLAN" %></td>
+			<td>
+				<h2>Company or non-profit</h2>
+				Most non-government employment falls into this category.  Select &quot;Company or non-profit&quot; if you did not work for a large railroad or for a religious institution.
+			</td>
+		</tr>
+		<tr>
+			<td valign="top"><%= radio_button_tag "id_3", "RR_PLAN" %></td>
+			<td>
+				<h2>Railroad</h2>
+				Select &quot;Railroad&quot; if the company that offers the pension or retirement savings plan is a large railroad, railroad association, national railway labor organization or another company that primarily performs services connected with the transportation of passengers or property by railroad. Local subway and light rail systems are generally not included in this category, but fall under the state, county or local government that sponsors them. 
+			</td>
+		</tr>
+		<tr>
+			<td valign="top"><%= radio_button_tag "id_3", "RI_PLAN" %></td>
+			<td>
+				<h2>Religious institution</h2>
+				Pensions offered by religious institutions (churches, hospitals, schools, etc.) may be governed by different laws than those that govern the pensions of other employers. Select this option if the pension you have a question about is offered by a religious institution, and if there is no reference to the Employee Retirement Income Security Act of 1974 (ERISA) or to the U.S. Department of Labor in any relevant paperwork you have seen. Otherwise, select &quot;Company or non-profit&quot; (above). 
+			</td>
+		</tr>
+		<tr>
+			<td valign="top"><%= radio_button_tag "id_3", "IDK_PRV_EMP" %></td>
+			<td>
+				<h2>I don’t know my employment type</h2>
+			</td>
+		</tr>
+	</table>
+</p>
+
+<p>&nbsp;</p>
+
+<div id="nextLink"><%= submit_tag 'NEXT >' , :id => 'nextLinkButton' %></div>
+
+<% end -%>
+<p>&nbsp;</p>

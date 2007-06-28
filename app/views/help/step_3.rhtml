@@ -1,0 +1,33 @@
+<%= image_tag "layout/stepcircle-three.jpg", :style => 'float:right' %>
+
+<h1>Counseling &amp; Assistance</h1>
+
+<p>Almost there! Answer the question or questions below to help us connect you to the right service provider, then click <b style="color: #cc0000; ">NEXT</b> to continue.</p>
+
+<p>&nbsp;</p>
+
+<% form_tag :action => :expand do -%>
+
+<h2>Where are you located?</h2>
+
+<p>Providing your Zip Code will allow us to look for a pension-help resource that is as close to your residence as possible.</p>
+
+<p>
+	<table>
+		<tr>
+			<td>Zip Code:</td> 
+			<td><%= text_field "object", "method", "size" => 5 %></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><a href="/site/exit?dest=http://zip4.usps.com/zip4/welcome.jsp" class="offsite">Don’t know the zip code?</a></td>
+		</tr>
+	<table>
+</p>
+
+<p>&nbsp;</p>
+
+<div id="nextLink"><%= submit_tag 'NEXT >' , :id => 'nextLinkButton' %></div>
+
+<% end -%>
+<p>&nbsp;</p>

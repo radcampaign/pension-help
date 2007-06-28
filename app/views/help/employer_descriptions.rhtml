@@ -1,0 +1,40 @@
+<%= image_tag "layout/stepcircle-one.jpg", :style => 'float:right' %>
+
+<h1>Counseling &amp; Assistance</h1>
+
+<h2>Don’t know the type of employment?</h2>
+
+<p>Read the descriptions below and make the selection that best describes the employer offering the pension or retirement savings plan you are asking about.  Then click <b style="color: #cc0000; ">NEXT</b> to continue.</p>
+
+<% form_tag :action => :counseling do -%>
+<p>
+	<table id="caDescTable">
+		<tr>
+			<td valign="top"><%= radio_button_tag "id_2", "PRV_EMP" %></td>
+			<td>
+				<h2>Private employer</h2>
+				Private employers include companies and non-profit organizations, large railroads, and religious institutions.
+			</td>
+		</tr>
+		<tr>
+			<td valign="top"><%= radio_button_tag "id_2", "GOV_EMP" %></td>
+			<td>
+				<h2>Government employer</h2>
+				Government employers include agencies and offices of the federal government or of any state, county or local government. The uniformed services and other military employers also fall into this category.
+			</td>
+		</tr>
+		<tr>
+			<td valign="top"><%= radio_button_tag "id_2", "IDK_EMP" %></td>
+			<td>
+				I don’t know my employment type.
+			</td>
+		</tr>
+	</table>
+</p>
+
+<p>&nbsp;</p>
+
+<div id="nextLink"><%= submit_tag 'NEXT >' , :id => 'nextLinkButton' %></div>
+
+<% end -%>
+<p>&nbsp;</p>

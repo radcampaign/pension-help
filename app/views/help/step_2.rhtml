@@ -1,0 +1,55 @@
+<%= image_tag "layout/stepcircle-two.jpg", :style => 'float:right' %>
+
+<h1>Counseling &amp; Assistance</h1>
+
+<p>This is the second step in getting you to the right pension-help resource. Answer the questions below and click <b style="color: #cc0000; ">NEXT</b> to continue.</p>
+
+<p>&nbsp;</p>
+
+<h2>What dates of employment?</h2>
+
+<p>This tells us more about the governing law. Use the spaces to provide the employment dates of the person who earned the pension or retirement savings plan you have a question about.</p>
+
+<% form_tag :action => :step_3 do -%>
+
+<p>
+	<table>
+		<tr>
+			<td>Year employment started:</td> 
+			<td><%= text_field "object", "method", "size" => 4 %></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>Example: 1974</td>
+		</tr>
+		<tr>
+			<td>Year employment ended:</td> 
+			<td><%= text_field "object", "method", "size" => 4 %></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>Example: 1974</td>
+		</tr>
+	<table>
+</p>
+
+<h2>Who is the pension-earner?</h2> 
+
+<p>Pension rights may vary depending on a person&#39;s relationship to the pension-earner. Please tell us who earned the pension or retirement savings plan you have a question about.</p> 
+
+<p>Pension-earner: <%= select "object", "method", @options, {:include_blank => true}, {} %></p>
+
+<h2>Does your question involve divorce or survivorship?</h2>
+
+<p>Pension laws may provide certain protections in divorce and survivorship situations. You may select one, both or neither of the following choices.</p> 
+
+<div style="float:left"><%= check_box "object", "method" %> I have a divorce-related question.</div>        
+<div style="float:right"><%= check_box "object", "method" %> I have a survivorship-related question.</div>
+<div style="clear:both"></div>
+
+<p>&nbsp;</p>
+
+<div id="nextLink"><%= submit_tag 'NEXT >' , :id => 'nextLinkButton' %></div>
+
+<% end -%>
+<p>&nbsp;</p>

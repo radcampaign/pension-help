@@ -1,0 +1,63 @@
+<%= image_tag "layout/stepcircle-one.jpg", :style => 'float:right' %>
+
+<h1>Counseling &amp; Assistance</h1>
+
+<h2>Don’t know the type of government employer?</h2>
+
+<p>Read the descriptions below and make the selection that best describes the government employer offering the pension or retirement savings plan you are asking about. Then click <b style="color: #cc0000; ">NEXT</b> to continue.</p>
+
+<% form_tag :action => :counseling do -%>
+<%= hidden_field_tag "id_2", "GOV_EMP" %>
+
+<p>
+	<table id="caDescTable">
+		<tr>
+			<td valign="top"><%= radio_button_tag "id_3", "GOV_PLAN" %></td>
+			<td>
+				<h2>Federal agency or office</h2>
+				Federal civil service employment includes work for any branch, department, agency or office of the United States federal government, excluding membership in the uniformed services or other military employment (See below).
+			</td>
+		</tr>
+		<tr>
+			<td valign="top"><%= radio_button_tag "id_3", "MIL_SRV" %></td>
+			<td>
+				<h2>Military</h2>
+				Select this option if the pension or retirement savings plan in question was earned through active or reserve service with the Army, Navy, Air Force, Marine Corps, Coast Guard, National Oceanic and Atmospheric Administration Commissioned Corps and the U.S. Public Health Service Commissioned Corps. &quot;Military&quot; also includes civilian employment for the Army and Air Force Exchange Service, Navy Exchange Service Command, Marine Corps Exchanges, or any other Non-Appropriated Funds Instrumentality (Armed Forces operations for the comfort, pleasure, contentment, or physical or mental improvement of members of the Armed Forces).
+			</td>
+		</tr>
+		<tr>
+			<td valign="top"><%= radio_button_tag "id_3", "ST_PLAN" %></td>
+			<td>
+				<h2>State agency or office</h2>
+				State government employers include any branch, department, agency or office of a state government within the 50 United States including the District of Columbia. 
+			</td>
+		</tr>
+		<tr>
+			<td valign="top"><%= radio_button_tag "id_3", "CO_PLAN" %></td>
+			<td>
+				<h2>County agency or office</h2>
+				County government employers include any branch, department, agency or office of a county government within the 50 United States.
+			</td>
+		</tr>
+		<tr>
+			<td valign="top"><%= radio_button_tag "id_3", "LOC_PLAN" %></td>
+			<td>
+				<h2>City or other local government agency or office</h2>
+				City or local government employers include any branch, department, agency or office of a city, town, village, municipality, special district, or other local government entity within the 50 United States.
+			</td>
+		</tr>
+		<tr>
+			<td valign="top"><%= radio_button_tag "id_3", "IDK_GOV_EMP" %></td>
+			<td>
+				<h2>I don’t know my employment type</h2>
+			</td>
+		</tr>
+	</table>
+</p>
+
+<p>&nbsp;</p>
+
+<div id="nextLink"><%= submit_tag 'NEXT >' , :id => 'nextLinkButton' %></div>
+
+<% end -%>
+<p>&nbsp;</p>

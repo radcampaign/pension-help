@@ -1,0 +1,52 @@
+<%= image_tag "layout/stepcircle-three.jpg", :style => 'float:right' %>
+
+<h1>Counseling &amp; Assistance</h1>
+
+<p>Almost there! Answer the question or questions below to help us connect you to the right service provider, then click <b style="color: #cc0000; ">NEXT</b> to continue.</p>
+
+<p>&nbsp;</p>
+
+<% form_tag :action => :results do -%>
+
+<h2>We’re still looking...</h2>
+
+<p>Some organizations will help people based on certain age and income criteria. If you are interested in this type of referral, complete the information below and then click <b style="color: #cc0000; ">NEXT</b>. Otherwise, you may skip the question and click <b style="color: #cc0000; ">NEXT</b> to proceed.
+
+<p>Are you age 60 or over:&nbsp;&nbsp;&nbsp;<%= radio_button_tag "", "" %>&nbsp;Yes&nbsp;&nbsp;&nbsp;<%= radio_button_tag "", "" %>&nbsp;No</p>
+
+<p>
+	<table cellpadding="0" cellspacing="0">
+		<tr>
+			<td valign="top" style="padding-right:5px">What is your household income:</td>
+			<td>
+				<table cellpadding="0" cellspacing="0">
+					<tr>
+						<td>Monthly:&nbsp;</td>
+						<td><%= text_field "object", "method", "size" => 5 %></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>or</td>
+					</tr>
+					<tr>
+						<td align="right">Yearly:&nbsp;</td>
+						<td><%= text_field "object", "method", "size" => 5 %></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</p>
+
+<p>&nbsp;</p>
+		
+<p>How many people live in your household: <%= text_field "object", "method", "size" => 5 %></p>
+ 
+<p>Are you a Veteran? (one day of active duty service during wartime?)&nbsp;&nbsp;&nbsp;<%= radio_button_tag "", "" %>&nbsp;Yes&nbsp;&nbsp;&nbsp;<%= radio_button_tag "", "" %>&nbsp;No</p>
+
+<p>&nbsp;</p>
+
+<div id="nextLink"><%= submit_tag 'NEXT >' , :id => 'nextLinkButton' %></div>
+
+<% end -%>
+<p>&nbsp;</p>

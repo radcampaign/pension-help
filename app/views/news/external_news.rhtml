@@ -2,7 +2,7 @@
 
 <% for news in @external_news %>
 <h2>
-	<%= offsite_link news.title, news.article_url %>
+	<a href="/site/exit?dest=<%= news.article_url %>" class="offsite"><%= news.title %></a>
 </h2>
 <%= news.intro %>
 <% end -%>

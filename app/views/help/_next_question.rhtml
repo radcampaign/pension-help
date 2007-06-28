@@ -1,0 +1,28 @@
+<h2><%= question.header %></h2>
+
+<p><%= question.text %></p>
+
+<% if question.state -%>
+	<% if question.county -%>
+		<% if question.local -%>
+			<p>State: <%= remote_select "", @states,"help","get_counties?local=true" %></p>
+		<% else -%>
+			<p>State: <%= remote_select "", @states,"help","get_counties?local=false" %></p>
+		<% end -%>
+	<% else -%>	
+		<p>State: <%= select "", "", @states, :include_blank => true %></p>
+	<% end -%>
+
+	<% if question.county -%>
+		<p>County: <span id="counties"></span></p>
+	<% end -%>
+
+	<% if question.local -%>
+		<p>Local Government: <span id="localities"></span></p>
+	<% end -%>
+<% end -%>
+
+<p><%= question.desc %>: <%= remote_select "requested_plan",question.options,question.controller,question.action,selected_value %></p>
+
+
+

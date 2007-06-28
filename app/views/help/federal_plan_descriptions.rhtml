@@ -1,0 +1,50 @@
+<%= image_tag "layout/stepcircle-one.jpg", :style => 'float:right' %>
+
+<h1>Counseling &amp; Assistance</h1>
+
+<h2>Don’t know the federal plan?</h2>
+
+<p>Read the descriptions below and make the selection that best describes the federal pension or retirement savings plan you are asking about. Then click <b style="color: #cc0000;">NEXT</b> to continue.</p>
+
+<% form_tag :action => :counseling do -%>
+<%= hidden_field_tag "id_2", "GOV_EMP" %>
+<%= hidden_field_tag "id_3", "GOV_PLAN" %>
+
+<p>
+	<table id="caDescTable">
+		<tr>
+			<td valign="top"><%= radio_button_tag "id_4", "FERS" %></td>
+			<td>
+				<h2>Federal Employee Retirement System (FERS)</h2>
+				Select FERS if you have questions about a pension that was earned with federal civil service that started on or after January 1, 1984.
+			</td>
+		</tr>
+		<tr>
+			<td valign="top"><%= radio_button_tag "id_4", "CSRS" %></td>
+			<td>
+				<h2>Civil Service Retirement System (CSRS)</h2>
+				Select CSRS if you have questions about a pension that was earned with federal civil service that started before 1984, and was not converted to FERS service (see FERS, above).
+			</td>
+		</tr>
+		<tr>
+			<td valign="top"><%= radio_button_tag "id_4", "TSP" %></td>
+			<td>
+				<h2>Thrift Savings Plan (TSP)</h2>
+				Make this selection if your questions are about the federal thrift savings plan, regardless of when federal civil service began.
+			</td>
+		</tr>
+		<tr>
+			<td valign="top"><%= radio_button_tag "id_4", "IDK_FED_PLAN" %></td>
+			<td>
+				<h2>I don’t know my employment type</h2>
+			</td>
+		</tr>
+	</table>
+</p>
+
+<p>&nbsp;</p>
+
+<div id="nextLink"><%= submit_tag 'NEXT >' , :id => 'nextLinkButton' %></div>
+
+<% end -%>
+<p>&nbsp;</p>

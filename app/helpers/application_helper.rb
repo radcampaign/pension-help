@@ -7,11 +7,18 @@ module ApplicationHelper
     </script>"
   end
   
-  def offsite_link(title,url)
-    url = "http://" + url unless url.include? "http://" or url.include? "https://"
-    "<a href=\"/site/exit?dest=#{url}\" class=\"offsite\">
-      #{title}
-    </a>"
+  # Create select tag that submits an Ajax call onchange
+  def remote_select(name,options,controller,action,selected_value=nil)
+    option_tags = "<option value=''></option>"
+    options.each do |option|
+      if selected_value == option[1]
+        option_tags << "<option value='#{option[1]}' selected='selected'>#{option[0]}</option>"
+      else
+        option_tags << "<option value='#{option[1]}'>#{option[0]}</option>"
+      end
+    end
+    "<select name=\"#{name}\" onchange=\"new Ajax.Request('/#{controller}/#{action}', 
+    {asynchronous:true, evalScripts:true, parameters:'id='+escape(value)})\">" + option_tags + "</select>"
   end
   
 end

@@ -221,6 +221,10 @@ p {
 	margin-bottom: 10px;
 }
 
+option {
+	padding-right:10px;
+}
+
 h1 {
    font-size: 1.2em;
    font-weight: normal;
@@ -289,6 +293,41 @@ table.form td {
 
 table.form table.form td {
   padding-bottom: 0;
+}
+
+#nextLink {
+	float:right;
+	font-weight:bold;
+}
+
+#nextLink a:link {
+    color: #CC0000;
+}
+
+#nextLink a:visited {
+    color: #CC0000;
+}
+
+#nextLink a:hover {
+    color: #cc0033;
+}
+
+#nextLink a:active {
+    color: #CC0000;
+}
+
+#nextLinkButton {
+	color: #cc0033;
+	background:#FFFFFF;
+  border: none;
+	cursor:pointer;
+	font-weight:bold;
+	border-bottom:1px solid #cc0033;
+	font-size:1.1em;
+}
+
+#caDescTable td {
+	padding:10px;
 }
 
 /* User Messages */
