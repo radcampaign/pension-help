@@ -12,7 +12,9 @@
 
 <p>Some organizations will help people based on certain age and income criteria. If you are interested in this type of referral, complete the information below and then click <b style="color: #cc0000; ">NEXT</b>. Otherwise, you may skip the question and click <b style="color: #cc0000; ">NEXT</b> to proceed.
 
-<p>Are you age 60 or over:&nbsp;&nbsp;&nbsp;<%= radio_button_tag "", "" %>&nbsp;Yes&nbsp;&nbsp;&nbsp;<%= radio_button_tag "", "" %>&nbsp;No</p>
+<p>Are you age 60 or over:&nbsp;&nbsp;&nbsp;<input type="radio" value="" name="" id="" onClick="$('iAmOver60').show();new Effect.Highlight('iAmOver60',{duration: 0.5});"/>&nbsp;Yes&nbsp;&nbsp;&nbsp;<input type="radio" value="" name="" id="" checked="checked" onClick="$('iAmOver60').hide();"/>&nbsp;No</p>
+
+<div id="iAmOver60" style="display:none">
 
 <p>
 	<table cellpadding="0" cellspacing="0">
@@ -41,8 +43,8 @@
 <p>&nbsp;</p>
 		
 <p>How many people live in your household: <%= text_field "object", "method", "size" => 5 %></p>
- 
-<p>Are you a Veteran? (one day of active duty service during wartime?)&nbsp;&nbsp;&nbsp;<%= radio_button_tag "", "" %>&nbsp;Yes&nbsp;&nbsp;&nbsp;<%= radio_button_tag "", "" %>&nbsp;No</p>
+
+</div>
 
 <p>&nbsp;</p>
 

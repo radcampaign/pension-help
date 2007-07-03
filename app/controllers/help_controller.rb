@@ -6,6 +6,7 @@ class HelpController < ApplicationController
   end
   
   def counseling
+    @options = CounselAssistance.employer_types
     if params[:id_2]
       @selected_value_1 = params[:id_2]
       @next_question_2 = CAQuestion.find(params[:id_2])
@@ -19,7 +20,6 @@ class HelpController < ApplicationController
       @selected_value_3 = params[:id_4]
       @next_question_4 = CAQuestion.find(params[:id_4])
     end
-    @options = CounselAssistance.employer_types
     #@content = Content.find_by_url('help/counseling')
     #render :template => "site/show_page.rhtml"
   end
@@ -99,6 +99,9 @@ class HelpController < ApplicationController
   
   def step_2
     session[:requested_plan] = params[:requested_plan]
+  end
+  
+  def step_3
     @options = CounselAssistance.pension_earner_choices
   end
   
