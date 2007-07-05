@@ -5,6 +5,14 @@ body {
 	background: white;
 }
 
+#preview-message {
+	display:none;
+}
+
+@page {
+  margin: 3cm;
+}
+
 #wrapper, #content {
 	width: auto; 
 	margin: 0 5%;
