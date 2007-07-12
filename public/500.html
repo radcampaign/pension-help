@@ -1,30 +1,102 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" >
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-  <title>We're sorry, but something went wrong</title>
-	<style type="text/css">
-		body { background-color: #fff; color: #666; text-align: center; font-family: arial, sans-serif; }
-		div.dialog {
-			width: 25em;
-			padding: 0 4em;
-			margin: 4em auto 0 auto;
-			border: 1px solid #ccc;
-			border-right-color: #999;
-			border-bottom-color: #999;
-		}
-		h1 { font-size: 100%; color: #f00; line-height: 1.5em; }
-	</style>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="gradientblue LLC" />
+<meta name="description" content="PensionHelp America" />
+<meta name="robots" content="all" />
+<title>PensionHelp America - We're sorry, but something went wrong</title>
+<link href="/stylesheets/default.css" media="screen" rel="Stylesheet" type="text/css" />
+<link href="/stylesheets/print.css" media="print" rel="Stylesheet" type="text/css" />
+<link href="/stylesheets/print-preview.css" media="screen" rel="alternate stylesheet" title="Print Preview" type="text/css" />
+<script src="/javascripts/prototype.js" type="text/javascript"></script>
+<script src="/javascripts/effects.js" type="text/javascript"></script>
+<script src="/javascripts/dragdrop.js" type="text/javascript"></script>
+<script src="/javascripts/controls.js" type="text/javascript"></script>
+<script src="/javascripts/application.js" type="text/javascript"></script>
+<script src="/javascripts/textsizer.js" type="text/javascript"></script>
+<script src="/javascripts/print.js" type="text/javascript"></script>
+<script src="/javascripts/rollover.js" type="text/javascript"></script>
+<style type="text/css">
+	div.dialog {
+		width: 35em;
+		padding: 0 4em;
+		margin: 4em auto 0 auto;
+		border: 1px solid #ccc;
+		border-right-color: #999;
+		border-bottom-color: #999;
+		text-align:center;
+	}
+</style>
 </head>
-
 <body>
-  <!-- This file lives in public/500.html -->
-  <div class="dialog">
-    <h1>We're sorry, but something went wrong.</h1>
-    <p>We've been notified about this issue and we'll take a look at it shortly.</p>
-  </div>
+	<div class="header">
+		<div id="site_header">
+			<div style="position:relative">
+			<a href="#" id="ts_increase_link" onclick="ts('body',1); return false;"></a>
+			<a href="#" id="ts_decrease_link" onclick="ts('body',-1); return false;"></a>
+			<a href="/" id="home_link"></a>
+			<a href="mailto:?Subject=PensionHelp.org%20information&Body=http://localhost/" id="mailto_link"></a>
+			<a href="#" onclick="print_preview(); return false;" id="print_link"></a>
+			</div>
+		</div>
+	</div>
+	
+	<table cellspacing="0" cellpadding="0" id="container">
+
+		<tr>
+			<td valign="top" id="menuTableCell">
+				<div id="menu">
+					<div id="menuHeader"></div>
+					<div style="height:56px">
+						<a href="/help"><img alt="help" height="56px" id="help" name="help" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('help','','/images/layout/button-help-on.jpg',1);" src="/images/layout/button-help-off.jpg" /></a>
+					</div>
+					<div id="menuLink">
+						<a href="/search"><img alt="search" height="62px" id="search" name="search" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('search','','/images/layout/button-search-on.jpg',1);" src="/images/layout/button-search-off.jpg" /></a>
+
+					</div>
+					<div id="menuLink">
+						<a href="/news"><img alt="news" height="62px" id="news" name="news" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('news','','/images/layout/button-news-on.jpg',1);" src="/images/layout/button-news-off.jpg" /></a>
+					</div>
+					<div id="menuLink">
+						<a href="/pals"><img alt="pals" height="62px" id="pals" name="pals" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('pals','','/images/layout/button-pals-on.jpg',1);" src="/images/layout/button-pals-off.jpg" /></a>
+					</div>
+					<div id="menuLink">
+						<a href="/works"><img alt="works" height="62px" id="works" name="works" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('works','','/images/layout/button-works-on.jpg',1);" src="/images/layout/button-works-off.jpg" /></a>
+
+					</div>
+									</div>
+			</td>
+			<td valign="top">
+				<div id="content">
+					<div class="buffer">
+					  <!-- This file lives in public/500.html -->
+					  <div class="dialog">
+					    <h1 style="border-bottom:none">We're sorry, but something went wrong.</h1>
+					    <p>We've been notified about this issue and we'll take a look at it shortly.</p>
+					  </div>
+
+					</div>
+				</div>
+				<div id="footer">
+					<ul>
+						<li><a href="/">Home</a></li>
+						<li id="list_separator">|</li>
+						<li><a href="/about_us">About Us</a></li>
+
+						<li id="list_separator">|</li>
+						<li><a href="/privacy">Privacy</a></li>
+						<li id="list_separator">|</li>
+						<li><a href="/terms_of_use">Terms of Use</a></li>
+						<li id="list_separator">|</li>
+						<li><a href="/feedback">Feedback</a></li>
+
+					</ul>
+					<a href="/copyright">Copyright &copy;2007 Pension Rights Center</a>
+					<div id="print_disclaimer">All Rights Reserved with Permission of the Pension Rights Center.</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+
 </body>
-</html>
