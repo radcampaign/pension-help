@@ -1,4 +1,4 @@
-<h1>PensionWorks</h1>
+<h1>Service &amp; Referral Networks for Pension Professionals</h1>
 
 <style>.fieldWithErrors {padding: 2px; background-color: red; display: table;}</style>
 <% if (not @contact.nil? and not @contact.errors.empty?) -%>
@@ -19,212 +19,153 @@
 <br/>
 <% end -%>
 
-<h2>Become a part of PensionHelp America’s nationwide assistance Network!</h2>
+<h2>Be a part of our nationwide pension assistance network!</h2>
 
-<p>If you are a pension attorney, actuary, or other pension professional interested in helping people with their pension and retirement savings plan questions, choose from the selections below.</p>
+<p>If you are a pension lawyer, actuary or other pension professional, this page is for you!  Select one or more of our networks to join; complete the automated form below, and then click <b style="color:#cc0000">NEXT</b> at the bottom of the page to submit your application.</p>
 
-<p>If you need a pension professional to help you, use our <%= link_to 'PensionHelp', :controller => :help %> services.</p>
+<p>&nbsp;</p>
 
-<h2>PensionSearch Network</h2>
+<p><h6>National Pension Lawyers Network (NPLN):</h6>&nbsp;The NPLN is nationwide lawyer referral service operated by the Pension Action Center at the University of Massachusetts Boston.<br/>
+	
+<% form_remote_tag :url => {:action => :show_network_info} do %>
+		<%= hidden_field_tag "work", "NPLN" %>
+		<%= hidden_field_tag "msg", "This service is free for clients and for attorney members. NPLN will conduct a brief intake, and then refer clients to pension and employee benefits attorneys skilled in benefit claims, fiduciary litigation, and the division of pensions at divorce. Member attorneys may charge for their services, but are encouraged to offer reduced-fee, sliding-scale or pro bono services as appropriate, based on client need." %>
+		<div id="NPLN">
+			<% if @work == "NPLN" -%>
+				<%= @msg %>
+			<% else -%>
+				<%= submit_tag 'Learn more&#8230;' , :id => 'moreLinkButton' %>
+			<% end -%>
+		</div>
+<% end %>	
+</p>
 
-<p>Pension professionals joining this network are helping to end the “lost pension” problem in America. Once a member, you will be notified of “lost” plans registered in your area. If you know something about the plan, you can report it back to our database via e-mail, or by visiting this site. Complete the form below to join.</p>
+<p>&nbsp;</p>
 
-<h2>PensionHelp Network</h2>
+<p><h6>Pension Assistance List (PAL) Actuary Network:</h6>&nbsp;The Pension Assistance List (PAL) is a free, nationwide actuary referral service operated by the American Academy of Actuaries.<br/>
 
-<p>Pension professionals joining this network are willing to donate small amounts of time to help the staff at PensionHelp America respond to the e-mail and telephone inquiries of plan participants who would not otherwise have a place to go for answers to their questions. Complete the form below to join.</p>
+<% form_remote_tag :url => {:action => :show_network_info} do %>
+		<%= hidden_field_tag "work", "PAL" %>
+		<%= hidden_field_tag "msg", "Actuaries must be members of the American Academy of Actuaries to sign up for PAL; however, non-AAA members may join PensionHelp America’s actuary referral listing. Both services are free for clients and for actuary members. The applicable service will conduct a brief intake, and then refer clients to pension actuaries skilled in calculating and validating pension benefits across the wide range of range of pension plan types. Member actuaries may charge for their services, but are encouraged to offer reduced-fee, sliding-scale or pro bono services as appropriate, based on client need." %>
+		<div id="PAL">
+			<% if @work == "PAL" -%>
+				<%= @msg %>
+			<% else -%>
+				<%= submit_tag 'Learn more&#8230;' , :id => 'moreLinkButton' %>
+			<% end -%>
+		</div>
+<% end %>
+</p>
 
-<h3>Contact Information</h3>
+<p>&nbsp;</p>
 
-<%= start_form_tag :controller => :works, :action => :join %>
+<p><h6>PensionHelp Network:</h6>&nbsp;Lawyers, actuaries and other pension professionals are needed to help answer basic pension questions from plan participants, retirees, survivors, and current and former spouses through our anonymous e-mail interface.<br/>
 
-<table class="form">
-	<tr>
-		<th><span class="reqnote">*</span>First Name:</th>
-		<td>
-			<table class="form" cellpadding="0" cellspacing="0">
-				<tr>
-					<td>
-						<%= text_field "contact", "first_name", :size => 15 %>
-					</td>
-					<th>&nbsp;M.I.:</th>
-					<td>
-						&nbsp;<%= text_field "contact", "middle_initial", :size => 3 %>
-					</td>
-					<th>&nbsp;<span class="reqnote">*</span>Last Name:</th>
-					<td>
-						&nbsp;<%= text_field "contact", "last_name", :size => 15 %>
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<th>Firm:</th>
-		<td>
-			<%= text_field "contact", "company", :size => 60 %>
-		</td>
-	</tr>
-	<tr>
-		<th><span class="reqnote">*</span>Street Address:</th>
-		<td>
-			<%= text_field "contact", "line_1", :size => 60 %>
-		</td>
-	</tr>
-	<tr>
-		<th>Address 2:</th>
-		<td>
-			<%= text_field "contact", "line_2", :size => 60 %>
-		</td>
-	</tr>
-	<tr>
-		<th><span class="reqnote">*</span>City:</th>
-		<td>
-			<table cellpadding="0" cellspacing="0" class="form">
-				<tr>
-					<td>
-						<%= text_field "contact", "city", :size => 15 %>
-					</td>
-					<th>&nbsp;<span class="reqnote">*</span>State:</th>
-					<td>
-						<%= select("contact", "state_abbrev", State.find(:all).collect {|s| [s.abbrev, s.abbrev]}, {:include_blank => true}) %>
-					</td>
-					<th>&nbsp;<span class="reqnote">*</span>Zip:</th>
-					<td>
-						<%= text_field "contact", "zip_code", :size => 15 %>
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<th><span class="reqnote">*</span>Telephone:</th>
-		<td>
-			<%= text_field "contact", "phone", :size => 15 %>
-		</td>
-	</tr>
-	<tr>
-		<th>Fax:</th>
-		<td>
-			<%= text_field "contact", "fax", :size => 15 %>
-		</td>
-	</tr>
-	<tr>
-		<th><span class="reqnote">*</span>E-Mail:</th>
-		<td>
-			<%= text_field "contact", "email", :size => 60 %>
-		</td>
-	</tr>
-	<tr>
-		<th>Website:</th>
-		<td>
-			<%= text_field "contact", "url", :size => 60 %>
-		</td>
-	</tr>
-</table>
+<% form_remote_tag :url => {:action => :show_network_info} do %>
+		<%= hidden_field_tag "work", "PHN" %>
+		<%= hidden_field_tag "msg", "Individuals will submit their questions to PensionHelp America and we’ll forward them on to you, based on your area of interest or expertise. Provide your answer though an anonymous interface on our website. The individual will get the answer they need, and then our staff will categorize the questions and answers in our searchable Q&amp;A database, where your answer can help everyone!" %>
+		<div id="PHN">
+			<% if @work == "PHN" -%>
+				<%= @msg %>
+			<% else -%>
+				<%= submit_tag 'Learn more&#8230;' , :id => 'moreLinkButton' %>
+			<% end -%>
+		</div>
+<% end %>
+</p>
 
-<h3>I am interested in joining:</h3>
+<p>&nbsp;</p>
+
+<p><h6>PensionSearch Network:</h6>&nbsp;Experienced lawyers, actuaries and other pension professionals are needed to help reconnect individuals with their &ldquo;lost&rdquo; pension and retirement savings plan benefits that they earned at companies that can no longer be located.<br/>
+
+<% form_remote_tag :url => {:action => :show_network_info} do %>
+		<%= hidden_field_tag "work", "PHS" %>
+		<%= hidden_field_tag "msg", "Certain plans are particularly difficult for individuals to locate: defined benefit plans that terminated prior to July 1, 1974; terminated defined contribution plans; and any qualified plan that has undergone a change in plan name, sponsor name, or any other change in plan or corporate form. Members will be notified by email of any sponsors or plans that we are unable to find through standard means. Inquiries will be based on your subject matter and geographic experience. If you know something about the plan or sponsor, simply reply to our e-mail." %>
+		<div id="PHS">
+			<% if @work == "PHS" -%>
+				<%= @msg %>
+			<% else -%>
+				<%= submit_tag 'Learn more&#8230;' , :id => 'moreLinkButton' %>
+			<% end -%>
+		</div>
+<% end %>
+</p>
+
+<p>&nbsp;</p>
+
+<h2 style="margin-bottom:10px">I am interested in joining (you may select more than one):</h2>
+
+<% form_remote_tag :url => {:action => :show_network_form}, :html => {:id => 'chooseNetworkForm'} do %>
 
 <p>
-	<input type="checkbox" name="wants_search" onClick="toggleSearch()" />
+	<input type="checkbox" name="wants_npln" <% if @npln -%>checked="checked"<% end -%> onClick="submitAjaxForm('chooseNetworkForm')" />
 	<label>
-		&nbsp;The PensionSearch Network
+		&nbsp;National Pension Lawyers Network (NPLN)
 	</label>
 </p>
 <p>
-	<input type="checkbox" name="wants_help" onClick="toggleHelp()" />
+	<input type="checkbox" name="wants_aaa" <% if @aaa -%>checked="checked"<% end -%> onClick="submitAjaxForm('chooseNetworkForm')" />
+	<label>
+		&nbsp;Pension Assistance List (PAL) Actuary Network
+	</label>
+</p>
+<p>
+	<input type="checkbox" name="wants_help" <% if @help -%>checked="checked"<% end -%> onClick="submitAjaxForm('chooseNetworkForm')" />
 	<label>
 		&nbsp;The PensionHelp Network
 	</label>
 </p>
 <p>
-	<%= check_box "contact", "wants_npln" %>
+	<input type="checkbox" name="wants_search" <% if @search -%>checked="checked"<% end -%> onClick="submitAjaxForm('chooseNetworkForm')" />
 	<label>
-		&nbsp;The National Pension Lawyers Network (NPLN)
+		&nbsp;The PensionSearch Network
 	</label>
 </p>
-<p>
-	<%= check_box "contact", "wants_aaa" %>
-	<label>
-		&nbsp;The Pension Assistance List (PAL)
-	</label>
-</p>
-<div id="professionalInfo" style="display:none">
-	<h3>Professional Information</h3>
-	<table class="form">
-		<tr>
-			<th>Profession:</th>
-			<td>
-				<%= select("contact", "profession_id", Profession.find(:all).collect {|s| [s.name, s.id]}, {:include_blank => true}) %>
-			</td>
-		</tr>
-		<tr>
-			<th>Other:</th>
-			<td>
-				<%= text_field "contact", "profession_other", :size => 60 %>
-			</td>
-		</tr>
-		<tr>
-			<th>Professional Affiliations:</th>
-			<td>
-				<%= text_area "contact", "affiliations", :cols => 40, :rows => 5 %>
-			</td>
-		</tr>
-	</table>
-</div>
-<div id="pensionSearch" style="display:none">
-	<h3>Fees</h3>
-	<p><%= check_box "search_net", "wont_charge_fees" %>&nbsp;I will not charge any fees for these PensionSearch Network services.</p>
-	<h3>Other Information</h3>
-	
-	<p>I am most likely to have information about the following types of plans:<br/>
-	<%= text_area "search_net", "info_plans", :cols => 40, :rows => 5 %></p>
-	
-	<p>I am most likely to have information about plans in the following geographic areas:<br/>
-	<%= text_area "search_net", "info_geo", :cols => 40, :rows => 5 %></p>
-	
-	<p>I am most likely to have information about plans in the following industries:<br/>
-	<%= text_area "search_net", "info_industries", :cols => 40, :rows => 5 %></p>
-	
-	<p>Please provide any other information that might be helpful in making appropriate referrals:<br/>
-	<%= text_area "search_net", "info_referrals", :cols => 40, :rows => 5 %></p>
-</div>
-<div id="pensionHelp" style="display:none">
-	<h3>Fees</h3>
-	<p><%= check_box "help_net", "wont_charge_fees" %>&nbsp;I will not charge any fees for these PensionHelp Network services.</p>
-	<h3>Experience (check all that apply)</h3>
-	<p><%= check_box "help_net", "exp_erisa_single" %>&nbsp;Single-employer private plans (ERISA)</p>
-	<p><%= check_box "help_net", "exp_erisa_multi" %>&nbsp;Multi-employer private plans (ERISA)</p>
-	<p><%= check_box "help_net", "exp_fed" %>&nbsp;Federal plans (FERS/CSRS/Military/Railroad)</p>
-	<p><%= check_box "help_net", "exp_state" %>&nbsp;State, county, and municipal plans</p>
-	<p><%= check_box "help_net", "exp_church" %>&nbsp;Church plans</p>
-	<p>Other: <%= text_field "help_net", "exp_other", :size => 15 %></p>
-	<p>Please provide any other information about the areas of practice or types
-	of referrals you are willing to take.<br>
-	<%= text_area "help_net", "other_info", :cols => 40, :rows => 5 %></p>
-</div>
-<br/>
-<%= submit_tag "Submit" %>
-<%= end_form_tag %>
-<script type="text/javascript" language="javascript">
 
-function toggleSearch() {
-	if ($('pensionSearch').style.display == 'none' ) {
-		Element.show('pensionSearch');
-		Element.show('professionalInfo');
-	} else {
-		Element.hide('pensionSearch');
-		if ($('pensionHelp').style.display == 'none' ) {Element.hide('professionalInfo')} 
-	}	
-}
+<noscript>
+	<% unless @npln or @aaa or @help or @search -%>
+		<%= submit_tag 'NEXT >' , :id => 'nextLinkButton' %>
+	<% end -%>
+</noscript>
 
-function toggleHelp() {
-	if ($('pensionHelp').style.display == 'none' ) {
-		Element.show('pensionHelp');
-		Element.show('professionalInfo');
-	} else {
-		Element.hide('pensionHelp');
-		if ($('pensionSearch').style.display == 'none' ) {Element.hide('professionalInfo')} 
-	}	
-}
+<% end %>
 
+<% form_tag :controller => :works, :action => :confirm do %>
+
+<div id="networkForm">
+	<%= render :partial => 'works/contact_info' if @npln or @aaa or @help or @search %>
+    <%= render :partial => 'works/professions' if @help or @search %>
+	<%= render :partial => 'works/affiliations' if @npln or @help or @search %>
+    <%= render :partial => 'works/sponsor_types' if @npln or @help or @aaa %>
+    <%= render :partial => 'works/plan_types' if @npln or @help or @aaa %>
+    <%= render :partial => 'works/npln_info' if @npln %>
+    <%= render :partial => 'works/aaa_info' if @aaa %>
+    <%= render :partial => 'works/npln_levels' if @npln %>
+    <%= render :partial => 'works/help_info' if @help %>
+    <%= render :partial => 'works/search_info' if @search %>
+    <%= render :partial => 'works/referrals' if @npln or @aaa %>
+    <%= render :partial => 'works/additional_info' if @npln or @aaa or @help or @search %>
+</div>
+
+<%= submit_tag 'NEXT >' , :id => 'nextLinkButton' if @npln or @aaa or @help or @search %>
+
+<% unless @npln or @aaa or @help or @search -%>
+<script type="text/javascript">
+<!--
+document.write("<input id=\"nextLinkButton\" type=\"submit\" value=\"NEXT >\" name=\"commit\"/>")
+//-->
+</script>
+<% end -%>
+
+<% end -%>
+
+<script type="text/javascript">
+<!--
+	function submitAjaxForm(id) {
+		var form = document.getElementById(id);
+		if(form.onsubmit()){
+			form.submit();
+		}
+	}
+//-->
 </script>

@@ -1,0 +1,86 @@
+<h3>Contact Information</h3>
+<table class="form">
+	<tr>
+		<th><span class="reqnote">*</span>First Name:</th>
+		<td>
+			<table class="form" cellpadding="0" cellspacing="0">
+				<tr>
+					<td>
+						<%= text_field "contact", "first_name", :size => 15 %>
+					</td>
+					<th>&nbsp;M.I.:</th>
+					<td>
+						&nbsp;<%= text_field "contact", "middle_initial", :size => 3 %>
+					</td>
+					<th>&nbsp;<span class="reqnote">*</span>Last Name:</th>
+					<td>
+						&nbsp;<%= text_field "contact", "last_name", :size => 15 %>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<th>Firm:</th>
+		<td>
+			<%= text_field "contact", "company", :size => 60 %>
+		</td>
+	</tr>
+	<tr>
+		<th><span class="reqnote">*</span>Street Address:</th>
+		<td>
+			<%= text_field "contact", "line_1", :size => 60 %>
+		</td>
+	</tr>
+	<tr>
+		<th>Address 2:</th>
+		<td>
+			<%= text_field "contact", "line_2", :size => 60 %>
+		</td>
+	</tr>
+	<tr>
+		<th><span class="reqnote">*</span>City:</th>
+		<td>
+			<table cellpadding="0" cellspacing="0" class="form">
+				<tr>
+					<td>
+						<%= text_field "contact", "city", :size => 15 %>
+					</td>
+					<th>&nbsp;<span class="reqnote">*</span>State:</th>
+					<td>
+						<%= select("contact", "state_abbrev", State.find(:all).collect {|s| [s.abbrev, s.abbrev]}, {:include_blank => true}) %>
+					</td>
+					<th>&nbsp;<span class="reqnote">*</span>Zip:</th>
+					<td>
+						<%= text_field "contact", "zip_code", :size => 15 %>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<th><span class="reqnote">*</span>Telephone:</th>
+		<td>
+			<%= text_field "contact", "phone", :size => 15 %>
+		</td>
+	</tr>
+	<tr>
+		<th>Fax:</th>
+		<td>
+			<%= text_field "contact", "fax", :size => 15 %>
+		</td>
+	</tr>
+	<tr>
+		<th><span class="reqnote">*</span>E-Mail:</th>
+		<td>
+			<%= text_field "contact", "email", :size => 60 %>
+		</td>
+	</tr>
+	<tr>
+		<th>Website:</th>
+		<td>
+			<%= text_field "contact", "url", :size => 60 %>
+		</td>
+	</tr>
+</table>
+<h3>Professional information and experience</h3>

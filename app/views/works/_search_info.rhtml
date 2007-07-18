@@ -1,0 +1,54 @@
+<h3>I am willing to</h3> 
+
+<p>
+<table class="form">
+	<tr>
+		<th><%= check_box "", "" %></th>
+		<td>Provide PensionHelp America with information about pension or other retirement savings plans to help participants find their &#8220;lost&#8221; plans; or to help plans find their &#8220;lost&#8221; participants.  This information includes, but is not limited to contact information for plan administrators and sponsors, as well as other information that would be helpful to participants seeking to reconnect with the plan for the purpose of claiming potential benefits.
+		</td>
+	</tr>
+	<tr>
+		<th><%= check_box "search_net", "wont_charge_fees" %></th>
+		<td>
+			Provide these services free of charge.
+		</td>
+	</tr>
+</table>
+</p>
+
+<h3>Other information</h3>
+
+<p style="font-weight:bold">I am most likely to have information about the following types of plans (check all that apply):</p>
+
+<p>
+<table class="form">
+	<tr>
+		<th><%= check_box "", "" %></th>
+		<td>Single-employer</td>
+	</tr>
+	<tr>
+		<th><%= check_box "", "" %></th>
+		<td>Multiemployer</td>
+	</tr>
+	<tr>
+		<th><%= check_box "", "" %></th>
+		<td>Multiple employer</td>
+	</tr>
+	<tr>
+		<th><%= check_box "", "" %></th>
+		<td>Church plans</td>
+	</tr>
+</table>
+</p>
+
+<p>&nbsp;</p>
+
+<p style="font-weight:bold">I am most likely to have information about plans in the following geographic areas:<br/><%= text_area "search_net", "info_geo", :cols => 40, :rows => 5 %></p> 
+
+<p>&nbsp;</p>
+
+<p style="font-weight:bold">I am most likely to have information about plans in the following industries:<br/><%= text_area "search_net", "info_industries", :cols => 40, :rows => 5 %></p>
+
+<p>&nbsp;</p>
+
+<%= hidden_field_tag "wants_search", true %>

@@ -1,0 +1,16 @@
+<p>
+<table class="form">
+	<tr>
+		<th>Profession:</th>
+		<td>
+			<%= select("contact", "profession_id", Profession.find(:all).collect {|s| [s.name, s.id]}, {:include_blank => true}) %>
+		</td>
+	</tr>
+	<tr>
+		<th>Other:</th>
+		<td>
+			<%= text_field "contact", "profession_other", :size => 60 %>
+		</td>
+	</tr>
+</table>
+</p>

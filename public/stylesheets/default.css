@@ -264,6 +264,14 @@ h5 {
   color: #004CB2;
 }
 
+h6 {
+	font-size: 1.1em; 
+	font-weight: normal;
+  color: #c00;
+	display:inline;
+	text-decoration:underline;
+}
+
 ol, blockquote {
    margin-left: 30px;
    margin-right: 30px;
@@ -285,6 +293,10 @@ table.form th {
   vertical-align: top;
 }
 
+table.form th input{
+	margin-right:5px;
+}
+
 table.form td {
   text-align: left;
   vertical-align: top;
@@ -295,27 +307,6 @@ table.form table.form td {
   padding-bottom: 0;
 }
 
-#nextLink {
-	float:right;
-	font-weight:bold;
-}
-
-#nextLink a:link {
-    color: #CC0000;
-}
-
-#nextLink a:visited {
-    color: #CC0000;
-}
-
-#nextLink a:hover {
-    color: #cc0033;
-}
-
-#nextLink a:active {
-    color: #CC0000;
-}
-
 #nextLinkButton {
 	color: #cc0033;
 	background:#FFFFFF;
@@ -324,6 +315,19 @@ table.form table.form td {
 	font-weight:bold;
 	border-bottom:1px solid #cc0033;
 	font-size:1.1em;
+	float:right;
+	font-weight:bold;
+}
+
+#moreLinkButton {
+	color: #000088;
+	background:#FFFFFF;
+  border: none;
+	cursor:pointer;
+	border-bottom:1px solid #000088;
+	font-size:1.1em;
+	line-height:18.5px;
+	height:18.5px;
 }
 
 #caDescTable td {

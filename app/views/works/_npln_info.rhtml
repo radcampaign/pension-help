@@ -1,0 +1,113 @@
+<p style="font-weight:bold">Bar Admissions (state, federal): <%= text_field "", "", :size => 30 %></p>
+
+<p>&nbsp;</p>
+
+<p style="font-weight:bold">I am experienced in the following claim types (check all that apply):</p>
+
+<p>
+<table class="form">
+	<tr>
+		<th><%= check_box "", "" %></th>
+		<td>
+			Individual claims
+		</td>
+	</tr>
+	<tr>
+		<th><%= check_box "", "" %></th>
+		<td>
+			Class claims
+		</td>
+	</tr>
+	<tr>
+		<th><%= check_box "", "" %></th>
+		<td>
+			PBGC claims
+		</td>
+	</tr>
+	<tr>
+		<th><%= check_box "", "" %></th>
+		<td>
+			Pension claims
+		</td>
+	</tr>
+	<tr>
+		<th><%= check_box "", "" %></th>
+		<td>
+			Health &amp; disability claims
+		</td>
+	</tr>
+	<tr>
+		<th><%= check_box "", "" %></th>
+		<td>
+			ERISA &amp; IRC minimum standards
+		</td>
+	</tr>
+	<tr>
+		<th><%= check_box "", "" %></th>
+		<td>
+			Fiduciary claims
+		</td>
+	</tr>
+	<tr>
+		<th><%= check_box "", "" %></th>
+		<td>
+			Discrimination claims
+		</td>
+	</tr>
+	<tr>
+		<th><%= check_box "", "" %></th>
+		<td>
+			Domestic relations orders
+		</td>
+	</tr>
+	<tr>
+		<th><%= check_box "", "" %></th>
+		<td>
+			Other: <%= text_field "", "", :size => 40 %>
+		</td>
+	</tr>
+</table>
+</p>
+
+<p>&nbsp;</p>
+
+<p style="font-weight:bold">I have experience in the following additional areas:</p>
+
+<p>
+<table class="form">
+	<tr>
+		<th><%= check_box "", "" %></th>
+		<td>
+			Labor Law
+		</td>
+	</tr>
+	<tr>
+		<th><%= check_box "", "" %></th>
+		<td>
+			Employment law
+		</td>
+	</tr>
+	<tr>
+		<th><%= check_box "", "" %></th>
+		<td>
+			Social Security
+		</td>
+	</tr>
+	<tr>
+		<th><%= check_box "", "" %></th>
+		<td>
+			Veterans Benefits
+		</td>
+	</tr>
+	<tr>
+		<th><%= check_box "", "" %></th>
+		<td>
+			Other: <%= text_field "", "", :size => 40 %>
+		</td>
+	</tr>
+</table>
+</p>
+
+<p>&nbsp;</p>
+
+<%= hidden_field_tag "contact[wants_npln]", true %>
