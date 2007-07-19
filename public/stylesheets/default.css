@@ -279,6 +279,10 @@ ol, blockquote {
 
 /* Misc */
 
+.reqnote {
+	color:#ff0000;
+}
+
 .buffer {
 	margin:10px 0px 50px 10px;
 }
