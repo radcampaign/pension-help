@@ -124,7 +124,7 @@
 
 <noscript>
 	<% unless @npln or @aaa or @help or @search -%>
-		<%= submit_tag 'NEXT >' , :id => 'nextLinkButton' %>
+		<%= image_submit_tag "buttons/next_button.gif", :id => 'nextLinkButton' %>
 	<% end -%>
 </noscript>
 
@@ -147,12 +147,12 @@
     <%= render :partial => 'works/additional_info' if @npln or @aaa or @help or @search %>
 </div>
 
-<%= submit_tag 'NEXT >' , :id => 'nextLinkButton' if @npln or @aaa or @help or @search %>
+<%= image_submit_tag "buttons/next_button.gif", :id => 'nextLinkButton' if @npln or @aaa or @help or @search %>
 
 <% unless @npln or @aaa or @help or @search -%>
 <script type="text/javascript">
 <!--
-document.write("<input id=\"nextLinkButton\" type=\"submit\" value=\"NEXT >\" name=\"commit\"/>")
+document.write("<input type=\"image\" id=\"nextLinkButton\" src=\"/images/buttons/next_button.gif\"/>")
 //-->
 </script>
 <% end -%>

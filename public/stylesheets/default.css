@@ -312,15 +312,8 @@ table.form table.form td {
 }
 
 #nextLinkButton {
-	color: #cc0033;
-	background:#FFFFFF;
-  border: none;
 	cursor:pointer;
-	font-weight:bold;
-	border-bottom:1px solid #cc0033;
-	font-size:1.1em;
 	float:right;
-	font-weight:bold;
 }
 
 #moreLinkButton {
