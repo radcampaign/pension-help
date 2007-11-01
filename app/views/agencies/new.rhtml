@@ -1,0 +1,141 @@
+<h1>New agency</h1>
+
+<%= error_messages_for :agency %>
+
+<% form_for(:agency, :url => agencies_path) do |f| %>
+  <p>
+    <b>Name</b><br />
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <b>Name2</b><br />
+    <%= f.text_field :name2 %>
+  </p>
+
+  <p>
+    <b>Parent</b><br />
+    <%= f.text_field :parent_id %>
+  </p>
+
+  <p>
+    <b>Description</b><br />
+    <%= f.text_field :description %>
+  </p>
+
+  <p>
+    <b>Service description</b><br />
+    <%= f.text_field :service_description %>
+  </p>
+
+  <p>
+    <b>Phone</b><br />
+    <%= f.text_field :phone %>
+  </p>
+
+  <p>
+    <b>Tollfree</b><br />
+    <%= f.text_field :tollfree %>
+  </p>
+
+  <p>
+    <b>Fax</b><br />
+    <%= f.text_field :fax %>
+  </p>
+
+  <p>
+    <b>Tty</b><br />
+    <%= f.text_field :tty %>
+  </p>
+
+  <p>
+    <b>Url</b><br />
+    <%= f.text_field :url %>
+  </p>
+
+  <p>
+    <b>Url2</b><br />
+    <%= f.text_field :url2 %>
+  </p>
+
+  <p>
+    <b>Email</b><br />
+    <%= f.text_field :email %>
+  </p>
+
+  <p>
+    <b>Hours of operation</b><br />
+    <%= f.text_field :hours_of_operation %>
+  </p>
+
+  <p>
+    <b>Logistics</b><br />
+    <%= f.text_field :logistics %>
+  </p>
+
+  <p>
+    <b>Comments</b><br />
+    <%= f.text_field :comments %>
+  </p>
+
+  <p>
+    <b>Data source</b><br />
+    <%= f.text_field :data_source %>
+  </p>
+
+  <p>
+    <b>Is active</b><br />
+    <%= f.text_field :is_active %>
+  </p>
+
+  <p>
+    <b>Legacy code</b><br />
+    <%= f.text_field :legacy_code %>
+  </p>
+
+  <p>
+    <b>Legacy subcode</b><br />
+    <%= f.text_field :legacy_subcode %>
+  </p>
+
+  <p>
+    <b>Has restrictions</b><br />
+    <%= f.text_field :has_restrictions %>
+  </p>
+
+  <p>
+    <b>Has geo restrictions</b><br />
+    <%= f.text_field :has_geo_restrictions %>
+  </p>
+
+  <p>
+    <b>Agency category</b><br />
+    <%= f.text_field :agency_category_id %>
+  </p>
+
+  <p>
+    <b>Agency type</b><br />
+    <%= f.text_field :agency_type_id %>
+  </p>
+
+  <p>
+    <b>Created at</b><br />
+    <%= f.text_field :created_at %>
+  </p>
+
+  <p>
+    <b>Updated at</b><br />
+    <%= f.text_field :updated_at %>
+  </p>
+
+  <p>
+    <b>Updated by</b><br />
+    <%= f.text_field :updated_by %>
+  </p>
+
+  <p>
+    <%= submit_tag "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', agencies_path %>

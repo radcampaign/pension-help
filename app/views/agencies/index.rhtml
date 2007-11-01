@@ -1,0 +1,72 @@
+<h1>Listing agencies</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Name2</th>
+    <th>Parent</th>
+    <th>Description</th>
+    <th>Service description</th>
+    <th>Dropin address</th>
+    <th>Mailing address</th>
+    <th>Phone</th>
+    <th>Tollfree</th>
+    <th>Fax</th>
+    <th>Tty</th>
+    <th>Url</th>
+    <th>Url2</th>
+    <th>Email</th>
+    <th>Hours of operation</th>
+    <th>Logistics</th>
+    <th>Comments</th>
+    <th>Data source</th>
+    <th>Is active</th>
+    <th>Legacy code</th>
+    <th>Legacy subcode</th>
+    <th>Has restrictions</th>
+    <th>Has geo restrictions</th>
+    <th>Agency category</th>
+    <th>Agency type</th>
+    <th>Created at</th>
+    <th>Updated at</th>
+    <th>Updated by</th>
+  </tr>
+  
+<% for agency in @agencies %>
+  <tr>
+    <td><%=h agency.name %></td>
+    <td><%=h agency.name2 %></td>
+    <td><%=h agency.parent_id %></td>
+    <td><%=h truncate(agency.description, 20) %></td>
+    <td><%=h agency.service_description %></td>
+    <td><%=h agency.phone %></td>
+    <td><%=h agency.tollfree %></td>
+    <td><%=h agency.fax %></td>
+    <td><%=h agency.tty %></td>
+    <td><%=h agency.url %></td>
+    <td><%=h agency.url2 %></td>
+    <td><%=h agency.email %></td>
+    <td><%=h agency.hours_of_operation %></td>
+    <td><%=h agency.logistics %></td>
+    <td><%=h agency.comments %></td>
+    <td><%=h agency.data_source %></td>
+    <td><%=h agency.is_active %></td>
+    <td><%=h agency.legacy_code %></td>
+    <td><%=h agency.legacy_subcode %></td>
+    <td><%=h agency.has_restrictions %></td>
+    <td><%=h agency.has_geo_restrictions %></td>
+    <td><%=h agency.agency_category_id %></td>
+    <td><%=h agency.agency_type_id %></td>
+    <td><%=h agency.created_at %></td>
+    <td><%=h agency.updated_at %></td>
+    <td><%=h agency.updated_by %></td>
+    <td><%= link_to 'Show', agency_path(agency) %></td>
+    <td><%= link_to 'Edit', edit_agency_path(agency) %></td>
+    <td><%= link_to 'Destroy', agency_path(agency), :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New agency', new_agency_path %>

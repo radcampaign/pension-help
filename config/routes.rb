@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :agencies
+
   # The priority is based upon order of creation: first created -> highest priority.
   
   # Sample of regular route:
@@ -15,8 +17,9 @@ ActionController::Routing::Routes.draw do |map|
 
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id.:format'
+  map.connect ':controller/:action.:format'
   map.connect ':controller/:action/:id'
-  
+    
   # Site URLs
   map.with_options(:controller => 'site') do |site|
     site.homepage          '',              :action => 'show_page', :url => '/'

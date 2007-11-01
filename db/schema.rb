@@ -2,7 +2,56 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 8) do
+ActiveRecord::Schema.define(:version => 12) do
+
+  create_table "addresses", :force => true do |t|
+    t.column "line1",           :string
+    t.column "line2",           :string
+    t.column "city",            :string
+    t.column "state_abbrev",    :string
+    t.column "zip",             :string
+    t.column "agency_id",       :integer
+    t.column "address_type_id", :integer
+  end
+
+  create_table "agencies", :force => true do |t|
+    t.column "name",                 :string
+    t.column "name2",                :string
+    t.column "parent_id",            :integer
+    t.column "description",          :text
+    t.column "service_description",  :text
+    t.column "phone",                :string
+    t.column "tollfree",             :string
+    t.column "fax",                  :string
+    t.column "tty",                  :string
+    t.column "url",                  :string
+    t.column "url2",                 :string
+    t.column "email",                :string
+    t.column "hours_of_operation",   :string
+    t.column "logistics",            :string
+    t.column "comments",             :text
+    t.column "data_source",          :string
+    t.column "is_active",            :boolean
+    t.column "legacy_code",          :string
+    t.column "legacy_subcode",       :string
+    t.column "has_restrictions",     :boolean
+    t.column "has_geo_restrictions", :boolean
+    t.column "agency_category_id",   :integer
+    t.column "agency_type_id",       :integer
+    t.column "created_at",           :datetime
+    t.column "updated_at",           :datetime
+    t.column "updated_by",           :string
+  end
+
+  create_table "agency_categories", :force => true do |t|
+    t.column "name",     :string
+    t.column "position", :integer
+  end
+
+  create_table "agency_types", :force => true do |t|
+    t.column "name",     :string
+    t.column "position", :integer
+  end
 
   create_table "contacts", :force => true do |t|
     t.column "first_name",       :string,  :limit => 80
@@ -46,6 +95,18 @@ ActiveRecord::Schema.define(:version => 8) do
     t.column "wont_charge_fees", :boolean
   end
 
+  create_table "images", :force => true do |t|
+    t.column "db_file_id",   :integer
+    t.column "parent_id",    :integer
+    t.column "thumbnail",    :string
+    t.column "filename",     :string
+    t.column "content_type", :string
+    t.column "size",         :integer
+    t.column "width",        :integer
+    t.column "height",       :integer
+    t.column "aspect_ratio", :float
+  end
+
   create_table "news", :force => true do |t|
     t.column "title",        :string
     t.column "intro",        :text
@@ -76,7 +137,7 @@ ActiveRecord::Schema.define(:version => 8) do
 
   create_table "states", :id => false, :force => true do |t|
     t.column "abbrev", :string, :limit => 2,  :default => "", :null => false
-    t.column "name",   :string, :limit => 10
+    t.column "name",   :string, :limit => 50
   end
 
   create_table "users", :force => true do |t|

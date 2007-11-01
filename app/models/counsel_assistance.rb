@@ -1,5 +1,10 @@
 class CounselAssistance
   
+  def self.in_aoa_coverage?(state)
+    return true if %w(MI OH NY IL MO MN TX WI MA PA NJ KS AR MI CT ME NH RI VT OK NM).include?(state)
+    return false
+  end
+  
   def self.find_plan(id)
     case id
       when "PRV_PLAN"
