@@ -135,6 +135,13 @@ class CounselAssistance
     [["I earned the pension","1"],
      ["My (current, former or deceased) spouse earned the pension","2"],
      ["Other","3"]]
-  end
+   end
 
+  def self.local_plans
+    [["Municipal Police Officers' and Firefighters Retirement Trust Funds", "1"],
+     ["Public Employee Optional Retirement Program (PEORP)","2"],
+     ["Revised Judicial Pension Plan","3"],
+     ["I don&rsquo;t know","4"]]
+   end
+   
 end

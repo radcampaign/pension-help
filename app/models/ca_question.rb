@@ -56,27 +56,27 @@ class CAQuestion
       when "ST_PLAN"  
        CAQuestion.new(:header => "Which state plan do you have a question about?",
                       :text => "There are different retirement plans for state employees.  Use the menus below to select the state that offered the pension or retirement savings plan you have a question about; and the most recent type of state employment that earned the benefit.",
-                      :desc => "Employment Type",
+                      :desc => "Available Plans",
                       :controller => "help",
                       :action => "show_fourth_question",
-                      :options => CounselAssistance.state_employer_types,
+                      :options => CounselAssistance.local_plans,
                       :state => true)
       when "CO_PLAN"  
        CAQuestion.new(:header => "Which county plan do you have a question about?",
                       :text => "There are different retirement plans for county employees.  Use the menus below to select the county that offered the pension or retirement savings plan you have a question about; and the most recent type of county employment that earned the benefit.",
-                      :desc => "Employment Type",
+                      :desc => "Available Plans",
                       :controller => "help",
                       :action => "show_fourth_question",
-                      :options => CounselAssistance.county_employer_types,
+                      :options => CounselAssistance.local_plans,
                       :state => true,
                       :county => true)
       when "LOC_PLAN"  
        CAQuestion.new(:header => "Which city or other local government plan do you have a question about?",
                       :text => "There are many different retirement plans for employees of cities and other local governments.  Use the menus below to select the city or other local government that offered the pension or retirement savings plan you have a question about; and the most recent type of employment that earned the benefit.",
-                      :desc => "Employment Type",
+                      :desc => "Available Plans",
                       :controller => "help",
                       :action => "show_fourth_question",
-                      :options => CounselAssistance.local_employer_types,
+                      :options => CounselAssistance.local_plans,
                       :state => true,
                       :county => true,
                       :local => true)
