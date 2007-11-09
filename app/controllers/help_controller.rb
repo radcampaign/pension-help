@@ -112,6 +112,7 @@ class HelpController < ApplicationController
   def results
     # Simply showing the user what they previously submitted 
     @requested_plan = CounselAssistance.find_plan(session[:requested_plan])
+    render "help/results_state" if (session[:requested_plan] == "ST_PLAN")
   end
   
   # Used for populating state, county and local pulldowns for demo. Will be removed.
