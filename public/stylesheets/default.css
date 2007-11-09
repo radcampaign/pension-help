@@ -289,7 +289,7 @@ ol, blockquote {
 
 .offsite {
    background: url(/images/external_link.gif) right center no-repeat;
-   padding-right: 1em;
+   padding-right: 1.2em;
 }
 
 table.form th {
@@ -329,6 +329,20 @@ table.form table.form td {
 
 #caDescTable td {
 	padding:10px;
+}
+
+a.url {
+	font-size: 80%;
+}
+
+body.results td {
+	padding-bottom: 8px;
+}
+
+body.results div.group {
+	border: 1px solid grey;
+	margin-bottom: 12px;
+	padding: 6px 0 6px 6px;
 }
 
 /* User Messages */
