@@ -1,95 +1,21 @@
-# == Schema Information
-# Schema version: 11
-#
-# Table name: agencies
-#
-#  id                   :integer(11)   not null, primary key
-#  name                 :string(255)   
-#  name2                :string(255)   
-#  parent_id            :integer(11)   
-#  description          :text          
-#  service_description  :text          
-#  phone                :string(255)   
-#  tollfree             :string(255)   
-#  fax                  :string(255)   
-#  tty                  :string(255)   
-#  url                  :string(255)   
-#  url2                 :string(255)   
-#  email                :string(255)   
-#  hours_of_operation   :string(255)   
-#  logistics            :string(255)   
-#  comments             :text          
-#  data_source          :string(255)   
-#  is_active            :boolean(1)    
-#  legacy_code          :string(255)   
-#  legacy_subcode       :string(255)   
-#  has_restrictions     :boolean(1)    
-#  has_geo_restrictions :boolean(1)    
-#  agency_category_id   :integer(11)   
-#  agency_type_id       :integer(11)   
-#  created_at           :datetime      
-#  updated_at           :datetime      
-#  updated_by           :string(255)   
-#
-
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 one:
   id: 1
-  name: 
-  name2: 
-  parent_id: 
-  description: 
-  service_description: 
-  dropin_address_id: 
-  mailing_address_id: 
-  phone: 
-  tollfree: 
-  fax: 
-  tty: 
-  url: 
-  url2: 
-  email: 
-  hours_of_operation: 
-  logistics: 
-  comments: 
-  data_source: 
-  is_active: 
-  legacy_code: 
-  legacy_subcode: 
-  has_restrictions: 
-  has_geo_restrictions: 
-  agency_category_id: 
-  agency_type_id: 
-  created_at: 
-  updated_at: 
-  updated_by: MyString
+  name: MyString
+  name2: MyString
+  data_source: MyString
+  is_active: false
+  url: MyString
+  url_title: MyString
+  legacy_code: MyString
+  legacy_subcode: MyString
 two:
   id: 2
-  name: 
-  name2: 
-  parent_id: 
-  description: 
-  service_description: 
-  dropin_address_id: 
-  mailing_address_id: 
-  phone: 
-  tollfree: 
-  fax: 
-  tty: 
-  url: 
-  url2: 
-  email: 
-  hours_of_operation: 
-  logistics: 
-  comments: 
-  data_source: 
-  is_active: 
-  legacy_code: 
-  legacy_subcode: 
-  has_restrictions: 
-  has_geo_restrictions: 
-  agency_category_id: 
-  agency_type_id: 
-  created_at: 
-  updated_at: 
-  updated_by: MyString
+  name: MyString
+  name2: MyString
+  data_source: MyString
+  is_active: false
+  url: MyString
+  url_title: MyString
+  legacy_code: MyString
+  legacy_subcode: MyString

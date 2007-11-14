@@ -1,0 +1,44 @@
+<h1>Listing locations</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Is hq</th>
+    <th>Phone</th>
+    <th>Phone ext</th>
+    <th>Tollfree</th>
+    <th>Tollfree ext</th>
+    <th>Fax</th>
+    <th>Tty</th>
+    <th>Tty ext</th>
+    <th>Email</th>
+    <th>Hours of operation</th>
+    <th>Logistics</th>
+    <th>Legacy subcode</th>
+  </tr>
+  
+<% for location in @locations %>
+  <tr>
+    <td><%=h location.name %></td>
+    <td><%=h location.is_hq %></td>
+    <td><%=h location.phone %></td>
+    <td><%=h location.phone_ext %></td>
+    <td><%=h location.tollfree %></td>
+    <td><%=h location.tollfree_ext %></td>
+    <td><%=h location.fax %></td>
+    <td><%=h location.tty %></td>
+    <td><%=h location.tty_ext %></td>
+    <td><%=h location.email %></td>
+    <td><%=h location.hours_of_operation %></td>
+    <td><%=h location.logistics %></td>
+    <td><%=h location.legacy_subcode %></td>
+    <td><%= link_to 'Show', location_path(@agency, location) %></td>
+    <td><%= link_to 'Edit', edit_location_path(@agency, location) %></td>
+    <td><%= link_to 'Destroy', location_path(@agency, location), :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New location', new_location_path %>

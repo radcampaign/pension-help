@@ -1,0 +1,14 @@
+# == Schema Information
+# Schema version: 17
+#
+# Table name: zips
+#
+#  zipcode      :string(255)   
+#  state_abbrev :string(255)   
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+two:
+  id: 2

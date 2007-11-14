@@ -1,0 +1,27 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  name: MyString
+  phone: MyString
+  phone_ext: MyString
+  tollfree: MyString
+  tollfree_ext: MyString
+  fax: MyString
+  tty: MyString
+  tty_ext: MyString
+  email: MyString
+  url: MyString
+  url_title: MyString
+two:
+  id: 2
+  name: MyString
+  phone: MyString
+  phone_ext: MyString
+  tollfree: MyString
+  tollfree_ext: MyString
+  fax: MyString
+  tty: MyString
+  tty_ext: MyString
+  email: MyString
+  url: MyString
+  url_title: MyString

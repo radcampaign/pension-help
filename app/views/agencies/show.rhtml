@@ -9,38 +9,13 @@
 </p>
 
 <p>
-  <b>Parent:</b>
-  <%=h @agency.parent_id %>
+  <b>Data source:</b>
+  <%=h @agency.data_source %>
 </p>
 
 <p>
-  <b>Description:</b>
-  <%=h @agency.description %>
-</p>
-
-<p>
-  <b>Service description:</b>
-  <%=h @agency.service_description %>
-</p>
-
-<p>
-  <b>Phone:</b>
-  <%=h @agency.phone %>
-</p>
-
-<p>
-  <b>Tollfree:</b>
-  <%=h @agency.tollfree %>
-</p>
-
-<p>
-  <b>Fax:</b>
-  <%=h @agency.fax %>
-</p>
-
-<p>
-  <b>Tty:</b>
-  <%=h @agency.tty %>
+  <b>Is active:</b>
+  <%=h @agency.is_active %>
 </p>
 
 <p>
@@ -49,38 +24,8 @@
 </p>
 
 <p>
-  <b>Url2:</b>
-  <%=h @agency.url2 %>
-</p>
-
-<p>
-  <b>Email:</b>
-  <%=h @agency.email %>
-</p>
-
-<p>
-  <b>Hours of operation:</b>
-  <%=h @agency.hours_of_operation %>
-</p>
-
-<p>
-  <b>Logistics:</b>
-  <%=h @agency.logistics %>
-</p>
-
-<p>
-  <b>Comments:</b>
-  <%=h @agency.comments %>
-</p>
-
-<p>
-  <b>Data source:</b>
-  <%=h @agency.data_source %>
-</p>
-
-<p>
-  <b>Is active:</b>
-  <%=h @agency.is_active %>
+  <b>Url title:</b>
+  <%=h @agency.url_title %>
 </p>
 
 <p>
@@ -93,41 +38,8 @@
   <%=h @agency.legacy_subcode %>
 </p>
 
-<p>
-  <b>Has restrictions:</b>
-  <%=h @agency.has_restrictions %>
-</p>
 
-<p>
-  <b>Has geo restrictions:</b>
-  <%=h @agency.has_geo_restrictions %>
-</p>
-
-<p>
-  <b>Agency category:</b>
-  <%=h @agency.agency_category_id %>
-</p>
-
-<p>
-  <b>Agency type:</b>
-  <%=h @agency.agency_type_id %>
-</p>
-
-<p>
-  <b>Created at:</b>
-  <%=h @agency.created_at %>
-</p>
-
-<p>
-  <b>Updated at:</b>
-  <%=h @agency.updated_at %>
-</p>
-
-<p>
-  <b>Updated by:</b>
-  <%=h @agency.updated_by %>
-</p>
-
-
+<%= link_to 'Add location', new_location_path(@agency) %> |
+<%= link_to 'Add plan', new_plan_path(@agency) %> |
 <%= link_to 'Edit', edit_agency_path(@agency) %> |
 <%= link_to 'Back', agencies_path %>

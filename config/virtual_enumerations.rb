@@ -4,5 +4,5 @@
 # Copy this file to RAILS_ROOT/config/virtual_enumerations.rb
 # and configure it accordingly.
 ActiveRecord::VirtualEnumerations.define do |config|
-  config.define [:agency_category, :agency_type], :order => 'position ASC'
+  config.define [:plan_category], :order => 'position ASC'
 end
