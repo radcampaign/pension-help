@@ -4,7 +4,7 @@ class PlansController < ApplicationController
   # GET /plans
   # GET /plans.xml
   def index
-    @plans = Plan.find(:all)
+    @plans = @agency.plans.find(:all)
 
     respond_to do |format|
       format.html # index.rhtml
@@ -15,7 +15,7 @@ class PlansController < ApplicationController
   # GET /plans/1
   # GET /plans/1.xml
   def show
-    @plan = Plan.find(params[:id])
+    @plan = @agency.plans.find(params[:id])
 
     respond_to do |format|
       format.html # show.rhtml
@@ -30,7 +30,7 @@ class PlansController < ApplicationController
 
   # GET /plans/1;edit
   def edit
-    @plan = Plan.find(params[:id])
+    @plan = @agency.plans.find(params[:id])
   end
 
   # POST /plans
@@ -53,7 +53,7 @@ class PlansController < ApplicationController
   # PUT /plans/1
   # PUT /plans/1.xml
   def update
-    @plan = Plan.find(params[:id])
+    @plan = @agency.plans.find(params[:id])
 
     respond_to do |format|
       if @plan.update_attributes(params[:plan])
@@ -70,7 +70,7 @@ class PlansController < ApplicationController
   # DELETE /plans/1
   # DELETE /plans/1.xml
   def destroy
-    @plan = Plan.find(params[:id])
+    @plan = @agency.plans.find(params[:id])
     @plan.destroy
 
     respond_to do |format|
