@@ -18,9 +18,7 @@
 #
 
 class Agency < ActiveRecord::Base
-  has_one :mailing_address, :class_name => 'Address', 
-            :conditions => "address_type = 'mailing'"
-  has_one :dropin_address, :class_name => 'Address', 
-            :conditions => "address_type =  'dropin'"
+  has_many :locations
+  has_many :plans
   
 end

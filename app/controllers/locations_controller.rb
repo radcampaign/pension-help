@@ -36,13 +36,13 @@ class LocationsController < ApplicationController
   # POST /locations
   # POST /locations.xml
   def create
-    @location = Location.new(params[:location])
-
+    @location = @agency.locations.build(params[:location])
+    
     respond_to do |format|
       if @location.save
         flash[:notice] = 'Location was successfully created.'
-        format.html { redirect_to location_url(@location) }
-        format.xml  { head :created, :location => location_url(@location) }
+        format.html { redirect_to location_url(@agency, @location) }
+        format.xml  { head :created, :location => location_url(@agency, @location) }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @location.errors.to_xml }
@@ -58,7 +58,7 @@ class LocationsController < ApplicationController
     respond_to do |format|
       if @location.update_attributes(params[:location])
         flash[:notice] = 'Location was successfully updated.'
-        format.html { redirect_to location_url(@location) }
+        format.html { redirect_to location_url(@agency, @location) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

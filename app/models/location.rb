@@ -25,6 +25,12 @@
 
 class Location < ActiveRecord::Base
   belongs_to :agency
+  
+  has_one :mailing_address, :class_name => 'Address', 
+            :conditions => "address_type = 'mailing'"
+  has_one :dropin_address, :class_name => 'Address', 
+            :conditions => "address_type =  'dropin'"
+            
   has_and_belongs_to_many :states, :join_table => "locations_states", :association_foreign_key => "state_abbrev"
   has_and_belongs_to_many :counties, :join_table => "locations_counties"
 end

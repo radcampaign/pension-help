@@ -36,13 +36,13 @@ class PlansController < ApplicationController
   # POST /plans
   # POST /plans.xml
   def create
-    @plan = Plan.new(params[:plan])
+    @plan = @agency.plans.build(params[:plan])
 
     respond_to do |format|
       if @plan.save
         flash[:notice] = 'Plan was successfully created.'
-        format.html { redirect_to plan_url(@plan) }
-        format.xml  { head :created, :location => plan_url(@plan) }
+        format.html { redirect_to plan_url(@agency, @plan) }
+        format.xml  { head :created, :location => plan_url(@agency, @plan) }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @plan.errors.to_xml }
@@ -58,7 +58,7 @@ class PlansController < ApplicationController
     respond_to do |format|
       if @plan.update_attributes(params[:plan])
         flash[:notice] = 'Plan was successfully updated.'
-        format.html { redirect_to plan_url(@plan) }
+        format.html { redirect_to plan_url(@agency, @plan) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
