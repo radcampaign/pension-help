@@ -2,8 +2,7 @@
 
 <table id="admin_list">
   <tr>
-    <th>Name</th>
-    <th>Name2</th>
+    <th>Agency Name</th>
 		<th>State</th>
 		<th>Plan Category</th>
   </tr>
@@ -11,8 +10,9 @@
  	<% @agencies.each_with_index do |agency, i| %>
 	<% row_class = i%2 == 0 ? "even" : "odd" %> 
 	<tr class="<%= row_class %>">
-    <td><%= link_to (h agency.name), edit_agency_path(agency) %></td>
-    <td><%=h agency.name2 %></td>
+    <td><%= link_to (h agency.name), edit_agency_path(agency) %>
+		<% unless agency.name2.empty? -%>: <%=h agency.name2 %> <% end -%>
+		</td>
 		<td><% location = Location.find(:first, :conditions => ['agency_id = ?', agency.id])%>
 			<% unless location.nil?  || location.dropin_address.nil? -%>
 			 <%= location.dropin_address.state_abbrev  %>
