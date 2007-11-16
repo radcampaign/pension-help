@@ -149,6 +149,12 @@ table#admin_list {
 table#admin_list td {
 	padding: 4px 0;
 }
+table#admin_list th {
+	text-align: left;
+}
+table#admin_list th#plan_cat {
+	text-align: center;
+}
 li.agency_header {
 	margin: 0 0 15px;
 }
