@@ -63,6 +63,13 @@ a img {
 	background-repeat:no-repeat;
 }
 
+#admin_header {
+	width:773px;
+	height:76px;
+	background-image:url('/images/layout/header-admin.jpg');
+	background-repeat:no-repeat;
+}
+
 #feedback_header {
 	width:773px;
 	height:91px;

@@ -16,7 +16,7 @@
 </head>
 <body class="admin">
 	<div id="container">
-		<div class="header" id="site_header">
+		<div class="header" id="admin_header">
 			<div style="position:relative">
 			<a href="/" id="home_link"></a>
 			<%= link_to_function('',"ts('body',1)", :id => 'ts_increase_link')%>
@@ -59,19 +59,6 @@
 <%= yield  %>
 			</div>
 		</div>
-		<div id="footer">
-			<ul>
-				<li><%= link_to_unless_current 'Home', '/' %></li>
-				<li>|</li>
-				<li><%= link_to_unless_current 'About Us', '/about_us' %></li>
-				<li>|</li>
-				<li><%= link_to_unless_current 'Privacy',  '/privacy' %></li>
-				<li>|</li>
-				<li><%= link_to_unless_current 'Terms of Use',  '/terms_of_use' %></li>
-				<li>|</li>
-				<li><%= link_to_unless_current 'Feedback', :controller => :feedback %></li>
-			</ul>
-			<%= link_to_unless_current "Copyright &copy;#{Time.now.strftime('%Y')} Pension Rights Center", '/copyright' %>
-		</div>
+			<%= render :partial=>'layouts/footer' %>
 	</div>
 </body>

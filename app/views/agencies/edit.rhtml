@@ -5,7 +5,7 @@
 
 	<% form_for(:agency, :url => agency_path(@agency), :html => { :method => :put, :class => 'admin_form' }) do |f| %>
 		<ul>
-			<li id="agency_details" class="left">
+			<li id="agency_details" class="left agency_header">
 				<label class="desc">Agency Details</label><br/>
 				  <span><b>Is active: </b><%= f.check_box :is_active %>&nbsp;&nbsp;&nbsp;</span>
 					<span><b>Old Agency SN:</b> <%= @agency.legacy_code %>&nbsp;&nbsp;&nbsp;</span>
@@ -31,7 +31,7 @@
 				<% row_class = i%2 == 0 ? "even" : "odd" %> 
 				<tr class="<%= row_class %>">
 					<td class="hq"><input type="radio" id="1" name="loc_hq" checked="checked" /></td>
-					<td class="loc "><%= location.name %></td>
+					<td class="loc "><%= link_to (h location.name), edit_location_path(location) %></td>
 					<td class="city "><%  if location.dropin_address %>
 						<%= location.dropin_address.city %>, <%= location.dropin_address.state_abbrev %>
 					<%end -%></td>
@@ -44,7 +44,7 @@
 			  <%= submit_tag "Update" %>
 				
 				<%= link_to 'Add plan', new_plan_path(@agency) %> | 
-				<%= link_to 'Show', agency_path(@agency) %> |
+				<%= link_to 'Back to Agency list', :controller => :agencies %> |
 			</li>
 			</ul>
 			</form>

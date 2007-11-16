@@ -149,3 +149,6 @@ table#admin_list {
 table#admin_list td {
 	padding: 4px 0;
 }
+li.agency_header {
+	margin: 0 0 15px;
+}

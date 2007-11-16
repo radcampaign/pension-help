@@ -86,21 +86,7 @@
 						<%= @content_for_layout %>
 					</div>
 				</div>
-				<div id="footer">
-					<ul>
-						<li><%= link_to_unless_current 'Home', '/' %></li>
-						<li id="list_separator">|</li>
-						<li><%= link_to_unless_current 'About Us', '/about_us' %></li>
-						<li id="list_separator">|</li>
-						<li><%= link_to_unless_current 'Privacy',  '/privacy' %></li>
-						<li id="list_separator">|</li>
-						<li><%= link_to_unless_current 'Terms of Use',  '/terms_of_use' %></li>
-						<li id="list_separator">|</li>
-						<li><%= link_to_unless_current 'Feedback', :controller => :feedback %></li>
-					</ul>
-					<%= link_to_unless_current "Copyright &copy;#{Time.now.strftime('%Y')} Pension Rights Center", '/copyright' %>
-					<div id="print_disclaimer">All Rights Reserved with Permission of the Pension Rights Center.</div>
-				</div>
+			<%= render :partial=>'layouts/footer' %>
 			</td>
 		</tr>
 	</table>
