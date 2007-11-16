@@ -1,4 +1,6 @@
 class AgenciesController < ApplicationController
+  layout 'admin'
+  
   # GET /agencies
   # GET /agencies.xml
   def index

@@ -393,6 +393,10 @@ body.results div.group {
     padding: 0px 20px 0px 10px;
 }
 
+table tr.even {
+	background-color: #FDD;
+}
+
 /* Safari Hacks */
 
 #menu ul {

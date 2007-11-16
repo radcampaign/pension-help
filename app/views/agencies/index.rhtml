@@ -1,27 +1,16 @@
 <h1>Listing agencies</h1>
 
-<table>
+<table id="admin_list">
   <tr>
     <th>Name</th>
     <th>Name2</th>
-    <th>Data source</th>
-    <th>Is active</th>
-    <th>Url</th>
-    <th>Url title</th>
-    <th>Legacy code</th>
-    <th>Legacy subcode</th>
   </tr>
-  
-<% for agency in @agencies %>
-  <tr>
-    <td><%=h agency.name %></td>
+	
+ 	<% @agencies.each_with_index do |agency, i| %>
+	<% row_class = i%2 == 0 ? "even" : "odd" %> 
+	<tr class="<%= row_class %>">
+    <td><%= link_to (h agency.name), edit_agency_path(agency) %></td>
     <td><%=h agency.name2 %></td>
-    <td><%=h agency.data_source %></td>
-    <td><%=h agency.is_active %></td>
-    <td><%=h agency.url %></td>
-    <td><%=h agency.url_title %></td>
-    <td><%=h agency.legacy_code %></td>
-    <td><%=h agency.legacy_subcode %></td>
     <td><%= link_to 'Show', agency_path(agency) %></td>
     <td><%= link_to 'Edit', edit_agency_path(agency) %></td>
     <td><%= link_to 'Destroy', agency_path(agency), :confirm => 'Are you sure?', :method => :delete %></td>

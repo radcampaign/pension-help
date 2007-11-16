@@ -1,55 +1,53 @@
-<h1>Editing agency</h1>
+<h1>Agency / Plan Administration</h1>
 
 <%= error_messages_for :agency %>
 
-<% form_for(:agency, :url => agency_path(@agency), :html => { :method => :put }) do |f| %>
-  <p>
-    <b>Name</b><br />
-    <%= f.text_field :name %>
-  </p>
 
-  <p>
-    <b>Name2</b><br />
-    <%= f.text_field :name2 %>
-  </p>
+	<% form_for(:agency, :url => agency_path(@agency), :html => { :method => :put, :class => 'admin_form' }) do |f| %>
+		<ul>
+			<li id="agency_details" class="left">
+				<label class="desc">Agency Details</label><br/>
+				  <span><b>Is active: </b><%= f.check_box :is_active %>&nbsp;&nbsp;&nbsp;</span>
+					<span><b>Old Agency SN:</b> <%= @agency.legacy_code %>&nbsp;&nbsp;&nbsp;</span>
+					<span><b>Data Source:</b> <%= @agency.data_source %></span>
+			</li>
+			<li class="clear left">
+					<div class=""><%= f.text_field :name, {:size => 50}  %>
+					<label for="agency_name1">Agency Name 1</label></div>
+					<div class=""><%= f.text_field :name2, {:size => 50}  %>
+					<label for="agency_name2">Agency Name 2</label></div>
+					<div class=""><%= f.text_field :url_title, {:size => 50} %>
+					<label for="agency_url_title">URL Title (for display)</label></div>
+					<div class=""><%= f.text_field :url, {:size => 50}  %>
+					<label for="agency_url">URL</label></div>
+			</li>
+			<li class="left">
+			<table class="admin_table" id="loc_table" cellspacing="0">
+				<tr><th colspan="3" id="loc_title">AGENCY LOCATIONS</th></tr>
+					<tr><th class="hq">HQ</th>
+					<th class="loc">Location</th>
+					<th class="city">City, State</th></tr>
+				<% @agency.locations.each_with_index do |location, i| %>
+				<% row_class = i%2 == 0 ? "even" : "odd" %> 
+				<tr class="<%= row_class %>">
+					<td class="hq"><input type="radio" id="1" name="loc_hq" checked="checked" /></td>
+					<td class="loc "><%= location.name %></td>
+					<td class="city "><%  if location.dropin_address %>
+						<%= location.dropin_address.city %>, <%= location.dropin_address.state_abbrev %>
+					<%end -%></td>
+				</tr>
+				<% end %>
+			</table>
+			<%= link_to 'Add a new location', new_location_path(@agency), :class => 'add_new' %>
+			</li>
+			<li class="clear">
+			  <%= submit_tag "Update" %>
+				
+				<%= link_to 'Add plan', new_plan_path(@agency) %> | 
+				<%= link_to 'Show', agency_path(@agency) %> |
+			</li>
+			</ul>
+			</form>
+			
 
-  <p>
-    <b>Data source</b><br />
-    <%= f.text_field :data_source %>
-  </p>
-
-  <p>
-    <b>Is active</b><br />
-    <%= f.check_box :is_active %>
-  </p>
-
-  <p>
-    <b>Url</b><br />
-    <%= f.text_field :url %>
-  </p>
-
-  <p>
-    <b>Url title</b><br />
-    <%= f.text_field :url_title %>
-  </p>
-
-  <p>
-    <b>Legacy code</b><br />
-    <%= f.text_field :legacy_code %>
-  </p>
-
-  <p>
-    <b>Legacy subcode</b><br />
-    <%= f.text_field :legacy_subcode %>
-  </p>
-
-  <p>
-    <%= submit_tag "Update" %>
-  </p>
 <% end %>
-
-
-<%= link_to 'Add location', new_location_path(@agency) %> |
-<%= link_to 'Add plan', new_plan_path(@agency) %> | 
-<%= link_to 'Show', agency_path(@agency) %> |
-<%= link_to 'Back', agencies_path %>

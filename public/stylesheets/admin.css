@@ -1,0 +1,151 @@
+/* Admin form styles */
+body.admin #content {
+	width: 960px;
+	font-size: small;
+	font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif;
+}
+form.admin_form label.desc {
+	display: block;
+	font-weight: bold;
+	line-height: 150%;
+	font-size: small;
+}
+form.admin_form div label,
+form.admin_form span label {
+	clear: both;
+	display: block;
+	font-size: 9px;
+	margin: 0;
+	padding-top: 1px;
+}
+form.admin_form div,
+form.admin_form span {
+	padding-bottom: 8px;
+	margin-right: 4px;
+}	
+form.admin_form span {
+	float: left;
+	display:block;
+}
+form.admin_form .left {
+	float: left;
+	padding-right: 12px;
+}
+form.admin_form li {
+	list-style:none;
+}
+
+.admin_table {
+	border: 1px solid #00D6F0;
+}
+#loc_table {
+ width: 400px; 
+ margin: 0px 0 0 20px;
+}
+#plan_table {
+	width: 90%;
+	margin: 20px 0 0 0;
+}
+#loc_table #loc_title {
+	width: 400px;
+	text-align: center;
+}
+#plan_table #plan_title {
+	width: 90%;
+	text-align: center;
+}
+.admin_table .selected {
+	background-color: #DDD;
+}
+.admin_table th {
+	font-weight: bold;
+	background-color: #00D6F0;
+}
+.admin_table th,
+.admin_table td {
+	padding: 2px 6px;
+	border-bottom: 1px solid #EEE;
+	text-align:left;
+}
+#loc_table .hq {
+	width: 20px;
+}
+#loc_table .loc,
+#loc_table .city {
+	width: 175px;
+}
+#loc_table .hq input {
+	margin:0;
+	padding:0;
+}
+#loc_detail, #plan_detail {
+	clear: both;
+	padding: 4px;
+	margin: 12px 0;
+	background-color:#FEE;
+	border: 1px solid #c00;
+}
+.clear {
+	clear: both;
+}
+form.admin_form .radio_group {
+	border: 1px solid #333;
+}
+form.admin_form table#coverage td {
+	padding: 2px 8px;
+}
+#area_textbox {
+	width: 400px;
+}
+#loc_detail #phone_web {
+	width: 90%;
+}
+#status_group {
+	padding: 8px 0 0 4px;
+	margin-bottom: 10px;
+}
+.right {
+	float: right;
+	height: 1px;
+}
+#govt_emp_type {
+	margin-bottom: 12px;
+}
+form.admin_form textarea {
+	margin: 0 12px 0 0;
+}
+form.admin_form fieldset {
+	display: inline;
+	padding: 8px 8px 0px;
+}
+a.close_window {
+background:url(close.gif) no-repeat center;
+	float: right;
+	width: 11px;
+	height: 11px;
+	padding: 2px;
+	border:1px solid #F00;
+}
+a.close_window:hover {
+	text-decoration: none;
+	cursor:pointer;
+}
+a.add_new {
+	background:url(add.gif) no-repeat left;
+	padding-left: 14px;
+	display:block;
+	margin: 8px 0 24px 30px;
+	text-decoration:none;
+}
+.fullwidth {
+	width: 100%;
+}
+#plan_detail #geog_restr {
+	width: 575px;
+}
+table#admin_list {
+	width: 100%;
+}
+table#admin_list td {
+	padding: 4px 0;
+}
