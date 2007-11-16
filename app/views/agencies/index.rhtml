@@ -1,4 +1,4 @@
-<h1>Listing agencies</h1>
+<h1>Agency List</h1>
 
 <table id="admin_list">
   <tr>
@@ -22,9 +22,6 @@
 				<%= PlanCategory.find(plan.plan_category_id).name %>
 			<% end -%>
 		</td>
-    <td><%= link_to 'Show', agency_path(agency) %></td>
-    <td><%= link_to 'Edit', edit_agency_path(agency) %></td>
-    <td><%= link_to 'Destroy', agency_path(agency), :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>

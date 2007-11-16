@@ -58,7 +58,7 @@ class LocationsController < ApplicationController
     respond_to do |format|
       if @location.update_attributes(params[:location])
         flash[:notice] = 'Location was successfully updated.'
-        format.html { redirect_to location_url(@agency, @location) }
+        format.html { redirect_to edit_agency_url(@agency) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

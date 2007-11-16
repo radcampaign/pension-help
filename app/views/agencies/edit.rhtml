@@ -31,7 +31,7 @@
 				<% row_class = i%2 == 0 ? "even" : "odd" %>
 				<tr class="<%= row_class %>">
 					<td class="hq"><input type="radio" id="1" name="loc_hq" checked="checked" /></td>
-					<td class="loc "><%= link_to (h location.name), edit_location_url(:id => location, :agency_id => @agency) %></td>
+					<td class="loc "><%= link_to (h location.name), edit_location_path(:id => location, :agency_id => @agency) %></td>
 					<td class="city "><%  if location.dropin_address %>
 						<%= location.dropin_address.city %>, <%= location.dropin_address.state_abbrev %>
 					<%end -%></td>

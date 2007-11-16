@@ -58,7 +58,7 @@ class AgenciesController < ApplicationController
     respond_to do |format|
       if @agency.update_attributes(params[:agency])
         flash[:notice] = 'Agency was successfully updated.'
-        format.html { redirect_to agency_url(@agency) }
+        format.html { redirect_to agencies_url() }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
