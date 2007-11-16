@@ -28,10 +28,10 @@
 					<th class="loc">Location</th>
 					<th class="city">City, State</th></tr>
 				<% @agency.locations.each_with_index do |location, i| %>
-				<% row_class = i%2 == 0 ? "even" : "odd" %> 
+				<% row_class = i%2 == 0 ? "even" : "odd" %>
 				<tr class="<%= row_class %>">
 					<td class="hq"><input type="radio" id="1" name="loc_hq" checked="checked" /></td>
-					<td class="loc "><%= link_to (h location.name), edit_location_path(location) %></td>
+					<td class="loc "><%= link_to (h location.name), edit_location_url(:id => location, :agency_id => @agency) %></td>
 					<td class="city "><%  if location.dropin_address %>
 						<%= location.dropin_address.city %>, <%= location.dropin_address.state_abbrev %>
 					<%end -%></td>
@@ -42,12 +42,11 @@
 			</li>
 			<li class="clear">
 			  <%= submit_tag "Update" %>
-				
 				<%= link_to 'Add plan', new_plan_path(@agency) %> | 
-				<%= link_to 'Back to Agency list', :controller => :agencies %> |
+				<%= link_to 'Back to Agency list', :controller => :agencies %>
 			</li>
 			</ul>
 			</form>
-			
+			<%= render :partial => 'location_detail' %>
 
 <% end %>

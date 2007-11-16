@@ -4,6 +4,8 @@
   <tr>
     <th>Name</th>
     <th>Name2</th>
+		<th>State</th>
+		<th>Plan Category</th>
   </tr>
 	
  	<% @agencies.each_with_index do |agency, i| %>
@@ -11,6 +13,15 @@
 	<tr class="<%= row_class %>">
     <td><%= link_to (h agency.name), edit_agency_path(agency) %></td>
     <td><%=h agency.name2 %></td>
+		<td><% location = Location.find(:first, :conditions => ['agency_id = ?', agency.id])%>
+			<% unless location.nil?  || location.dropin_address.nil? -%>
+			 <%= location.dropin_address.state_abbrev  %>
+			<% end -%></td>
+		<td><% plan = Plan.find(:first, :conditions => ['agency_id =?', agency.id])%>
+			<% unless plan.nil? || plan.plan_category_id.nil? -%>
+				<%= PlanCategory.find(plan.plan_category_id).name %>
+			<% end -%>
+		</td>
     <td><%= link_to 'Show', agency_path(agency) %></td>
     <td><%= link_to 'Edit', edit_agency_path(agency) %></td>
     <td><%= link_to 'Destroy', agency_path(agency), :confirm => 'Are you sure?', :method => :delete %></td>
