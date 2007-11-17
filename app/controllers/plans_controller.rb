@@ -4,23 +4,13 @@ class PlansController < ApplicationController
   # GET /plans
   # GET /plans.xml
   def index
-    @plans = @agency.plans.find(:all)
-
-    respond_to do |format|
-      format.html # index.rhtml
-      format.xml  { render :xml => @plans.to_xml }
-    end
+    redirect_to agencies_url
   end
 
   # GET /plans/1
   # GET /plans/1.xml
   def show
-    @plan = @agency.plans.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.rhtml
-      format.xml  { render :xml => @plan.to_xml }
-    end
+    redirect_to edit_agency_url(@agency) 
   end
 
   # GET /plans/new
@@ -31,6 +21,7 @@ class PlansController < ApplicationController
   # GET /plans/1;edit
   def edit
     @plan = @agency.plans.find(params[:id])
+    render :partial => 'plans/plan_detail', :layout => false
   end
 
   # POST /plans
@@ -41,11 +32,9 @@ class PlansController < ApplicationController
     respond_to do |format|
       if @plan.save
         flash[:notice] = 'Plan was successfully created.'
-        format.html { redirect_to plan_url(@agency, @plan) }
-        format.xml  { head :created, :location => plan_url(@agency, @plan) }
+        format.html { redirect_to edit_agency_url(@agency) }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @plan.errors.to_xml }
       end
     end
   end
@@ -58,11 +47,9 @@ class PlansController < ApplicationController
     respond_to do |format|
       if @plan.update_attributes(params[:plan])
         flash[:notice] = 'Plan was successfully updated.'
-        format.html { redirect_to plan_url(@agency, @plan) }
-        format.xml  { head :ok }
+        format.html { redirect_to edit_agency_url(@agency) }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @plan.errors.to_xml }
       end
     end
   end
@@ -74,8 +61,7 @@ class PlansController < ApplicationController
     @plan.destroy
 
     respond_to do |format|
-      format.html { redirect_to plans_url }
-      format.xml  { head :ok }
+      format.html { redirect_to edit_agency_url(@agency) }
     end
   end
   

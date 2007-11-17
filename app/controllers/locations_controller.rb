@@ -4,23 +4,13 @@ class LocationsController < ApplicationController
   # GET /locations
   # GET /locations.xml
   def index
-    @locations = @agency.locations.find(:all)
-
-    respond_to do |format|
-      format.html # index.rhtml
-      format.xml  { render :xml => @locations.to_xml }
-    end
+    redirect_to agencies_url
   end
 
   # GET /locations/1
   # GET /locations/1.xml
   def show
-    @location = @agency.locations.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.rhtml
-      format.xml  { render :xml => @location.to_xml }
-    end
+    redirect_to edit_agency_url(@agency) 
   end
 
   # GET /locations/new
@@ -31,6 +21,7 @@ class LocationsController < ApplicationController
   # GET /locations/1;edit
   def edit
     @location = @agency.locations.find(params[:id])
+    render :partial => 'locations/location_detail', :layout => false
   end
 
   # POST /locations
@@ -41,11 +32,9 @@ class LocationsController < ApplicationController
     respond_to do |format|
       if @location.save
         flash[:notice] = 'Location was successfully created.'
-        format.html { redirect_to location_url(@agency, @location) }
-        format.xml  { head :created, :location => location_url(@agency, @location) }
+        format.html { redirect_to edit_agency_url(@agency) }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @location.errors.to_xml }
       end
     end
   end
@@ -59,10 +48,8 @@ class LocationsController < ApplicationController
       if @location.update_attributes(params[:location])
         flash[:notice] = 'Location was successfully updated.'
         format.html { redirect_to edit_agency_url(@agency) }
-        format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @location.errors.to_xml }
       end
     end
   end
@@ -74,8 +61,7 @@ class LocationsController < ApplicationController
     @location.destroy
 
     respond_to do |format|
-      format.html { redirect_to locations_url }
-      format.xml  { head :ok }
+      format.html { redirect_to edit_agency_url(@agency) }
     end
   end
   

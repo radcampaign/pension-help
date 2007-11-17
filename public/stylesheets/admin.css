@@ -39,7 +39,7 @@ form.admin_form li {
 	border: 1px solid #00D6F0;
 }
 #loc_table {
- width: 400px; 
+ width: 390px; 
  margin: 0px 0 0 20px;
 }
 #plan_table {
@@ -152,9 +152,12 @@ table#admin_list td {
 table#admin_list th {
 	text-align: left;
 }
-table#admin_list th#plan_cat {
+table#admin_list .center {
 	text-align: center;
 }
 li.agency_header {
 	margin: 0 0 15px;
+}
+.wip {
+	color: #F00;
 }

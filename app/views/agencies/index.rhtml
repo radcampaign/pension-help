@@ -4,20 +4,20 @@
   <tr>
     <th>Agency Name</th>
 		<th>State</th>
-		<th id="plan_cat">Plan Category</th>
+		<th class="center">Plan Category</th>
   </tr>
 	
  	<% @agencies.each_with_index do |agency, i| %>
 	<% row_class = i%2 == 0 ? "even" : "odd" %> 
 	<tr class="<%= row_class %>">
     <td><%= link_to (h agency.name), edit_agency_path(agency) %>
-		<% unless agency.name2.empty? -%>: <%=h agency.name2 %> <% end -%>
+		<% unless agency.name2.empty? -%><br/>&nbsp;&nbsp;&nbsp;&nbsp;<%=h agency.name2 %> <% end -%>
 		</td>
-		<td><% location = Location.find(:first, :conditions => ['agency_id = ?', agency.id])%>
+		<td class="center"><% location = Location.find(:first, :conditions => ['agency_id = ?', agency.id])%>
 			<% unless location.nil?  || location.dropin_address.nil? -%>
 			 <%= location.dropin_address.state_abbrev  %>
 			<% end -%></td>
-		<td><% plan = Plan.find(:first, :conditions => ['agency_id =?', agency.id])%>
+		<td class="center"><% plan = Plan.find(:first, :conditions => ['agency_id =?', agency.id])%>
 			<% unless plan.nil? || plan.plan_category_id.nil? -%>
 				<%= PlanCategory.find(plan.plan_category_id).name %>
 			<% end -%>

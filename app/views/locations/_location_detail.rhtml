@@ -1,0 +1,87 @@
+<div id="loc_detail" >
+<a class="close_window" onclick="$('loc_detail').hide()">&nbsp;</a>							
+<h2>Location Detail</h2>
+<% error_messages_for :location %>
+<% form_for :location, @location,
+            :url => location_path(@agency), 
+            :html => {:method => :put, :class => 'admin_form'} do |f| %>
+<ul>
+<li class="clear left">
+	<div><%= f.text_field :name, :size => 100 %><label>Location Name</label></div>
+</li>
+<li id="agency_mail" class="clear left">
+	<label class="desc">Drop-in Address</label>
+	<div><% line1 = @location.dropin_address.line1 if @location.dropin_address %><%= text_field_tag line1, line1, :size => 50 %>
+	<label class="wip">Street Address 1</label></div>
+	<div><% line2 = @location.dropin_address.line2 if @location.dropin_address %><%= text_field_tag line2, line2, :size => 50 %>
+	<label class="wip">Street Address 2</label></div>	
+	<span><% city = @location.dropin_address.city if @location.dropin_address %><%= text_field_tag city, city, :size => 30 %>
+	<label class="wip">City</label></span>
+	<span><% state = @location.dropin_address.state_abbrev if @location.dropin_address %><%= text_field_tag state, state, :size => 2 %>
+		<!-- TODO: Fix this -->
+		<!--  collection_select(@location.dropin_address, :state_abbrev, State.find_all, @location.dropin_address.state_abbrev, :name, options={:prompt => "-- Select One --"}) %> -->
+		<label class="wip">State</label></span>
+		<span><% zip = @location.dropin_address.zip if @location.dropin_address %><%= text_field_tag zip, zip, :size => 5 %>
+		<label class="wip">Zip Code</label></span>
+</li>
+<li id="agency_mail" class="left">
+	<label class="desc">Mailing Address</label>
+	<div><% line1 = @location.mailing_address.line1 if @location.mailing_address %><%= text_field_tag line1, line1, :size => 50 %>
+	<label class="wip">Street Address 1</label></div>
+	<div><% line2 = @location.mailing_address.line2 if @location.mailing_address %><%= text_field_tag line2, line2, :size => 50 %>
+	<label class="wip">Street Address 2</label></div>	
+	<span><% city = @location.mailing_address.city if @location.mailing_address %><%= text_field_tag city, city, :size => 30 %>
+	<label class="wip">City</label></span>
+	<span><% state = @location.mailing_address.state_abbrev if @location.mailing_address %><%= text_field_tag state, state, :size => 2 %>
+		<!-- TODO: Fix this -->
+		<!--  collection_select(@location.mailing_address, :state_abbrev, State.find_all, @location.mailing_address.state_abbrev, :name, options={:prompt => "-- Select One --"}) %> -->
+		<label class="wip">State</label></span>
+		<span><% zip = @location.mailing_address.zip if @location.mailing_address %><%= text_field_tag zip, zip, :size => 5 %>
+		<label class="wip">Zip Code</label></span>
+</li>
+		<li class="clear left">
+			<span><%= f.text_area :logistics, :rows => 5, :cols => 37 %>
+			<label>Logistics</label></span>
+			<span><%= f.text_area :hours_of_operation, :rows => 5, :cols => 37 %>
+			<label>Hours of Operation</label></span>
+		</li>
+		<li class="clear left">
+			<label class="desc wip">Service&nbsp;Geography&nbsp;Type</label>
+			<table class="radio_group">
+				<tr><td><input type="radio" name="geo_coverage" id="1"/>&nbsp;<label>State</label></td>
+				<td><input type="radio" name="geo_coverage" id="2"/>&nbsp;<label>City</label></td>
+				<td><input type="radio" name="geo_coverage" id="3"/>&nbsp;<label>Other</label></td></tr>
+				<tr><td><input type="radio" name="geo_coverage" id="4"/>&nbsp;<label>County</label></td>
+				<td><input type="radio" name="geo_coverage" id="5"/>&nbsp;<label>Zip&nbsp;Code</label></td></tr>
+			</table>
+		</li>
+		
+		<li class="left">
+			<label class="desc wip">Area Served</label>
+			<textarea name="area_served" id="area_textbox" cols="40" rows="2"></textarea>
+		</li>
+
+		<li class="clear left" id="phone_web">
+			<label class="desc">Phone and Web Contact Information</label>
+			<fieldset><legend>Toll Free Phone</legend>
+			<span><%= f.text_field :tollfree, :size => 15 %><label for="tollfree">Toll Free Phone</label></span>
+			<span><%= f.text_field :tollfree_ext, :size => 8 %><label for="tollfree">Ext</label></span>
+			</fieldset>
+			<fieldset><legend>Local Phone</legend>
+			<span><%= f.text_field :phone, :size => 15 %><label for="local">Local Phone</label></span>
+			<span><%= f.text_field :phone_ext, :size => 8 %><label for="tollfree">Ext</label></span>
+			</fieldset>
+			<fieldset><legend>TTY</legend>
+			<span><%= f.text_field :tty, :size => 15 %><label for="tty">TTY</label></span>
+			<span><%= f.text_field :tty_ext, :size => 8 %><label for="tollfree">Ext</label></span>
+			</fieldset>
+			<fieldset><legend>Fax</legend>
+			<span><%= f.text_field :fax, :size => 15 %><label for="fax">Fax</label></span><br/>
+			</fieldset>
+			<span><%= f.text_field :email, :size => 30 %><label for="email">Email</label></span>									</li>
+		<li class="clear"><input type="submit" value="save location details"/></li>
+		</ul>
+<% end -%>
+
+<div class="clear"></div>
+</div>

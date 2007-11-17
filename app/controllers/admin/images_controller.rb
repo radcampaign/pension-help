@@ -1,6 +1,6 @@
 class Admin::ImagesController < ApplicationController
   def index
-    @images = Image.find(:all, :conditions => 'thumbnail is null')
+    @images = Image.find(:all, :conditions => 'thumbnail is null') #get list of images here
     respond_to do |format|
       format.html
       format.js
