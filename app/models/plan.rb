@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 16
+# Schema version: 19
 #
 # Table name: plans
 #
@@ -14,6 +14,9 @@
 #  description         :text          
 #  service_description :text          
 #  comments            :text          
+#  status              :string(255)   
+#  govt_employee_type  :string(255)   
+#  special_district    :string(255)   
 #  plan_type1          :string(255)   
 #  plan_type2          :string(255)   
 #  plan_type3          :string(255)   
@@ -25,10 +28,11 @@
 #  tpa_url_title       :string(255)   
 #  spd_url             :string(255)   
 #  spd_url_title       :string(255)   
-#  plan_category_id    :integer(11)   
 #  created_at          :datetime      
 #  updated_at          :datetime      
 #  updated_by          :string(255)   
+#  age_threshold       :decimal(5, 2) 
+#  income_threshold    :decimal(9, 2) 
 #
 
 class Plan < ActiveRecord::Base
@@ -37,6 +41,4 @@ class Plan < ActiveRecord::Base
   has_and_belongs_to_many :zips, :join_table => "plans_zips", :association_foreign_key => "zipcode"
   has_and_belongs_to_many :cities, :join_table => "plans_cities"
   has_and_belongs_to_many :counties, :join_table => "plans_counties"
-
-  has_enumerated :plan_category
 end

@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 18) do
+ActiveRecord::Schema.define(:version => 19) do
 
   create_table "addresses", :force => true do |t|
     t.column "line1",        :string
@@ -17,18 +17,21 @@ ActiveRecord::Schema.define(:version => 18) do
   add_index "addresses", ["location_id"], :name => "location_id"
 
   create_table "agencies", :force => true do |t|
-    t.column "name",           :string
-    t.column "name2",          :string
-    t.column "data_source",    :string
-    t.column "is_active",      :boolean
-    t.column "url",            :string
-    t.column "url_title",      :string
-    t.column "legacy_code",    :string
-    t.column "legacy_subcode", :string
-    t.column "created_at",     :datetime
-    t.column "updated_at",     :datetime
-    t.column "updated_by",     :string
+    t.column "name",             :string
+    t.column "name2",            :string
+    t.column "data_source",      :string
+    t.column "is_active",        :boolean
+    t.column "url",              :string
+    t.column "url_title",        :string
+    t.column "legacy_code",      :string
+    t.column "legacy_subcode",   :string
+    t.column "created_at",       :datetime
+    t.column "updated_at",       :datetime
+    t.column "updated_by",       :string
+    t.column "plan_category_id", :integer
   end
+
+  add_index "agencies", ["plan_category_id"], :name => "plan_category_id"
 
   create_table "cities", :force => true do |t|
     t.column "name",         :string
@@ -179,14 +182,14 @@ ActiveRecord::Schema.define(:version => 18) do
     t.column "tpa_url_title",       :string
     t.column "spd_url",             :string
     t.column "spd_url_title",       :string
-    t.column "plan_category_id",    :integer
     t.column "created_at",          :datetime
     t.column "updated_at",          :datetime
     t.column "updated_by",          :string
+    t.column "age_threshold",       :decimal,  :precision => 5, :scale => 2
+    t.column "income_threshold",    :decimal,  :precision => 9, :scale => 2
   end
 
   add_index "plans", ["agency_id"], :name => "agency_id"
-  add_index "plans", ["plan_category_id"], :name => "plan_category_id"
 
   create_table "plans_cities", :id => false, :force => true do |t|
     t.column "plan_id", :integer, :null => false
@@ -296,6 +299,8 @@ ActiveRecord::Schema.define(:version => 18) do
 
   add_foreign_key "addresses", ["location_id"], "locations", ["id"], :name => "addresses_ibfk_1"
 
+  add_foreign_key "agencies", ["plan_category_id"], "plan_categories", ["id"], :name => "agencies_ibfk_1"
+
   add_foreign_key "cities", ["county_id"], "counties", ["id"], :name => "cities_ibfk_1"
 
   add_foreign_key "images", ["parent_id"], "images", ["id"], :name => "images_ibfk_1"
@@ -308,7 +313,6 @@ ActiveRecord::Schema.define(:version => 18) do
   add_foreign_key "locations_states", ["location_id"], "locations", ["id"], :name => "locations_states_ibfk_1"
 
   add_foreign_key "plans", ["agency_id"], "agencies", ["id"], :name => "plans_ibfk_1"
-  add_foreign_key "plans", ["plan_category_id"], "plan_categories", ["id"], :name => "plans_ibfk_2"
 
   add_foreign_key "plans_cities", ["plan_id"], "plans", ["id"], :name => "plans_cities_ibfk_1"
   add_foreign_key "plans_cities", ["city_id"], "cities", ["id"], :name => "plans_cities_ibfk_2"
