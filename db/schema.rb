@@ -33,6 +33,16 @@ ActiveRecord::Schema.define(:version => 19) do
 
   add_index "agencies", ["plan_category_id"], :name => "plan_category_id"
 
+  create_table "agency_categories", :force => true do |t|
+    t.column "name",     :string
+    t.column "position", :integer
+  end
+
+  create_table "agency_types", :force => true do |t|
+    t.column "name",     :string
+    t.column "position", :integer
+  end
+
   create_table "cities", :force => true do |t|
     t.column "name",         :string
     t.column "county_id",    :integer
@@ -255,6 +265,20 @@ ActiveRecord::Schema.define(:version => 19) do
   create_table "states", :id => false, :force => true do |t|
     t.column "abbrev", :string, :limit => 2,  :null => false
     t.column "name",   :string, :limit => 50
+  end
+
+  create_table "taggings", :force => true do |t|
+    t.column "tag_id",        :integer
+    t.column "taggable_id",   :integer
+    t.column "taggable_type", :string
+    t.column "created_at",    :datetime
+  end
+
+  add_index "taggings", ["tag_id"], :name => "index_taggings_on_tag_id"
+  add_index "taggings", ["taggable_id", "taggable_type"], :name => "index_taggings_on_taggable_id_and_taggable_type"
+
+  create_table "tags", :force => true do |t|
+    t.column "name", :string
   end
 
   create_table "users", :force => true do |t|

@@ -26,4 +26,4 @@ mysql> insert into counties select distinct null, county, county_fips, state_abb
 
 mysql> insert into zips select distinct zipcode, state_abbrev from zip_import;                      
 
-mysql> insert into cities select distinct z.city, c.id, z.state_abbrev from zip_import z join counties c on z.county = c.name and z.state_abbrev=c.state_abbrev;
+mysql> insert into cities select distinct null, z.city, c.id, z.state_abbrev from zip_import z join counties c on z.county = c.name and z.state_abbrev=c.state_abbrev;

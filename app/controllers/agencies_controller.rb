@@ -4,7 +4,9 @@ class AgenciesController < ApplicationController
   # GET /agencies
   # GET /agencies.xml
   def index
-    @agencies = Agency.find(:all)
+    order = SORT_ORDER[params[:order]] if params[:order]
+    order = 'agencies.name asc' unless order
+    @agencies = Agency.find(:all, :include => [:dropin_addresses], :order => order)
 
     respond_to do |format|
       format.html # index.rhtml
@@ -78,4 +80,10 @@ class AgenciesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  private
+  SORT_ORDER = { 
+    'name' => 'agencies.name',
+    'state' => 'if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev)'
+    }
 end

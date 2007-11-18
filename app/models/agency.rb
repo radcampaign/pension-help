@@ -21,6 +21,7 @@
 class Agency < ActiveRecord::Base
   has_many :locations
   has_many :plans
+  has_many :dropin_addresses, :through => :locations, :source => :addresses, :conditions => "address_type = 'dropin'", :limit => 1
 
   has_enumerated :plan_category
   

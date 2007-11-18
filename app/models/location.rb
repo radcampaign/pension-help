@@ -25,6 +25,7 @@
 
 class Location < ActiveRecord::Base
   belongs_to :agency
+  has_many :addresses
   
   has_one :mailing_address, :class_name => 'Address', 
             :conditions => "address_type = 'mailing'"

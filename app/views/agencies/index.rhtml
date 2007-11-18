@@ -13,14 +13,11 @@
     <td><%= link_to (h agency.name), edit_agency_path(agency) %>
 		<% unless agency.name2.empty? -%><br/>&nbsp;&nbsp;&nbsp;&nbsp;<%=h agency.name2 %> <% end -%>
 		</td>
-		<td class="center"><% location = Location.find(:first, :conditions => ['agency_id = ?', agency.id])%>
-			<% unless location.nil?  || location.dropin_address.nil? -%>
-			 <%= location.dropin_address.state_abbrev  %>
-			<% end -%></td>
-		<td class="center"><% plan = Plan.find(:first, :conditions => ['agency_id =?', agency.id])%>
-			<% unless plan.nil? || plan.plan_category_id.nil? -%>
-				<%= PlanCategory.find(plan.plan_category_id).name %>
-			<% end -%>
+		<td class="center">
+			 <%= agency.dropin_addresses.first.state_abbrev unless agency.dropin_addresses.empty? %>
+		</td>
+		<td class="center">
+		  <%= agency.plan_category.name if agency.plan_category %>
 		</td>
   </tr>
 <% end %>
@@ -29,3 +26,5 @@
 <br />
 
 <%= link_to 'New agency', new_agency_path %>
+
+
