@@ -9,4 +9,5 @@
 
 class State < ActiveRecord::Base
   self.primary_key = 'abbrev'
+  has_many :counties, :foreign_key => 'state_abbrev'
 end

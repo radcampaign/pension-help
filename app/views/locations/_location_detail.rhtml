@@ -52,7 +52,7 @@
 			<%= options_for_select State.find(:all, :order => 'abbrev').collect{|s| [s.name, s.abbrev]}, @location.state_abbrevs %>
 			</select>
 			<select name="county_ids[]" multiple=true size=6>
-			  <option>Please select a state</option>
+  			<%= options_for_select @location.states.collect{|s| s.counties}.flatten.collect{|c| [c.name, c.id]}, @location.county_ids %>
 			</select>
 		</li>
 
