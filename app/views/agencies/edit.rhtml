@@ -6,15 +6,18 @@
 	<% form_for(:agency, :url => agency_path(@agency), :html => { :method => :put, :class => 'admin_form' }) do |f| %>
 		<ul>
 			<li id="agency_details" class="left agency_header">
-				<label class="desc">Agency Details</label><br/>
+					<% plan = Plan.find(:first, :conditions => ['agency_id =?', @agency.id])%>
+					<% unless plan.nil? || plan.plan_category_id.nil? -%>
+						<span><b>Plan category:</b>	<%= PlanCategory.find(plan.plan_category_id).name %>&nbsp;&nbsp;&nbsp;</span>
+					<% end -%>
 				  <span><b>Is active: </b><%= f.check_box :is_active %>&nbsp;&nbsp;&nbsp;</span>
 					<span><b>Old Agency SN:</b> <%= @agency.legacy_code %>&nbsp;&nbsp;&nbsp;</span>
 					<span><b>Data Source:</b> <%= @agency.data_source %></span>
 			</li>
 			<li class="clear left">
-					<div class=""><%= f.text_field :name, {:size => 80}  %>
+					<div class=""><%= f.text_field :name, {:size => 78}  %>
 					<label for="agency_name1">Agency Name 1</label></div>
-					<div class=""><%= f.text_field :name2, {:size => 80}  %>
+					<div class=""><%= f.text_field :name2, {:size => 78}  %>
 					<label for="agency_name2">Agency Name 2</label></div>
 					<div class=""><%= f.text_field :url_title, {:size => 50} %>
 					<label for="agency_url_title">URL Title (for display)</label></div>
