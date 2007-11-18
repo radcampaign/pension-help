@@ -84,6 +84,7 @@ class AgenciesController < ApplicationController
   private
   SORT_ORDER = { 
     'name' => 'agencies.name',
-    'state' => 'if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev)'
+    'state' => 'if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev)',
+    'plan' => 'if(agencies.plan_category_id is null or agencies.plan_category_id="", "9999", agencies.plan_category_id)',
     }
 end
