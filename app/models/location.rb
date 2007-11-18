@@ -23,7 +23,7 @@
 #  updated_by         :string(255)   
 #
 
-class Location < ActiveRecord::Base
+class Location < ActiveRecord::Base  
   belongs_to :agency
   has_many :addresses
   
@@ -34,4 +34,13 @@ class Location < ActiveRecord::Base
             
   has_and_belongs_to_many :states, :join_table => "locations_states", :association_foreign_key => "state_abbrev"
   has_and_belongs_to_many :counties, :join_table => "locations_counties"
+  
+  def state_abbrevs
+    states.collect(&:abbrev)
+  end
+  
+  def county_ids
+    counties.collect(&:id)
+  end
+  
 end

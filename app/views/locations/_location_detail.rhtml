@@ -25,19 +25,19 @@
 		<label class="wip">Zip Code</label></span>
 </li>
 <li id="agency_mail" class="left">
-	<label class="desc">Mailing Address</label>
-	<div><% line1 = @location.mailing_address.line1 if @location.mailing_address %><%= text_field_tag line1, line1, :size => 50 %>
-	<label class="wip">Street Address 1</label></div>
-	<div><% line2 = @location.mailing_address.line2 if @location.mailing_address %><%= text_field_tag line2, line2, :size => 50 %>
+  <% fields_for :mailing_address, @location.mailing_address do |m_addr| %>
+  <label class="desc">Mailing Address</label>
+	<div><%= m_addr.text_field :line1, :size => 50 %>
+	<label class="wip">Street Address 1</label></div>  
+	<div><%= m_addr.text_field :line2, :size => 50 %>
 	<label class="wip">Street Address 2</label></div>	
-	<span><% city = @location.mailing_address.city if @location.mailing_address %><%= text_field_tag city, city, :size => 30 %>
+	<span><%= m_addr.text_field :city, :size => 30 %>
 	<label class="wip">City</label></span>
-	<span><% state = @location.mailing_address.state_abbrev if @location.mailing_address %><%= text_field_tag state, state, :size => 2 %>
-		<!-- TODO: Fix this -->
-		<!--  collection_select(@location.mailing_address, :state_abbrev, State.find_all, @location.mailing_address.state_abbrev, :name, options={:prompt => "-- Select One --"}) %> -->
+	<span><%= m_addr.select :state_abbrev, State.find(:all, :order => 'abbrev').collect(&:abbrev) %>
 		<label class="wip">State</label></span>
-		<span><% zip = @location.mailing_address.zip if @location.mailing_address %><%= text_field_tag zip, zip, :size => 5 %>
+		<span><%= m_addr.text_field :zip, :size => 5 %>
 		<label class="wip">Zip Code</label></span>
+  <% end %>
 </li>
 		<li class="clear left">
 			<span><%= f.text_area :logistics, :rows => 5, :cols => 37 %>
@@ -45,20 +45,15 @@
 			<span><%= f.text_area :hours_of_operation, :rows => 5, :cols => 37 %>
 			<label>Hours of Operation</label></span>
 		</li>
-		<li class="clear left">
-			<label class="desc wip">Service&nbsp;Geography&nbsp;Type</label>
-			<table class="radio_group">
-				<tr><td><input type="radio" name="geo_coverage" id="1"/>&nbsp;<label>State</label></td>
-				<td><input type="radio" name="geo_coverage" id="2"/>&nbsp;<label>City</label></td>
-				<td><input type="radio" name="geo_coverage" id="3"/>&nbsp;<label>Other</label></td></tr>
-				<tr><td><input type="radio" name="geo_coverage" id="4"/>&nbsp;<label>County</label></td>
-				<td><input type="radio" name="geo_coverage" id="5"/>&nbsp;<label>Zip&nbsp;Code</label></td></tr>
-			</table>
-		</li>
 		
 		<li class="left">
 			<label class="desc wip">Area Served</label>
-			<textarea name="area_served" id="area_textbox" cols="40" rows="2"></textarea>
+			<select name="state_abbrevs[]" multiple=true size=6>
+			<%= options_for_select State.find(:all, :order => 'abbrev').collect{|s| [s.name, s.abbrev]}, @location.state_abbrevs %>
+			</select>
+			<select name="county_ids[]" multiple=true size=6>
+			  <option>Please select a state</option>
+			</select>
 		</li>
 
 		<li class="clear left" id="phone_web">

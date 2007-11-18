@@ -43,9 +43,17 @@ class LocationsController < ApplicationController
   # PUT /locations/1.xml
   def update
     @location = @agency.locations.find(params[:id])
+    if @location.mailing_address
+      @location.mailing_address.update_attributes(params[:mailing_address])
+    else
+      @location.create_mailing_address(params[:mailing_address])
+    end  
+    @location.states = params[:state_abbrevs].collect{|s| State.find(s)}
+    @location.counties = params[:county_ids].collect{|c| County.find(c)}
 
     respond_to do |format|
       if @location.update_attributes(params[:location])
+        
         flash[:notice] = 'Location was successfully updated.'
         format.html { redirect_to edit_agency_url(@agency) }
       else
