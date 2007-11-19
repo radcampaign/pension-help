@@ -3,7 +3,7 @@
 
 class ApplicationController < ActionController::Base
   include AuthenticatedSystem
-  include ExceptionNotifiable
+  #include ExceptionNotifiable
 
   
   # Pick a unique cookie name to distinguish our session data from others'
