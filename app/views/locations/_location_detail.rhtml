@@ -3,58 +3,73 @@
 <h2>Location Detail</h2>
 <% error_messages_for :location %>
 <% form_for :location, @location,
-            :url => location_path(@agency), 
-            :html => {:method => :put, :class => 'admin_form'} do |f| %>
-<ul>
+            :url => (@location.id ? location_path(:agency_id => @agency.id, :location_id => @location.id) : locations_path),
+            :html => {:method => (@location.id ? :put : :post), :class => 'admin_form'} do |f| %>
+<ul class="fullwidth">
 <li class="clear left">
-	<div><%= f.text_field :name, :size => 100 %><label>Location Name</label></div>
+	<span><%= f.text_field :name, :size => 100 %><label>Location Name</label>
+	</span>
+	<span>&nbsp;&nbsp;&nbsp;<b>Is this a headquarters location?</b><%= f.check_box :is_hq %></span>
 </li>
-<li id="agency_mail" class="clear left">
+<li id="agency_dropin" class="clear left">
+	<% fields_for :dropin_address, @location.dropin_address do |d_addr| %>
 	<label class="desc">Drop-in Address</label>
-	<div><% line1 = @location.dropin_address.line1 if @location.dropin_address %><%= text_field_tag line1, line1, :size => 50 %>
-	<label class="wip">Street Address 1</label></div>
-	<div><% line2 = @location.dropin_address.line2 if @location.dropin_address %><%= text_field_tag line2, line2, :size => 50 %>
-	<label class="wip">Street Address 2</label></div>	
-	<span><% city = @location.dropin_address.city if @location.dropin_address %><%= text_field_tag city, city, :size => 30 %>
-	<label class="wip">City</label></span>
-	<span><% state = @location.dropin_address.state_abbrev if @location.dropin_address %><%= text_field_tag state, state, :size => 2 %>
-		<!-- TODO: Fix this -->
-		<!--  collection_select(@location.dropin_address, :state_abbrev, State.find_all, @location.dropin_address.state_abbrev, :name, options={:prompt => "-- Select One --"}) %> -->
-		<label class="wip">State</label></span>
-		<span><% zip = @location.dropin_address.zip if @location.dropin_address %><%= text_field_tag zip, zip, :size => 5 %>
-		<label class="wip">Zip Code</label></span>
+	<div><%= d_addr.text_field :line1, :size => 50 %>
+	<label>Street Address 1</label></div>
+	<div><%= d_addr.text_field :line2, :size => 50 %>
+	<label>Street Address 2</label></div>		
+	<span><%= d_addr.text_field :city, :size => 29 %>
+	<label>City</label></span>
+	<span><%= d_addr.select :state_abbrev, State.find(:all, :order => 'abbrev').collect(&:abbrev) %>
+		<label>State</label></span>
+		<span><%= d_addr.text_field :zip, :size => 5 %>
+		<label>Zip Code</label></span>
+	<% end -%>
 </li>
 <li id="agency_mail" class="left">
   <% fields_for :mailing_address, @location.mailing_address do |m_addr| %>
   <label class="desc">Mailing Address</label>
 	<div><%= m_addr.text_field :line1, :size => 50 %>
-	<label class="wip">Street Address 1</label></div>  
+	<label>Street Address 1</label></div>  
 	<div><%= m_addr.text_field :line2, :size => 50 %>
-	<label class="wip">Street Address 2</label></div>	
-	<span><%= m_addr.text_field :city, :size => 30 %>
-	<label class="wip">City</label></span>
+	<label>Street Address 2</label></div>	
+	<span><%= m_addr.text_field :city, :size => 29 %>
+	<label>City</label></span>
 	<span><%= m_addr.select :state_abbrev, State.find(:all, :order => 'abbrev').collect(&:abbrev) %>
-		<label class="wip">State</label></span>
+		<label>State</label></span>
 		<span><%= m_addr.text_field :zip, :size => 5 %>
-		<label class="wip">Zip Code</label></span>
+		<label>Zip Code</label></span>
   <% end %>
 </li>
-		<li class="clear left">
-			<span><%= f.text_area :logistics, :rows => 5, :cols => 37 %>
-			<label>Logistics</label></span>
-			<span><%= f.text_area :hours_of_operation, :rows => 5, :cols => 37 %>
-			<label>Hours of Operation</label></span>
-		</li>
-		
-		<li class="left">
-			<label class="desc wip">Area Served</label>
-			<select name="state_abbrevs[]" multiple=true size=6>
-			<%= options_for_select State.find(:all, :order => 'abbrev').collect{|s| [s.name, s.abbrev]}, @location.state_abbrevs %>
-			</select>
-			<select name="county_ids[]" multiple=true size=6>
-  			<%= options_for_select @location.states.collect{|s| s.counties}.flatten.collect{|c| [c.name, c.id]}, @location.county_ids %>
-			</select>
-		</li>
+<li class="clear left fullwidth">
+	<span><%= f.text_area :logistics, :rows => 5, :cols => 40 %>
+	<label>Logistics</label></span>
+	<span><%= f.text_area :hours_of_operation, :rows => 5, :cols => 40 %>
+	<label>Hours of Operation</label></span>
+</li>
+
+<li class="clear left fullwidth">
+	<label class="desc">Area Served</label>
+	<span><select name="state_abbrevs[]" id="state_abbrevs" multiple=true size=6>
+	<%= options_for_select State.find(:all, :order => 'abbrev').collect{|s| [s.name, s.abbrev]}, @location.state_abbrevs %>
+	</select><label>State</label></span>
+	<%= observe_field :state_abbrevs,
+										:frequency => 0.5,
+										:update => 'county_ids_container',
+										:before => "Element.show('spinner')",
+										:complete => "Element.hide('spinner')",
+										:url => {:action => 'get_counties_for_states'},
+										:with => "'states=' + encodeURIComponent(value) + '&county_ids=' +  $('county_ids').value" %>
+	<span id="county_ids_container">
+		<select name="county_ids[]" id="county_ids" multiple="true" size="6">
+			<% if @location.states.empty? %>
+				<option> -- Please select a state -- </option>
+			<% else -%>
+				<%= options_for_select @location.states.collect{|s| s.counties}.flatten.collect{|c| [c.state_abbrev+':'+c.name, c.id]}.sort, @location.county_ids %>
+			<% end %>
+	</select><label>County</label>
+	</span>
+</li>
 
 		<li class="clear left" id="phone_web">
 			<label class="desc">Phone and Web Contact Information</label>

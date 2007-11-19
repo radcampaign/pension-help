@@ -8,13 +8,6 @@
 									  :url => plan_path(@agency), 
 										:html => { :method => :put, :class => 'admin_form' }) do |f| %>
 				<ul>
-				<li class="right">
-				<label class="desc wip">Status</label>
-					<div id="status_group" class="radio_group left">
-						<span><input type="radio" id="1" name="geo_coverage"/>&nbsp;See Comments&nbsp;</span>
-						<span><input type="radio" id="2" name="geo_coverage"/>&nbsp;Researched&nbsp;</span>
-						<span><input type="radio" id="3" name="geo_coverage"/>&nbsp;Approved</span>								</div>
-				</li>
 				<li class="left">
 						<div class=""><%= f.text_field :name, :size => 50 %>
 						<label>Plan Name 1 (Official + Acronym)</label></div>
@@ -48,7 +41,7 @@
 							  <option>Other</option>
 								</select>
 							<label for="plan_cat">Plan Category</label></span>
-							<span><%= f.text_field :start_date, :size => 15 %>label>Plan Start date</label></span>
+							<span><%= f.text_field :start_date, :size => 15 %><label>Plan Start date</label></span>
 							<span><%= f.text_field :end_date, :size => 15 %><label>Plan End date</label></span>
 							</div>
 							<div>

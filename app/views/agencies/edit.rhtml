@@ -3,10 +3,10 @@
 <%= error_messages_for :agency %>
 
 
-	<% form_for(:agency, :url => agency_path(@agency), :html => { :method => :put, :class => 'admin_form' }) do |f| %>
+	<% form_for(:agency, :url => (@agency.id ? agency_path(@agency) : agencies_path), :html => { :method => (@agency.id ? :put : :post) , :class => 'admin_form' }) do |f| %>
 		<ul>
 			<li id="agency_details" class="left agency_header">
-						<span><b>Plan category:</b>
+					<span><b>Plan category: </b><%= @agency.plan_category ? @agency.plan_category.name : 'none' %>&nbsp;&nbsp;&nbsp;</span>	
 				  <span><b>Is active: </b><%= f.check_box :is_active %>&nbsp;&nbsp;&nbsp;</span>
 					<span><b>Old Agency SN:</b> <%= @agency.legacy_code %>&nbsp;&nbsp;&nbsp;</span>
 					<span><b>Data Source:</b> <%= @agency.data_source %></span>
@@ -30,18 +30,24 @@
 				<% @agency.locations.each_with_index do |location, i| %>
 				<% row_class = i%2 == 0 ? "even" : "odd" %>
 				<tr class="<%= row_class %>">
-					<td class="hq"><input type="radio" id="1" name="loc_hq" checked="checked" /></td>
+					<td class="hq"><%= (location.is_hq? ? '<img src="/images/check.gif"/>' : '') %></td>
 					<td class="loc "><%= link_to_remote (h location.name), 
 						:url => edit_location_url(:agency_id => @agency, :id => location), 
 						:method => :get, 
-						:update => 'loc_detail_container'  %></td>
+						:update => 'loc_detail_container',
+						:before => "Element.show('spinner')",
+						:complete => "Element.hide('spinner')"  %></td>
 					<td class="city "><%  if location.dropin_address %>
 						<%= location.dropin_address.city %>, <%= location.dropin_address.state_abbrev %>
 					<%end -%></td>
 				</tr>
 				<% end %>
 			</table>
-			<%= link_to 'Add a new location', new_location_path(@agency), :class => 'add_new' %>
+			<%= link_to_remote 'Add a new location', 
+					{:url => new_location_path(@agency),
+					:method => :get,
+					:update => 'loc_detail_container'},
+					:class => 'add_new' %>
 			</li>
 			<li class="clear">
 			  <%= submit_tag "Update" %>

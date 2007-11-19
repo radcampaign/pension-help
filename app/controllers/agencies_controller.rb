@@ -1,4 +1,5 @@
 class AgenciesController < ApplicationController
+  before_filter :login_required, :except => :show
   layout 'admin'
   
   # GET /agencies
@@ -6,7 +7,7 @@ class AgenciesController < ApplicationController
   def index
     order = SORT_ORDER[params[:order]] if params[:order]
     order = 'agencies.name asc' unless order
-    @agencies = Agency.find(:all, :include => [:dropin_addresses], :order => order)
+    @agencies = Agency.find(:all, :include => [:dropin_addresses], :order => order, :group => 'agencies.id')
 
     respond_to do |format|
       format.html # index.rhtml
@@ -28,6 +29,7 @@ class AgenciesController < ApplicationController
   # GET /agencies/new
   def new
     @agency = Agency.new
+    render 'agencies/edit'
   end
 
   # GET /agencies/1;edit

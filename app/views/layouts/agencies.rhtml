@@ -10,7 +10,7 @@
 <body>
 
 <p style="color: green"><%= flash[:notice] %></p>
-
+<%= image_tag 'loading.gif', :id => 'spinner', :style => 'display:none' %>
 <%= yield  %>
 
 </body>

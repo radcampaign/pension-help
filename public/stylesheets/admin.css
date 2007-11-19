@@ -158,6 +158,21 @@ table#admin_list .center {
 li.agency_header {
 	margin: 0 0 15px;
 }
+li#agency_dropin {	
+	width: 350px;
+}
 .wip {
 	color: #F00;
 }
+#spinner {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+}
+* html div#spinner {position: absolute;
+top:expression(eval(document.compatMode &&
+document.compatMode=='CSS1Compat') ?
+documentElement.scrollTop
++((documentElement.clientHeight-this.clientHeight)/2 )
+: document.body.scrollTop
++((document.body.clientHeight-this.clientHeight)/2));}
