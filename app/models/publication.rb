@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 17
+# Schema version: 20
 #
 # Table name: publications
 #
@@ -13,10 +13,12 @@
 #  fax          :string(20)    
 #  tty          :string(20)    
 #  tty_ext      :string(10)    
+#  email        :string(255)   
 #  url          :string(255)   
 #  url_title    :string(255)   
 #  created_at   :datetime      
 #  updated_at   :datetime      
+#  legacy_code  :string(255)   
 #
 
 class Publication < ActiveRecord::Base

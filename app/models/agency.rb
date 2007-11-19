@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 19
+# Schema version: 20
 #
 # Table name: agencies
 #
@@ -8,13 +8,13 @@
 #  name2            :string(255)   
 #  data_source      :string(255)   
 #  is_active        :boolean(1)    
-#  url              :string(255)   
 #  url_title        :string(255)   
 #  legacy_code      :string(255)   
 #  legacy_subcode   :string(255)   
 #  created_at       :datetime      
 #  updated_at       :datetime      
 #  updated_by       :string(255)   
+#  url              :string(255)   
 #  plan_category_id :integer(11)   
 #
 

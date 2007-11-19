@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 19
+# Schema version: 20
 #
 # Table name: plans
 #
@@ -33,6 +33,12 @@
 #  updated_by          :string(255)   
 #  age_threshold       :decimal(5, 2) 
 #  income_threshold    :decimal(9, 2) 
+#  legacy_category     :string(255)   
+#  legacy_code         :string(255)   
+#  legacy_geo_type     :string(255)   
+#  legacy_geo_info     :string(255)   
+#  legacy_geo_states   :string(255)   
+#  legacy_geo_counties :string(255)   
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

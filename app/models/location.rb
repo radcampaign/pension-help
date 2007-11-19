@@ -1,12 +1,12 @@
 # == Schema Information
-# Schema version: 17
+# Schema version: 20
 #
 # Table name: locations
 #
 #  id                 :integer(11)   not null, primary key
 #  name               :string(255)   
 #  is_hq              :boolean(1)    
-#  agency             :integer(11)   
+#  agency_id          :integer(11)   
 #  phone              :string(20)    
 #  phone_ext          :string(10)    
 #  tollfree           :string(20)    
@@ -21,6 +21,7 @@
 #  created_at         :datetime      
 #  updated_at         :datetime      
 #  updated_by         :string(255)   
+#  legacy_code        :string(255)   
 #
 
 class Location < ActiveRecord::Base  
