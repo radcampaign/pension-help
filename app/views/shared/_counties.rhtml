@@ -1,5 +1,5 @@
 <select name="county_ids[]" id="county_ids" multiple=true size=6>
-	<% if @location.states.empty? %>
+	<% if @states.empty? %>
 		<option> -- Please select a state -- </option>
 	<% else -%>
 		<%= options_for_select @states.collect{|s| s.counties}.flatten.collect{|c| [c.state_abbrev+':'+c.name, c.id]}.sort, @county_ids %>
