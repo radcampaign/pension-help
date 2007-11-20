@@ -6,9 +6,8 @@ class HelpController < ApplicationController
   end
   
   def resources
-    url = params[:url].to_s
-    @content = Content.find_by_url(url)
-    redirect_to :controller => :site, :action => :show_page, 
+    @content = Content.find_by_url('help/resources')
+    render :template => "site/show_page.rhtml"
   end
   
   def counseling
