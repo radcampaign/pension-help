@@ -45,6 +45,9 @@
 							<% if @agency.show_plans? -%>
 							<span><%= f.text_field :start_date, :size => 15 %><label>Plan Start date</label></span>
 							<span><%= f.text_field :end_date, :size => 15 %><label>Plan End date</label></span>
+							<% else -%>
+							<span><%= f.text_field :age_threshold, :size => 5 %><label>Age Threshold&nbsp;&nbsp;</label></span>
+							<span><%= f.text_field :income_threshold, :size => 5 %><label>Income Threshold</label></span>
 							<% end -%>
 							<%if @plan.legacy_geo_info || @plan.legacy_geo_type || @plan.legacy_geo_states %>
 							<div class="legacy right"><b>Legacy info:</b> 

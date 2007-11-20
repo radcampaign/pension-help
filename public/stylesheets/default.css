@@ -354,13 +354,21 @@ body.results div.group {
 
 /* User Messages */
 
-.warningBox {
+.warningBox, 
+.errorExplanation {
   width:641px;
 	background-image:url("/images/layout/error_bkgrd.gif");
   background-repeat: repeat-x;
 	text-align: center; 
  }
-
+.errorExplanation {
+	margin-bottom: 12px;
+	border: 1px solid #CC0000;
+}
+.fieldWithErrors,
+.fieldWithErrors input {
+	background-color: #F77;
+}
 .warningBox table.warningTable {
     margin: 0px auto;
     color: #CC0000;

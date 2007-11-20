@@ -2,11 +2,11 @@
 
 <%= error_messages_for :agency %>
 
-
 	<% form_for(:agency, :url => (@agency.id ? agency_path(@agency) : agencies_path), :html => { :method => (@agency.id ? :put : :post) , :class => 'admin_form' }) do |f| %>
 		<ul>
 			<li id="agency_details" class="left agency_header fullwidth">
-					<span><b>Category: </b><select name="category"><option></option><%= options_for_select @categories.collect{|c| [c.name, c.id]} %></select>&nbsp;&nbsp;&nbsp;</span>	
+					<span><b>Category: </b><%= select :agency, :plan_category, PlanCategory.find(:all, :order => 'position').collect{|c| [c.name, c.name]}, {:selected => (@agency.plan_category ? @agency.plan_category.name : ""), :include_blank => true}%>
+					&nbsp;&nbsp;&nbsp;</span>	
 				  <span><b>Is active: </b><%= f.check_box :is_active %>&nbsp;&nbsp;&nbsp;</span>
 					<span><b>Old Agency SN:</b> <%= @agency.legacy_code %>&nbsp;&nbsp;&nbsp;</span>
 					<span><b>Data Source:</b> <%= @agency.data_source %></span>
@@ -14,7 +14,7 @@
 			<% if !@legacy_category.blank? -%>
 				<div class="clear left legacy"><b>Legacy Info:</b> <%= h @legacy_category.gsub(/[^\w. ]/,', ') %></div>
 			<% end -%>
-			<li class="clear left fullwidth" style="height:80px">
+			<li class="clear left fullwidth">
 					<div class=""><%= f.text_field :name, {:size => 150}  %>
 					<label for="agency_name1">Agency Name 1</label></div>
 					<div class=""><%= f.text_field :name2, {:size => 150}  %>
@@ -82,15 +82,5 @@
 				<% end %>
 			</table>
 			<div id="plan_detail_container">
-				<% if @agency.plans.size ==1 %>
-				<%= render%>
-				<% end -%>
 			</div>
-<% end %>
-
-<% if @agency.plans.size == 1 %>
-<script type=text/javascript>
-	$('admin_table').hide()
-	
-</script>
 <% end %>

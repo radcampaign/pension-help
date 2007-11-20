@@ -26,6 +26,9 @@ class Agency < ActiveRecord::Base
 
   has_enumerated :plan_category
   
+  validates_presence_of(:plan_category)
+  validates_presence_of(:name)
+  
   def show_plans?
     [13, 14].include?(self.plan_category_id)
   end

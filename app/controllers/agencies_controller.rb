@@ -26,15 +26,12 @@ class AgenciesController < ApplicationController
   # GET /agencies/new
   def new
     @agency = Agency.new
-    @categories = PlanCategory.find(:all)
     render 'agencies/edit'
   end
 
   # GET /agencies/1;edit
   def edit
     @agency = Agency.find(params[:id])
-    @categories = PlanCategory.find(:all)
-    @category = @agency.plan_category
     if @agency.plans
       @legacy_category = @agency.plans.collect{|plan| plan.legacy_category }.join("<br/>")
     end
@@ -57,12 +54,16 @@ class AgenciesController < ApplicationController
   # PUT /agencies/1.xml
   def update
     @agency = Agency.find(params[:id])
-    @agency.plan_category = PlanCategory.find(params[:category])
-    if @agency.update_attributes(params[:agency])
-      flash[:notice] = 'Agency was successfully updated.'
-      redirect_to agencies_url()
-    else
-      render :action => "edit"
+    begin
+      if @agency.update_attributes(params[:agency])
+        flash[:notice] = 'Agency was successfully updated.'
+        redirect_to agencies_url()
+      else
+        render :action => "edit"
+      end 
+    rescue
+      flash.now[:notice] = 'There is a problem with your submission. Did you select a category?'
+      render :action => 'edit'
     end
   end
 
