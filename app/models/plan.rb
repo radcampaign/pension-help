@@ -43,8 +43,22 @@
 
 class Plan < ActiveRecord::Base
   belongs_to :agency
+  has_one :publication
   has_and_belongs_to_many :states, :join_table => "plans_states", :association_foreign_key => "state_abbrev"
   has_and_belongs_to_many :zips, :join_table => "plans_zips", :association_foreign_key => "zipcode"
   has_and_belongs_to_many :cities, :join_table => "plans_cities"
   has_and_belongs_to_many :counties, :join_table => "plans_counties"
+  
+  def state_abbrevs
+    states.collect(&:abbrev)
+  end
+  
+  def county_ids
+    counties.collect(&:id)
+  end
+  
+  def city_ids
+    cities.collect(&:id)
+  end
+  
 end

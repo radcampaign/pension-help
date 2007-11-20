@@ -50,24 +50,20 @@
 
 <li class="clear left fullwidth">
 	<label class="desc">Area Served</label>
-	<span><select name="state_abbrevs[]" id="state_abbrevs" multiple=true size=6>
+	<span><select name="location_state_abbrevs[]" id="location_state_abbrevs" multiple=true size=6>
 	<%= options_for_select State.find(:all, :order => 'abbrev').collect{|s| [s.name, s.abbrev]}, @location.state_abbrevs %>
 	</select><label>State</label></span>
-	<%= observe_field :state_abbrevs,
+	<%= observe_field :location_state_abbrevs,
 										:frequency => 0.5,
 										:update => 'county_ids_container',
 										:before => "Element.show('spinner')",
 										:complete => "Element.hide('spinner')",
 										:url => {:action => 'get_counties_for_states'},
-										:with => "'states=' + encodeURIComponent(value) + '&county_ids=' +  $('county_ids').value" %>
+										:with => "'states=' + encodeURIComponent(value) + 
+															'&county_ids=' +  $('location_county_ids').value +
+															'&context=location'"%>
 	<span id="county_ids_container">
-		<select name="county_ids[]" id="county_ids" multiple="true" size="6">
-			<% if @location.states.empty? %>
-				<option> -- Please select a state -- </option>
-			<% else -%>
-				<%= options_for_select @location.states.collect{|s| s.counties}.flatten.collect{|c| [c.state_abbrev+':'+c.name, c.id]}.sort, @location.county_ids %>
-			<% end %>
-	</select><label>County</label>
+		<%= render :partial => 'shared/counties', :locals => {:states => @location.states, :context => 'location', :county_ids => @location.county_ids } %>
 	</span>
 </li>
 

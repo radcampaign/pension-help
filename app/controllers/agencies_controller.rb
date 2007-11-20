@@ -9,10 +9,7 @@ class AgenciesController < ApplicationController
     order = 'agencies.name asc' unless order
     @agencies = Agency.find(:all, :include => [:dropin_addresses], :order => order, :group => 'agencies.id')
 
-    respond_to do |format|
-      format.html # index.rhtml
-      format.xml  { render :xml => @agencies.to_xml }
-    end
+    # default render index.rhtml
   end
 
   # GET /agencies/1
@@ -29,12 +26,18 @@ class AgenciesController < ApplicationController
   # GET /agencies/new
   def new
     @agency = Agency.new
+    @categories = PlanCategory.find(:all)
     render 'agencies/edit'
   end
 
   # GET /agencies/1;edit
   def edit
     @agency = Agency.find(params[:id])
+    @categories = PlanCategory.find(:all)
+    @category = @agency.plan_category
+    if @agency.plans
+      @legacy_category = @agency.plans.collect{|plan| plan.legacy_category }.join("<br/>")
+    end
   end
 
   # POST /agencies
@@ -42,15 +45,11 @@ class AgenciesController < ApplicationController
   def create
     @agency = Agency.new(params[:agency])
 
-    respond_to do |format|
-      if @agency.save
-        flash[:notice] = 'Agency was successfully created.'
-        format.html { redirect_to agency_url(@agency) }
-        format.xml  { head :created, :location => agency_url(@agency) }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @agency.errors.to_xml }
-      end
+    if @agency.save
+      flash[:notice] = 'Agency was successfully created.'
+      redirect_to agency_url(@agency)
+    else
+      render :action => "new"
     end
   end
 
@@ -58,16 +57,12 @@ class AgenciesController < ApplicationController
   # PUT /agencies/1.xml
   def update
     @agency = Agency.find(params[:id])
-
-    respond_to do |format|
-      if @agency.update_attributes(params[:agency])
-        flash[:notice] = 'Agency was successfully updated.'
-        format.html { redirect_to agencies_url() }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @agency.errors.to_xml }
-      end
+    @agency.plan_category = PlanCategory.find(params[:category])
+    if @agency.update_attributes(params[:agency])
+      flash[:notice] = 'Agency was successfully updated.'
+      redirect_to agencies_url()
+    else
+      render :action => "edit"
     end
   end
 
@@ -76,14 +71,11 @@ class AgenciesController < ApplicationController
   def destroy
     @agency = Agency.find(params[:id])
     @agency.destroy
-
-    respond_to do |format|
-      format.html { redirect_to agencies_url }
-      format.xml  { head :ok }
-    end
+    redirect_to agencies_url
   end
   
   private
+  
   SORT_ORDER = { 
     'name' => 'agencies.name',
     'state' => 'if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev)',

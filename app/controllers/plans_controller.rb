@@ -1,5 +1,5 @@
 class PlansController < ApplicationController
-  before_filter :find_agency
+  before_filter :find_agency, :except => [:get_counties_for_states, :get_cities_for_counties]
 
   # GET /plans
   # GET /plans.xml
@@ -28,14 +28,16 @@ class PlansController < ApplicationController
   # POST /plans.xml
   def create
     @plan = @agency.plans.build(params[:plan])
+    @plan.publication = @plan.build_publication(params[:publication])
+    @plan.states = params[:plan_state_abbrevs].collect{|s| State.find(s)} unless params[:plan_state_abbrevs].nil?
+    @plan.counties = params[:plan_county_ids].collect{|c| County.find(c)} unless params[:plan_county_ids].nil?
+    @plan.cities = params[:plan_city_ids].collect{|c| City.find(c)} unless params[:plan_city_ids].nil?
 
-    respond_to do |format|
-      if @plan.save
-        flash[:notice] = 'Plan was successfully created.'
-        format.html { redirect_to edit_agency_url(@agency) }
-      else
-        format.html { render :action => "new" }
-      end
+    if @plan.save
+      flash[:notice] = 'Plan was successfully created.'
+      redirect_to edit_agency_url(@agency)
+    else
+      render :action => "new"
     end
   end
 
@@ -43,14 +45,21 @@ class PlansController < ApplicationController
   # PUT /plans/1.xml
   def update
     @plan = @agency.plans.find(params[:id])
+    if @plan.publication
+      @plan.publication.update_attributes(params[:publication])
+    else
+      @plan.publication = @plan.build_publication(params[:publication])
+      @plan.publication.save!
+    end    
+    @plan.states = params[:plan_state_abbrevs].collect{|s| State.find(s)} unless params[:plan_state_abbrevs].nil?
+    @plan.counties = params[:plan_county_ids].collect{|c| County.find(c)} unless params[:plan_county_ids].nil?
+    @plan.cities = params[:plan_city_ids].collect{|c| City.find(c)} unless params[:plan_city_ids].nil?
 
-    respond_to do |format|
-      if @plan.update_attributes(params[:plan])
-        flash[:notice] = 'Plan was successfully updated.'
-        format.html { redirect_to edit_agency_url(@agency) }
-      else
-        format.html { render :action => "edit" }
-      end
+    if @plan.update_attributes(params[:plan])
+      flash[:notice] = 'Plan was successfully updated.'
+      redirect_to edit_agency_url(@agency)
+    else
+      render :action => "edit"
     end
   end
 
@@ -59,10 +68,7 @@ class PlansController < ApplicationController
   def destroy
     @plan = @agency.plans.find(params[:id])
     @plan.destroy
-
-    respond_to do |format|
-      format.html { redirect_to edit_agency_url(@agency) }
-    end
+    redirect_to edit_agency_url(@agency)
   end
   
   protected

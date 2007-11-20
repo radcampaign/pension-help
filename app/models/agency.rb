@@ -22,7 +22,12 @@ class Agency < ActiveRecord::Base
   has_many :locations
   has_many :plans
   has_many :dropin_addresses, :through => :locations, :source => :addresses, :conditions => "address_type = 'dropin' and is_hq=1", :limit => 1
+  has_many :mailing_addresses, :through => :locations, :source => :addresses, :conditions => "address_type = 'mailing' and is_hq=1", :limit => 1
 
   has_enumerated :plan_category
+  
+  def show_plans?
+    [13, 14].include?(self.plan_category_id)
+  end
   
 end

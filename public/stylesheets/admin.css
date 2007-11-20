@@ -4,6 +4,10 @@ body.admin #content {
 	font-size: small;
 	font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif;
 }
+input, textarea, select {
+	font-size: small;
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
 form.admin_form label.desc {
 	display: block;
 	font-weight: bold;
@@ -30,6 +34,9 @@ form.admin_form span {
 form.admin_form .left {
 	float: left;
 	padding-right: 12px;
+}
+form.admin_form .half {
+	width: 48%;
 }
 form.admin_form li {
 	list-style:none;
@@ -110,6 +117,7 @@ form.admin_form table#coverage td {
 }
 #govt_emp_type {
 	margin-bottom: 12px;
+	margin-right: 12px;
 }
 form.admin_form textarea {
 	margin: 0 12px 0 0;
@@ -139,9 +147,6 @@ a.add_new {
 }
 .fullwidth {
 	width: 100%;
-}
-#plan_detail #geog_restr {
-	width: 575px;
 }
 table#admin_list {
 	width: 100%;
@@ -176,3 +181,16 @@ documentElement.scrollTop
 +((documentElement.clientHeight-this.clientHeight)/2 )
 : document.body.scrollTop
 +((document.body.clientHeight-this.clientHeight)/2));}
+
+.legacy {
+	border: 1px solid black;
+	background-color: #CCC;
+	padding: 6px;
+	margin: 0 0 6px 12px;
+	font-size: 85%;
+	height: auto !important;
+}
+form.admin_form li.legacy_item {
+	list-style-type: circle;
+	list-style-position: inside;
+}

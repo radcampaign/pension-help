@@ -5,17 +5,22 @@
 
 	<% form_for(:agency, :url => (@agency.id ? agency_path(@agency) : agencies_path), :html => { :method => (@agency.id ? :put : :post) , :class => 'admin_form' }) do |f| %>
 		<ul>
-			<li id="agency_details" class="left agency_header">
-					<span><b>Plan category: </b><%= @agency.plan_category ? @agency.plan_category.name : 'none' %>&nbsp;&nbsp;&nbsp;</span>	
+			<li id="agency_details" class="left agency_header fullwidth">
+					<span><b>Category: </b><select name="category"><option></option><%= options_for_select @categories.collect{|c| [c.name, c.id]} %></select>&nbsp;&nbsp;&nbsp;</span>	
 				  <span><b>Is active: </b><%= f.check_box :is_active %>&nbsp;&nbsp;&nbsp;</span>
 					<span><b>Old Agency SN:</b> <%= @agency.legacy_code %>&nbsp;&nbsp;&nbsp;</span>
 					<span><b>Data Source:</b> <%= @agency.data_source %></span>
 			</li>
-			<li class="clear left">
-					<div class=""><%= f.text_field :name, {:size => 78}  %>
+			<% if !@legacy_category.blank? -%>
+				<div class="clear left legacy"><b>Legacy Info:</b> <%= h @legacy_category.gsub(/[^\w. ]/,', ') %></div>
+			<% end -%>
+			<li class="clear left fullwidth" style="height:80px">
+					<div class=""><%= f.text_field :name, {:size => 150}  %>
 					<label for="agency_name1">Agency Name 1</label></div>
-					<div class=""><%= f.text_field :name2, {:size => 78}  %>
+					<div class=""><%= f.text_field :name2, {:size => 150}  %>
 					<label for="agency_name2">Agency Name 2</label></div>
+			</li>
+			<li class="clear left half">
 					<div class=""><%= f.text_field :url_title, {:size => 50} %>
 					<label for="agency_url_title">URL Title (for display)</label></div>
 					<div class=""><%= f.text_field :url, {:size => 50}  %>
@@ -51,17 +56,20 @@
 			</li>
 			<li class="clear">
 			  <%= submit_tag "Update" %>
-				<%= link_to 'Add plan', new_plan_path(@agency) %> | 
+				<%= link_to (@agency.show_plans? ? 'Add plan' : 'Add Result'), new_plan_path(@agency) %> | 
 				<%= link_to 'Back to Agency list', :controller => :agencies %>
 			</li>
 			</ul>
 			</form>
 			<div id="loc_detail_container"></div>
 			<table class="admin_table" id="plan_table" cellspacing="0">
-				<tr><th colspan="3" id="loc_title">PLANS</th></tr>
+				<tr><th colspan="3" id="loc_title"><%= (@agency.show_plans? ? 'PLANS' : 'RESULTS') %></th></tr>
 					<tr>
+					<% if @agency.show_plans? %>
 					<th>Plan Name</th>
-					<th>Common Name</th></tr>
+					<th>Common Name</th>
+					<% end %>
+					</tr>
 				<% @agency.plans.each_with_index do |plan, i| %>
 				<% row_class = i%2 == 0 ? "even" : "odd" %>
 				<tr class="<%= row_class %>">
@@ -73,5 +81,16 @@
 				</tr>
 				<% end %>
 			</table>
-			<div id="plan_detail_container"></div>
+			<div id="plan_detail_container">
+				<% if @agency.plans.size ==1 %>
+				<%= render%>
+				<% end -%>
+			</div>
+<% end %>
+
+<% if @agency.plans.size == 1 %>
+<script type=text/javascript>
+	$('admin_table').hide()
+	
+</script>
 <% end %>

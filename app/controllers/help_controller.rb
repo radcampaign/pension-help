@@ -5,6 +5,12 @@ class HelpController < ApplicationController
     render :template => "site/show_page.rhtml"
   end
   
+  def resources
+    url = params[:url].to_s
+    @content = Content.find_by_url(url)
+    redirect_to :controller => :site, :action => :show_page, 
+  end
+  
   def counseling
     @options = CounselAssistance.employer_types
     if params[:id_2]

@@ -36,8 +36,8 @@ class LocationsController < ApplicationController
     @location.dropin_address = @location.build_dropin_address(params[:dropin_address])
     @location.dropin_address.address_type='dropin'
     @location.dropin_address.save!
-    @location.states = params[:state_abbrevs].collect{|s| State.find(s)} unless params[:state_abbrevs].nil?
-    @location.counties = params[:county_ids].collect{|c| County.find(c)} unless params[:county_ids].nil?
+    @location.states = params[:location_state_abbrevs].collect{|s| State.find(s)} unless params[:location_state_abbrevs].nil?
+    @location.counties = params[:location_county_ids].collect{|c| County.find(c)} unless params[:location_county_ids].nil?
 
     if @location.save
       flash[:notice] = 'Location was successfully created.'
@@ -65,8 +65,8 @@ class LocationsController < ApplicationController
       @location.dropin_address.address_type='dropin'
       @location.dropin_address.save!
     end  
-    @location.states = params[:state_abbrevs].collect{|s| State.find(s)} unless params[:state_abbrevs].nil?
-    @location.counties = params[:county_ids].collect{|c| County.find(c)} unless params[:county_ids].nil?
+    @location.states = params[:location_state_abbrevs].collect{|s| State.find(s)} unless params[:location_state_abbrevs].nil?
+    @location.counties = params[:location_county_ids].collect{|c| County.find(c)} unless params[:location_county_ids].nil?
   
     if @location.update_attributes(params[:location])
       flash[:notice] = 'Location was successfully updated.'
@@ -85,12 +85,6 @@ class LocationsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to edit_agency_url(@agency) }
     end
-  end
-
-  def get_counties_for_states
-    @states = params[:states].split(',').collect{|s| State.find_by_abbrev(s)}
-    @county_ids = params[:county_ids]
-    render :partial => '/shared/counties', :layout => false
   end
   
   protected
