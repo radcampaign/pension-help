@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class RestrictionsTest < Test::Unit::TestCase
+class RestrictionTest < Test::Unit::TestCase
   fixtures :restrictions
 
   # Replace this with your real tests.

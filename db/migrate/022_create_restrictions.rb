@@ -7,6 +7,7 @@ class CreateRestrictions < ActiveRecord::Migration
       t.column :minimum_age, :decimal, :precision => 5, :scale => 2
       t.column :max_poverty, :decimal, :precision => 5, :scale => 2
       t.column :special_district, :string
+      t.column :other_restrictions, :text
       t.column :created_at, :datetime
       t.column :updated_at, :datetime
       t.column :legacy_geo_type, :string

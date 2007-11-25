@@ -21,32 +21,26 @@
 #  fmp2_code          :string(10)    
 #
 
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-one:
-  id: 1
-  agency_id: 1
-  location_id: 1
-  plan_id: 1
-  minimum_age: 9.99
-  max_poverty: 9.99
-  created_at: 2007-11-23 22:07:45
-  updated_at: 2007-11-23 22:07:45
-  legacy_code: MyString
-  legacy_subcode: MyString
-  legacy_residency: MyString
-  legacy_geo_agency: MyText
-  legacy_geo_subagency: MyText
-two:
-  id: 2
-  agency_id: 1
-  location_id: 1
-  plan_id: 1
-  minimum_age: 9.99
-  max_poverty: 9.99
-  created_at: 2007-11-23 22:07:45
-  updated_at: 2007-11-23 22:07:45
-  legacy_code: MyString
-  legacy_subcode: MyString
-  legacy_residency: MyString
-  legacy_geo_agency: MyText
-  legacy_geo_subagency: MyText
+class Restriction < ActiveRecord::Base
+  belongs_to :agency
+  belongs_to :location
+  belongs_to :plan
+  
+  has_and_belongs_to_many :states, :join_table => "restrictions_states", :association_foreign_key => "state_abbrev"
+  has_and_belongs_to_many :zips, :join_table => "restrictions_zips", :association_foreign_key => "zip_zipcode"
+  has_and_belongs_to_many :cities, :join_table => "restrictions_cities"
+  has_and_belongs_to_many :counties, :join_table => "restrictions_counties"
+  
+  def state_abbrevs
+    states.collect(&:abbrev)
+  end
+  
+  def county_ids
+    counties.collect(&:id)
+  end
+  
+  def city_ids
+    cities.collect(&:id)
+  end
+
+end

@@ -6,10 +6,10 @@ class AddAgencyCategories < ActiveRecord::Migration
   def self.up
     ['Government',
       'Service Provider',
-      'State/Local Plans'
+      'State/Local Plans',
+      'Other'
     ].each_with_index {|c, i| AgencyCategory.create(:id => i+1, :name => c, :position => i+1)}
-    %w{
-      Government 
+    %w{ 
       AoA 
       DOL
       IRS

@@ -125,7 +125,6 @@ class CleanUpAgencies < ActiveRecord::Migration
       t.column :spd_url, :string
       t.column :spd_url_title, :string
       t.column :govt_employee_type, :string
-      t.column :special_district, :string
       t.column :fmp2_code, :string
       t.column :legacy_category, :string
       t.column :legacy_status, :string

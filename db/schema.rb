@@ -181,7 +181,6 @@ ActiveRecord::Schema.define(:version => 23) do
     t.column "spd_url",            :string
     t.column "spd_url_title",      :string
     t.column "govt_employee_type", :string
-    t.column "special_district",   :string
     t.column "fmp2_code",          :string
     t.column "legacy_category",    :string
     t.column "legacy_status",      :string
@@ -213,20 +212,21 @@ ActiveRecord::Schema.define(:version => 23) do
   add_index "publications", ["agency_id"], :name => "agency_id"
 
   create_table "restrictions", :force => true do |t|
-    t.column "agency_id",         :integer
-    t.column "location_id",       :integer
-    t.column "plan_id",           :integer
-    t.column "minimum_age",       :decimal,                :precision => 5, :scale => 2
-    t.column "max_poverty",       :decimal,                :precision => 5, :scale => 2
-    t.column "special_district",  :string
-    t.column "created_at",        :datetime
-    t.column "updated_at",        :datetime
-    t.column "legacy_geo_type",   :string
-    t.column "legacy_geo_states", :string
-    t.column "legacy_geo_other",  :text
-    t.column "legacy_code",       :string,   :limit => 10
-    t.column "legacy_subcode",    :string,   :limit => 10
-    t.column "fmp2_code",         :string,   :limit => 10
+    t.column "agency_id",          :integer
+    t.column "location_id",        :integer
+    t.column "plan_id",            :integer
+    t.column "minimum_age",        :decimal,                :precision => 5, :scale => 2
+    t.column "max_poverty",        :decimal,                :precision => 5, :scale => 2
+    t.column "special_district",   :string
+    t.column "other_restrictions", :text
+    t.column "created_at",         :datetime
+    t.column "updated_at",         :datetime
+    t.column "legacy_geo_type",    :string
+    t.column "legacy_geo_states",  :string
+    t.column "legacy_geo_other",   :text
+    t.column "legacy_code",        :string,   :limit => 10
+    t.column "legacy_subcode",     :string,   :limit => 10
+    t.column "fmp2_code",          :string,   :limit => 10
   end
 
   add_index "restrictions", ["agency_id"], :name => "agency_id"
