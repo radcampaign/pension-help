@@ -2,38 +2,55 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 20) do
+ActiveRecord::Schema.define(:version => 23) do
 
   create_table "addresses", :force => true do |t|
+    t.column "location_id",    :integer
     t.column "line1",          :string
     t.column "line2",          :string
     t.column "city",           :string,  :limit => 64
     t.column "state_abbrev",   :string
     t.column "zip",            :string
     t.column "address_type",   :string
-    t.column "location_id",    :integer
-    t.column "legacy_code",    :string
-    t.column "legacy_subcode", :string
+    t.column "legacy_code",    :string,  :limit => 10
+    t.column "legacy_subcode", :string,  :limit => 10
+    t.column "fmp2_code",      :string,  :limit => 10
   end
 
   add_index "addresses", ["location_id"], :name => "location_id"
 
   create_table "agencies", :force => true do |t|
-    t.column "name",             :string
-    t.column "name2",            :string
-    t.column "data_source",      :string
-    t.column "is_active",        :boolean
-    t.column "url",              :string
-    t.column "url_title",        :string
-    t.column "legacy_code",      :string
-    t.column "legacy_subcode",   :string
-    t.column "created_at",       :datetime
-    t.column "updated_at",       :datetime
-    t.column "updated_by",       :string
-    t.column "plan_category_id", :integer
+    t.column "agency_category_id", :integer
+    t.column "result_type_id",     :integer
+    t.column "name",               :string
+    t.column "name2",              :string
+    t.column "description",        :text
+    t.column "data_source",        :string
+    t.column "is_active",          :boolean
+    t.column "url",                :string
+    t.column "url_title",          :string
+    t.column "url2",               :string
+    t.column "url2_title",         :string
+    t.column "comments",           :text
+    t.column "services_provided",  :text
+    t.column "use_for_counseling", :boolean
+    t.column "created_at",         :datetime
+    t.column "updated_at",         :datetime
+    t.column "updated_by",         :string
+    t.column "legacy_code",        :string,   :limit => 10
+    t.column "legacy_status",      :string
+    t.column "legacy_category1",   :string
+    t.column "legacy_category2",   :string
+    t.column "fmp2_code",          :string,   :limit => 10
   end
 
-  add_index "agencies", ["plan_category_id"], :name => "plan_category_id"
+  add_index "agencies", ["agency_category_id"], :name => "agency_category_id"
+  add_index "agencies", ["result_type_id"], :name => "result_type_id"
+
+  create_table "agency_categories", :force => true do |t|
+    t.column "name",     :string
+    t.column "position", :integer
+  end
 
   create_table "cities", :force => true do |t|
     t.column "name",         :string
@@ -165,41 +182,28 @@ ActiveRecord::Schema.define(:version => 20) do
   add_index "images", ["parent_id"], :name => "parent_id"
 
   create_table "locations", :force => true do |t|
-    t.column "name",               :string
-    t.column "is_hq",              :boolean
     t.column "agency_id",          :integer
-    t.column "phone",              :string,   :limit => 20
-    t.column "phone_ext",          :string,   :limit => 10
+    t.column "name",               :string
+    t.column "name2",              :string
+    t.column "is_hq",              :boolean
+    t.column "is_provider",        :boolean
     t.column "tollfree",           :string,   :limit => 20
     t.column "tollfree_ext",       :string,   :limit => 10
-    t.column "fax",                :string,   :limit => 20
+    t.column "phone",              :string,   :limit => 20
+    t.column "phone_ext",          :string,   :limit => 10
     t.column "tty",                :string,   :limit => 20
     t.column "tty_ext",            :string,   :limit => 10
+    t.column "fax",                :string,   :limit => 20
     t.column "email",              :string
     t.column "hours_of_operation", :string
     t.column "logistics",          :string
-    t.column "legacy_subcode",     :string,   :limit => 10
-    t.column "created_at",         :datetime
     t.column "updated_at",         :datetime
-    t.column "updated_by",         :string
-    t.column "legacy_code",        :string
+    t.column "legacy_code",        :string,   :limit => 10
+    t.column "legacy_subcode",     :string,   :limit => 10
+    t.column "fmp2_code",          :string,   :limit => 10
   end
 
   add_index "locations", ["agency_id"], :name => "agency_id"
-
-  create_table "locations_counties", :id => false, :force => true do |t|
-    t.column "location_id", :integer, :null => false
-    t.column "county_id",   :integer, :null => false
-  end
-
-  add_index "locations_counties", ["county_id", "location_id"], :name => "index_locations_counties_on_county_id_and_location_id"
-
-  create_table "locations_states", :id => false, :force => true do |t|
-    t.column "location_id",  :integer,              :null => false
-    t.column "state_abbrev", :string,  :limit => 2, :null => false
-  end
-
-  add_index "locations_states", ["state_abbrev", "location_id"], :name => "index_locations_states_on_state_abbrev_and_location_id"
 
   create_table "news", :force => true do |t|
     t.column "title",        :string
@@ -215,78 +219,39 @@ ActiveRecord::Schema.define(:version => 20) do
     t.column "updated_by",   :string
   end
 
-  create_table "plan_categories", :force => true do |t|
-    t.column "name",     :string
-    t.column "position", :integer
-  end
-
   create_table "plans", :force => true do |t|
-    t.column "name",                :string
-    t.column "name2",               :string
-    t.column "agency_id",           :integer
-    t.column "start_date",          :date
-    t.column "end_date",            :date
-    t.column "covered_employees",   :text
-    t.column "catchall_employees",  :text
-    t.column "description",         :text
-    t.column "service_description", :text
-    t.column "comments",            :text
-    t.column "status",              :string
-    t.column "govt_employee_type",  :string
-    t.column "special_district",    :string
-    t.column "plan_type1",          :string
-    t.column "plan_type2",          :string
-    t.column "plan_type3",          :string
-    t.column "url",                 :string
-    t.column "url_title",           :string
-    t.column "admin_url",           :string
-    t.column "admin_url_title",     :string
-    t.column "tpa_url",             :string
-    t.column "tpa_url_title",       :string
-    t.column "spd_url",             :string
-    t.column "spd_url_title",       :string
-    t.column "created_at",          :datetime
-    t.column "updated_at",          :datetime
-    t.column "updated_by",          :string
-    t.column "age_threshold",       :decimal,  :precision => 5, :scale => 2
-    t.column "income_threshold",    :decimal,  :precision => 9, :scale => 2
-    t.column "legacy_category",     :string
-    t.column "legacy_code",         :string
-    t.column "legacy_geo_type",     :string
-    t.column "legacy_geo_info",     :string
-    t.column "legacy_geo_states",   :string
-    t.column "legacy_geo_counties", :string
+    t.column "agency_id",          :integer
+    t.column "name",               :string
+    t.column "name2",              :string
+    t.column "description",        :text
+    t.column "comments",           :text
+    t.column "start_date",         :date
+    t.column "end_date",           :date
+    t.column "covered_employees",  :text
+    t.column "catchall_employees", :text
+    t.column "plan_type1",         :string
+    t.column "plan_type2",         :string
+    t.column "plan_type3",         :string
+    t.column "url",                :string
+    t.column "url_title",          :string
+    t.column "admin_url",          :string
+    t.column "admin_url_title",    :string
+    t.column "tpa_url",            :string
+    t.column "tpa_url_title",      :string
+    t.column "spd_url",            :string
+    t.column "spd_url_title",      :string
+    t.column "govt_employee_type", :string
+    t.column "special_district",   :string
+    t.column "fmp2_code",          :string
+    t.column "legacy_category",    :string
+    t.column "legacy_status",      :string
+    t.column "legacy_geo_type",    :string
+    t.column "legacy_geo_info",    :text
+    t.column "legacy_counties",    :string
+    t.column "legacy_states",      :string
   end
 
   add_index "plans", ["agency_id"], :name => "agency_id"
-
-  create_table "plans_cities", :id => false, :force => true do |t|
-    t.column "plan_id", :integer, :null => false
-    t.column "city_id", :integer, :null => false
-  end
-
-  add_index "plans_cities", ["city_id", "plan_id"], :name => "index_plans_cities_on_city_id_and_plan_id"
-
-  create_table "plans_counties", :id => false, :force => true do |t|
-    t.column "plan_id",   :integer, :null => false
-    t.column "county_id", :integer, :null => false
-  end
-
-  add_index "plans_counties", ["county_id", "plan_id"], :name => "index_plans_counties_on_county_id_and_plan_id"
-
-  create_table "plans_states", :id => false, :force => true do |t|
-    t.column "plan_id",      :integer,              :null => false
-    t.column "state_abbrev", :string,  :limit => 2, :null => false
-  end
-
-  add_index "plans_states", ["state_abbrev", "plan_id"], :name => "index_plans_states_on_state_abbrev_and_plan_id"
-
-  create_table "plans_zips", :id => false, :force => true do |t|
-    t.column "plan_id", :integer,              :null => false
-    t.column "zipcode", :string,  :limit => 5, :null => false
-  end
-
-  add_index "plans_zips", ["zipcode", "plan_id"], :name => "index_plans_zips_on_zipcode_and_plan_id"
 
   create_table "professions", :force => true do |t|
     t.column "name",     :string
@@ -294,24 +259,74 @@ ActiveRecord::Schema.define(:version => 20) do
   end
 
   create_table "publications", :force => true do |t|
-    t.column "name",         :string
-    t.column "plan_id",      :integer
-    t.column "phone",        :string,   :limit => 20
-    t.column "phone_ext",    :string,   :limit => 10
-    t.column "tollfree",     :string,   :limit => 20
-    t.column "tollfree_ext", :string,   :limit => 10
-    t.column "fax",          :string,   :limit => 20
-    t.column "tty",          :string,   :limit => 20
-    t.column "tty_ext",      :string,   :limit => 10
+    t.column "agency_id",    :integer
+    t.column "tollfree",     :string,  :limit => 20
+    t.column "tollfree_ext", :string,  :limit => 10
+    t.column "phone",        :string,  :limit => 20
+    t.column "phone_ext",    :string,  :limit => 10
+    t.column "tty",          :string,  :limit => 20
+    t.column "tty_ext",      :string,  :limit => 10
+    t.column "fax",          :string,  :limit => 20
     t.column "email",        :string
     t.column "url",          :string
     t.column "url_title",    :string
-    t.column "created_at",   :datetime
-    t.column "updated_at",   :datetime
-    t.column "legacy_code",  :string
+    t.column "legacy_code",  :string,  :limit => 10
+    t.column "fmp2_code",    :string,  :limit => 10
   end
 
-  add_index "publications", ["plan_id"], :name => "plan_id"
+  add_index "publications", ["agency_id"], :name => "agency_id"
+
+  create_table "restrictions", :force => true do |t|
+    t.column "agency_id",            :integer
+    t.column "location_id",          :integer
+    t.column "plan_id",              :integer
+    t.column "minimum_age",          :decimal,                :precision => 5, :scale => 2
+    t.column "max_poverty",          :decimal,                :precision => 5, :scale => 2
+    t.column "created_at",           :datetime
+    t.column "updated_at",           :datetime
+    t.column "legacy_code",          :string,   :limit => 10
+    t.column "legacy_subcode",       :string,   :limit => 10
+    t.column "legacy_residency",     :string
+    t.column "legacy_geo_agency",    :text
+    t.column "legacy_geo_subagency", :text
+  end
+
+  add_index "restrictions", ["agency_id"], :name => "agency_id"
+  add_index "restrictions", ["location_id"], :name => "location_id"
+  add_index "restrictions", ["plan_id"], :name => "plan_id"
+
+  create_table "restrictions_cities", :id => false, :force => true do |t|
+    t.column "restriction_id", :integer, :null => false
+    t.column "city_id",        :integer, :null => false
+  end
+
+  add_index "restrictions_cities", ["city_id", "restriction_id"], :name => "index_restrictions_cities_on_city_id_and_restriction_id"
+
+  create_table "restrictions_counties", :id => false, :force => true do |t|
+    t.column "restriction_id", :integer, :null => false
+    t.column "county_id",      :integer, :null => false
+  end
+
+  add_index "restrictions_counties", ["county_id", "restriction_id"], :name => "index_restrictions_counties_on_county_id_and_restriction_id"
+
+  create_table "restrictions_states", :id => false, :force => true do |t|
+    t.column "restriction_id", :integer,              :null => false
+    t.column "state_abbrev",   :string,  :limit => 2, :null => false
+  end
+
+  add_index "restrictions_states", ["state_abbrev", "restriction_id"], :name => "index_restrictions_states_on_state_abbrev_and_restriction_id"
+
+  create_table "restrictions_zips", :id => false, :force => true do |t|
+    t.column "restriction_id", :integer,              :null => false
+    t.column "zipcode",        :string,  :limit => 5, :null => false
+  end
+
+  add_index "restrictions_zips", ["zipcode", "restriction_id"], :name => "index_restrictions_zips_on_zipcode_and_restriction_id"
+
+  create_table "result_types", :force => true do |t|
+    t.column "name",     :string
+    t.column "position", :integer
+  end
 
   create_table "search_nets", :force => true do |t|
     t.column "contact_id",       :integer
@@ -369,7 +384,8 @@ ActiveRecord::Schema.define(:version => 20) do
 
   add_foreign_key "addresses", ["location_id"], "locations", ["id"], :name => "addresses_ibfk_1"
 
-  add_foreign_key "agencies", ["plan_category_id"], "plan_categories", ["id"], :name => "agencies_ibfk_1"
+  add_foreign_key "agencies", ["agency_category_id"], "agency_categories", ["id"], :name => "agencies_ibfk_1"
+  add_foreign_key "agencies", ["result_type_id"], "result_types", ["id"], :name => "agencies_ibfk_2"
 
   add_foreign_key "cities", ["county_id"], "counties", ["id"], :name => "cities_ibfk_1"
 
@@ -377,23 +393,22 @@ ActiveRecord::Schema.define(:version => 20) do
 
   add_foreign_key "locations", ["agency_id"], "agencies", ["id"], :name => "locations_ibfk_1"
 
-  add_foreign_key "locations_counties", ["location_id"], "locations", ["id"], :name => "locations_counties_ibfk_1"
-  add_foreign_key "locations_counties", ["county_id"], "counties", ["id"], :name => "locations_counties_ibfk_2"
-
-  add_foreign_key "locations_states", ["location_id"], "locations", ["id"], :name => "locations_states_ibfk_1"
-
   add_foreign_key "plans", ["agency_id"], "agencies", ["id"], :name => "plans_ibfk_1"
 
-  add_foreign_key "plans_cities", ["plan_id"], "plans", ["id"], :name => "plans_cities_ibfk_1"
-  add_foreign_key "plans_cities", ["city_id"], "cities", ["id"], :name => "plans_cities_ibfk_2"
+  add_foreign_key "publications", ["agency_id"], "agencies", ["id"], :name => "publications_ibfk_1"
 
-  add_foreign_key "plans_counties", ["plan_id"], "plans", ["id"], :name => "plans_counties_ibfk_1"
-  add_foreign_key "plans_counties", ["county_id"], "counties", ["id"], :name => "plans_counties_ibfk_2"
+  add_foreign_key "restrictions", ["agency_id"], "agencies", ["id"], :name => "restrictions_ibfk_1"
+  add_foreign_key "restrictions", ["location_id"], "locations", ["id"], :name => "restrictions_ibfk_2"
+  add_foreign_key "restrictions", ["plan_id"], "plans", ["id"], :name => "restrictions_ibfk_3"
 
-  add_foreign_key "plans_states", ["plan_id"], "plans", ["id"], :name => "plans_states_ibfk_1"
+  add_foreign_key "restrictions_cities", ["restriction_id"], "restrictions", ["id"], :name => "restrictions_cities_ibfk_1"
+  add_foreign_key "restrictions_cities", ["city_id"], "cities", ["id"], :name => "restrictions_cities_ibfk_2"
 
-  add_foreign_key "plans_zips", ["plan_id"], "plans", ["id"], :name => "plans_zips_ibfk_1"
+  add_foreign_key "restrictions_counties", ["restriction_id"], "restrictions", ["id"], :name => "restrictions_counties_ibfk_1"
+  add_foreign_key "restrictions_counties", ["county_id"], "counties", ["id"], :name => "restrictions_counties_ibfk_2"
 
-  add_foreign_key "publications", ["plan_id"], "plans", ["id"], :name => "publications_ibfk_1"
+  add_foreign_key "restrictions_states", ["restriction_id"], "restrictions", ["id"], :name => "restrictions_states_ibfk_1"
+
+  add_foreign_key "restrictions_zips", ["restriction_id"], "restrictions", ["id"], :name => "restrictions_zips_ibfk_1"
 
 end

@@ -1,0 +1,29 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  agency_id: 1
+  location_id: 1
+  plan_id: 1
+  minimum_age: 9.99
+  max_poverty: 9.99
+  created_at: 2007-11-23 22:07:45
+  updated_at: 2007-11-23 22:07:45
+  legacy_code: MyString
+  legacy_subcode: MyString
+  legacy_residency: MyString
+  legacy_geo_agency: MyText
+  legacy_geo_subagency: MyText
+two:
+  id: 2
+  agency_id: 1
+  location_id: 1
+  plan_id: 1
+  minimum_age: 9.99
+  max_poverty: 9.99
+  created_at: 2007-11-23 22:07:45
+  updated_at: 2007-11-23 22:07:45
+  legacy_code: MyString
+  legacy_subcode: MyString
+  legacy_residency: MyString
+  legacy_geo_agency: MyText
+  legacy_geo_subagency: MyText

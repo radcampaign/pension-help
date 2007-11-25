@@ -1,0 +1,42 @@
+<h1>Listing restrictions</h1>
+
+<table>
+  <tr>
+    <th>Agency</th>
+    <th>Location</th>
+    <th>Plan</th>
+    <th>Minimum age</th>
+    <th>Max poverty</th>
+    <th>Created at</th>
+    <th>Updated at</th>
+    <th>Legacy code</th>
+    <th>Legacy subcode</th>
+    <th>Legacy residency</th>
+    <th>Legacy geo agency</th>
+    <th>Legacy geo subagency</th>
+  </tr>
+  
+<% for restrictions in @restrictions %>
+  <tr>
+    <td><%=h restrictions.agency_id %></td>
+    <td><%=h restrictions.location_id %></td>
+    <td><%=h restrictions.plan_id %></td>
+    <td><%=h restrictions.minimum_age %></td>
+    <td><%=h restrictions.max_poverty %></td>
+    <td><%=h restrictions.created_at %></td>
+    <td><%=h restrictions.updated_at %></td>
+    <td><%=h restrictions.legacy_code %></td>
+    <td><%=h restrictions.legacy_subcode %></td>
+    <td><%=h restrictions.legacy_residency %></td>
+    <td><%=h restrictions.legacy_geo_agency %></td>
+    <td><%=h restrictions.legacy_geo_subagency %></td>
+    <td><%= link_to 'Show', restrictions_path(restrictions) %></td>
+    <td><%= link_to 'Edit', edit_restrictions_path(restrictions) %></td>
+    <td><%= link_to 'Destroy', restrictions_path(restrictions), :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New restrictions', new_restrictions_path %>

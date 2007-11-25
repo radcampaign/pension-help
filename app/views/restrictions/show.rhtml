@@ -1,0 +1,63 @@
+<p>
+  <b>Agency:</b>
+  <%=h @restrictions.agency_id %>
+</p>
+
+<p>
+  <b>Location:</b>
+  <%=h @restrictions.location_id %>
+</p>
+
+<p>
+  <b>Plan:</b>
+  <%=h @restrictions.plan_id %>
+</p>
+
+<p>
+  <b>Minimum age:</b>
+  <%=h @restrictions.minimum_age %>
+</p>
+
+<p>
+  <b>Max poverty:</b>
+  <%=h @restrictions.max_poverty %>
+</p>
+
+<p>
+  <b>Created at:</b>
+  <%=h @restrictions.created_at %>
+</p>
+
+<p>
+  <b>Updated at:</b>
+  <%=h @restrictions.updated_at %>
+</p>
+
+<p>
+  <b>Legacy code:</b>
+  <%=h @restrictions.legacy_code %>
+</p>
+
+<p>
+  <b>Legacy subcode:</b>
+  <%=h @restrictions.legacy_subcode %>
+</p>
+
+<p>
+  <b>Legacy residency:</b>
+  <%=h @restrictions.legacy_residency %>
+</p>
+
+<p>
+  <b>Legacy geo agency:</b>
+  <%=h @restrictions.legacy_geo_agency %>
+</p>
+
+<p>
+  <b>Legacy geo subagency:</b>
+  <%=h @restrictions.legacy_geo_subagency %>
+</p>
+
+
+<%= link_to 'Edit', edit_restrictions_path(@restrictions) %> |
+<%= link_to 'Back', restrictions_path %>
