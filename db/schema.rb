@@ -96,66 +96,6 @@ ActiveRecord::Schema.define(:version => 23) do
     t.column "state_abbrev", :string
   end
 
-  create_table "fmp2", :force => true do |t|
-    t.column "ResultType",                   :string
-    t.column "OldPHA_AgencySerialNumber",    :string
-    t.column "OldPHA_BabiesSerialNumber",    :string
-    t.column "AgencyName1",                  :string
-    t.column "AgencyName2",                  :string
-    t.column "PlanDescription",              :text
-    t.column "Comments",                     :text
-    t.column "AgencyMailStreet1",            :string
-    t.column "AgencyMailStreet2",            :string
-    t.column "AgencyMailCity",               :string
-    t.column "AgencyMailState",              :string
-    t.column "AgencyMailZip",                :string
-    t.column "AgencyDropInStreet1",          :string
-    t.column "AgencyDropInStreet2",          :string
-    t.column "AgencyDropInCity",             :string
-    t.column "AgencyDropInState",            :string
-    t.column "AgencyDropInZip",              :string
-    t.column "AgencyTollFreePhone",          :string
-    t.column "AgencyLocalPhone",             :string
-    t.column "AgencyFax",                    :string
-    t.column "AgencyTTYPhone",               :string
-    t.column "AgencyTollFreePhoneExt",       :string
-    t.column "AgencyLocalPhoneExt",          :string
-    t.column "AgencyTTYPhoneExt",            :string
-    t.column "AgencyEmail",                  :string
-    t.column "AgencyURL",                    :string
-    t.column "PlanURL",                      :string
-    t.column "AgencyURLTitle",               :string
-    t.column "PlanURLTitle",                 :string
-    t.column "AgencyPubsTollFreePhone",      :string
-    t.column "AgencyPubsLocalPhone",         :string
-    t.column "AgencyPubsTTYPhone",           :string
-    t.column "AgencyPubsTollFreePhoneExt",   :string
-    t.column "AgencyPubsLocalPhoneExt",      :string
-    t.column "AgencyPubsTTYPhoneExt",        :string
-    t.column "AgencyPubsURL",                :string
-    t.column "RecordStatus",                 :string
-    t.column "AgencyPubsURLTitle",           :string
-    t.column "SPDURL",                       :string
-    t.column "SPDURLTitle",                  :string
-    t.column "PlanStartDate",                :date
-    t.column "PlanEndDate",                  :date
-    t.column "CoveredEmployee",              :text
-    t.column "PlanType1",                    :string
-    t.column "PlanType2",                    :string
-    t.column "PlanType3",                    :string
-    t.column "PlanName1",                    :string
-    t.column "PlanName2",                    :string
-    t.column "TPAURL",                       :string
-    t.column "TPAURL_Title",                 :string
-    t.column "CatchallEmployees",            :text
-    t.column "ServiceGeographyType",         :string
-    t.column "GeographicServiceInformation", :string
-    t.column "GovtCounty",                   :string
-    t.column "GovtSpDist",                   :string
-    t.column "GovtState",                    :string
-    t.column "GovtEmployerType",             :string
-  end
-
   create_table "help_nets", :force => true do |t|
     t.column "contact_id",       :integer
     t.column "exp_erisa_single", :boolean
@@ -245,10 +185,6 @@ ActiveRecord::Schema.define(:version => 23) do
     t.column "fmp2_code",          :string
     t.column "legacy_category",    :string
     t.column "legacy_status",      :string
-    t.column "legacy_geo_type",    :string
-    t.column "legacy_geo_info",    :text
-    t.column "legacy_counties",    :string
-    t.column "legacy_states",      :string
   end
 
   add_index "plans", ["agency_id"], :name => "agency_id"
@@ -277,18 +213,20 @@ ActiveRecord::Schema.define(:version => 23) do
   add_index "publications", ["agency_id"], :name => "agency_id"
 
   create_table "restrictions", :force => true do |t|
-    t.column "agency_id",            :integer
-    t.column "location_id",          :integer
-    t.column "plan_id",              :integer
-    t.column "minimum_age",          :decimal,                :precision => 5, :scale => 2
-    t.column "max_poverty",          :decimal,                :precision => 5, :scale => 2
-    t.column "created_at",           :datetime
-    t.column "updated_at",           :datetime
-    t.column "legacy_code",          :string,   :limit => 10
-    t.column "legacy_subcode",       :string,   :limit => 10
-    t.column "legacy_residency",     :string
-    t.column "legacy_geo_agency",    :text
-    t.column "legacy_geo_subagency", :text
+    t.column "agency_id",         :integer
+    t.column "location_id",       :integer
+    t.column "plan_id",           :integer
+    t.column "minimum_age",       :decimal,                :precision => 5, :scale => 2
+    t.column "max_poverty",       :decimal,                :precision => 5, :scale => 2
+    t.column "special_district",  :string
+    t.column "created_at",        :datetime
+    t.column "updated_at",        :datetime
+    t.column "legacy_geo_type",   :string
+    t.column "legacy_geo_states", :string
+    t.column "legacy_geo_other",  :text
+    t.column "legacy_code",       :string,   :limit => 10
+    t.column "legacy_subcode",    :string,   :limit => 10
+    t.column "fmp2_code",         :string,   :limit => 10
   end
 
   add_index "restrictions", ["agency_id"], :name => "agency_id"

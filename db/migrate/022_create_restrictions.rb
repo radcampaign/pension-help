@@ -6,13 +6,15 @@ class CreateRestrictions < ActiveRecord::Migration
       t.column :plan_id, :integer
       t.column :minimum_age, :decimal, :precision => 5, :scale => 2
       t.column :max_poverty, :decimal, :precision => 5, :scale => 2
+      t.column :special_district, :string
       t.column :created_at, :datetime
       t.column :updated_at, :datetime
+      t.column :legacy_geo_type, :string
+      t.column :legacy_geo_states, :string
+      t.column :legacy_geo_other, :text
       t.column :legacy_code, :string, :limit => 10
       t.column :legacy_subcode, :string, :limit => 10
-      t.column :legacy_residency, :string
-      t.column :legacy_geo_agency, :text
-      t.column :legacy_geo_subagency, :text
+      t.column :fmp2_code, :string, :limit => 10
     end
     
     create_table :restrictions_states, :id => false do |t|

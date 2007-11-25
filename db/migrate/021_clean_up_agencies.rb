@@ -129,10 +129,6 @@ class CleanUpAgencies < ActiveRecord::Migration
       t.column :fmp2_code, :string
       t.column :legacy_category, :string
       t.column :legacy_status, :string
-      t.column :legacy_geo_type, :string
-      t.column :legacy_geo_info, :text
-      t.column :legacy_counties, :string
-      t.column :legacy_states, :string
     end
   end
 
