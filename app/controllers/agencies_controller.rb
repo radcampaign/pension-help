@@ -61,9 +61,6 @@ class AgenciesController < ApplicationController
       else
         render :action => "edit"
       end 
-    rescue
-      flash.now[:notice] = 'There is a problem with your submission. Did you select a category?'
-      render :action => 'edit'
     end
   end
 
@@ -80,6 +77,7 @@ class AgenciesController < ApplicationController
   SORT_ORDER = { 
     'name' => 'agencies.name',
     'state' => 'if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev)',
-    'plan' => 'if(agencies.plan_category_id is null or agencies.plan_category_id="", "9999", agencies.plan_category_id)',
+    'category' => 'if(agencies.agency_category_id is null or agencies.agency_category_id="", "9999", agencies.agency_category_id)',
+    'result' => 'if(agencies.result_type_id is null or agencies.result_type_id="", "9999", agencies.result_type_id)'
     }
 end

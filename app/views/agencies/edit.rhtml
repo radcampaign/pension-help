@@ -5,7 +5,9 @@
 	<% form_for(:agency, :url => (@agency.id ? agency_path(@agency) : agencies_path), :html => { :method => (@agency.id ? :put : :post) , :class => 'admin_form' }) do |f| %>
 		<ul>
 			<li id="agency_details" class="left agency_header fullwidth">
-					<span><b>Category: </b><%= select :agency, :plan_category, PlanCategory.find(:all, :order => 'position').collect{|c| [c.name, c.name]}, {:selected => (@agency.plan_category ? @agency.plan_category.name : ""), :include_blank => true}%>
+					<span><b>Category: </b><%= select :agency, :agency_category, AgencyCategory.find(:all, :order => 'position').collect{|c| [c.name, c.name]}, {:selected => (@agency.agency_category ? @agency.agency_category.name : "")}%>
+					&nbsp;&nbsp;&nbsp;</span>	
+					<span><b>Result Type: </b><%= select :agency, :result_type, ResultType.find(:all, :order => 'position').collect{|c| [c.name, c.name]}, {:selected => (@agency.result_type ? @agency.result_type.name : "")}%>
 					&nbsp;&nbsp;&nbsp;</span>	
 				  <span><b>Is active: </b><%= f.check_box :is_active %>&nbsp;&nbsp;&nbsp;</span>
 					<span><b>Old Agency SN:</b> <%= @agency.legacy_code %>&nbsp;&nbsp;&nbsp;</span>
@@ -20,11 +22,12 @@
 					<div class=""><%= f.text_field :name2, {:size => 150}  %>
 					<label for="agency_name2">Agency Name 2</label></div>
 			</li>
+
 			<li class="clear left half">
 					<div class=""><%= f.text_field :url_title, {:size => 50} %>
 					<label for="agency_url_title">URL Title (for display)</label></div>
 					<div class=""><%= f.text_field :url, {:size => 50}  %>
-					<label for="agency_url">URL</label></div>
+					<label for="agency_url">URL</label></div>					
 			</li>
 			<li class="left">
 			<table class="admin_table" id="loc_table" cellspacing="0">
@@ -56,31 +59,34 @@
 			</li>
 			<li class="clear">
 			  <%= submit_tag "Update" %>
-				<%= link_to (@agency.show_plans? ? 'Add plan' : 'Add Result'), new_plan_path(@agency) %> | 
+				<%= link_to_remote 'Add plan',
+					{:url => new_plan_path(@agency),
+					:method => :get,
+					:update => 'plan_detail_container'}%> |
 				<%= link_to 'Back to Agency list', :controller => :agencies %>
 			</li>
 			</ul>
 			</form>
 			<div id="loc_detail_container"></div>
-			<table class="admin_table" id="plan_table" cellspacing="0">
-				<tr><th colspan="3" id="loc_title"><%= (@agency.show_plans? ? 'PLANS' : 'RESULTS') %></th></tr>
-					<tr>
-					<% if @agency.show_plans? %>
-					<th>Plan Name</th>
-					<th>Common Name</th>
-					<% end %>
+			<% if !@agency.plans.empty? %>
+				<table class="admin_table" id="plan_table" cellspacing="0">
+					<tr><th colspan="3" id="loc_title">PLANS</th></tr>
+						<tr>
+						<th>Plan Name</th>
+						<th>Common Name</th>
+						</tr>
+					<% @agency.plans.each_with_index do |plan, i| %>
+					<% row_class = i%2 == 0 ? "even" : "odd" %>
+					<tr class="<%= row_class %>">
+						<td><%= link_to_remote (h plan.name), 
+							:url => edit_plan_url(:agency_id => @agency, :id => plan), 
+							:method => :get, 
+							:update => 'plan_detail_container'  %></td>
+						<td><%= plan.name2 %></td>
 					</tr>
-				<% @agency.plans.each_with_index do |plan, i| %>
-				<% row_class = i%2 == 0 ? "even" : "odd" %>
-				<tr class="<%= row_class %>">
-					<td><%= link_to_remote (h plan.name), 
-						:url => edit_plan_url(:agency_id => @agency, :id => plan), 
-						:method => :get, 
-						:update => 'plan_detail_container'  %></td>
-					<td><%= plan.name2 %></td>
-				</tr>
-				<% end %>
-			</table>
+					<% end %>
+				</table>
+			<% end -%>
 			<div id="plan_detail_container">
 			</div>
 <% end %>

@@ -4,7 +4,8 @@
   <tr>
     <th><%= link_to 'Agency Name', agencies_path(:order=>'name') %></th>
 		<th><%= link_to 'State', agencies_path(:order=>'state') %></th>
-		<th class="center"><%= link_to 'Plan Category', agencies_path(:order=>'plan') %></th>
+		<th class="center"><%= link_to 'Plan Category', agencies_path(:order=>'category') %></th>
+		<th class="center"><%= link_to 'Result Type', agencies_path(:order=>'result') %></th>
   </tr>
 	
  	<% @agencies.each_with_index do |agency, i| %>
@@ -17,7 +18,10 @@
 			 <%= agency.dropin_addresses.first.state_abbrev unless agency.dropin_addresses.empty? %>
 		</td>
 		<td class="center">
-		  <%= agency.plan_category.name if agency.plan_category %>
+		  <%= agency.agency_category.name if agency.agency_category %>
+		</td>
+		<td class="center">
+		  <%= agency.result_type.name if agency.result_type %>
 		</td>
   </tr>
 <% end %>

@@ -31,6 +31,7 @@
 class Agency < ActiveRecord::Base
   has_many :locations
   has_many :plans
+  has_many :publications
   has_many :dropin_addresses, :through => :locations, :source => :addresses, :conditions => "address_type = 'dropin' and is_hq=1", :limit => 1
   has_many :mailing_addresses, :through => :locations, :source => :addresses, :conditions => "address_type = 'mailing' and is_hq=1", :limit => 1
   has_many :restrictions

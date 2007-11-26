@@ -16,6 +16,7 @@ class PlansController < ApplicationController
   # GET /plans/new
   def new
     @plan = Plan.new
+    render :partial => 'plans/plan_detail', :layout => false
   end
 
   # GET /plans/1;edit

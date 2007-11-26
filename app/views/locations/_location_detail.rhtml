@@ -51,7 +51,7 @@
 <li class="clear left fullwidth">
 	<label class="desc">Area Served</label>
 	<span><select name="location_state_abbrevs[]" id="location_state_abbrevs" multiple=true size=6>
-	<%= options_for_select State.find(:all, :order => 'abbrev').collect{|s| [s.name, s.abbrev]}, @location.state_abbrevs %>
+	<%= options_for_select State.find(:all, :order => 'abbrev').collect{|s| [s.name, s.abbrev]} %>
 	</select><label>State</label></span>
 	<%= observe_field :location_state_abbrevs,
 										:frequency => 0.5,
@@ -63,7 +63,7 @@
 															'&county_ids=' +  $('location_county_ids').value +
 															'&context=location'"%>
 	<span id="county_ids_container">
-		<%= render :partial => 'shared/counties', :locals => {:states => @location.states, :context => 'location', :county_ids => @location.county_ids } %>
+		<!--  render :partial => 'shared/counties', :locals => {:states => @location.states, :context => 'location', :county_ids => @location.county_ids } %> -->
 	</span>
 </li>
 

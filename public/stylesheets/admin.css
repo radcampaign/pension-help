@@ -91,6 +91,7 @@ form.admin_form li {
 	margin: 12px 0;
 	background-color:#FEE;
 	border: 1px solid #c00;
+	width: 95%;
 }
 .clear {
 	clear: both;

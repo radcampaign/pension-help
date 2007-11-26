@@ -1,22 +1,26 @@
 <div id="plan_detail">
 <a onclick="$('plan_detail').hide()" class="close_window">&nbsp;</a>
-				<h2><%= @agency.show_plans? ? 'Plan Detail' : 'Result Detail' %></h2>
+				<h2>Plan Detail</h2>
 				<br/>
 				<%= error_messages_for :plan %>
+
 
 				<% form_for(:plan, 
 									  :url => plan_path(@agency), 
 										:html => { :method => :put, :class => 'admin_form' }) do |f| %>
 				<ul>
 				<li class="left">
-						<div><%= f.text_field :name, :size => 150 %>
-						<label><%= @agency.show_plans? ? 'Plan Name 1 (Official + Acronym)' : 'Result' %></label></div>
-						<% if @agency.show_plans? -%>
-						<div><%= f.text_field :name2, :size => 150 %>
+				<%if @plan.legacy_category || @plan.legacy_status %>
+						<div class="clear left legacy"><b>Legacy info:<br/></b> 
+						<% if @plan.legacy_category %>Category - <%= h @plan.legacy_category %><br/><% end -%>
+						<% if @plan.legacy_status %>Status - <%= h @plan.legacy_status %><% end -%>
+						</div>
+				<% end %>
+						<div><%= f.text_field :name, :size => 140 %>
+						<label>Plan Name 1 (Official + Acronym)</label></div>
+						<div><%= f.text_field :name2, :size => 140 %>
 						<label>Plan Name 2 (Common)</label></div>
-						<% end -%>
 				</li>
-				<% if @agency.show_plans? -%>
 				<li class="clear left fullwidth">
 					<div class="left half">
 						<div><%= f.text_field :plan_type1, :size => 50 %>
@@ -31,7 +35,6 @@
 						<label>Plan URL</label></div>
 					</div>
 				</li>
-				<% end -%>
 				<li id="geog_restr" class="left fullwidth">
 						<label class="desc">Government Employer Type</label>
 								<table id="govt_emp_type" class="radio_group left">
@@ -42,25 +45,11 @@
 								<td><%= radio_button :plan, :govt_employee_type, 'City' %>&nbsp;<label>City</label></td>
 								<td><%= radio_button :plan, :govt_employee_type, 'Other' %>&nbsp;<label>Other</label></td></tr>
 							</tbody></table>
-							<% if @agency.show_plans? -%>
 							<span><%= f.text_field :start_date, :size => 15 %><label>Plan Start date</label></span>
 							<span><%= f.text_field :end_date, :size => 15 %><label>Plan End date</label></span>
-							<% else -%>
-							<span><%= f.text_field :age_threshold, :size => 5 %><label>Age Threshold&nbsp;&nbsp;</label></span>
-							<span><%= f.text_field :income_threshold, :size => 5 %><label>Income Threshold</label></span>
-							<% end -%>
-							<%if @plan.legacy_geo_info || @plan.legacy_geo_type || @plan.legacy_geo_states %>
-							<div class="legacy right"><b>Legacy info:</b> 
-								<ul>
-								<% if @plan.legacy_geo_info %><li class="legacy_item">Info - <%= h @plan.legacy_geo_info %></li><% end -%>
-								<% if @plan.legacy_geo_type %><li class="legacy_item">Type - <%= h @plan.legacy_geo_type %></li><% end -%>
-								<% if @plan.legacy_geo_states %><li class="legacy_item">States - <%= h @plan.legacy_geo_states.gsub(/[^\w. ]/,', ') %></li><% end -%>
-								</ul></div>
-							<% end %>
-						<% if @agency.show_plans? -%>
 							<div class="clear fullwidth">
 								<span><select name="plan_state_abbrevs[]" id="plan_state_abbrevs" multiple=true size=6>
-									<%= options_for_select State.find(:all, :order => 'abbrev').collect{|s| [s.name, s.abbrev]}, @plan.state_abbrevs %>
+									<%= options_for_select State.find(:all, :order => 'abbrev').collect{|s| [s.name, s.abbrev]} %>
 									</select><label>State</label></span>
 									<%= observe_field :plan_state_abbrevs,
 																		:frequency => 0.5,
@@ -72,16 +61,13 @@
 																							'&county_ids=' +  $('plan_county_ids').value +
 																							'&context=plan'" %>
 									<span id="plan_county_ids_container">
-										<%= render :partial => 'shared/counties', :locals => {:states => @plan.states, :context => 'plan', :county_ids => @plan.county_ids } %>
+										<!-- render :partial => 'shared/counties', :locals => {:states => @plan.states, :context => 'plan', :county_ids => @plan.county_ids } %-->
 									</span>
 									<span id="plan_city_ids_container">
-										<%= render :partial => 'shared/cities', :locals => {:counties => @plan.counties, :context => 'plan', :city_ids => @plan.city_ids } %>
+										<!-- render :partial => 'shared/cities', :locals => {:counties => @plan.counties, :context => 'plan', :city_ids => @plan.city_ids } -->
 									</span>
-							<div class="clear"><%= f.text_field :special_district, :size => 40 %><label for="sp_dist">Special District</label></div><br/>
 						</div>
-					<% end -%>
 				</li>
-			<% if @agency.show_plans? -%>
 				<li class="clear left fullwidth">
 					<span><label class="desc">Covered Employees</label>
 					<%= f.text_area :covered_employees, :rows => 6, :cols => 50 %></span>
@@ -90,41 +76,13 @@
 					<%= f.text_area :catchall_employees, :rows => 6, :cols => 50 %></span>
 					<div class="clear"/>
 				</li>
-			<% end -%>
 				<li class="clear left fullwidth">
-					<span><label class="desc"><%= @agency.show_plans? ? 'Plan Description' : 'Description'%></label>
+					<span><label class="desc">Plan Description</label>
 					<%= f.text_area :description, :rows => 6, :cols => 50 %></span>
 					<span><label class="desc">Comments</label>
 					<%= f.text_area :comments, :rows => 6, :cols => 50 %></span>
 				</li>
 				<li class="clear left fullwidth">
-				<% fields_for :publication, @plan.publication do |pub| %>
-				<label class="desc">Plan Publications and TPA Contact Information</label>
-					<fieldset>
-						<legend>Toll Free Phone</legend>
-						<span><%= pub.text_field :tollfree, :size => 15 %><label>Publications Toll Free Phone</label></span>
-						<span><%= pub.text_field :tollfree_ext, :size => 8 %><label>Ext</label></span>
-					</fieldset>
-					<fieldset>
-					 	<legend>Local Phone</legend>
-						<span><%= pub.text_field :phone, :size => 15 %><label>Publications Local Phone</label></span>
-						<span><%= pub.text_field :phone_ext, :size => 8 %><label>Ext</label></span>
-					</fieldset>
-					<fieldset>
-						<legend>TTY</legend>
-						<span><%= pub.text_field :tty, :size => 15 %><label>Publications TTY</label></span>
-						<span><%= pub.text_field :tty_ext, :size => 8 %><label>Ext</label></span>
-					</fieldset>
-				</li>
-				<li class="clear left fullwidth">
-					<fieldset>
-						<legend>Publications URL</legend>
-						<div><%= pub.text_field :url_title, :size => 40 %>
-						<label for="agency_url">Publications URL Title</label></div>
-						<div><%= pub.text_field :url, :size => 40 %>
-						<label for="agency_url">Publications URL</label></div>
-						</fieldset>
-						<% end -%>
 				<fieldset>
 						<legend>SPD URL</legend>
 						<div class=""><%= f.text_field :spd_url, :size => 40 %>
@@ -132,7 +90,6 @@
 						<div class=""><%= f.text_field :spd_url_title, :size => 40 %>
 						<label for="agency_url">SPD URL</label></div>
 						</fieldset>
-				<% if @agency.show_plans? -%>
 				<fieldset>
 						<legend>TPA URL</legend>
 						<div class=""><%= f.text_field :tpa_url, :size => 40%>
@@ -140,7 +97,6 @@
 						<div class=""><%= f.text_field :tpa_url_title, :size => 40 %>
 						<label for="agency_url">TPA URL</label></div>
 						</fieldset>
-				<% end -%>
 				</li>
 				<li class="clear"><input type="submit" value="save details"/></li>
 						</ul>
