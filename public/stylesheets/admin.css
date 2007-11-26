@@ -76,6 +76,7 @@ form.admin_form li {
 }
 #loc_table .hq {
 	width: 20px;
+	text-align: center;
 }
 #loc_table .loc,
 #loc_table .city {
