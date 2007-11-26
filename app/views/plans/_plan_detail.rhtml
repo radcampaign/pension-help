@@ -47,11 +47,11 @@
 							</tbody></table>
 							<span><%= f.text_field :start_date, :size => 15 %><label>Plan Start date</label></span>
 							<span><%= f.text_field :end_date, :size => 15 %><label>Plan End date</label></span>
-							<div class="clear fullwidth">
+							<!-- div class="clear fullwidth">
 								<span><select name="plan_state_abbrevs[]" id="plan_state_abbrevs" multiple=true size=6>
-									<%= options_for_select State.find(:all, :order => 'abbrev').collect{|s| [s.name, s.abbrev]} %>
+									<= options_for_select State.find(:all, :order => 'abbrev').collect{|s| [s.name, s.abbrev]} %>
 									</select><label>State</label></span>
-									<%= observe_field :plan_state_abbrevs,
+									<= observe_field :plan_state_abbrevs,
 																		:frequency => 0.5,
 																		:update => 'plan_county_ids_container',
 																		:before => "Element.show('spinner')",
@@ -61,12 +61,12 @@
 																							'&county_ids=' +  $('plan_county_ids').value +
 																							'&context=plan'" %>
 									<span id="plan_county_ids_container">
-										<!-- render :partial => 'shared/counties', :locals => {:states => @plan.states, :context => 'plan', :county_ids => @plan.county_ids } %-->
+										<= render :partial => 'shared/counties', :locals => {:states => @plan.states, :context => 'plan', :county_ids => @plan.county_ids } %>
 									</span>
 									<span id="plan_city_ids_container">
-										<!-- render :partial => 'shared/cities', :locals => {:counties => @plan.counties, :context => 'plan', :city_ids => @plan.city_ids } -->
+										<= render :partial => 'shared/cities', :locals => {:counties => @plan.counties, :context => 'plan', :city_ids => @plan.city_ids } %>
 									</span>
-						</div>
+						</div -->
 				</li>
 				<li class="clear left fullwidth">
 					<span><label class="desc">Covered Employees</label>
