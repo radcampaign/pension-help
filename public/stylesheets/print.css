@@ -104,7 +104,7 @@ a img {
     display: list-item;
 }
 
-li#list_separator {
+#footer li.list_separator {
 	display:none;
 }
 

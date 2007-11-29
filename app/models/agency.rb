@@ -42,8 +42,7 @@ class Agency < ActiveRecord::Base
   validates_presence_of(:agency_category)
   validates_presence_of(:name)
   
-  def show_plans?
-    # [13, 14].include?(self.plan_category_id)
+  def publication
+    publications.first
   end
-  
 end

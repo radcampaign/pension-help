@@ -13,6 +13,8 @@
 <%= javascript_include_tag 'textsizer' %>
 <%= stylesheet_link_tag 'default', :media => 'all' %>
 <%= stylesheet_link_tag 'admin', :media => 'all' %>
+<%= stylesheet_link_tag 'print', :media => 'print' %>
+<%= stylesheet_link_tag 'print-preview', :media => 'screen', :rel => 'alternate stylesheet', :title => 'Print Preview' %>
 </head>
 <body class="admin">
 	<div id='spinner' style='display:none'><%= image_tag 'loading.gif' %></div>

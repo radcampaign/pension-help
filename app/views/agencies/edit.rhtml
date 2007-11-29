@@ -3,93 +3,142 @@
 <%= error_messages_for :agency %>
 
 	<% form_for(:agency, :url => (@agency.id ? agency_path(@agency) : agencies_path), :html => { :method => (@agency.id ? :put : :post) , :class => 'admin_form' }) do |f| %>
+		<div id="agency_details" class="left agency_header fullwidth">
+			<span><b>Category: </b><%= select :agency, :agency_category, AgencyCategory.find(:all, :order => 'position').collect{|c| [c.name, c.name]}, {:selected => (@agency.agency_category ? @agency.agency_category.name : "")}%>
+			&nbsp;&nbsp;</span>	
+			<span><b>Result Type: </b><%= select :agency, :result_type, ResultType.find(:all, :order => 'position').collect{|c| [c.name, c.name]}, {:selected => (@agency.result_type ? @agency.result_type.name : "")}%>
+			&nbsp;&nbsp;&nbsp;</span>	
+		  <span><b>Is active: </b><%= f.check_box :is_active %>&nbsp;&nbsp;&nbsp;</span>
+		  <span><b>Use for counseling: </b><%= f.check_box :use_for_counseling %>&nbsp;&nbsp;&nbsp;</span>
+		  <span><b>Last updated: </b><%= @agency.updated_at.strftime("%m/%d/%Y %I:%M %p") +' by '+ @agency.updated_by %></span>
+		</div>
+		<div class="clear left fullwidth">
+		<span class="legacy"><b>Old Agency SN:</b> <%= (@agency.legacy_code.nil? ? @agency.fmp2_code + ' (fmp2)' : @agency.legacy_code) %>&nbsp;&nbsp;&nbsp;</span>
+		<span class="legacy"><b>Data Source:</b> <%= @agency.data_source %></span><br/>
+		</div>
+		<% if !@agency.legacy_status.blank? || !@agency.legacy_category1.blank? || !@agency.legacy_category2.blank? -%>
+			<div class="clear left">
+			<% if !@agency.legacy_status.blank? %><div class=" left legacy"><b>Legacy Status:</b> <%= h @agency.legacy_status %></div><% end -%>
+			<% if !@agency.legacy_category1.blank? %><div class=" left legacy"><b>Legacy Category 1:</b> <%= h @agency.legacy_category1 %></div><% end -%>
+			<% if !@agency.legacy_category2.blank? %><div class=" left legacy"><b>Legacy Category 2:</b> <%= h @agency.legacy_category2 %></div><% end -%>
+			</div>
+		<% end -%>
 		<ul>
-			<li id="agency_details" class="left agency_header fullwidth">
-					<span><b>Category: </b><%= select :agency, :agency_category, AgencyCategory.find(:all, :order => 'position').collect{|c| [c.name, c.name]}, {:selected => (@agency.agency_category ? @agency.agency_category.name : "")}%>
-					&nbsp;&nbsp;&nbsp;</span>	
-					<span><b>Result Type: </b><%= select :agency, :result_type, ResultType.find(:all, :order => 'position').collect{|c| [c.name, c.name]}, {:selected => (@agency.result_type ? @agency.result_type.name : "")}%>
-					&nbsp;&nbsp;&nbsp;</span>	
-				  <span><b>Is active: </b><%= f.check_box :is_active %>&nbsp;&nbsp;&nbsp;</span>
-					<span><b>Old Agency SN:</b> <%= @agency.legacy_code %>&nbsp;&nbsp;&nbsp;</span>
-					<span><b>Data Source:</b> <%= @agency.data_source %></span>
-			</li>
-			<% if !@legacy_category.blank? -%>
-				<div class="clear left legacy"><b>Legacy Info:</b> <%= h @legacy_category.gsub(/[^\w. ]/,', ') %></div>
+		<li class="clear left fullwidth">
+				<div class=""><%= f.text_field :name, {:size => 150}  %>
+				<label for="agency_name1">Agency Name 1</label></div>
+				<div class=""><%= f.text_field :name2, {:size => 150}  %>
+				<label for="agency_name2">Agency Name 2</label></div>
+		</li>
+		</ul>
+		<ul class="clear left fullwidth">
+		<li class="clear left ">
+				<div><%= f.text_field :services_provided, {:size => 62} %>
+				<label for="services_provided">Services Provided</label></div>
+				<div class="left"><%= f.text_field :url_title, {:size => 62} %>
+				<label for="agency_url_title">URL Title (for display)</label></div>
+				<div class="left"><%= f.text_field :url, {:size => 62}  %>
+				<label for="agency_url">URL</label></div>					
+				<div class="left"><%= f.text_field :url2_title, {:size => 62} %>
+				<label for="agency_url_title">URL2 Title (for display)</label></div>
+				<div class="left"><%= f.text_field :url2, {:size => 62}  %>
+				<label for="agency_url">URL2</label></div>					
+		</li>
+		<li class="left ">
+			<span><%= f.text_area :description, :rows => 6, :cols => 60 %>
+			<label>Description</label></span>
+		</li>
+		<li class="left ">
+			<span><%= f.text_area :comments, :rows => 6, :cols => 60 %>
+			<label>Comments</label></span>
+		</li>
+		<li class="left" id="phone_web">
+			<% fields_for :publication, @agency.publication do |pub| %>
+				<fieldset><legend class="desc">Publication Contact Information</legend>
+				<fieldset class="left">
+				<span><%= pub.text_field :tollfree, :size => 15 %><label for="tollfree">Toll Free Phone</label></span>
+				<span><%= pub.text_field :tollfree_ext, :size => 8 %><label for="tollfree">Ext</label></span>
+				</fieldset>
+				<fieldset class="left">
+				<span><%= pub.text_field :phone, :size => 15 %><label for="local">Local Phone</label></span>
+				<span><%= pub.text_field :phone_ext, :size => 8 %><label for="tollfree">Ext</label></span>
+				</fieldset>
+				<fieldset class="left">
+				<span><%= pub.text_field :tty, :size => 15 %><label for="tty">TTY</label></span>
+				<span><%= pub.text_field :tty_ext, :size => 8 %><label for="tollfree">Ext</label></span>
+				</fieldset>
+				<fieldset class="left">
+				<span><%= pub.text_field :fax, :size => 15 %><label for="fax">Fax</label></span>
+				</fieldset>
+				<span class="legacy"><b>Old SN:</b> <%= (@agency.publication.legacy_code.nil? ? @agency.publication.fmp2_code + ' (fmp2)' : @agency.publication.legacy_code) %></span>
+				<div class="clear left"><%= pub.text_field :url_title, {:size => 62} %>
+				<label for="agency_url_title" style="width:150px;">URL Title (for display)</label></div>
+				<div class="left"><%= pub.text_field :url, {:size => 62}  %>
+				<label for="agency_url">URL</label></div>					
+				<div class="clear left"><%= pub.text_field :email, :size => 30 %><label for="email">Email</label></div>
+				</fieldset>
 			<% end -%>
-			<li class="clear left fullwidth">
-					<div class=""><%= f.text_field :name, {:size => 150}  %>
-					<label for="agency_name1">Agency Name 1</label></div>
-					<div class=""><%= f.text_field :name2, {:size => 150}  %>
-					<label for="agency_name2">Agency Name 2</label></div>
-			</li>
-
-			<li class="clear left half">
-					<div class=""><%= f.text_field :url_title, {:size => 50} %>
-					<label for="agency_url_title">URL Title (for display)</label></div>
-					<div class=""><%= f.text_field :url, {:size => 50}  %>
-					<label for="agency_url">URL</label></div>					
-			</li>
-			<li class="left">
-			<table class="admin_table" id="loc_table" cellspacing="0">
-				<tr><th colspan="3" id="loc_title">AGENCY LOCATIONS</th></tr>
-					<tr><th class="hq">HQ</th>
-					<th class="hq">Provider</th>
-					<th class="loc">Location</th>
-					<th class="city">City, State</th>
+		</li>
+		</ul>
+		<div class="left fullwidth">
+		<table class="admin_table" id="loc_table" cellspacing="0">
+			<tr><th colspan="4" id="table_title">AGENCY LOCATIONS</th></tr>
+				<tr><th class="hq">HQ</th>
+				<th class="hq">Provider</th>
+				<th class="loc">Location</th>
+				<th class="city">City, State</th>
+				</tr>
+			<% @agency.locations.each_with_index do |location, i| -%>
+			<% row_class = i%2 == 0 ? "even" : "odd" -%>
+			<tr class="<%= row_class %>">
+				<td class="hq"><%= (location.is_hq? ? image_tag('check.gif') : '') %></td>
+				<td class="hq"><%= (location.is_provider? ? image_tag('check_blue.gif')  : '') %></td>
+				<td class="loc "><%= link_to_remote (h location.name), 
+					:url => edit_location_url(:agency_id => @agency, :id => location), 
+					:method => :get, 
+					:update => 'loc_detail_container',
+					:before => "Element.show('spinner')",
+					:complete => "Element.hide('spinner')"  %></td>
+				<td class="city "><%  if location.dropin_address -%>
+					<%= location.dropin_address.city %><% if !location.dropin_address.city.blank? -%>, <% end -%><%= location.dropin_address.state_abbrev %>
+				<%end -%></td>
+			</tr>
+			<% end %>
+		</table>
+		<%= link_to_remote 'Add a new location', 
+				{:url => new_location_path(@agency),
+				:method => :get,
+				:update => 'loc_detail_container'},
+				:class => 'add_new' %>
+			<table class="admin_table" id="plan_table" cellspacing="0">
+				<tr><th colspan="3" id="table_title">PLANS</th></tr>
+					<tr>
+					<th>Plan Name</th>
+					<th>Common Name</th>
 					</tr>
-				<% @agency.locations.each_with_index do |location, i| %>
+				<% @agency.plans.each_with_index do |plan, i| %>
 				<% row_class = i%2 == 0 ? "even" : "odd" %>
 				<tr class="<%= row_class %>">
-					<td class="hq"><%= (location.is_hq? ? '<img src="/images/check.gif"/>' : '') %></td>
-					<td class="hq"><%= (location.is_provider? ? '<img src="/images/check_blue.gif"/>' : '') %></td>
-					<td class="loc "><%= link_to_remote (h location.name), 
-						:url => edit_location_url(:agency_id => @agency, :id => location), 
+					<td><%= link_to_remote (h plan.name), 
+						:url => edit_plan_url(:agency_id => @agency, :id => plan), 
 						:method => :get, 
-						:update => 'loc_detail_container',
-						:before => "Element.show('spinner')",
-						:complete => "Element.hide('spinner')"  %></td>
-					<td class="city "><%  if location.dropin_address %>
-						<%= location.dropin_address.city %>, <%= location.dropin_address.state_abbrev %>
-					<%end -%></td>
+						:update => 'plan_detail_container'  %></td>
+					<td><%= plan.name2 %></td>
 				</tr>
 				<% end %>
 			</table>
-			<%= link_to_remote 'Add a new location', 
-					{:url => new_location_path(@agency),
-					:method => :get,
-					:update => 'loc_detail_container'},
-					:class => 'add_new' %>
-			</li>
-			<li class="clear">
-			  <%= submit_tag "Update" %>
-				<%= link_to_remote 'Add plan',
-					{:url => new_plan_path(@agency),
-					:method => :get,
-					:update => 'plan_detail_container'}%> |
-				<%= link_to 'Back to Agency list', :controller => :agencies %>
-			</li>
-			</ul>
-			</form>
-			<div id="loc_detail_container"></div>
-			<% if !@agency.plans.empty? %>
-				<table class="admin_table" id="plan_table" cellspacing="0">
-					<tr><th colspan="3" id="loc_title">PLANS</th></tr>
-						<tr>
-						<th>Plan Name</th>
-						<th>Common Name</th>
-						</tr>
-					<% @agency.plans.each_with_index do |plan, i| %>
-					<% row_class = i%2 == 0 ? "even" : "odd" %>
-					<tr class="<%= row_class %>">
-						<td><%= link_to_remote (h plan.name), 
-							:url => edit_plan_url(:agency_id => @agency, :id => plan), 
-							:method => :get, 
-							:update => 'plan_detail_container'  %></td>
-						<td><%= plan.name2 %></td>
-					</tr>
-					<% end %>
-				</table>
-			<% end -%>
-			<div id="plan_detail_container">
-			</div>
+			<%= link_to_remote 'Add a new plan', 
+				{:url => new_plan_path(@agency),
+				:method => :get,
+				:update => 'plan_detail_container'},
+				:class => 'add_new' %>
+		</div>
+		<div class="clear">
+		  <%= submit_tag "Update Agency" %> 
+			<%= link_to_remote 'Add plan',
+				{:url => new_plan_path(@agency),
+				:method => :get,
+				:update => 'plan_detail_container'}%> |
+			<%= link_to 'Back to Agency list', :controller => :agencies %>
+		</div>
 <% end %>

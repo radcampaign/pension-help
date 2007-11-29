@@ -33,7 +33,6 @@ class AgenciesController < ApplicationController
   def edit
     @agency = Agency.find(params[:id])
     if @agency.plans
-      @legacy_category = @agency.plans.collect{|plan| plan.legacy_category }.join("<br/>")
     end
   end
 
@@ -54,6 +53,12 @@ class AgenciesController < ApplicationController
   # PUT /agencies/1.xml
   def update
     @agency = Agency.find(params[:id])
+    if @agency.publication
+      @agency.publications[0].update_attributes(params[:publication])
+    else
+      @agency.publications[0] = @agency.build_publication(params[:publication])
+      @agency.publications[0].save!
+    end    
     begin
       if @agency.update_attributes(params[:agency])
         flash[:notice] = 'Agency was successfully updated.'

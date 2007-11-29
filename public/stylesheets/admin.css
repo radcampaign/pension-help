@@ -1,18 +1,22 @@
 /* Admin form styles */
 body.admin #content {
 	width: 960px;
-	font-size: small;
+	font-size: 85%;
 	font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif;
 }
 input, textarea, select {
 	font-size: small;
 	font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
-form.admin_form label.desc {
+form.admin_form label.desc,
+legend.desc {
 	display: block;
 	font-weight: bold;
-	line-height: 150%;
 	font-size: small;
+}
+form.admin_form legend {
+	color: #000;
+	display:inline;
 }
 form.admin_form div label,
 form.admin_form span label {
@@ -24,7 +28,7 @@ form.admin_form span label {
 }
 form.admin_form div,
 form.admin_form span {
-	padding-bottom: 8px;
+	padding-bottom: 12px;
 	margin-right: 4px;
 }	
 form.admin_form span {
@@ -44,21 +48,10 @@ form.admin_form li {
 
 .admin_table {
 	border: 1px solid #00D6F0;
+  margin: 20px 0 0 20px;
+	width: 800px;
 }
-#loc_table {
- width: 390px; 
- margin: 0px 0 0 20px;
-}
-#plan_table {
-	width: 90%;
-	margin: 20px 0 0 0;
-}
-#loc_table #loc_title {
-	width: 400px;
-	text-align: center;
-}
-#plan_table #plan_title {
-	width: 90%;
+.admin_table #table_title {
 	text-align: center;
 }
 .admin_table .selected {
@@ -80,7 +73,7 @@ form.admin_form li {
 }
 #loc_table .loc,
 #loc_table .city {
-	width: 175px;
+	width: 225px;
 }
 #loc_table .hq input {
 	margin:0;
@@ -126,7 +119,8 @@ form.admin_form textarea {
 }
 form.admin_form fieldset {
 	display: inline;
-	padding: 8px 8px 0px;
+	padding: 8px 4px 0px;
+	margin-bottom: 8px;
 }
 a.close_window {
 background:url(close.gif) no-repeat center;
@@ -144,7 +138,7 @@ a.add_new {
 	background:url(add.gif) no-repeat left;
 	padding-left: 14px;
 	display:block;
-	margin: 8px 0 24px 30px;
+	margin: 8px 0 8px 30px;
 	text-decoration:none;
 }
 .fullwidth {
