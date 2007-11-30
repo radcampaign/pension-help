@@ -100,10 +100,9 @@
 			</tr>
 			<% end %>
 		</table>
-		<%= link_to_remote 'Add a new location', 
-				{:url => new_location_path(@agency),
+		<%= link_to 'Add a new location', 
+				new_agency_location_path(@agency),
 				:method => :get,
-				:update => 'loc_detail_container'},
 				:class => 'add_new' %>
 			<table class="admin_table" id="plan_table" cellspacing="0">
 				<tr><th colspan="3" id="table_title">PLANS</th></tr>

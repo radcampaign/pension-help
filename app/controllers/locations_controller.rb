@@ -18,6 +18,7 @@ class LocationsController < ApplicationController
   # GET /locations/new
   def new
     @location = Location.new
+    render :template => 'locations/edit'
     #render :partial => 'locations/location_detail', :layout => false
   end
 
