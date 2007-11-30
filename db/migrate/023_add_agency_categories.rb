@@ -32,6 +32,11 @@ class AddAgencyCategories < ActiveRecord::Migration
       Other
     }.each_with_index {|c, i| ResultType.create(:id => i+1, :name => c, :position => i+1)}
     
+    r=ResultType.new
+    r.id=999
+    r.name=''
+    r.position=0
+    r.save
   end
 
   def self.down

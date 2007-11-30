@@ -8,7 +8,7 @@
 			&nbsp;&nbsp;</span>	
 			<span><b>Result Type: </b><%= select :agency, :result_type, ResultType.find(:all, :order => 'position').collect{|c| [c.name, c.name]}, {:selected => (@agency.result_type ? @agency.result_type.name : "")}%>
 			&nbsp;&nbsp;&nbsp;</span>	
-		  <span><b>Is active: </b><%= f.check_box :is_active %>&nbsp;&nbsp;&nbsp;</span>
+		  <span><b>Active: </b><%= f.check_box :is_active %>&nbsp;&nbsp;&nbsp;</span>
 		  <span><b>Use for counseling: </b><%= f.check_box :use_for_counseling %>&nbsp;&nbsp;&nbsp;</span>
 		  <span><b>Last updated: </b><%= @agency.updated_at.strftime("%m/%d/%Y %I:%M %p") +' by '+ @agency.updated_by %></span>
 		</div>
@@ -93,12 +93,7 @@
 			<tr class="<%= row_class %>">
 				<td class="hq"><%= (location.is_hq? ? image_tag('check.gif') : '') %></td>
 				<td class="hq"><%= (location.is_provider? ? image_tag('check_blue.gif')  : '') %></td>
-				<td class="loc "><%= link_to_remote (h location.name), 
-					:url => edit_location_url(:agency_id => @agency, :id => location), 
-					:method => :get, 
-					:update => 'loc_detail_container',
-					:before => "Element.show('spinner')",
-					:complete => "Element.hide('spinner')"  %></td>
+				<td class="loc "><%= link_to h (location.name), edit_location_url(:agency_id => @agency, :id => location) %></td>
 				<td class="city "><%  if location.dropin_address -%>
 					<%= location.dropin_address.city %><% if !location.dropin_address.city.blank? -%>, <% end -%><%= location.dropin_address.state_abbrev %>
 				<%end -%></td>

@@ -159,9 +159,6 @@ table#admin_list .center {
 li.agency_header {
 	margin: 0 0 15px;
 }
-li#agency_dropin {	
-	width: 350px;
-}
 .wip {
 	color: #F00;
 }
@@ -189,4 +186,8 @@ documentElement.scrollTop
 form.admin_form li.legacy_item {
 	list-style-type: circle;
 	list-style-position: inside;
+}
+form.button-to,
+form.button-to div{
+	display: inline;
 }

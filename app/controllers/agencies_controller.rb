@@ -32,8 +32,6 @@ class AgenciesController < ApplicationController
   # GET /agencies/1;edit
   def edit
     @agency = Agency.find(params[:id])
-    if @agency.plans
-    end
   end
 
   # POST /agencies

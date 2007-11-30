@@ -1,78 +1,94 @@
-<h1>Editing location</h1>
+<h1>Agency / Plan Administration</h1>
 
+<h2><label>Agency: </label><%= @location.agency.name %>:<%= @location.agency.name2 %></h2>
 <%= error_messages_for :location %>
 
-<% form_for :location, 
-            :url => location_path(@agency),
-            :html => {:method => :put, :class => 'admin_form'} do |f| %>
-  <p>
-    <b>Name</b><br />
-    <%= f.text_field :name %>
-  </p>
+	<% form_for(:location, 
+		:url => (@location.id ? location_path(@location.agency, @location) : locations_path), 
+		:html => { :method => (@location.id ? :put : :post) , :class => 'admin_form' }) do |f| %>
+		<div id="agency_details" class="left agency_header fullwidth">
+		  <span><b>Headquarters: </b><%= f.check_box :is_hq %>&nbsp;&nbsp;&nbsp;</span>
+		  <span><b>Provider: </b><%= f.check_box :is_provider %>&nbsp;&nbsp;&nbsp;</span>
+		  <span><b>Last updated: </b><%= @location.updated_at.strftime("%m/%d/%Y %I:%M %p") if @location.updated_at %> 
+				<%if @location.updated_by %>by<%= @location.updated_by %></span><% end -%>
+		</div>
+		
+		<div class="clear left fullwidth">
+		<span class="legacy"><b>Old SN:</b> <%= (@location.legacy_code.nil? ? @location.fmp2_code + ' (fmp2)' : @location.legacy_code) %>&nbsp;&nbsp;&nbsp;</span>
+		<%if @location.legacy_subcode %><span class="legacy"><b>Legacy Sub-code:</b> <%= @location.legacy_subcode %></span><br/><% end -%>
+		</div>
 
-  <p>
-    <b>Is hq</b><br />
-    <%= f.check_box :is_hq %>
-  </p>
+		
+<ul class="clear left">
+<div><li><%= f.text_field :name, :size => 65 %><label>Location Name: </label></li></div>
+<div><li><%= f.text_field :name2, :size => 65 %><label>Location Name 2: </label></li></div>
+<li class="clear left">
+	<% fields_for :dropin_address, @location.dropin_address do |d_addr| %>
+	<fieldset class="left">
+	<legend class="desc">Drop-in Address</legend>
+	<div><%= d_addr.text_field :line1, :size => 50 %>
+	<label>Street Address 1</label></div>
+	<div><%= d_addr.text_field :line2, :size => 50 %>
+	<label>Street Address 2</label></div>		
+	<span><%= d_addr.text_field :city, :size => 29 %>
+	<label>City</label></span>
+	<span><%= d_addr.select :state_abbrev, State.find(:all, :order => 'abbrev').collect(&:abbrev) %>
+		<label>State</label></span>
+		<span><%= d_addr.text_field :zip, :size => 5 %>
+		<label>Zip Code</label></span>
+	</fieldset>
+	<% end -%>
+</li>
+<li class="left">
+  <% fields_for :mailing_address, @location.mailing_address do |m_addr| %>
+	<fieldset class="left">
+  <legend class="desc">Mailing Address</legend>
+	<div><%= m_addr.text_field :line1, :size => 50 %>
+	<label>Street Address 1</label></div>  
+	<div><%= m_addr.text_field :line2, :size => 50 %>
+	<label>Street Address 2</label></div>	
+	<span><%= m_addr.text_field :city, :size => 29 %>
+	<label>City</label></span>
+	<span><%= m_addr.select :state_abbrev, State.find(:all, :order => 'abbrev').collect(&:abbrev) %>
+		<label>State</label></span>
+		<span><%= m_addr.text_field :zip, :size => 5 %>
+		<label>Zip Code</label></span>
+	</fieldset>
+  <% end %>
+</li>
+<li class="left" id="phone_web">
+				<fieldset><legend class="desc">Location Contact Information</legend>
+				<fieldset class="left">
+				<span><%= f.text_field :tollfree, :size => 15 %><label for="tollfree">Toll Free Phone</label></span>
+				<span><%= f.text_field :tollfree_ext, :size => 8 %><label for="tollfree">Ext</label></span>
+				</fieldset>
+				<fieldset class="left">
+				<span><%= f.text_field :phone, :size => 15 %><label for="local">Local Phone</label></span>
+				<span><%= f.text_field :phone_ext, :size => 8 %><label for="tollfree">Ext</label></span>
+				</fieldset>
+				<fieldset class="left">
+				<span><%= f.text_field :tty, :size => 15 %><label for="tty">TTY</label></span>
+				<span><%= f.text_field :tty_ext, :size => 8 %><label for="tollfree">Ext</label></span>
+				</fieldset>
+				<fieldset class="left">
+				<span><%= f.text_field :fax, :size => 15 %><label for="fax">Fax</label></span>
+				</fieldset>
+				<div class="clear left"><%= f.text_field :email, :size => 30 %><label for="email">Email</label></div>
+				</fieldset>
+		</li>
+<li class="clear left fullwidth">
+	<span><%= f.text_area :logistics, :rows => 6, :cols => 60 %>
+	<label>Logistics</label></span>
+	<span><%= f.text_area :hours_of_operation, :rows => 6, :cols => 60 %>
+	<label>Hours of Operation</label></span>
+</li>
+</ul>
 
-  <p>
-    <b>Phone</b><br />
-    <%= f.text_field :phone %>
-  </p>
 
-  <p>
-    <b>Phone ext</b><br />
-    <%= f.text_field :phone_ext %>
-  </p>
-
-  <p>
-    <b>Tollfree</b><br />
-    <%= f.text_field :tollfree %>
-  </p>
-
-  <p>
-    <b>Tollfree ext</b><br />
-    <%= f.text_field :tollfree_ext %>
-  </p>
-
-  <p>
-    <b>Fax</b><br />
-    <%= f.text_field :fax %>
-  </p>
-
-  <p>
-    <b>Tty</b><br />
-    <%= f.text_field :tty %>
-  </p>
-
-  <p>
-    <b>Tty ext</b><br />
-    <%= f.text_field :tty_ext %>
-  </p>
-
-  <p>
-    <b>Email</b><br />
-    <%= f.text_field :email %>
-  </p>
-
-  <p>
-    <b>Hours of operation</b><br />
-    <%= f.text_field :hours_of_operation %>
-  </p>
-
-  <p>
-    <b>Logistics</b><br />
-    <%= f.text_field :logistics %>
-  </p>
-
-  <p>
-    <b>Legacy subcode</b><br />
-    <%= f.text_field :legacy_subcode %>
-  </p>
-
-  <p>
-    <%= submit_tag "Update" %>
-  </p>
+  <div class="clear half buttons">
+    <%= submit_tag "Update" %> 
 <% end %>
+		<%= button_to 'Back to Agency Without Saving', edit_agency_path(@agency), :method => :get %>
+  </div>
 
-<%= link_to 'Back to Agency', edit_agency_path(@agency) %>
+

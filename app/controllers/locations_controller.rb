@@ -1,6 +1,7 @@
 class LocationsController < ApplicationController
   before_filter :login_required
   before_filter :find_agency, :except => :get_counties_for_states
+  layout 'admin'
   
   # GET /locations
   # GET /locations.xml
@@ -17,13 +18,13 @@ class LocationsController < ApplicationController
   # GET /locations/new
   def new
     @location = Location.new
-    render :partial => 'locations/location_detail', :layout => false
+    #render :partial => 'locations/location_detail', :layout => false
   end
 
   # GET /locations/1;edit
   def edit
     @location = @agency.locations.find(params[:id])
-    render :partial => 'locations/location_detail', :layout => false
+    #render :partial => 'locations/location_detail', :layout => false
   end
 
   # POST /locations
