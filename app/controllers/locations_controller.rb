@@ -52,6 +52,9 @@ class LocationsController < ApplicationController
   # PUT /locations/1
   # PUT /locations/1.xml
   def update
+    if @params['cancel']
+      redirect_to edit_agency_url(@agency) and return
+    end
     @location = @agency.locations.find(params[:id])
     if @location.mailing_address
       @location.mailing_address.update_attributes(params[:mailing_address])

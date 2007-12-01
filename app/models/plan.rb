@@ -35,4 +35,20 @@ class Plan < ActiveRecord::Base
   has_one :publication
   has_many :restrictions
 
+  def start_date_formatted
+     start_date.strftime '%m/%d/%Y' if start_date
+  end
+  
+  def start_date_formatted=(value)
+     self.start_date = Date.parse(value)
+  end
+
+  def end_date_formatted
+     end_date.strftime '%m/%d/%Y' if end_date
+  end
+  
+  def end_date_formatted=(value)
+     self.end_date = Date.parse(value)
+  end
+
 end

@@ -5,12 +5,12 @@
 
 	<% form_for(:location, 
 		:url => (@location.id ? location_path(@location.agency, @location) : locations_path), 
-		:html => { :method => (@location.id ? :put : :post) , :class => 'admin_form' }) do |f| %>
+		:html => { :method => (@location.id ? :put : :post) , :class => 'admin_form', :id => 'location_form' }) do |f| %>
 		<div id="agency_details" class="left agency_header fullwidth">
 		  <span><b>Headquarters: </b><%= f.check_box :is_hq %>&nbsp;&nbsp;&nbsp;</span>
 		  <span><b>Provider: </b><%= f.check_box :is_provider %>&nbsp;&nbsp;&nbsp;</span>
 		  <span><b>Last updated: </b><%= @location.updated_at.strftime("%m/%d/%Y %I:%M %p") if @location.updated_at %> 
-				<%if @location.updated_by %>by<%= @location.updated_by %></span><% end -%>
+				<%if @location.updated_by %>by<%= @location.updated_by %><% end -%></span>
 		</div>
 		
 		<div class="clear left fullwidth">
@@ -19,10 +19,12 @@
 		</div>
 
 		
-<ul class="clear left">
-<div><li><%= f.text_field :name, :size => 65 %><label>Location Name: </label></li></div>
-<div><li><%= f.text_field :name2, :size => 65 %><label>Location Name 2: </label></li></div>
-<li class="clear left">
+<ul>
+<li class="clear left fullwidth">
+	<div><%= f.text_field :name, :size => 65 %><label>Location Name: </label></div>
+	<div><%= f.text_field :name2, :size => 65 %><label>Location Name 2: </label></div>
+</li>
+<li class="clear left half">
 	<% fields_for :dropin_address, @location.dropin_address do |d_addr| %>
 	<fieldset class="left">
 	<legend class="desc">Drop-in Address</legend>
@@ -39,7 +41,7 @@
 	</fieldset>
 	<% end -%>
 </li>
-<li class="left">
+<li class="left half">
   <% fields_for :mailing_address, @location.mailing_address do |m_addr| %>
 	<fieldset class="left">
   <legend class="desc">Mailing Address</legend>
@@ -85,10 +87,10 @@
 </ul>
 
 
-  <div class="clear half buttons">
+  <div class="clear fullwidth buttons">
     <%= submit_tag "Update" %> 
-<% end %>
-		<%= button_to 'Back to Agency Without Saving', edit_agency_path(@agency), :method => :get %>
+		<%= submit_tag 'Back to Agency Without Saving', :name=>'cancel' %>	
   </div>
 
+<% end -%>
 

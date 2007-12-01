@@ -50,6 +50,9 @@ class AgenciesController < ApplicationController
   # PUT /agencies/1
   # PUT /agencies/1.xml
   def update
+    if @params['cancel']
+      redirect_to agencies_url and return
+    end
     @agency = Agency.find(params[:id])
     if @agency.publication
       @agency.publications[0].update_attributes(params[:publication])

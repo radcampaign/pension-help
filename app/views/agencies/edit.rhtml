@@ -17,7 +17,7 @@
 		<span class="legacy"><b>Data Source:</b> <%= @agency.data_source %></span><br/>
 		</div>
 		<% if !@agency.legacy_status.blank? || !@agency.legacy_category1.blank? || !@agency.legacy_category2.blank? -%>
-			<div class="clear left">
+			<div class="clear left fullwidth">
 			<% if !@agency.legacy_status.blank? %><div class=" left legacy"><b>Legacy Status:</b> <%= h @agency.legacy_status %></div><% end -%>
 			<% if !@agency.legacy_category1.blank? %><div class=" left legacy"><b>Legacy Category 1:</b> <%= h @agency.legacy_category1 %></div><% end -%>
 			<% if !@agency.legacy_category2.blank? %><div class=" left legacy"><b>Legacy Category 2:</b> <%= h @agency.legacy_category2 %></div><% end -%>
@@ -113,26 +113,18 @@
 				<% @agency.plans.each_with_index do |plan, i| %>
 				<% row_class = i%2 == 0 ? "even" : "odd" %>
 				<tr class="<%= row_class %>">
-					<td><%= link_to_remote (h plan.name), 
-						:url => edit_plan_url(:agency_id => @agency, :id => plan), 
-						:method => :get, 
-						:update => 'plan_detail_container'  %></td>
+					<td><%= link_to h(plan.name), edit_plan_url(:agency_id => @agency, :id => plan)%></td>
 					<td><%= plan.name2 %></td>
 				</tr>
 				<% end %>
 			</table>
-			<%= link_to_remote 'Add a new plan', 
-				{:url => new_plan_path(@agency),
+			<%= link_to 'Add a new plan', 
+				new_plan_path(@agency),
 				:method => :get,
-				:update => 'plan_detail_container'},
 				:class => 'add_new' %>
 		</div>
 		<div class="clear">
 		  <%= submit_tag "Update Agency" %> 
-			<%= link_to_remote 'Add plan',
-				{:url => new_plan_path(@agency),
-				:method => :get,
-				:update => 'plan_detail_container'}%> |
-			<%= link_to 'Back to Agency list', :controller => :agencies %>
+			<%= submit_tag 'Back to Agency List Without Saving', :name=>'cancel' %>	
 		</div>
 <% end %>
