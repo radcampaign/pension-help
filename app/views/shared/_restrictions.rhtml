@@ -1,0 +1,16 @@
+<% fields_for :restriction, restrictions.first do |r| %>
+<li class="clear left fullwidth">
+	<fieldset><legend class="desc">Restrictions</legend>
+	<span><%= r.text_field :minimum_age %><label>Minimum Age</label></span>
+	<span><%= r.text_field :max_poverty %><label>Income Limit</label></span>
+	<%if restrictions.first && (restrictions.first.legacy_geo_other || restrictions.first.legacy_geo_type || restrictions.first.legacy_geo_states) %>
+	<div class="legacy left"><b>Legacy Geographic Restrictions:</b> 
+		<ul>
+		<% if restrictions.first.legacy_geo_type %><li class="legacy_item">Type - <%= h restrictions.first.legacy_geo_type %></li><% end -%>
+		<% if restrictions.first.legacy_geo_states %><li class="legacy_item">States - <%= h restrictions.first.legacy_geo_states %></li><% end -%>
+		<% if restrictions.first.legacy_geo_other %><li class="legacy_item">Other - <%= h restrictions.first.legacy_geo_other %></li><% end -%>
+		</ul></div>
+	<% end %>
+</fieldset>
+</li>
+<% end -%>

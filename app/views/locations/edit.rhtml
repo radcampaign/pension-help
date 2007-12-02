@@ -1,6 +1,6 @@
 <h1>Agency / Plan Administration</h1>
 
-<h2><label>Agency: </label><%= @agency.name %>:<%= @agency.name2 %></h2>
+<h2><label>Agency: </label><%= @agency.name %> <%= (@agency.name2.blank? ? '' : ':')%> <%= @agency.name2 %></h2>
 <%= error_messages_for :location %>
 
 	<% form_for(:location, 
@@ -21,8 +21,8 @@
 		
 <ul>
 <li class="clear left fullwidth">
-	<div><%= f.text_field :name, :size => 65 %><label>Location Name: </label></div>
-	<div><%= f.text_field :name2, :size => 65 %><label>Location Name 2: </label></div>
+	<div><%= f.text_field :name, :size => 65 %><label>Location Name </label></div>
+	<div><%= f.text_field :name2, :size => 65 %><label>Location Name 2 </label></div>
 </li>
 <li class="clear left half">
 	<% fields_for :dropin_address, @location.dropin_address do |d_addr| %>
@@ -84,6 +84,7 @@
 	<span><%= f.text_area :hours_of_operation, :rows => 6, :cols => 60 %>
 	<label>Hours of Operation</label></span>
 </li>
+<%= render :partial => '/shared/restrictions', :locals => {:restrictions => @location.restrictions} %>
 </ul>
 
 
