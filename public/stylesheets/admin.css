@@ -184,7 +184,7 @@ documentElement.scrollTop
 	height: auto !important;
 }
 form.admin_form li.legacy_item {
-	list-style-type: circle;
+	list-style-type: disc;
 	list-style-position: inside;
 }
 form.button-to,
