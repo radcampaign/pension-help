@@ -7,6 +7,7 @@ class AddAgencyCategories < ActiveRecord::Migration
     ['Government',
       'Service Provider',
       'State/Local Plans',
+      'Resource',
       'Other'
     ].each_with_index {|c, i| AgencyCategory.create(:id => i+1, :name => c, :position => i+1)}
     %w{ 

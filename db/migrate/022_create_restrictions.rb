@@ -18,28 +18,28 @@ class CreateRestrictions < ActiveRecord::Migration
       t.column :fmp2_code, :string, :limit => 10
     end
     
-    create_table :restrictions_states, :id => false do |t|
+    create_table :restrictions_states, :force => true, :id => false do |t|
       t.column :restriction_id, :integer, :null => false
       t.column :state_abbrev, :string, :limit => 2, :null => false
     end
     execute "alter table restrictions_states add primary key pk_states(restriction_id, state_abbrev)"
     add_index :restrictions_states, [:state_abbrev, :restriction_id]
     
-    create_table :restrictions_zips, :id => false do |t|
+    create_table :restrictions_zips, :force => true, :id => false do |t|
       t.column :restriction_id, :integer, :null => false
       t.column :zipcode, :string, :limit => 5, :null => false
     end  
     execute "alter table restrictions_zips add primary key pk_states(restriction_id, zipcode)"
     add_index :restrictions_zips, [:zipcode, :restriction_id]
 
-    create_table :restrictions_cities, :id => false do |t|
+    create_table :restrictions_cities, :force => true, :id => false do |t|
       t.column :restriction_id, :integer, :null => false
       t.column :city_id, :integer, :null => false
     end
     execute "alter table restrictions_cities add primary key pk_states(restriction_id, city_id)"
     add_index :restrictions_cities, [:city_id, :restriction_id]
 
-    create_table :restrictions_counties, :id => false do |t|
+    create_table :restrictions_counties, :force => true, :id => false do |t|
       t.column :restriction_id, :integer, :null => false
       t.column :county_id, :integer, :null => false
     end 

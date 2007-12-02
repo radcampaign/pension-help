@@ -1,7 +1,7 @@
 class AddTimestamps < ActiveRecord::Migration
   def self.up
     add_column :locations, :updated_by, :string
-    add_column :plans, :updated_at, :timestamp
+    add_column :plans, :updated_at, :datetime
     add_column :plans, :updated_by, :string
   end
 
