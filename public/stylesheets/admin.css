@@ -87,6 +87,10 @@ form.admin_form li {
 	border: 1px solid #c00;
 	width: 95%;
 }
+#agency_details {
+	margin-top: 8px;
+}
+}
 .clear {
 	clear: both;
 }
