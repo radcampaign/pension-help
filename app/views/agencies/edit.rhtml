@@ -56,7 +56,8 @@
 			<span><%= f.text_area :comments, :rows => 6, :cols => 60 %>
 			<label>Comments</label></span>
 		</li>
-		<%= render :partial => '/shared/restrictions', :locals => {:restriction => @agency.restriction} %>
+		<%# Agencies do not have any restrictions. See TRAC #63
+		 render :partial => '/shared/restrictions', :locals => {:restriction => @agency.restriction} %>
 		<li class="left" id="phone_web">
 			<% fields_for :publication, @agency.publication do |pub| %>
 				<fieldset><legend class="desc">Publication Contact Information</legend>
