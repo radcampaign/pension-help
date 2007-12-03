@@ -30,7 +30,10 @@
 				<%= render :partial => 'shared/zips', :locals => {:states => restriction.states, :counties => restriction.counties, :zip_ids => restriction.zip_ids } %>
 			</span>
 		</div>																		
-
+		<div class="clear fullwdith">
+			<span><%= r.text_field :special_district, :size => 60 %><label>Special District</label></span>
+			<span><%= r.text_field :other_restrictions, :size => 60 %><label>Other Restrictions</label></span>
+		</div>
 		<%= observe_field :state_abbrevs,
 			:frequency => 0.5,
 			:update => 'county_ids_container',
