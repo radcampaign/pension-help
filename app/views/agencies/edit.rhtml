@@ -3,6 +3,8 @@
 <%= error_messages_for :agency %>
 
 	<% form_for(:agency, :url => (@agency.id ? agency_path(@agency) : agencies_path), :html => { :method => (@agency.id ? :put : :post) , :class => 'admin_form' }) do |f| %>
+	<%= link_to 'Back to Agency List', agencies_url %>
+	
 		<div id="agency_details" class="left agency_header fullwidth">
 			<span><b>Category: </b><%= select :agency, :agency_category, AgencyCategory.find(:all, :order => 'position').collect{|c| [c.name, c.name]}, {:selected => (@agency.agency_category ? @agency.agency_category.name : "")}%>
 			&nbsp;&nbsp;</span>	
@@ -79,7 +81,7 @@
 				<% if @agency.publication %>
 					<span class="legacy"><b>Old SN:</b> <%= (@agency.publication.legacy_code.nil? ? (@agency.publication.fmp2_code || '') + ' (fmp2)' : @agency.publication.legacy_code) %></span>
 				<% end %>
-Å				<div class="clear left"><%= pub.text_field :url_title, {:size => 62} %>
+				<div class="clear left"><%= pub.text_field :url_title, {:size => 62} %>
 				<label for="agency_url_title" style="width:150px;">Publication URL Title (for display)</label></div>
 				<div class="left"><%= pub.text_field :url, {:size => 62}  %>
 				<label for="agency_url">Publication URL</label></div>					
