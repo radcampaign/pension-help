@@ -6,6 +6,7 @@
 	<% form_for(:location, 
 		:url => (@location.id ? location_path(@location.agency, @location) : locations_path), 
 		:html => { :method => (@location.id ? :put : :post) , :class => 'admin_form', :id => 'location_form' }) do |f| %>
+		<%= link_to 'Back to Agency', edit_agency_url(@agency) %>
 		<div id="agency_details" class="left agency_header fullwidth">
 		  <span><b>Headquarters: </b><%= f.check_box :is_hq %>&nbsp;&nbsp;&nbsp;</span>
 		  <span><b>Provider: </b><%= f.check_box :is_provider %>&nbsp;&nbsp;&nbsp;</span>
