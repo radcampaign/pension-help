@@ -1,8 +1,11 @@
 <% fields_for :restriction, restriction do |r| %>
 <li class="clear left fullwidth">
 	<fieldset><legend class="desc">Restrictions</legend>
-		<span><%= r.text_field :minimum_age %><label>Minimum Age</label></span>
-		<span><%= r.text_field :max_poverty %><label>Income Limit (% of FPL)</label></span>
+		<% if @location %>
+		<%# only show these fields for location restriction %>
+			<span><%= r.text_field :minimum_age %><label>Minimum Age</label></span>
+			<span><%= r.text_field :max_poverty %><label>Income Limit (% of FPL)</label></span>
+		<% end %>
 		<%if restriction && (restriction.legacy_geo_other || restriction.legacy_geo_type || restriction.legacy_geo_states) %>
 		<div class="legacy left"><b>Legacy Geographic Restrictions:</b> 
 			<ul>
