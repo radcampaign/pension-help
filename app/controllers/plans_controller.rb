@@ -1,6 +1,6 @@
 class PlansController < ApplicationController
   before_filter :login_required
-  before_filter :find_agency, :except => [:get_counties_for_states, :get_cities_for_counties]
+  before_filter :find_agency, :except => [:get_counties_for_states, :get_cities_for_counties, :get_zips_for_counties]
   layout 'admin'
 
   # GET /plans
@@ -18,6 +18,7 @@ class PlansController < ApplicationController
   # GET /plans/new
   def new
     @plan = Plan.new
+    @plan.build_restriction
     render :template => 'plans/edit'
 #    render :partial => 'plans/plan_detail', :layout => false
   end
@@ -25,6 +26,7 @@ class PlansController < ApplicationController
   # GET /plans/1;edit
   def edit
     @plan = @agency.plans.find(params[:id])
+    @plan.build_restriction if !@plan.restriction
 #    render :partial => 'plans/plan_detail', :layout => false
   end
 
@@ -32,10 +34,12 @@ class PlansController < ApplicationController
   # POST /plans.xml
   def create
     @plan = @agency.plans.build(params[:plan])
-    @plan.publication = @plan.build_publication(params[:publication])
-    @plan.states = params[:plan_state_abbrevs].collect{|s| State.find(s)} unless params[:plan_state_abbrevs].nil?
-    @plan.counties = params[:plan_county_ids].collect{|c| County.find(c)} unless params[:plan_county_ids].nil?
-    @plan.cities = params[:plan_city_ids].collect{|c| City.find(c)} unless params[:plan_city_ids].nil?
+    @plan.build_restriction if !@plan.restriction
+    @plan.restriction.update_attributes(params[:restriction])
+    @plan.restriction.states=params[:state_abbrevs].collect{|s| State.find(s)} unless params[:state_abbrevs].to_s.blank?
+    @plan.restriction.counties=params[:county_ids].collect{|c| County.find(c)} unless params[:county_ids].nil?
+    @plan.restriction.cities=params[:city_ids].collect{|c| City.find(c)} unless params[:city_ids].nil?
+    @plan.restriction.zips=params[:zip_ids].collect{|c| Zip.find(c)} unless params[:zip_ids].nil?
 
     if @plan.save
       flash[:notice] = 'Plan was successfully created.'
@@ -52,9 +56,13 @@ class PlansController < ApplicationController
       redirect_to edit_agency_url(@agency) and return
     end
     @plan = @agency.plans.find(params[:id])
-#    @plan.states = params[:plan_state_abbrevs].collect{|s| State.find(s)} unless params[:plan_state_abbrevs].nil?
-#    @plan.counties = params[:plan_county_ids].collect{|c| County.find(c)} unless params[:plan_county_ids].nil?
-#    @plan.cities = params[:plan_city_ids].collect{|c| City.find(c)} unless params[:plan_city_ids].nil?
+    @plan.build_restriction if !@plan.restriction
+      
+    @plan.restriction.update_attributes(params[:restriction])
+    @plan.restriction.states=params[:state_abbrevs].collect{|s| State.find(s)} unless params[:state_abbrevs].to_s.blank?
+    @plan.restriction.counties=params[:county_ids].collect{|c| County.find(c)} unless params[:county_ids].nil?
+    @plan.restriction.cities=params[:city_ids].collect{|c| City.find(c)} unless params[:city_ids].nil?
+    @plan.restriction.zips=params[:zip_ids].collect{|c| Zip.find(c)} unless params[:zip_ids].nil?
 
     if @plan.update_attributes(params[:plan])
       flash[:notice] = 'Plan was successfully updated.'

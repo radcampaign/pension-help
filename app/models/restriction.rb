@@ -27,7 +27,7 @@ class Restriction < ActiveRecord::Base
   belongs_to :plan
   
   has_and_belongs_to_many :states, :join_table => "restrictions_states", :association_foreign_key => "state_abbrev"
-  has_and_belongs_to_many :zips, :join_table => "restrictions_zips", :association_foreign_key => "zip_zipcode"
+  has_and_belongs_to_many :zips, :join_table => "restrictions_zips", :association_foreign_key => "zipcode"
   has_and_belongs_to_many :cities, :join_table => "restrictions_cities"
   has_and_belongs_to_many :counties, :join_table => "restrictions_counties"
   
@@ -41,6 +41,10 @@ class Restriction < ActiveRecord::Base
   
   def city_ids
     cities.collect(&:id)
+  end
+  
+  def zip_ids
+    zips.collect(&:zipcode)
   end
 
 end

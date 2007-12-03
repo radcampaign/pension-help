@@ -1,6 +1,6 @@
 class LocationsController < ApplicationController
   before_filter :login_required
-  before_filter :find_agency, :except => :get_counties_for_states
+  before_filter :find_agency, :except => [:get_counties_for_states, :get_cities_for_counties, :get_zips_for_counties]
   layout 'admin'
   
   # GET /locations
@@ -12,12 +12,13 @@ class LocationsController < ApplicationController
   # GET /locations/1
   # GET /locations/1.xml
   def show
-    redirect_to edit_agency_url(@agency) 
+    redirect_to edit_location_url(@location) 
   end
 
   # GET /locations/new
   def new
     @location = Location.new
+    @location.build_restriction
     render :template => 'locations/edit'
     #render :partial => 'locations/location_detail', :layout => false
   end
@@ -25,6 +26,7 @@ class LocationsController < ApplicationController
   # GET /locations/1;edit
   def edit
     @location = @agency.locations.find(params[:id])
+    @location.build_restriction if !@location.restriction
     #render :partial => 'locations/location_detail', :layout => false
   end
 
@@ -38,8 +40,12 @@ class LocationsController < ApplicationController
     @location.dropin_address = @location.build_dropin_address(params[:dropin_address])
     @location.dropin_address.address_type='dropin'
     @location.dropin_address.save!
-    @location.states = params[:location_state_abbrevs].collect{|s| State.find(s)} unless params[:location_state_abbrevs].nil?
-    @location.counties = params[:location_county_ids].collect{|c| County.find(c)} unless params[:location_county_ids].nil?
+    @location.build_restriction if !@location.restriction
+    @location.restriction.update_attributes(params[:restriction])
+    @location.restriction.states=params[:state_abbrevs].collect{|s| State.find(s)} unless params[:state_abbrevs].to_s.blank?
+    @location.restriction.counties=params[:county_ids].collect{|c| County.find(c)} unless params[:county_ids].nil?
+    @location.restriction.cities=params[:city_ids].collect{|c| City.find(c)} unless params[:city_ids].nil?
+    @location.restriction.zips=params[:zip_ids].collect{|c| Zip.find(c)} unless params[:zip_ids].nil?
 
     if @location.save
       flash[:notice] = 'Location was successfully created.'
@@ -70,8 +76,13 @@ class LocationsController < ApplicationController
       @location.dropin_address.address_type='dropin'
       @location.dropin_address.save!
     end  
-    @location.states = params[:location_state_abbrevs].collect{|s| State.find(s)} unless params[:location_state_abbrevs].nil?
-    @location.counties = params[:location_county_ids].collect{|c| County.find(c)} unless params[:location_county_ids].nil?
+    @location.build_restriction if !@location.restriction
+      
+    @location.restriction.update_attributes(params[:restriction])
+    @location.restriction.states=params[:state_abbrevs].collect{|s| State.find(s)} unless params[:state_abbrevs].to_s.blank?
+    @location.restriction.counties=params[:county_ids].collect{|c| County.find(c)} unless params[:county_ids].nil?
+    @location.restriction.cities=params[:city_ids].collect{|c| City.find(c)} unless params[:city_ids].nil?
+    @location.restriction.zips=params[:zip_ids].collect{|c| Zip.find(c)} unless params[:zip_ids].nil?
   
     if @location.update_attributes(params[:location])
       flash[:notice] = 'Location was successfully updated.'

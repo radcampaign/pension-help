@@ -16,32 +16,37 @@ class AgenciesController < ApplicationController
   # GET /agencies/1.xml
   def show
     @agency = Agency.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.rhtml
-      format.xml  { render :xml => @agency.to_xml }
-    end
+    redirect_to edit_agency_url(@agency)
   end
 
   # GET /agencies/new
   def new
     @agency = Agency.new
+    @agency.build_restriction
+    @agency.publications.build
     render 'agencies/edit'
   end
 
   # GET /agencies/1;edit
   def edit
     @agency = Agency.find(params[:id])
+    @agency.build_restriction if !@agency.restriction
   end
 
   # POST /agencies
   # POST /agencies.xml
   def create
     @agency = Agency.new(params[:agency])
-
+    @agency.publications[0] = @agency.publications.build(params[:publication])
+    @agency.build_restriction
+    @agency.restriction.update_attributes(params[:restriction])
+    @agency.restriction.states=params[:state_abbrevs].collect{|s| State.find(s)} unless params[:state_abbrevs].to_s.blank?
+    @agency.restriction.counties=params[:county_ids].collect{|c| County.find(c)} unless params[:county_ids].nil?
+    @agency.restriction.cities=params[:city_ids].collect{|c| City.find(c)} unless params[:city_ids].nil?
+    @agency.restriction.zips=params[:zip_ids].collect{|c| Zip.find(c)} unless params[:zip_ids].nil?
     if @agency.save
       flash[:notice] = 'Agency was successfully created.'
-      redirect_to agency_url(@agency)
+      redirect_to edit_agency_url(@agency)
     else
       render :action => "new"
     end
@@ -50,16 +55,23 @@ class AgenciesController < ApplicationController
   # PUT /agencies/1
   # PUT /agencies/1.xml
   def update
-    if @params['cancel']
+    if params['cancel']
       redirect_to agencies_url and return
     end
     @agency = Agency.find(params[:id])
     if @agency.publication
       @agency.publications[0].update_attributes(params[:publication])
     else
-      @agency.publications[0] = @agency.build_publication(params[:publication])
+      @agency.publications[0] = @agency.publications.build(params[:publication])
       @agency.publications[0].save!
-    end    
+    end
+    @agency.build_restriction if !@agency.restriction
+      
+    @agency.restriction.update_attributes(params[:restriction])
+    @agency.restriction.states=params[:state_abbrevs].collect{|s| State.find(s)} unless params[:state_abbrevs].to_s.blank?
+    @agency.restriction.counties=params[:county_ids].collect{|c| County.find(c)} unless params[:county_ids].nil?
+    @agency.restriction.cities=params[:city_ids].collect{|c| City.find(c)} unless params[:city_ids].nil?
+    @agency.restriction.zips=params[:zip_ids].collect{|c| Zip.find(c)} unless params[:zip_ids].nil?
     begin
       if @agency.update_attributes(params[:agency])
         flash[:notice] = 'Agency was successfully updated.'

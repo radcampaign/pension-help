@@ -84,7 +84,7 @@
 	<span><%= f.text_area :hours_of_operation, :rows => 6, :cols => 60 %>
 	<label>Hours of Operation</label></span>
 </li>
-<%= render :partial => '/shared/restrictions', :locals => {:restrictions => @location.restrictions} %>
+<%= render :partial => '/shared/restrictions', :locals => {:restriction => @location.restriction} %>
 </ul>
 
 

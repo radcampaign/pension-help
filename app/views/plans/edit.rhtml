@@ -43,7 +43,7 @@
 		<span><%= f.text_area :catchall_employees, :rows => 6, :cols => 60 %>
 		<label>Catch-all Employees</label></span>
 	</li>
-	<%= render :partial => '/shared/restrictions', :locals => {:restrictions => @plan.restrictions} %>
+	<%= render :partial => '/shared/restrictions', :locals => {:restriction => @plan.restriction} %>
 	<li class="left" id="phone_web">
 				<fieldset><legend class="desc">Plan Contact Information</legend>
 				<fieldset class="left fullwidth">

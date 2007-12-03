@@ -121,6 +121,7 @@ form.admin_form fieldset {
 	display: inline;
 	padding: 8px 4px 0px;
 	margin-bottom: 8px;
+	background-color: #FDD;
 }
 a.close_window {
 background:url(close.gif) no-repeat center;

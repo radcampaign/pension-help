@@ -34,7 +34,7 @@ class Agency < ActiveRecord::Base
   has_many :publications
   has_many :dropin_addresses, :through => :locations, :source => :addresses, :conditions => "address_type = 'dropin' and is_hq=1", :limit => 1
   has_many :mailing_addresses, :through => :locations, :source => :addresses, :conditions => "address_type = 'mailing' and is_hq=1", :limit => 1
-  has_many :restrictions
+  has_one :restriction
 
   has_enumerated :agency_category
   has_enumerated :result_type
@@ -42,7 +42,9 @@ class Agency < ActiveRecord::Base
   validates_presence_of(:agency_category)
   validates_presence_of(:name)
   
+  #temporary workaround
   def publication
     publications.first
   end
+  
 end

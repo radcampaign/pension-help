@@ -10,11 +10,15 @@
 			&nbsp;&nbsp;&nbsp;</span>	
 		  <span><b>Active: </b><%= f.check_box :is_active %>&nbsp;&nbsp;&nbsp;</span>
 		  <span><b>Use for counseling: </b><%= f.check_box :use_for_counseling %>&nbsp;&nbsp;&nbsp;</span>
-		  <span><b>Last updated: </b><%= @agency.updated_at.strftime("%m/%d/%Y %I:%M %p") +' by '+ @agency.updated_by %></span>
+		  <span><b>Last updated: </b>
+				<% if @agency.updated_at %><%= @agency.updated_at.strftime("%m/%d/%Y %I:%M %p")%><% end %>
+				<% if @agency.updated_by %> by <%= @agency.updated_by %><% end -%></span>
 		</div>
 		<div class="clear left fullwidth">
-		<span class="legacy"><b>Old Agency SN:</b> <%= (@agency.legacy_code.nil? ? @agency.fmp2_code + ' (fmp2)' : @agency.legacy_code) %>&nbsp;&nbsp;&nbsp;</span>
+			<%if @agency.legacy_code || @agency.fmp2_code || @agency.data_source %>
+		<span class="legacy"><b>Old Agency SN:</b> <%= (@agency.legacy_code.nil? ? (@agency.fmp2_code || '') + ' (fmp2)' : @agency.legacy_code) %>&nbsp;&nbsp;&nbsp;</span>
 		<span class="legacy"><b>Data Source:</b> <%= @agency.data_source %></span><br/>
+		<% end -%>
 		</div>
 		<% if !@agency.legacy_status.blank? || !@agency.legacy_category1.blank? || !@agency.legacy_category2.blank? -%>
 			<div class="clear left fullwidth">
@@ -35,14 +39,14 @@
 		<li class="clear left ">
 				<div><%= f.text_field :services_provided, {:size => 62} %>
 				<label for="services_provided">Services Provided</label></div>
-				<div class="left"><%= f.text_field :url_title, {:size => 62} %>
+				<fieldset><div class="left"><%= f.text_field :url_title, {:size => 62} %>
 				<label for="agency_url_title">URL Title (for display)</label></div>
 				<div class="left"><%= f.text_field :url, {:size => 62}  %>
-				<label for="agency_url">URL</label></div>					
-				<div class="left"><%= f.text_field :url2_title, {:size => 62} %>
+				<label for="agency_url">URL</label></div></fieldset>			
+				<fieldset><div class="left"><%= f.text_field :url2_title, {:size => 62} %>
 				<label for="agency_url_title">URL2 Title (for display)</label></div>
 				<div class="left"><%= f.text_field :url2, {:size => 62}  %>
-				<label for="agency_url">URL2</label></div>					
+				<label for="agency_url">URL2</label></div></fieldset>					
 		</li>
 		<li class="left ">
 			<span><%= f.text_area :description, :rows => 6, :cols => 60 %>
@@ -52,7 +56,7 @@
 			<span><%= f.text_area :comments, :rows => 6, :cols => 60 %>
 			<label>Comments</label></span>
 		</li>
-		<%= render :partial => '/shared/restrictions', :locals => {:restrictions => @agency.restrictions} %>
+		<%= render :partial => '/shared/restrictions', :locals => {:restriction => @agency.restriction} %>
 		<li class="left" id="phone_web">
 			<% fields_for :publication, @agency.publication do |pub| %>
 				<fieldset><legend class="desc">Publication Contact Information</legend>
@@ -71,11 +75,13 @@
 				<fieldset class="left">
 				<span><%= pub.text_field :fax, :size => 15 %><label for="fax">Fax</label></span>
 				</fieldset>
-				<span class="legacy"><b>Old SN:</b> <%= (@agency.publication.legacy_code.nil? ? @agency.publication.fmp2_code + ' (fmp2)' : @agency.publication.legacy_code) %></span>
-				<div class="clear left"><%= pub.text_field :url_title, {:size => 62} %>
-				<label for="agency_url_title" style="width:150px;">URL Title (for display)</label></div>
+				<% if @agency.publication %>
+					<span class="legacy"><b>Old SN:</b> <%= (@agency.publication.legacy_code.nil? ? (@agency.publication.fmp2_code || '') + ' (fmp2)' : @agency.publication.legacy_code) %></span>
+				<% end %>
+Å				<div class="clear left"><%= pub.text_field :url_title, {:size => 62} %>
+				<label for="agency_url_title" style="width:150px;">Publication URL Title (for display)</label></div>
 				<div class="left"><%= pub.text_field :url, {:size => 62}  %>
-				<label for="agency_url">URL</label></div>					
+				<label for="agency_url">Publication URL</label></div>					
 				<div class="clear left"><%= pub.text_field :email, :size => 30 %><label for="email">Email</label></div>
 				</fieldset>
 			<% end -%>
@@ -101,10 +107,14 @@
 			</tr>
 			<% end %>
 		</table>
-		<%= link_to 'Add a new location', 
-				new_location_path(@agency),
-				:method => :get,
-				:class => 'add_new' %>
+		<% if @agency.new_record? %>
+			Please save changes to this agency before adding locations
+		<% else %>
+			<%= link_to 'Add a new location', 
+					new_location_path(@agency),
+					:method => :get,
+					:class => 'add_new' %>
+		<% end -%>
 			<table class="admin_table" id="plan_table" cellspacing="0">
 				<tr><th colspan="3" id="table_title">PLANS</th></tr>
 					<tr>
@@ -119,10 +129,14 @@
 				</tr>
 				<% end %>
 			</table>
-			<%= link_to 'Add a new plan', 
-				new_plan_path(@agency),
-				:method => :get,
-				:class => 'add_new' %>
+			<% if @agency.new_record? %>
+				Please save changes to this agency before adding plans
+			<% else %>
+				<%= link_to 'Add a new plan', 
+					new_plan_path(@agency),
+					:method => :get,
+					:class => 'add_new' %>
+			<% end -%>
 		</div>
 		<div class="clear">
 		  <%= submit_tag "Update Agency" %> 

@@ -33,14 +33,14 @@
 class Plan < ActiveRecord::Base
   belongs_to :agency
   has_one :publication
-  has_many :restrictions
+  has_one :restriction
 
   def start_date_formatted
      start_date.strftime '%m/%d/%Y' if start_date
   end
   
   def start_date_formatted=(value)
-     self.start_date = Date.parse(value)
+     self.start_date = Date.parse(value) if !value.blank?
   end
 
   def end_date_formatted
@@ -48,7 +48,7 @@ class Plan < ActiveRecord::Base
   end
   
   def end_date_formatted=(value)
-     self.end_date = Date.parse(value)
+     self.end_date = Date.parse(value) if !value.blank?
   end
 
 end

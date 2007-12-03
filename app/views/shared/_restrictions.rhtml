@@ -1,16 +1,58 @@
-<% fields_for :restriction, restrictions.first do |r| %>
+<% fields_for :restriction, restriction do |r| %>
 <li class="clear left fullwidth">
 	<fieldset><legend class="desc">Restrictions</legend>
-	<span><%= r.text_field :minimum_age %><label>Minimum Age</label></span>
-	<span><%= r.text_field :max_poverty %><label>Income Limit</label></span>
-	<%if restrictions.first && (restrictions.first.legacy_geo_other || restrictions.first.legacy_geo_type || restrictions.first.legacy_geo_states) %>
-	<div class="legacy left"><b>Legacy Geographic Restrictions:</b> 
-		<ul>
-		<% if restrictions.first.legacy_geo_type %><li class="legacy_item">Type - <%= h restrictions.first.legacy_geo_type %></li><% end -%>
-		<% if restrictions.first.legacy_geo_states %><li class="legacy_item">States - <%= h restrictions.first.legacy_geo_states %></li><% end -%>
-		<% if restrictions.first.legacy_geo_other %><li class="legacy_item">Other - <%= h restrictions.first.legacy_geo_other %></li><% end -%>
-		</ul></div>
-	<% end %>
-</fieldset>
+		<span><%= r.text_field :minimum_age %><label>Minimum Age</label></span>
+		<span><%= r.text_field :max_poverty %><label>Income Limit (% of FPL)</label></span>
+		<%if restriction && (restriction.legacy_geo_other || restriction.legacy_geo_type || restriction.legacy_geo_states) %>
+		<div class="legacy left"><b>Legacy Geographic Restrictions:</b> 
+			<ul>
+				<% if restriction.legacy_geo_type %><li class="legacy_item">Type - <%= h restriction.legacy_geo_type %></li><% end -%>
+				<% if restriction.legacy_geo_states %><li class="legacy_item">States - <%= h restriction.legacy_geo_states %></li><% end -%>
+				<% if restriction.legacy_geo_other %><li class="legacy_item">Other - <%= h restriction.legacy_geo_other %></li><% end -%>
+			</ul></div>
+			<% end %>
+			<div class="clear fullwidth">
+				<span><select name="state_abbrevs[]" id="state_abbrevs" multiple=true size=6>
+					<option value="">-- Unrestricted --</option>
+					<%= options_for_select State.find(:all, :order => 'abbrev').collect{|s| [s.name, s.abbrev]}, restriction.state_abbrevs %>
+				</select><label>State</label></span>
+			</span>
+			<span id="county_ids_container">
+				<%= render :partial => 'shared/counties', :locals => {:states => restriction.states, :county_ids => restriction.county_ids } %>
+			</span>
+			<span id="city_ids_container">
+				<%= render :partial => 'shared/cities', :locals => {:states => restriction.states, :counties => restriction.counties, :city_ids => restriction.city_ids } %>
+			</span>	
+			<span id="zip_ids_container">
+				<%= render :partial => 'shared/zips', :locals => {:states => restriction.states, :counties => restriction.counties, :zip_ids => restriction.zip_ids } %>
+			</span>
+		</div>																		
+
+		<%= observe_field :state_abbrevs,
+			:frequency => 0.5,
+			:update => 'county_ids_container',
+			:before => "Element.show('spinner')",
+			:complete => "Element.hide('spinner')",
+			:url => {:action => 'get_counties_for_states'},
+			:with => "'states=' + encodeURIComponent(value) + 
+			'&county_ids=' +  $('county_ids').value" %>
+			
+			<%# clear city/zips when changing state %>
+			<%= observe_field :state_abbrevs,
+				:frequency => 0.5,
+				:update => 'city_ids_container',
+				:before => "Element.show('spinner')",
+				:complete => "Element.hide('spinner')",
+				:url => {:action => 'get_cities_for_counties'},
+				:with => "'counties='" %>
+			<%= observe_field :state_abbrevs,
+				:frequency => 0.5,
+				:update => 'zip_ids_container',
+				:before => "Element.show('spinner')",
+				:complete => "Element.hide('spinner')",
+				:url => {:action => 'get_zips_for_counties'},
+				:with => "'counties='" %>	
+	</fieldset>
 </li>
+
 <% end -%>
