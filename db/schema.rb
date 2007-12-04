@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 25) do
+ActiveRecord::Schema.define(:version => 26) do
 
   create_table "addresses", :force => true do |t|
     t.column "location_id",    :integer
@@ -182,14 +182,9 @@ ActiveRecord::Schema.define(:version => 25) do
     t.column "spd_url",            :string
     t.column "spd_url_title",      :string
     t.column "govt_employee_type", :string
-    t.column "special_district",   :string
     t.column "fmp2_code",          :string
     t.column "legacy_category",    :string
     t.column "legacy_status",      :string
-    t.column "legacy_geo_type",    :string
-    t.column "legacy_geo_info",    :text
-    t.column "legacy_counties",    :string
-    t.column "legacy_states",      :string
     t.column "updated_at",         :datetime
     t.column "updated_by",         :string
     t.column "email",              :string
@@ -327,7 +322,10 @@ ActiveRecord::Schema.define(:version => 25) do
   create_table "zips", :id => false, :force => true do |t|
     t.column "zipcode",      :string
     t.column "state_abbrev", :string
+    t.column "county_id",    :integer
   end
+
+  add_index "zips", ["county_id"], :name => "county_id"
 
   add_foreign_key "addresses", ["location_id"], "locations", ["id"], :name => "addresses_ibfk_1"
 
@@ -357,5 +355,7 @@ ActiveRecord::Schema.define(:version => 25) do
   add_foreign_key "restrictions_states", ["restriction_id"], "restrictions", ["id"], :name => "restrictions_states_ibfk_1"
 
   add_foreign_key "restrictions_zips", ["restriction_id"], "restrictions", ["id"], :name => "restrictions_zips_ibfk_1"
+
+  add_foreign_key "zips", ["county_id"], "counties", ["id"], :name => "zips_ibfk_1"
 
 end

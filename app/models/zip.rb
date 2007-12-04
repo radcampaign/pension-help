@@ -25,6 +25,6 @@ insert into states select distinct state_abbrev, state_name from zip_import;
 
 insert into counties select distinct null, county, county_fips, state_abbrev from zip_import; 
 
-insert into zips select distinct zipcode, state_abbrev from zip_import;                      
+insert into zips select distinct z.zipcode, z.state_abbrev, c.id from zip_import z join counties c on z.county = c.name and z.state_abbrev=c.state_abbrev;                      
 
 insert into cities select distinct null, z.city, c.id, z.state_abbrev from zip_import z join counties c on z.county = c.name and z.state_abbrev=c.state_abbrev;
