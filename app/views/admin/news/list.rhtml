@@ -22,5 +22,6 @@
 
 <%= link_to 'Previous page', { :page => @news_pages.current.previous } if @news_pages.current.previous %>
 <%= link_to 'Next page', { :page => @news_pages.current.next } if @news_pages.current.next %> 
+<br/>
 
-<br />
+<%= link_to "Add New News Item", :controller => 'admin/news', :action => 'new'%>
