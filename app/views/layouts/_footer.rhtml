@@ -11,7 +11,7 @@
 		<li><%= link_to_unless_current 'Feedback', :controller => :feedback %></li>
 		<li class="list_separator">|</li>
 		<% if session[:user] -%>
-			<li><%= link_to_unless_current 'Management', :controller => :admin, :action => 'menu' %></li>
+			<li><%= link_to_unless_current 'Management', :controller => '/admin', :action => 'menu' %></li>
 			<li class="list_separator">|</li>
 			<li><%= link_to 'Logout', :controller => '/account', :action => 'logout' %></li>
 		<% else %>
