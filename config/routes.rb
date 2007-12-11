@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :partners
+
   map.resources :restrictions
 
   map.resources :agencies do |agency|
