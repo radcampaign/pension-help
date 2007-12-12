@@ -58,3 +58,9 @@ end
 # Mime::Type.register "application/x-mobile", :mobile
 
 # Include your application configuration below
+
+ExceptionNotifier.exception_recipients = %w(stuart@gradientblue.com dan@gradientblue.com)
+
+ExceptionNotifier.sender_address = %("PHA Application Error" <do_not_reply@gradientblue.com>)
+
+ExceptionNotifier.email_prefix = "[PHA ERROR] "
