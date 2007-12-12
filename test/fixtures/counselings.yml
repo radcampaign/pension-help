@@ -1,0 +1,45 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  zipcode: MyString
+  employment_start: 2007-12-12
+  employment_end: 2007-12-12
+  is_divorce_related: false
+  is_survivorship_related: false
+  work_state_abbrev: MyString
+  hq_state_abbrev: MyString
+  pension_state_abbrev: MyString
+  is_over_60: false
+  monthly_income: 1
+  number_in_household: 1
+  employer_type_id: 
+  federal_plan_id: 
+  military_service_id: 
+  military_branch_id: 
+  military_employer_id: 
+  pension_earner_id: 
+  state_abbrev: MyString
+  county_id: 
+  city_id: 
+two:
+  id: 2
+  zipcode: MyString
+  employment_start: 2007-12-12
+  employment_end: 2007-12-12
+  is_divorce_related: false
+  is_survivorship_related: false
+  work_state_abbrev: MyString
+  hq_state_abbrev: MyString
+  pension_state_abbrev: MyString
+  is_over_60: false
+  monthly_income: 1
+  number_in_household: 1
+  employer_type_id: 
+  federal_plan_id: 
+  military_service_id: 
+  military_branch_id: 
+  military_employer_id: 
+  pension_earner_id: 
+  state_abbrev: MyString
+  county_id: 
+  city_id: 
