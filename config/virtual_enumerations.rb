@@ -16,12 +16,6 @@ ActiveRecord::VirtualEnumerations.define do |config|
                  :pal_additional_area,
                  :pal_participation_level,
                  :search_plan_type,
-                 :help_additional_area,
-                 :pension_earner,
-                 :employer_type,
-                 :federal_plan,
-                 :military_service,
-                 :military_branch,
-                 :military_employer
+                 :help_additional_area
                  ], :order => 'position ASC'
 end
