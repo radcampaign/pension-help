@@ -96,6 +96,7 @@ class AgenciesController < ApplicationController
     'name' => 'agencies.name',
     'state' => 'if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev)',
     'category' => 'if(agencies.agency_category_id is null or agencies.agency_category_id="", "9999", agencies.agency_category_id)',
-    'result' => 'if(agencies.result_type_id is null or agencies.result_type_id="", "9999", agencies.result_type_id)'
+    'result' => 'if(agencies.result_type_id is null or agencies.result_type_id="", "9999", agencies.result_type_id)',
+    'counseling' => 'agencies.use_for_counseling'
     }
 end

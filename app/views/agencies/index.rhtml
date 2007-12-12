@@ -6,6 +6,7 @@
 		<th><%= link_to 'State', agencies_path(:order=>'state') %></th>
 		<th class="center"><%= link_to 'Category', agencies_path(:order=>'category') %></th>
 		<th class="center"><%= link_to 'Result Type', agencies_path(:order=>'result') %></th>
+		<th class="center"><%= link_to 'Use for Counseling', agencies_path(:order=>'counseling')%></th>
   </tr>
 	
  	<% @agencies.each_with_index do |agency, i| %>
@@ -23,6 +24,8 @@
 		<td class="center">
 		  <%= agency.result_type.name if agency.result_type %>
 		</td>
+		<td class="center">
+			<%= image_tag 'check.gif' if agency.use_for_counseling%>
   </tr>
 <% end %>
 </table>
