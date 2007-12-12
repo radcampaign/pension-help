@@ -16,7 +16,8 @@ class Admin::ContentController < ApplicationController
                               :extended_valid_elements => %w{a[name|href|target|title|onclick] img[class|src|border=0|alt|title|hspace|vspace|width|height|align|name|usemap] hr[class|width|size|noshade] font[face|size|color|style] span[class|align|style] map[id|name] area[shape|coords|href|alt|target]},
                              :theme_advanced_buttons2 => [],
                              :theme_advanced_buttons3 => [],
-                             :plugins => %w{contextmenu ts_advimage paste}},
+                             :forced_root_block => 'p',
+                             :plugins => %w{contextmenu paste}},
                 :only => [:new, :edit])
   
   
