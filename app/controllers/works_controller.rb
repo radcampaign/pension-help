@@ -80,7 +80,7 @@ class WorksController < ApplicationController
     @partner.pal_additional_areas << params[:pal_additional_areas].collect{|p| PalAdditionalArea[p]} if params[:pal_additional_areas]
     @partner.pal_participation_levels << params[:pal_participation_levels].collect{|p| PalParticipationLevel[p]} if params[:pal_participation_levels]
     @partner.help_additional_areas << params[:help_additional_areas].collect{|p| HelpAdditionalArea[p]} if params[:help_additional_areas]
-    @partner.professions << Profession[params[:profession]] if params[:profession]
+    @partner.professions << Profession[params[:profession]] if (params[:profession] and !params[:profession].blank?)
     @partner.search_plan_types << params[:search_plan_types].collect{|p| SearchPlanType[p]} if params[:serach_plan_types]
     @partner.npln_participation_levels << params[:npln_participation_levels].collect{|p| NplnParticipationLevel[p]} if params[:npln_participation_levels]
     @partner.referral_fees << params[:referral_fees].collect{|p| ReferralFee[p]} if params[:referral_fees]

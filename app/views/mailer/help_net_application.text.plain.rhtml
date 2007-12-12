@@ -14,7 +14,7 @@ Website: <%= @partner.url %>
 <% if !@partner.profession_other.blank? -%>
 Profession: <%= @partner.profession_other %>
 <% end -%>
-Profession: <%= @partner.professions.first.name %>
+Profession: <%= @partner.professions.first.name unless @partner.professions.empty? %>
 Professional Affiliations: <%= @partner.affiliations %>
 Experience:
 
