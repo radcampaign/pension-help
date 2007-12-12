@@ -2,7 +2,6 @@ class WorksController < ApplicationController
   
   def index
     @scroll = true
-    parse_info
     parse_networks
   end
     
@@ -21,12 +20,6 @@ class WorksController < ApplicationController
     else
       render :action => :index
     end
-  end
-  
-  def confirm
-    parse_networks
-    # @partner = Partner.new(params[:partner])
-    # render :action => :index unless @partner.valid?
   end
   
   def thank_you
@@ -72,18 +65,15 @@ class WorksController < ApplicationController
   
   private
   
-  def parse_info
-    @work = params[:work]
-    @msg = params[:msg]
-  end
-  
   def parse_networks
     @npln = true if params[:wants_npln]
     @npln = true if params[:partner] and !params[:partner][:wants_npln].blank?
     @aaa = true if params[:wants_pal]
     @aaa = true if params[:partner] and !params[:partner][:wants_pal].blank?
     @help = true if params[:wants_help]
+    @help = true if params[:partner] and !params[:partner][:wants_help].blank?
     @search = true if params[:wants_search]
+    @search = true if params[:partner] and !params[:partner][:wants_search].blank?
   end
 
 end

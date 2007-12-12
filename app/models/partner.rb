@@ -16,5 +16,14 @@ class Partner < ActiveRecord::Base
   has_and_belongs_to_many :help_additional_areas, 
                           :join_table => "partners_help_additional_areas"
                           
-                            
+
+  validates_presence_of   :first_name, 
+                          :last_name, 
+                          :line1, 
+                          :city, 
+                          :state_abbrev, 
+                          :zip_code, 
+                          :phone, 
+                          :email
+  
 end

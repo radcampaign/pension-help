@@ -1,7 +1,7 @@
 <h1>Service &amp; Referral Networks for Pension Professionals</h1>
 
 <style>.fieldWithErrors {padding: 2px; background-color: red; display: table;}</style>
-<% if (not @contact.nil? and not @contact.errors.empty?) -%>
+<% if (not @partner.nil? and not @partner.errors.empty?) -%>
 <div class="warningBox">
 	<table class="warningTable">
 		<tr class="warningRow">
@@ -9,7 +9,7 @@
 				<%= image_tag "layout/icon_exclamation.gif" %>
 			</td>
 			<td class="warningCell2">
-				<% @contact.errors.full_messages.each do |msg| -%>
+				<% @partner.errors.full_messages.each do |msg| -%>
 			  		<p><%= msg %></p>
 			  	<% end -%>
 			</td>
