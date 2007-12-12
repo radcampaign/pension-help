@@ -19,11 +19,14 @@ class Partner < ActiveRecord::Base
 
   validates_presence_of   :first_name, 
                           :last_name, 
-                          :line1, 
+                          :line_1, 
                           :city, 
                           :state_abbrev, 
                           :zip_code, 
                           :phone, 
                           :email
+                          
+  validates_numericality_of :hourly_rate,
+                            :if => Proc.new {|p| !p.new_record? and (p.wants_npln or p.wants_aaa) }
   
 end
