@@ -1,113 +1,40 @@
-<p style="font-weight:bold">Bar Admissions (state, federal): <%= text_field "", "", :size => 30 %></p>
+<p class="works_question">Bar Admissions (state, federal): <%= p.text_field :bar_admissions, :size => 30 %></p>
 
 <p>&nbsp;</p>
 
-<p style="font-weight:bold">I am experienced in the following claim types (check all that apply):</p>
+<p class="works_question">I am experienced in the following claim types (check all that apply):</p>
 
 <p>
 <table class="form">
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Individual claims
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Class claims
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			PBGC claims
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Pension claims
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Health &amp; disability claims
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			ERISA &amp; IRC minimum standards
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Fiduciary claims
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Discrimination claims
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Domestic relations orders
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Other: <%= text_field "", "", :size => 40 %>
-		</td>
-	</tr>
+	<% for item in ClaimType.find(:all) %>
+		<tr>
+			<th><%= check_box_tag("claim_types[]", item.name, partner.claim_types.collect(&:name).include?(item.name)) %></th>
+			<td><%= item.name %> 
+			<%= p.text_field :claim_type_other if item.name.match('Other') %>
+			</td>
+		</tr>
+	<% end -%>
 </table>
 </p>
 
 <p>&nbsp;</p>
 
-<p style="font-weight:bold">I have experience in the following additional areas:</p>
+<p class="works_question">I have experience in the following additional areas:</p>
 
 <p>
 <table class="form">
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Labor Law
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Employment law
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Social Security
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Veterans Benefits
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Other: <%= text_field "", "", :size => 40 %>
-		</td>
-	</tr>
+	<% for item in NplnAdditionalArea.find(:all) %>
+		<tr>
+			<th><%= check_box_tag("npln_additional_areas[]", item.name, partner.npln_additional_areas.collect(&:name).include?(item.name)) %></th>
+			<td><%= item.name %> 
+			<%= p.text_field :npln_additional_area_other if item.name.match('Other') %>
+			</td>
+		</tr>
+	<% end -%>
+		
 </table>
 </p>
 
 <p>&nbsp;</p>
 
-<%= hidden_field_tag "contact[wants_npln]", true %>
+<%= hidden_field_tag "partner[wants_npln]", true %>

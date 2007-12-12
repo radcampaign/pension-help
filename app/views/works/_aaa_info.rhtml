@@ -1,4 +1,4 @@
-<p style="font-weight:bold">Member of the American Academy of Actuaries: <%= radio_button_tag "", "" %>&nbsp;&nbsp;Yes&nbsp;&nbsp;<%= radio_button_tag "", "", checked = true %>&nbsp;&nbsp;No</p>
+<p class="works_question">Member of the American Academy of Actuaries: <%= p.radio_button :aaa_member, true %>&nbsp;&nbsp;Yes&nbsp;&nbsp;<%= p.radio_button :aaa_member, false %>&nbsp;&nbsp;No</p>
 
 <p>&nbsp;</p>
 
@@ -7,7 +7,7 @@
 	<tr>
 		<th>Licenses &amp; Certifications:</th>
 		<td>
-			<%= text_area "", "", :cols => 40, :rows => 5 %>
+			<%= p.text_area :certifications, :cols => 40, :rows => 5 %>
 		</td>
 	</tr>
 </table>
@@ -20,7 +20,7 @@
 	<tr>
 		<th>Professional Affiliations:</th>
 		<td>
-			<%= text_area "", "", :cols => 40, :rows => 5 %>
+			<%= p.text_area :affiliations, :cols => 40, :rows => 5 %>
 		</td>
 	</tr>
 </table>
@@ -28,70 +28,40 @@
 
 <p>&nbsp;</p>
 
-<p style="font-weight:bold">I have experience in the following additional areas:</p>
+<p class="works_question">I have experience in the following additional areas:</p>
 
 <p>
 <table class="form">
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Domestic relations orders
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Plan changes
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			PBGC questions
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Other: <%= text_field "", "", :size => 20 %>
-		</td>
-	</tr>
+	<% for item in PalAdditionalArea.find(:all) %>
+		<tr>
+			<th><%= check_box_tag("pal_additional_areas[]", item.name, partner.pal_additional_areas.collect(&:name).include?(item.name)) %></th>
+			<td><%= item.name %> 
+			<%= p.text_field :pal_additional_area_other if item.name.match('Other') %>
+			</td>
+		</tr>
+	<% end -%>
+	
 </table>
 </p>
 
 <p>&nbsp;</p>
 
-<p style="font-weight:bold">I am willing to participate at the following levels (check all that apply):</p>
+<p class="works_question">I am willing to participate at the following levels (check all that apply):</p>
 
 <p>
 <table class="form">
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Advise individual clients on actuarial issues
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Advise attorneys on actuarial issues
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Provide technical assistance to other actuaries
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Other: <%= text_field "", "", :size => 20 %>
-		</td>
-	</tr>
+	<% for item in PalParticipationLevel.find(:all) %>
+		<tr>
+			<th><%= check_box_tag("pal_participation_levels[]", item.name, partner.pal_participation_levels.collect(&:name).include?(item.name)) %></th>
+			<td><%= item.name %> 
+			<%= p.text_field :pal_participation_level_other if item.name.match('Other') %>
+			</td>
+		</tr>
+	<% end -%>
+	
 </table>
 </p>
 
 <p>&nbsp;</p>
 
-<%= hidden_field_tag "contact[wants_aaa]", true %>
+<%= hidden_field_tag "partner[wants_pal]", true %>

@@ -4,35 +4,22 @@
   <tr>
     <th>First name</th>
     <th>Last name</th>
-    <th>Middle initial</th>
     <th>Company</th>
-    <th>Line 1</th>
-    <th>Line 2</th>
     <th>City</th>
     <th>State abbrev</th>
-    <th>Zip code</th>
-    <th>Phone</th>
-    <th>Fax</th>
     <th>Email</th>
     <th>Url</th>
   </tr>
   
 <% for partner in @partners %>
   <tr>
-    <td><%=h partner.first_name %></td>
-    <td><%=h partner.last_name %></td>
-    <td><%=h partner.middle_initial %></td>
+    <td><%= link_to((h partner.first_name), partner_path(partner)) %></td>
+    <td><%= link_to((h partner.last_name), partner_path(partner)) %></td>
     <td><%=h partner.company %></td>
-    <td><%=h partner.line_1 %></td>
-    <td><%=h partner.line_2 %></td>
     <td><%=h partner.city %></td>
     <td><%=h partner.state_abbrev %></td>
-    <td><%=h partner.zip_code %></td>
-    <td><%=h partner.phone %></td>
-    <td><%=h partner.fax %></td>
-    <td><%=h partner.email %></td>
-    <td><%=h partner.url %></td>
-    <td><%= link_to 'Show', partner_path(partner) %></td>
+    <td><a href="mailto:<%=h partner.email %>"><%=h partner.email%></a></td>
+    <td><a href="<%=h partner.url %>"<%=h partner.url %></td>
     <td><%= link_to 'Edit', edit_partner_path(partner) %></td>
     <td><%= link_to 'Destroy', partner_path(partner), :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>

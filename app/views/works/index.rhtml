@@ -21,91 +21,67 @@
 
 <h2>Be a part of our nationwide pension assistance network!</h2>
 
-<p>If you are a pension lawyer, actuary or other pension professional, this page is for you!  Select one or more of our networks to join; complete the automated form below, and then click <b style="color:#cc0000">NEXT</b> at the bottom of the page to submit your application.</p>
+<p>If you are a pension lawyer, actuary or other pension professional, then please join our network to ensure individuals receive the help they need. There are four networks that are available. Please complete the contact details below, then select the network you are most interested and able to participate in. Depending upon the network, there may be additional questions on the next page regarding your expertise that is required to help us make the appropriate referrals to you.</p>
 
 <p>&nbsp;</p>
 
-<p><h2>National Pension Lawyers Network (NPLN):</h2>&nbsp;The NPLN is nationwide lawyer referral service operated by the Pension Action Center at the University of Massachusetts Boston. This service is free for clients and for attorney members. NPLN will conduct a brief intake, and then refer clients to pension and employee benefits attorneys skilled in benefit claims, fiduciary litigation, and the division of pensions at divorce. Member attorneys may charge for their services, but are encouraged to offer reduced-fee, sliding-scale or pro bono services as appropriate, based on client need.</p>
+<% form_tag({:controller => :works, :action => :questions}, {:id => 'works_form'}) do %>
 
-<p>&nbsp;</p>
+<div id="networkForm">
+	<%= render :partial => 'works/contact_info' %>
+</div>
 
-<p><h2>Pension Assistance List (PAL) Actuary Network:</h2>&nbsp;The Pension Assistance List (PAL) is a free, nationwide actuary referral service operated by the American Academy of Actuaries. Actuaries must be members of the American Academy of Actuaries to sign up for PAL; however, non-AAA members may join PensionHelp America’s actuary referral listing. Both services are free for clients and for actuary members. The applicable service will conduct a brief intake, and then refer clients to pension actuaries skilled in calculating and validating pension benefits across the wide range of range of pension plan types. Member actuaries may charge for their services, but are encouraged to offer reduced-fee, sliding-scale or pro bono services as appropriate, based on client need.</p>
-
-<p>&nbsp;</p>
-
-<p><h2>PensionHelp Network:</h2>&nbsp;Lawyers, actuaries and other pension professionals are needed to help answer basic pension questions from plan participants, retirees, survivors, and current and former spouses through our anonymous e-mail interface. Individuals will submit their questions to PensionHelp America and we’ll forward them on to you, based on your area of interest or expertise. Provide your answer though an anonymous interface on our website. The individual will get the answer they need, and then our staff will categorize the questions and answers in our searchable Q&amp;A database, where your answer can help everyone!</p>
-
-<p>&nbsp;</p>
-
-<p><h2>PensionSearch Network:</h2>&nbsp;Experienced lawyers, actuaries and other pension professionals are needed to help reconnect individuals with their &ldquo;lost&rdquo; pension and retirement savings plan benefits that they earned at companies that can no longer be located. Certain plans are particularly difficult for individuals to locate: defined benefit plans that terminated prior to July 1, 1974; terminated defined contribution plans; and any qualified plan that has undergone a change in plan name, sponsor name, or any other change in plan or corporate form. Members will be notified by email of any sponsors or plans that we are unable to find through standard means. Inquiries will be based on your subject matter and geographic experience. If you know something about the plan or sponsor, simply reply to our e-mail.</p>
-
-<p>&nbsp;</p>
 
 <h2 style="margin-bottom:10px">I am interested in joining (you may select more than one):</h2>
 
-<% form_remote_tag :url => {:action => :show_network_form}, :html => {:id => 'chooseNetworkForm'} do %>
 
 <p>
-	<input type="checkbox" name="wants_npln" <% if @npln -%>checked="checked"<% end -%> onClick="submitAjaxForm('chooseNetworkForm')" />
+	<input type="checkbox" name="wants_npln" <% if @npln -%>checked="checked"<% end -%> />
 	<label>
-		&nbsp;National Pension Lawyers Network (NPLN)
+		&nbsp;<a href="#npln">National Pension Lawyers Network (NPLN)</a>
 	</label>
 </p>
 <p>
-	<input type="checkbox" name="wants_aaa" <% if @aaa -%>checked="checked"<% end -%> onClick="submitAjaxForm('chooseNetworkForm')" />
+	<input type="checkbox" name="wants_pal" <% if @aaa -%>checked="checked"<% end -%> />
 	<label>
-		&nbsp;Pension Assistance List (PAL) Actuary Network
+		&nbsp;<a href="#pal">Pension Assistance List (PAL) Actuary Network</a>
 	</label>
 </p>
 <p>
-	<input type="checkbox" name="wants_help" <% if @help -%>checked="checked"<% end -%> onClick="submitAjaxForm('chooseNetworkForm')" />
+	<input type="checkbox" name="wants_help" <% if @help -%>checked="checked"<% end -%> />
 	<label>
-		&nbsp;The PensionHelp Network
+		&nbsp;<a href="#help_net">The PensionHelp Network</a>
 	</label>
 </p>
 <p>
-	<input type="checkbox" name="wants_search" <% if @search -%>checked="checked"<% end -%> onClick="submitAjaxForm('chooseNetworkForm')" />
+	<input type="checkbox" name="wants_search" <% if @search -%>checked="checked"<% end -%> />
 	<label>
-		&nbsp;The PensionSearch Network
+		&nbsp;<a href="#search_net">The PensionSearch Network</a>
 	</label>
 </p>
 
-<noscript>
-	<% unless @npln or @aaa or @help or @search -%>
-		<%= image_submit_tag "buttons/next_button.gif", :id => 'nextLinkButton' %>
-	<% end -%>
-</noscript>
+<%= image_submit_tag "buttons/next_button.gif", :id => 'nextLinkButton' %>
 
-<% end %>
-
-<% form_tag :controller => :works, :action => :confirm do %>
-
-<div id="networkForm">
-	<%= render :partial => 'works/contact_info' if @npln or @aaa or @help or @search %>
-    <%= render :partial => 'works/professions' if @help or @search %>
-	<%= render :partial => 'works/affiliations' if @npln or @help or @search %>
-    <%= render :partial => 'works/sponsor_types' if @npln or @help or @aaa %>
-    <%= render :partial => 'works/plan_types' if @npln or @help or @aaa %>
-    <%= render :partial => 'works/npln_info' if @npln %>
-    <%= render :partial => 'works/aaa_info' if @aaa %>
-    <%= render :partial => 'works/npln_levels' if @npln %>
-    <%= render :partial => 'works/help_info' if @help %>
-    <%= render :partial => 'works/search_info' if @search %>
-    <%= render :partial => 'works/referrals' if @npln or @aaa %>
-    <%= render :partial => 'works/additional_info' if @npln or @aaa or @help or @search %>
-</div>
-
-<%= image_submit_tag "buttons/next_button.gif", :id => 'nextLinkButton' if @npln or @aaa or @help or @search %>
-
-<% unless @npln or @aaa or @help or @search -%>
-<script type="text/javascript">
-<!--
-document.write("<input type=\"image\" id=\"nextLinkButton\" src=\"/images/buttons/next_button.gif\"/>")
-//-->
-</script>
 <% end -%>
 
-<% end -%>
+<p>&nbsp;</p>
+
+<p class="clear"><a name="npln"></a><h2>National Pension Lawyers Network (NPLN):</h2>&nbsp;The NPLN is nationwide lawyer referral service operated by the Pension Action Center at the University of Massachusetts Boston. This service is free for clients and for attorney members. NPLN will conduct a brief intake, and then refer clients to pension and employee benefits attorneys skilled in benefit claims, fiduciary litigation, and the division of pensions at divorce. Member attorneys may charge for their services, but are encouraged to offer reduced-fee, sliding-scale or pro bono services as appropriate, based on client need.</p>
+
+<p>&nbsp;</p>
+
+<p><a name="pal"></a><h2>Pension Assistance List (PAL) Actuary Network:</h2>&nbsp;The Pension Assistance List (PAL) is a free, nationwide actuary referral service operated by the American Academy of Actuaries. Actuaries must be members of the American Academy of Actuaries to sign up for PAL; however, non-AAA members may join PensionHelp America’s actuary referral listing. Both services are free for clients and for actuary members. The applicable service will conduct a brief intake, and then refer clients to pension actuaries skilled in calculating and validating pension benefits across the wide range of range of pension plan types. Member actuaries may charge for their services, but are encouraged to offer reduced-fee, sliding-scale or pro bono services as appropriate, based on client need.</p>
+
+<p>&nbsp;</p>
+
+<p><a name="help_net"></a><h2>PensionHelp Network:</h2>&nbsp;Lawyers, actuaries and other pension professionals are needed to help answer basic pension questions from plan participants, retirees, survivors, and current and former spouses through our anonymous e-mail interface. Individuals will submit their questions to PensionHelp America and we’ll forward them on to you, based on your area of interest or expertise. Provide your answer though an anonymous interface on our website. The individual will get the answer they need, and then our staff will categorize the questions and answers in our searchable Q&amp;A database, where your answer can help everyone!</p>
+
+<p>&nbsp;</p>
+
+<p><h2><a name="search_net">PensionSearch Network:</a></h2>&nbsp;Experienced lawyers, actuaries and other pension professionals are needed to help reconnect individuals with their &ldquo;lost&rdquo; pension and retirement savings plan benefits that they earned at companies that can no longer be located. Certain plans are particularly difficult for individuals to locate: defined benefit plans that terminated prior to July 1, 1974; terminated defined contribution plans; and any qualified plan that has undergone a change in plan name, sponsor name, or any other change in plan or corporate form. Members will be notified by email of any sponsors or plans that we are unable to find through standard means. Inquiries will be based on your subject matter and geographic experience. If you know something about the plan or sponsor, simply reply to our e-mail.</p>
+
+<p>&nbsp;</p>
+
 
 <script type="text/javascript">
 <!--

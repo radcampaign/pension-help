@@ -351,6 +351,15 @@ body.results div.group {
 	margin-bottom: 12px;
 	padding: 6px 0 6px 6px;
 }
+.clear {
+	clear: both;
+}
+.works_question {
+	font-weight:bold;
+}
+#affiliations_table th.label {
+	width: 140px;
+}
 
 /* User Messages */
 

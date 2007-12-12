@@ -3,13 +3,16 @@
 	<tr>
 		<th>Profession:</th>
 		<td>
-			<%= select("contact", "profession_id", Profession.find(:all).collect {|s| [s.name, s.id]}, {:include_blank => true}) %>
+			<select name='profession' id='profession'>
+				<option value=''></option>
+				<%= options_for_select(Profession.find(:all).collect{|pr| [pr.name, pr.name]}, partner.professions.collect(&:name).first) %>
+			</select>
 		</td>
 	</tr>
 	<tr>
 		<th>Other:</th>
 		<td>
-			<%= text_field "contact", "profession_other", :size => 60 %>
+			<%= p.text_field :profession_other, :size => 60 %>
 		</td>
 	</tr>
 </table>

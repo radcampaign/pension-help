@@ -1,4 +1,4 @@
-<h3>I am willing to</h3> 
+<p class="works_question">I am willing to</p> 
 
 <p>
 <table class="form">
@@ -8,7 +8,7 @@
 		</td>
 	</tr>
 	<tr>
-		<th><%= check_box "search_net", "wont_charge_fees" %></th>
+		<th><%= p.check_box :wont_charge_fees, {}, true, false %></th>
 		<td>
 			Provide these services free of charge.
 		</td>
@@ -18,37 +18,29 @@
 
 <h3>Other information</h3>
 
-<p style="font-weight:bold">I am most likely to have information about the following types of plans (check all that apply):</p>
+<p class="works_question">I am most likely to have information about the following types of plans (check all that apply):</p>
 
 <p>
 <table class="form">
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>Single-employer</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>Multiemployer</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>Multiple employer</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>Church plans</td>
-	</tr>
+	<% for item in SearchPlanType.find(:all) %>
+		<tr>
+			<th><%= check_box_tag("search_plan_types[]", item.name, partner.search_plan_types.collect(&:name).include?(item.name)) %></th>
+			<td><%= item.name %> 
+			</td>
+		</tr>
+	<% end -%>
+	
 </table>
 </p>
 
 <p>&nbsp;</p>
 
-<p style="font-weight:bold">I am most likely to have information about plans in the following geographic areas:<br/><%= text_area "search_net", "info_geo", :cols => 40, :rows => 5 %></p> 
+<p class="works_question">I am most likely to have information about plans in the following geographic areas:<br/><%= p.text_area :info_geo, :cols => 40, :rows => 5 %></p> 
 
 <p>&nbsp;</p>
 
-<p style="font-weight:bold">I am most likely to have information about plans in the following industries:<br/><%= text_area "search_net", "info_industries", :cols => 40, :rows => 5 %></p>
+<p class="works_question">I am most likely to have information about plans in the following industries:<br/><%= p.text_area :info_industries, :cols => 40, :rows => 5 %></p>
 
 <p>&nbsp;</p>
 
-<%= hidden_field_tag "wants_search", true %>
+<%= hidden_field_tag "partner[wants_search]", true %>

@@ -1,8 +1,5 @@
 class Mailer < ActionMailer::Base
   
-  EMAIL_RECIPIENT = "pha@gradientblue.com"
-  EMAIL_FROM = "pha@gradientblue.com"
-  
   def feedback(type,feedback,name=nil,email=nil,phone=nil,availability=nil)
     @recipients = EMAIL_RECIPIENT
     @from = EMAIL_FROM
@@ -18,46 +15,44 @@ class Mailer < ActionMailer::Base
     @body["availability"] = availability
   end
   
-  def search_net_application(contact,seach_net)
+  def search_net_application(partner)
     @recipients = EMAIL_RECIPIENT
     @from = EMAIL_FROM
     @sent_on = Time.now
     @subject = "PHA: PensionSearch Net Application"
     
     # Email body substitutions
-    @body["contact"] = contact
-    @body["seach_net"] = seach_net
+    @body["partner"] = partner
   end
   
-  def help_net_application(contact,help_net)
+  def help_net_application(partner)
     @recipients = EMAIL_RECIPIENT
     @from = EMAIL_FROM
     @sent_on = Time.now
     @subject = "PHA: PensionHelp Net Application"
     
     # Email body substitutions
-    @body["contact"] = contact
-    @body["help_net"] = help_net
+    @body["partner"] = partner
   end
   
-  def npln_application(contact)
+  def npln_application(partner)
     @recipients = EMAIL_RECIPIENT
     @from = EMAIL_FROM
     @sent_on = Time.now
     @subject = "PHA: NPLN Application"
     
     # Email body substitutions
-    @body["contact"] = contact
+    @body["partner"] = partner
   end
   
-  def aaa_application(contact)
+  def aaa_application(partner)
     @recipients = EMAIL_RECIPIENT
     @from = EMAIL_FROM
     @sent_on = Time.now
     @subject = "PHA: PAL Application"
     
     # Email body substitutions
-    @body["contact"] = contact
+    @body["partner"] = partner
   end
   
 end

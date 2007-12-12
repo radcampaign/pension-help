@@ -18,3 +18,11 @@ config.action_controller.perform_caching             = true
 # config.action_mailer.raise_delivery_errors = false
 
 #ExceptionNotifier.exception_recipients = 'dan@gradientblue.com'
+
+ActionMailer::Base.smtp_settings = { 
+  :address => 'localhost',
+  :domain  => 'pensionhelp.org'
+}
+
+EMAIL_RECIPIENT = "pha@gradientblue.com, dave@ianet.org"
+EMAIL_FROM = "pha@gradientblue.com"

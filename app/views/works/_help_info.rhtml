@@ -1,65 +1,33 @@
-<h3>I have experience in the following areas:</h3>
+<p class="works_question">I have experience in the following areas:</p>
 
 <p>
 <table class="form">
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Benefit claims
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Minimum standards
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Fiduciary obligations
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Discrimination &amp; interference
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Terminations and the PBGC
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Domestic relations orders
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Other: <%= text_field "", "", :size => 20 %>
-		</td>
-	</tr>
+	<% for item in HelpAdditionalArea.find(:all) %>
+		<tr>
+			<th><%= check_box_tag("help_additional_areas[]", item.name, partner.help_additional_areas.collect(&:name).include?(item.name)) %></th>
+			<td><%= item.name %> 
+			<%= p.text_field :help_additional_area_other if item.name.match('Other') %>
+			</td>
+		</tr>
+	<% end -%>
+
 </table>
 </p>
 
+<p>&nbsp;</p>
 
-<h3>I am willing to</h3>
+<p class="works_question">I am willing to</p>
 
 <p>
 <table class="form">
 	<tr>
-		<th><%= check_box "", "" %></th>
+		<th><%= p.check_box :willing_to_answer, {}, true, false %></th>
 		<td>
 			Provide basic answers to questions raised by workers, retirees and their families about their pension and retirement savings plans via anonymous email communications.
 		</td>
 	</tr>
 	<tr>
-		<th><%= check_box "", "" %></th>
+		<th><%= p.check_box :willing_to_provide, {}, true, false %></th>
 		<td>
 			Provide these services free of charge.
 		</td>
@@ -67,4 +35,6 @@
 </table>
 </p>
 
-<%= hidden_field_tag "wants_help", true %>
+<p>&nbsp;</p>
+
+<%= hidden_field_tag "partner[wants_help]", true %>

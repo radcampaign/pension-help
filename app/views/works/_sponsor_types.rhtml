@@ -1,61 +1,15 @@
-<p style="font-weight:bold">I am experienced with the following sponsor types (check all that apply):</p>
+<p class="works_question">I am experienced with the following sponsor types (check all that apply):</p>
 
 <p>
 <table class="form">
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Single-employer
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Multiemployer
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Multiple-employer
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Federal government
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Military
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Railroad
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			State, county and other government plans
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Church plans
-		</td>
-	</tr>
-	<tr>
-		<th><%= check_box "", "" %></th>
-		<td>
-			Other: <%= text_field "", "", :size => 40 %>
-		</td>
-	</tr>
+	<% for item in SponsorType.find(:all) %>
+		<tr>
+			<th><%= check_box_tag("sponsor_types[]", item.name, partner.sponsor_types.collect(&:name).include?(item.name)) %></th>
+			<td><%= item.name %> 
+				<%= p.text_field :sponsor_type_other if item.name.match('Other') %>
+			</td>
+		</tr>
+	<% end -%>	
 </table>
 </p>
 

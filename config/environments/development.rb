@@ -18,5 +18,13 @@ config.action_view.cache_template_extensions         = false
 config.action_view.debug_rjs                         = true
 
 # Don't care if the mailer can't send
-config.action_mailer.raise_delivery_errors = false
+config.action_mailer.raise_delivery_errors = true
 
+ActionMailer::Base.smtp_settings = { 
+  :address => 'smtp.suscom-maine.com',
+  :domain  => 'www.suscom-maine.com'
+}
+
+  
+  EMAIL_RECIPIENT = "dan@gradientblue.com, dan@piltch.com"
+  EMAIL_FROM = "dan@gradientblue.com"
