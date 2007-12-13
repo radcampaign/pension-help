@@ -26,6 +26,7 @@ class WorksController < ApplicationController
     parse_networks
     @partner = session[:partner]
     @partner.attributes=params[:partner]
+    #TODO:  clear out old values here before setting new ones
     @partner.pal_additional_areas << params[:pal_additional_areas].collect{|p| PalAdditionalArea[p]} if params[:pal_additional_areas]
     @partner.pal_participation_levels << params[:pal_participation_levels].collect{|p| PalParticipationLevel[p]} if params[:pal_participation_levels]
     @partner.help_additional_areas << params[:help_additional_areas].collect{|p| HelpAdditionalArea[p]} if params[:help_additional_areas]
@@ -59,7 +60,7 @@ class WorksController < ApplicationController
         redirect_to '/'
       end
     else
-      render :action => :index
+      render :action => :questions
     end
   end
   
