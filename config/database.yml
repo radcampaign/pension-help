@@ -31,6 +31,6 @@ test:
 production:
   adapter: mysql
   database: pha_production
-  username: root
-  password: 
+  username: pha
+  password: penSion@34
   host: localhost
