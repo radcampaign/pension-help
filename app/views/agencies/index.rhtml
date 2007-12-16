@@ -25,7 +25,10 @@
 		  <%= agency.result_type.name if agency.result_type %>
 		</td>
 		<td class="center">
-			<%= image_tag 'check.gif' if agency.use_for_counseling%>
+			<span id=<%='use_for_counseling_'+agency.id.to_s %>
+				<%= render :partial=> 'agencies/counseling_check', :locals => {:agency => agency} %>
+			</span>
+		</td>
   </tr>
 <% end %>
 </table>

@@ -90,6 +90,13 @@ class AgenciesController < ApplicationController
     redirect_to agencies_url
   end
   
+  def switch_counseling
+    if (agency=Agency.find(params[:id]))
+      agency.update_attribute(:use_for_counseling, !agency.use_for_counseling)
+    end
+    render :partial => 'agencies/counseling_check', :layout => false, :locals => {:agency => agency}
+  end
+  
   private
   
   SORT_ORDER = { 
