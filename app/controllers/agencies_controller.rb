@@ -6,7 +6,7 @@ class AgenciesController < ApplicationController
   # GET /agencies.xml
   def index
     order = SORT_ORDER[params[:order]] if params[:order]
-    order = 'agencies.name asc' unless order
+    order = 'if(agencies.agency_category_id is null or agencies.agency_category_id="", "9999", agencies.agency_category_id), if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev), agencies.name asc' unless order
     @agencies = Agency.find(:all, :include => [:dropin_addresses], :order => order, :group => 'agencies.id')
 
     # default render index.rhtml
@@ -99,10 +99,11 @@ class AgenciesController < ApplicationController
   
   private
   
+  # peculiar category order due to TRAC #82 (https://prc.gradientblue.com/trac/pha/ticket/82)
   SORT_ORDER = { 
     'name' => 'agencies.name',
     'state' => 'if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev)',
-    'category' => 'if(agencies.agency_category_id is null or agencies.agency_category_id="", "9999", agencies.agency_category_id)',
+    'category' => 'if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev), if(agencies.agency_category_id is null or agencies.agency_category_id="", "9999", agencies.agency_category_id), agencies.name',
     'result' => 'if(agencies.result_type_id is null or agencies.result_type_id="", "9999", agencies.result_type_id)',
     'counseling' => 'agencies.use_for_counseling'
     }
