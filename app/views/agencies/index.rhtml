@@ -1,4 +1,13 @@
 <h1>Agency List</h1>
+<ul class="center" id="footer_links">
+	<li><%= link_to_unless_current 'Home', '/' %></li>
+	<li class="list_separator">|</li>
+	<% if session[:user] -%>
+		<li><%= link_to_unless_current 'Management', :controller => '/admin', :action => 'menu' %></li>
+		<li class="list_separator">|</li>
+		<li><%= link_to 'Logout', :controller => '/account', :action => 'logout' %></li>
+	<% end -%>
+</ul>
 
 <table id="admin_list">
   <tr>

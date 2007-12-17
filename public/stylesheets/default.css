@@ -206,12 +206,12 @@ a img {
 	text-align:center;
 }
 
-#footer ul {
+ul#footer_links {
     white-space: nowrap; 
 		margin-bottom:10px;
 }
 
-#footer li {
+ul#footer_links li {
 	  padding:2px;
     list-style-type: none;
     display: inline;
