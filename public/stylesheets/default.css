@@ -363,7 +363,9 @@ body.results div.group {
 .center {
 	text-align: center;
 }
-
+#news_list td {
+	border-bottom: 1px solid grey;
+}
 /* User Messages */
 
 .warningBox, 

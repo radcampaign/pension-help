@@ -77,4 +77,10 @@ class Admin::NewsController < ApplicationController
       format.js {render :nothing => true} # if request made w/ajax, do nothing - browser will delete row
     end
   end
+  
+  def sort_news
+    params[:news_list].each_with_index { |id,idx| News.update(id, :position => idx) }
+    render :nothing => 'true'
+  end
+  
 end
