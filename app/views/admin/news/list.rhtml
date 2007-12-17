@@ -1,6 +1,6 @@
 <h1>Manage News</h1>
 
-<table width="100%">
+<table width="100%" class="zebra">
   <tr>
     <th>Title</th>
     <th>Publish Date</th>
@@ -9,13 +9,23 @@
     <th>Internal?</th>
   </tr>
   
-<% for news in @news %>
-  <tr>
+<% @news.each_with_index do |news,i| %>
+	<% row_class = i%2 == 0 ? "even" : "odd" %> 
+  <tr class="<%= row_class %>" id="news_<%=news.id.to_s%>" >
     <td width="35%"><%= link_to h(news.title), :action => 'edit', :id => news %></td>
     <td><%= h news.publish_date.strftime("%Y-%m-%d") %></td>
     <td><%= h news.archive_date.strftime("%Y-%m-%d") %></td>
     <td><%= h news.updated_by %> on <%= h news.updated_at.strftime("%Y-%m-%d") %></td>
-    <td><%= news.is_internal ? 'Yes' : '' %></td>
+    <td class="center"><%= news.is_internal ? 'Yes' : '' %></td>
+		<td class="center"><%= link_to_remote(
+           '[delete]', 
+           :url => {:controller=>'admin/news', :action=>'destroy', :id=>news.id}, 
+           :confirm => "Are you sure you want to delete this news item: '#{news.title}' ? This action cannot be undone.",
+           :success => "Effect.DropOut('news_#{news.id}')", 
+           :failure => 'alert("Could not delete news: #{news.title}")'
+        )
+    %>
+    
   </tr>
 <% end %>
 </table>

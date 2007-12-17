@@ -360,6 +360,9 @@ body.results div.group {
 #affiliations_table th.label {
 	width: 140px;
 }
+.center {
+	text-align: center;
+}
 
 /* User Messages */
 

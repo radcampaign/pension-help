@@ -42,6 +42,7 @@ class Admin::NewsController < ApplicationController
 
   def create
     @news = News.new(params[:news])
+    @news.updated_by = User.find(session[:user]).login
     if @news.save
       flash[:notice] = 'News was successfully created.'
       redirect_to :action => 'list'
@@ -55,7 +56,11 @@ class Admin::NewsController < ApplicationController
   end
 
   def update
+    if params['destroy']
+      redirect_to :action => 'destroy', :id=>params[:id] and return
+    end
     @news = News.find(params[:id])
+    @news.updated_by = User.find(session[:user]).login
     if @news.update_attributes(params[:news])
       flash[:notice] = 'News was successfully updated.'
       redirect_to :action => 'show', :id => @news
@@ -65,7 +70,11 @@ class Admin::NewsController < ApplicationController
   end
 
   def destroy
+    logger.debug('destrying')
     News.find(params[:id]).destroy
-    redirect_to :action => 'list'
+    respond_to do |format|
+      format.html {redirect_to :action => 'list'} #request made w/o ajax
+      format.js {render :nothing => true} # if request made w/ajax, do nothing - browser will delete row
+    end
   end
 end
