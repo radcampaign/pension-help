@@ -9,7 +9,7 @@
   
 <% for content in @contents %>
   <tr>
-    <td width="35%"><%= link_to h(content.title), :action => 'edit', :id => content %></td>
+    <td width="35%"><%= '&nbsp;' * 2 * (content.url.length > 1 ? content.url.count("/") : 0) %> <%= link_to h(content.title), :action => 'edit', :id => content %></td>
     <td width="30%"><%= h content.url %></td>
     <td><%= h content.updated_by %> on <%= h content.updated_at.strftime("%Y-%m-%d") %></td>
   </tr>
