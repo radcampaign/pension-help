@@ -15,7 +15,7 @@ ssh_options[:paranoid] = false
 
 set :application, "pha"
 set :repository, "svn+ssh://prc.gradientblue.com/home/svnroot/prc/pha/trunk"
-#set :gateway, 'home'
+set :gateway, 'prc.gradientblue.com'
 
 # =============================================================================
 # ROLES
