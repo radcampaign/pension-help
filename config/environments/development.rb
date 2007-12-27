@@ -28,3 +28,5 @@ ActionMailer::Base.smtp_settings = {
   
   EMAIL_RECIPIENT = "dan@gradientblue.com, dan@piltch.com"
   EMAIL_FROM = "dan@gradientblue.com"
+
+require "ruby-debug"

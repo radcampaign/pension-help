@@ -27,6 +27,17 @@
 
 <p>&nbsp;</p>
 
+<% if ENV['RAILS_ENV'] == 'development' %>
+<div style="font-size:80%">
+	<u>counseling object</u> <br/>
+	<blockquote>
+		emp_type = <%= @counseling.employer_type.name if @counseling.employer_type %><br/>
+		state = <%= @counseling.state.name if @counseling.state %><br/>
+		county = <%= @counseling.county.name if @counseling.county %><br/>
+		city = <%= @counseling.city.name if @counseling.city %><br/>
+	</blockquote>
+</div>
+<% end %>
 <%= image_submit_tag "buttons/next_button.gif", :id => 'nextLinkButton' %>
 
 <% end -%>

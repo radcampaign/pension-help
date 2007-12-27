@@ -10,21 +10,65 @@
 <p>
 	<table id="caDescTable">
 		<tr>
-			<td valign="top"><%= radio_button_tag "id_2", "PRV_EMP" %></td>
+			<td valign="top"><%= radio_button_tag "employer_type", "1" %></td>
 			<td>
-				<h2>Private employer</h2>
-				Private employers include companies and non-profit organizations, large railroads, and religious institutions.
+				<h2>Company or non-profit</h2>
+				Most non-government employment falls into this category.  Select &quot;Company or non-profit&quot; if you did not work for a large railroad or for a religious institution.
 			</td>
 		</tr>
 		<tr>
-			<td valign="top"><%= radio_button_tag "id_2", "GOV_EMP" %></td>
+			<td valign="top"><%= radio_button_tag "employer_type", "2" %></td>
 			<td>
-				<h2>Government employer</h2>
-				Government employers include agencies and offices of the federal government or of any state, county or local government. The uniformed services and other military employers also fall into this category.
+				<h2>Railroad</h2>
+				Select &quot;Railroad&quot; if the company that offers the pension or retirement savings plan is a large railroad, railroad association, national railway labor organization or another company that primarily performs services connected with the transportation of passengers or property by railroad. Local subway and light rail systems are generally not included in this category, but fall under the state, county or local government that sponsors them. 
 			</td>
 		</tr>
 		<tr>
-			<td valign="top"><%= radio_button_tag "id_2", "IDK_EMP" %></td>
+			<td valign="top"><%= radio_button_tag "employer_type", "3" %></td>
+			<td>
+				<h2>Religious institution</h2>
+				Pensions offered by religious institutions (churches, hospitals, schools, etc.) may be governed by different laws than those that govern the pensions of other employers. Select this option if the pension you have a question about is offered by a religious institution, and if there is no reference to the Employee Retirement Income Security Act of 1974 (ERISA) or to the U.S. Department of Labor in any relevant paperwork you have seen. Otherwise, select &quot;Company or non-profit&quot; (above). 
+			</td>
+		</tr>
+
+		<tr>
+			<td valign="top"><%= radio_button_tag "employer_type", "4" %></td>
+			<td>
+				<h2>Federal agency or office</h2>
+				Federal civil service employment includes work for any branch, department, agency or office of the United States federal government, excluding membership in the uniformed services or other military employment (See below).
+			</td>
+		</tr>
+		<tr>
+			<td valign="top"><%= radio_button_tag "employer_type", "5" %></td>
+			<td>
+				<h2>Military</h2>
+				Select this option if the pension or retirement savings plan in question was earned through active or reserve service with the Army, Navy, Air Force, Marine Corps, Coast Guard, National Oceanic and Atmospheric Administration Commissioned Corps and the U.S. Public Health Service Commissioned Corps. &quot;Military&quot; also includes civilian employment for the Army and Air Force Exchange Service, Navy Exchange Service Command, Marine Corps Exchanges, or any other Non-Appropriated Funds Instrumentality (Armed Forces operations for the comfort, pleasure, contentment, or physical or mental improvement of members of the Armed Forces).
+			</td>
+		</tr>
+		<tr>
+			<td valign="top"><%= radio_button_tag "employer_type", "6" %></td>
+			<td>
+				<h2>State agency or office</h2>
+				State government employers include any branch, department, agency or office of a state government within the 50 United States including the District of Columbia. 
+			</td>
+		</tr>
+		<tr>
+			<td valign="top"><%= radio_button_tag "employer_type", "7" %></td>
+			<td>
+				<h2>County agency or office</h2>
+				County government employers include any branch, department, agency or office of a county government within the 50 United States.
+			</td>
+		</tr>
+		<tr>
+			<td valign="top"><%= radio_button_tag "employer_type", "8" %></td>
+			<td>
+				<h2>City or other local government agency or office</h2>
+				City or local government employers include any branch, department, agency or office of a city, town, village, municipality, special district, or other local government entity within the 50 United States.
+			</td>
+		</tr>
+
+		<tr>
+			<td valign="top"><%= radio_button_tag "employer_type", "9" %></td>
 			<td>
 				I don’t know my employment type.
 			</td>

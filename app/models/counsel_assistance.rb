@@ -17,11 +17,11 @@ class CounselAssistance
         "Federal agency or office"
       when "MIL_SRV"
         "Military"
-      when "ST_PLAN"
+      when "STATE"
         "State agency or office"
-      when "CO_PLAN"
+      when "COUNTY"
         "County agency or office"
-      when "LOC_PLAN"
+      when "CITY"
         "City or other local government agency or office"
       else 
         "Unspecified Plan"
@@ -29,42 +29,11 @@ class CounselAssistance
   end
   
   def self.states
-    [["GA","GA"]]
-  end
-  
-  def self.counties
-    [["Clarke","Clarke"],
-     ["Cobb","Cobb"],
-     ["Dekalb","Dekalb"],
-     ["Fulton","Fulton"]]
-  end
-  
-  def self.localities
-    [["Acworth","Acworth"],
-     ["Marietta","Marietta"],
-     ["Roswell","Roswell"]]
+    State.find(:all).collect{|s| [s.name, s.abbrev]}.sort
   end
 
   def self.employer_types
-    [["Private employer","PRV_EMP"],
-     ["Government employer","GOV_EMP"],
-     ["I don't know","IDK_EMP"]]
-  end
-  
-  def self.private_employer_types
-    [["Company or nonprofit","PRV_PLAN"],
-     ["Railroad","RR_PLAN"],
-     ["Religious institution","RI_PLAN"],
-     ["I don’t know","IDK_PRV_EMP"]]
-  end
-  
-  def self.government_employer_types
-    [["Federal agency or office","GOV_PLAN"],
-     ["Military","MIL_SRV"],
-     ["State agency or office","ST_PLAN"],
-     ["County agency or office","CO_PLAN"],
-     ["City or other local government agency or office","LOC_PLAN"],
-     ["I don't know","IDK_GOV_EMP"]]
+    EmployerType.find(:all).collect{|et| [et.name, et.id]}
   end
   
   def self.government_plans

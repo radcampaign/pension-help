@@ -2,27 +2,24 @@
 
 <p><%= question.text %></p>
 
-<% if question.state -%>
-	<% if question.county -%>
-		<% if question.local -%>
-			<p>State: <%= remote_select "", @states,"help","get_counties?local=true" %></p>
-		<% else -%>
-			<p>State: <%= remote_select "", @states,"help","get_counties?local=false" %></p>
-		<% end -%>
-	<% else -%>	
-		<p>State: <%= select "", "", @states, :include_blank => true %></p>
-	<% end -%>
-
-	<% if question.county -%>
-		<p>County: <span id="counties"></span></p>
-	<% end -%>
-
+<% if question.county -%>
 	<% if question.local -%>
-		<p>Local Government: <span id="localities"></span></p>
+		<p>State: <%= remote_select question.name, question.options,"help","get_counties?local=true" %></p>
+	<% else -%>
+		<p>State: <%= remote_select question.name, question.options,"help","get_counties?local=false" %></p>
 	<% end -%>
+<% else -%>	
+	<p><%= question.desc %>: <%= remote_select question.name, question.options, question.controller, question.action, selected_value %></p>
 <% end -%>
 
-<p><%= question.desc %>: <%= remote_select "requested_plan",question.options,question.controller,question.action,selected_value %></p>
+<% if question.county -%>
+	<div id="county_container"><p>County: <span id="counties"><select><option>-- Please select a state -- </option></select></span></p></div>
+<% end -%>
+
+<% if question.local -%>
+	<div id="city_container"><p>Local Government: <span id="localities"><select><option>-- Please select a county -- </option></select></span></p></div>
+<% end -%>
+
 
 
 

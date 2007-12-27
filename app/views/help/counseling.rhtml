@@ -10,7 +10,7 @@
 
 <% form_tag :action => :step_2 do -%>
 
-<p>Employer type: <%= remote_select "", @options, 'help', 'show_second_question', @selected_value_1 %></p>
+<p>Employer type: <%= remote_select "employer_type", @options, 'help', 'show_second_question', (@counseling.employer_type.id if @counseling.employer_type) %></p>
 
 <div id="q2">
 	<% if @next_question_2 -%>
