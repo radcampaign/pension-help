@@ -17,7 +17,8 @@
 		<th><%= link_to 'State', agencies_path(:order=>'state') %></th>
 		<th class="center"><%= link_to 'Category', agencies_path(:order=>'category') %></th>
 		<th class="center"><%= link_to 'Result Type', agencies_path(:order=>'result') %></th>
-		<th class="center"><%= link_to 'Use for Counseling', agencies_path(:order=>'counseling')%></th>
+		<th class="center"><%= link_to 'C & A', agencies_path(:order=>'counseling')%></th>
+		<th class="center"><%= link_to 'Active', agencies_path(:order=>'active')%></th>
   </tr>
 	
  	<% @agencies.each_with_index do |agency, i| %>
@@ -40,7 +41,11 @@
 				<%= render :partial=> 'agencies/counseling_check', :locals => {:agency => agency} %>
 			</span>
 		</td>
-  </tr>
+		<td class="center">
+			<span id=<%='active_'+agency.id.to_s %>
+				<%= render :partial=> 'agencies/active_check', :locals => {:agency => agency} %>
+			</span>
+		</td>  </tr>
 <% end %>
 </table>
 

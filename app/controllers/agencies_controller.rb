@@ -96,7 +96,14 @@ class AgenciesController < ApplicationController
     end
     render :partial => 'agencies/counseling_check', :layout => false, :locals => {:agency => agency}
   end
-  
+
+  def switch_active
+    if (agency=Agency.find(params[:id]))
+      agency.update_attribute(:is_active, !agency.is_active)
+    end
+    render :partial => 'agencies/active_check', :layout => false, :locals => {:agency => agency}
+  end
+
   private
   
   # peculiar category order due to TRAC #82 (https://prc.gradientblue.com/trac/pha/ticket/82)
@@ -105,6 +112,7 @@ class AgenciesController < ApplicationController
     'state' => 'if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev)',
     'category' => 'if(agencies.agency_category_id is null or agencies.agency_category_id="", "9999", agencies.agency_category_id), if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev), agencies.name',
     'result' => 'if(agencies.result_type_id is null or agencies.result_type_id="", "9999", agencies.result_type_id)',
-    'counseling' => 'agencies.use_for_counseling'
+    'counseling' => 'agencies.use_for_counseling',
+    'active' => 'agencies.is_active'
     }
 end
