@@ -1,0 +1,34 @@
+page 1:
+- emp type
+- state, county, city if emp_type 6,7,8
+
+page 2:
+add to zip:
+- 3 state questions - prepopulated if emp_type 6, 7, 8
+- skip work_state if emp_type 6,7,8
+
+Check for counseling.matching_agencies (this will include AoA or DSPs if applicable)
+
+Page 3:
+show only if emp_type 6,7,8
+- show all matching plans, allow user to pick one
+- if user picks "don't know", show employees_list and ask them to pick
+
+Keep track of selected plan.
+
+Page 4: 
+- check if any restrictions exist on the matching_agencies or dsps
+- if any exist, ask the appropriate questions (age, income, start/end date)
+- if we need to, ask any necessary questions about TSP, pension-earner, divorce/survivorship
+
+Submit any new age/income/date restrictions and get new list of matching_agencies
+
+Results:
+- loop through matching_agencies.
+- show agency.best_location for each one.
+
+If you pick a plan, then age/income/date restriction may preclude your eligibility.
+We show this plan anyway. is this right?
+
+Can we move age to same page as other DSP stuff?
+
