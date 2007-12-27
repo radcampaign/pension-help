@@ -49,8 +49,38 @@ class Counseling < ActiveRecord::Base
     end
     
     # always add AoA if we're in a coverage area
-    agencies << aoa_coverage
+    # add dsps if AoA does not match
+    if aoa_coverage
+      agencies << aoa_coverage
+    else
+      agencies << matching_dsps
+    end    
     agencies.flatten.uniq
+  end
+  
+  def matching_dsps
+    home_zip = Zip.find_by_zipcode(zipcode)
+    home_state = home_zip.nil? ? '' : home_zip.state_abbrev
+    sql = <<-SQL
+        select distinct a.* from agencies a
+        join locations l on l.agency_id = a.id
+        join restrictions r on r.location_id = l.id
+        join restrictions_states rs on rs.restriction_id = r.id 
+              and rs.state_abbrev IN (?,?,?,?)
+        where a.agency_category_id = ?
+        SQL
+
+    sql << 'and (r.minimum_age is not null or r.max_poverty is not null) '
+
+    if is_over_60 == false
+      sql << 'and r.minimum_age < 60 '
+    end
+    if poverty_level
+      sql << "and r.max_poverty >= #{poverty_level.to_i} "
+    end
+
+    Agency.find_by_sql([sql, work_state_abbrev, hq_state_abbrev, pension_state_abbrev, 
+                             home_state, AgencyCategory['Service Provider']])
   end
   
   def aoa_coverage
@@ -65,6 +95,11 @@ class Counseling < ActiveRecord::Base
         SQL
     Agency.find_by_sql([sql, ResultType['AoA'], work_state_abbrev, 
                         hq_state_abbrev, pension_state_abbrev, home_state])
+  end
+  
+  def poverty_level
+    # TODO: lookup poverty level from monthly_income and number_in_household
+    monthly_income ? 1.25 : nil
   end
   
   def state_abbrev
@@ -86,6 +121,7 @@ class Counseling < ActiveRecord::Base
         left join restrictions_cities rci on rci.restriction_id = r.id
         where rc.county_id is null
         and rci.city_id is null
+        and a.agency_category_id = 3
         and rs.state_abbrev = ?
         SQL
     Agency.find_by_sql([sql, work_state_abbrev])
@@ -100,6 +136,7 @@ class Counseling < ActiveRecord::Base
         join restrictions_counties rc on rc.restriction_id = r.id
         left join restrictions_cities rci on rci.restriction_id = r.id
         where rci.city_id is null
+        and a.agency_category_id = 3
         and rc.county_id = ?
         SQL
     Agency.find_by_sql([sql, county_id])
@@ -112,7 +149,8 @@ class Counseling < ActiveRecord::Base
         join plans p on p.agency_id = a.id
         join restrictions r on r.plan_id = p.id
         join restrictions_cities rc on rc.restriction_id = r.id
-        where rc.city_id = ?
+        where a.agency_category_id = 3 
+        and rc.city_id = ?
         SQL
     Agency.find_by_sql([sql, city_id])
   end
