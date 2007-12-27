@@ -34,7 +34,12 @@ class Plan < ActiveRecord::Base
   belongs_to :agency
   has_one :publication
   has_one :restriction
-
+  
+  def employee_list
+    return nil unless catchall_employees
+    catchall_employees.split(', ')
+  end
+  
   def start_date_formatted
      start_date.strftime '%m/%d/%Y' if start_date
   end
