@@ -1,6 +1,6 @@
 <h1>Agency / Plan Administration</h1>
 
-<h2><label>Agency: </label><%= @agency.name %>:<%= @agency.name2 %></h2>
+<h2 id="agency_heading"><label>Agency: </label><%= @agency.name %>:<%= @agency.name2 %></h2>
 <%= error_messages_for :plan %>
 
 	<% form_for(:plan, 
