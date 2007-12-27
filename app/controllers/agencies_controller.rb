@@ -103,7 +103,7 @@ class AgenciesController < ApplicationController
   SORT_ORDER = { 
     'name' => 'agencies.name',
     'state' => 'if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev)',
-    'category' => 'if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev), if(agencies.agency_category_id is null or agencies.agency_category_id="", "9999", agencies.agency_category_id), agencies.name',
+    'category' => 'if(agencies.agency_category_id is null or agencies.agency_category_id="", "9999", agencies.agency_category_id), if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev), agencies.name',
     'result' => 'if(agencies.result_type_id is null or agencies.result_type_id="", "9999", agencies.result_type_id)',
     'counseling' => 'agencies.use_for_counseling'
     }
