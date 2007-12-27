@@ -42,6 +42,15 @@ class Agency < ActiveRecord::Base
   validates_presence_of(:agency_category)
   validates_presence_of(:name)
   
+  def best_location(counseling)
+    # for now...
+    locations.first if locations.size > 0
+    
+    # out of state goes to hq
+    
+    # in-state goes to closest geographically
+  end
+  
   #temporary workaround
   def publication
     publications.first
