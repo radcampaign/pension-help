@@ -9,6 +9,8 @@
 	<% end -%>
 </ul>
 
+<%= link_to 'Add a new agency', new_agency_path, :class => 'add_new' %>
+
 <table id="admin_list">
   <tr>
     <th><%= link_to 'Agency Name', agencies_path(:order=>'name') %></th>
@@ -44,6 +46,5 @@
 
 <br />
 
-<%= link_to 'New agency', new_agency_path %>
-
+<%= link_to 'Add a new agency', new_agency_path, :class => 'add_new' %>
 
