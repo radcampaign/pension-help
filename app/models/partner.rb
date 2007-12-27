@@ -27,6 +27,6 @@ class Partner < ActiveRecord::Base
                           :email
                           
   validates_numericality_of :hourly_rate,
-                            :if => Proc.new {|p| !p.new_record? and (p.wants_npln or p.wants_aaa) }
+                            :if => Proc.new {|p| !p.new_record? and (p.wants_npln or p.wants_pal) }
   
 end
