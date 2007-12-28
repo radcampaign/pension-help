@@ -82,16 +82,16 @@ class HelpController < ApplicationController
     end
   end
   
-  def step_2
+  def step_2 #zip, AoA states, plan questions
     @counseling = update_counseling
     @matching_agencies = @counseling.matching_agencies
     @states = CounselAssistance.states
   end
   
-  def step_3
+  def step_3 #employment dates, pension-earner, divorce questions
     @counseling = update_counseling
-    # skip this question, unless we have a state/county/local employer type
-    redirect_to :action => step_4 unless 6..8 === @counseling.employer_type_id
+    # skip this question, unless we have a military/federal/private employer type
+    redirect_to :action => :step_4 and return unless [1,4,5].include?(@counseling.employer_type_id)
     @options = CounselAssistance.pension_earner_choices
   end
   
@@ -99,7 +99,7 @@ class HelpController < ApplicationController
     @counseling = update_counseling
     if @counseling.matching_agencies.collect{|a| a.plans}.flatten.collect{|p| [p.restriction.minimum_age || p.restriction.max_poverty]}.flatten.uniq.reject{|n| n.nil?}.empty?
       # no age or income restrctions
-      redirect_to :action => :results
+      redirect_to :action => :results and return
     else
       render :template => 'help/still_looking' 
     end
@@ -137,7 +137,7 @@ class HelpController < ApplicationController
   def update_counseling 
     c = session[:counseling] ||= Counseling.new
     c.attributes = params[:counseling]
-    c.selected_plan = Plan.find(params[:selected_plan_id]) if params[:selected_plan_id]
+    c.selected_plan = Plan.find(params[:selected_plan_id]) if params[:selected_plan_id] && !params[:selected_plan_id].eql?("IDK")
     c.selected_plan = Plan.find(params[:selected_plan_override]) if params[:selected_plan_override]
     # c.employer_type = EmployerType.find(params[:employer_type]) if params[:employer_type]
     # c.work_state = State.find(params[:state]) if params[:state]
