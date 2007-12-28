@@ -47,11 +47,9 @@ class Counseling < ActiveRecord::Base
     when 'Religious institution':    religious_matches
     when 'Federal agency or office': federal_matches
     when 'Military':                 military_matches
-    when 'State agency or office':   filter_non_selected_plans(state_plan_matches + aoa_dsp)
-    when 'County agency or office':  filter_non_selected_plans
-                                     (state_plan_matches + county_plan_matches + aoa_dsp)
-    when 'City or other local government agency or office': filter_non_selected_plans
-                                     (state_plan_matches + county_plan_matches + city_plan_matches + aoa_dsp)
+    when 'State agency or office':   filter_non_selected_plans(state_plan_matches + aoa_afscme_dsp)
+    when 'County agency or office':  filter_non_selected_plans(state_plan_matches + county_plan_matches + aoa_afscme_dsp)
+    when 'City or other local government agency or office': filter_non_selected_plans(state_plan_matches + county_plan_matches + city_plan_matches + aoa_afscme_dsp)
     else Array.new    
     end
     
@@ -110,8 +108,12 @@ class Counseling < ActiveRecord::Base
 #  private
   #######
   
-  def aoa_dsp
-    aoa_coverage.empty? ? matching_dsps : aoa_coverage
+  def aoa_afscme_dsp
+    if aoa_coverage.empty?
+      (result_type_match('AFSCME') || Array.new) << matching_dsps
+    else
+      aoa_coverage
+    end
   end
   
   def company_matches
@@ -289,7 +291,7 @@ class Counseling < ActiveRecord::Base
   
   def result_type_match(type)
     return nil if ResultType[type].nil?
-    Agency.find_by_result_type_id(ResultType[type])
+    Agency.find(:all, :conditions => ['result_type_id = ?', ResultType[type]])
   end
 
   def filter_non_selected_plans(agencies)
