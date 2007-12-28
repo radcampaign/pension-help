@@ -39,8 +39,8 @@ class Plan < ActiveRecord::Base
   has_one :restriction
   
   def employee_list
-    return nil unless catchall_employees
-    catchall_employees.split(', ')
+    return nil if catchall_employees.blank?
+    catchall_employees.split(', ').collect{|e| [e, id]}
   end
   
   def start_date_formatted

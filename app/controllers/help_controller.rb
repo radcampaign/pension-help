@@ -130,7 +130,7 @@ class HelpController < ApplicationController
   
   def get_employee_list
     c = update_counseling #get counseling object from session
-    employees = c.matching_agencies.collect{|a| a.plans}.flatten.collect{|p| [p.catchall_employees, p.id]}.reject{|name,id| name.blank?}.sort # TODO: replace p.catchall_employees with employee_list and then make it work with dropdown
+    employees = c.matching_agencies.collect{|a| a.plans}.flatten.collect{|p| p.employee_list}.compact.flatten.in_groups_of(2)
     render :partial => 'employee_list', :layout => false, :locals => {'employees' => employees}
   end
 
