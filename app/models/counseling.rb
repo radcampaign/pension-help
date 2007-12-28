@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 32
+# Schema version: 33
 #
 # Table name: counselings
 #
@@ -21,7 +21,7 @@
 #  military_branch_id      :integer(11)   
 #  military_employer_id    :integer(11)   
 #  pension_earner_id       :integer(11)   
-#  state_abbrev            :string(255)   <-- deprecated
+#  state_abbrev            :string(255)   
 #  county_id               :integer(11)   
 #  city_id                 :integer(11)   
 #
@@ -38,6 +38,8 @@ class Counseling < ActiveRecord::Base
   belongs_to :work_state, :class_name => "State", :foreign_key => "work_state_abbrev"
   belongs_to :hq_state, :class_name => "State", :foreign_key => "hq_state_abbrev"
   belongs_to :pension_state, :class_name => "State", :foreign_key => "pension_state_abbrev"
+  
+  attr_accessor :selected_plan_id
   
   def matching_agencies
     agencies = case employer_type.name

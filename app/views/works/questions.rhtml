@@ -5,9 +5,6 @@
 <div class="warningBox">
 	<table class="warningTable">
 		<tr class="warningRow">
-			<td class="warningCell1">
-				<%= image_tag "layout/icon_exclamation.gif" %>
-			</td>
 			<td class="warningCell2">
 				<% @partner.errors.full_messages.each do |msg| -%>
 			  		<p><%= msg %></p>

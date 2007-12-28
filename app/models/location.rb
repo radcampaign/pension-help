@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 23
+# Schema version: 33
 #
 # Table name: locations
 #
@@ -23,6 +23,7 @@
 #  legacy_code        :string(10)    
 #  legacy_subcode     :string(10)    
 #  fmp2_code          :string(10)    
+#  updated_by         :string(255)   
 #
 
 class Location < ActiveRecord::Base  

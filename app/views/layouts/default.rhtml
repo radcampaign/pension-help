@@ -15,6 +15,7 @@
 <%= javascript_include_tag 'rollover' %>
 </head>
 <body>
+	<div id='spinner' style='display:none'><%= image_tag 'loading.gif' %></div>
 	<div class="header">
 		<div id="<%= request.request_parameters['controller'] %>_header">
 			<div style="position:relative">
@@ -57,9 +58,6 @@
 								<div class="warningBox">
 									<table class="warningTable">
 										<tr class="warningRow">
-											<td class="warningCell1">
-												<%= image_tag "layout/icon_exclamation.gif" %>
-											</td>
 											<td class="warningCell2">
 												<p><%= flash[:warning] %>  <%= flash[:notice] %></p>
 											</td>
@@ -72,9 +70,6 @@
 								<div class="successBox">
 									<table class="successTable">
 										<tr class="successRow">
-											<td class="successCell1">
-												<%= image_tag "layout/icon_exclamation.gif" %>
-											</td>
 											<td class="successCell2">
 												<p><%= flash[:success]%></p>
 											</td>

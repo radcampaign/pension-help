@@ -57,20 +57,7 @@ class HelpController < ApplicationController
 
   # Remote function - Displays 3nd pulldown based on info submitted from 2nd pulldown
   def show_third_question
-    if params[:id] == "IDK_GOV_EMP"
-      # Don’t Know Govt. Employer Type Loop
-      render :update do |page| 
-        page.redirect_to(:controller => 'help', :action => 'government_descriptions')
-      end
-      return
-    elsif params[:id] == "IDK_PRV_EMP"
-      # Don’t Know Private Employer Type Loop
-      render :update do |page| 
-        page.redirect_to(:controller => 'help', :action => 'private_descriptions')
-      end
-      return
-    end
-    
+    @counseling = update_counseling
     @next_question = CAQuestion.find(params[:id])
     render :update do |page| 
       if @next_question
@@ -97,46 +84,64 @@ class HelpController < ApplicationController
   
   def step_2
     @counseling = update_counseling
-  end
-  
-  def step_3
-    @options = CounselAssistance.pension_earner_choices
-  end
-  
-  def expand
+    @matching_agencies = @counseling.matching_agencies
     @states = CounselAssistance.states
   end
   
+  def step_3
+    @counseling = update_counseling
+    # skip this question, unless we have a state/county/local employer type
+    redirect_to :action => step_4 unless 6..8 === @counseling.employer_type_id
+    @options = CounselAssistance.pension_earner_choices
+  end
+  
+  def step_4
+    @counseling = update_counseling
+    if @counseling.matching_agencies.collect{|a| a.plans}.flatten.collect{|p| [p.restriction.minimum_age || p.restriction.max_poverty]}.flatten.uniq.reject{|n| n.nil?}.empty?
+      # no age or income restrctions
+      redirect_to :action => :results
+    else
+      render :template => 'help/still_looking' 
+    end
+    
+  end
+  
   def results
-    # Simply showing the user what they previously submitted 
-    @requested_plan = CounselAssistance.find_plan(session[:requested_plan])
-    render "help/results_state" if (session[:requested_plan] == "ST_PLAN")
+    @counseling = update_counseling
   end
   
   # Used for populating state, county and local pulldowns 
   
   def get_counties
-    counties = State.find(params[:state]).counties
+    counties = State.find(params[:counseling][:work_state_abbrev]).counties
     render :update do |page| 
-        page.replace_html 'counties', :partial => 'county_selector', :locals => {'options' => State.find(params[:state]).counties.collect{|c| [c.name, c.id]}.sort, 'cities' => params[:local]}
+        page.replace_html 'counties', :partial => 'county_selector', :locals => {'options' => counties.collect{|c| [c.name, c.id]}.sort, 'cities' => params[:local]}
         page.visual_effect :highlight, 'county_container'
     end
   end
   
   def get_localities
-    localities = County.find(params[:county]).cities
+    localities = County.find(params[:counseling][:county_id]).cities
     render :update do |page| 
-        page.replace_html 'localities', :partial => 'city_selector', :locals => {'options' => County.find(params[:county]).cities.collect{|c| [c.name, c.id]}.sort, 'cities' => 'false'}
+        page.replace_html 'localities', :partial => 'city_selector', :locals => {'options' => localities.collect{|c| [c.name, c.id]}.sort, 'cities' => 'false'}
         page.visual_effect :highlight, 'city_container'
     end
   end
   
+  def get_employee_list
+    c = update_counseling #get counseling object from session
+    employees = c.matching_agencies.collect{|a| a.plans}.flatten.collect{|p| [p.catchall_employees, p.id]}.reject{|name,id| name.blank?}.sort # TODO: replace p.catchall_employees with employee_list and then make it work with dropdown
+    render :partial => 'employee_list', :layout => false, :locals => {'employees' => employees}
+  end
+
   def update_counseling 
     c = session[:counseling] ||= Counseling.new
-    c.employer_type = EmployerType.find(params[:employer_type]) if params[:employer_type]
-    c.state = State.find(params[:state]) if params[:state]
-    c.county = County.find(params[:county]) if params[:county]
-    c.city = City.find(params[:city]) if params[:city]
+    c.attributes = params[:counseling]
+    c.selected_plan_id = params[:selected_plan_override] if params[:selected_plan_override]
+    # c.employer_type = EmployerType.find(params[:employer_type]) if params[:employer_type]
+    # c.work_state = State.find(params[:state]) if params[:state]
+    # c.county = County.find(params[:county]) if params[:county]
+    # c.city = City.find(params[:city]) if params[:city]
     c
   end
   

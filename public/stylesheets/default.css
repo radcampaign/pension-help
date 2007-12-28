@@ -204,6 +204,7 @@ a img {
 	color:#001384;
 	font-size: 0.9em;
 	text-align:center;
+	margin-top: 20px;
 }
 
 ul#footer_links {
@@ -370,9 +371,9 @@ body.results div.group {
 
 .warningBox, 
 .errorExplanation {
-  width:641px;
-	background-image:url("/images/layout/error_bkgrd.gif");
-  background-repeat: repeat-x;
+	width:640px;
+	background-color:#FEE;
+	border: 1px solid #F00;
 	text-align: center; 
  }
 .errorExplanation {
@@ -401,8 +402,8 @@ body.results div.group {
 
 .successBox {
 	width: 641px;
-	background-image:url("/images/layout/error_bkgrd.gif");
-  background-repeat: repeat-x;
+	background-color: #EFE;
+	background-repeat: repeat-x;
 	text-align: center;    
  }
 
@@ -425,7 +426,26 @@ body.results div.group {
 table tr.even {
 	background-color: #FDD;
 }
+#spinner {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+}
+* html div#spinner {position: absolute;
+top:expression(eval(document.compatMode &&
+document.compatMode=='CSS1Compat') ?
+documentElement.scrollTop
++((documentElement.clientHeight-this.clientHeight)/2 )
+: document.body.scrollTop
++((document.body.clientHeight-this.clientHeight)/2));}
 
+div.agency_result {
+	padding-bottom: 20px;
+	border-top: 1px solid #f00;
+}
+div.agency_result h2 {
+	padding-bottom: 12px;
+}
 /* Safari Hacks */
 
 #menu ul {

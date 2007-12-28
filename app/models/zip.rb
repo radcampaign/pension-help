@@ -1,10 +1,11 @@
 # == Schema Information
-# Schema version: 17
+# Schema version: 33
 #
 # Table name: zips
 #
-#  zipcode      :string(255)   
+#  zipcode      :string(255)   primary key
 #  state_abbrev :string(255)   
+#  county_id    :integer(11)   
 #
 
 class Zip < ActiveRecord::Base

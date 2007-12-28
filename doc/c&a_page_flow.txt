@@ -2,24 +2,22 @@ page 1:
 - emp type
 - state, county, city if emp_type 6,7,8
 
+Check for counseling.matching_agencies
 page 2:
-add to zip:
-- 3 state questions - prepopulated if emp_type 6, 7, 8
-- skip work_state if emp_type 6,7,8
+- zipcode
+- 3 AoA-related state questions - skipped if emp_type 6, 7, 8
+if emp_type 6,7,8
+- show all matching plans, allow user to pick one
+- if user picks "don't know", show employees_list and ask them to pick
 
 Check for counseling.matching_agencies (this will include AoA or DSPs if applicable)
 
 Page 3:
-show only if emp_type 6,7,8
-- show all matching plans, allow user to pick one
-- if user picks "don't know", show employees_list and ask them to pick
-
-Keep track of selected plan.
+- if we need to, ask any necessary questions about TSP, pension-earner, divorce/survivorship
 
 Page 4: 
 - check if any restrictions exist on the matching_agencies or dsps
 - if any exist, ask the appropriate questions (age, income, start/end date)
-- if we need to, ask any necessary questions about TSP, pension-earner, divorce/survivorship
 
 Submit any new age/income/date restrictions and get new list of matching_agencies
 
@@ -32,3 +30,32 @@ We show this plan anyway. is this right?
 
 Can we move age to same page as other DSP stuff?
 
+Page 1 possible questions:
+- employer type
+- state
+- state/county
+- state/county/city
+- military branch
+- military employer
+- military service
+- federal plan
+
+Page 2 possible questions:
+- residence zip code (always)
+- state where work occurred (skip if we already know this from page 1)
+- state where company is HQ (ask only for private employer?)
+- state where pension is paid from (ask only for private employer?)
+
+Page 3 possible questions: (only for state/county/local emp type)
+- pick a plan
+- pick an employee type (if you answered 'don't know' for plan)
+
+Page 4 possible questions:
+- over 60?
+- monthly or annual income
+- # of people in household
+- start date of employment
+- end date of employment
+- pension-earner
+- divorce? (only if military)
+- survivorship? (only if military)

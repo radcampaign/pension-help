@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 23
+# Schema version: 33
 #
 # Table name: plans
 #
@@ -28,6 +28,9 @@
 #  fmp2_code          :string(255)   
 #  legacy_category    :string(255)   
 #  legacy_status      :string(255)   
+#  updated_at         :datetime      
+#  updated_by         :string(255)   
+#  email              :string(255)   
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

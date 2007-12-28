@@ -29,7 +29,7 @@ class Admin::NewsController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @news_pages, @news = paginate :news, :per_page => 10
+    @news_pages, @news = paginate :news, :per_page => 50, :order => 'position asc, publish_date desc'
   end
 
   def show
@@ -43,6 +43,7 @@ class Admin::NewsController < ApplicationController
   def create
     @news = News.new(params[:news])
     @news.updated_by = User.find(session[:user]).login
+    @news.position = 0
     if @news.save
       flash[:notice] = 'News was successfully created.'
       redirect_to :action => 'list'

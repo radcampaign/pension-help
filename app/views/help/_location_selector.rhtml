@@ -1,5 +1,0 @@
-<% if cities == "true" -%>
-	<%= remote_select "county", options, "help", "get_localities" %>
-<% else -%>	
-	<%= select "county", "", options, :include_blank => true %>
-<% end -%>

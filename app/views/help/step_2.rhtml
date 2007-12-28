@@ -6,7 +6,7 @@
 
 <p>&nbsp;</p>
 
-<% form_tag :action => :step_3 do -%>
+<% form_for :counseling, :url => {:action => :step_3} do |form| -%>
 
 <h2>Where are you located?</h2>
 
@@ -16,29 +16,43 @@
 	<table>
 		<tr>
 			<td>Zip Code:</td> 
-			<td><%= text_field "object", "method", "size" => 5 %></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td><a href="/site/exit?dest=http://zip4.usps.com/zip4/welcome.jsp" class="offsite">Don’t know the zip code?</a></td>
+			<td><%= form.text_field :zipcode, :size => 5 %></td>
 		</tr>
 	<table>
 </p>
 
 <p>&nbsp;</p>
+<% if 6..8 === @counseling.employer_type_id %>
+<p>Please select the plan that you're interested in: 
+<select name="counseling[selected_plan_id]" id="selected_plan">
+	<%= options_for_select @matching_agencies.collect{|a| a.plans}.flatten.collect{|p| [p.name, p.id]} %>
+	<option value='IDK'>I'm not sure</option>
+</select></p>
 
-<% if ENV['RAILS_ENV'] == 'development' %>
-<div style="font-size:80%">
-	<u>counseling object</u> <br/>
-	<blockquote>
-		emp_type = <%= @counseling.employer_type.name if @counseling.employer_type %><br/>
-		state = <%= @counseling.state.name if @counseling.state %><br/>
-		county = <%= @counseling.county.name if @counseling.county %><br/>
-		city = <%= @counseling.city.name if @counseling.city %><br/>
-	</blockquote>
-</div>
+<%= observe_field :selected_plan,
+									:frequency => 0.5,
+									:condition => 'value == "IDK"',
+									:update => 'employee_list_container',
+									:before => "Element.show('spinner')",
+									:complete => "Element.hide('spinner')",
+									:url => {:action => 'get_employee_list'} %>
+
+<p id="employee_list_container"></p>
+<% else %>
+<h2>Let’s expand our search</h2>
+
+<p>Some organizations provide assistance based on where the work occurred while earning the pension, where the company is headquartered, or where the benefit is being paid from.</p>
+
+<p>Where did the work occur: <%= form.select :work_state_abbrev, @states, :include_blank => true %></p>
+
+<p>Where is the company headquartered: <%= form.select :hq_state_abbrev, @states, :include_blank => true %></p>
+
+<p>Where is the pension paid from: <%= form.select :pension_state_abbrev, @states, :include_blank => true %></p>
 <% end %>
+
 <%= image_submit_tag "buttons/next_button.gif", :id => 'nextLinkButton' %>
 
 <% end -%>
+<p>&nbsp;</p>
+
 <p>&nbsp;</p>

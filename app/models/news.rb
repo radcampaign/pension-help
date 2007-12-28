@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 8
+# Schema version: 33
 #
 # Table name: news
 #
@@ -15,6 +15,7 @@
 #  created_at   :datetime      
 #  updated_at   :datetime      
 #  updated_by   :string(255)   
+#  position     :integer(11)   
 #
 
 class News < ActiveRecord::Base
