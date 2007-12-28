@@ -4,7 +4,12 @@
 
 <% @counseling.matching_agencies.each do |agency| %>
 <div class="agency_result">
-<h2><%= agency.name %><%=', ' + agency.best_location(@counseling).name if !agency.name.eql?(agency.best_location(@counseling).name)%></h2>
+<h2><%= agency.name -%>
+<% if agency.plans[0] -%>
+	<%='- ' + agency.plans.first.name if agency.plans.first.name %>
+<% else -%>
+	<%='- ' + agency.best_location(@counseling).name if !agency.name.eql?(agency.best_location(@counseling).name)%>
+<% end -%></h2>
 <% if agency.description %><p><%= agency.description %></p><% end -%>
 
 <table>

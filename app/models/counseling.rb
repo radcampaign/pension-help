@@ -38,8 +38,7 @@ class Counseling < ActiveRecord::Base
   belongs_to :work_state, :class_name => "State", :foreign_key => "work_state_abbrev"
   belongs_to :hq_state, :class_name => "State", :foreign_key => "hq_state_abbrev"
   belongs_to :pension_state, :class_name => "State", :foreign_key => "pension_state_abbrev"
-  
-  attr_accessor :selected_plan_id
+  has_one :selected_plan, :class_name => "Plan"
   
   def matching_agencies
     agencies = case employer_type.name
@@ -48,10 +47,11 @@ class Counseling < ActiveRecord::Base
     when 'Religious institution':    religious_matches
     when 'Federal agency or office': federal_matches
     when 'Military':                 military_matches
-    when 'State agency or office':   state_plan_matches + aoa_dsp
-    when 'County agency or office':  state_plan_matches + county_plan_matches + aoa_dsp
-    when 'City or other local government agency or office': state_plan_matches + 
-                                     county_plan_matches + city_plan_matches + aoa_dsp
+    when 'State agency or office':   filter_non_selected_plans(state_plan_matches + aoa_dsp)
+    when 'County agency or office':  filter_non_selected_plans
+                                     (state_plan_matches + county_plan_matches + aoa_dsp)
+    when 'City or other local government agency or office': filter_non_selected_plans
+                                     (state_plan_matches + county_plan_matches + city_plan_matches + aoa_dsp)
     else Array.new    
     end
     
@@ -290,6 +290,18 @@ class Counseling < ActiveRecord::Base
   def result_type_match(type)
     return nil if ResultType[type].nil?
     Agency.find_by_result_type_id(ResultType[type])
+  end
+
+  def filter_non_selected_plans(agencies)
+    #filter out non-selected plans and their agencies
+    if selected_plan
+      # remove any state/local agency that doesn't contain the selected plan
+      agencies.delete_if {|a| a.agency_category_id==3 && !a.plans.collect{|p| p.id }.include?(selected_plan.id)}
+    
+      # for state/local plans only, remove other (non-selected) plans from this agency
+      agencies.each{|a| a.plans.delete_if {|p| p.id != selected_plan.id && a.agency_category_id==3}}
+    end
+    agencies
   end
    
 end

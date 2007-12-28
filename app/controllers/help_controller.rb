@@ -137,7 +137,8 @@ class HelpController < ApplicationController
   def update_counseling 
     c = session[:counseling] ||= Counseling.new
     c.attributes = params[:counseling]
-    c.selected_plan_id = params[:selected_plan_override] if params[:selected_plan_override]
+    c.selected_plan = Plan.find(params[:selected_plan_id]) if params[:selected_plan_id]
+    c.selected_plan = Plan.find(params[:selected_plan_override]) if params[:selected_plan_override]
     # c.employer_type = EmployerType.find(params[:employer_type]) if params[:employer_type]
     # c.work_state = State.find(params[:state]) if params[:state]
     # c.county = County.find(params[:county]) if params[:county]
