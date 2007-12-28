@@ -41,20 +41,18 @@ class Counseling < ActiveRecord::Base
   
   def matching_agencies
     agencies = case employer_type.name
-    when 'State agency or office': state_plan_matches
-    when 'County agency or office': state_plan_matches + county_plan_matches
+    when 'Company or nonprofit':     company_matches
+    when 'Railroad':                 railroad_matches
+    when 'Religious institution':    religious_matches
+    when 'Federal agency or office': federal_matches
+    when 'Military':                 military_matches
+    when 'State agency or office':   state_plan_matches + aoa_dsp
+    when 'County agency or office':  state_plan_matches + county_plan_matches + aoa_dsp
     when 'City or other local government agency or office': state_plan_matches + 
-                                          county_plan_matches + city_plan_matches
+                                     county_plan_matches + city_plan_matches + aoa_dsp
     else Array.new    
     end
     
-    # always add AoA if we're in a coverage area
-    # add dsps if AoA does not match
-    if aoa_coverage
-      agencies << aoa_coverage
-    else
-      agencies << matching_dsps
-    end    
     agencies.flatten.uniq
   end
   
@@ -107,8 +105,119 @@ class Counseling < ActiveRecord::Base
   end
   
   #######
-  private
+#  private
   #######
+  
+  def aoa_dsp
+    aoa_coverage.empty? ? matching_dsps : aoa_coverage
+  end
+  
+  def company_matches
+    agencies = Array.new
+    d = Date.new(1976,1,1)
+    if employment_end.nil? or employment_end < d
+      agencies << result_type_match('IRS')
+    else
+      agencies << result_type_match('DOL')
+    end
+    unless aoa_coverage.empty?
+      return agencies << aoa_coverage
+    end
+    # agencies << nsps
+    agencies << matching_dsps
+    if employment_end.nil? or employment_end < d
+      agencies << result_type_match('DOL')
+    else
+      agencies << result_type_match('IRS')
+    end
+    agencies << result_type_match('PBGC')  
+    agencies.flatten.uniq
+  end
+  
+  def religious_matches
+    agencies = Array.new
+    agencies << result_type_match('IRS')
+    unless aoa_coverage.empty?
+      return agencies << aoa_coverage
+    end
+    agencies << matching_dsps
+    agencies << result_type_match('DOL')
+    agencies << result_type_match('PBGC')
+    agencies.flatten.uniq
+  end
+
+  def railroad_matches
+    agencies = Array.new
+    agencies << result_type_match('RRB')
+    unless aoa_coverage.empty?
+      return agencies << aoa_coverage
+    end
+    agencies << matching_dsps
+    agencies << result_type_match('SSA')
+    agencies.flatten.uniq
+  end
+  
+  def federal_matches
+    agencies = Array.new
+    if federal_plan.nil? or federal_plan.name == 'Thrift Savings Plan (TSP)'
+      agencies << result_type_match('TSP')
+      unless aoa_coverage.empty?
+        return agencies << aoa_coverage
+      end
+      agencies << result_type_match('NARFE')
+      agencies << matching_dsps
+      agencies << result_type_match('OPM')
+    else  
+      agencies << result_type_match('OPM')
+      unless aoa_coverage.empty?
+        return agencies << aoa_coverage
+      end
+      agencies << result_type_match('NARFE')
+      agencies << matching_dsps    
+      agencies << tsp_by_date
+    end
+    agencies.flatten.uniq
+  end
+  
+  def military_matches
+    agencies = Array.new
+    if is_divorce_related? and is_survivorship_related?
+      agencies << result_type_match('DFAS')
+      unless aoa_coverage.empty?
+        return agencies << aoa_coverage
+      end
+      agencies << result_type_match('EXPOSE')
+      agencies << matching_dsps   
+      agencies << tsp_by_date  
+    else
+      agencies << military_branch_match
+      unless aoa_coverage.empty?
+        return agencies << aoa_coverage
+      end
+      agencies << matching_dsps   
+      agencies << result_type_match('DFAS')
+      agencies << tsp_by_date
+    end
+    agencies.flatten.uniq    
+  end
+  
+  def nsps
+    home_zip = Zip.find_by_zipcode(zipcode)
+    home_state = home_zip.nil? ? '' : home_zip.state_abbrev
+    sql = <<-SQL
+        select distinct a.* from agencies a
+        join locations l on l.agency_id = a.id
+        left join restrictions r on r.location_id = l.id
+        left join restrictions_states rs on rs.restriction_id = r.id 
+              and rs.state_abbrev IN (?,?,?,?)
+        where a.agency_category_id = ?
+        and ((r.minimum_age is null and r.max_poverty is null) 
+            or r.id is null)
+        SQL
+
+    Agency.find_by_sql([sql, work_state_abbrev, hq_state_abbrev, pension_state_abbrev, 
+                             home_state, AgencyCategory['Service Provider']])
+  end
   
   def state_plan_matches
     sql = <<-SQL
@@ -153,6 +262,32 @@ class Counseling < ActiveRecord::Base
         and rc.city_id = ?
         SQL
     Agency.find_by_sql([sql, city_id])
+  end
+  
+  def tsp_by_date
+    if employment_end.nil? or employment_end > Date.new(1987,4,1)
+      return result_type_match('TSP')
+    end
+  end
+  
+  def military_branch_match
+    return nil unless military_branch
+    case military_branch.name
+      when 'Army':        result_type_match('RSO')
+      when 'Navy':        result_type_match('NRAO')
+      when 'Air Force':   result_type_match('AFRSB')
+      when 'Coast Guard': result_type_match('OHSPSC')
+      when 'Marines':     result_type_match('USMCP')
+      when 'National Oceanic and Atmospheric Administration Commissioned Corps':
+                          result_type_match('OPMOSB')
+      when 'U.S. Public Health Service Commissioned Corps':
+                          result_type_match('PHSRC')
+    end
+  end
+  
+  def result_type_match(type)
+    return nil if ResultType[type].nil?
+    Agency.find_by_result_type_id(ResultType[type])
   end
    
 end
