@@ -228,7 +228,7 @@ class Counseling < ActiveRecord::Base
   end
   
   def state_plan_matches
-    return selected_plan.agency if selected_plan
+    return [selected_plan.agency] if selected_plan
     sql = <<-SQL
         select distinct a.*
         from agencies a

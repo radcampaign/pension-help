@@ -108,6 +108,7 @@ class HelpController < ApplicationController
   
   def results
     @counseling = update_counseling
+    @counseling.matching_agencies.each{|a| a.plans.delete_if {|p| p.id != @counseling.selected_plan.id && a.agency_category_id==3}} if @counseling.selected_plan
   end
   
   # Used for populating state, county and local pulldowns 
