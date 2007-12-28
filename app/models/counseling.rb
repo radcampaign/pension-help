@@ -67,6 +67,7 @@ class Counseling < ActiveRecord::Base
         join restrictions_states rs on rs.restriction_id = r.id 
               and rs.state_abbrev IN (?,?,?,?)
         where a.agency_category_id = ?
+        and a.use_for_counseling = 1
         SQL
 
     sql << 'and (r.minimum_age is not null or r.max_poverty is not null) '
@@ -91,6 +92,7 @@ class Counseling < ActiveRecord::Base
         join restrictions r on r.location_id = l.id or r.agency_id = a.id 
         join restrictions_states rs on rs.restriction_id = r.id 
         where a.result_type_id = ? and rs.state_abbrev IN (?,?,?,?)
+        and a.use_for_counseling = 1
         SQL
     Agency.find_by_sql([sql, ResultType['AoA'], work_state_abbrev, 
                         hq_state_abbrev, pension_state_abbrev, home_state])
@@ -216,6 +218,7 @@ class Counseling < ActiveRecord::Base
         left join restrictions_states rs on rs.restriction_id = r.id 
               and rs.state_abbrev IN (?,?,?,?)
         where a.agency_category_id = ?
+        and a.use_for_counseling = 1
         and ((r.minimum_age is null and r.max_poverty is null) 
             or r.id is null)
         SQL
@@ -238,6 +241,7 @@ class Counseling < ActiveRecord::Base
         and rci.city_id is null
         and a.agency_category_id = 3
         and rs.state_abbrev = ?
+        and a.use_for_counseling = 1
         SQL
     Agency.find_by_sql([sql, work_state_abbrev])
   end
@@ -254,6 +258,7 @@ class Counseling < ActiveRecord::Base
         where rci.city_id is null
         and a.agency_category_id = 3
         and rc.county_id = ?
+        and a.use_for_counseling = 1
         SQL
     Agency.find_by_sql([sql, county_id])
   end
@@ -268,6 +273,7 @@ class Counseling < ActiveRecord::Base
         join restrictions_cities rc on rc.restriction_id = r.id
         where a.agency_category_id = 3 
         and rc.city_id = ?
+        and a.use_for_counseling = 1
         SQL
     Agency.find_by_sql([sql, city_id])
   end
@@ -295,7 +301,7 @@ class Counseling < ActiveRecord::Base
   
   def result_type_match(type)
     return nil if ResultType[type].nil?
-    Agency.find(:all, :conditions => ['result_type_id = ?', ResultType[type]])
+    Agency.find(:all, :conditions => ['result_type_id = ? and use_for_counseling = 1', ResultType[type]])
   end
    
 end
