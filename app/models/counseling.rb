@@ -58,8 +58,6 @@ class Counseling < ActiveRecord::Base
   end
   
   def matching_dsps
-    home_zip = Zip.find_by_zipcode(zipcode)
-    home_state = home_zip.nil? ? '' : home_zip.state_abbrev
     sql = <<-SQL
         select distinct a.* from agencies a
         join locations l on l.agency_id = a.id
@@ -76,7 +74,7 @@ class Counseling < ActiveRecord::Base
       sql << 'and r.minimum_age < 60 '
     end
     if poverty_level
-      sql << "and r.max_poverty >= #{poverty_level.to_i} "
+      sql << "and r.max_poverty >= #{poverty_level.to_f} "
     end
 
     Agency.find_by_sql([sql, work_state_abbrev, hq_state_abbrev, pension_state_abbrev, 
@@ -84,8 +82,6 @@ class Counseling < ActiveRecord::Base
   end
   
   def aoa_coverage
-    home_zip = Zip.find_by_zipcode(zipcode)
-    home_state = home_zip.nil? ? '' : home_zip.state_abbrev
     sql = <<-SQL
         select a.* from agencies a 
         join locations l on l.agency_id = a.id 
@@ -98,11 +94,6 @@ class Counseling < ActiveRecord::Base
                         hq_state_abbrev, pension_state_abbrev, home_state])
   end
   
-  def poverty_level
-    # TODO: lookup poverty level from monthly_income and number_in_household
-    monthly_income ? 1.25 : nil
-  end
-  
   def state_abbrev
     raise ArgumentError, 'state_abbrev is deprecated'
   end
@@ -110,6 +101,24 @@ class Counseling < ActiveRecord::Base
   #######
 #  private
   #######
+  
+  def home_state
+    home_zip = Zip.find_by_zipcode(zipcode)
+    return home_zip.nil? ? '' : home_zip.state_abbrev
+  end
+
+  def poverty_level
+    return nil unless number_in_household && monthly_income
+    hh = number_in_household
+    hh = 8 if hh > 8
+    geo = home_state || 'US'
+    geo = 'US' unless geo == 'HI' or geo == 'AK'
+    sql = <<-SQL
+      select ?/fpl as value from poverty_levels
+      where number_in_household = ? and geographic = ?
+      SQL
+    return Agency.find_by_sql([sql, monthly_income*12, hh, geo]).first.value
+  end
   
   def aoa_afscme_dsp
     if aoa_coverage.empty?
@@ -209,8 +218,6 @@ class Counseling < ActiveRecord::Base
   end
   
   def nsps
-    home_zip = Zip.find_by_zipcode(zipcode)
-    home_state = home_zip.nil? ? '' : home_zip.state_abbrev
     sql = <<-SQL
         select distinct a.* from agencies a
         join locations l on l.agency_id = a.id
