@@ -48,8 +48,8 @@ class CAQuestion
                          :text => "Use the menu below to select the state that offered the pension or retirement savings plan you have a question about.",
                          :desc => "State",
                          :name => "counseling[work_state_abbrev]",
-                         :controller => "help",
-                         :action => "show_fourth_question",
+                         :controller => "",
+                         :action => "",
                          :options => CounselAssistance.states)
 
          when 7 # County

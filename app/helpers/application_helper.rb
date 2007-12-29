@@ -17,7 +17,7 @@ module ApplicationHelper
         option_tags << "<option value='#{option[1]}'>#{option[0]}</option>"
       end
     end
-    "<select name=\"#{name}\" onchange=\"new Ajax.Request('/#{controller}/#{action}', 
+    "<select name=\"#{name}\" id=\"#{name}\" onchange=\"new Ajax.Request('/#{controller}/#{action}', 
     {asynchronous:true, evalScripts:true, parameters:'#{name}='+escape(value)})\">" + option_tags + "</select>"
   end
   

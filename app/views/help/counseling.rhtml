@@ -33,4 +33,13 @@
 <%= image_submit_tag "buttons/next_button.gif", :id => 'nextLinkButton' %>
 
 <% end -%>
-<p>&nbsp;</p>
+<p>&nbsp;</p
+	
+<script type="text/javascript">
+	Event.observe( window, 'load', function() {
+		if (emp_type = $F("counseling[employer_type_id]")) {
+			new Ajax.Request('/help/show_second_question', 
+	    {asynchronous:true, evalScripts:true, parameters:'counseling[employer_type_id]='+emp_type})
+		}
+	});
+</script>
