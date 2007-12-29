@@ -54,7 +54,7 @@ class Counseling < ActiveRecord::Base
     else Array.new    
     end
     
-    agencies.flatten.uniq
+    agencies.flatten.uniq.compact
   end
   
   def matching_dsps
@@ -97,7 +97,7 @@ class Counseling < ActiveRecord::Base
   def state_abbrev
     raise ArgumentError, 'state_abbrev is deprecated'
   end
-  
+    
   #######
 #  private
   #######

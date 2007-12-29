@@ -1,4 +1,7 @@
 class HelpController < ApplicationController
+
+  EARLIEST_EMPLOYMENT_YEAR = 1880
+  LATEST_EMPLOYMENT_YEAR = 2025
   
   def index
     @content = Content.find_by_url('help')
@@ -97,7 +100,7 @@ class HelpController < ApplicationController
   
   def step_4
     @counseling = update_counseling
-    if @counseling.matching_agencies.collect{|a| a.plans}.flatten.collect{|p| [p.restriction.minimum_age || p.restriction.max_poverty]}.flatten.uniq.reject{|n| n.nil?}.empty?
+    if @counseling.matching_agencies.collect{|a| a.restriction}.compact.empty?
       # no age or income restrctions
       redirect_to :action => :results and return
     else
@@ -138,8 +141,10 @@ class HelpController < ApplicationController
   def update_counseling 
     c = session[:counseling] ||= Counseling.new
     c.attributes = params[:counseling]
-    c.selected_plan = Plan.find(params[:selected_plan_id]) if params[:selected_plan_id] && !params[:selected_plan_id].eql?("IDK")
-    c.selected_plan = Plan.find(params[:selected_plan_override]) if params[:selected_plan_override]
+    c.selected_plan = Plan.find(params[:selected_plan_id]) if !params[:selected_plan_id].blank? && !params[:selected_plan_id].eql?("IDK")
+    c.selected_plan = Plan.find(params[:selected_plan_override]) if !params[:selected_plan_override].blank?
+    c.employment_start = Date.new (params[:employment_start_year].to_i,1,1) if params[:employment_start_year] && params[:employment_start_year].to_i > EARLIEST_EMPLOYMENT_YEAR && params[:employment_start_year].to_i < LATEST_EMPLOYMENT_YEAR
+    c.employment_end = Date.new (params[:employment_end_year].to_i,1,1) if params[:employment_end_year] && params[:employment_end_year].to_i > EARLIEST_EMPLOYMENT_YEAR && params[:employment_end_year].to_i < LATEST_EMPLOYMENT_YEAR
     # c.employer_type = EmployerType.find(params[:employer_type]) if params[:employer_type]
     # c.work_state = State.find(params[:state]) if params[:state]
     # c.county = County.find(params[:county]) if params[:county]

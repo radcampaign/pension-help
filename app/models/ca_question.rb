@@ -27,6 +27,22 @@ class CAQuestion
   def self.get_next(counseling, type=nil)
     if type=='EMP_TYPE'
       case counseling.employer_type_id
+        when 4 # Federal agency
+         CAQuestion.new(:header => "Which federal plan do you have a question about?",
+                        :text => "There are many different retirement plans for federal employees.  Use the menu to select the federal retirement plan you are asking about.",
+                        :desc => "Federal plan",
+                        :name => "counseling[federal_plan_id]",
+                        :controller => "help",
+                        :action => "show_fourth_question",
+                        :options => CounselAssistance.government_plans)
+        when 5 # Military service 
+         CAQuestion.new(:header => "What type of military service or employment?",
+                        :text => "There are different retirement plans for uniformed servicemen and civilian military employees.  Select the most recent type of military service or employment that earned the pension or retirement savings plan you have a question about.",
+                        :desc => "Military service",
+                        :name => "counseling[military_service_id]",
+                        :controller => "help",
+                        :action => "show_fourth_question",
+                        :options => CounselAssistance.military_service_types)
         when 6 # State
           CAQuestion.new(:header => "Where were you employed?",
                          :text => "Use the menu below to select the state that offered the pension or retirement savings plan you have a question about.",
@@ -58,41 +74,27 @@ class CAQuestion
                          :local => true)
         else nil
       end #case
+    else
+      # not coming here from emp_type drop down, so must be from military service drop down
+      case counseling.military_service_id
+        when 4 # Civilian military employment
+          CAQuestion.new(:header => "Which military employer?",
+                         :text => "Make the menu selection that best describes the military employer offering the pension or retirement savings plan you have a question about.",
+                         :desc => "Military employer",
+                         :name => "counseling[military_employer_id]",
+                         :controller => "",
+                         :action => "",
+                         :options => CounselAssistance.military_employer_types) 
+        else 
+          CAQuestion.new(:header => "Which branch of service?",
+                         :text => "Please select the appropriate uniformed service branch from the menu below.",
+                         :desc => "Uniformed service",
+                         :name => "counseling[military_branch_id]",
+                         :controller => "",
+                         :action => "",
+                         :options => CounselAssistance.uniformed_service_branches)
+      end #case
     end 
   end
         
-  def self.find(id)
-    case id
-      when "GOV_PLAN"  
-       CAQuestion.new(:header => "Which federal plan do you have a question about?",
-                      :text => "There are many different retirement plans for federal employees.  Use the menu to select the federal retirement plan you are asking about.",
-                      :desc => "Federal plan",
-                      :controller => "help",
-                      :action => "show_fourth_question",
-                      :options => CounselAssistance.government_plans)
-      when "MIL_SRV"  
-       CAQuestion.new(:header => "What type of military service or employment?",
-                      :text => "There are different retirement plans for uniformed servicemen and civilian military employees.  Select the most recent type of military service or employment that earned the pension or retirement savings plan you have a question about.",
-                      :desc => "Military service",
-                      :controller => "help",
-                      :action => "show_fourth_question",
-                      :options => CounselAssistance.military_service_types)
-    
-      when "UNI_MIL"  
-       CAQuestion.new(:header => "Which branch of service?",
-                      :text => "Please select the appropriate uniformed service branch from the menu below.",
-                      :desc => "Uniformed service",
-                      :controller => "",
-                      :action => "",
-                      :options => CounselAssistance.uniformed_service_branches)
-      when "CIVIL_MIL"
-       CAQuestion.new(:header => "Which military employer?",
-                      :text => "Make the menu selection that best describes the military employer offering the pension or retirement savings plan you have a question about.",
-                      :desc => "Military employer",
-                      :controller => "",
-                      :action => "",
-                      :options => CounselAssistance.military_employer_types) 
-    end
-  end
-  
 end

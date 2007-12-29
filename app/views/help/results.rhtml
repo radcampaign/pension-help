@@ -3,59 +3,61 @@
 <p>We recommend that you print this page for your records.</p>
 
 <% @counseling.matching_agencies.each do |agency| %>
-<div class="agency_result">
-<h2><%= agency.name -%>
-<% if agency.plans[0] -%>
-	<%='- ' + agency.plans.first.name if agency.plans.first.name %>
-<% else -%>
-	<%='- ' + agency.best_location(@counseling).name if !agency.name.eql?(agency.best_location(@counseling).name)%>
-<% end -%></h2>
-<% if agency.description %><p><%= agency.description %></p><% end -%>
+<% if agency.best_location(@counseling) %> <%# if we can't find a best_location, don't show the agency %>
+	<div class="agency_result">
+	<h2><%= agency.name -%>
+	<% if agency.plans[0] -%>
+		<%='- ' + agency.plans.first.name if agency.plans.first.name %>
+	<% else -%>
+		<%='- ' + agency.best_location(@counseling).name if !agency.name.eql?(agency.best_location(@counseling).name)%>
+	<% end -%></h2>
+	<% if agency.description %><p><%= agency.description %></p><% end -%>
 
-<table>
-	<tr>
-		<td width="80px">Drop In:</td>
-		<td width="250px"><%= agency.best_location(@counseling).dropin_address.line1 %></td>
-		<td width="80px">Toll Free:</td>
-		<td><%= agency.best_location(@counseling).tollfree + ' ' +  agency.best_location(@counseling).tollfree_ext %></td>
-	</tr>
-	<tr>
-		<td></td><td><%= agency.best_location(@counseling).dropin_address.line2 %></td><td>Local:</td><td><%= agency.best_location(@counseling).phone + ' ' + agency.best_location(@counseling).phone_ext %></td>
-	</tr>
-	<tr>
-		<td></td><td><%= agency.best_location(@counseling).dropin_address.city + ', ' + agency.best_location(@counseling).dropin_address.state_abbrev + ' ' + agency.best_location(@counseling).dropin_address.zip %></td><td></td><td></td>
-	</tr>
-</table>
+	<table>
+		<tr>
+			<td width="80px">Drop In:</td>
+			<td width="250px"><%= agency.best_location(@counseling).dropin_address.line1 %></td>
+			<td width="80px">Toll Free:</td>
+			<td><%= agency.best_location(@counseling).tollfree + ' ' +  agency.best_location(@counseling).tollfree_ext %></td>
+		</tr>
+		<tr>
+			<td></td><td><%= agency.best_location(@counseling).dropin_address.line2 %></td><td>Local:</td><td><%= agency.best_location(@counseling).phone + ' ' + agency.best_location(@counseling).phone_ext %></td>
+		</tr>
+		<tr>
+			<td></td><td><%= agency.best_location(@counseling).dropin_address.city + ', ' + agency.best_location(@counseling).dropin_address.state_abbrev + ' ' + agency.best_location(@counseling).dropin_address.zip %></td><td></td><td></td>
+		</tr>
+	</table>
 
-	<% if !agency.best_location(@counseling).hours_of_operation.blank? %>
-		<p>&nbsp;</p>
-		<table>
-			<tr>
-				<td style="padding-right:5px"><b>Hours:</b></td>
-				<td><%= agency.best_location(@counseling).hours_of_operation %></td>
-			</tr>
-		</table>
-		<p>&nbsp;</p>
-	<% end %>
-	<% if !agency.best_location(@counseling).logistics.blank? %>
-		<p>&nbsp;</p>
-		<table>
-			<tr>
-				<td style="padding-right:5px"><b>Helpful Information:</b></td>
-				<td><%= agency.best_location(@counseling).logistics %></td>
-			</tr>
-		</table>
-		<p>&nbsp;</p>
-	<% end %>
-	<% if !agency.url.blank? %>
-		<p>&nbsp;</p>
-		<table>
-			<tr>
-				<td style="padding-right:5px"><b>On the Web:</b></td>
-				<td><a href="/site/exit?dest=<%= agency.url %>" class="offsite">
-				<%= agency.url_title.blank? ? agency.name : agency.url_title %></a></td>
-			</tr>
-		</table>
-	<% end %>
-	</div>
-<% end %>
+		<% if !agency.best_location(@counseling).hours_of_operation.blank? %>
+			<p>&nbsp;</p>
+			<table>
+				<tr>
+					<td style="padding-right:5px"><b>Hours:</b></td>
+					<td><%= agency.best_location(@counseling).hours_of_operation %></td>
+				</tr>
+			</table>
+			<p>&nbsp;</p>
+		<% end %>
+		<% if !agency.best_location(@counseling).logistics.blank? %>
+			<p>&nbsp;</p>
+			<table>
+				<tr>
+					<td style="padding-right:5px"><b>Helpful Information:</b></td>
+					<td><%= agency.best_location(@counseling).logistics %></td>
+				</tr>
+			</table>
+			<p>&nbsp;</p>
+		<% end %>
+		<% if !agency.url.blank? %>
+			<p>&nbsp;</p>
+			<table>
+				<tr>
+					<td style="padding-right:5px"><b>On the Web:</b></td>
+					<td><a href="/site/exit?dest=<%= agency.url %>" class="offsite">
+					<%= agency.url_title.blank? ? agency.name : agency.url_title %></a></td>
+				</tr>
+			</table>
+		<% end %>
+		</div>
+<% end -%>
+<% end -%>
