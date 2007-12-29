@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 33) do
+ActiveRecord::Schema.define(:version => 34) do
 
   create_table "addresses", :force => true do |t|
     t.column "location_id",    :integer
@@ -237,20 +237,6 @@ ActiveRecord::Schema.define(:version => 33) do
 
   add_index "locations", ["agency_id"], :name => "agency_id"
 
-  create_table "locations_counties", :id => false, :force => true do |t|
-    t.column "location_id", :integer, :null => false
-    t.column "county_id",   :integer, :null => false
-  end
-
-  add_index "locations_counties", ["county_id", "location_id"], :name => "index_locations_counties_on_county_id_and_location_id"
-
-  create_table "locations_states", :id => false, :force => true do |t|
-    t.column "location_id",  :integer,              :null => false
-    t.column "state_abbrev", :string,  :limit => 2, :null => false
-  end
-
-  add_index "locations_states", ["state_abbrev", "location_id"], :name => "index_locations_states_on_state_abbrev_and_location_id"
-
   create_table "military_branches", :force => true do |t|
     t.column "name",     :string
     t.column "position", :integer
@@ -468,34 +454,6 @@ ActiveRecord::Schema.define(:version => 33) do
 
   add_index "plans", ["agency_id"], :name => "agency_id"
 
-  create_table "plans_cities", :id => false, :force => true do |t|
-    t.column "plan_id", :integer, :null => false
-    t.column "city_id", :integer, :null => false
-  end
-
-  add_index "plans_cities", ["city_id", "plan_id"], :name => "index_plans_cities_on_city_id_and_plan_id"
-
-  create_table "plans_counties", :id => false, :force => true do |t|
-    t.column "plan_id",   :integer, :null => false
-    t.column "county_id", :integer, :null => false
-  end
-
-  add_index "plans_counties", ["county_id", "plan_id"], :name => "index_plans_counties_on_county_id_and_plan_id"
-
-  create_table "plans_states", :id => false, :force => true do |t|
-    t.column "plan_id",      :integer,              :null => false
-    t.column "state_abbrev", :string,  :limit => 2, :null => false
-  end
-
-  add_index "plans_states", ["state_abbrev", "plan_id"], :name => "index_plans_states_on_state_abbrev_and_plan_id"
-
-  create_table "plans_zips", :id => false, :force => true do |t|
-    t.column "plan_id", :integer,              :null => false
-    t.column "zipcode", :string,  :limit => 5, :null => false
-  end
-
-  add_index "plans_zips", ["zipcode", "plan_id"], :name => "index_plans_zips_on_zipcode_and_plan_id"
-
   create_table "poverty_levels", :force => true do |t|
     t.column "year",                :integer
     t.column "number_in_household", :integer
@@ -635,6 +593,10 @@ ActiveRecord::Schema.define(:version => 33) do
   add_index "zip_import", ["city"], :name => "index_zip_import_on_city"
   add_index "zip_import", ["county"], :name => "index_zip_import_on_county"
   add_index "zip_import", ["state_abbrev"], :name => "index_zip_import_on_state_abbrev"
+  add_index "zip_import", ["county"], :name => "IDX_zip_import_county"
+  add_index "zip_import", ["city"], :name => "IDX_zip_import_city"
+  add_index "zip_import", ["state_abbrev"], :name => "IDX_zip_import_state"
+  add_index "zip_import", ["state_abbrev", "city", "county"], :name => "IDX_zip_import_multi"
 
   create_table "zips", :id => false, :force => true do |t|
     t.column "zipcode",      :string
@@ -663,11 +625,6 @@ ActiveRecord::Schema.define(:version => 33) do
   add_foreign_key "images", ["parent_id"], "images", ["id"], :name => "images_ibfk_1"
 
   add_foreign_key "locations", ["agency_id"], "agencies", ["id"], :name => "locations_ibfk_1"
-
-  add_foreign_key "locations_counties", ["location_id"], "locations", ["id"], :name => "locations_counties_ibfk_1"
-  add_foreign_key "locations_counties", ["county_id"], "counties", ["id"], :name => "locations_counties_ibfk_2"
-
-  add_foreign_key "locations_states", ["location_id"], "locations", ["id"], :name => "locations_states_ibfk_1"
 
   add_foreign_key "partners_claim_types", ["partner_id"], "partners", ["id"], :name => "partners_claim_types_ibfk_1"
   add_foreign_key "partners_claim_types", ["claim_type_id"], "claim_types", ["id"], :name => "partners_claim_types_ibfk_2"
@@ -703,16 +660,6 @@ ActiveRecord::Schema.define(:version => 33) do
   add_foreign_key "partners_sponsor_types", ["sponsor_type_id"], "sponsor_types", ["id"], :name => "partners_sponsor_types_ibfk_2"
 
   add_foreign_key "plans", ["agency_id"], "agencies", ["id"], :name => "plans_ibfk_1"
-
-  add_foreign_key "plans_cities", ["plan_id"], "plans", ["id"], :name => "plans_cities_ibfk_1"
-  add_foreign_key "plans_cities", ["city_id"], "cities", ["id"], :name => "plans_cities_ibfk_2"
-
-  add_foreign_key "plans_counties", ["plan_id"], "plans", ["id"], :name => "plans_counties_ibfk_1"
-  add_foreign_key "plans_counties", ["county_id"], "counties", ["id"], :name => "plans_counties_ibfk_2"
-
-  add_foreign_key "plans_states", ["plan_id"], "plans", ["id"], :name => "plans_states_ibfk_1"
-
-  add_foreign_key "plans_zips", ["plan_id"], "plans", ["id"], :name => "plans_zips_ibfk_1"
 
   add_foreign_key "publications", ["agency_id"], "agencies", ["id"], :name => "publications_ibfk_1"
 
