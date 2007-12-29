@@ -29,7 +29,7 @@
 #
 
 class Agency < ActiveRecord::Base
-  has_many :locations, :conditions => "is_provider=1"
+  has_many :locations
   has_many :plans
   has_many :publications
   has_one :publication, :class_name => "Publication"
@@ -56,7 +56,7 @@ class Agency < ActiveRecord::Base
     # in-state goes to closest geographically
     
     # but for now...
-    locations.first
+    locations.collect{|loc| loc if loc.is_provider}.first
   end
     
 end
