@@ -32,8 +32,8 @@ class CAQuestion
                         :text => "There are many different retirement plans for federal employees.  Use the menu to select the federal retirement plan you are asking about.",
                         :desc => "Federal plan",
                         :name => "counseling[federal_plan_id]",
-                        :controller => "help",
-                        :action => "show_fourth_question",
+                        :controller => "",
+                        :action => "",
                         :options => CounselAssistance.government_plans)
         when 5 # Military service 
          CAQuestion.new(:header => "What type of military service or employment?",
