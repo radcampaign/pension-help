@@ -254,7 +254,7 @@ class Counseling < ActiveRecord::Base
   end
 
   def county_plan_matches
-    return nil if selected_plan
+    return [nil] if selected_plan
     sql = <<-SQL
         select distinct a.*
         from agencies a
@@ -271,7 +271,7 @@ class Counseling < ActiveRecord::Base
   end
 
   def city_plan_matches
-    return nil if selected_plan
+    return [nil] if selected_plan
     sql = <<-SQL
         select distinct a.*
         from agencies a
