@@ -43,14 +43,14 @@
 
 	<p>Pension rights may vary depending on a person&#39;s relationship to the pension-earner. Please tell us who earned the pension or retirement savings plan you have a question about.</p> 
 
-	<p>Pension-earner: <%= select "object", "method", @options, {:include_blank => true}, {} %></p>
+	<p>Pension-earner: <%= form.select :pension_earner_id, @options, {:include_blank => true}, {} %></p>
 
 	<h2>Does your question involve divorce or survivorship?</h2>
 
 	<p>Pension laws may provide certain protections in divorce and survivorship situations. You may select one, both or neither of the following choices.</p> 
 
-	<div style="float:left"><%= check_box "object", "method" %> I have a divorce-related question.</div>        
-	<div style="float:right"><%= check_box "object", "method" %> I have a survivorship-related question.</div>
+	<div style="float:left"><%= form.check_box :is_divorce_related %> I have a divorce-related question.</div>        
+	<div style="float:right"><%= form.check_box :is_survivorship_related %> I have a survivorship-related question.</div>
 	<div style="clear:both"></div>
 
 <% end -%>

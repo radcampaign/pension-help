@@ -100,7 +100,7 @@ class HelpController < ApplicationController
   
   def step_4
     @counseling = update_counseling
-    if @counseling.matching_agencies.collect{|a| a.restriction}.compact.empty? 
+    if @counseling.matching_agencies.collect{|a| a.plans}.flatten.collect{|p| p.restriction}.compact.empty? 
       # no age or income restrctions
       redirect_to :action => :results and return
     else
