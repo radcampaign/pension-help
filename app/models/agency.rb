@@ -29,11 +29,13 @@
 #
 
 class Agency < ActiveRecord::Base
-  has_many :locations
+  has_many :locations, :conditions => "is_provider=1"
   has_many :plans
   has_many :publications
-  has_many :dropin_addresses, :through => :locations, :source => :addresses, :conditions => "address_type = 'dropin' and is_hq=1", :limit => 1
-  has_many :mailing_addresses, :through => :locations, :source => :addresses, :conditions => "address_type = 'mailing' and is_hq=1", :limit => 1
+  has_one :publication, :class_name => "Publication"
+  has_one :hq, :class_name => "Location", :conditions => "is_hq=1 and is_provider=1"
+  has_many :dropin_addresses, :through => :locations, :source => :addresses, :conditions => "address_type = 'dropin' and is_hq=1 and is_provider=1", :limit => 1
+  has_many :mailing_addresses, :through => :locations, :source => :addresses, :conditions => "address_type = 'mailing' and is_hq=1 and is_provider=1", :limit => 1
   has_one :restriction
 
   has_enumerated :agency_category
@@ -43,17 +45,18 @@ class Agency < ActiveRecord::Base
   validates_presence_of(:name)
   
   def best_location(counseling)
-    # for now...
-    locations.first if locations.size > 0
+    home_zip = Zip.find_by_zipcode(counseling.zipcode)
+    home_state = home_zip.nil? ? '' : home_zip.state_abbrev
     
     # out of state goes to hq
+    if hq && home_state != dropin_addresses.first.state_abbrev
+      return hq
+    end
     
     # in-state goes to closest geographically
+    
+    # but for now...
+    locations.first
   end
-  
-  #temporary workaround
-  def publication
-    publications.first
-  end
-  
+    
 end
