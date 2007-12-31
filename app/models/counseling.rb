@@ -40,6 +40,9 @@ class Counseling < ActiveRecord::Base
   belongs_to :pension_state, :class_name => "State", :foreign_key => "pension_state_abbrev"
   has_one :selected_plan, :class_name => "Plan"
   
+  validates_presence_of :employer_type
+  attr_accessor :yearly_income
+  
   def matching_agencies
     agencies = case employer_type.name
     when 'Company or nonprofit':     company_matches
@@ -98,6 +101,10 @@ class Counseling < ActiveRecord::Base
     raise ArgumentError, 'state_abbrev is deprecated'
   end
     
+  def yearly_income=(yearly_inc)
+    self.monthly_income = yearly_inc.to_i / 12
+  end
+
   #######
 #  private
   #######
@@ -115,7 +122,7 @@ class Counseling < ActiveRecord::Base
     geo = 'US' unless geo == 'HI' or geo == 'AK'
     sql = <<-SQL
       select ?/fpl as value from poverty_levels
-      where number_in_household = ? and geographic = ?
+      where number_in_household = ? and geographic = ? order by year desc
       SQL
     return Agency.find_by_sql([sql, monthly_income*12, hh, geo]).first.value
   end

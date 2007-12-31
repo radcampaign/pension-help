@@ -12,9 +12,9 @@
 
 <p>Some organizations will help people based on certain age and income criteria. If you are interested in this type of referral, complete the information below and then click <b style="color: #cc0000; ">NEXT</b>. Otherwise, you may skip the question and click <b style="color: #cc0000; ">NEXT</b> to proceed.
 
-<p>Are you age 60 or over:&nbsp;&nbsp;&nbsp;<%= form.radio_button  :is_over_60, true,  :onClick=>"$('iAmOver60').show();new Effect.Highlight('iAmOver60',{duration: 0.5});" %>&nbsp;Yes&nbsp;&nbsp;&nbsp;<%= form.radio_button  :is_over_60, false, :onClick=>"$('iAmOver60').hide();" %>&nbsp;No</p>
+<p>Are you age 60 or over:&nbsp;&nbsp;&nbsp;<%= form.radio_button  :is_over_60, true %> &nbsp;Yes&nbsp;&nbsp;&nbsp;<%= form.radio_button  :is_over_60, false %> &nbsp;No</p>
 
-<div id="iAmOver60" style="display:none">
+<div id="iAmOver60">
 
 <p>
 	<table cellpadding="0" cellspacing="0">
@@ -32,7 +32,7 @@
 					</tr>
 					<tr>
 						<td align="right">Yearly:&nbsp;</td>
-						<td><%= text_field "object", "method", "size" => 5 %></td>
+						<td><%= text_field_tag :yearly_income, nil, :size => 5 %></td>
 					</tr>
 				</table>
 			</td>
@@ -52,11 +52,3 @@
 
 <% end -%>
 <p>&nbsp;</p>
-
-<script type="text/javascript">
-	Event.observe( window, 'load', function() {
-		if ($F("counseling_is_over_60_true")) {
-			$('iAmOver60').show();new Effect.Highlight('iAmOver60',{duration: 0.5});
-		}
-	});
-</script>

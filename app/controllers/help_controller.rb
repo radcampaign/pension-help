@@ -100,7 +100,8 @@ class HelpController < ApplicationController
   
   def step_4
     @counseling = update_counseling
-    if @counseling.matching_agencies.collect{|a| a.plans}.flatten.collect{|p| p.restriction}.compact.empty? 
+    # no need to look for DSPs if AoA coverage applies
+    if !@counseling.aoa_coverage.empty? && @counseling.matching_agencies.collect{|a| a.best_location(@counseling)}.flatten.compact.collect{|loc| loc.restriction}.compact.collect{|r| [r.max_poverty || r.minimum_age]}.flatten.compact.empty? && @counseling.matching_agencies.collect{|a| a.restriction}.compact.collect{|r| [r.max_poverty || r.minimum_age]}.flatten.compact.empty?
       # no age or income restrctions
       redirect_to :action => :results and return
     else
@@ -141,6 +142,7 @@ class HelpController < ApplicationController
   def update_counseling 
     c = session[:counseling] ||= Counseling.new
     c.attributes = params[:counseling]
+    c.yearly_income = params[:yearly_income] if params[:yearly_income]
     c.selected_plan = Plan.find(params[:selected_plan_id]) if !params[:selected_plan_id].blank? && !params[:selected_plan_id].eql?("IDK")
     c.selected_plan = Plan.find(params[:selected_plan_override]) if !params[:selected_plan_override].blank?
     c.employment_start = Date.new (params[:employment_start_year].to_i,1,1) if params[:employment_start_year] && params[:employment_start_year].to_i > EARLIEST_EMPLOYMENT_YEAR && params[:employment_start_year].to_i < LATEST_EMPLOYMENT_YEAR

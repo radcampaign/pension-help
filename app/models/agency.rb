@@ -56,7 +56,7 @@ class Agency < ActiveRecord::Base
     # in-state goes to closest geographically
     
     # but for now...
-    locations.collect{|loc| loc if loc.is_provider}.first
+    locations.collect{|loc| loc if loc.is_provider}.compact.first
   end
     
 end
