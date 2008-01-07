@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 33
+# Schema version: 35
 #
 # Table name: counselings
 #
@@ -39,6 +39,7 @@ class Counseling < ActiveRecord::Base
   belongs_to :hq_state, :class_name => "State", :foreign_key => "hq_state_abbrev"
   belongs_to :pension_state, :class_name => "State", :foreign_key => "pension_state_abbrev"
   has_one :selected_plan, :class_name => "Plan"
+  # attr_readonly :selected_plan -> only works in rails 2+
   
   validates_presence_of :employer_type
   attr_accessor :yearly_income

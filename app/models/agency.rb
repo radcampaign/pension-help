@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 33
+# Schema version: 35
 #
 # Table name: agencies
 #
@@ -45,7 +45,7 @@ class Agency < ActiveRecord::Base
   validates_presence_of(:name)
   
   def best_location(counseling)
-    home_geo_zip = ZipImport.find(counseling.zipcode)
+    home_geo_zip = ZipImport.find(counseling.zipcode) if !counseling.zipcode.blank?
     home_state = home_geo_zip.nil? ? '' : home_geo_zip.state_abbrev
     
     # out of state goes to hq
@@ -54,8 +54,10 @@ class Agency < ActiveRecord::Base
     end
     
     # in-state goes to closest geographically
-    return dropin_addresses.find(:first, :origin => home_geo_zip, :order => 'distance',
+    addr =dropin_addresses.find(:first, :origin => home_geo_zip, :order => 'distance',
                                   :conditions => 'latitude is not null')
+    # return the relevant location instead of the address                                  
+    return addr.location if addr 
     
   end
       

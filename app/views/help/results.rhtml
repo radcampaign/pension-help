@@ -11,46 +11,71 @@
 	<% else -%>
 		<%='- ' + agency.best_location(@counseling).name if !agency.name.eql?(agency.best_location(@counseling).name)%>
 	<% end -%></h2>
+	<div class="agency_result_body">
 	<% if agency.description %><p><%= agency.description %></p><% end -%>
 
-	<table>
+	<table class="dropin_address">
 		<tr>
-			<td width="80px">Drop In:</td>
-			<td width="250px"><%= agency.best_location(@counseling).dropin_address.line1 %></td>
-			<td width="80px">Toll Free:</td>
-			<td><%= agency.best_location(@counseling).tollfree + ' ' +  agency.best_location(@counseling).tollfree_ext %></td>
-		</tr>
-		<tr>
-			<td></td><td><%= agency.best_location(@counseling).dropin_address.line2 %></td><td>Local:</td><td><%= agency.best_location(@counseling).phone + ' ' + agency.best_location(@counseling).phone_ext %></td>
-		</tr>
-		<tr>
-			<td></td><td><%= agency.best_location(@counseling).dropin_address.city + ', ' + agency.best_location(@counseling).dropin_address.state_abbrev + ' ' + agency.best_location(@counseling).dropin_address.zip %></td><td></td><td></td>
+			<td width="80px">Address:</td>
+			<td width="250px"><%= agency.best_location(@counseling).dropin_address.line1 %><br/>
+				<% if not agency.best_location(@counseling).dropin_address.line2.blank? %>
+					<%= agency.best_location(@counseling).dropin_address.line2 %><br/>
+				<% end -%>
+			<%= agency.best_location(@counseling).dropin_address.city + ', ' + agency.best_location(@counseling).dropin_address.state_abbrev + ' ' + agency.best_location(@counseling).dropin_address.zip %></td>
 		</tr>
 	</table>
 
+	<table class="phone_info">
+		<% if not agency.best_location(@counseling).tollfree.blank? %>
+				<tr>
+				<td width="80px">Toll Free:</td>
+				<td><%= agency.best_location(@counseling).tollfree + ' ' +  agency.best_location(@counseling).tollfree_ext %></td>
+			</tr>
+		<% end %>
+		<% if not agency.best_location(@counseling).phone.blank? %>
+			<tr>
+				<td width="80px">Local:</td><td><%= agency.best_location(@counseling).phone + ' ' + agency.best_location(@counseling).phone_ext %></td>
+			</tr>
+		<% end %>
+		<% if not agency.best_location(@counseling).email.blank? %>
+			<tr>
+				<td width="80px">Email:</td><td><a href="mailto:<%= agency.best_location(@counseling).email %>"><%= agency.best_location(@counseling).email %></a>
+			</tr>
+		<% end %>
+		
+	</table>
+	
+	<% if not agency.best_location(@counseling).mailing_address.line1.eql?(agency.best_location(@counseling).dropin_address.line1) %>
+	<table class="mailing_address">
+		<tr>
+			<td width="80px">Mailing Address:</td>
+			<td width="250px"><%= agency.best_location(@counseling).mailing_address.line1 %><br/>
+				<% if not agency.best_location(@counseling).mailing_address.line2.blank? %>
+					<%= agency.best_location(@counseling).mailing_address.line2 %><br/>
+				<% end %>
+				<%= agency.best_location(@counseling).mailing_address.city + ', ' + agency.best_location(@counseling).mailing_address.state_abbrev + ' ' + agency.best_location(@counseling).mailing_address.zip %></td>
+		</tr>
+	</table>
+	<% end %>
+		<div class="result_buffer"></div>
 		<% if !agency.best_location(@counseling).hours_of_operation.blank? %>
-			<p>&nbsp;</p>
-			<table>
+			<table class="results_hours">
 				<tr>
 					<td style="padding-right:5px"><b>Hours:</b></td>
 					<td><%= agency.best_location(@counseling).hours_of_operation %></td>
 				</tr>
 			</table>
-			<p>&nbsp;</p>
 		<% end %>
 		<% if !agency.best_location(@counseling).logistics.blank? %>
-			<p>&nbsp;</p>
-			<table>
+			<table class="results_logistics">
 				<tr>
 					<td style="padding-right:5px"><b>Helpful Information:</b></td>
 					<td><%= agency.best_location(@counseling).logistics %></td>
 				</tr>
 			</table>
-			<p>&nbsp;</p>
 		<% end %>
 		<% if !agency.url.blank? %>
-			<p>&nbsp;</p>
-			<table>
+			<table class="results_web">
 				<tr>
 					<td style="padding-right:5px"><b>On the Web:</b></td>
 					<td><a href="/site/exit?dest=<%= agency.url %>" class="offsite">
@@ -58,6 +83,7 @@
 				</tr>
 			</table>
 		<% end %>
+		</div>
 		</div>
 <% end -%>
 <% end -%>

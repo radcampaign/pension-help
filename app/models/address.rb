@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 33
+# Schema version: 35
 #
 # Table name: addresses
 #
@@ -14,6 +14,8 @@
 #  legacy_code    :string(10)    
 #  legacy_subcode :string(10)    
 #  fmp2_code      :string(10)    
+#  latitude       :decimal(9, 6) 
+#  longitude      :decimal(9, 6) 
 #
 
 class Address < ActiveRecord::Base

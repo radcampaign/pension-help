@@ -101,7 +101,9 @@ class HelpController < ApplicationController
   def step_4
     @counseling = update_counseling
     # no need to look for DSPs if AoA coverage applies
-    if !@counseling.aoa_coverage.empty? && @counseling.matching_agencies.collect{|a| a.best_location(@counseling)}.flatten.compact.collect{|loc| loc.restriction}.compact.collect{|r| [r.max_poverty || r.minimum_age]}.flatten.compact.empty? && @counseling.matching_agencies.collect{|a| a.restriction}.compact.collect{|r| [r.max_poverty || r.minimum_age]}.flatten.compact.empty?
+    if !@counseling.aoa_coverage.empty? || 
+      (@counseling.matching_agencies.collect{|a| a.best_location(@counseling)}.flatten.compact.collect{|loc| loc.restriction}.compact.collect{|r| [r.max_poverty || r.minimum_age]}.flatten.compact.empty? && 
+        @counseling.matching_agencies.collect{|a| a.restriction}.compact.collect{|r| [r.max_poverty || r.minimum_age]}.flatten.compact.empty?)
       # no age or income restrctions
       redirect_to :action => :results and return
     else
@@ -112,6 +114,7 @@ class HelpController < ApplicationController
   
   def results
     @counseling = update_counseling
+    # @counseling.save  TODO: fix problem when trying to save selected_plan
     @counseling.matching_agencies.each{|a| a.plans.delete_if {|p| p.id != @counseling.selected_plan.id && a.agency_category_id==3}} if @counseling.selected_plan
   end
   
@@ -145,8 +148,8 @@ class HelpController < ApplicationController
     c.yearly_income = params[:yearly_income] if params[:yearly_income]
     c.selected_plan = Plan.find(params[:selected_plan_id]) if !params[:selected_plan_id].blank? && !params[:selected_plan_id].eql?("IDK")
     c.selected_plan = Plan.find(params[:selected_plan_override]) if !params[:selected_plan_override].blank?
-    c.employment_start = Date.new (params[:employment_start_year].to_i,1,1) if params[:employment_start_year] && params[:employment_start_year].to_i > EARLIEST_EMPLOYMENT_YEAR && params[:employment_start_year].to_i < LATEST_EMPLOYMENT_YEAR
-    c.employment_end = Date.new (params[:employment_end_year].to_i,1,1) if params[:employment_end_year] && params[:employment_end_year].to_i > EARLIEST_EMPLOYMENT_YEAR && params[:employment_end_year].to_i < LATEST_EMPLOYMENT_YEAR
+    c.employment_start = Date.new(params[:employment_start_year].to_i,1,1) if params[:employment_start_year] && params[:employment_start_year].to_i > EARLIEST_EMPLOYMENT_YEAR && params[:employment_start_year].to_i < LATEST_EMPLOYMENT_YEAR
+    c.employment_end = Date.new(params[:employment_end_year].to_i,1,1) if params[:employment_end_year] && params[:employment_end_year].to_i > EARLIEST_EMPLOYMENT_YEAR && params[:employment_end_year].to_i < LATEST_EMPLOYMENT_YEAR
     # c.employer_type = EmployerType.find(params[:employer_type]) if params[:employer_type]
     # c.work_state = State.find(params[:state]) if params[:state]
     # c.county = County.find(params[:county]) if params[:county]

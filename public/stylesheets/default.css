@@ -440,12 +440,28 @@ documentElement.scrollTop
 : document.body.scrollTop
 +((document.body.clientHeight-this.clientHeight)/2));}
 
+/* Results page */
 div.agency_result {
 	padding-bottom: 20px;
-	border-top: 1px solid #f00;
+}
+div.agency_result_body {
+	padding: 0 30px;
 }
 div.agency_result h2 {
 	padding-bottom: 12px;
+}
+table.dropin_address,
+table.phone_info {
+	display:inline;
+}
+table.mailing_address {
+	margin-top:12px;
+}
+table.dropin_address td {
+	vertical-align:top;
+}
+div.result_buffer {
+	margin-top:12px;
 }
 /* Safari Hacks */
 
