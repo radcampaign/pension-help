@@ -372,7 +372,7 @@ body.results div.group {
 
 .warningBox, 
 .errorExplanation {
-	width:640px;
+	width:620px;
 	background-color:#FEE;
 	border: 1px solid #F00;
 	text-align: center; 
