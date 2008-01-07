@@ -58,5 +58,5 @@ class Agency < ActiveRecord::Base
                                   :conditions => 'latitude is not null')
     
   end
-    
+      
 end
