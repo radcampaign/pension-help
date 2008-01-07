@@ -34,8 +34,8 @@ class Agency < ActiveRecord::Base
   has_many :publications
   has_one :publication, :class_name => "Publication"
   has_one :hq, :class_name => "Location", :conditions => "is_hq=1 and is_provider=1"
-  has_many :dropin_addresses, :through => :locations, :source => :addresses, :conditions => "address_type = 'dropin' and is_hq=1 and is_provider=1", :limit => 1
-  has_many :mailing_addresses, :through => :locations, :source => :addresses, :conditions => "address_type = 'mailing' and is_hq=1 and is_provider=1", :limit => 1
+  has_many :dropin_addresses, :through => :locations, :source => :addresses, :conditions => "address_type = 'dropin' and is_provider=1", :order => "is_hq desc"
+  has_many :mailing_addresses, :through => :locations, :source => :addresses, :conditions => "address_type = 'mailing' and is_provider=1", :order => "is_hq desc"
   has_one :restriction
 
   has_enumerated :agency_category
@@ -45,18 +45,18 @@ class Agency < ActiveRecord::Base
   validates_presence_of(:name)
   
   def best_location(counseling)
-    home_zip = Zip.find_by_zipcode(counseling.zipcode)
-    home_state = home_zip.nil? ? '' : home_zip.state_abbrev
+    home_geo_zip = ZipImport.find(counseling.zipcode)
+    home_state = home_geo_zip.nil? ? '' : home_geo_zip.state_abbrev
     
     # out of state goes to hq
-    if hq && home_state != dropin_addresses.first.state_abbrev
+    if hq && home_state != hq.dropin_address.state_abbrev
       return hq
     end
     
     # in-state goes to closest geographically
+    return dropin_addresses.find(:first, :origin => home_geo_zip, :order => 'distance',
+                                  :conditions => 'latitude is not null')
     
-    # but for now...
-    locations.collect{|loc| loc if loc.is_provider}.compact.first
   end
     
 end

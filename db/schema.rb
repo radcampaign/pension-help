@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 34) do
+ActiveRecord::Schema.define(:version => 35) do
 
   create_table "addresses", :force => true do |t|
     t.column "location_id",    :integer
@@ -15,6 +15,8 @@ ActiveRecord::Schema.define(:version => 34) do
     t.column "legacy_code",    :string,  :limit => 10
     t.column "legacy_subcode", :string,  :limit => 10
     t.column "fmp2_code",      :string,  :limit => 10
+    t.column "latitude",       :decimal,               :precision => 9, :scale => 6
+    t.column "longitude",      :decimal,               :precision => 9, :scale => 6
   end
 
   add_index "addresses", ["location_id"], :name => "location_id"
