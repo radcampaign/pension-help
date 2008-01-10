@@ -137,9 +137,18 @@ class HelpController < ApplicationController
   end
   
   def get_employee_list
-    c = update_counseling #get counseling object from session
-    employees = c.matching_agencies.collect{|a| a.plans}.flatten.collect{|p| p.employee_list}.compact.flatten.in_groups_of(2)
-    render :partial => 'employee_list', :layout => false, :locals => {'employees' => employees}
+    if params[:plan]=="IDK"
+      c = update_counseling #get counseling object from session
+      employees = c.matching_agencies.collect{|a| a.plans}.flatten.collect{|p| p.employee_list}.compact.flatten.in_groups_of(2)
+      render :update do |page|
+        page.replace_html 'employee_list_container', :partial => 'employee_list', :layout => false, :locals => {'employees' => employees}
+        page.visual_effect :highlight, 'employee_list_container'
+      end
+    else
+      render :update do |page|
+        page.replace_html 'employee_list_container', "&nbsp;"
+      end
+    end
   end
 
   def update_counseling 

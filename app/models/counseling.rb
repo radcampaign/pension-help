@@ -242,6 +242,7 @@ class Counseling < ActiveRecord::Base
                                    pension_state_abbrev, home_state, 
                                    AgencyCategory['Service Provider']])
 
+  if zipcode                                   
     address = Address.find(:first, :origin => ZipImport.find(zipcode), :order => 'distance',
                  :joins => 'join locations l on addresses.location_id = l.id 
                                              and l.is_provider = 1
@@ -253,7 +254,8 @@ class Counseling < ActiveRecord::Base
                                  or r.id is null)
                                  and addresses.address_type='dropin'
                                  and addresses.latitude is not null")
-    return address.location.agency unless address.nil?
+  end
+  return address.location.agency unless address.nil?
   end
   
   def state_plan_matches
