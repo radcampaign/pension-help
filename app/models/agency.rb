@@ -45,19 +45,27 @@ class Agency < ActiveRecord::Base
   validates_presence_of(:name)
   
   def best_location(counseling)
-    home_geo_zip = ZipImport.find(counseling.zipcode) if !counseling.zipcode.blank?
+    return hq unless counseling.zipcode
+    
+    home_geo_zip = ZipImport.find(counseling.zipcode)
     home_state = home_geo_zip.nil? ? '' : home_geo_zip.state_abbrev
-    
-    # out of state goes to hq
-    if hq && home_state != hq.dropin_address.state_abbrev
-      return hq
+
+    # out of state should find hq, unless there's a state restriction
+    if hq && home_state == dropin_addresses.first.state_abbrev
+      order = 'rs.state_abbrev desc, distance'
+    else
+      order = 'rs.state_abbrev desc, is_hq desc, distance'
     end
-    
-    # in-state goes to closest geographically
-    addr =dropin_addresses.find(:first, :origin => home_geo_zip, :order => 'distance',
-                                  :conditions => 'latitude is not null')
+
+    address = dropin_addresses.find(:first, :origin => home_geo_zip, 
+                 :order => order,
+                 :joins => "left join restrictions r on r.location_id = locations.id
+                            left join restrictions_states rs on rs.restriction_id = r.id
+                                and rs.state_abbrev = '#{home_state}'",
+                 :conditions => "addresses.latitude is not null")
+                                 
     # return the relevant location instead of the address                                  
-    return addr.location if addr 
+    return address.location if address 
     
   end
       
