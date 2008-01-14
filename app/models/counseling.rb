@@ -38,11 +38,16 @@ class Counseling < ActiveRecord::Base
   belongs_to :work_state, :class_name => "State", :foreign_key => "work_state_abbrev"
   belongs_to :hq_state, :class_name => "State", :foreign_key => "hq_state_abbrev"
   belongs_to :pension_state, :class_name => "State", :foreign_key => "pension_state_abbrev"
-  has_one :selected_plan, :class_name => "Plan"
-  # attr_readonly :selected_plan -> only works in rails 2+
   
   validates_presence_of :employer_type
   attr_accessor :yearly_income
+  
+  def selected_plan
+    @selected_plan
+  end
+  def selected_plan=(plan)
+    @selected_plan = plan
+  end
   
   def matching_agencies
     agencies = case employer_type.name
@@ -59,30 +64,6 @@ class Counseling < ActiveRecord::Base
     end
     
     agencies.flatten.uniq.compact
-  end
-  
-  def matching_dsps
-    sql = <<-SQL
-        select distinct a.* from agencies a
-        join locations l on l.agency_id = a.id
-        join restrictions r on r.location_id = l.id
-        join restrictions_states rs on rs.restriction_id = r.id 
-              and rs.state_abbrev IN (?,?,?,?)
-        where a.agency_category_id = ?
-        and a.use_for_counseling = 1
-        SQL
-
-    sql << 'and (r.minimum_age is not null or r.max_poverty is not null) '
-
-    if is_over_60 == false
-      sql << 'and r.minimum_age < 60 '
-    end
-    if poverty_level
-      sql << "and r.max_poverty >= #{poverty_level.to_f} "
-    end
-
-    Agency.find_by_sql([sql, work_state_abbrev, hq_state_abbrev, pension_state_abbrev, 
-                             home_state, AgencyCategory['Service Provider']])
   end
   
   def aoa_coverage
@@ -130,7 +111,7 @@ class Counseling < ActiveRecord::Base
   
   def aoa_afscme_dsp
     if aoa_coverage.empty?
-      (result_type_match('AFSCME') || Array.new) << matching_dsps
+      (result_type_match('AFSCME') || Array.new) << closest_dsp
     else
       aoa_coverage
     end
@@ -148,7 +129,7 @@ class Counseling < ActiveRecord::Base
       return agencies << aoa_coverage
     end
     agencies << closest_nsp
-    agencies << matching_dsps
+    agencies << closest_dsp
     if employment_end.nil? or employment_end < d
       agencies << result_type_match('DOL')
     else
@@ -164,7 +145,7 @@ class Counseling < ActiveRecord::Base
     unless aoa_coverage.empty?
       return agencies << aoa_coverage
     end
-    agencies << matching_dsps
+    agencies << closest_dsp
     agencies << result_type_match('DOL')
     agencies << result_type_match('PBGC')
     agencies.flatten.uniq
@@ -197,7 +178,7 @@ class Counseling < ActiveRecord::Base
         return agencies << aoa_coverage
       end
       agencies << result_type_match('NARFE')
-      agencies << matching_dsps    
+      agencies << closest_dsp    
       agencies << tsp_by_date
     end
     agencies.flatten.uniq
@@ -218,44 +199,77 @@ class Counseling < ActiveRecord::Base
       unless aoa_coverage.empty?
         return agencies << aoa_coverage
       end
-      agencies << matching_dsps   
+      agencies << closest_dsp   
       agencies << result_type_match('DFAS')
       agencies << tsp_by_date
     end
     agencies.flatten.uniq    
   end
   
-  def closest_nsp
+  def matching_dsps
     sql = <<-SQL
         select distinct a.* from agencies a
-        join locations l on l.agency_id = a.id
-        left join restrictions r on r.location_id = l.id
-        left join restrictions_states rs on rs.restriction_id = r.id 
+        join locations l on l.agency_id = a.id and l.is_provider = 1
+        join restrictions r on r.location_id = l.id
+        join restrictions_states rs on rs.restriction_id = r.id 
               and rs.state_abbrev IN (?,?,?,?)
         where a.agency_category_id = ?
         and a.use_for_counseling = 1
-        and ((r.minimum_age is null and r.max_poverty is null) 
-            or r.id is null)
         SQL
 
-    agencies = Agency.find_by_sql([sql, work_state_abbrev, hq_state_abbrev,   
-                                   pension_state_abbrev, home_state, 
-                                   AgencyCategory['Service Provider']])
+    sql << 'and (r.minimum_age is not null or r.max_poverty is not null) '
 
-  if zipcode                                   
-    address = Address.find(:first, :origin => ZipImport.find(zipcode), :order => 'distance',
-                 :joins => 'join locations l on addresses.location_id = l.id 
-                                             and l.is_provider = 1
-                            join agencies a on l.agency_id = a.id and a.use_for_counseling=1
-                            left join restrictions r on r.location_id = l.id',
-                 :conditions => "a.agency_category_id=#{AgencyCategory['Service Provider'].id}
-                                 and a.use_for_counseling = 1
-                                 and ((r.minimum_age is null and r.max_poverty is null) 
-                                 or r.id is null)
-                                 and addresses.address_type='dropin'
-                                 and addresses.latitude is not null")
+    if is_over_60 == false
+      sql << 'and r.minimum_age < 60 '
+    end
+    if poverty_level
+      sql << "and r.max_poverty >= #{poverty_level.to_f} "
+    end
+
+    Agency.find_by_sql([sql, work_state_abbrev, hq_state_abbrev, pension_state_abbrev, 
+                             home_state, AgencyCategory['Service Provider']])
   end
-  return address.location.agency unless address.nil?
+  
+  def closest_dsp
+    return nil unless zipcode
+    
+    conditions = "a.agency_category_id=#{AgencyCategory['Service Provider'].id}
+                   and (r.minimum_age is not null or r.max_poverty is not null) 
+                   and addresses.address_type='dropin'
+                   and addresses.latitude is not null
+                   and rs.state_abbrev IN (?,?,?,?)"
+    if is_over_60 == false
+      conditions << 'and r.minimum_age < 60 '
+    end
+    if poverty_level
+      conditions << "and r.max_poverty >= #{poverty_level.to_f} "
+    end
+    
+    address = Address.find(:first, :origin => ZipImport.find(zipcode), :order => 'distance',
+            :joins => 'join locations l on addresses.location_id = l.id 
+                                             and l.is_provider = 1
+                       join agencies a on l.agency_id = a.id and a.use_for_counseling=1
+                       join restrictions r on r.location_id = l.id
+                       join restrictions_states rs on rs.restriction_id = r.id',
+            :conditions => [conditions, work_state_abbrev, hq_state_abbrev,
+                            pension_state_abbrev, home_state])
+    return address.location.agency unless address.nil?
+  end
+  
+  def closest_nsp
+    return nil unless zipcode
+
+    address = Address.find(:first, :origin => ZipImport.find(zipcode), :order => 'distance',
+            :joins => 'join locations l on addresses.location_id = l.id 
+                                             and l.is_provider = 1
+                      join agencies a on l.agency_id = a.id and a.use_for_counseling=1
+                      left join restrictions r on r.location_id = l.id',
+            :conditions => "a.agency_category_id=#{AgencyCategory['Service Provider'].id}
+                           and ((r.minimum_age is null and r.max_poverty is null) 
+                           or r.id is null)
+                           and addresses.address_type='dropin'
+                           and addresses.latitude is not null")
+    return address.location.agency unless address.nil?
   end
   
   def state_plan_matches
