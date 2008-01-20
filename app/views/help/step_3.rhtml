@@ -14,17 +14,7 @@
 
 <p>
 	<table>
-		<% if @counseling.employer_type_id == 1 %>
-		<tr>
-			<td>Year employment started:</td> 
-			<td><%= text_field_tag "employment_start_year", @counseling.employment_start ? @counseling.employment_start.strftime("%Y") : '', {:size => 4} %></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td>Example: 1974</td>
-		</tr>
-		<% end %>
-		<% if @counseling.employer_type_id == 4 || @counseling.employer_type_id == 5 %>
+		<% if [1,4,5].include?(@counseling.employer_type_id) %>
 		<tr>
 			<td>Year employment ended:</td> 
 			<td><%= text_field_tag "employment_end_year", @counseling.employment_end ? @counseling.employment_end.strftime("%Y") : '', {:size => 4} %></td>
