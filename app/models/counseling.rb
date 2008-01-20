@@ -186,7 +186,8 @@ class Counseling < ActiveRecord::Base
   
   def military_matches
     agencies = Array.new
-    if is_divorce_related? and is_survivorship_related?
+    if !pension_earner.nil? && pension_earner.name.include?("spouse") and
+          (is_divorce_related? or is_survivorship_related?)
       agencies << result_type_match('DFAS')
       unless aoa_coverage.empty?
         return agencies << aoa_coverage
