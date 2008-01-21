@@ -49,6 +49,13 @@ class Counseling < ActiveRecord::Base
     @selected_plan = plan
   end
   
+  def employment_cutoff
+    @employment_cutoff
+  end
+  def employment_cutoff=(employment_cutoff)
+    @employment_cutoff = employment_cutoff
+  end
+  
   def matching_agencies
     agencies = case employer_type.name
     when 'Company or nonprofit':     company_matches
@@ -325,7 +332,10 @@ class Counseling < ActiveRecord::Base
   end
   
   def tsp_by_date
-    if employment_end.nil? or employment_end > Date.new(1987,4,1)
+    logger.debug ('testing for TSP')
+    logger.debug (employment_end.to_s)
+    if !employment_end.nil? and employment_end > Date.new(1987,4,1)
+      logger.debug('TSP Found!!!')
       return result_type_match('TSP')
     end
   end

@@ -159,6 +159,8 @@ class HelpController < ApplicationController
     c.selected_plan = Plan.find(params[:selected_plan_override]) if !params[:selected_plan_override].blank?
     c.employment_start = Date.new(params[:employment_start_year].to_i,1,1) if params[:employment_start_year] && params[:employment_start_year].to_i > EARLIEST_EMPLOYMENT_YEAR && params[:employment_start_year].to_i < LATEST_EMPLOYMENT_YEAR
     c.employment_end = Date.new(params[:employment_end_year].to_i,1,1) if params[:employment_end_year] && params[:employment_end_year].to_i > EARLIEST_EMPLOYMENT_YEAR && params[:employment_end_year].to_i < LATEST_EMPLOYMENT_YEAR
+    c.employment_end = Date.new(1987,3,31) if c.employment_cutoff=="on"
+    c.employment_end = Date.new(1987,4,2) if c.employment_cutoff=="off"
     # c.employer_type = EmployerType.find(params[:employer_type]) if params[:employer_type]
     # c.work_state = State.find(params[:state]) if params[:state]
     # c.county = County.find(params[:county]) if params[:county]

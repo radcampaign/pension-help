@@ -23,4 +23,13 @@ class Address < ActiveRecord::Base
   belongs_to :state, :foreign_key => "state_abbrev"
   acts_as_mappable :default_units => :miles, :default_formula => :flat, 
                    :lat_column_name => 'latitude', :lng_column_name => 'longitude'
+
+  before_save :geocode_zip
+
+  private
+  def geocode_zip
+   geo=ZipImport.find(zip)
+   self.latitude, self.longitude = geo.latitude, geo.longitude
+  end                   
+
 end

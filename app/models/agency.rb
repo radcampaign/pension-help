@@ -45,7 +45,7 @@ class Agency < ActiveRecord::Base
   validates_presence_of(:name)
   
   def best_location(counseling)
-    return hq unless counseling.zipcode
+    return hq unless counseling.zipcode || hq.nil?
     
     home_geo_zip = ZipImport.find(counseling.zipcode)
     home_state = home_geo_zip.nil? ? '' : home_geo_zip.state_abbrev

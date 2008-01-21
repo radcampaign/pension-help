@@ -1,4 +1,4 @@
-<%= image_tag "layout/stepcircle-three.jpg", :style => 'float:right' %>
+<%= image_tag "layout/stepcircle-three.jpg", :id => 'counseling_step' %>
 
 <h1>Counseling &amp; Assistance</h1>
 
@@ -13,18 +13,15 @@
 <% form_for :counseling, :url => {:action => :step_4} do |form| -%>
 
 <p>
-	<table>
-		<% if [1,4,5].include?(@counseling.employer_type_id) %>
-		<tr>
-			<td>Year employment ended:</td> 
-			<td><%= text_field_tag "employment_end_year", @counseling.employment_end ? @counseling.employment_end.strftime("%Y") : '', {:size => 4} %></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td>Example: 1974</td>
-		</tr>
+		<% if @counseling.employer_type_id == 1 %>
+			Year employment ended: 
+			<%= text_field_tag "employment_end_year", @counseling.employment_end ? @counseling.employment_end.strftime("%Y") : '', {:size => 4} %>
+			<br/><div id="employment_end_year_example">Example: 1974</div>
+		<% elsif  [4,5].include?(@counseling.employer_type_id) %>
+			Did your work end before 4/1/1987? &nbsp;
+			<%= radio_button_tag "counseling[employment_cutoff]", "on", @counseling.employment_cutoff %>Yes&nbsp;&nbsp;
+				<%= radio_button_tag "counseling[employment_cutoff]", "off", @counseling.employment_cutoff %>No
 		<% end %>
-	<table>
 </p>
 
 <% if @counseling.employer_type_id == 5 %>
