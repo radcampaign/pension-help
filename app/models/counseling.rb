@@ -42,11 +42,11 @@ class Counseling < ActiveRecord::Base
   validates_presence_of :employer_type
   attr_accessor :yearly_income
   
-  def selected_plan
-    @selected_plan
+  def selected_plan_id
+    @selected_plan_id
   end
-  def selected_plan=(plan)
-    @selected_plan = plan
+  def selected_plan_id=(plan_id)
+    @selected_plan_id = plan_id
   end
   
   def employment_cutoff
@@ -92,6 +92,38 @@ class Counseling < ActiveRecord::Base
     
   def yearly_income=(yearly_inc)
     self.monthly_income = yearly_inc.to_i / 12 if yearly_income
+  end
+
+  def age_restrictions?
+    sql = <<-SQL
+        select distinct a.* from agencies a
+        join locations l on l.agency_id = a.id and l.is_provider = 1
+        join restrictions r on r.location_id = l.id
+        join restrictions_states rs on rs.restriction_id = r.id 
+              and rs.state_abbrev IN (?,?,?,?)
+        where a.agency_category_id = ?
+        and a.use_for_counseling = 1
+        and (r.minimum_age is not null) 
+        SQL
+
+    Agency.find_by_sql([sql, work_state_abbrev, hq_state_abbrev, pension_state_abbrev, 
+                                 home_state, AgencyCategory['Service Provider']]).size > 0
+  end
+  
+  def income_restrictions?
+    sql = <<-SQL
+        select distinct a.* from agencies a
+        join locations l on l.agency_id = a.id and l.is_provider = 1
+        join restrictions r on r.location_id = l.id
+        join restrictions_states rs on rs.restriction_id = r.id 
+              and rs.state_abbrev IN (?,?,?,?)
+        where a.agency_category_id = ?
+        and a.use_for_counseling = 1
+        and (r.max_poverty is not null) 
+        SQL
+
+    Agency.find_by_sql([sql, work_state_abbrev, hq_state_abbrev, pension_state_abbrev, 
+                                 home_state, AgencyCategory['Service Provider']]).size > 0
   end
 
   #######
@@ -227,13 +259,17 @@ class Counseling < ActiveRecord::Base
 
     sql << 'and (r.minimum_age is not null or r.max_poverty is not null) '
 
-    if is_over_60
+    if is_over_60 and poverty_level
+      sql << 'and (r.minimum_age >= 60 '
+    elsif is_over_60
       sql << 'and r.minimum_age >= 60 '
     else
       # didn't answer question - don't return any age-restricted results
       sql << 'and r.minimum_age is null '  
     end
-    if poverty_level
+    if poverty_level and is_over_60
+      sql << "or r.max_poverty >= #{poverty_level.to_f}) "
+    elsif poverty_level
       sql << "and r.max_poverty >= #{poverty_level.to_f} "
     else 
       # didn't answer question - don't return any income-restricted results
@@ -252,17 +288,21 @@ class Counseling < ActiveRecord::Base
                    and addresses.address_type='dropin'
                    and addresses.latitude is not null
                    and rs.state_abbrev IN (?,?,?,?)"
-    if is_over_60
-     sql << 'and r.minimum_age >= 60 '
+    if is_over_60 and poverty_level
+      conditions << 'and (r.minimum_age >= 60 '
+    elsif is_over_60
+      conditions << 'and r.minimum_age >= 60 '
     else
-     # didn't answer question - don't return any age-restricted results
-     sql << 'and r.minimum_age is null '  
+      # didn't answer question - don't return any age-restricted results
+      conditions << 'and r.minimum_age is null '  
     end
-    if poverty_level
-     sql << "and r.max_poverty >= #{poverty_level.to_f} "
+    if poverty_level and is_over_60
+      conditions << "or r.max_poverty >= #{poverty_level.to_f}) "
+    elsif poverty_level
+      conditions << "and r.max_poverty >= #{poverty_level.to_f} "
     else 
-     # didn't answer question - don't return any income-restricted results
-     sql << "and r.max_poverty is null "
+      # didn't answer question - don't return any income-restricted results
+      conditions << "and r.max_poverty is null "
     end
 
     address = Address.find(:first, :origin => ZipImport.find(zipcode), :order => 'distance',
@@ -293,7 +333,7 @@ class Counseling < ActiveRecord::Base
   end
   
   def state_plan_matches
-    return [selected_plan.agency] if selected_plan
+    return [Plan.find(selected_plan_id).agency] if selected_plan_id
     sql = <<-SQL
         select distinct a.*
         from agencies a
@@ -312,7 +352,7 @@ class Counseling < ActiveRecord::Base
   end
 
   def county_plan_matches
-    return [nil] if selected_plan
+    return [nil] if selected_plan_id
     sql = <<-SQL
         select distinct a.*
         from agencies a
@@ -329,7 +369,7 @@ class Counseling < ActiveRecord::Base
   end
 
   def city_plan_matches
-    return [nil] if selected_plan
+    return [nil] if selected_plan_id
     sql = <<-SQL
         select distinct a.*
         from agencies a
@@ -344,10 +384,7 @@ class Counseling < ActiveRecord::Base
   end
   
   def tsp_by_date
-    logger.debug ('testing for TSP')
-    logger.debug (employment_end.to_s)
     if !employment_end.nil? and employment_end > Date.new(1987,4,1)
-      logger.debug('TSP Found!!!')
       return result_type_match('TSP')
     end
   end

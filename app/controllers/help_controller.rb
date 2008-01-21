@@ -85,6 +85,15 @@ class HelpController < ApplicationController
     end
   end
   
+  def show_available_plans
+    @counseling = update_counseling
+    @matching_agencies = @counseling.matching_agencies # find plans for state/county/local
+    render :update do |page|
+      page.replace_html 'q5', :partial => 'available_plans'
+      page.visual_effect :highlight, 'q5'
+    end
+  end
+  
   def step_2 #zip, AoA states, plan questions
     @counseling = update_counseling
     @matching_agencies = @counseling.matching_agencies
@@ -102,8 +111,7 @@ class HelpController < ApplicationController
     @counseling = update_counseling
     # no need to look for DSPs if AoA coverage applies
     if !@counseling.aoa_coverage.empty? || 
-      (@counseling.matching_agencies.collect{|a| a.best_location(@counseling)}.flatten.compact.collect{|loc| loc.restriction}.compact.collect{|r| [r.max_poverty || r.minimum_age]}.flatten.compact.empty? && 
-        @counseling.matching_agencies.collect{|a| a.restriction}.compact.collect{|r| [r.max_poverty || r.minimum_age]}.flatten.compact.empty?)
+      !(@counseling.age_restrictions? || @counseling.income_restrictions?)
       # no age or income restrctions
       redirect_to :action => :results and return
     else
@@ -114,8 +122,18 @@ class HelpController < ApplicationController
   
   def results
     @counseling = update_counseling
+    @results = @counseling.matching_agencies
     # @counseling.save  TODO: fix problem when trying to save selected_plan
-    @counseling.matching_agencies.each{|a| a.plans.delete_if {|p| p.id != @counseling.selected_plan.id && a.agency_category_id==3}} if @counseling.selected_plan
+    if @counseling.selected_plan_id
+      logger.debug ('------------------------------------')
+      logger.debug (@results.collect{|a| a.plans}.flatten.collect{|p| [p.id,p.name]})
+      logger.debug ('====================================')
+      @results.each{|a| a.plans.delete_if {|p| p.id != @counseling.selected_plan_id.to_i &&
+         a.agency_category_id==3}} 
+       logger.debug ('------------------------------------')
+       logger.debug (@results.collect{|a| a.plans}.flatten.collect{|p| [p.id,p.name]})
+    end
+    @results
   end
   
   # Used for populating state, county and local pulldowns 
@@ -155,8 +173,8 @@ class HelpController < ApplicationController
     c = session[:counseling] ||= Counseling.new
     c.attributes = params[:counseling]
     c.yearly_income = params[:yearly_income] if params[:yearly_income]
-    c.selected_plan = Plan.find(params[:selected_plan_id]) if !params[:selected_plan_id].blank? && !params[:selected_plan_id].eql?("IDK")
-    c.selected_plan = Plan.find(params[:selected_plan_override]) if !params[:selected_plan_override].blank?
+    c.selected_plan_id = nil if c.selected_plan_id=="IDK"
+    c.selected_plan_id = params[:selected_plan_override] if !params[:selected_plan_override].blank?
     c.employment_start = Date.new(params[:employment_start_year].to_i,1,1) if params[:employment_start_year] && params[:employment_start_year].to_i > EARLIEST_EMPLOYMENT_YEAR && params[:employment_start_year].to_i < LATEST_EMPLOYMENT_YEAR
     c.employment_end = Date.new(params[:employment_end_year].to_i,1,1) if params[:employment_end_year] && params[:employment_end_year].to_i > EARLIEST_EMPLOYMENT_YEAR && params[:employment_end_year].to_i < LATEST_EMPLOYMENT_YEAR
     c.employment_end = Date.new(1987,3,31) if c.employment_cutoff=="on"

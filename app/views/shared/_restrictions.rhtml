@@ -1,4 +1,5 @@
 <% fields_for :restriction, restriction do |r| %>
+<%= r.hidden_field :id %>
 <li class="clear left fullwidth">
 	<fieldset><legend class="desc">Restrictions</legend>
 		<% if @location %>

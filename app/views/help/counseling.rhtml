@@ -27,6 +27,11 @@
 		<%= render :partial => 'next_question', :locals => {'question' => @next_question_4, 'selected_value' => @selected_value_4} %>
 	<% end -%>
 </div>
+<div id="q5">
+	<% if @next_question_5 -%>
+		<%= render :partial => 'available_plans' %>
+	<% end %>
+</div>
 
 <p>&nbsp;</p>
 

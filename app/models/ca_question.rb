@@ -48,8 +48,8 @@ class CAQuestion
                          :text => "Use the menu below to select the state that offered the pension or retirement savings plan you have a question about.",
                          :desc => "State",
                          :name => "counseling[work_state_abbrev]",
-                         :controller => "",
-                         :action => "",
+                         :controller => "help",
+                         :action => "show_available_plans",
                          :options => CounselAssistance.states)
 
          when 7 # County
@@ -74,8 +74,11 @@ class CAQuestion
                          :local => true)
         else nil
       end #case
+    elsif type=='PLANS'
+      # state/county/local selected. Show available plans
+      true # question is defined in partial
     else
-      # not coming here from emp_type drop down, so must be from military service drop down
+      # not coming here from emp_type drop down or state/local, so must be from military service drop down
       case counseling.military_service_id
         when 4 # Civilian military employment
           CAQuestion.new(:header => "Which military employer?",
