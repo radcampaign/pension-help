@@ -91,7 +91,7 @@ class Counseling < ActiveRecord::Base
   end
     
   def yearly_income=(yearly_inc)
-    self.monthly_income = yearly_inc.to_i / 12
+    self.monthly_income = yearly_inc.to_i / 12 if yearly_income
   end
 
   #######
@@ -227,11 +227,17 @@ class Counseling < ActiveRecord::Base
 
     sql << 'and (r.minimum_age is not null or r.max_poverty is not null) '
 
-    if is_over_60 == false
-      sql << 'and r.minimum_age < 60 '
+    if is_over_60
+      sql << 'and r.minimum_age >= 60 '
+    else
+      # didn't answer question - don't return any age-restricted results
+      sql << 'and r.minimum_age is null '  
     end
     if poverty_level
       sql << "and r.max_poverty >= #{poverty_level.to_f} "
+    else 
+      # didn't answer question - don't return any income-restricted results
+      sql << "and r.max_poverty is null "
     end
 
     Agency.find_by_sql([sql, work_state_abbrev, hq_state_abbrev, pension_state_abbrev, 
@@ -246,13 +252,19 @@ class Counseling < ActiveRecord::Base
                    and addresses.address_type='dropin'
                    and addresses.latitude is not null
                    and rs.state_abbrev IN (?,?,?,?)"
-    if is_over_60 == false
-      conditions << 'and r.minimum_age < 60 '
+    if is_over_60
+     sql << 'and r.minimum_age >= 60 '
+    else
+     # didn't answer question - don't return any age-restricted results
+     sql << 'and r.minimum_age is null '  
     end
     if poverty_level
-      conditions << "and r.max_poverty >= #{poverty_level.to_f} "
+     sql << "and r.max_poverty >= #{poverty_level.to_f} "
+    else 
+     # didn't answer question - don't return any income-restricted results
+     sql << "and r.max_poverty is null "
     end
-    
+
     address = Address.find(:first, :origin => ZipImport.find(zipcode), :order => 'distance',
             :joins => 'join locations l on addresses.location_id = l.id 
                                              and l.is_provider = 1
