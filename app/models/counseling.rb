@@ -40,7 +40,6 @@ class Counseling < ActiveRecord::Base
   belongs_to :pension_state, :class_name => "State", :foreign_key => "pension_state_abbrev"
   
   validates_presence_of :employer_type
-  attr_accessor :yearly_income
   
   def selected_plan_id
     @selected_plan_id
@@ -54,6 +53,15 @@ class Counseling < ActiveRecord::Base
   end
   def employment_cutoff=(employment_cutoff)
     @employment_cutoff = employment_cutoff
+  end
+  
+  def yearly_income
+    @yearly_income
+  end
+
+  def yearly_income=(yearly_inc)
+    @yearly_income = yearly_inc
+    self.monthly_income = yearly_inc.to_i / 12 if yearly_inc
   end
   
   def matching_agencies
@@ -89,30 +97,13 @@ class Counseling < ActiveRecord::Base
   def state_abbrev
     raise ArgumentError, 'state_abbrev is deprecated'
   end
-    
-  def yearly_income=(yearly_inc)
-    self.monthly_income = yearly_inc.to_i / 12 if yearly_income
-  end
-
-  def age_restrictions?
-    sql = <<-SQL
-        select distinct a.* from agencies a
-        join locations l on l.agency_id = a.id and l.is_provider = 1
-        join restrictions r on r.location_id = l.id
-        join restrictions_states rs on rs.restriction_id = r.id 
-              and rs.state_abbrev IN (?,?,?,?)
-        where a.agency_category_id = ?
-        and a.use_for_counseling = 1
-        and (r.minimum_age is not null) 
-        SQL
-
-    Agency.find_by_sql([sql, work_state_abbrev, hq_state_abbrev, pension_state_abbrev, 
-                                 home_state, AgencyCategory['Service Provider']]).size > 0
+  def age_restrictions?                   
+    Agency.age_restrictions?(work_state_abbrev, hq_state_abbrev, pension_state_abbrev, home_state)
   end
   
   def income_restrictions?
     sql = <<-SQL
-        select distinct a.* from agencies a
+        select a.* from agencies a
         join locations l on l.agency_id = a.id and l.is_provider = 1
         join restrictions r on r.location_id = l.id
         join restrictions_states rs on rs.restriction_id = r.id 
@@ -246,40 +237,6 @@ class Counseling < ActiveRecord::Base
     agencies.flatten.uniq    
   end
   
-  def matching_dsps
-    sql = <<-SQL
-        select distinct a.* from agencies a
-        join locations l on l.agency_id = a.id and l.is_provider = 1
-        join restrictions r on r.location_id = l.id
-        join restrictions_states rs on rs.restriction_id = r.id 
-              and rs.state_abbrev IN (?,?,?,?)
-        where a.agency_category_id = ?
-        and a.use_for_counseling = 1
-        SQL
-
-    sql << 'and (r.minimum_age is not null or r.max_poverty is not null) '
-
-    if is_over_60 and poverty_level
-      sql << 'and (r.minimum_age >= 60 '
-    elsif is_over_60
-      sql << 'and r.minimum_age >= 60 '
-    else
-      # didn't answer question - don't return any age-restricted results
-      sql << 'and r.minimum_age is null '  
-    end
-    if poverty_level and is_over_60
-      sql << "or r.max_poverty >= #{poverty_level.to_f}) "
-    elsif poverty_level
-      sql << "and r.max_poverty >= #{poverty_level.to_f} "
-    else 
-      # didn't answer question - don't return any income-restricted results
-      sql << "and r.max_poverty is null "
-    end
-
-    Agency.find_by_sql([sql, work_state_abbrev, hq_state_abbrev, pension_state_abbrev, 
-                             home_state, AgencyCategory['Service Provider']])
-  end
-  
   def closest_dsp
     return nil unless zipcode
     
@@ -288,23 +245,18 @@ class Counseling < ActiveRecord::Base
                    and addresses.address_type='dropin'
                    and addresses.latitude is not null
                    and rs.state_abbrev IN (?,?,?,?)"
-    if is_over_60 and poverty_level
-      conditions << 'and (r.minimum_age >= 60 '
+                   
+    if is_over_60 and !poverty_level.nil?
+      conditions << 'and (r.minimum_age >= 60 or r.max_poverty >= #{poverty_level.to_f}) '
     elsif is_over_60
       conditions << 'and r.minimum_age >= 60 '
-    else
-      # didn't answer question - don't return any age-restricted results
-      conditions << 'and r.minimum_age is null '  
-    end
-    if poverty_level and is_over_60
-      conditions << "or r.max_poverty >= #{poverty_level.to_f}) "
-    elsif poverty_level
+    elsif !poverty_level.nil?
       conditions << "and r.max_poverty >= #{poverty_level.to_f} "
-    else 
-      # didn't answer question - don't return any income-restricted results
-      conditions << "and r.max_poverty is null "
+    else
+      # didn't answer question - don't return any age/income-restricted results
+      conditions << 'and r.minimum_age is null and r.max_poverty is null '  
     end
-
+    
     address = Address.find(:first, :origin => ZipImport.find(zipcode), :order => 'distance',
             :joins => 'join locations l on addresses.location_id = l.id 
                                              and l.is_provider = 1

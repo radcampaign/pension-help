@@ -69,4 +69,20 @@ class Agency < ActiveRecord::Base
     
   end
       
+  def age_restrictions?
+    sql = <<-SQL
+        select a.id from agencies a
+        join locations l on l.agency_id = a.id and l.is_provider = 1
+        join restrictions r on r.location_id = l.id
+        join restrictions_states rs on rs.restriction_id = r.id 
+              and rs.state_abbrev IN (?,?,?,?)
+        where a.agency_category_id = ?
+        and a.use_for_counseling = 1
+        and (r.minimum_age is not null) 
+        SQL
+
+    Agency.find_by_sql([sql, work_state_abbrev, hq_state_abbrev, pension_state_abbrev, 
+                                 home_state, AgencyCategory['Service Provider']]).size > 0
+    
+  end
 end
