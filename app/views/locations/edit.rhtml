@@ -81,6 +81,14 @@
 				<fieldset class="left">
 				<span><%= f.text_field :fax, :size => 15 %><label for="fax">Fax</label></span>
 				</fieldset>
+				<fieldset class="clear left"><div class="left"><%= f.text_field :url_title, {:size => 60} %>
+				<label for="agency_url_title">URL Title (for display)</label></div>
+				<div class="left"><%= f.text_field :url, {:size => 60}  %>
+				<label for="agency_url">URL</label></div></fieldset>			
+				<fieldset class="clear left"><div class="left"><%= f.text_field :url2_title, {:size => 60} %>
+				<label for="agency_url_title">URL2 Title (for display)</label></div>
+				<div class="left"><%= f.text_field :url2, {:size => 60}  %>
+				<label for="agency_url">URL2</label></div></fieldset>					
 				<div class="clear left"><%= f.text_field :email, :size => 30 %><label for="email">Email</label></div>
 				</fieldset>
 		</li>

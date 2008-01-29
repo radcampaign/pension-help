@@ -29,8 +29,8 @@ class ZipImport < ActiveRecord::Base
                    
   # override find to restrict zip to first 5 digits
   def self.find(*args)                   
-    *args[0]=*args.first[0..4] if args.first.is_a?(String)
-    super(*args)
+    args=args.first[0..4] if args.first.is_a?(String) && args.size == 1
+    super(args)
   end
   
 end
