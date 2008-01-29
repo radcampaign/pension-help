@@ -19,6 +19,8 @@ class LocationsController < ApplicationController
   def new
     @location = Location.new
     @location.build_restriction
+    #set defaults
+    @location.is_provider = true 
     render :template => 'locations/edit'
     #render :partial => 'locations/location_detail', :layout => false
   end

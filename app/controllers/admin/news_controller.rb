@@ -71,7 +71,6 @@ class Admin::NewsController < ApplicationController
   end
 
   def destroy
-    logger.debug('destrying')
     News.find(params[:id]).destroy
     respond_to do |format|
       format.html {redirect_to :action => 'list'} #request made w/o ajax

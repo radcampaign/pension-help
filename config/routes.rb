@@ -30,8 +30,8 @@ ActionController::Routing::Routes.draw do |map|
   # Site URLs
   map.with_options(:controller => 'site') do |site|
     site.homepage          '',              :action => 'show_page', :url => '/'
-    site.not_found         'error/404',     :action => 'not_found'
-    site.error             'error/500',     :action => 'error'
+    site.not_found         'site/404',     :action => 'not_found'
+    site.error             'site/500',     :action => 'error'
 
     # Everything else
     site.connect           '*url',          :action => 'show_page'

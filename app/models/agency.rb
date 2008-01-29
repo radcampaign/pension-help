@@ -34,8 +34,8 @@ class Agency < ActiveRecord::Base
   has_many :publications
   has_one :publication, :class_name => "Publication"
   has_one :hq, :class_name => "Location", :conditions => "is_hq=1 and is_provider=1"
-  has_many :dropin_addresses, :through => :locations, :source => :addresses, :conditions => "address_type = 'dropin' and is_provider=1", :order => "is_hq desc"
-  has_many :mailing_addresses, :through => :locations, :source => :addresses, :conditions => "address_type = 'mailing' and is_provider=1", :order => "is_hq desc"
+  has_many :dropin_addresses, :through => :locations, :source => :addresses, :conditions => "address_type = 'dropin'", :order => "is_hq desc"
+  has_many :mailing_addresses, :through => :locations, :source => :addresses, :conditions => "address_type = 'mailing'", :order => "is_hq desc"
   has_one :restriction
 
   has_enumerated :agency_category
@@ -62,14 +62,14 @@ class Agency < ActiveRecord::Base
                  :joins => "left join restrictions r on r.location_id = locations.id
                             left join restrictions_states rs on rs.restriction_id = r.id
                                 and rs.state_abbrev = '#{home_state}'",
-                 :conditions => "addresses.latitude is not null")
+                 :conditions => "addresses.latitude is not null and is_provider=1")
                                  
     # return the relevant location instead of the address                                  
     return address.location if address 
     
   end
-      
-  def age_restrictions?
+  
+  def self.age_restrictions?(work_state_abbrev, hq_state_abbrev, pension_state_abbrev, home_state)
     sql = <<-SQL
         select a.id from agencies a
         join locations l on l.agency_id = a.id and l.is_provider = 1
@@ -85,4 +85,21 @@ class Agency < ActiveRecord::Base
                                  home_state, AgencyCategory['Service Provider']]).size > 0
     
   end
+  
+  def self.income_restrictions?(work_state_abbrev, hq_state_abbrev, pension_state_abbrev, home_state)
+    sql = <<-SQL
+        select a.id from agencies a
+        join locations l on l.agency_id = a.id and l.is_provider = 1
+        join restrictions r on r.location_id = l.id
+        join restrictions_states rs on rs.restriction_id = r.id 
+              and rs.state_abbrev IN (?,?,?,?)
+        where a.agency_category_id = ?
+        and a.use_for_counseling = 1
+        and (r.max_poverty is not null) 
+        SQL
+
+    Agency.find_by_sql([sql, work_state_abbrev, hq_state_abbrev, pension_state_abbrev, 
+                                 home_state, AgencyCategory['Service Provider']]).size > 0
+  end
+  
 end

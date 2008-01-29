@@ -28,8 +28,12 @@ class Address < ActiveRecord::Base
 
   private
   def geocode_zip
-   geo=ZipImport.find(zip)
-   self.latitude, self.longitude = geo.latitude, geo.longitude
+    begin
+      geo=ZipImport.find(zip[0..4])
+    rescue
+      # invalid zip code - 
+    end
+    self.latitude, self.longitude = geo.latitude, geo.longitude if geo
   end                   
 
 end

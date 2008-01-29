@@ -9,16 +9,23 @@
 	<% end -%>
 </ul>
 
+<div class="right">
+<% if params[:active]=='1' %>
+	<%= link_to 'show inactive agencies', agencies_path(:order => params[:order])%>
+<% else %>
+	<%= link_to 'hide inactive agencies', agencies_path(:order => params[:order], :active=>'1')%>
+<% end %>
+</div>
 <%= link_to 'Add a new agency', new_agency_path, :class => 'add_new' %>
 
 <table id="admin_list">
   <tr>
-    <th><%= link_to 'Agency Name', agencies_path(:order=>'name') %></th>
-		<th><%= link_to 'State', agencies_path(:order=>'state') %></th>
-		<th class="center"><%= link_to 'Category', agencies_path(:order=>'category') %></th>
-		<th class="center"><%= link_to 'Result Type', agencies_path(:order=>'result') %></th>
-		<th class="center"><%= link_to 'C & A', agencies_path(:order=>'counseling')%></th>
-		<th class="center"><%= link_to 'Active', agencies_path(:order=>'active')%></th>
+    <th><%= link_to 'Agency Name', agencies_path(:order=>'name', :active => params[:active]) %></th>
+		<th><%= link_to 'State', agencies_path(:order=>'state', :active => params[:active]) %></th>
+		<th class="center"><%= link_to 'Category', agencies_path(:order=>'category', :active => params[:active]) %></th>
+		<th class="center"><%= link_to 'Result Type', agencies_path(:order=>'result', :active => params[:active]) %></th>
+		<th class="center"><%= link_to 'C & A', agencies_path(:order=>'counseling', :active => params[:active])%></th>
+		<th class="center"><%= link_to 'Active', agencies_path(:order=>'active', :active => params[:active])%></th>
   </tr>
 	
  	<% @agencies.each_with_index do |agency, i| %>

@@ -5,9 +5,10 @@ class AgenciesController < ApplicationController
   # GET /agencies
   # GET /agencies.xml
   def index
+    active = 'is_active=1' if params[:active]=='1'
     order = SORT_ORDER[params[:order]] if params[:order]
     order = 'if(agencies.agency_category_id is null or agencies.agency_category_id="", "9999", agencies.agency_category_id), if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev), agencies.name asc' unless order
-    @agencies = Agency.find(:all, :include => [:dropin_addresses], :order => order, :group => 'agencies.id')
+    @agencies = Agency.find(:all, :include => [:dropin_addresses], :conditions => active, :order => order, :group => 'agencies.id')
 
     # default render index.rhtml
   end
@@ -24,6 +25,9 @@ class AgenciesController < ApplicationController
     @agency = Agency.new
     @agency.build_restriction
     @agency.publications.build
+    #set default values
+    @agency.is_active=true
+    @agency.use_for_counseling=true
     render 'agencies/edit'
   end
 

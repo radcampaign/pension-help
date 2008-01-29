@@ -2,7 +2,22 @@ class Admin::ContentController < ApplicationController
   before_filter :login_required
   layout "admin"
   
-  uses_tiny_mce(
+  uses_tiny_mce(:options => {:theme => 'advanced',
+                             :browsers => %w{msie gecko},
+                             :theme_advanced_toolbar_location => "top",
+                             :theme_advanced_toolbar_align => "left",
+                             :paste_auto_cleanup_on_paste => true,
+                             :content_css => '/stylesheets/styles.css',
+                             :width => 631,
+                             :height => 400,
+                             :relative_urls => false,
+                             :theme_advanced_styles => 'Offsite Link=offsite',
+                             :theme_advanced_buttons1 => %w{bold italic underline strikethrough separator justifyleft justifycenter justifyright separator indent outdent separator bullist numlist separator undo redo separator link unlink anchor separator styleselect formatselect separator code ts_image},
+                              :extended_valid_elements => %w{a[name|href|target|title|onclick|class] img[class|src|border=0|alt|title|hspace|vspace|width|height|align|name|usemap] hr[class|width|size|noshade] font[face|size|color|style] span[class|align|style] map[id|name] area[shape|coords|href|alt|target]},
+                             :theme_advanced_buttons2 => [],
+                             :theme_advanced_buttons3 => [],
+                             :forced_root_block => 'p',
+                             :plugins => %w{contextmenu paste}},
                 :only => [:new, :edit])
   
   

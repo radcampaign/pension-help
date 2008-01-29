@@ -58,10 +58,9 @@ class Counseling < ActiveRecord::Base
   def yearly_income
     @yearly_income
   end
-
   def yearly_income=(yearly_inc)
     @yearly_income = yearly_inc
-    self.monthly_income = yearly_inc.to_i / 12 if yearly_inc
+    self.monthly_income = yearly_inc.to_i / 12 if !yearly_inc.nil?
   end
   
   def matching_agencies
@@ -97,24 +96,13 @@ class Counseling < ActiveRecord::Base
   def state_abbrev
     raise ArgumentError, 'state_abbrev is deprecated'
   end
+  
   def age_restrictions?                   
     Agency.age_restrictions?(work_state_abbrev, hq_state_abbrev, pension_state_abbrev, home_state)
   end
   
   def income_restrictions?
-    sql = <<-SQL
-        select a.* from agencies a
-        join locations l on l.agency_id = a.id and l.is_provider = 1
-        join restrictions r on r.location_id = l.id
-        join restrictions_states rs on rs.restriction_id = r.id 
-              and rs.state_abbrev IN (?,?,?,?)
-        where a.agency_category_id = ?
-        and a.use_for_counseling = 1
-        and (r.max_poverty is not null) 
-        SQL
-
-    Agency.find_by_sql([sql, work_state_abbrev, hq_state_abbrev, pension_state_abbrev, 
-                                 home_state, AgencyCategory['Service Provider']]).size > 0
+    Agency.income_restrictions?(work_state_abbrev, hq_state_abbrev, pension_state_abbrev, home_state)
   end
 
   #######
@@ -277,6 +265,7 @@ class Counseling < ActiveRecord::Base
                       join agencies a on l.agency_id = a.id and a.use_for_counseling=1
                       left join restrictions r on r.location_id = l.id',
             :conditions => "a.agency_category_id=#{AgencyCategory['Service Provider'].id}
+                           and (a.result_type_id is null or a.result_type_id=999)
                            and ((r.minimum_age is null and r.max_poverty is null) 
                            or r.id is null)
                            and addresses.address_type='dropin'
@@ -359,6 +348,12 @@ class Counseling < ActiveRecord::Base
   def result_type_match(type)
     return nil if ResultType[type].nil?
     Agency.find(:all, :conditions => ['result_type_id = ? and use_for_counseling = 1', ResultType[type]])
+  end
+
+  protected
+    
+  def validate
+    errors.add :zipcode if(!zipcode.blank? && !ZipImport.find(zipcode) rescue true)
   end
    
 end

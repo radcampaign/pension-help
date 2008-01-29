@@ -5,27 +5,27 @@ class CounselAssistance
   end
 
   def self.employer_types
-    EmployerType.find(:all).collect{|et| [et.name, et.id]}
+    EmployerType.find(:all, :order => 'position ASC').collect{|et| [et.name, et.id]}
   end
   
   def self.government_plans
-    FederalPlan.find(:all).collect{|fp| [fp.name, fp.id]}
+    FederalPlan.find(:all, :order => 'position ASC').collect{|fp| [fp.name, fp.id]}
   end
   
   def self.military_service_types
-    MilitaryService.find(:all).collect{|ms| [ms.name, ms.id]}
+    MilitaryService.find(:all, :order => 'position ASC').collect{|ms| [ms.name, ms.id]}
   end
   
   def self.military_employer_types
-    MilitaryEmployer.find(:all).collect{|me| [me.name, me.id]}
+    MilitaryEmployer.find(:all, :order => 'position ASC').collect{|me| [me.name, me.id]}
   end
   
   def self.uniformed_service_branches
-    MilitaryBranch.find(:all).collect{|mb| [mb.name, mb.id]}
+    MilitaryBranch.find(:all, :order => 'position ASC').collect{|mb| [mb.name, mb.id]}
   end
   
   def self.pension_earner_choices
-    PensionEarner.find(:all).collect{|pe| [pe.name, pe.id]}
+    PensionEarner.find(:all, :order => 'position ASC').collect{|pe| [pe.name, pe.id]}
  end
  
 end

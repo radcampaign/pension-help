@@ -96,12 +96,17 @@ class HelpController < ApplicationController
   
   def step_2 #zip, AoA states, plan questions
     @counseling = update_counseling
-    @matching_agencies = @counseling.matching_agencies
     @states = CounselAssistance.states
   end
   
   def step_3 #employment dates, pension-earner, divorce questions
     @counseling = update_counseling
+    @counseling.errors.add(:zipcode, 'is required') if @counseling.zipcode.blank?
+    if @counseling.errors || !@counseling.valid? 
+      @states = CounselAssistance.states
+      redirect_to :action => :step_2
+      return
+    end
     # skip this question, unless we have a military/federal/private employer type
     redirect_to :action => :step_4 and return unless [1,4,5].include?(@counseling.employer_type_id)
     @options = CounselAssistance.pension_earner_choices
@@ -125,13 +130,8 @@ class HelpController < ApplicationController
     @results = @counseling.matching_agencies
     # @counseling.save  TODO: fix problem when trying to save selected_plan
     if @counseling.selected_plan_id
-      logger.debug ('------------------------------------')
-      logger.debug (@results.collect{|a| a.plans}.flatten.collect{|p| [p.id,p.name]})
-      logger.debug ('====================================')
       @results.each{|a| a.plans.delete_if {|p| p.id != @counseling.selected_plan_id.to_i &&
          a.agency_category_id==3}} 
-       logger.debug ('------------------------------------')
-       logger.debug (@results.collect{|a| a.plans}.flatten.collect{|p| [p.id,p.name]})
     end
     @results
   end
@@ -172,9 +172,13 @@ class HelpController < ApplicationController
   def update_counseling 
     c = session[:counseling] ||= Counseling.new
     c.attributes = params[:counseling]
-    c.yearly_income = params[:yearly_income] if params[:yearly_income]
+    # shouldn't need this line
+    # c.yearly_income = params[:yearly_income] if params[:yearly_income]
+    # make IDK => 0
     c.selected_plan_id = nil if c.selected_plan_id=="IDK"
     c.selected_plan_id = params[:selected_plan_override] if !params[:selected_plan_override].blank?
+    # set date here if we have a year, but do validation on year elsewhere so we can redraw the page
+    # we'll have to limit the display of the date to the year only
     c.employment_start = Date.new(params[:employment_start_year].to_i,1,1) if params[:employment_start_year] && params[:employment_start_year].to_i > EARLIEST_EMPLOYMENT_YEAR && params[:employment_start_year].to_i < LATEST_EMPLOYMENT_YEAR
     c.employment_end = Date.new(params[:employment_end_year].to_i,1,1) if params[:employment_end_year] && params[:employment_end_year].to_i > EARLIEST_EMPLOYMENT_YEAR && params[:employment_end_year].to_i < LATEST_EMPLOYMENT_YEAR
     c.employment_end = Date.new(1987,3,31) if c.employment_cutoff=="on"

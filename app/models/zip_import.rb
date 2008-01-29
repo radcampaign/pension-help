@@ -26,6 +26,13 @@ class ZipImport < ActiveRecord::Base
   self.primary_key = 'zipcode'
   acts_as_mappable :default_units => :miles, :default_formula => :flat, 
                    :lat_column_name => 'latitude', :lng_column_name => 'longitude'
+                   
+  # override find to restrict zip to first 5 digits
+  def self.find(*args)                   
+    *args[0]=*args.first[0..4] if args.first.is_a?(String)
+    super(*args)
+  end
+  
 end
 
 __END__
