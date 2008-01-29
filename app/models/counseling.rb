@@ -63,6 +63,13 @@ class Counseling < ActiveRecord::Base
     self.monthly_income = yearly_inc.to_i / 12 if !yearly_inc.nil?
   end
   
+  def step=(step)
+    @step=step
+  end
+  def step
+    @step
+  end
+  
   def matching_agencies
     agencies = case employer_type.name
     when 'Company or nonprofit':     company_matches
@@ -354,6 +361,7 @@ class Counseling < ActiveRecord::Base
     
   def validate
     errors.add :zipcode if(!zipcode.blank? && !ZipImport.find(zipcode) rescue true)
+    errors.add(:zipcode, 'is required') if zipcode.blank? && step > 1
   end
    
 end

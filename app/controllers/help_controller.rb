@@ -96,13 +96,16 @@ class HelpController < ApplicationController
   
   def step_2 #zip, AoA states, plan questions
     @counseling = update_counseling
+    @counseling.step = 2
+    logger.debug("errors - " + @counseling.errors.size.to_s) if @counseling.errors
     @states = CounselAssistance.states
   end
   
   def step_3 #employment dates, pension-earner, divorce questions
     @counseling = update_counseling
-    @counseling.errors.add(:zipcode, 'is required') if @counseling.zipcode.blank?
-    if @counseling.errors || !@counseling.valid? 
+    @counseling.step = 3
+    if !@counseling.valid? 
+      logger.debug("errors found - " + @counseling.errors.size.to_s) if @counseling.errors
       @states = CounselAssistance.states
       redirect_to :action => :step_2
       return
@@ -114,6 +117,7 @@ class HelpController < ApplicationController
   
   def step_4
     @counseling = update_counseling
+    @counseling.step = 4
     # no need to look for DSPs if AoA coverage applies
     if !@counseling.aoa_coverage.empty? || 
       !(@counseling.age_restrictions? || @counseling.income_restrictions?)
