@@ -27,4 +27,18 @@ class ApplicationController < ActionController::Base
     render :partial => '/shared/zips', :locals => {:counties => @counties}, :layout => false
   end
 
+  def rescue_action_in_public(exception)
+    case exception
+      when ActiveRecord::RecordNotFound,ActionController::UnknownAction 
+        render "site/404", :status => "404"
+      else
+        @message = exception
+        render "site/505", :status => "500"
+    end
+  end
+
+  def local_request?
+    return false
+  end
+
 end
