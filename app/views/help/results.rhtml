@@ -74,12 +74,27 @@
 				</tr>
 			</table>
 		<% end %>
-		<% if !agency.url.blank? %>
+		<% if !agency.url.blank? || !agency.url2.blank? || !location.url.blank? || !location.url2.blank? %>
 			<table class="results_web">
+				<tr>
+					<td style="padding-right:5px"><b>On the Web:</b></td>
+					<td><a href="/site/exit?dest=<%= location.url %>" class="offsite">
+					<%= location.url_title.blank? ? location.name : location.url_title %></a></td>
+				</tr>
+				<tr>
+					<td style="padding-right:5px"><b>On the Web:</b></td>
+					<td><a href="/site/exit?dest=<%= location.url2 %>" class="offsite">
+					<%= location.url2_title.blank? ? location.name : location.url2_title %></a></td>
+				</tr>
 				<tr>
 					<td style="padding-right:5px"><b>On the Web:</b></td>
 					<td><a href="/site/exit?dest=<%= agency.url %>" class="offsite">
 					<%= agency.url_title.blank? ? agency.name : agency.url_title %></a></td>
+				</tr>
+				<tr>
+					<td style="padding-right:5px"><b>On the Web:</b></td>
+					<td><a href="/site/exit?dest=<%= agency.url2 %>" class="offsite">
+					<%= agency.url2_title.blank? ? agency.name : agency.url2_title %></a></td>
 				</tr>
 			</table>
 		<% end %>

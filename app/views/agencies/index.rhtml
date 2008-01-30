@@ -25,6 +25,7 @@
 		<th class="center"><%= link_to 'Category', agencies_path(:order=>'category', :active => params[:active]) %></th>
 		<th class="center"><%= link_to 'Result Type', agencies_path(:order=>'result', :active => params[:active]) %></th>
 		<th class="center"><%= link_to 'C & A', agencies_path(:order=>'counseling', :active => params[:active])%></th>
+		<th class="center">Provider</th>
 		<th class="center"><%= link_to 'Active', agencies_path(:order=>'active', :active => params[:active])%></th>
   </tr>
 	
@@ -37,7 +38,7 @@
 		<td class="center">
 			 <%= agency.dropin_addresses.first.state_abbrev unless agency.dropin_addresses.empty? %>
 		</td>
-		<td class="center">
+		<td class="center"> 
 		  <%= agency.agency_category.name if agency.agency_category %>
 		</td>
 		<td class="center">
@@ -48,6 +49,7 @@
 				<%= render :partial=> 'agencies/counseling_check', :locals => {:agency => agency} %>
 			</span>
 		</td>
+		<td class="center"><%= image_tag(agency.is_provider ? 'check_blue.gif' : 'close.gif') %></td>
 		<td class="center">
 			<span id=<%='active_'+agency.id.to_s %>
 				<%= render :partial=> 'agencies/active_check', :locals => {:agency => agency} %>

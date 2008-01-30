@@ -102,4 +102,8 @@ class Agency < ActiveRecord::Base
                                  home_state, AgencyCategory['Service Provider']]).size > 0
   end
   
+  def is_provider
+    locations.count(:id, :conditions => 'is_provider = 1') > 0
+  end
+  
 end
