@@ -109,6 +109,7 @@ form.admin_form table#coverage td {
 .right {
 	float: right;
 	height: 1px;
+	padding-right:1px;
 }
 #govt_emp_type {
 	margin-bottom: 12px;
@@ -146,7 +147,7 @@ a.add_new {
 	width: 100%;
 }
 table#admin_list {
-	width: 100%;
+	width: 99%;
 }
 table#admin_list td {
 	padding: 4px 0;

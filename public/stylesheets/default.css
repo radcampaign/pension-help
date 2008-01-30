@@ -291,7 +291,7 @@ ol, blockquote {
 }
 
 .buffer {
-	margin:10px 0px 50px 10px;
+	padding:10px 0px 10px 10px;
 	float:left;
 }
 #counseling_step{
