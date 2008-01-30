@@ -113,10 +113,10 @@ class AgenciesController < ApplicationController
   # peculiar category order due to TRAC #82 (https://prc.gradientblue.com/trac/pha/ticket/82)
   SORT_ORDER = { 
     'name' => 'agencies.name',
-    'state' => 'if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev)',
+    'state' => 'if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev), agencies.name',
     'category' => 'if(agencies.agency_category_id is null or agencies.agency_category_id="", "9999", agencies.agency_category_id), if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev), agencies.name',
-    'result' => 'if(agencies.result_type_id is null or agencies.result_type_id="", "9999", agencies.result_type_id)',
-    'counseling' => 'agencies.use_for_counseling',
-    'active' => 'agencies.is_active'
+    'result' => 'if(agencies.result_type_id is null or agencies.result_type_id="", "9999", agencies.result_type_id), agencies.name',
+    'counseling' => 'agencies.use_for_counseling desc, if(agencies.agency_category_id is null or agencies.agency_category_id="", "9999", agencies.agency_category_id), agencies.name',
+    'active' => 'agencies.is_active desc, if(agencies.agency_category_id is null or agencies.agency_category_id="", "9999", agencies.agency_category_id), agencies.name'
     }
 end
