@@ -157,6 +157,12 @@ table#admin_list th {
 table#admin_list .center {
 	text-align: center;
 }
+table#admin_list .location_name {
+	padding-left:24px;
+}
+table#admin_list .locationsRow td {
+	border-top:1px solid #DDD;
+}
 li.agency_header {
 	margin: 0 0 15px;
 }
