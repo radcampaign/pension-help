@@ -242,7 +242,7 @@ class Counseling < ActiveRecord::Base
                    and rs.state_abbrev IN (?,?,?,?)"
                    
     if is_over_60 and !poverty_level.nil?
-      conditions << 'and (r.minimum_age >= 60 or r.max_poverty >= #{poverty_level.to_f}) '
+      conditions << "and (r.minimum_age >= 60 or r.max_poverty >= #{poverty_level.to_f})" 
     elsif is_over_60
       conditions << 'and r.minimum_age >= 60 '
     elsif !poverty_level.nil?

@@ -5,12 +5,15 @@
 <% @results.each do |agency| %>
 <% if loc=agency.best_location(@counseling) %> <%# if we can't find a best_location, don't show the agency %>
 	<div class="agency_result">
-	<h2><%= agency.name -%>
+	<h2><%= agency.name -%><br/>
+	<%= agency.name2 + '<br/>' if !agency.name2.blank? -%>
 	<% if agency.plans[0] -%>
-		<%='- ' + agency.plans.first.name if agency.plans.first.name %>
+		<%= agency.plans.first.name + '<br/>' if agency.plans.first.name -%>
 	<% else -%>
-		<%='- ' + loc.name if !agency.name.eql?(loc.name)%>
-	<% end -%></h2>
+		<%= loc.name + '<br/>' if !agency.name.eql?(loc.name) -%>
+	<% end -%>
+	<%= loc.name2 + '<br/>' if !loc.name2.blank? -%>
+	</h2>
 	<div class="agency_result_body">
 	<% if agency.description %><p><%= agency.description %></p><% end -%>
 
@@ -74,17 +77,17 @@
 				</tr>
 			</table>
 		<% end %>
-		<% if !agency.url.blank? || !agency.url2.blank? || !location.url.blank? || !location.url2.blank? %>
+		<% if !agency.url.blank? || !agency.url2.blank? || !oc.url.blank? || !loc.url2.blank? %>
 			<table class="results_web">
 				<tr>
 					<td style="padding-right:5px"><b>On the Web:</b></td>
-					<td><a href="/site/exit?dest=<%= location.url %>" class="offsite">
-					<%= location.url_title.blank? ? location.name : location.url_title %></a></td>
+					<td><a href="/site/exit?dest=<%= loc.url %>" class="offsite">
+					<%= loc.url_title.blank? ? loc.name : loc.url_title %></a></td>
 				</tr>
 				<tr>
 					<td style="padding-right:5px"><b>On the Web:</b></td>
-					<td><a href="/site/exit?dest=<%= location.url2 %>" class="offsite">
-					<%= location.url2_title.blank? ? location.name : location.url2_title %></a></td>
+					<td><a href="/site/exit?dest=<%= loc.url2 %>" class="offsite">
+					<%= loc.url2_title.blank? ? loc.name : loc.url2_title %></a></td>
 				</tr>
 				<tr>
 					<td style="padding-right:5px"><b>On the Web:</b></td>
