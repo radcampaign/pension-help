@@ -67,6 +67,14 @@ form.admin_form li {
 	border-bottom: 1px solid #EEE;
 	text-align:left;
 }
+#location_list td,
+#plan_list td {
+	border-bottom: 1px solid #00D6F0;
+}
+#location_list .center,
+#plan_list .center {
+	text-align: center;
+}
 #loc_table .hq {
 	width: 20px;
 	text-align: center;

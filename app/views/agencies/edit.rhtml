@@ -94,15 +94,18 @@
 		</ul>
 		<div class="left fullwidth">
 		<table class="admin_table" id="loc_table" cellspacing="0">
-			<tr><th colspan="4" id="table_title">AGENCY LOCATIONS</th></tr>
-				<tr><th class="hq">HQ</th>
-				<th class="hq">Provider</th>
-				<th class="loc">Location</th>
-				<th class="city">City, State</th>
+			<tbody id="location_list">
+			<tr><th colspan="5" id="table_title">AGENCY LOCATIONS</th></tr>
+				<tr>
+					<th width="5%">drag to sort</th>
+					<th class="hq">HQ</th>
+					<th class="hq">Provider</th>
+					<th class="loc">Location</th>
+					<th class="city">City, State</th>
 				</tr>
 			<% @agency.locations.each_with_index do |location, i| -%>
-			<% row_class = i%2 == 0 ? "even" : "odd" -%>
-			<tr class="<%= row_class %>">
+			<tr id="location_<%=location.id.to_s%>">
+				<td class="center"><%= image_tag 'play.gif'%></td>
 				<td class="hq"><%= (location.is_hq? ? image_tag('check.gif') : '') %></td>
 				<td class="hq"><%= (location.is_provider? ? image_tag('check_blue.gif')  : '') %></td>
 				<td class="loc "><%= link_to h (location.name), edit_location_url(:agency_id => @agency, :id => location) %></td>
@@ -111,6 +114,7 @@
 				<%end -%></td>
 			</tr>
 			<% end %>
+			</tbody>
 		</table>
 		<% if @agency.new_record? %>
 			Please save changes to this agency before adding locations
@@ -121,18 +125,22 @@
 					:class => 'add_new' %>
 		<% end -%>
 			<table class="admin_table" id="plan_table" cellspacing="0">
-				<tr><th colspan="3" id="table_title">PLANS</th></tr>
+				<tbody id="plan_list">
+				<tr>
+					<th colspan="4" id="table_title">PLANS</th></tr>
 					<tr>
-					<th>Plan Name</th>
-					<th>Common Name</th>
+						<th width="5%">drag to sort</th>
+						<th>Plan Name</th>
+						<th>Common Name</th>
 					</tr>
 				<% @agency.plans.each_with_index do |plan, i| %>
-				<% row_class = i%2 == 0 ? "even" : "odd" %>
-				<tr class="<%= row_class %>">
+				<tr id="plan_<%=plan.id.to_s%>">
+					<td class="center"><%= image_tag 'play.gif'%></td>
 					<td><%= link_to h(plan.name), edit_plan_url(:agency_id => @agency, :id => plan)%></td>
 					<td><%= plan.name2 %></td>
 				</tr>
 				<% end %>
+				</tbody>
 			</table>
 			<% if @agency.new_record? %>
 				Please save changes to this agency before adding plans
@@ -148,3 +156,11 @@
 			<%= submit_tag 'Back to Agency List Without Saving', :name=>'cancel' %>	
 		</div>
 <% end %>
+
+<%= sortable_element 'location_list', 
+			:tag => 'tr',
+      :url => { :action => "sort_location" } %>
+
+<%= sortable_element 'plan_list', 
+			:tag => 'tr',
+      :url => { :action => "sort_plan" } %>

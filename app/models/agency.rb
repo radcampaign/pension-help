@@ -29,7 +29,7 @@
 #
 
 class Agency < ActiveRecord::Base
-  has_many :locations
+  has_many :locations, :order => 'position asc'
   has_many :plans
   has_many :publications
   has_one :publication, :class_name => "Publication"

@@ -108,6 +108,16 @@ class AgenciesController < ApplicationController
     render :partial => 'agencies/active_check', :layout => false, :locals => {:agency => agency}
   end
 
+  def sort_location
+    params[:location_list].each_with_index { |id,idx| Location.update(id, :position => idx) }
+    render :nothing => 'true'
+  end
+
+  def sort_plan
+    params[:plan_list].each_with_index { |id,idx| Plan.update(id, :position => idx) }
+    render :nothing => 'true'
+  end
+
   private
   
   # peculiar category order due to TRAC #82 (https://prc.gradientblue.com/trac/pha/ticket/82)
