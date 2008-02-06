@@ -1,11 +1,6 @@
-<% if @counseling.errors.count > 0 %>
-	<div id="errorExplanation" class="errorExplanation">
-		<h2>Sorry, but we found a problem with your entries.</h2>
-			<%= error_messages = @counseling.errors.full_messages.map {|msg| content_tag(:li, msg) }
-	        content_tag(:ul, error_messages)
-	    %>
-	</div>
-<% end -%>
+<div id="counseling_errors">
+	<%= render :partial => 'help/counseling_errors', :locals => {'counseling' => @counseling} %>
+</div>
 <%= image_tag "layout/stepcircle-two.jpg", :id => 'counseling_step' %>
 
 <h1>Counseling &amp; Assistance</h1>
@@ -14,37 +9,65 @@
 
 <p>&nbsp;</p>
 
-<% form_for :counseling, :url => {:action => :step_3} do |form| -%>
+<% form_for :counseling, :url => {:action => :check_aoa_zip} do |form| -%>
 
 <h2>Where are you located?</h2>
 
-<p>Providing your Zip Code will allow us to look for a pension-help resource that is as close to your residence as possible.</p>
+<p>Providing your Zip Code will allow us to look for a pension-help resource that is as close to your residence as possible.blah blah</p>
 
 <p>
 	<table>
 		<tr>
 			<td>Zip Code:</td> 
 			<td><%= form.text_field :zipcode, :size => 5 %></td>
+			<td>
+				<% if @ask_aoa %>
+					<%= submit_tag 'confirm my zip code', :name => 'confirm' %>
+				<% end %>
+			</td>
 		</tr>
 	<table>
 </p>
 
-<p>&nbsp;</p>
+<br/>
+<% if @zip_found && !@show_aoa_expansion %>
+<p id="zip_found">Zip Code confirmed to be in  <%= @counseling.home_state %>. Please press the 'Next' button to continue.</p>
+<script type="text/javascript">
+	new Effect.Highlight('zip_found');
+</script>
+<% end -%>
 
-<% if [1,2,3,4,5,9].include?(@counseling.employer_type_id) %>
-<h2>Where did you work?</h2>
+<div id="aoa_expansion">
+	<% if @zip_found && @show_aoa_expansion %>
+		<p>Zip Code confirmed to be in  <%= @counseling.home_state %>. Please consider the questions below.</p>
+	<% end %>
 
-<p>Some organizations provide assistance based on where the work occurred while earning the pension, where the company is headquartered, or where the benefit is being paid from.</p>
+	<h2>Where did you work?</h2>
 
-<p>Where did the work occur: <%= form.select :work_state_abbrev, @states, :include_blank => true %></p>
+	<p>Some organizations provide assistance based on where the work occurred while earning the pension, where the company is headquartered, or where the benefit is being paid from.</p>
 
-<p>Where is the company headquartered: <%= form.select :hq_state_abbrev, @states, :include_blank => true %></p>
+	<p>Where did the work occur: <%= select :counseling, :work_state_abbrev, @states, :include_blank => true %></p>
 
-<p>Where is the pension paid from: <%= form.select :pension_state_abbrev, @states, :include_blank => true %></p>
+	<p>Where is the company headquartered: <%= select :counseling, :hq_state_abbrev, @states, :include_blank => true %></p>
+
+	<p>Where is the pension paid from: <%= select :counseling, :pension_state_abbrev, @states, :include_blank => true %></p>
+</div>
+<% if !@ask_aoa || (@counseling.work_state_abbrev.blank? && @counseling.hq_state_abbrev.blank? && @counseling.pension_state_abbrev.blank? && !@show_aoa_expansion) %>
+<script type="text/javascript">
+	$('aoa_expansion').hide();
+</script>
+<% else %>
+<script type="text/javascript">
+	new Effect.Highlight('aoa_expansion');
+</script>
+
 <% end %>
 
-<%= image_submit_tag "buttons/next_button.gif", :id => 'nextLinkButton' %>
-
+<% if @ask_aoa && !@zip_found && !@show_aoa_expansion %>
+	<%= image_submit_tag 'buttons/next_button_disabled.gif', :id => 'nextLinkButtonDisabled', :disabled => true %>
+<% else %>
+	<%= image_submit_tag "buttons/next_button.gif", :id => 'nextLinkButton', :name => 'continue' %>
+<% end %>
 <% end -%>
 <p>&nbsp;</p>
 

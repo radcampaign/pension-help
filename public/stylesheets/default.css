@@ -321,10 +321,13 @@ table.form table.form td {
   padding-bottom: 0;
 }
 
-#nextLinkButton {
-	cursor:pointer;
+#nextLinkButton,
+#nextLinkButtonDisabled {
 	float:right;
 	padding-right: 12px;
+}
+#nextLinkButton {
+	cursor:pointer;
 }
 
 #moreLinkButton {

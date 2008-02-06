@@ -15,9 +15,11 @@ class HelpController < ApplicationController
   
   def counseling
     @options = CounselAssistance.employer_types
-    if params[:employer_type]
-      # we're coming back from the employer descriptions screen
+    if params[:employer_type] || params[:redirect]
+      # we're coming back from the employer descriptions screen 
+      # or we're redirect back here due to a validation error
       @counseling = update_counseling
+      @counseling.step = 1
       @next_question_2 = CAQuestion.get_next(@counseling, 'EMP_TYPE')
     else
       @counseling = session[:counseling] = Counseling.new  # start fresh
@@ -96,16 +98,39 @@ class HelpController < ApplicationController
   
   def step_2 #zip, AoA states, plan questions
     @counseling = update_counseling
+    redirect_to(:action => :counseling, :redirect => true) and return if !@counseling.valid?
     @counseling.step = 2
-    logger.debug("errors - " + @counseling.errors.size.to_s) if @counseling.errors
     @states = CounselAssistance.states
+    @ask_aoa = [1,2,3,4,5,9].include?(@counseling.employer_type_id)
+  end
+  
+  # ajax call to check if zipcode is in aoa coverage area
+  def check_aoa_zip
+    @counseling = update_counseling
+    @counseling.zipcode = params[:zip] if !params[:zip].blank?
+    @counseling.step = 3
+    @states = CounselAssistance.states
+    @ask_aoa = [1,2,3,4,5,9].include?(@counseling.employer_type_id)
+    if !@counseling.valid?                  # bad zip code entered
+      @show_aoa_expansion = false
+    elsif params['continue.x']              # next button at bottom clicked
+      redirect_to :action => :step_3 
+      return
+    elsif @counseling.aoa_coverage.empty? &&
+          @ask_aoa                          # good zip, but no AoA coverage - ask more questions
+      @zip_found = true
+      @show_aoa_expansion = true
+    else
+      @zip_found = true
+      @show_aoa_expansion = false           # good zip, AoA coverage, prompt user to continue
+    end
+    render :action => :step_2
   end
   
   def step_3 #employment dates, pension-earner, divorce questions
     @counseling = update_counseling
     @counseling.step = 3
     if !@counseling.valid? 
-      logger.debug("errors found - " + @counseling.errors.size.to_s) if @counseling.errors
       @states = CounselAssistance.states
       redirect_to :action => :step_2
       return

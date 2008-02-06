@@ -67,7 +67,7 @@ class Counseling < ActiveRecord::Base
     @step=step
   end
   def step
-    @step
+    @step || 0
   end
   
   def matching_agencies

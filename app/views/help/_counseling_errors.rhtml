@@ -1,0 +1,8 @@
+<% if @counseling.errors.count > 0 %>
+	<div id="errorExplanation" class="errorExplanation">
+		<h2>Sorry, but we found a problem with your entries.</h2>
+			<%= error_messages = @counseling.errors.full_messages.map {|msg| content_tag(:li, msg) }
+	        content_tag(:ul, error_messages)
+	    %>
+	</div>
+<% end -%>
