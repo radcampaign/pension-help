@@ -79,26 +79,34 @@
 		<% end %>
 		<% if !agency.url.blank? || !agency.url2.blank? || !oc.url.blank? || !loc.url2.blank? %>
 			<table class="results_web">
+				<% unless loc.url.blank? %>
 				<tr>
-					<td style="padding-right:5px"><b>On the Web:</b></td>
+					<td style="padding-right:5px; width:105px"><b>On the Web:</b></td>
 					<td><a href="/site/exit?dest=<%= loc.url %>" class="offsite">
 					<%= loc.url_title.blank? ? loc.name : loc.url_title %></a></td>
 				</tr>
+				<% end %>
+				<% unless loc.url2.blank? %>
 				<tr>
-					<td style="padding-right:5px"><b>On the Web:</b></td>
+					<td style="padding-right:5px; width:105px"><b>On the Web:</b></td>
 					<td><a href="/site/exit?dest=<%= loc.url2 %>" class="offsite">
 					<%= loc.url2_title.blank? ? loc.name : loc.url2_title %></a></td>
 				</tr>
+				<% end %>
+				<% unless agency.url.blank? %>
 				<tr>
-					<td style="padding-right:5px"><b>On the Web:</b></td>
+					<td style="padding-right:5px; width:105px"><b>On the Web:</b></td>
 					<td><a href="/site/exit?dest=<%= agency.url %>" class="offsite">
 					<%= agency.url_title.blank? ? agency.name : agency.url_title %></a></td>
 				</tr>
+				<% end %>
+				<% unless agency.url2.blank? %>
 				<tr>
-					<td style="padding-right:5px"><b>On the Web:</b></td>
+					<td style="padding-right:5px; width:105px"><b>On the Web:</b></td>
 					<td><a href="/site/exit?dest=<%= agency.url2 %>" class="offsite">
 					<%= agency.url2_title.blank? ? agency.name : agency.url2_title %></a></td>
 				</tr>
+				<% end %>
 			</table>
 		<% end %>
 		</div>
