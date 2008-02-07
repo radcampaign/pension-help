@@ -187,6 +187,11 @@ li.agency_header {
 	font-size: 85%;
 	height: auto !important;
 }
+.legacy#legacyGeo {
+	overflow:auto;
+	width:400px;
+	height:100px !important;
+}
 form.admin_form li.legacy_item {
 	list-style-type: disc;
 	list-style-position: inside;

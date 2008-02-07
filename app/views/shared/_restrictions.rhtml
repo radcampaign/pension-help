@@ -7,12 +7,12 @@
 			<span><%= r.text_field :minimum_age %><label>Minimum Age</label></span>
 			<span><%= r.text_field :max_poverty %><label>Income Limit (% of FPL)</label></span>
 		<% end %>
-		<%if restriction && (restriction.legacy_geo_other || restriction.legacy_geo_type || restriction.legacy_geo_states) %>
-		<div class="legacy left"><b>Legacy Geographic Restrictions:</b> 
+		<%if restriction && (restriction.legacy_geo_counties || restriction.legacy_geo_cities || restriction.legacy_geo_states) %>
+		<div class="legacy left" id="legacyGeo"><b>Legacy Geographic Restrictions:</b> 
 			<ul>
-				<% if restriction.legacy_geo_type %><li class="legacy_item">Type - <%= h restriction.legacy_geo_type %></li><% end -%>
 				<% if restriction.legacy_geo_states %><li class="legacy_item">States - <%= h restriction.legacy_geo_states %></li><% end -%>
-				<% if restriction.legacy_geo_other %><li class="legacy_item">Other - <%= h restriction.legacy_geo_other %></li><% end -%>
+				<% if restriction.legacy_geo_counties %><li class="legacy_item">Counties - <%= h restriction.legacy_geo_counties %></li><% end -%>
+				<% if restriction.legacy_geo_cities %><li class="legacy_item">Cities - <%= h restriction.legacy_geo_cities %></li><% end -%>
 			</ul></div>
 			<% end %>
 			<div class="clear fullwidth">
