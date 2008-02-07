@@ -267,6 +267,7 @@ class Counseling < ActiveRecord::Base
     return nil unless zipcode
 
     address = Address.find(:first, :origin => ZipImport.find(zipcode), :order => 'distance',
+	    :include => :location,
             :joins => 'join locations l on addresses.location_id = l.id 
                                              and l.is_provider = 1
                       join agencies a on l.agency_id = a.id and a.use_for_counseling=1
