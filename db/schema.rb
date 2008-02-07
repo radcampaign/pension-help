@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 35) do
+ActiveRecord::Schema.define(:version => 38) do
 
   create_table "addresses", :force => true do |t|
     t.column "location_id",    :integer
@@ -235,6 +235,11 @@ ActiveRecord::Schema.define(:version => 35) do
     t.column "legacy_subcode",     :string,   :limit => 10
     t.column "fmp2_code",          :string,   :limit => 10
     t.column "updated_by",         :string
+    t.column "url",                :string
+    t.column "url_title",          :string
+    t.column "url2",               :string
+    t.column "url2_title",         :string
+    t.column "position",           :integer
   end
 
   add_index "locations", ["agency_id"], :name => "agency_id"
@@ -414,11 +419,6 @@ ActiveRecord::Schema.define(:version => 35) do
     t.column "position", :integer
   end
 
-  create_table "plan_categories", :force => true do |t|
-    t.column "name",     :string
-    t.column "position", :integer
-  end
-
   create_table "plan_types", :force => true do |t|
     t.column "name",     :string
     t.column "position", :integer
@@ -452,6 +452,7 @@ ActiveRecord::Schema.define(:version => 35) do
     t.column "updated_at",         :datetime
     t.column "updated_by",         :string
     t.column "email",              :string
+    t.column "position",           :integer
   end
 
   add_index "plans", ["agency_id"], :name => "agency_id"
@@ -492,21 +493,21 @@ ActiveRecord::Schema.define(:version => 35) do
   end
 
   create_table "restrictions", :force => true do |t|
-    t.column "agency_id",          :integer
-    t.column "location_id",        :integer
-    t.column "plan_id",            :integer
-    t.column "minimum_age",        :decimal,                :precision => 5, :scale => 2
-    t.column "max_poverty",        :decimal,                :precision => 5, :scale => 2
-    t.column "special_district",   :string
-    t.column "other_restrictions", :text
-    t.column "created_at",         :datetime
-    t.column "updated_at",         :datetime
-    t.column "legacy_geo_type",    :string
-    t.column "legacy_geo_states",  :string
-    t.column "legacy_geo_other",   :text
-    t.column "legacy_code",        :string,   :limit => 10
-    t.column "legacy_subcode",     :string,   :limit => 10
-    t.column "fmp2_code",          :string,   :limit => 10
+    t.column "agency_id",           :integer
+    t.column "location_id",         :integer
+    t.column "plan_id",             :integer
+    t.column "minimum_age",         :decimal,                :precision => 5, :scale => 2
+    t.column "max_poverty",         :decimal,                :precision => 5, :scale => 2
+    t.column "special_district",    :string
+    t.column "other_restrictions",  :text
+    t.column "created_at",          :datetime
+    t.column "updated_at",          :datetime
+    t.column "legacy_geo_states",   :string
+    t.column "legacy_code",         :string,   :limit => 10
+    t.column "legacy_subcode",      :string,   :limit => 10
+    t.column "fmp2_code",           :string,   :limit => 10
+    t.column "legacy_geo_counties", :text
+    t.column "legacy_geo_cities",   :text
   end
 
   add_index "restrictions", ["agency_id"], :name => "agency_id"
@@ -595,10 +596,6 @@ ActiveRecord::Schema.define(:version => 35) do
   add_index "zip_import", ["city"], :name => "index_zip_import_on_city"
   add_index "zip_import", ["county"], :name => "index_zip_import_on_county"
   add_index "zip_import", ["state_abbrev"], :name => "index_zip_import_on_state_abbrev"
-  add_index "zip_import", ["county"], :name => "IDX_zip_import_county"
-  add_index "zip_import", ["city"], :name => "IDX_zip_import_city"
-  add_index "zip_import", ["state_abbrev"], :name => "IDX_zip_import_state"
-  add_index "zip_import", ["state_abbrev", "city", "county"], :name => "IDX_zip_import_multi"
 
   create_table "zips", :id => false, :force => true do |t|
     t.column "zipcode",      :string
