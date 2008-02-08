@@ -33,8 +33,10 @@ class AgenciesController < ApplicationController
 
   # GET /agencies/1;edit
   def edit
+    order = SORT_ORDER_LOC[params[:order]] if params[:order]
     @agency = Agency.find(params[:id])
-    @agency.build_restriction if !@agency.restriction
+    @locations = Location.find_all_by_agency_id(params[:id], :include => [:dropin_address], :order => order)
+    #@agency.build_restriction if !@agency.restriction
   end
 
   # POST /agencies
@@ -42,12 +44,12 @@ class AgenciesController < ApplicationController
   def create
     @agency = Agency.new(params[:agency])
     @agency.publications[0] = @agency.publications.build(params[:publication])
-    @agency.build_restriction
-    @agency.restriction.update_attributes(params[:restriction])
-    @agency.restriction.states=params[:state_abbrevs].collect{|s| State.find(s)} unless params[:state_abbrevs].to_s.blank?
-    @agency.restriction.counties=params[:county_ids].collect{|c| County.find(c)} unless params[:county_ids].nil?
-    @agency.restriction.cities=params[:city_ids].collect{|c| City.find(c)} unless params[:city_ids].nil?
-    @agency.restriction.zips=params[:zip_ids].collect{|c| Zip.find(c)} unless params[:zip_ids].nil?
+    #@agency.build_restriction
+    #@agency.restriction.update_attributes(params[:restriction])
+    #@agency.restriction.states=params[:state_abbrevs].collect{|s| State.find(s)} unless params[:state_abbrevs].to_s.blank?
+    #@agency.restriction.counties=params[:county_ids].collect{|c| County.find(c)} unless params[:county_ids].nil?
+    #@agency.restriction.cities=params[:city_ids].collect{|c| City.find(c)} unless params[:city_ids].nil?
+    #@agency.restriction.zips=params[:zip_ids].collect{|c| Zip.find(c)} unless params[:zip_ids].nil?
     if @agency.save
       flash[:notice] = 'Agency was successfully created.'
       redirect_to edit_agency_url(@agency)
@@ -128,5 +130,10 @@ class AgenciesController < ApplicationController
     'result' => 'if(agencies.result_type_id is null or agencies.result_type_id="", "9999", agencies.result_type_id), agencies.name',
     'counseling' => 'agencies.use_for_counseling desc, if(agencies.agency_category_id is null or agencies.agency_category_id="", "9999", agencies.agency_category_id), agencies.name',
     'active' => 'agencies.is_active desc, if(agencies.agency_category_id is null or agencies.agency_category_id="", "9999", agencies.agency_category_id), agencies.name'
+    }
+    
+    SORT_ORDER_LOC = {
+      'name' => 'locations.name',
+      'state' => 'if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev), locations.name'
     }
 end
