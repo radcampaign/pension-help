@@ -104,8 +104,8 @@
 				</tr>
 			<% @locations.each_with_index do |location, i| -%>
 			<tr id="location_<%=location.id.to_s%>">
-				<td class="hq"><%= (location.is_hq? ? image_tag('check.gif') : '') %></td>
-				<td class="hq"><%= (location.is_provider? ? image_tag('check_blue.gif')  : '') %></td>
+				<td class="hq"><%= (location.is_hq? ? image_tag('check.gif') : '&nbsp;') %></td>
+				<td class="hq"><%= (location.is_provider? ? image_tag('check_blue.gif')  : '&nbsp;') %></td>
 				<td class="loc "><%= link_to h (location.name), edit_agency_location_url(:agency_id => @agency, :id => location) %></td>
 				<td class="city "><%  if location.dropin_address -%>
 					<%= location.dropin_address.city %><% if !location.dropin_address.city.blank? -%>, <% end -%><%= location.dropin_address.state_abbrev %>
