@@ -8,7 +8,7 @@ module ApplicationHelper
   end
   
   # Create select tag that submits an Ajax call onchange
-  def remote_select(name,options,controller,action,selected_value=nil)
+  def remote_select(object,method,options,controller,action,selected_value=nil)
     option_tags = "<option value=''></option>"
     options.each do |option|
       if selected_value.to_s == option[1].to_s
@@ -17,8 +17,8 @@ module ApplicationHelper
         option_tags << "<option value='#{option[1]}'>#{option[0]}</option>"
       end
     end
-    "<select name=\"#{name}\" id=\"#{name}\" onchange=\"new Ajax.Request('/#{controller}/#{action}', 
-    {asynchronous:true, evalScripts:true, parameters:'#{name}='+escape(value)})\">" + option_tags + "</select>"
+    "<select name=\"#{object}[#{method}]\" id=\"#{object}[#{method}]\" onchange=\"new Ajax.Request('/#{controller}/#{action}', 
+    {asynchronous:true, evalScripts:true, parameters:'#{object}[#{method}]='+escape(value)})\">" + option_tags + "</select>"
   end
   
 end

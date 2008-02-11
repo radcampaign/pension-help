@@ -1,5 +1,5 @@
 <% if cities == "true" -%>
-	<%= remote_select "counseling[county_id]", options, "help", "get_localities" %>
+	<%= remote_select "counseling", "county_id", options, "help", "get_localities" %>
 <% else -%>	
 	<select name="counseling[county_id]">
 		<option></option>

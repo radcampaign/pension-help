@@ -13,7 +13,7 @@
 
 <% form_tag :action => :step_2 do -%>
 
-<p>Employer type: <%= remote_select "counseling[employer_type_id]", @options, 'help', 'show_second_question', (@counseling.employer_type.id if @counseling.employer_type) %></p>
+<p>Employer type: <%= remote_select "counseling", "employer_type_id", @options, 'help', 'show_second_question', (@counseling.employer_type.id if @counseling.employer_type) %></p>
 
 <div id="q2">
 	<% if @next_question_2 -%>
@@ -45,9 +45,12 @@
 	
 <script type="text/javascript">
 	Event.observe( window, 'load', function() {
+		//trigger display of second question (but not for 'i don't know' as that would put us in an endless loop)
 		if (emp_type = $F("counseling[employer_type_id]")) {
-			new Ajax.Request('/help/show_second_question', 
-	    {asynchronous:true, evalScripts:true, parameters:'counseling[employer_type_id]='+emp_type})
+			if (emp_type !=9 ) {
+				new Ajax.Request('/help/show_second_question', 
+		    {asynchronous:true, evalScripts:true, parameters:'counseling[employer_type_id]='+emp_type})
+			}
 		}
 	});
 </script>

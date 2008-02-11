@@ -3,7 +3,8 @@ class CAQuestion
   attr_accessor :header,
                 :text,
                 :desc,
-                :name,
+                :object,
+                :method,
                 :controller,
                 :action,
                 :options,
@@ -15,7 +16,8 @@ class CAQuestion
       @header = p[:header]
       @text = p[:text]   
       @desc = p[:desc]             
-      @name = p[:name]
+      @object = p[:object]
+      @method = p[:method]
       @controller = p[:controller]   
       @action = p[:action]   
       @options = p[:options]
@@ -31,15 +33,17 @@ class CAQuestion
          CAQuestion.new(:header => "Which federal plan do you have a question about?",
                         :text => "There are many different retirement plans for federal employees.  Use the menu to select the federal retirement plan you are asking about.",
                         :desc => "Federal plan",
-                        :name => "counseling[federal_plan_id]",
-                        :controller => "",
-                        :action => "",
+                        :object => "counseling",
+                        :method => "federal_plan_id",
+                        :controller => "help",
+                        :action => "show_fourth_question",
                         :options => CounselAssistance.government_plans)
         when 5 # Military service 
          CAQuestion.new(:header => "What type of military service or employment?",
                         :text => "There are different retirement plans for uniformed servicemen and civilian military employees.  Select the most recent type of military service or employment that earned the pension or retirement savings plan you have a question about.",
                         :desc => "Military service",
-                        :name => "counseling[military_service_id]",
+                        :object => "counseling",
+                        :method => "military_service_id",
                         :controller => "help",
                         :action => "show_fourth_question",
                         :options => CounselAssistance.military_service_types)
@@ -47,7 +51,8 @@ class CAQuestion
           CAQuestion.new(:header => "Where were you employed?",
                          :text => "Use the menu below to select the state that offered the pension or retirement savings plan you have a question about.",
                          :desc => "State",
-                         :name => "counseling[work_state_abbrev]",
+                         :object => "counseling",
+                         :method => "work_state_abbrev",
                          :controller => "help",
                          :action => "show_available_plans",
                          :options => CounselAssistance.states)
@@ -56,7 +61,8 @@ class CAQuestion
           CAQuestion.new(:header => "Where were you employed?",
                          :text => "Use the menu below to select the state and then the county that offered the pension or retirement savings plan you have a question about.",
                          :desc => "State",
-                         :name => "counseling[work_state_abbrev]",
+                         :object => "counseling",
+                         :method => "work_state_abbrev",
                          :controller => "help",
                          :action => "show_fourth_question",
                          :options => CounselAssistance.states,
@@ -66,7 +72,8 @@ class CAQuestion
           CAQuestion.new(:header => "Where were you employed?",
                          :text => "Use the menu below to select the state and then the county and locality that offered the pension or retirement savings plan you have a question about.",
                          :desc => "State",
-                         :name => "counseling[work_state_abbrev]",
+                         :object => "counseling",
+                         :method => "work_state_abbrev",
                          :controller => "help",
                          :action => "show_fourth_question",
                          :options => CounselAssistance.states,
@@ -84,15 +91,18 @@ class CAQuestion
           CAQuestion.new(:header => "Which military employer?",
                          :text => "Make the menu selection that best describes the military employer offering the pension or retirement savings plan you have a question about.",
                          :desc => "Military employer",
-                         :name => "counseling[military_employer_id]",
+                         :object => "counseling",
+                         :method => "military_employer_id",
                          :controller => "",
                          :action => "",
                          :options => CounselAssistance.military_employer_types) 
         else 
+          #includes: uniformed service, ready reserve, national guard, and 'I don't know'
           CAQuestion.new(:header => "Which branch of service?",
                          :text => "Please select the appropriate uniformed service branch from the menu below.",
                          :desc => "Uniformed service",
-                         :name => "counseling[military_branch_id]",
+                         :object => "counseling",
+                         :method => "military_branch_id",
                          :controller => "",
                          :action => "",
                          :options => CounselAssistance.uniformed_service_branches)
