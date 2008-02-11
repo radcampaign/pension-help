@@ -85,7 +85,8 @@ class CAQuestion
       # state/county/local selected. Show available plans
       true # question is defined in partial
     else
-      # not coming here from emp_type drop down or state/local, so must be from military service drop down
+      # not coming here from emp_type drop down or state/local, 
+      # so must be from military service drop down
       case counseling.military_service_id
         when 4 # Civilian military employment
           CAQuestion.new(:header => "Which military employer?",
@@ -96,8 +97,18 @@ class CAQuestion
                          :controller => "",
                          :action => "",
                          :options => CounselAssistance.military_employer_types) 
-        else 
+        when 3 # National Guard
           #includes: uniformed service, ready reserve, national guard, and 'I don't know'
+          CAQuestion.new(:header => "Which branch of service?",
+                         :text => "Please select the appropriate uniformed service branch from the menu below.",
+                         :desc => "Uniformed service",
+                         :object => "counseling",
+                         :method => "military_branch_id",
+                         :controller => "",
+                         :action => "",
+                         :options => CounselAssistance.national_guard_branches)
+        else 
+          #includes: uniformed service, ready reserve, and 'I don't know'
           CAQuestion.new(:header => "Which branch of service?",
                          :text => "Please select the appropriate uniformed service branch from the menu below.",
                          :desc => "Uniformed service",

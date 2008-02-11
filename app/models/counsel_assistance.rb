@@ -24,6 +24,11 @@ class CounselAssistance
     MilitaryBranch.find(:all, :order => 'position ASC').collect{|mb| [mb.name, mb.id]}
   end
   
+  def self.national_guard_branches
+    results=MilitaryBranch.find(:all, :order => 'position ASC').collect{|mb| [mb.name, mb.id]}
+    results.delete_if {|item| [2,4,5,6,8].include?(item[1])}  # remove all by army, air force, I don't know
+  end
+  
   def self.pension_earner_choices
     PensionEarner.find(:all, :order => 'position ASC').collect{|pe| [pe.name, pe.id]}
  end
