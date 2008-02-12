@@ -4,8 +4,10 @@
 	<fieldset><legend class="desc">Restrictions</legend>
 		<% if @location %>
 		<%# only show these fields for location restriction %>
-			<span><%= r.text_field :minimum_age %><label>Minimum Age</label></span>
-			<span><%= r.text_field :max_poverty %><label>Income Limit (% of FPL)</label></span>
+			<div class="left">
+				<div><%= r.text_field :minimum_age %><label>Minimum Age</label></div><br/>
+				<div><%= r.text_field :max_poverty %><label>Income Limit (% of FPL)</label></div>
+			</div>
 		<% end %>
 		<%if restriction && (restriction.legacy_geo_counties || restriction.legacy_geo_cities || restriction.legacy_geo_states) %>
 		<div class="legacy left" id="legacyGeo"><b>Legacy Geographic Restrictions:</b> 
@@ -15,7 +17,7 @@
 				<% if restriction.legacy_geo_cities %><li class="legacy_item">Cities - <%= h restriction.legacy_geo_cities %></li><% end -%>
 			</ul></div>
 			<% end %>
-			<div class="clear fullwidth">
+			<div class="clear fullwidth" id="geo_edit_container" style="display:none">
 				<span><select name="state_abbrevs[]" id="state_abbrevs" multiple=true size=6>
 					<option value="">-- Unrestricted --</option>
 					<%= options_for_select State.find(:all, :order => 'abbrev').collect{|s| [s.name, s.abbrev]}, restriction.state_abbrevs %>
@@ -31,6 +33,16 @@
 				<%= render :partial => 'shared/zips', :locals => {:states => restriction.states, :counties => restriction.counties, :zip_ids => restriction.zip_ids } %>
 			</span>
 		</div>																		
+		<div class="clear fullwidth" id="geo_view_container">
+			States: <%= (restriction.states.empty? ? '<i>n/a</i>' : restriction.states.collect(&:state_abbrev).join(', ')) %><br/>
+			Counties: <%= (restriction.counties.empty? ? '<i>n/a</i>' : restriction.counties.collect(&:name).join(', ')) %><br/>
+			Cities: <%= (restriction.cities.empty? ? '<i>n/a</i>' : restriction.cities.collect(&:name).join(', ')) %><br/>
+			<%= link_to_function('Edit geographic restrictions', nil, :id=>"geo_edit_link") do |page|
+						page[:geo_edit_container].show() 
+						page[:geo_edit_link].hide()
+						page.visual_effect :highlight, 'geo_edit_container'
+					end %>
+		</div>
 		<div class="clear fullwdith">
 			<span><%= r.text_field :special_district, :size => 60 %><label>Special District</label></span>
 			<span><%= r.text_field :other_restrictions, :size => 60 %><label>Other Restrictions</label></span>

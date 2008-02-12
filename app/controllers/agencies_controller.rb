@@ -8,7 +8,7 @@ class AgenciesController < ApplicationController
     active = 'is_active=1' if params[:active]=='1'
     order = SORT_ORDER[params[:order]] if params[:order]
     order = 'if(agencies.agency_category_id is null or agencies.agency_category_id="", "9999", agencies.agency_category_id), if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev), agencies.name asc' unless order
-    @agencies = Agency.find(:all, :include => [:dropin_addresses], :conditions => active, :order => order, :group => 'agencies.id')
+    @agencies = Agency.find(:all, :include => [:locations => [:dropin_address]], :conditions => active, :order => order)
 
     # default render index.rhtml
   end

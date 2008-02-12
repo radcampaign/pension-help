@@ -189,7 +189,7 @@ li.agency_header {
 }
 .legacy#legacyGeo {
 	overflow:auto;
-	width:400px;
+	width:575px;
 	height:100px !important;
 }
 form.admin_form li.legacy_item {

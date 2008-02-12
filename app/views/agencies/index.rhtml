@@ -37,7 +37,8 @@
 		<%= link_to_function image_tag('add_blue.gif'), "$$(\".locations_#{agency.id}\").each( function(e) {e.toggle()})" unless agency.locations.size < 2 %>
 		</td>
 		<td class="center">
-			 <%= agency.dropin_addresses.first.state_abbrev unless agency.dropin_addresses.empty? %>
+			 <%= agency.locations.first.dropin_address.state_abbrev unless agency.locations.empty? or
+			 																		agency.locations.first.dropin_address.blank? %>
 		</td>
 		<td class="center"> 
 		  <%= agency.agency_category.name if agency.agency_category %>
