@@ -43,6 +43,7 @@ class AgenciesController < ApplicationController
   # POST /agencies.xml
   def create
     @agency = Agency.new(params[:agency])
+    @agency.updated_by = current_user.login
     @agency.publications[0] = @agency.publications.build(params[:publication])
     #@agency.build_restriction
     #@agency.restriction.update_attributes(params[:restriction])
@@ -65,6 +66,7 @@ class AgenciesController < ApplicationController
       redirect_to agencies_url and return
     end
     @agency = Agency.find(params[:id])
+    @agency.updated_by = current_user.login
     if @agency.publication
       @agency.publications[0].update_attributes(params[:publication])
     else

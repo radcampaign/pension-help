@@ -14,7 +14,7 @@
 		  <span><b>Headquarters: </b><%= f.check_box :is_hq %>&nbsp;&nbsp;&nbsp;</span>
 		  <span><b>Provider: </b><%= f.check_box :is_provider %>&nbsp;&nbsp;&nbsp;</span>
 		  <span><b>Last updated: </b><%= @location.updated_at.strftime("%m/%d/%Y %I:%M %p") if @location.updated_at %> 
-				<%if @location.updated_by %>by<%= @location.updated_by %><% end -%></span>
+				<%if @location.updated_by %>by <%= @location.updated_by %><% end -%></span>
 		</div>
 		
 		<%if @location.legacy_subcode || @location.fmp2_code || @location.legacy_code %>

@@ -10,19 +10,31 @@ class ApplicationController < ActionController::Base
   layout 'default'
   
   def get_counties_for_states
-    @states = params[:states].split(',').collect{|s| State.find_by_abbrev(s)}
+    begin
+      @states = params[:states].split(',').collect{|s| State.find_by_abbrev(s)}
+    rescue ActiveRecord::RecordNotFound
+      nil
+    end
     @county_ids = params[:county_ids]
     render :partial => '/shared/counties', :locals => {:states => @states}, :layout => false
   end  
   
   def get_cities_for_counties
-    @counties = params[:counties].split(',').collect{|c| County.find(c)} if (params[:counties] != 'null')
+    begin
+      @counties = params[:counties].split(',').collect{|c| County.find(c)} if (params[:counties] != 'null')
+    rescue ActiveRecord::RecordNotFound
+      nil
+    end
     @city_ids = params[:city_ids]
     render :partial => '/shared/cities', :locals => {:counties => @counties}, :layout => false
   end
   
   def get_zips_for_counties
-    @counties = params[:counties].split(',').collect{|c| County.find(c)} if (params[:counties]!='null')
+    begin
+      @counties = params[:counties].split(',').collect{|c| County.find(c)} if (params[:counties]!='null')
+    rescue ActiveRecord::RecordNotFound
+      nil
+    end
     @zip_ids = params[:zip_ids]
     render :partial => '/shared/zips', :locals => {:counties => @counties}, :layout => false
   end
