@@ -117,7 +117,7 @@ class Counseling < ActiveRecord::Base
   #######
   
   def home_state
-    home_zip = ZipImport.find(zipcode)
+    home_zip = ZipImport.find(zipcode) unless zipcode.blank?
     return home_zip.nil? ? '' : home_zip.state_abbrev
   end
 
