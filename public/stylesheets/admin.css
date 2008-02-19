@@ -212,3 +212,7 @@ h2#agency_heading {
 	font-size: 125%;
 	font-weight: bold;
 }
+#geo_view_container {
+	width: 900px;
+}
+}

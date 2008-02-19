@@ -34,10 +34,10 @@
 			</span>
 		</div>																		
 		<div class="clear fullwidth" id="geo_view_container">
-			States: <%= (restriction.states.empty? ? '<i>n/a</i>' : restriction.states.collect(&:state_abbrev).join(', ')) %><br/>
-			Counties: <%= (restriction.counties.empty? ? '<i>n/a</i>' : restriction.counties.collect(&:name).join(', ')) %><br/>
-			Cities: <%= (restriction.cities.empty? ? '<i>n/a</i>' : restriction.cities.collect(&:name).join(', ')) %><br/>
-			ZIPs: <%= (restriction.zips.empty? ? '<i>n/a</i>' : restriction.zips.collect(&:zipcode).join(', ')) %><br/>
+			States: <%= (restriction.states.empty? ? '<i>n/a</i>' : restriction.states.collect(&:state_abbrev).sort.join(', ')) %><br/>
+			Counties: <%= (restriction.counties.empty? ? '<i>n/a</i>' : restriction.counties.collect{|c| c.state_abbrev + ":" + c.name}.sort.join(', ')) %><br/>
+			Cities: <%= (restriction.cities.empty? ? '<i>n/a</i>' : restriction.cities.collect(&:name).sort.join(', ')) %><br/>
+			ZIPs: <%= (restriction.zips.empty? ? '<i>n/a</i>' : restriction.zips.collect(&:zipcode).sort.join(', ')) %><br/>
 			<%= link_to_function('Edit geographic restrictions', nil, :id=>"geo_edit_link") do |page|
 						page[:geo_edit_container].show() 
 						page[:geo_edit_link].hide()
