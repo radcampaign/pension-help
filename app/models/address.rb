@@ -32,8 +32,15 @@ class Address < ActiveRecord::Base
       geo=ZipImport.find(zip[0..4])
     rescue
       # invalid zip code - 
+      errors.add :zip if(!zip.blank? && !ZipImport.find(zip) rescue true)
+      errors.add(:zip, 'is required') if zip.blank?
     end
     self.latitude, self.longitude = geo.latitude, geo.longitude if geo
   end                   
+  
+  def validate
+    geocode_zip
+    super
+  end
 
 end

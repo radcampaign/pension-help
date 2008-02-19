@@ -35,4 +35,5 @@ class Location < ActiveRecord::Base
             :conditions => "address_type = 'mailing'"
   has_one :dropin_address, :class_name => 'Address', 
             :conditions => "address_type =  'dropin'"
+            
 end

@@ -28,12 +28,12 @@
 		</div>
 	<div id="content">
 		<div class="buffer">
-			<% if flash[:warning] || flash[:notice] -%>
+			<% if flash[:warning] || flash[:notice] || flash[:error]-%>
 					<div class="warningBox">
 						<table class="warningTable">
 							<tr class="warningRow">
 								<td class="warningCell2">
-									<p><%= flash[:warning] %>  <%= flash[:notice] %></p>
+									<p><%= flash[:warning] %>  <%= flash[:notice] %> <%= flash[:error] %></p>
 								</td>
 							</tr>
 						</table>

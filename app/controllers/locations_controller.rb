@@ -35,22 +35,28 @@ class LocationsController < ApplicationController
   # POST /locations
   # POST /locations.xml
   def create
-    @location = @agency.locations.build(params[:location])
+    if @params['cancel']
+      redirect_to edit_agency_url(@agency) and return
+    end
+      @location = @agency.locations.build(params[:location])
     @location.updated_by = current_user.login
     @location.mailing_address = @location.build_mailing_address(params[:mailing_address])
     @location.mailing_address.address_type='mailing'
-    @location.mailing_address.save!
     @location.dropin_address = @location.build_dropin_address(params[:dropin_address])
     @location.dropin_address.address_type='dropin'
-    @location.dropin_address.save!
     @location.build_restriction if !@location.restriction
     update_restriction
     
-    if @location.save
+    if @location.mailing_address.valid? and @location.dropin_address.valid? and @location.restriction.valid? and @location.valid?
+      @location.mailing_address.save 
+      @location.dropin_address.save
+      @location.restriction.save  
+      @location.save
       flash[:notice] = 'Location was successfully created.'
       redirect_to edit_agency_url(@agency) 
     else
-      render :action => "new" 
+      flash[:error] = "There was a problem trying to save your information."  # flash not being set by validations ????
+      render :template => 'locations/edit' 
     end
   end
 
@@ -62,27 +68,28 @@ class LocationsController < ApplicationController
     end
     @location = @agency.locations.find(params[:id])
     @location.updated_by = current_user.login
-    if @location.mailing_address
-      @location.mailing_address.update_attributes(params[:mailing_address])
-    else
-      @location.mailing_address = @location.build_mailing_address(params[:mailing_address])
-      @location.mailing_address.address_type='mailing'
-      @location.mailing_address.save!
-    end
-    if @location.dropin_address
-      @location.dropin_address.update_attributes(params[:dropin_address])
-    else
-      @location.dropin_address = @location.build_dropin_address(params[:dropin_address])
-      @location.dropin_address.address_type='dropin'
-      @location.dropin_address.save!
-    end  
+
+    @location.build_mailing_address() if !@location.mailing_address
+    @location.mailing_address.attributes = params[:mailing_address]
+    @location.mailing_address.address_type='mailing'
+
+    @location.build_dropin_address() if !@location.dropin_address
+    @location.dropin_address.attributes = params[:dropin_address]
+    @location.dropin_address.address_type='dropin'
+
     @location.build_restriction if !@location.restriction
     update_restriction
+    @location.attributes = params[:location]
   
-    if @location.update_attributes(params[:location])
+    if @location.mailing_address.valid? and @location.dropin_address.valid? and @location.restriction.valid? and @location.valid?
+      @location.mailing_address.save 
+      @location.dropin_address.save
+      @location.restriction.save  
+      @location.save
       flash[:notice] = 'Location was successfully updated.'
       redirect_to edit_agency_url(@agency) 
     else
+      flash[:error] = "There was a problem trying to save your information." # flash not being set by validations ????
       render :action => "edit" 
     end
   end
@@ -105,7 +112,7 @@ class LocationsController < ApplicationController
   end
   
   def update_restriction
-    @location.restriction.update_attributes(params[:restriction])
+    @location.restriction.attributes = params[:restriction]
     @location.restriction.states=( params[:state_abbrevs].to_s.blank? ? [] : params[:state_abbrevs].collect{|s| State.find(s)} ) unless params[:state_abbrevs].nil?
     @location.restriction.counties = ( params[:county_ids].to_s.blank? ? [] : params[:county_ids].collect{|c| County.find(c)} ) unless params[:county_ids].nil?
     @location.restriction.counties=( params[:county_ids].to_s.blank? ? [] : params[:county_ids].collect{|c| County.find(c)} ) unless params[:county_ids].nil?
