@@ -119,6 +119,7 @@ class HelpController < ApplicationController
     @states = CounselAssistance.states
     @ask_aoa = [1,2,3,4,5,9].include?(@counseling.employer_type_id)
     if !@counseling.valid?                  # bad zip code entered
+      @zip_found = false
       @show_aoa_expansion = false
     elsif params['continue.x']              # next button at bottom clicked
       redirect_to :action => :step_3 
