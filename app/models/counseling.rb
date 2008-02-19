@@ -345,12 +345,15 @@ class Counseling < ActiveRecord::Base
       when 'Navy':        result_type_match('NRAO')
       when 'Air Force':   result_type_match('AFRSB')
       when 'Coast Guard': result_type_match('OHSPSC')
-      when 'Marines':     result_type_match('USMCP')
+      when 'Marine Corps':
+                          result_type_match('USMCP')
       when 'National Oceanic and Atmospheric Administration Commissioned Corps':
                           result_type_match('OPMOSB')
       when 'U.S. Public Health Service Commissioned Corps':
                           result_type_match('PHSRC')
-    end
+      when 'I don&rsquo;t know':
+                          result_type_match('RSO')
+  end
   end
   
   def result_type_match(type)
