@@ -10,7 +10,7 @@
 	<% if agency.plans[0] -%>
 		<%= agency.plans.first.name + '<br/>' if agency.plans.first.name and !agency.name.eql?(agency.plans.first.name)-%>
 	<% else -%>
-		<%= loc.name + '<br/>' if !agency.name.eql?(loc.name) -%>sc	
+		<%= loc.name + '<br/>' if !agency.name.eql?(loc.name) -%>
 	<% end -%>
 	<%= loc.name2 + '<br/>' if !loc.name2.blank? -%>
 	</h2>
