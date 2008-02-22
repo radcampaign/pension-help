@@ -35,8 +35,8 @@ class CAQuestion
                         :desc => "Federal plan",
                         :object => "counseling",
                         :method => "federal_plan_id",
-                        :controller => "help",
-                        :action => "show_fourth_question",
+                        :controller => "",
+                        :action => "",
                         :options => CounselAssistance.government_plans)
         when 5 # Military service 
          CAQuestion.new(:header => "What type of military service or employment?",
