@@ -21,9 +21,7 @@
 			<td>Zip Code:</td> 
 			<td><%= form.text_field :zipcode, :size => 5 %></td>
 			<td>
-				<% if @ask_aoa %>
-					<%= submit_tag 'confirm my zip code', :name => 'confirm' %>
-				<% end %>
+				<%= submit_tag 'confirm my zip code', :name => 'confirm' %>
 			</td>
 		</tr>
 	<table>
@@ -63,10 +61,10 @@
 
 <% end %>
 
-<% if @ask_aoa && !@zip_found && !@show_aoa_expansion %>
-	<%= image_submit_tag 'buttons/next_button_disabled.gif', :id => 'nextLinkButtonDisabled', :disabled => true %>
-<% else %>
+<% if @zip_found %>
 	<%= image_submit_tag "buttons/next_button.gif", :id => 'nextLinkButton', :name => 'continue' %>
+<% else %>
+	<%= image_submit_tag 'buttons/next_button_disabled.gif', :id => 'nextLinkButtonDisabled', :disabled => true %>
 <% end %>
 <% end -%>
 <p>&nbsp;</p>
