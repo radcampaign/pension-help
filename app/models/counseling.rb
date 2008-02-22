@@ -90,7 +90,7 @@ class Counseling < ActiveRecord::Base
   def aoa_coverage
     sql = <<-SQL
         select a.* from agencies a 
-        join locations l on l.agency_id = a.id 
+        join locations l on l.agency_id = a.id and l.is_provider = 1
         join restrictions r on r.location_id = l.id or r.agency_id = a.id 
         join restrictions_states rs on rs.restriction_id = r.id 
         where a.result_type_id = ? and rs.state_abbrev IN (?,?,?,?)
