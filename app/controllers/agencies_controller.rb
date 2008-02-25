@@ -42,6 +42,9 @@ class AgenciesController < ApplicationController
   # POST /agencies
   # POST /agencies.xml
   def create
+    if params['cancel']
+      redirect_to agencies_url and return
+    end
     @agency = Agency.new(params[:agency])
     @agency.updated_by = current_user.login
     @agency.publications[0] = @agency.publications.build(params[:publication])
