@@ -34,7 +34,7 @@
 			</span>
 		</div>																		
 		<div class="clear fullwidth" id="geo_view_container">
-			States: <%= (restriction.states.empty? ? '<i>n/a</i>' : restriction.states.collect(&:state_abbrev).sort.join(', ')) %><br/>
+			States: <%= (restriction.states.empty? ? '<i>n/a</i>' : restriction.states.collect(&:abbrev).sort.join(', ')) %><br/>
 			Counties: <%= (restriction.counties.empty? ? '<i>n/a</i>' : restriction.counties.collect{|c| c.state_abbrev + ":" + c.name}.sort.join(', ')) %><br/>
 			Cities: <%= (restriction.cities.empty? ? '<i>n/a</i>' : restriction.cities.collect(&:name).sort.join(', ')) %><br/>
 			ZIPs: <%= (restriction.zips.empty? ? '<i>n/a</i>' : restriction.zips.collect(&:zipcode).sort.join(', ')) %><br/>
