@@ -197,9 +197,9 @@ class HelpController < ApplicationController
       employees_unsorted = c.matching_agencies.collect{|a| a.plans}.flatten.collect{|p| p.employee_list}.compact.flatten.in_groups_of(2)
       employees = employees_unsorted.sort do |a,b|
         # put all employees with 'other' at the end of the list
-        if a[0].downcase.include?('other')
+        if a[0].downcase.include?('other') and !b[0].downcase.include?('other')
           1
-        elsif b[0].downcase.include?('other')
+        elsif b[0].downcase.include?('other') and !a[0].downcase.include?('other')
           -1
         else
           a[0].downcase <=> b[0].downcase
