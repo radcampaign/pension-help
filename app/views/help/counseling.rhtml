@@ -15,22 +15,22 @@
 
 <p>Employer type: <%= remote_select "counseling", "employer_type_id", @options, 'help', 'show_second_question', (@counseling.employer_type.id if @counseling.employer_type) %></p>
 
-<div id="q2">
+<div id="q2" class="counselingQuestion">
 	<% if @next_question_2 -%>
 		<%= render :partial => 'next_question', :locals => {'question' => @next_question_2, 'selected_value' => @selected_value_2} %>
 	<% end -%>
 </div>
-<div id="q3">
+<div id="q3" class="counselingQuestion">
 	<% if @next_question_3 -%>
 		<%= render :partial => 'next_question', :locals => {'question' => @next_question_3, 'selected_value' => @selected_value_3} %>
 	<% end -%>
 </div>
-<div id="q4">
+<div id="q4" class="counselingQuestion">
 	<% if @next_question_4 -%>
 		<%= render :partial => 'next_question', :locals => {'question' => @next_question_4, 'selected_value' => @selected_value_4} %>
 	<% end -%>
 </div>
-<div id="q5">
+<div id="q5" class="counselingQuestion">
 	<% if @next_question_5 -%>
 		<%= render :partial => 'available_plans' %>
 	<% end %>

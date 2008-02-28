@@ -24,7 +24,7 @@
 		<th><%= link_to 'State', agencies_path(:order=>'state', :active => params[:active]) %></th>
 		<th class="center"><%= link_to 'Category', agencies_path(:order=>'category', :active => params[:active]) %></th>
 		<th class="center"><%= link_to 'Result Type', agencies_path(:order=>'result', :active => params[:active]) %></th>
-		<th class="center"><%= link_to 'C & A', agencies_path(:order=>'counseling', :active => params[:active])%></th>
+		<th class="center" width="40"><%= link_to 'C & A', agencies_path(:order=>'counseling', :active => params[:active])%></th>
 		<th class="center">Provider</th>
 		<th class="center"><%= link_to 'Active', agencies_path(:order=>'active', :active => params[:active])%></th>
   </tr>

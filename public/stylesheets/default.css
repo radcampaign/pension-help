@@ -448,6 +448,10 @@ documentElement.scrollTop
 : document.body.scrollTop
 +((document.body.clientHeight-this.clientHeight)/2));}
 
+#employee_list_container select {
+	width:620px;
+}
+
 /* Results page */
 div.agency_result {
 	padding-bottom: 20px;
