@@ -151,6 +151,7 @@ class HelpController < ApplicationController
   def step_4
     @counseling = update_counseling
     @counseling.step = 4
+    @ask_afscme = [6,7,8].include?(@counseling.employer_type_id)
     # no need to look for DSPs if AoA coverage applies
     if !@counseling.aoa_coverage.empty? || 
       !(@counseling.age_restrictions? || @counseling.income_restrictions?)

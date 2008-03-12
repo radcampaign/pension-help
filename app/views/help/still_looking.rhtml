@@ -46,6 +46,12 @@
 
 </div>
 
+<% if @ask_afscme %>
+<p>&nbsp;</p>
+<p>The American Federation of State, County and Municipal Employees (AFSCME) assists its members with pension counseling.</p>
+<p>Are you, or was the pension earner, a member?: <%= form.radio_button :is_afscme_member, true %>&nbsp;Yes &nbsp;&nbsp;&nbsp;<%= form.radio_button :is_afscme_member, false %>&nbsp;No</p>
+<% end %>
+
 <p>&nbsp;</p>
 
 <%= image_submit_tag "buttons/next_button.gif", :id => 'nextLinkButton' %>

@@ -136,7 +136,7 @@ class Counseling < ActiveRecord::Base
   
   def aoa_afscme_dsp
     if aoa_coverage.empty?
-      (result_type_match('AFSCME') || Array.new) << closest_dsp
+      ((is_afscme_member ? result_type_match('AFSCME') : nil) || Array.new) << closest_dsp
     else
       aoa_coverage
     end
