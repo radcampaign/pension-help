@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 40) do
+ActiveRecord::Schema.define(:version => 41) do
 
   create_table "addresses", :force => true do |t|
     t.column "location_id",    :integer
@@ -99,6 +99,7 @@ ActiveRecord::Schema.define(:version => 40) do
     t.column "city_id",                 :integer
     t.column "created_at",              :datetime
     t.column "is_afscme_member",        :boolean
+    t.column "selected_plan_id",        :integer
   end
 
   add_index "counselings", ["employer_type_id"], :name => "employer_type_id"
@@ -109,6 +110,7 @@ ActiveRecord::Schema.define(:version => 40) do
   add_index "counselings", ["pension_earner_id"], :name => "pension_earner_id"
   add_index "counselings", ["county_id"], :name => "county_id"
   add_index "counselings", ["city_id"], :name => "city_id"
+  add_index "counselings", ["selected_plan_id"], :name => "selected_plan_id"
 
   create_table "counties", :force => true do |t|
     t.column "name",         :string
@@ -619,6 +621,7 @@ ActiveRecord::Schema.define(:version => 40) do
 
   add_foreign_key "cities", ["county_id"], "counties", ["id"], :name => "cities_ibfk_1"
 
+  add_foreign_key "counselings", ["selected_plan_id"], "plans", ["id"], :name => "counselings_ibfk_9"
   add_foreign_key "counselings", ["employer_type_id"], "employer_types", ["id"], :name => "counselings_ibfk_1"
   add_foreign_key "counselings", ["federal_plan_id"], "federal_plans", ["id"], :name => "counselings_ibfk_2"
   add_foreign_key "counselings", ["military_service_id"], "military_services", ["id"], :name => "counselings_ibfk_3"

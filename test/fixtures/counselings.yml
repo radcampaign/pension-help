@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 35
+# Schema version: 41
 #
 # Table name: counselings
 #
@@ -24,6 +24,9 @@
 #  state_abbrev            :string(255)   
 #  county_id               :integer(11)   
 #  city_id                 :integer(11)   
+#  created_at              :datetime      
+#  is_afscme_member        :boolean(1)    
+#  selected_plan_id        :integer(11)   
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

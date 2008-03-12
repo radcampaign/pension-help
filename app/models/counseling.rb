@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 35
+# Schema version: 41
 #
 # Table name: counselings
 #
@@ -24,6 +24,9 @@
 #  state_abbrev            :string(255)   
 #  county_id               :integer(11)   
 #  city_id                 :integer(11)   
+#  created_at              :datetime      
+#  is_afscme_member        :boolean(1)    
+#  selected_plan_id        :integer(11)   
 #
 
 class Counseling < ActiveRecord::Base
@@ -40,13 +43,6 @@ class Counseling < ActiveRecord::Base
   belongs_to :pension_state, :class_name => "State", :foreign_key => "pension_state_abbrev"
   
   validates_presence_of :employer_type
-  
-  def selected_plan_id
-    @selected_plan_id
-  end
-  def selected_plan_id=(plan_id)
-    @selected_plan_id = plan_id
-  end
   
   def employment_cutoff
     @employment_cutoff

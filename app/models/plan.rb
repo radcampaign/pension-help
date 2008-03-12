@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 35
+# Schema version: 41
 #
 # Table name: plans
 #
@@ -31,6 +31,7 @@
 #  updated_at         :datetime      
 #  updated_by         :string(255)   
 #  email              :string(255)   
+#  position           :integer(11)   
 #
 
 class Plan < ActiveRecord::Base

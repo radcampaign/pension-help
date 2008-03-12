@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 35
+# Schema version: 41
 #
 # Table name: locations
 #
@@ -24,6 +24,11 @@
 #  legacy_subcode     :string(10)    
 #  fmp2_code          :string(10)    
 #  updated_by         :string(255)   
+#  url                :string(255)   
+#  url_title          :string(255)   
+#  url2               :string(255)   
+#  url2_title         :string(255)   
+#  position           :integer(11)   
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

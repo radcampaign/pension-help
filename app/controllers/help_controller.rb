@@ -166,7 +166,7 @@ class HelpController < ApplicationController
   def results
     @counseling = update_counseling
     @results = @counseling.matching_agencies
-    # @counseling.save  TODO: fix problem when trying to save selected_plan
+    @counseling.save
     if @counseling.selected_plan_id
       @results.each{|a| a.plans.delete_if {|p| p.id != @counseling.selected_plan_id.to_i &&
          a.agency_category_id==3}} 
