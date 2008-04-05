@@ -220,8 +220,8 @@ class HelpController < ApplicationController
   def update_counseling 
     c = session[:counseling] ||= Counseling.new
     c.attributes = params[:counseling]
-    # shouldn't need this line
-    # c.yearly_income = params[:yearly_income] if params[:yearly_income]
+    # if yrly amt is entered, we need to override what's been put into monthly amount by setting the attributes
+    c.yearly_income = params[:counseling][:yearly_income] if params[:counseling] and params[:counseling][:yearly_income] 
     # make IDK => 0
     c.selected_plan_id = nil if c.selected_plan_id=="IDK"
     c.selected_plan_id = params[:selected_plan_override] if !params[:selected_plan_override].blank?
