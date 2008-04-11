@@ -152,15 +152,14 @@ class HelpController < ApplicationController
     @counseling = update_counseling
     @counseling.step = 4
     @ask_afscme = [6,7,8].include?(@counseling.employer_type_id)
-    # no need to look for DSPs if AoA coverage applies
-    if !@counseling.aoa_coverage.empty? || 
-      !(@counseling.age_restrictions? || @counseling.income_restrictions?)
-      # no age or income restrctions
-      redirect_to :action => :results and return
-    else
+    @age_restrictions = @counseling.age_restrictions? # put this in an instance variable so we don't have to call it again from the view
+    @income_restrictions = @counseling.income_restrictions? # put this in an instance variable so we don't have to call it again from the view
+    # show still_looking only if we need to
+    if @counseling.aoa_coverage.empty? and (@age_restrictions || @income_restrictions || @ask_afscme)
       render :template => 'help/still_looking' 
-    end
-    
+    else
+      redirect_to :action => :results and return
+    end    
   end
   
   def results
