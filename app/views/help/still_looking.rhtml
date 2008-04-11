@@ -58,3 +58,17 @@
 
 <% end -%>
 <p>&nbsp;</p>
+
+<script type="text/javascript">
+	$('counseling_is_over_60_false').checked ? $("iAmOver60").show() : $("iAmOver60").hide() ;
+	$('counseling_is_over_60_true').observe('click',function() {
+		$("counseling_monthly_income").clear();
+		$("counseling_yearly_income").clear();
+		$("counseling_number_in_household").clear();
+		$("iAmOver60").hide();
+	} );
+	$('counseling_is_over_60_false').observe('click',function() {
+		$("iAmOver60").show();
+	} );
+	
+</script>
