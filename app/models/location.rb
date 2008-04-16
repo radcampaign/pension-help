@@ -40,5 +40,13 @@ class Location < ActiveRecord::Base
             :conditions => "address_type = 'mailing'"
   has_one :dropin_address, :class_name => 'Address', 
             :conditions => "address_type =  'dropin'"
-            
+  
+  composed_of :pha_contact, :class_name => PhaContact,
+    :mapping => [
+      [:pha_contact_name, :name],
+      [:pha_contact_title, :title],
+      [:pha_contact_phone, :phone],
+      [:pha_contact_email, :email],
+    ]
+
 end

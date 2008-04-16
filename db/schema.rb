@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 41) do
+ActiveRecord::Schema.define(:version => 46) do
 
   create_table "addresses", :force => true do |t|
     t.column "location_id",    :integer
@@ -44,6 +44,10 @@ ActiveRecord::Schema.define(:version => 41) do
     t.column "legacy_category1",   :string
     t.column "legacy_category2",   :string
     t.column "fmp2_code",          :string,   :limit => 10
+    t.column "pha_contact_name",   :string
+    t.column "pha_contact_title",  :string
+    t.column "pha_contact_phone",  :string,   :limit => 20
+    t.column "pha_contact_email",  :string
   end
 
   add_index "agencies", ["agency_category_id"], :name => "agency_category_id"
@@ -244,6 +248,11 @@ ActiveRecord::Schema.define(:version => 41) do
     t.column "url2",               :string
     t.column "url2_title",         :string
     t.column "position",           :integer
+    t.column "pha_contact_name",   :string
+    t.column "pha_contact_title",  :string
+    t.column "pha_contact_phone",  :string,   :limit => 20
+    t.column "pha_contact_email",  :string
+    t.column "comment",            :text
   end
 
   add_index "locations", ["agency_id"], :name => "agency_id"
@@ -462,6 +471,10 @@ ActiveRecord::Schema.define(:version => 41) do
     t.column "updated_by",         :string
     t.column "email",              :string
     t.column "position",           :integer
+    t.column "pha_contact_name",   :string
+    t.column "pha_contact_title",  :string
+    t.column "pha_contact_phone",  :string,   :limit => 20
+    t.column "pha_contact_email",  :string
   end
 
   add_index "plans", ["agency_id"], :name => "agency_id"
@@ -517,6 +530,7 @@ ActiveRecord::Schema.define(:version => 41) do
     t.column "fmp2_code",           :string,   :limit => 10
     t.column "legacy_geo_counties", :text
     t.column "legacy_geo_cities",   :text
+    t.column "age_and_income",      :boolean
   end
 
   add_index "restrictions", ["agency_id"], :name => "agency_id"
@@ -621,7 +635,6 @@ ActiveRecord::Schema.define(:version => 41) do
 
   add_foreign_key "cities", ["county_id"], "counties", ["id"], :name => "cities_ibfk_1"
 
-  add_foreign_key "counselings", ["selected_plan_id"], "plans", ["id"], :name => "counselings_ibfk_9"
   add_foreign_key "counselings", ["employer_type_id"], "employer_types", ["id"], :name => "counselings_ibfk_1"
   add_foreign_key "counselings", ["federal_plan_id"], "federal_plans", ["id"], :name => "counselings_ibfk_2"
   add_foreign_key "counselings", ["military_service_id"], "military_services", ["id"], :name => "counselings_ibfk_3"
@@ -630,6 +643,7 @@ ActiveRecord::Schema.define(:version => 41) do
   add_foreign_key "counselings", ["pension_earner_id"], "pension_earners", ["id"], :name => "counselings_ibfk_6"
   add_foreign_key "counselings", ["county_id"], "counties", ["id"], :name => "counselings_ibfk_7"
   add_foreign_key "counselings", ["city_id"], "cities", ["id"], :name => "counselings_ibfk_8"
+  add_foreign_key "counselings", ["selected_plan_id"], "plans", ["id"], :name => "counselings_ibfk_9"
 
   add_foreign_key "images", ["parent_id"], "images", ["id"], :name => "images_ibfk_1"
 

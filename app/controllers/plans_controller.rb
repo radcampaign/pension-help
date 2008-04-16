@@ -38,6 +38,7 @@ class PlansController < ApplicationController
     @plan.build_restriction if !@plan.restriction
     update_restriction
 
+    update_pha_contact
     if @plan.save
       flash[:notice] = 'Plan was successfully created.'
       redirect_to edit_agency_url(@agency)
@@ -57,6 +58,7 @@ class PlansController < ApplicationController
     @plan.build_restriction if !@plan.restriction
     update_restriction
 
+    update_pha_contact
     if @plan.update_attributes(params[:plan])
       flash[:notice] = 'Plan was successfully updated.'
       redirect_to edit_agency_url(@agency)
@@ -88,4 +90,8 @@ class PlansController < ApplicationController
     @plan.restriction.zips=( params[:zip_ids].to_s.blank? ? [] : params[:zip_ids].collect{|c| Zip.find(c)} ) unless params[:zip_ids].nil?
   end
   
+  def update_pha_contact
+    @plan.pha_contact = PhaContact.new(params[:pha_contact][:name], params[:pha_contact][:title],
+      params[:pha_contact][:phone], params[:pha_contact][:email])
+  end
 end

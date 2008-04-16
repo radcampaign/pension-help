@@ -40,6 +40,14 @@ class Agency < ActiveRecord::Base
 
   has_enumerated :agency_category
   has_enumerated :result_type
+
+  composed_of :pha_contact, :class_name => PhaContact,
+    :mapping => [
+      [:pha_contact_name, :name],
+      [:pha_contact_title, :title],
+      [:pha_contact_phone, :phone],
+      [:pha_contact_email, :email],
+    ]
   
   validates_presence_of(:agency_category)
   validates_presence_of(:name)

@@ -99,7 +99,18 @@
 	<span><%= f.text_area :hours_of_operation, :rows => 6, :cols => 60 %>
 	<label>Hours of Operation</label></span>
 </li>
+<li class="clear left fullwidth">
+    <span class="left">
+      <%= f.text_area :comment, :rows => 6, :cols => 60 %>
+    </span>
+</li>
+
 <%= render :partial => '/shared/restrictions', :locals => {:restriction => @location.restriction} %>
+
+<li class="left" id="pha_contact">
+  <%= render :partial => 'shared/pha_contact', :object => @location.pha_contact %>
+</li>
+
 </ul>
 
 

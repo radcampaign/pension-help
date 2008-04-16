@@ -54,6 +54,10 @@ class AgenciesController < ApplicationController
     #@agency.restriction.counties=params[:county_ids].collect{|c| County.find(c)} unless params[:county_ids].nil?
     #@agency.restriction.cities=params[:city_ids].collect{|c| City.find(c)} unless params[:city_ids].nil?
     #@agency.restriction.zips=params[:zip_ids].collect{|c| Zip.find(c)} unless params[:zip_ids].nil?
+    
+    #composed_of fields must be created manually
+    update_pha_contact
+
     if @agency.save
       flash[:notice] = 'Agency was successfully created.'
       redirect_to edit_agency_url(@agency)
@@ -83,6 +87,10 @@ class AgenciesController < ApplicationController
     @agency.restriction.counties=params[:county_ids].collect{|c| County.find(c)} unless params[:county_ids].nil?
     @agency.restriction.cities=params[:city_ids].collect{|c| City.find(c)} unless params[:city_ids].nil?
     @agency.restriction.zips=params[:zip_ids].collect{|c| Zip.find(c)} unless params[:zip_ids].nil?
+    
+    #composed_of fields must be created manually
+    update_pha_contact
+
     begin
       if @agency.update_attributes(params[:agency])
         flash[:notice] = 'Agency was successfully updated.'
@@ -127,6 +135,11 @@ class AgenciesController < ApplicationController
 
   private
   
+  def update_pha_contact
+    @agency.pha_contact = PhaContact.new(params[:pha_contact][:name], params[:pha_contact][:title],
+      params[:pha_contact][:phone], params[:pha_contact][:email])
+  end
+
   # peculiar category order due to TRAC #82 (https://prc.gradientblue.com/trac/pha/ticket/82)
   SORT_ORDER = { 
     'name' => 'agencies.name',

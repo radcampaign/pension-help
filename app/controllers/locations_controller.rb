@@ -47,6 +47,8 @@ class LocationsController < ApplicationController
     @location.build_restriction if !@location.restriction
     update_restriction
     
+    update_pha_contact
+    
     if @location.mailing_address.valid? and @location.dropin_address.valid? and @location.restriction.valid? and @location.valid?
       @location.mailing_address.save 
       @location.dropin_address.save
@@ -79,6 +81,7 @@ class LocationsController < ApplicationController
 
     @location.build_restriction if !@location.restriction
     update_restriction
+    update_pha_contact
     @location.attributes = params[:location]
   
     if @location.mailing_address.valid? and @location.dropin_address.valid? and @location.restriction.valid? and @location.valid?
@@ -120,4 +123,8 @@ class LocationsController < ApplicationController
     @location.restriction.zips=( params[:zip_ids].to_s.blank? ? [] : params[:zip_ids].collect{|c| Zip.find(c)} ) unless params[:zip_ids].nil?
   end
   
+  def update_pha_contact
+    @location.pha_contact = PhaContact.new(params[:pha_contact][:name], params[:pha_contact][:title],
+      params[:pha_contact][:phone], params[:pha_contact][:email])
+  end
 end

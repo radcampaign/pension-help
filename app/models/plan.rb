@@ -39,6 +39,14 @@ class Plan < ActiveRecord::Base
   has_one :publication
   has_one :restriction
   
+  composed_of :pha_contact, :class_name => PhaContact,
+    :mapping => [
+      [:pha_contact_name, :name],
+      [:pha_contact_title, :title],
+      [:pha_contact_phone, :phone],
+      [:pha_contact_email, :email],
+    ]
+  
   def employee_list
     return nil if catchall_employees.blank?
     catchall_employees.split(', ').collect{|e| [e, id]}
