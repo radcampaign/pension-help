@@ -7,7 +7,7 @@
 			<div class="left">
 				<div><%= r.text_field :minimum_age %><label>Minimum Age</label></div><br/>
 				<div><%= r.text_field :max_poverty %><label>Income Limit (% of FPL)</label></div>
-                                <div><%= r.check_box :age_and_income %><label>Age and Income restriction</label></div>
+                                <div><%= r.check_box :age_and_income %><label>Restricted by age <b><u>and</u></b> income</label></div>
 			</div>
 		<% end %>
 		<%if restriction && (restriction.legacy_geo_counties || restriction.legacy_geo_cities || restriction.legacy_geo_states) %>
