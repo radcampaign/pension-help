@@ -1,0 +1,36 @@
+<table id="admin_list">
+  <tr>
+    <th><%= link_to 'Agency Name', agencies_path(:order=>'name', :active => params[:active]) %></th>
+		<th><%= link_to 'State', agencies_path(:order=>'state', :active => params[:active]) %></th>
+		<th class="center" width="40"><%= link_to 'C & A', agencies_path(:order=>'counseling', :active => params[:active])%></th>
+		<th class="center">Provider</th>
+		<th class="center"><%= link_to 'Active', agencies_path(:order=>'active', :active => params[:active])%></th>
+  </tr>
+
+  <%= render :partial => 'search_result', :collection => search_results %>
+
+  <%= observe_field :state_abbrevs,
+      :frequency => 0.5,
+      :update => 'county_ids_container',
+      :before => "Element.show('spinner')",
+      :complete => "Element.hide('spinner')",
+      :url => {:action => 'get_counties_for_states'},
+      :with => "'states=' + encodeURIComponent(value) + 
+      '&county_ids=' +  $('county_ids').value" %>
+
+  <%# clear city/zips when changing state %>
+  <%= observe_field :state_abbrevs,
+      :frequency => 0.5,
+      :update => 'city_ids_container',
+      :before => "Element.show('spinner')",
+      :complete => "Element.hide('spinner')",
+      :url => {:action => 'get_cities_for_counties'},
+      :with => "'counties='" %>
+  <%= observe_field :state_abbrevs,
+      :frequency => 0.5,
+      :update => 'zip_ids_container',
+      :before => "Element.show('spinner')",
+      :complete => "Element.hide('spinner')",
+      :url => {:action => 'get_zips_for_counties'},
+      :with => "'counties='" %>
+</table>

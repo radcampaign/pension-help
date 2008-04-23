@@ -1,0 +1,27 @@
+<%# AJAX form for picking geographical restrictions %>
+<% form_remote_tag :url =>{:action => :ajax_search}, :html => {:class => 'admin_form'} do |f|  %>
+  <%= hidden_field_tag 'report', 'search' %>
+  <fieldset>
+    <div class="clear fullwidth" id="geo_edit_container" style="display: block;">
+      <span>
+        <select name="state_abbrevs[]" id="state_abbrevs" multiple=true size=6>
+          <option value="">-- Unrestricted --</option>
+          <%= options_for_select State.find(:all, :order => 'abbrev').collect{|s| [s.name, s.abbrev]}, params[:state_abbrevs] %>
+        </select>
+        <label>State</label>
+      </span>
+      <span id="county_ids_container">
+        <%= render :partial => 'shared/counties', :locals => {:states => restriction.states, :county_ids => params[:county_ids] } %>
+      </span>
+      <span id="city_ids_container">
+        <%= render :partial => 'shared/cities', :locals => {:states => restriction.states, :counties => restriction.counties, :city_ids => restriction.city_ids } %>
+      </span>	
+      <span id="zip_ids_container">
+        <%= render :partial => 'shared/zips', :locals => {:states => restriction.states, :counties => restriction.counties, :zip_ids => restriction.zip_ids } %>
+      </span>
+    </div>
+  </fieldset>
+  <div class="clear">
+    <%= submit_tag 'Search' %>
+  </div>
+<% end %>

@@ -1,0 +1,2 @@
+# TODO Operate on the page object
+page.replace_html 'admin_list', :partial => 'search_results', :object => @search_results

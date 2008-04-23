@@ -1,0 +1,22 @@
+<tr id="" class="<%= cycle("even", "odd") %>">
+  <td>
+    <%= link_to (h(search_result.name)), edit_agency_path(search_result) %>
+  </td>
+  <td class="center">
+    <%= search_result.locations.first.dropin_address.state_abbrev unless search_result.locations.empty? or
+			 																		search_result.locations.first.dropin_address.blank? %>
+  </td>
+  <td class="center">
+    <span id="<%= 'use_for_counseling_' + search_result.id.to_s %>">
+      <%= render :partial=> 'agencies/counseling_check', :locals => {:agency => search_result} %>
+    </span>
+  </td>
+  <td class="center">
+    <%= image_tag(search_result.is_provider ? 'check_blue.gif' : 'close.gif') %>
+  </td>
+  <td class="center">
+    <span id="<%= 'active_' + search_result.id.to_s %>">
+      <%= render :partial=> 'agencies/active_check', :locals => {:agency => search_result} %>
+    </span>
+  </td>
+</tr>

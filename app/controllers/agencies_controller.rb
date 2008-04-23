@@ -5,6 +5,8 @@ class AgenciesController < ApplicationController
   # GET /agencies
   # GET /agencies.xml
   def index
+    area_served_search and return unless params[:report].nil?
+
     active = 'is_active=1' if params[:active]=='1'
     order = SORT_ORDER[params[:order]] if params[:order]
     order = 'if(agencies.agency_category_id is null or agencies.agency_category_id="", "9999", agencies.agency_category_id), if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev), agencies.name asc' unless order
@@ -132,9 +134,92 @@ class AgenciesController < ApplicationController
     params[:plan_list].each_with_index { |id,idx| Plan.update(id, :position => idx) }
     render :nothing => 'true'
   end
+  
+  def area_served_search
+    @restriction = Restriction.new
+    @search_results = Array.new
+
+    render :action => :area_served_search
+  end
+
+  def ajax_search
+    @restriction = Restriction.new
+
+    query = prepare_sql_query
+    @search_results = Agency.find_by_sql(query)
+  end
 
   private
-  
+  @@JOIN_TABLES = {
+    'state_abbrevs' => {
+      'join' => ' JOIN restrictions_states AS rs ON r.id = rs.restriction_id',
+      'col' => 'rs.state_abbrev'
+    },
+    'county_ids' => {
+      'join' => ' JOIN restrictions_counties AS rcu ON r.id = rcu.restriction_id',
+      'col' => 'rcu.county_id'
+    },
+    'city_ids' => {
+      'join' => ' JOIN restrictions_cities AS rct ON r.id = rct.restriction_id',
+      'col' => 'rct.city_id'
+    },
+    'zip_ids' => {
+      'join' => ' JOIN restrictions_zips AS rz ON r.id = rz.restriction_id',
+      'col' => 'rz.zipcode'
+      }
+  }
+  def prepare_sql_query()
+    #search query
+    sql_query = <<-SQL
+        select distinct a.* from agencies as a
+            join locations as l on a.id = l.agency_id
+            join restrictions as r on r.location_id = l.id
+            $l_joins$
+            $l_where$
+        union
+        select distinct a.* from agencies as a
+            join plans as p on a.id = p.agency_id
+            join restrictions as r on r.plan_id = p.id            
+            $p_joins$
+            $p_where$
+    SQL
+    restrictions = ['state_abbrevs', 'county_ids', 'city_ids', 'zip_ids']
+
+    cond_params = Array.new
+    joins = ''
+    cond = Array.new
+
+    #for each restriction
+    restrictions.each do |r|
+      if (!params[r].nil? && params[r].size > 0 && !params[r][0].empty?)
+        joins << @@JOIN_TABLES[r]['join']
+        cond_tmp = "("
+        params[r].each do |elem|
+          cond_tmp << "#{@@JOIN_TABLES[r]['col']} = ?"
+          cond_params << elem
+          cond_tmp << " OR " unless elem == params[r].last
+        end
+        cond_tmp << ")"
+        cond << cond_tmp
+      end
+    end
+    cond = cond.join(' AND ')
+    cond = ' WHERE ' + cond if cond.size > 1
+
+    #insert into query proper joins and conditions
+    sql_query.gsub!(/\$l_joins\$/, joins)
+    sql_query.gsub!(/\$p_joins\$/, joins)
+    sql_query.gsub!(/\$l_where\$/, cond)
+    sql_query.gsub!(/\$p_where\$/, cond)
+    sql_query
+    
+    result = []
+    result << sql_query
+    #because of sql union
+    result.concat(cond_params)
+    result.concat(cond_params)
+  end
+
   def update_pha_contact
     @agency.pha_contact = PhaContact.new(params[:pha_contact][:name], params[:pha_contact][:title],
       params[:pha_contact][:phone], params[:pha_contact][:email])

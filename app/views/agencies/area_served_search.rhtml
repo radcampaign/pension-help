@@ -1,0 +1,15 @@
+<div>
+  <%= @join_tables %>
+</div>
+<div>
+  <%= @cond %>
+</div>
+<div>
+  <%= @cond_params %>
+</div>
+
+<%= render :partial => 'area_served_search_form', :locals => {:restriction => @restriction} %>
+
+<div class="clear fullwidth">
+  <%= render :partial => 'search_results', :object => @search_results %>
+</div>
