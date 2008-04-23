@@ -41,31 +41,52 @@ class Counseling < ActiveRecord::Base
   belongs_to :work_state, :class_name => "State", :foreign_key => "work_state_abbrev"
   belongs_to :hq_state, :class_name => "State", :foreign_key => "hq_state_abbrev"
   belongs_to :pension_state, :class_name => "State", :foreign_key => "pension_state_abbrev"
-  
+
   validates_presence_of :employer_type
-  
+
+  #if Employer type = State Agency or Office
+  validates_presence_of :work_state,
+    :if => Proc.new { |c| c.employer_type == EmployerType[6] || c.employer_type == EmployerType[7] || c.employer_type == EmployerType[8]}
+
+  validates_presence_of :number_in_household, :if => Proc.new {|c| !c.monthly_income_tmp.blank?}
+  validates_numericality_of :number_in_household, :if => Proc.new {|c| !c.monthly_income_tmp.blank? || !c.yearly_income_tmp.blank?}
+  validates_presence_of :monthly_income_tmp, :if => Proc.new {|c| !c.number_in_household.blank? && c.yearly_income_tmp.blank?}
+  validates_presence_of :yearly_income_tmp, :if => Proc.new {|c| !c.number_in_household.blank? && c.monthly_income_tmp.blank?}
+
+  validates_format_of :monthly_income_tmp,
+    :with => /^\$?((\d+)|(\d{1,3}(,\d{3})+))$/,
+    :message => " can't contain string/special character",
+    :if => Proc.new {|c| !c.monthly_income_tmp.blank?}
+
+  validates_format_of :yearly_income_tmp,
+    :with => /^\$?((\d+)|(\d{1,3}(,\d{3})+))$/,
+    :message => " can't contain string/special character",
+    :if => Proc.new {|c| !c.yearly_income_tmp.blank?}
+
+  attr_accessor :monthly_income_tmp, :yearly_income_tmp
+
   def employment_cutoff
     @employment_cutoff
   end
   def employment_cutoff=(employment_cutoff)
     @employment_cutoff = employment_cutoff
   end
-  
+
   def yearly_income
     @yearly_income
   end
   def yearly_income=(yearly_inc)
     @yearly_income = yearly_inc
-    self.monthly_income = yearly_inc.to_i / 12 if !yearly_inc.nil?
+    self.monthly_income = yearly_inc.to_i / 12 if !yearly_inc.blank?
   end
-  
+
   def step=(step)
     @step=step
   end
   def step
     @step || 0
   end
-  
+
   def matching_agencies
     agencies = case employer_type.name
     when 'Company or nonprofit':     company_matches
@@ -82,7 +103,7 @@ class Counseling < ActiveRecord::Base
     
     agencies.flatten.uniq.compact
   end
-  
+
   def aoa_coverage
     sql = <<-SQL
         select a.* from agencies a 
@@ -95,11 +116,11 @@ class Counseling < ActiveRecord::Base
     Agency.find_by_sql([sql, ResultType['AoA'], work_state_abbrev, 
                         hq_state_abbrev, pension_state_abbrev, home_state])
   end
-  
+
   def state_abbrev
     raise ArgumentError, 'state_abbrev is deprecated'
   end
-  
+
   def age_restrictions?                   
     Agency.age_restrictions?(work_state_abbrev, hq_state_abbrev, pension_state_abbrev, home_state)
   end
@@ -358,7 +379,13 @@ class Counseling < ActiveRecord::Base
   end
 
   protected
-    
+  def before_save
+    if !self.yearly_income_tmp.blank?
+      self.monthly_income = self.yearly_income_tmp.gsub(/[^0-9.]/, '' )
+    else
+      self.monthly_income = self.monthly_income_tmp.gsub(/[^0-9.]/, '' )
+    end
+  end
   def validate
     errors.add :zipcode if(!zipcode.blank? && !ZipImport.find(zipcode) rescue true)
     errors.add(:zipcode, 'is required') if zipcode.blank? && step > 1

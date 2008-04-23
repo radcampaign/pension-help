@@ -155,7 +155,13 @@ class HelpController < ApplicationController
     @age_restrictions = @counseling.age_restrictions? # put this in an instance variable so we don't have to call it again from the view
     @income_restrictions = @counseling.income_restrictions? # put this in an instance variable so we don't have to call it again from the view
     # show still_looking only if we need to
-    if @counseling.aoa_coverage.empty? and (@age_restrictions || @income_restrictions || @ask_afscme)
+    if request.post?
+      if @counseling.save
+        redirect_to :action => :results and return
+      else
+        render :template => 'help/still_looking' 
+      end
+    elsif @counseling.aoa_coverage.empty? and (@age_restrictions || @income_restrictions || @ask_afscme)
       render :template => 'help/still_looking' 
     else
       redirect_to :action => :results and return
@@ -165,7 +171,7 @@ class HelpController < ApplicationController
   def results
     @counseling = update_counseling
     @results = @counseling.matching_agencies
-    @counseling.save
+
     if @counseling.selected_plan_id
       @results.each{|a| a.plans.delete_if {|p| p.id != @counseling.selected_plan_id.to_i &&
          a.agency_category_id==3}} 
