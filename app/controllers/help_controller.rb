@@ -115,7 +115,7 @@ class HelpController < ApplicationController
   def check_aoa_zip
     @counseling = update_counseling
     @counseling.zipcode = params[:zip] if !params[:zip].blank?
-    @counseling.step = 3
+    #@counseling.step = 3
     @states = CounselAssistance.states
     @ask_aoa = [1,2,3,4,5,9].include?(@counseling.employer_type_id)
     if !@counseling.valid?                  # bad zip code entered
@@ -137,14 +137,17 @@ class HelpController < ApplicationController
   
   def step_3 #employment dates, pension-earner, divorce questions
     @counseling = update_counseling
+#    if !@counseling.valid? 
+#      @states = CounselAssistance.states
+#      redirect_to :action => :step_2
+#      return
+#    end
     @counseling.step = 3
-    if !@counseling.valid? 
-      @states = CounselAssistance.states
-      redirect_to :action => :step_2
-      return
-    end
     # skip this question, unless we have a military/federal/private employer type
     redirect_to :action => :step_4 and return unless [1,4,5].include?(@counseling.employer_type_id)
+    if request.post? && @counseling.valid?
+      redirect_to :action => :step_4 and return
+    end
     @options = CounselAssistance.pension_earner_choices
   end
   
@@ -155,23 +158,20 @@ class HelpController < ApplicationController
     @age_restrictions = @counseling.age_restrictions? # put this in an instance variable so we don't have to call it again from the view
     @income_restrictions = @counseling.income_restrictions? # put this in an instance variable so we don't have to call it again from the view
     # show still_looking only if we need to
-    if request.post?
-      if @counseling.save
+    if request.post? && @counseling.valid?
         redirect_to :action => :results and return
-      else
-        render :template => 'help/still_looking' 
-      end
-    elsif @counseling.aoa_coverage.empty? and (@age_restrictions || @income_restrictions || @ask_afscme)
-      render :template => 'help/still_looking' 
-    else
-      redirect_to :action => :results and return
-    end    
+    end
+    #@counseling.aoa_coverage.empty? and (@age_restrictions || @income_restrictions || @ask_afscme)
+    render :template => 'help/still_looking' 
   end
   
   def results
     @counseling = update_counseling
     @results = @counseling.matching_agencies
 
+    redirect_to :action => :step_4 unless @counseling.valid?
+
+    @counseling.save
     if @counseling.selected_plan_id
       @results.each{|a| a.plans.delete_if {|p| p.id != @counseling.selected_plan_id.to_i &&
          a.agency_category_id==3}} 

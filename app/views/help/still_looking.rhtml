@@ -69,8 +69,8 @@
 	if (<%= not @age_restrictions %>) { $("ageQuestion").hide()}
 	($('counseling_is_over_60_false').checked && <%= @income_restrictions %>) ? $("incomeQuestion").show() : $("incomeQuestion").hide() ;
 	$('counseling_is_over_60_true').observe('click',function() {
-		$("counseling_monthly_income").clear();
-		$("counseling_yearly_income").clear();
+		$("counseling_monthly_income_tmp").clear();
+		$("counseling_yearly_income_tmp").clear();
 		$("counseling_number_in_household").clear();
 		$("incomeQuestion").hide();
 	} );

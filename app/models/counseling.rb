@@ -47,23 +47,17 @@ class Counseling < ActiveRecord::Base
   #if Employer type = State Agency or Office
   validates_presence_of :work_state,
     :if => Proc.new { |c| c.employer_type == EmployerType[6] || c.employer_type == EmployerType[7] || c.employer_type == EmployerType[8]}
-
-  validates_presence_of :number_in_household, :if => Proc.new {|c| !c.monthly_income_tmp.blank?}
-  validates_numericality_of :number_in_household, :if => Proc.new {|c| !c.monthly_income_tmp.blank? || !c.yearly_income_tmp.blank?}
-  validates_presence_of :monthly_income_tmp, :if => Proc.new {|c| !c.number_in_household.blank? && c.yearly_income_tmp.blank?}
-  validates_presence_of :yearly_income_tmp, :if => Proc.new {|c| !c.number_in_household.blank? && c.monthly_income_tmp.blank?}
-
+  validates_numericality_of :number_in_household, :if => Proc.new {|c| c.step == 4 && !c.is_over_60}
   validates_format_of :monthly_income_tmp,
     :with => /^\$?((\d+)|(\d{1,3}(,\d{3})+))$/,
     :message => " can't contain string/special character",
-    :if => Proc.new {|c| !c.monthly_income_tmp.blank?}
-
+    :if => Proc.new {|c| c.step == 4 && !c.is_over_60 && c.yearly_income_tmp.blank?}
   validates_format_of :yearly_income_tmp,
     :with => /^\$?((\d+)|(\d{1,3}(,\d{3})+))$/,
     :message => " can't contain string/special character",
-    :if => Proc.new {|c| !c.yearly_income_tmp.blank?}
+    :if => Proc.new {|c| c.step == 4 && !c.is_over_60 &&  c.monthly_income_tmp.blank?}
 
-  attr_accessor :monthly_income_tmp, :yearly_income_tmp
+  attr_accessor :monthly_income_tmp, :yearly_income_tmp, :step
 
   def employment_cutoff
     @employment_cutoff
@@ -389,6 +383,8 @@ class Counseling < ActiveRecord::Base
   def validate
     errors.add :zipcode if(!zipcode.blank? && !ZipImport.find(zipcode) rescue true)
     errors.add(:zipcode, 'is required') if zipcode.blank? && step > 1
+    errors.add(:employment_end, 'is required') if step == 3 && employer_type_id == 1 && employment_end.blank?
+    errors.add(:employment_cutoff, 'is required') if step == 3 && [4,5].include?(employer_type_id) && employment_end.blank?
   end
    
 end
