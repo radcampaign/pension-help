@@ -114,4 +114,94 @@ class Agency < ActiveRecord::Base
     locations.count(:id, :conditions => 'is_provider = 1') > 0
   end
   
+  def self.find_agencies params
+    locations = find_locations params
+    plans = find_plans params
+
+    agencies = Hash.new
+    locations.each {|location| agencies[location.agency.id] = location.agency}
+    plans.each {|plan| agencies[plan.agency.id] = plan.agency}
+
+    agencies
+    return locations, plans, agencies
+  end
+  
+  private
+  def self.find_locations params
+    query = <<-SQL
+      select
+          l.*
+      from
+          locations as l join restrictions as r on l.id = r.location_id
+    SQL
+
+    query = prepare_sql_query query, params
+    Location.find_by_sql query
+  end
+  
+  def self.find_plans params
+    query = <<-SQL
+      select
+          p.*
+      from
+          plans as p join restrictions as r on p.id = r.plan_id
+    SQL
+
+    query = prepare_sql_query(query, params)
+    Plan.find_by_sql query
+  end
+
+  @@JOIN_TABLES = {
+    'state_abbrevs' => {
+      'join' => ' JOIN restrictions_states AS rs ON r.id = rs.restriction_id',
+      'col' => 'rs.state_abbrev'
+    },
+    'county_ids' => {
+      'join' => ' JOIN restrictions_counties AS rcu ON r.id = rcu.restriction_id',
+      'col' => 'rcu.county_id'
+    },
+    'city_ids' => {
+      'join' => ' JOIN restrictions_cities AS rct ON r.id = rct.restriction_id',
+      'col' => 'rct.city_id'
+    },
+    'zip_ids' => {
+      'join' => ' JOIN restrictions_zips AS rz ON r.id = rz.restriction_id',
+      'col' => 'rz.zipcode'
+      }
+  }
+
+  def self.prepare_sql_query(query, params)
+    restrictions = ['state_abbrevs', 'county_ids', 'city_ids', 'zip_ids']
+
+    cond_params = Array.new
+    joins = ''
+    cond = Array.new
+
+    #for each restriction
+    restrictions.each do |r|
+      if (!params[r].nil? && params[r].size > 0 && !params[r][0].empty?)
+        joins << @@JOIN_TABLES[r]['join']
+        cond_tmp = "("
+        params[r].each do |elem|
+          cond_tmp << "#{@@JOIN_TABLES[r]['col']} = ?"
+          cond_params << elem
+          cond_tmp << " OR " unless elem == params[r].last
+        end
+        cond_tmp << ")"
+        cond << cond_tmp
+      end
+    end
+    cond = cond.join(' AND ')
+    cond = ' WHERE ' + cond if cond.size > 1
+
+    #insert into query proper joins and conditions
+    query << joins << ' '
+    query << cond << ' '
+
+    result = []
+    result << query
+    result.concat(cond_params)
+
+    result
+  end
 end

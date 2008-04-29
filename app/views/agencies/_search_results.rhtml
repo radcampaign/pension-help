@@ -7,6 +7,6 @@
 		<th class="center"><%= link_to 'Active', agencies_path(:order=>'active', :active => params[:active])%></th>
   </tr>
 
-  <%= render :partial => 'search_result', :collection => search_results %>
+  <%= render :partial => 'search_result', :collection => search_results.values %>
 
 </table>
