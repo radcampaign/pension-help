@@ -33,7 +33,7 @@ class Address < ActiveRecord::Base
     rescue
       # invalid zip code - 
       errors.add :zip if(!zip.blank? && !ZipImport.find(zip) rescue true)
-      errors.add(:zip, 'is required') if zip.blank?
+      # errors.add(:zip, 'is required') if zip.blank?  # allow blank zip codes
     end
     self.latitude, self.longitude = geo.latitude, geo.longitude if geo
   end                   
