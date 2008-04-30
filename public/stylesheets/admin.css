@@ -187,6 +187,17 @@ table#admin_list .location_name {
 table#admin_list .locationsRow td {
 	border-top:1px solid #DDD;
 }
+table.newsTable {
+	border:1px solid #F00;
+	padding:6px;
+	background-color:#FEE;
+}
+table.newsTable caption{
+	font-weight:bold;
+}
+table.newsTable tr.active {
+	font-weight:bold;
+}
 li.agency_header {
 	margin: 0 0 15px;
 }
@@ -229,5 +240,4 @@ h2#agency_heading {
 }
 #geo_view_container {
 	width: 900px;
-}
 }

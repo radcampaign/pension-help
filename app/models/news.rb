@@ -19,4 +19,9 @@
 #
 
 class News < ActiveRecord::Base
+  
+  def is_active?
+    publish_date <= d=Date.today and archive_date >= d
+  end
+  
 end

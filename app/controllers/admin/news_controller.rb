@@ -29,7 +29,10 @@ class Admin::NewsController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @news_pages, @news = paginate :news, :per_page => 50, :order => 'position asc, publish_date desc'
+    @internal_news_pages, @internal_news = paginate :news, :per_page => 50, :conditions => :is_internal, :order => 'position asc, publish_date desc'
+
+    @external_news_pages, @external_news = paginate :news, :per_page => 50, :conditions => {:is_internal => false}, :order => 'position asc, publish_date desc'
+
   end
 
   def show
@@ -64,7 +67,7 @@ class Admin::NewsController < ApplicationController
     @news.updated_by = User.find(session[:user]).login
     if @news.update_attributes(params[:news])
       flash[:notice] = 'News was successfully updated.'
-      redirect_to :action => 'show', :id => @news
+      redirect_to :action => 'list'
     else
       render :action => 'edit'
     end

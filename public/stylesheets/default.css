@@ -371,7 +371,7 @@ body.results div.group {
 	text-align: center;
 }
 #news_list td {
-	border-bottom: 1px solid grey;
+	border-top: 1px solid grey;
 }
 #employment_end_year_example {
 	margin-left:183px;
