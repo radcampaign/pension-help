@@ -162,6 +162,21 @@ table#admin_list td {
 }
 table#admin_list th {
 	text-align: left;
+	background-color: #AE3200;
+	padding:3px;
+}
+table#admin_list th.sorted {
+	background-image:url(asc.gif);
+	background-position: left center;
+	background-repeat: no-repeat;
+	padding-left:14px;
+}
+table#admin_list th.sorted.desc {
+	background-image:url(desc.gif);
+}
+table#admin_list th a {
+	color:#FFF;
+	font-weight:normal;
 }
 table#admin_list .center {
 	text-align: center;

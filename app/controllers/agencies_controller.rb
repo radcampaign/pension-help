@@ -6,11 +6,21 @@ class AgenciesController < ApplicationController
   # GET /agencies.xml
   def index
     area_served_search and return unless params[:report].nil?
-
+    
+    params[:clear] = session[:agency_order] = session[:agency_desc] = nil if params[:clear] # clear any params from session if this is our first time here
+    params[:order] ||= session[:agency_order] # retrieve any existing params from the session
+    params[:desc] ||= session[:agency_desc]   
+    session[:agency_order] = params[:order]   # save these params to session so they'll be 'remembered' on the next visit
+    session[:agency_desc] = params[:desc]
+    
     active = 'is_active=1' if params[:active]=='1'
-    order = SORT_ORDER[params[:order]] if params[:order]
-    order = 'if(agencies.agency_category_id is null or agencies.agency_category_id="", "9999", agencies.agency_category_id), if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev), agencies.name asc' unless order
+    order = SORT_ORDER[params[:order]+(params[:desc] ? '_desc' : '')] if params[:order]
+    order ||= SORT_ORDER['default']
     @agencies = Agency.find(:all, :include => [:locations => [:dropin_address]], :conditions => active, :order => order)
+
+    # implement provider sort
+    sort_value = (params[:desc].blank? ? 1 : -1)
+    @agencies.sort!{|x,y| (y.is_provider ? sort_value : 0) <=> (x.is_provider ? sort_value : 0) } if params[:order] == 'provider'
 
     # default render index.rhtml
   end
@@ -157,17 +167,29 @@ class AgenciesController < ApplicationController
   end
 
   # peculiar category order due to TRAC #82 (https://prc.gradientblue.com/trac/pha/ticket/82)
+  CATEGORY_SORT = 'if(agencies.agency_category_id is null or agencies.agency_category_id="", "9999", agencies.agency_category_id)'
+  STATE_SORT = 'if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev)'
+  RESULT_SORT = 'if(agencies.result_type_id is null or agencies.result_type_id="", "9999", agencies.result_type_id)'
+  
   SORT_ORDER = { 
+    'default' => CATEGORY_SORT + ', ' + STATE_SORT + ', agencies.name asc',
     'name' => 'agencies.name',
-    'state' => 'if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev), agencies.name',
-    'category' => 'if(agencies.agency_category_id is null or agencies.agency_category_id="", "9999", agencies.agency_category_id), if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev), agencies.name',
-    'result' => 'if(agencies.result_type_id is null or agencies.result_type_id="", "9999", agencies.result_type_id), agencies.name',
-    'counseling' => 'agencies.use_for_counseling desc, if(agencies.agency_category_id is null or agencies.agency_category_id="", "9999", agencies.agency_category_id), agencies.name',
-    'active' => 'agencies.is_active desc, if(agencies.agency_category_id is null or agencies.agency_category_id="", "9999", agencies.agency_category_id), agencies.name'
-    }
+    'state' => STATE_SORT + ', agencies.name',
+    'category' => CATEGORY_SORT + ', ' + STATE_SORT + ', agencies.name',
+    'result' => RESULT_SORT + ', agencies.name',
+    'counseling' => 'agencies.use_for_counseling desc, ' + CATEGORY_SORT + ', agencies.name',
+    'active' => 'agencies.is_active desc, ' + CATEGORY_SORT + ', agencies.name',
+    'name_desc' => 'agencies.name desc',
+    'state_desc' => STATE_SORT + ' desc , agencies.name',
+    'category_desc' => CATEGORY_SORT + ' desc , ' + STATE_SORT + ', agencies.name',
+    'result_desc' => RESULT_SORT + ' desc , agencies.name',
+    'counseling_desc' => 'agencies.use_for_counseling asc, ' + CATEGORY_SORT + ', agencies.name',
+    'active_desc' => 'agencies.is_active asc, ' + CATEGORY_SORT + ', agencies.name',
+    'provider' => CATEGORY_SORT + ', ' + STATE_SORT + ', agencies.name asc'
+  }
     
-    SORT_ORDER_LOC = {
-      'name' => 'locations.name',
-      'state' => 'if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev), locations.name'
-    }
+  SORT_ORDER_LOC = {
+    'name' => 'locations.name',
+    'state' => 'if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev), locations.name'
+  }
 end

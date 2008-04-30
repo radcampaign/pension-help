@@ -20,13 +20,34 @@
 
 <table id="admin_list">
   <tr>
-    <th><%= link_to 'Agency Name', agencies_path(:order=>'name', :active => params[:active]) %></th>
-		<th><%= link_to 'State', agencies_path(:order=>'state', :active => params[:active]) %></th>
-		<th class="center"><%= link_to 'Category', agencies_path(:order=>'category', :active => params[:active]) %></th>
-		<th class="center"><%= link_to 'Result Type', agencies_path(:order=>'result', :active => params[:active]) %></th>
-		<th class="center" width="40"><%= link_to 'C & A', agencies_path(:order=>'counseling', :active => params[:active])%></th>
-		<th class="center">Provider</th>
-		<th class="center"><%= link_to 'Active', agencies_path(:order=>'active', :active => params[:active])%></th>
+    <th class="<%= (params[:order]=='name' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
+			<%= link_to 'Agency Name', agencies_path(:order=>'name', 
+																							 :active => params[:active],
+																							 :desc => (params[:order]=='name' && params[:desc].blank? ? true : nil)) %></th>
+		<th class="<%= (params[:order]=='state' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
+			<%= link_to 'State', agencies_path(:order=>'state', 
+																				 :active => params[:active],
+																				 :desc => (params[:order]=='state' && params[:desc].blank? ? true : nil)) %></th>
+		<th class="center <%= (params[:order]=='category' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
+			<%= link_to 'Category', agencies_path(:order=>'category', 
+																					  :active => params[:active], 
+																						:desc => (params[:order]=='category' && params[:desc].blank? ? true : nil)) %></th>
+		<th class="center <%= (params[:order]=='result' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
+			<%= link_to 'Result Type', agencies_path(:order=>'result', 
+																							 :active => params[:active],
+																							 :desc => (params[:order]=='result' && params[:desc].blank? ? true : nil)) %></th>
+		<th class="center <%= (params[:order]=='counseling' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>" width="40">
+			<%= link_to 'C & A', agencies_path(:order=>'counseling', 
+																				 :active => params[:active],
+																				 :desc => (params[:order]=='counseling' && params[:desc].blank? ? true : nil))%></th>
+		<th class="center <%= (params[:order]=='provider' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
+			<%= link_to 'Provider', agencies_path(:order=>'provider', 
+																					  :active => params[:active],
+																						:desc => (params[:order]=='provider' && params[:desc].blank? ? true : nil))%></th>
+		<th class="center <%= (params[:order]=='active' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
+			<%= link_to 'Active', agencies_path(:order=>'active', 
+																					:active => params[:active],
+																					:desc => (params[:order]=='active' && params[:desc].blank? ? true : nil))%></th>
   </tr>
 	
  	<% @agencies.each_with_index do |agency, i| %>
