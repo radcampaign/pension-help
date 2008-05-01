@@ -9,7 +9,7 @@ class AgenciesController < ApplicationController
     
     params[:clear] = session[:agency_order] = session[:agency_desc] = nil if params[:clear] # clear any params from session if this is our first time here
     params[:order] ||= session[:agency_order] # retrieve any existing params from the session
-    params[:desc] ||= session[:agency_desc]   
+    params[:desc] ||= session[:agency_desc] unless params[:order] # don't override params[:desc] if we're passing in params[:order] 
     session[:agency_order] = params[:order]   # save these params to session so they'll be 'remembered' on the next visit
     session[:agency_desc] = params[:desc]
     
