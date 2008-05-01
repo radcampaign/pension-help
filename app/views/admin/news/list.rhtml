@@ -9,7 +9,6 @@
     <th>Publish Date</th>
     <th>Archive Date</th>
     <th>Updated By</th>
-    <th>Internal?</th>
 		<th>&nbsp;</thtrash.gif>
   </tr>
   
@@ -17,10 +16,9 @@
   <tr id="news_<%=news.id.to_s%>" class="<%= (news.is_active? ? 'active' : '') %>">
 		<td class="center"><%= image_tag 'play.gif'%></td>
     <td width="35%"><%= link_to h(news.title), :action => 'edit', :id => news %></td>
-    <td><%= h news.publish_date.strftime("%m/%d/%Y") %></td>
-    <td><%= h news.archive_date.strftime("%m/%d/%Y") %></td>
-    <td><%= h news.updated_by %> on <%= h news.updated_at.strftime("%m/%d/%Y") %></td>
-    <td class="center"><%= news.is_internal ? 'Yes' : '' %></td>
+    <td class="center"><%= h news.publish_date.strftime("%m/%d/%Y") %></td>
+    <td class="center"><%= h news.archive_date.strftime("%m/%d/%Y") %></td>
+    <td class="center"><%= h news.updated_by %> on <%= h news.updated_at.strftime("%m/%d/%Y") %></td>
 		<td class="center"><%= link_to_remote(
            image_tag 'trash.gif', 
            :url => {:controller=>'admin/news', :action=>'destroy', :id=>news.id}, 
@@ -48,7 +46,6 @@
     <th>Publish Date</th>
     <th>Archive Date</th>
     <th>Updated By</th>
-    <th>Internal?</th>
 		<th>&nbsp;</thtrash.gif>
   </tr>
   
@@ -56,10 +53,9 @@
   <tr id="news_<%=news.id.to_s%>" class="<%= (news.is_active? ? 'active' : '') %>">
 		<td class="center"><%= image_tag 'play.gif'%></td>
     <td width="35%"><%= link_to h(news.title), :action => 'edit', :id => news %></td>
-    <td><%= h news.publish_date.strftime("%m/%d/%Y") %></td>
-    <td><%= h news.archive_date.strftime("%m/%d/%Y") %></td>
-    <td><%= h news.updated_by %> on <%= h news.updated_at.strftime("%m/%d/%Y") %></td>
-    <td class="center"><%= news.is_internal ? 'Yes' : '' %></td>
+    <td class="center"><%= h news.publish_date.strftime("%m/%d/%Y") %></td>
+    <td class="center"><%= h news.archive_date.strftime("%m/%d/%Y") %></td>
+    <td class="center"><%= h news.updated_by %> on <%= h news.updated_at.strftime("%m/%d/%Y") %></td>
 		<td class="center"><%= link_to_remote(
            image_tag 'trash.gif', 
            :url => {:controller=>'admin/news', :action=>'destroy', :id=>news.id}, 
