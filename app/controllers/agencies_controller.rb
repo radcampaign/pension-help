@@ -20,8 +20,7 @@ class AgenciesController < ApplicationController
 
     # implement provider sort
     sort_value = (params[:desc].blank? ? 1 : -1)
-    @agencies.sort!{|x,y| (y.is_provider ? sort_value : 0) <=> (x.is_provider ? sort_value : 0) } if params[:order] == 'provider'
-
+    @agencies = @agencies.sort_by {|a| [(a.is_provider ? sort_value : 0), a.agency_category_id, a.name]} if params[:order] == 'provider'
     # default render index.rhtml
   end
 
