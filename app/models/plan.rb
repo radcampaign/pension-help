@@ -36,8 +36,8 @@
 
 class Plan < ActiveRecord::Base
   belongs_to :agency
-  has_one :publication
-  has_one :restriction
+  has_one :publication, :dependent => :destroy
+  has_one :restriction, :dependent => :destroy
   
   composed_of :pha_contact, :class_name => PhaContact,
     :mapping => [

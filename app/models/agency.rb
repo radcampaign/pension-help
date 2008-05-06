@@ -29,14 +29,14 @@
 #
 
 class Agency < ActiveRecord::Base
-  has_many :locations, :order => 'is_hq desc, position asc'
-  has_many :plans
-  has_many :publications
+  has_many :locations, :order => 'is_hq desc, position asc', :dependent => :destroy
+  has_many :plans, :dependent => :destroy
+  has_many :publications, :dependent => :destroy
   has_one :publication, :class_name => "Publication"
   has_one :hq, :class_name => "Location", :conditions => "is_hq=1 and is_provider=1"
   has_many :dropin_addresses, :through => :locations, :source => :addresses, :conditions => "address_type = 'dropin'", :order => "is_hq desc"
   has_many :mailing_addresses, :through => :locations, :source => :addresses, :conditions => "address_type = 'mailing'", :order => "is_hq desc"
-  has_one :restriction
+  has_one :restriction, :dependent => :destroy
 
   has_enumerated :agency_category
   has_enumerated :result_type

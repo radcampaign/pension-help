@@ -273,7 +273,7 @@ class Counseling < ActiveRecord::Base
                             pension_state_abbrev, home_state])
     return address.location.agency unless address.nil?
   end
-  
+
   def closest_nsp
     return nil unless zipcode
 
@@ -289,7 +289,13 @@ class Counseling < ActiveRecord::Base
                            or r.id is null)
                            and addresses.address_type='dropin'
                            and addresses.latitude is not null")
-    return address.location.agency unless address.nil?
+    if address
+      # create a new agency with just this one location (to avoid returning the 'wrong' location from the agency)
+      a=Agency.new
+      a.attributes=address.location.agency.attributes
+      a.locations << address.location
+    end
+    return a
   end
   
   def state_plan_matches
