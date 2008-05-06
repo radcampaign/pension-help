@@ -2,7 +2,7 @@
 
 <table width="100%" cellspacing="0" class="newsTable">
 	<caption>Internal News</caption>
-	<tbody id="news_list">
+	<tbody id="int_news_list">
   <tr>
 		<th width="5%">drag to sort</th>
     <th>Title</th>
@@ -20,10 +20,10 @@
     <td class="center"><%= h news.archive_date.strftime("%m/%d/%Y") %></td>
     <td class="center"><%= h news.updated_by %> on <%= h news.updated_at.strftime("%m/%d/%Y") %></td>
 		<td class="center"><%= link_to_remote(
-           image_tag 'trash.gif', 
+           image_tag('trash.gif'), 
            :url => {:controller=>'admin/news', :action=>'destroy', :id=>news.id}, 
            :confirm => "Are you sure you want to delete this news item: '#{news.title}' ? This action cannot be undone.",
-           :success => "Effect.DropOut('news_#{news.id}')", 
+           :success => "Effect.DropOut('news_#{news.id}');Element.remove('news_#{news.id}')", 
            :failure => 'alert("Could not delete news: #{news.title}")'
         )
     %>
@@ -39,7 +39,7 @@
 
 <table width="100%" cellspacing="0" class="newsTable">
 	<caption>External News</caption>
-	<tbody id="news_list">
+	<tbody id="ext_news_list">
   <tr>
 		<th width="5%">drag to sort</th>
     <th>Title</th>
@@ -57,10 +57,10 @@
     <td class="center"><%= h news.archive_date.strftime("%m/%d/%Y") %></td>
     <td class="center"><%= h news.updated_by %> on <%= h news.updated_at.strftime("%m/%d/%Y") %></td>
 		<td class="center"><%= link_to_remote(
-           image_tag 'trash.gif', 
+           image_tag('trash.gif'), 
            :url => {:controller=>'admin/news', :action=>'destroy', :id=>news.id}, 
            :confirm => "Are you sure you want to delete this news item: '#{news.title}' ? This action cannot be undone.",
-           :success => "Effect.DropOut('news_#{news.id}')", 
+           :success => "Effect.DropOut('news_#{news.id}');Element.remove('news_#{news.id}')", 
            :failure => 'alert("Could not delete news: #{news.title}")'
         )
     %>
@@ -77,6 +77,10 @@
 
 <%= link_to "Add New News Item", :controller => 'admin/news', :action => 'new'%>
 
-<%= sortable_element 'news_list', 
+<%= sortable_element 'int_news_list', 
+			:tag => 'tr',
+      :url => { :action => "sort_news" } %>
+
+<%= sortable_element 'ext_news_list', 
 			:tag => 'tr',
       :url => { :action => "sort_news" } %>

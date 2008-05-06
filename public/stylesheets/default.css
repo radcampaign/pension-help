@@ -370,7 +370,7 @@ body.results div.group {
 .center {
 	text-align: center;
 }
-#news_list td {
+.newsTable td {
 	border-top: 1px solid grey;
 }
 #employment_end_year_example {

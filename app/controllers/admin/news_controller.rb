@@ -82,7 +82,9 @@ class Admin::NewsController < ApplicationController
   end
   
   def sort_news
-    params[:news_list].each_with_index { |id,idx| News.update(id, :position => idx) }
+    to_sort = params[:int_news_list] unless params[:int_news_list].blank?
+    to_sort = params[:ext_news_list] unless params[:ext_news_list].blank?
+    to_sort.each_with_index { |id,idx| News.update(id, :position => idx) }
     render :nothing => 'true'
   end
   
