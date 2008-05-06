@@ -19,7 +19,7 @@ class AgenciesController < ApplicationController
     @agencies = Agency.find(:all, :include => [:locations => [:dropin_address]], :conditions => active, :order => order)
 
     # implement provider sort
-    sort_value = (params[:desc].blank? ? 1 : -1)
+    sort_value = (params[:desc].blank? ? -1 : 1)
     @agencies = @agencies.sort_by {|a| [(a.is_provider ? sort_value : 0), a.agency_category_id, a.name]} if params[:order] == 'provider'
     # default render index.rhtml
   end
