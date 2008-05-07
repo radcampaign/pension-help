@@ -105,7 +105,7 @@ class HelpController < ApplicationController
   
   def step_2 #zip, AoA states, plan questions
     @counseling = update_counseling
-    redirect_to(:action => :counseling, :redirect => true) and return if !@counseling.valid?
+    redirect_to(:action => :counseling, :redirect => true) and return if (!@counseling.valid? and request.post?)
     @counseling.step = 2
     @states = CounselAssistance.states
     @ask_aoa = [1,2,3,4,5,9].include?(@counseling.employer_type_id)
@@ -137,39 +137,41 @@ class HelpController < ApplicationController
   
   def step_3 #employment dates, pension-earner, divorce questions
     @counseling = update_counseling
-#    if !@counseling.valid? 
-#      @states = CounselAssistance.states
-#      redirect_to :action => :step_2
-#      return
-#    end
+    if !@counseling.valid? and request.post?
+      @states = CounselAssistance.states
+      redirect_to :action => :step_2
+      return
+    end
     @counseling.step = 3
     # skip this question, unless we have a military/federal/private employer type
     redirect_to :action => :step_4 and return unless [1,4,5].include?(@counseling.employer_type_id)
-    if request.post? && @counseling.valid?
-      redirect_to :action => :step_4 and return
-    end
     @options = CounselAssistance.pension_earner_choices
   end
   
   def step_4
     @counseling = update_counseling
+    if !@counseling.valid? and request.post?
+      @options = CounselAssistance.pension_earner_choices
+      redirect_to :action => :step_3
+      return
+    end
     @counseling.step = 4
     @ask_afscme = [6,7,8].include?(@counseling.employer_type_id)
     @age_restrictions = @counseling.age_restrictions? # put this in an instance variable so we don't have to call it again from the view
     @income_restrictions = @counseling.income_restrictions? # put this in an instance variable so we don't have to call it again from the view
     # show still_looking only if we need to
-    if request.post? && @counseling.valid?
-        redirect_to :action => :results and return
+    if @counseling.aoa_coverage.empty? and (@age_restrictions || @income_restrictions || @ask_afscme)
+      render :template => 'help/still_looking' 
+    else
+      redirect_to :action => :results and return
     end
-    #@counseling.aoa_coverage.empty? and (@age_restrictions || @income_restrictions || @ask_afscme)
-    render :template => 'help/still_looking' 
   end
   
   def results
     @counseling = update_counseling
     @results = @counseling.matching_agencies
 
-    redirect_to :action => :step_4 unless @counseling.valid?
+    redirect_to :action => :step_4 unless (@counseling.valid? or !request.post?)
 
     @counseling.save
     if @counseling.selected_plan_id

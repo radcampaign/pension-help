@@ -376,6 +376,9 @@ body.results div.group {
 #employment_end_year_example {
 	margin-left:183px;
 }
+#ageIncomeQuestions #householdRow td {
+	padding-top:2.5em;
+}
 /* User Messages */
 
 .warningBox, 
@@ -392,6 +395,7 @@ body.results div.group {
 .fieldWithErrors,
 .fieldWithErrors input {
 	background-color: #F77;
+	display:inline;
 }
 .warningBox table.warningTable {
     margin: 0px auto;

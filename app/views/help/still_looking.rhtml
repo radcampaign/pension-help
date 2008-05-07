@@ -9,12 +9,12 @@
 
 <p>&nbsp;</p>
 
-<% form_for :counseling do |form| -%>
+<% form_for :counseling, :url => {:action => :results} do |form| -%>
 
 <h2>We’re still looking...</h2>
 
 <div id="ageQuestion">
-	<p>Some organizations will help people based on certain age and income criteria. If you are interested in this type of referral, complete the information below and then click <b style="color: #cc0000; ">NEXT</b>. Otherwise, you may skip the question and click <b style="color: #cc0000; ">NEXT</b> to proceed.
+	<p>Some organizations will help people based on certain age and income criteria. If you are interested in this type of referral, complete the information below and then click <b style="color: #cc0000; ">NEXT</b>. Otherwise, you may skip the question and click <b style="color: #cc0000; ">NEXT</b> to proceed.</p>
 
 	<p>Are you age 60 or over:&nbsp;&nbsp;&nbsp;<%= form.radio_button  :is_over_60, true %> &nbsp;Yes&nbsp;&nbsp;&nbsp;<%= form.radio_button  :is_over_60, false %> &nbsp;No</p>
 	<p>&nbsp;</p>
@@ -23,32 +23,26 @@
 <div id="incomeQuestion">
 
 <p>
-	<table cellpadding="0" cellspacing="0">
+	<table cellpadding="0" cellspacing="0" id="ageIncomeQuestions">
 		<tr>
-			<td valign="top" style="padding-right:5px">What is your household income:</td>
-			<td>
-				<table cellpadding="0" cellspacing="0">
-					<tr>
-						<td>Monthly:&nbsp;</td>
-						<td><%= form.text_field :monthly_income_tmp, :size => 5 %></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td>or</td>
-					</tr>
-					<tr>
-						<td align="right">Yearly:&nbsp;</td>
-						<td><%= form.text_field :yearly_income_tmp, :size => 5 %></td>
-					</tr>
-				</table>
-			</td>
+			<td valign="top" align="right" >What is your household income: Monthly:&nbsp;</td>
+			<td><%= form.text_field :monthly_income_tmp, :size => 5 %></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>or</td>
+		</tr>
+		<tr>
+			<td align="right">Yearly:&nbsp;</td>
+			<td><%= form.text_field :yearly_income_tmp, :size => 5 %></td>
+		</tr>
+		<tr id="householdRow">
+			<td align="right">How many people live in your household:&nbsp;</td>
+			<td><%= form.text_field :number_in_household, :size => 5 %></td>
 		</tr>
 	</table>
 </p>
 
-<p>&nbsp;</p>
-		
-<p>How many people live in your household: <%= form.text_field :number_in_household, :size => 5 %></p>
 <p>&nbsp;</p>
 </div>
 
