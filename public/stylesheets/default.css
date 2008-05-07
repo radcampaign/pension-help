@@ -484,3 +484,10 @@ div.result_buffer {
 #menu ul {
 	margin-top:0px;#
 }
+
+/* SEARCH PAGE */
+div#search_pbgc_results, div#search_erisa_results {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+/* END-SEARCH PAGE */
