@@ -6,22 +6,21 @@ class AgenciesController < ApplicationController
   # GET /agencies.xml
   def index
     area_served_search and return unless params[:report].nil?
-    
+
     params[:clear] = session[:agency_order] = session[:agency_desc] = nil if params[:clear] # clear any params from session if this is our first time here
     params[:order] ||= session[:agency_order] # retrieve any existing params from the session
     params[:desc] ||= session[:agency_desc] unless params[:order] # don't override params[:desc] if we're passing in params[:order] 
     session[:agency_order] = params[:order]   # save these params to session so they'll be 'remembered' on the next visit
     session[:agency_desc] = params[:desc]
-    
-    active = 'is_active=1' if params[:active]=='1'
-    order = SORT_ORDER[params[:order]+(params[:desc] ? '_desc' : '')] if params[:order]
-    order ||= SORT_ORDER['default']
-    @agencies = Agency.find(:all, :include => [:locations => [:dropin_address]], :conditions => active, :order => order)
 
-    # implement provider sort
-    sort_value = (params[:desc].blank? ? -1 : 1)
-    @agencies = @agencies.sort_by {|a| [(a.is_provider ? sort_value : 0), a.agency_category_id, a.name]} if params[:order] == 'provider'
-    # default render index.rhtml
+    order = params[:order].nil? ? 'default' : params[:order]
+    dir = params[:desc].nil? ? 1 : -1
+
+    active = 'is_active=1' if params[:active]=='1'
+
+    agencies = Agency.find(:all, :include => [:locations => [:dropin_address]], :conditions => active)
+
+    @agencies = Agency.sort_agencies(agencies, order, dir)
   end
 
   # GET /agencies/1

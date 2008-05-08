@@ -51,12 +51,12 @@ class Counseling < ActiveRecord::Base
   validates_numericality_of :number_in_household, 
     :if => Proc.new {|c| c.step == 4 && (!c.monthly_income_tmp.blank? || !c.yearly_income_tmp.blank?)}
   validates_format_of :monthly_income_tmp,
-    :with => /^\$?((\d+)|(\d{1,3}(,\d{3})+))$/,
-    :message => " can't contain string/special character",
+    :with => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
+    :message => "^Monthly income doesn't seem to be a valid amount",
     :if => Proc.new {|c| c.step == 4 && !c.is_over_60 && !c.monthly_income_tmp.blank?}
   validates_format_of :yearly_income_tmp,
-    :with => /^\$?((\d+)|(\d{1,3}(,\d{3})+))$/,
-    :message => " can't contain string/special character",
+    :with => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
+    :message => "^Yearly income doesn't seem to be a valid amount",
     :if => Proc.new {|c| c.step == 4 && !c.is_over_60 && !c.yearly_income_tmp.blank?}
   # see also validate method below
 

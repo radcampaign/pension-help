@@ -125,7 +125,195 @@ class Agency < ActiveRecord::Base
     agencies
     return locations, plans, agencies
   end
-  
+
+  #Default comparison
+  def compare_by_default(b, dir = 1)
+    if (agency_category_id > b.agency_category_id)
+      1 * dir
+    elsif (agency_category_id < b.agency_category_id)
+      -1 * dir
+    else
+      #state search here
+      if (locations.empty? || locations.first.dropin_address.blank?) && (!b.locations.empty? && !b.locations.first.dropin_address.blank?)
+        -1 * dir
+      elsif (!locations.empty? && !locations.first.dropin_address.blank?) && (b.locations.empty? || b.locations.first.dropin_address.blank?)
+        1 * dir
+      elsif (locations.empty? && locations.first.dropin_address.blank?) && (b.locations.empty? && b.locations.first.dropin_address.blank?)
+        name <=> b.name
+      else
+        if (locations.first.dropin_address.state_abbrev > b.locations.first.dropin_address.state_abbrev)
+          -1 * dir
+        elsif (locations.first.dropin_address.state_abbrev < b.locations.first.dropin_address.state_abbrev)
+          1 * dir
+        else
+          name <=> b.name
+        end
+      end
+    end
+  end
+
+  #Compares by name
+  def compare_by_name(b, dir = 1)
+    (name <=> b.name) * dir
+  end
+
+  #Compares by state and agency name
+  def compare_by_state(b, dir = 1)
+    #state search
+    if (locations.empty? || locations.first.dropin_address.blank?) && (!b.locations.empty? && !b.locations.first.dropin_address.blank?)
+      -1 * dir
+    elsif (!locations.empty? && !locations.first.dropin_address.blank?) && (b.locations.empty? || b.locations.first.dropin_address.blank?)
+      1 * dir
+    elsif (locations.empty? && locations.first.dropin_address.blank?) && (b.locations.empty? && b.locations.first.dropin_address.blank?)
+      name <=> b.name
+    else
+      if (locations.first.dropin_address.state_abbrev > b.locations.first.dropin_address.state_abbrev)
+        -1 * dir
+      elsif (locations.first.dropin_address.state_abbrev < b.locations.first.dropin_address.state_abbrev)
+        1 * dir
+      else
+        name <=> b.name
+      end
+    end
+  end
+
+  #Compares by categories, states, agency name
+  def compare_by_category(b, dir = 1)
+    if (agency_category_id > b.agency_category_id)
+        1 * dir
+      elsif (agency_category_id < b.agency_category_id)
+        -1 * dir
+      else
+        #state search here
+        if (locations.empty? || locations.first.dropin_address.blank?) && (!b.locations.empty? && !b.locations.first.dropin_address.blank?)
+          -1 * dir
+        elsif (!locations.empty? && !locations.first.dropin_address.blank?) && (b.locations.empty? || b.locations.first.dropin_address.blank?)
+          1 * dir
+        elsif (locations.empty? && locations.first.dropin_address.blank?) && (b.locations.empty? && b.locations.first.dropin_address.blank?)
+          name <=> b.name
+        else
+          if (locations.first.dropin_address.state_abbrev > b.locations.first.dropin_address.state_abbrev)
+            -1 * dir
+          elsif (locations.first.dropin_address.state_abbrev < b.locations.first.dropin_address.state_abbrev)
+            1 * dir
+          else
+            name <=> b.name
+          end
+        end
+      end
+  end
+
+  #compares by counseling, category, agency name
+  def compare_by_counseling(b, dir = 1)
+    if (use_for_counseling && !b.use_for_counseling)
+      -1 * dir
+    elsif (!use_for_counseling && b.use_for_counseling)
+      1 * dir
+    else
+      if (agency_category_id > b.agency_category_id)
+        1
+      elsif (agency_category_id < b.agency_category_id)
+        -1
+      else
+        name <=> b.name
+      end
+    end
+  end
+
+  #Compares results, agency name
+  def compare_by_result(b, dir = 1)
+    if (result_type.nil? && !b.result_type.nil?)
+      -1 * dir
+    elsif (!result_type.nil? && b.result_type.nil?)
+      1 * dir
+    elsif (result_type.nil? && b.result_type.nil?)
+      name <=> b.name
+    else
+      if (result_type.name > b.result_type.name)
+        -1 * dir
+      elsif (result_type.name < b.result_type.name)
+        1 * dir
+      else
+        name <=> b.name
+      end
+    end
+  end
+
+  #agency.is_activ, category, agency.name
+  def compare_by_active(b, dir = 1)
+    if (is_active && !b.is_active)
+      -1 * dir
+    elsif (!is_active && b.is_active)
+      1 * dir
+    else
+      if (agency_category_id > b.agency_category_id)
+        1
+      elsif (agency_category_id < b.agency_category_id)
+        -1
+      else
+        name <=> b.name
+      end
+    end
+  end
+
+  #Compares categories, states, agency name
+  def compare_by_provider(b, dir = 1)
+    if (is_provider && !b.is_provider)
+      -1 * dir
+    elsif (!is_provider && b.is_provider)
+      1 * dir
+    else
+      if (use_for_counseling && !b.use_for_counseling)
+        -1 * dir
+      elsif (!use_for_counseling && b.use_for_counseling)
+        1 * dir
+      else
+        if (agency_category_id > b.agency_category_id)
+          1
+        elsif (agency_category_id < b.agency_category_id)
+          -1
+        else
+          if (result_type.nil? && !b.result_type.nil?)
+            -1 * dir
+          elsif (!result_type.nil? && b.result_type.nil?)
+            1 * dir
+          elsif (result_type.nil? && b.result_type.nil?)
+            name <=> b.name
+          else
+            if (result_type.name > b.result_type.name)
+              -1 * dir
+            elsif (result_type.name < b.result_type.name)
+              1 * dir
+            else
+              name <=> b.name
+            end
+          end
+        end
+      end
+    end
+  end
+
+  def self.sort_agencies(agencies, sort_col, dir)
+    case sort_col
+      when ''
+        agencies.sort! { |a,b| a.compare_by_default(b, dir) }
+      when 'name'
+        agencies.sort! { |a,b| a.compare_by_name(b, dir) }
+      when 'state'
+        agencies.sort! { |a,b| a.compare_by_state(b, dir) }
+      when 'category'
+        agencies.sort! { |a,b| a.compare_by_category(b, dir) }
+      when 'counseling'
+        agencies.sort! { |a,b| a.compare_by_counseling(b, dir) }
+      when 'result'
+        agencies.sort! { |a,b| a.compare_by_result(b, dir) }
+      when 'active'
+        agencies.sort! { |a,b| a.compare_by_active(b, dir) }
+      when 'provider'
+        agencies.sort! { |a,b| a.compare_by_provider(b, dir) }
+    end
+   end
+
   private
   def self.find_locations params
     query = <<-SQL
