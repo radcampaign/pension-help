@@ -128,25 +128,35 @@ class Agency < ActiveRecord::Base
 
   #Default comparison
   def compare_by_default(b, dir = 1)
-    if (agency_category_id > b.agency_category_id)
+    if (agency_category.name > b.agency_category.name)
       1 * dir
-    elsif (agency_category_id < b.agency_category_id)
+    elsif (agency_category.name < b.agency_category.name)
       -1 * dir
     else
       #state search here
       if (locations.empty? || locations.first.dropin_address.blank?) && (!b.locations.empty? && !b.locations.first.dropin_address.blank?)
-        -1 * dir
-      elsif (!locations.empty? && !locations.first.dropin_address.blank?) && (b.locations.empty? || b.locations.first.dropin_address.blank?)
         1 * dir
+      elsif (!locations.empty? && !locations.first.dropin_address.blank?) && (b.locations.empty? || b.locations.first.dropin_address.blank?)
+        -1 * dir
       elsif (locations.empty? && locations.first.dropin_address.blank?) && (b.locations.empty? && b.locations.first.dropin_address.blank?)
         name <=> b.name
       else
-        if (locations.first.dropin_address.state_abbrev > b.locations.first.dropin_address.state_abbrev)
-          -1 * dir
-        elsif (locations.first.dropin_address.state_abbrev < b.locations.first.dropin_address.state_abbrev)
-          1 * dir
+        if (locations.first.dropin_address.state_abbrev.blank? || b.locations.first.dropin_address.state_abbrev.blank?)
+          if (locations.first.dropin_address.state_abbrev.blank? && !b.locations.first.dropin_address.state_abbrev.blank?)
+            1
+          elsif (!locations.first.dropin_address.state_abbrev.blank? && b.locations.first.dropin_address.state_abbrev.blank?)
+            -1
+          else
+            name <=> b.name          
+          end
         else
-          name <=> b.name
+          if (locations.first.dropin_address.state_abbrev < b.locations.first.dropin_address.state_abbrev)
+            -1
+          elsif (locations.first.dropin_address.state_abbrev > b.locations.first.dropin_address.state_abbrev)
+            1
+          else
+            name <=> b.name
+          end
         end
       end
     end
@@ -161,41 +171,51 @@ class Agency < ActiveRecord::Base
   def compare_by_state(b, dir = 1)
     #state search
     if (locations.empty? || locations.first.dropin_address.blank?) && (!b.locations.empty? && !b.locations.first.dropin_address.blank?)
-      -1 * dir
-    elsif (!locations.empty? && !locations.first.dropin_address.blank?) && (b.locations.empty? || b.locations.first.dropin_address.blank?)
       1 * dir
+    elsif (!locations.empty? && !locations.first.dropin_address.blank?) && (b.locations.empty? || b.locations.first.dropin_address.blank?)
+      -1 * dir
     elsif (locations.empty? && locations.first.dropin_address.blank?) && (b.locations.empty? && b.locations.first.dropin_address.blank?)
       name <=> b.name
     else
-      if (locations.first.dropin_address.state_abbrev > b.locations.first.dropin_address.state_abbrev)
-        -1 * dir
-      elsif (locations.first.dropin_address.state_abbrev < b.locations.first.dropin_address.state_abbrev)
-        1 * dir
+      if (locations.first.dropin_address.state_abbrev.blank? || b.locations.first.dropin_address.state_abbrev.blank?)
+        if (locations.first.dropin_address.state_abbrev.blank? && !b.locations.first.dropin_address.state_abbrev.blank?)
+          1 * dir
+        elsif (!locations.first.dropin_address.state_abbrev.blank? && b.locations.first.dropin_address.state_abbrev.blank?)
+          -1 * dir
+        else
+          name <=> b.name          
+        end
       else
-        name <=> b.name
+        if (locations.first.dropin_address.state_abbrev < b.locations.first.dropin_address.state_abbrev)
+          -1 * dir
+        elsif (locations.first.dropin_address.state_abbrev > b.locations.first.dropin_address.state_abbrev)
+          1 * dir
+        else
+          name <=> b.name
+        end
       end
     end
   end
 
   #Compares by categories, states, agency name
   def compare_by_category(b, dir = 1)
-    if (agency_category_id > b.agency_category_id)
+    if (agency_category.name > b.agency_category.name)
         1 * dir
-      elsif (agency_category_id < b.agency_category_id)
+      elsif (agency_category.name < b.agency_category.name)
         -1 * dir
       else
         #state search here
         if (locations.empty? || locations.first.dropin_address.blank?) && (!b.locations.empty? && !b.locations.first.dropin_address.blank?)
-          -1 * dir
+          -1
         elsif (!locations.empty? && !locations.first.dropin_address.blank?) && (b.locations.empty? || b.locations.first.dropin_address.blank?)
-          1 * dir
+          1
         elsif (locations.empty? && locations.first.dropin_address.blank?) && (b.locations.empty? && b.locations.first.dropin_address.blank?)
           name <=> b.name
         else
-          if (locations.first.dropin_address.state_abbrev > b.locations.first.dropin_address.state_abbrev)
-            -1 * dir
-          elsif (locations.first.dropin_address.state_abbrev < b.locations.first.dropin_address.state_abbrev)
-            1 * dir
+          if (locations.first.dropin_address.state_abbrev < b.locations.first.dropin_address.state_abbrev)
+            -1
+          elsif (locations.first.dropin_address.state_abbrev > b.locations.first.dropin_address.state_abbrev)
+            1
           else
             name <=> b.name
           end
@@ -210,9 +230,9 @@ class Agency < ActiveRecord::Base
     elsif (!use_for_counseling && b.use_for_counseling)
       1 * dir
     else
-      if (agency_category_id > b.agency_category_id)
+      if (agency_category.name > b.agency_category.name)
         1
-      elsif (agency_category_id < b.agency_category_id)
+      elsif (agency_category.name < b.agency_category.name)
         -1
       else
         name <=> b.name
@@ -223,18 +243,28 @@ class Agency < ActiveRecord::Base
   #Compares results, agency name
   def compare_by_result(b, dir = 1)
     if (result_type.nil? && !b.result_type.nil?)
-      -1 * dir
-    elsif (!result_type.nil? && b.result_type.nil?)
       1 * dir
+    elsif (!result_type.nil? && b.result_type.nil?)
+      -1 * dir
     elsif (result_type.nil? && b.result_type.nil?)
       name <=> b.name
     else
-      if (result_type.name > b.result_type.name)
-        -1 * dir
-      elsif (result_type.name < b.result_type.name)
-        1 * dir
+      if (result_type.name.blank? || b.result_type.name.blank?)
+        if (result_type.name.blank? && !b.result_type.name.blank?)
+          1 * dir
+        elsif (!result_type.name.blank? && b.result_type.name.blank?)
+          -1 * dir
+        else
+          name <=> b.name
+        end
       else
-        name <=> b.name
+        if (result_type.name < b.result_type.name)
+          -1 * dir
+        elsif (result_type.name > b.result_type.name)
+          1 * dir
+        else
+          name <=> b.name
+        end
       end
     end
   end
@@ -246,9 +276,9 @@ class Agency < ActiveRecord::Base
     elsif (!is_active && b.is_active)
       1 * dir
     else
-      if (agency_category_id > b.agency_category_id)
+      if (agency_category.name > b.agency_category.name)
         1
-      elsif (agency_category_id < b.agency_category_id)
+      elsif (agency_category.name < b.agency_category.name)
         -1
       else
         name <=> b.name
@@ -264,28 +294,38 @@ class Agency < ActiveRecord::Base
       1 * dir
     else
       if (use_for_counseling && !b.use_for_counseling)
-        -1 * dir
+        -1
       elsif (!use_for_counseling && b.use_for_counseling)
-        1 * dir
+        1
       else
-        if (agency_category_id > b.agency_category_id)
+        if (agency_category.name > b.agency_category.name)
           1
-        elsif (agency_category_id < b.agency_category_id)
+        elsif (agency_category.name < b.agency_category.name)
           -1
         else
           if (result_type.nil? && !b.result_type.nil?)
-            -1 * dir
+            1 
           elsif (!result_type.nil? && b.result_type.nil?)
-            1 * dir
+            -1 
           elsif (result_type.nil? && b.result_type.nil?)
             name <=> b.name
           else
-            if (result_type.name > b.result_type.name)
-              -1 * dir
-            elsif (result_type.name < b.result_type.name)
-              1 * dir
+            if (result_type.name.blank? || b.result_type.name.blank?)
+              if (result_type.name.blank? && !b.result_type.name.blank?)
+                1
+              elsif (!result_type.name.blank? && b.result_type.name.blank?)
+                -1
+              else
+                name <=> b.name
+              end
             else
-              name <=> b.name
+              if (result_type.name < b.result_type.name)
+                -1
+              elsif (result_type.name > b.result_type.name)
+                1
+              else
+                name <=> b.name
+              end
             end
           end
         end
@@ -295,7 +335,7 @@ class Agency < ActiveRecord::Base
 
   def self.sort_agencies(agencies, sort_col, dir)
     case sort_col
-      when ''
+      when 'default'
         agencies.sort! { |a,b| a.compare_by_default(b, dir) }
       when 'name'
         agencies.sort! { |a,b| a.compare_by_name(b, dir) }
