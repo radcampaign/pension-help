@@ -312,6 +312,7 @@ class Agency < ActiveRecord::Base
       when 'provider'
         agencies.sort! { |a,b| a.compare_by_provider(b, dir) }
     end
+    agencies
    end
 
   private
