@@ -1,12 +1,70 @@
 <table id="admin_list">
   <tr>
-    <th><%= link_to 'Agency Name', agencies_path(:order=>'name', :active => params[:active]) %></th>
-		<th><%= link_to 'State', agencies_path(:order=>'state', :active => params[:active]) %></th>
-		<th class="center" width="40"><%= link_to 'C & A', agencies_path(:order=>'counseling', :active => params[:active])%></th>
-		<th class="center">Provider</th>
-		<th class="center"><%= link_to 'Active', agencies_path(:order=>'active', :active => params[:active])%></th>
+    <th class="<%= (params[:order]=='name' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
+      <%= link_to_remote 'Agency Name', 
+        :url => {:action => :ajax_search, :state_abbrevs => params[:state_abbrevs], :county_ids => params[:county_ids],
+                :city_ids => params[:city_ids], :zip_ids => params[:zip_ids], :order => 'name', :report => 'search',
+                :active => params[:active], :desc => (params[:order]=='name' && params[:desc].blank?) ? true : nil},
+        :before => "Element.show('spinner')",
+        :complete => "Element.hide('spinner')",
+        :update => 'search_results' %>
+    </th>
+		<th class="<%= (params[:order]=='state' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
+      <%= link_to_remote 'State', 
+        :url => {:action => :ajax_search, :state_abbrevs => params[:state_abbrevs], :county_ids => params[:county_ids],
+                :city_ids => params[:city_ids], :zip_ids => params[:zip_ids], :order => 'state', :report => 'search',
+                :active => params[:active], :desc => (params[:order]=='state' && params[:desc].blank?) ? true : nil},
+        :before => "Element.show('spinner')",
+        :complete => "Element.hide('spinner')",
+        :update => 'search_results' %>
+    </th>
+		<th class="center <%= (params[:order]=='category' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
+      <%= link_to_remote 'Category', 
+        :url => {:action => :ajax_search, :state_abbrevs => params[:state_abbrevs], :county_ids => params[:county_ids],
+                :city_ids => params[:city_ids], :zip_ids => params[:zip_ids], :order => 'category', :report => 'search',
+                :active => params[:active], :desc => (params[:order]=='category' && params[:desc].blank?) ? true : nil},
+        :before => "Element.show('spinner')",
+        :complete => "Element.hide('spinner')",
+        :update => 'search_results' %>
+    </th>
+		<th class="center <%= (params[:order]=='result' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
+      <%= link_to_remote 'Results',
+        :url => {:action => :ajax_search, :state_abbrevs => params[:state_abbrevs], :county_ids => params[:county_ids],
+                :city_ids => params[:city_ids], :zip_ids => params[:zip_ids], :order => 'result', :report => 'search',
+                :active => params[:active], :desc => (params[:order]=='result' && params[:desc].blank?) ? true : nil},
+        :before => "Element.show('spinner')",
+        :complete => "Element.hide('spinner')",
+        :update => 'search_results' %>
+    </th>
+		<th class="center <%= (params[:order]=='counseling' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>" width="40" >
+      <%= link_to_remote 'C & A',
+        :url => {:action => :ajax_search, :state_abbrevs => params[:state_abbrevs], :county_ids => params[:county_ids],
+                :city_ids => params[:city_ids], :zip_ids => params[:zip_ids], :order => 'counseling', :report => 'search',
+                :active => params[:active], :desc => (params[:order]=='counseling' && params[:desc].blank?) ? true : nil},
+        :before => "Element.show('spinner')",
+        :complete => "Element.hide('spinner')",
+        :update => 'search_results' %>
+    </th>
+		<th class="center <%= (params[:order]=='provider' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
+      <%= link_to_remote 'Provider',
+        :url => {:action => :ajax_search, :state_abbrevs => params[:state_abbrevs], :county_ids => params[:county_ids],
+                :city_ids => params[:city_ids], :zip_ids => params[:zip_ids], :order => 'provider', :report => 'search',
+                :active => params[:active], :desc => (params[:order]=='provider' && params[:desc].blank?) ? true : nil},
+        :before => "Element.show('spinner')",
+        :complete => "Element.hide('spinner')",
+        :update => 'search_results' %>
+    </th>
+		<th class="center <%= (params[:order]=='active' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
+      <%= link_to_remote 'Active',
+        :url => {:action => :ajax_search, :state_abbrevs => params[:state_abbrevs], :county_ids => params[:county_ids],
+                :city_ids => params[:city_ids], :zip_ids => params[:zip_ids], :order => 'active', :report => 'search',
+                :active => params[:active], :desc => (params[:order]=='active' && params[:desc].blank?) ? true : nil},
+        :before => "Element.show('spinner')",
+        :complete => "Element.hide('spinner')",
+        :update => 'search_results' %>
+    </th>
   </tr>
 
-  <%= render :partial => 'search_result', :collection => search_results.values %>
+  <%= render :partial => 'search_result', :collection => search_results %>
 
 </table>

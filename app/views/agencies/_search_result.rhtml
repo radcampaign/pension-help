@@ -1,11 +1,17 @@
 <tr id="" class="<%= cycle("even", "odd") %>">
   <td>
     <%= link_to (h(search_result.name)), edit_agency_path(search_result) %>
- 		<%= link_to_function image_tag('add_blue.gif'), "$$(\".locations_#{search_result.id}\").each( function(e) {e.toggle()})" unless search_result.locations.size < 2 %>
+ 		<%= link_to_function image_tag('add_blue.gif'), "$$(\".locations_#{search_result.id}\").each( function(e) {e.toggle()})" unless search_result.locations.size < 1 %>
   </td>
   <td class="center">
     <%= search_result.locations.first.dropin_address.state_abbrev unless search_result.locations.empty? or
 			 																		search_result.locations.first.dropin_address.blank? %>
+  </td>
+  <td class="center"> 
+	  <%= search_result.agency_category.name if search_result.agency_category %>
+	</td>
+	<td class="center">
+    <%= search_result.result_type.name if search_result.result_type %>
   </td>
   <td class="center">
     <span id="<%= 'use_for_counseling_' + search_result.id.to_s %>">
@@ -21,15 +27,18 @@
     </span>
   </td>
 </tr>
-<% locs = @locations.find_all {|item| item.agency_id == search_result.id }
-    locs.each do |loc| %>
+<% search_result.locations.each do |loc| %>
+  <% if loc.visible_in_view %>
   <tr style="display:none" class="locationsRow locations_<%=search_result.id%>">
     <td class="location_name"><%= link_to "#{loc.name}", edit_location_url(:agency_id => search_result, :id => loc) %></td>
     <td class="center"><%= loc.dropin_address.state_abbrev %></td>
     <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
     <td class="center"><%= image_tag(loc.is_provider ? 'check_blue.gif' : 'close.gif')%></td>
     <td>&nbsp;</td>
    </tr>
+    <% end %>
 <% end %>
 
 <%# hide plan information for now to match /agencies view %>

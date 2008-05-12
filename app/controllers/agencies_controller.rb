@@ -5,23 +5,13 @@ class AgenciesController < ApplicationController
   # GET /agencies
   # GET /agencies.xml
   def index
-    area_served_search and return unless params[:report].nil?
+    @restriction = Restriction.new
 
-    params[:clear] = session[:agency_order] = session[:agency_desc] = nil if params[:clear] # clear any params from session if this is our first time here
-    params[:order] ||= session[:agency_order] # retrieve any existing params from the session
-    params[:desc] ||= session[:agency_desc] unless params[:order] # don't override params[:desc] if we're passing in params[:order] 
-    session[:agency_order] = params[:order]   # save these params to session so they'll be 'remembered' on the next visit
-    session[:agency_desc] = params[:desc]
+    ajax_search
 
-    order = params[:order].nil? ? 'default' : params[:order]
-    dir = params[:desc].nil? ? 1 : -1
+    render :action => :area_served_search
 
-    active = 'is_active=1' if params[:active]=='1'
-
-    agencies = Agency.find(:all, :include => [:locations => [:dropin_address]], :conditions => active)
-
-    @agencies = Agency.sort_agencies(agencies, order, dir)
-  end
+   end
 
   # GET /agencies/1
   # GET /agencies/1.xml
@@ -143,19 +133,21 @@ class AgenciesController < ApplicationController
     render :nothing => 'true'
   end
   
-  def area_served_search
-    @restriction = Restriction.new
-    @search_results = Hash.new
-    @locations = Array.new
-    @plans = Array.new
-
-    render :action => :area_served_search
-  end
-
   def ajax_search
     @restriction = Restriction.new
 
-    @locations, @plans, @search_results = Agency.find_agencies params
+    params[:clear] = session[:agency_order] = session[:agency_desc] = nil if params[:clear] # clear any params from session if this is our first time here
+    params[:order] ||= session[:agency_order] # retrieve any existing params from the session
+    params[:desc] ||= session[:agency_desc] unless params[:order] # don't override params[:desc] if we're passing in params[:order] 
+    session[:agency_order] = params[:order]   # save these params to session so they'll be 'remembered' on the next visit
+    session[:agency_desc] = params[:desc]
+
+    order = params[:order].nil? ? 'default' : params[:order]
+    dir = params[:desc].nil? ? 1 : -1
+
+    search_results = Agency.find_agencies params
+    @search_results = Agency.sort_agencies(search_results, order, dir)
+
   end
 
   private
@@ -165,25 +157,25 @@ class AgenciesController < ApplicationController
   end
 
   # peculiar category order due to TRAC #82 (https://prc.gradientblue.com/trac/pha/ticket/82)
-  CATEGORY_SORT = 'if(agencies.agency_category_id is null or agencies.agency_category_id="", "9999", agencies.agency_category_id)'
-  STATE_SORT = 'if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev)'
-  RESULT_SORT = 'if(agencies.result_type_id is null or agencies.result_type_id="", "9999", agencies.result_type_id)'
+#  CATEGORY_SORT = 'if(agencies.agency_category_id is null or agencies.agency_category_id="", "9999", agencies.agency_category_id)'
+#  STATE_SORT = 'if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev)'
+#  RESULT_SORT = 'if(agencies.result_type_id is null or agencies.result_type_id="", "9999", agencies.result_type_id)'
   
-  SORT_ORDER = { 
-    'default' => CATEGORY_SORT + ', ' + STATE_SORT + ', agencies.name asc',
-    'name' => 'agencies.name',
-    'state' => STATE_SORT + ', agencies.name',
-    'category' => CATEGORY_SORT + ', ' + STATE_SORT + ', agencies.name',
-    'result' => RESULT_SORT + ', agencies.name',
-    'counseling' => 'agencies.use_for_counseling desc, ' + CATEGORY_SORT + ', agencies.name',
-    'active' => 'agencies.is_active desc, ' + CATEGORY_SORT + ', agencies.name',
-    'name_desc' => 'agencies.name desc',
-    'state_desc' => STATE_SORT + ' desc , agencies.name',
-    'category_desc' => CATEGORY_SORT + ' desc , ' + STATE_SORT + ', agencies.name',
-    'result_desc' => RESULT_SORT + ' desc , agencies.name',
-    'counseling_desc' => 'agencies.use_for_counseling asc, ' + CATEGORY_SORT + ', agencies.name',
-    'active_desc' => 'agencies.is_active asc, ' + CATEGORY_SORT + ', agencies.name',
-    'provider' => CATEGORY_SORT + ', ' + STATE_SORT + ', agencies.name asc'
+#  SORT_ORDER = { 
+#    'default' => CATEGORY_SORT + ', ' + STATE_SORT + ', agencies.name asc',
+#    'name' => 'agencies.name',
+#    'state' => STATE_SORT + ', agencies.name',
+#    'category' => CATEGORY_SORT + ', ' + STATE_SORT + ', agencies.name',
+#    'result' => RESULT_SORT + ', agencies.name',
+#    'counseling' => 'agencies.use_for_counseling desc, ' + CATEGORY_SORT + ', agencies.name',
+#    'active' => 'agencies.is_active desc, ' + CATEGORY_SORT + ', agencies.name',
+#    'name_desc' => 'agencies.name desc',
+#    'state_desc' => STATE_SORT + ' desc , agencies.name',
+#    'category_desc' => CATEGORY_SORT + ' desc , ' + STATE_SORT + ', agencies.name',
+#    'result_desc' => RESULT_SORT + ' desc , agencies.name',
+#    'counseling_desc' => 'agencies.use_for_counseling asc, ' + CATEGORY_SORT + ', agencies.name',
+#    'active_desc' => 'agencies.is_active asc, ' + CATEGORY_SORT + ', agencies.name',
+#    'provider' => CATEGORY_SORT + ', ' + STATE_SORT + ', agencies.name asc'
     #commenting out changes below pending ticket #211
     #client doesn't want to implement partial fixes for #211 until all the sorting is complete
     # 'default' => CATEGORY_SORT + ', ' + STATE_SORT + ', agencies.name asc',
@@ -200,7 +192,7 @@ class AgenciesController < ApplicationController
     # 'counseling_desc' => 'agencies.use_for_counseling asc, ' + CATEGORY_SORT + ' desc , ' + RESULT_SORT + ', agencies.name',
     # 'active_desc' => 'agencies.is_active asc, ' + 'agencies.use_for_counseling desc, ' + CATEGORY_SORT + ' desc , ' + RESULT_SORT + ', agencies.name',
     # 'provider' => 'agencies.use_for_counseling desc, ' + CATEGORY_SORT + ' desc , ' + RESULT_SORT + ', agencies.name',
-  }
+#  }
     
   SORT_ORDER_LOC = {
     'name' => 'locations.name',

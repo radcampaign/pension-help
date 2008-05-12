@@ -122,8 +122,9 @@ class Agency < ActiveRecord::Base
     locations.each {|location| agencies[location.agency.id] = location.agency}
     plans.each {|plan| agencies[plan.agency.id] = plan.agency}
 
-    agencies
-    return locations, plans, agencies
+    agencies = agencies.values
+    Agency.mark_locations_visible(agencies, locations)
+    return agencies
   end
 
   #Default comparison
@@ -361,9 +362,10 @@ class Agency < ActiveRecord::Base
       select
           l.*
       from
-          locations as l join restrictions as r on l.id = r.location_id
+          locations as l
     SQL
 
+    query += " join restrictions as r on l.id = r.location_id " if !params['state_abbrevs'].nil? && params['state_abbrevs'].size > 0 && !params['state_abbrevs'][0].blank?
     query = prepare_sql_query query, params
     Location.find_by_sql query
   end
@@ -373,9 +375,10 @@ class Agency < ActiveRecord::Base
       select
           p.*
       from
-          plans as p join restrictions as r on p.id = r.plan_id
+          plans as p
     SQL
 
+    query += "  join restrictions as r on p.id = r.plan_id " if !params['state_abbrevs'].nil? && params['state_abbrevs'].size > 0 && !params['state_abbrevs'][0].blank?
     query = prepare_sql_query(query, params)
     Plan.find_by_sql query
   end
@@ -398,6 +401,17 @@ class Agency < ActiveRecord::Base
       'col' => 'rz.zipcode'
       }
   }
+  
+  #sets visibility flag for a given location
+  def self.mark_locations_visible(agencies, locations)
+    agencies.each do |agency|
+      locs = locations.find_all { |loc| loc.agency_id == agency.id }
+      agency.locations.each do |location|
+        location.visible_in_view = true if locs.find { |elem| elem.id == location.id}
+      end
+    end
+    
+  end
 
   def self.prepare_sql_query(query, params)
     restrictions = ['state_abbrevs', 'county_ids', 'city_ids', 'zip_ids']
@@ -408,7 +422,7 @@ class Agency < ActiveRecord::Base
 
     #for each restriction
     restrictions.each do |r|
-      if (!params[r].nil? && params[r].size > 0 && !params[r][0].empty?)
+      if (!params[r].nil? && params[r].size > 0 && !params[r][0].blank?)
         joins << @@JOIN_TABLES[r]['join']
         cond_tmp = "("
         params[r].each do |elem|
