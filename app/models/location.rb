@@ -49,4 +49,37 @@ class Location < ActiveRecord::Base
       [:pha_contact_email, :email],
     ]
 
+  attr_accessor :visible_in_view 
+  
+  def age_restrictions?
+    sql = <<-SQL
+        select
+          l.id
+        from
+          locations l join restrictions r on r.location_id = l.id
+        where
+          l.id = ?
+          and r.minimum_age is not null
+        SQL
+
+    Location.find_by_sql([sql, id]).size > 0
+  end
+  
+  def income_restrictions?
+   sql = <<-SQL
+    select
+      l.id
+    from
+      locations l join restrictions r on r.location_id = l.id
+    where
+      l.id = ?
+      and r.max_poverty is not null 
+      SQL
+
+    Location.find_by_sql([sql, id]).size > 0
+  end
+  
+  def and_restrictions?
+    restriction.age_and_income
+  end
 end
