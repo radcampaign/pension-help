@@ -1,6 +1,16 @@
+<h1>Agency List</h1>
+<ul class="center" id="footer_links">
+	<li><%= link_to_unless_current 'Home', '/' %></li>
+	<li class="list_separator">|</li>
+	<% if session[:user] -%>
+		<li><%= link_to_unless_current 'Management', :controller => '/admin', :action => 'menu' %></li>
+		<li class="list_separator">|</li>
+		<li><%= link_to 'Logout', :controller => '/account', :action => 'logout' %></li>
+	<% end -%>
+</ul>
 
 <%= render :partial => 'area_served_search_form', :locals => {:restriction => @restriction} %>
 
 <div id="area_served_results" class="clear fullwidth">
-  <%= render :partial => 'search_results', :object => @search_results %>
+    <%= render :partial => 'search_results', :object => @search_results %>
 </div>

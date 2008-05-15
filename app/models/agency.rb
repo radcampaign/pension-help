@@ -118,9 +118,23 @@ class Agency < ActiveRecord::Base
     locations = find_locations params
     plans = find_plans params
 
+    active = (params[:active].nil?) ? false : true
+
     agencies = Hash.new
-    locations.each {|location| agencies[location.agency.id] = location.agency}
-    plans.each {|plan| agencies[plan.agency.id] = plan.agency}
+    locations.each do |location|
+      if active
+        agencies[location.agency.id] = location.agency if location.agency.is_active
+      else
+        agencies[location.agency.id] = location.agency
+      end
+    end
+    plans.each do |plan|
+      if active
+        agencies[plan.agency.id] = plan.agency if plan.agency.is_active
+      else
+        agencies[plan.agency.id] = plan.agency
+      end
+    end
 
     agencies = agencies.values
     Agency.mark_locations_visible(agencies, locations)

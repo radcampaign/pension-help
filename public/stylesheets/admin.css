@@ -116,7 +116,7 @@ form.admin_form table#coverage td {
 }
 .right {
 	float: right;
-	height: 1px;
+	/*height: 1px;*/
 	padding-right:1px;
 }
 #govt_emp_type {
