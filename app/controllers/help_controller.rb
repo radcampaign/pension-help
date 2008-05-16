@@ -15,11 +15,11 @@ class HelpController < ApplicationController
   
   def counseling
     @options = CounselAssistance.employer_types
+    @counseling.step = 1 unless @counseling.nil?
     if params[:counseling] || params[:redirect]
       # we're coming back from the employer descriptions screen 
       # or we're redirect back here due to a validation error
       @counseling = update_counseling
-      @counseling.step = 1
       @next_question_2 = CAQuestion.get_next(@counseling, 'EMP_TYPE')
     else
       @counseling = session[:counseling] = Counseling.new  # start fresh
@@ -29,6 +29,7 @@ class HelpController < ApplicationController
   # show question after employer type selection
   def show_second_question
     @counseling = update_counseling
+    @counseling.step = 1
     case @counseling.employer_type_id
         when 1..8: # valid responses
           @next_question = CAQuestion.get_next(@counseling, 'EMP_TYPE')
@@ -63,6 +64,7 @@ class HelpController < ApplicationController
   # Remote function - Displays 3nd pulldown based on info submitted from 2nd pulldown
   def show_third_question
     @counseling = update_counseling
+    @counseling.step = 1
     @next_question = CAQuestion.find(params[:id])
     render :update do |page| 
       if @next_question
@@ -77,6 +79,7 @@ class HelpController < ApplicationController
   # Remote function - Displays 4th pulldown based on info submitted from 3rd pulldown
   def show_fourth_question
     @counseling = update_counseling
+    @counseling.step = 1
     if @counseling[:federal_plan_id] == 5 # 'I don't know'
       # Don’t Know Federal Plan Loop 
       render :update do |page| 
@@ -96,6 +99,7 @@ class HelpController < ApplicationController
   
   def show_available_plans
     @counseling = update_counseling
+    @counseling.step = 1
     @matching_agencies = @counseling.matching_agencies # find plans for state/county/local
     render :update do |page|
       page.replace_html 'q5', :partial => 'available_plans'

@@ -385,7 +385,7 @@ class Counseling < ActiveRecord::Base
   def before_save
     if !self.yearly_income_tmp.blank?
       self.monthly_income = self.yearly_income_tmp.gsub(/[^0-9.]/, '' )
-    else
+    elsif !self.monthly_income_tmp.blank?
       self.monthly_income = self.monthly_income_tmp.gsub(/[^0-9.]/, '' )
     end
   end
