@@ -141,213 +141,7 @@ class Agency < ActiveRecord::Base
     return agencies
   end
 
-  #Default comparison
-  def compare_by_default(b, dir = 1)
-    if (agency_category.name > b.agency_category.name)
-      1 * dir
-    elsif (agency_category.name < b.agency_category.name)
-      -1 * dir
-    else
-      #state search here
-      if (locations.empty? || locations.first.dropin_address.blank?) && (!b.locations.empty? && !b.locations.first.dropin_address.blank?)
-        1 * dir
-      elsif (!locations.empty? && !locations.first.dropin_address.blank?) && (b.locations.empty? || b.locations.first.dropin_address.blank?)
-        -1 * dir
-      elsif (locations.empty? && locations.first.dropin_address.blank?) && (b.locations.empty? && b.locations.first.dropin_address.blank?)
-        name <=> b.name
-      else
-        if (locations.first.dropin_address.state_abbrev.blank? || b.locations.first.dropin_address.state_abbrev.blank?)
-          if (locations.first.dropin_address.state_abbrev.blank? && !b.locations.first.dropin_address.state_abbrev.blank?)
-            1
-          elsif (!locations.first.dropin_address.state_abbrev.blank? && b.locations.first.dropin_address.state_abbrev.blank?)
-            -1
-          else
-            name <=> b.name          
-          end
-        else
-          if (locations.first.dropin_address.state_abbrev < b.locations.first.dropin_address.state_abbrev)
-            -1
-          elsif (locations.first.dropin_address.state_abbrev > b.locations.first.dropin_address.state_abbrev)
-            1
-          else
-            name <=> b.name
-          end
-        end
-      end
-    end
-  end
-
-  #Compares by name
-  def compare_by_name(b, dir = 1)
-    (name <=> b.name) * dir
-  end
-
-  #Compares by state and agency name
-  def compare_by_state(b, dir = 1)
-    #state search
-    if (locations.empty? || locations.first.dropin_address.blank?) && (!b.locations.empty? && !b.locations.first.dropin_address.blank?)
-      1 * dir
-    elsif (!locations.empty? && !locations.first.dropin_address.blank?) && (b.locations.empty? || b.locations.first.dropin_address.blank?)
-      -1 * dir
-    elsif (locations.empty? && locations.first.dropin_address.blank?) && (b.locations.empty? && b.locations.first.dropin_address.blank?)
-      name <=> b.name
-    else
-      if (locations.first.dropin_address.state_abbrev.blank? || b.locations.first.dropin_address.state_abbrev.blank?)
-        if (locations.first.dropin_address.state_abbrev.blank? && !b.locations.first.dropin_address.state_abbrev.blank?)
-          1 * dir
-        elsif (!locations.first.dropin_address.state_abbrev.blank? && b.locations.first.dropin_address.state_abbrev.blank?)
-          -1 * dir
-        else
-          name <=> b.name          
-        end
-      else
-        if (locations.first.dropin_address.state_abbrev < b.locations.first.dropin_address.state_abbrev)
-          -1 * dir
-        elsif (locations.first.dropin_address.state_abbrev > b.locations.first.dropin_address.state_abbrev)
-          1 * dir
-        else
-          name <=> b.name
-        end
-      end
-    end
-  end
-
-  #Compares by categories, states, agency name
-  def compare_by_category(b, dir = 1)
-    if (agency_category.name > b.agency_category.name)
-        1 * dir
-      elsif (agency_category.name < b.agency_category.name)
-        -1 * dir
-      else
-        #state search here
-        if (locations.empty? || locations.first.dropin_address.blank?) && (!b.locations.empty? && !b.locations.first.dropin_address.blank?)
-          -1
-        elsif (!locations.empty? && !locations.first.dropin_address.blank?) && (b.locations.empty? || b.locations.first.dropin_address.blank?)
-          1
-        elsif (locations.empty? && locations.first.dropin_address.blank?) && (b.locations.empty? && b.locations.first.dropin_address.blank?)
-          name <=> b.name
-        else
-          if (locations.first.dropin_address.state_abbrev < b.locations.first.dropin_address.state_abbrev)
-            -1
-          elsif (locations.first.dropin_address.state_abbrev > b.locations.first.dropin_address.state_abbrev)
-            1
-          else
-            name <=> b.name
-          end
-        end
-      end
-  end
-
-  #compares by counseling, category, agency name
-  def compare_by_counseling(b, dir = 1)
-    if (use_for_counseling && !b.use_for_counseling)
-      -1 * dir
-    elsif (!use_for_counseling && b.use_for_counseling)
-      1 * dir
-    else
-      if (agency_category.name > b.agency_category.name)
-        1
-      elsif (agency_category.name < b.agency_category.name)
-        -1
-      else
-        name <=> b.name
-      end
-    end
-  end
-
-  #Compares results, agency name
-  def compare_by_result(b, dir = 1)
-    if (result_type.nil? && !b.result_type.nil?)
-      1 * dir
-    elsif (!result_type.nil? && b.result_type.nil?)
-      -1 * dir
-    elsif (result_type.nil? && b.result_type.nil?)
-      name <=> b.name
-    else
-      if (result_type.name.blank? || b.result_type.name.blank?)
-        if (result_type.name.blank? && !b.result_type.name.blank?)
-          1 * dir
-        elsif (!result_type.name.blank? && b.result_type.name.blank?)
-          -1 * dir
-        else
-          name <=> b.name
-        end
-      else
-        if (result_type.name < b.result_type.name)
-          -1 * dir
-        elsif (result_type.name > b.result_type.name)
-          1 * dir
-        else
-          name <=> b.name
-        end
-      end
-    end
-  end
-
-  #agency.is_activ, category, agency.name
-  def compare_by_active(b, dir = 1)
-    if (is_active && !b.is_active)
-      -1 * dir
-    elsif (!is_active && b.is_active)
-      1 * dir
-    else
-      if (agency_category.name > b.agency_category.name)
-        1
-      elsif (agency_category.name < b.agency_category.name)
-        -1
-      else
-        name <=> b.name
-      end
-    end
-  end
-
-  #Compares categories, states, agency name
-  def compare_by_provider(b, dir = 1)
-    if (is_provider && !b.is_provider)
-      -1 * dir
-    elsif (!is_provider && b.is_provider)
-      1 * dir
-    else
-      if (use_for_counseling && !b.use_for_counseling)
-        -1
-      elsif (!use_for_counseling && b.use_for_counseling)
-        1
-      else
-        if (agency_category.name > b.agency_category.name)
-          1
-        elsif (agency_category.name < b.agency_category.name)
-          -1
-        else
-          if (result_type.nil? && !b.result_type.nil?)
-            1 
-          elsif (!result_type.nil? && b.result_type.nil?)
-            -1 
-          elsif (result_type.nil? && b.result_type.nil?)
-            name <=> b.name
-          else
-            if (result_type.name.blank? || b.result_type.name.blank?)
-              if (result_type.name.blank? && !b.result_type.name.blank?)
-                1
-              elsif (!result_type.name.blank? && b.result_type.name.blank?)
-                -1
-              else
-                name <=> b.name
-              end
-            else
-              if (result_type.name < b.result_type.name)
-                -1
-              elsif (result_type.name > b.result_type.name)
-                1
-              else
-                name <=> b.name
-              end
-            end
-          end
-        end
-      end
-    end
-  end
-
+  #Sorts agencies by given column and direction.
   def self.sort_agencies(agencies, sort_col, dir)
     case sort_col
       when 'default'
@@ -368,7 +162,239 @@ class Agency < ActiveRecord::Base
         agencies.sort! { |a,b| a.compare_by_provider(b, dir) }
     end
     agencies
-   end
+  end
+
+  #Comparison functions
+  #sorting by multiple columns: ticket #211
+  def compare_by_default(b, dir)
+    compare_by_active(b, dir)
+  end
+
+  def compare_by_name(b, dir)
+    compare_name(b, dir)
+  end
+
+  def compare_by_state(b, dir)
+    compare_state(b, dir) do
+      self.compare_category(b, 1) do
+        self.compare_result(b, 1) do
+          self.compare_name(b, 1)
+        end
+      end
+    end
+  end
+
+  def compare_by_category(b, dir)
+    compare_category(b, dir) do
+      self.compare_result(b, 1) do
+        self.compare_name(b, 1)
+      end
+    end
+  end
+
+  def compare_by_result(b, dir)
+    compare_result(b, dir) do
+      self.compare_category(b, 1) do
+        self.compare_name(b, 1)
+      end
+    end
+  end
+
+  def compare_by_counseling(b, dir)
+    compare_counseling(b, dir) do
+      self.compare_provider(b, 1) do
+        self.compare_category(b, 1) do
+          self.compare_result(b, 1) do
+            self.compare_name(b, 1)
+          end
+        end
+      end
+    end
+  end
+
+  def compare_by_provider(b, dir)
+    compare_provider(b, dir) do
+      self.compare_counseling(b, 1) do
+        self.compare_category(b, 1) do
+          self.compare_result(b, 1) do
+            self.compare_name(b, 1)
+          end
+        end
+      end
+    end
+  end
+
+  def compare_by_active(b, dir)
+    compare_active(b, dir) do
+      self.compare_provider(b, 1) do
+        self.compare_counseling(b, 1) do
+          self.compare_category(b, 1) do
+            self.compare_result(b, 1) do
+              self.compare_name(b, 1)
+            end
+          end
+        end
+      end
+      
+    end
+  end
+
+  #Compares two agencies by their name
+  def compare_name(b, dir = 1)
+    if (name < b.name)
+      -1 * dir
+    elsif (name > b.name)
+      1 * dir
+    else
+      if block_given?
+        yield
+      else
+        0
+      end
+    end
+  end
+
+  #Compares two agencies by state
+  def compare_state(b, dir = 1)
+    if (locations.empty? || locations.first.dropin_address.blank?) && (!b.locations.empty? && !b.locations.first.dropin_address.blank?)
+      1 * dir
+    elsif (!locations.empty? && !locations.first.dropin_address.blank?) && (b.locations.empty? || b.locations.first.dropin_address.blank?)
+      -1 * dir
+    elsif (locations.empty? && locations.first.dropin_address.blank?) && (b.locations.empty? && b.locations.first.dropin_address.blank?)
+      if block_given?
+        yield
+      else
+        0
+      end
+    else
+      if (locations.first.dropin_address.state_abbrev.blank? || b.locations.first.dropin_address.state_abbrev.blank?)
+        if (locations.first.dropin_address.state_abbrev.blank? && !b.locations.first.dropin_address.state_abbrev.blank?)
+          1 * dir
+        elsif (!locations.first.dropin_address.state_abbrev.blank? && b.locations.first.dropin_address.state_abbrev.blank?)
+          -1 * dir
+        else
+          if block_given?
+            yield
+          else
+            0
+          end
+        end
+      else
+        if (locations.first.dropin_address.state_abbrev < b.locations.first.dropin_address.state_abbrev)
+          -1 * dir
+        elsif (locations.first.dropin_address.state_abbrev > b.locations.first.dropin_address.state_abbrev)
+          1 * dir
+        else
+          if block_given?
+            yield
+          else
+            0
+          end
+        end
+      end
+    end
+  end
+
+  #Compares two agencies by their categories.
+  def compare_category(b, dir = 1)
+    if (agency_category.name > b.agency_category.name)
+      1 * dir
+    elsif (agency_category.name < b.agency_category.name)
+      -1 * dir
+    else
+      if block_given?
+        yield
+      else
+        0
+      end
+    end
+  end
+
+  #Compares two agencies by counseling.
+  def compare_counseling(b, dir = 1)
+    if (use_for_counseling && !b.use_for_counseling)
+      -1 * dir
+    elsif (!use_for_counseling && b.use_for_counseling)
+      1 * dir
+    else
+      if block_given?
+        yield
+      else
+        0
+      end
+    end
+  end
+
+  #Compares two agencies by their result.
+  def compare_result(b, dir = 1)
+    if (result_type.nil? && !b.result_type.nil?)
+      1 * dir
+    elsif (!result_type.nil? && b.result_type.nil?)
+      -1 * dir
+    elsif (result_type.nil? && b.result_type.nil?)
+      if block_given?
+        yield
+      else
+        0
+      end
+    else
+      if (result_type.name.blank? || b.result_type.name.blank?)
+        if (result_type.name.blank? && !b.result_type.name.blank?)
+          1 * dir
+        elsif (!result_type.name.blank? && b.result_type.name.blank?)
+          -1 * dir
+        else
+          if block_given?
+            yield
+          else
+            0
+          end
+        end
+      else
+        if (result_type.name < b.result_type.name)
+          -1 * dir
+        elsif (result_type.name > b.result_type.name)
+          1 * dir
+        else
+          if block_given?
+            yield
+          else
+            0
+          end
+        end
+      end
+    end
+  end
+
+  #Compares two agencies by active column.
+  def compare_active(b, dir = 1)
+    if (is_active && !b.is_active)
+      -1 * dir
+    elsif (!is_active && b.is_active)
+      1 * dir
+    else
+      if block_given?
+        yield
+      else
+        0
+      end
+    end
+  end
+
+  #Compares two agencies by provider column.
+  def compare_provider(b, dir = 1)
+    if (is_provider && !b.is_provider)
+      -1 * dir
+    elsif (!is_provider && b.is_provider)
+      1 * dir
+    else
+      if block_given?
+        yield
+      else
+        0
+      end
+    end
+  end
 
   private
   def self.find_locations params
