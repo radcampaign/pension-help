@@ -1,7 +1,7 @@
 <tr id="" class="<%= cycle("even", "odd") %>">
   <td>
     <%= link_to (h(search_result.name)), edit_agency_path(search_result) %>
- 		<%= link_to_function image_tag('add_blue.gif'), "$$(\".locations_#{search_result.id}\").each( function(e) {e.toggle()})" unless search_result.locations.size < 1 %>
+ 		<%= link_to_function image_tag('add_blue.gif'), "$$(\".locations_#{search_result.id}\").each( function(e) {e.toggle()})" if search_result.has_visible_locations? %>
   </td>
   <td class="center">
     <%= search_result.locations.first.dropin_address.state_abbrev unless search_result.locations.empty? or

@@ -20,6 +20,10 @@
   <% end %>
 </div>
 
+<div>
+  <%= link_to_function 'Open/Close All Locations', "$$(\".locationsRow\").each( function(e) {e.toggle()})" %>
+</div>
+
 <div class="clear">
   <table id="admin_list">
     <tr>

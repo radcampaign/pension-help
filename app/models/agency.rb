@@ -136,11 +136,17 @@ class Agency < ActiveRecord::Base
       end
     end
 
+    #Adding nation-wide agencies, if not yet selected
+    get_nation_wide_agencies().each {|agency| agencies[agency.id] = agency unless agencies.has_key?(agency.id)}
+
     agencies = agencies.values
     Agency.mark_locations_visible(agencies, locations)
     return agencies
   end
 
+  def has_visible_locations?
+    locations.detect() {|loc| loc.visible_in_view }
+  end
   #Sorts agencies by given column and direction.
   def self.sort_agencies(agencies, sort_col, dir)
     case sort_col
@@ -486,5 +492,28 @@ class Agency < ActiveRecord::Base
     result.concat(cond_params)
 
     result
+  end
+
+  #Finds agencies that serves all country, that means all agencies with locations
+  # that do not have any geographic restrictions
+  def self.get_nation_wide_agencies()
+    query =<<SQL_QUERY
+    select
+      agencies.*
+    from
+      agencies left join locations as l on agencies.id = l.agency_id
+      left join restrictions as r on r.location_id = l.id
+      left join restrictions_states rs on rs.restriction_id = r.id
+      left join restrictions_counties as rc on rc.restriction_id = r.id
+      left join restrictions_cities as rct on rct.restriction_id = r.id
+      left join restrictions_zips as rz on rz.restriction_id = r.id
+    where
+      rs.restriction_id IS NULL AND
+      rc.restriction_id IS NULL AND
+      rct.restriction_id IS NULL AND
+      rz.restriction_id IS NULL
+SQL_QUERY
+
+    Agency.find_by_sql(query)
   end
 end
