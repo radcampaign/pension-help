@@ -86,6 +86,7 @@ class Agency < ActiveRecord::Base
               and rs.state_abbrev IN (?,?,?,?)
         where a.agency_category_id = ?
         and a.use_for_counseling = 1
+        and a.is_active = 1
         and (r.minimum_age is not null) 
         SQL
 
@@ -103,6 +104,7 @@ class Agency < ActiveRecord::Base
               and rs.state_abbrev IN (?,?,?,?)
         where a.agency_category_id = ?
         and a.use_for_counseling = 1
+        and a.is_active = 1
         and (r.max_poverty is not null) 
         SQL
 
@@ -496,6 +498,7 @@ class Agency < ActiveRecord::Base
 
   #Finds agencies that serves all country, that means all agencies with locations
   # that do not have any geographic restrictions
+  # - but make sure the locations 'serve' people (use_for_counseling=1 and is_provider=1 and is_active=1)
   def self.get_nation_wide_agencies()
     query =<<SQL_QUERY
     select
@@ -511,7 +514,10 @@ class Agency < ActiveRecord::Base
       rs.restriction_id IS NULL AND
       rc.restriction_id IS NULL AND
       rct.restriction_id IS NULL AND
-      rz.restriction_id IS NULL
+      rz.restriction_id IS NULL AND
+      agencies.use_for_counseling = 1 AND
+      agencies.is_active = 1 AND
+      l.is_provider = 1
 SQL_QUERY
 
     Agency.find_by_sql(query)

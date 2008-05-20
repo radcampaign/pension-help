@@ -30,7 +30,7 @@
 <% search_result.locations.each do |loc| %>
   <% if loc.visible_in_view %>
   <tr style="display:none" class="locationsRow locations_<%=search_result.id%>">
-    <td class="location_name"><%= link_to "#{loc.name}", edit_location_url(:agency_id => search_result, :id => loc) %></td>
+    <td class="location_name"><%= link_to "#{loc.name}", edit_agency_location_url(:agency_id => search_result, :id => loc) %></td>
     <td class="center"><%= loc.dropin_address.state_abbrev %></td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
