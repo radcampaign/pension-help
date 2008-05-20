@@ -6,6 +6,7 @@
 		<%# only show these fields for location restriction %>
 			<div class="left">
 				<div><%= r.text_field :minimum_age %><label>Minimum Age</label></div><br/>
+				<div><%= r.text_field :age_restricted_phone %><label>Special Age Services Hotline</label></div><br/>
 				<div><%= r.text_field :max_poverty %><label>Income Limit (% of FPL)</label></div>
                                 <div><%= r.check_box :age_and_income %><label>Restricted by age <b><u>and</u></b> income</label></div>
 			</div>
