@@ -28,7 +28,12 @@
 	</table>
 
 	<table class="phone_info">
-		<% if not loc.tollfree.blank? %>
+		<% if loc.restriction and not loc.restriction.age_restricted_phone.blank? and @counseling.is_over_60 %>
+				<tr>
+					<td width="80px">Toll Free:</td>
+					<td><%= loc.restriction.age_restricted_phone %></td>
+				</tr>
+		<% elsif not loc.tollfree.blank? %>
 				<tr>
 				<td width="80px">Toll Free:</td>
 				<td><%= loc.tollfree + ' ' +  loc.tollfree_ext %></td>
