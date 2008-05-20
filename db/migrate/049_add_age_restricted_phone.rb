@@ -1,6 +1,6 @@
 class AddAgeRestrictedPhone < ActiveRecord::Migration
   def self.up
-    add_column :restrictions, :age_restricted_phone, :text
+    add_column :restrictions, :age_restricted_phone, :string, :limit => 20
   end
 
   def self.down
