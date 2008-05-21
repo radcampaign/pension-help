@@ -134,7 +134,6 @@ class AgenciesController < ApplicationController
   end
   
   def ajax_search
-    @restriction = Restriction.new
 
     params[:clear] = session[:agency_order] = session[:agency_desc] = nil if params[:clear] # clear any params from session if this is our first time here
     params[:order] ||= session[:agency_order] # retrieve any existing params from the session
@@ -142,10 +141,20 @@ class AgenciesController < ApplicationController
     session[:agency_order] = params[:order]   # save these params to session so they'll be 'remembered' on the next visit
     session[:agency_desc] = params[:desc]
 
+    filter = find_search_filter
+    filter.put_params(params)
+    params[:state_abbrevs] = filter.get_states
+    params[:county_ids] = filter.get_counties
+    params[:city_ids] = filter.get_cities
+    params[:zip_ids] = filter.get_zips
+
+    @selected_states = State.find_by_state_abbrevs(filter.get_states)
+    @selected_counties = filter.get_counties.collect {|id| County.find(id)} if filter.get_counties
+
     order = params[:order].nil? ? 'default' : params[:order]
     dir = params[:desc].nil? ? 1 : -1
 
-    search_results = Agency.find_agencies params
+    search_results = Agency.find_agencies filter
     @search_results = Agency.sort_agencies(search_results, order, dir)
 
   end
@@ -198,4 +207,8 @@ class AgenciesController < ApplicationController
     'name' => 'locations.name',
     'state' => 'if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev), locations.name'
   }
+  def find_search_filter
+    session['search_filter'] = SearchAreaFilter.new unless session['search_filter']
+    session['search_filter']
+  end
 end

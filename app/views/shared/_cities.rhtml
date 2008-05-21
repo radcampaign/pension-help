@@ -3,6 +3,6 @@
 		<option value=""> -- Please select a county -- </option>
 	<% else -%>
 		<option value=""> -- unrestricted -- </option>
-		<%= options_for_select counties.collect{|c| c.cities}.flatten.collect{|ct| [ct.state_abbrev+':'+ct.name, ct.id]}.sort, city_ids %>
+		<%= options_for_select counties.collect{|c| c.cities}.flatten.collect{|ct| [ct.state_abbrev+':'+ct.name, ct.id.to_s]}.sort, city_ids %>
 	<% end -%>
 </select><label>City</label>

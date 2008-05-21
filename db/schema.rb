@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 47) do
+ActiveRecord::Schema.define(:version => 49) do
 
   create_table "addresses", :force => true do |t|
     t.column "location_id",    :integer
@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(:version => 47) do
     t.column "hq_state_abbrev",         :string
     t.column "pension_state_abbrev",    :string
     t.column "is_over_60",              :boolean
-    t.column "monthly_income",          :integer
+    t.column "monthly_income",          :decimal,  :precision => 10, :scale => 2
     t.column "number_in_household",     :integer
     t.column "employer_type_id",        :integer
     t.column "federal_plan_id",         :integer
@@ -515,22 +515,23 @@ ActiveRecord::Schema.define(:version => 47) do
   end
 
   create_table "restrictions", :force => true do |t|
-    t.column "agency_id",           :integer
-    t.column "location_id",         :integer
-    t.column "plan_id",             :integer
-    t.column "minimum_age",         :decimal,                :precision => 5, :scale => 2
-    t.column "max_poverty",         :decimal,                :precision => 5, :scale => 2
-    t.column "special_district",    :string
-    t.column "other_restrictions",  :text
-    t.column "created_at",          :datetime
-    t.column "updated_at",          :datetime
-    t.column "legacy_geo_states",   :string
-    t.column "legacy_code",         :string,   :limit => 10
-    t.column "legacy_subcode",      :string,   :limit => 10
-    t.column "fmp2_code",           :string,   :limit => 10
-    t.column "legacy_geo_counties", :text
-    t.column "legacy_geo_cities",   :text
-    t.column "age_and_income",      :boolean
+    t.column "agency_id",            :integer
+    t.column "location_id",          :integer
+    t.column "plan_id",              :integer
+    t.column "minimum_age",          :decimal,                :precision => 5, :scale => 2
+    t.column "max_poverty",          :decimal,                :precision => 5, :scale => 2
+    t.column "special_district",     :string
+    t.column "other_restrictions",   :text
+    t.column "created_at",           :datetime
+    t.column "updated_at",           :datetime
+    t.column "legacy_geo_states",    :string
+    t.column "legacy_code",          :string,   :limit => 10
+    t.column "legacy_subcode",       :string,   :limit => 10
+    t.column "fmp2_code",            :string,   :limit => 10
+    t.column "legacy_geo_counties",  :text
+    t.column "legacy_geo_cities",    :text
+    t.column "age_and_income",       :boolean
+    t.column "age_restricted_phone", :string,   :limit => 20
   end
 
   add_index "restrictions", ["agency_id"], :name => "agency_id"

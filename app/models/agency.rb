@@ -116,25 +116,34 @@ class Agency < ActiveRecord::Base
     locations.count(:id, :conditions => 'is_provider = 1') > 0
   end
   
-  def self.find_agencies params
-    locations = find_locations params
-    plans = find_plans params
+  def self.find_agencies filter
+    locations = find_locations filter
+    plans = find_plans filter
 
-    active = (params[:active].nil?) ? false : true
+    #active = (params[:active].nil?) ? false : true
+    active = filter.is_active?
 
     agencies = Hash.new
     locations.each do |location|
-      if active
-        agencies[location.agency.id] = location.agency if location.agency.is_active
+      if filter.has_any_conditions?
+        agencies[location.agency.id] = location.agency if location.agency.is_active && location.agency.use_for_counseling
       else
-        agencies[location.agency.id] = location.agency
+        if active
+          agencies[location.agency.id] = location.agency if location.agency.is_active
+        else
+          agencies[location.agency.id] = location.agency
+        end
       end
     end
     plans.each do |plan|
-      if active
-        agencies[plan.agency.id] = plan.agency if plan.agency.is_active
+      if filter.has_any_conditions?
+        agencies[plan.agency.id] = plan.agency if plan.agency.is_active && plan.agency.use_for_counseling
       else
-        agencies[plan.agency.id] = plan.agency
+        if active
+          agencies[plan.agency.id] = plan.agency if plan.agency.is_active
+        else
+          agencies[plan.agency.id] = plan.agency
+        end
       end
     end
 
@@ -405,50 +414,53 @@ class Agency < ActiveRecord::Base
   end
 
   private
-  def self.find_locations params
-    query = <<-SQL
-      select
-          l.*
-      from
-          locations as l
-    SQL
+  def self.find_locations filter
+#    query = <<-SQL
+#      select
+#          l.*
+#      from
+#          locations as l
+#    SQL
+#
+#    query += " join restrictions as r on l.id = r.location_id " if !params['state_abbrevs'].nil? && params['state_abbrevs'].size > 0 && !params['state_abbrevs'][0].blank?
+#    query = prepare_sql_query query, params
 
-    query += " join restrictions as r on l.id = r.location_id " if !params['state_abbrevs'].nil? && params['state_abbrevs'].size > 0 && !params['state_abbrevs'][0].blank?
-    query = prepare_sql_query query, params
+    query = filter.get_find_locations_query
     Location.find_by_sql query
   end
   
-  def self.find_plans params
-    query = <<-SQL
-      select
-          p.*
-      from
-          plans as p
-    SQL
-
-    query += "  join restrictions as r on p.id = r.plan_id " if !params['state_abbrevs'].nil? && params['state_abbrevs'].size > 0 && !params['state_abbrevs'][0].blank?
-    query = prepare_sql_query(query, params)
+  def self.find_plans filter
+#    query = <<-SQL
+#      select
+#          p.*
+#      from
+#          plans as p
+#    SQL
+#
+#    query += "  join restrictions as r on p.id = r.plan_id " if !params['state_abbrevs'].nil? && params['state_abbrevs'].size > 0 && !params['state_abbrevs'][0].blank?
+#    query = prepare_sql_query(query, params)
+    query = filter.get_find_plans_query
     Plan.find_by_sql query
   end
 
-  @@JOIN_TABLES = {
-    'state_abbrevs' => {
-      'join' => ' JOIN restrictions_states AS rs ON r.id = rs.restriction_id',
-      'col' => 'rs.state_abbrev'
-    },
-    'county_ids' => {
-      'join' => ' JOIN restrictions_counties AS rcu ON r.id = rcu.restriction_id',
-      'col' => 'rcu.county_id'
-    },
-    'city_ids' => {
-      'join' => ' JOIN restrictions_cities AS rct ON r.id = rct.restriction_id',
-      'col' => 'rct.city_id'
-    },
-    'zip_ids' => {
-      'join' => ' JOIN restrictions_zips AS rz ON r.id = rz.restriction_id',
-      'col' => 'rz.zipcode'
-      }
-  }
+#  @@JOIN_TABLES = {
+#    'state_abbrevs' => {
+#      'join' => ' JOIN restrictions_states AS rs ON r.id = rs.restriction_id',
+#      'col' => 'rs.state_abbrev'
+#    },
+#    'county_ids' => {
+#      'join' => ' JOIN restrictions_counties AS rcu ON r.id = rcu.restriction_id',
+#      'col' => 'rcu.county_id'
+#    },
+#    'city_ids' => {
+#      'join' => ' JOIN restrictions_cities AS rct ON r.id = rct.restriction_id',
+#      'col' => 'rct.city_id'
+#    },
+#    'zip_ids' => {
+#      'join' => ' JOIN restrictions_zips AS rz ON r.id = rz.restriction_id',
+#      'col' => 'rz.zipcode'
+#      }
+#  }
   
   #sets visibility flag for a given location
   def self.mark_locations_visible(agencies, locations)
@@ -461,40 +473,40 @@ class Agency < ActiveRecord::Base
     
   end
 
-  def self.prepare_sql_query(query, params)
-    restrictions = ['state_abbrevs', 'county_ids', 'city_ids', 'zip_ids']
-
-    cond_params = Array.new
-    joins = ''
-    cond = Array.new
-
-    #for each restriction
-    restrictions.each do |r|
-      if (!params[r].nil? && params[r].size > 0 && !params[r][0].blank?)
-        joins << @@JOIN_TABLES[r]['join']
-        cond_tmp = "("
-        params[r].each do |elem|
-          cond_tmp << "#{@@JOIN_TABLES[r]['col']} = ?"
-          cond_params << elem
-          cond_tmp << " OR " unless elem == params[r].last
-        end
-        cond_tmp << ")"
-        cond << cond_tmp
-      end
-    end
-    cond = cond.join(' AND ')
-    cond = ' WHERE ' + cond if cond.size > 1
-
-    #insert into query proper joins and conditions
-    query << joins << ' '
-    query << cond << ' '
-
-    result = []
-    result << query
-    result.concat(cond_params)
-
-    result
-  end
+#  def self.prepare_sql_query(query, params)
+#    restrictions = ['state_abbrevs', 'county_ids', 'city_ids', 'zip_ids']
+#
+#    cond_params = Array.new
+#    joins = ''
+#    cond = Array.new
+#
+#    #for each restriction
+#    restrictions.each do |r|
+#      if (!params[r].nil? && params[r].size > 0 && !params[r][0].blank?)
+#        joins << @@JOIN_TABLES[r]['join']
+#        cond_tmp = "("
+#        params[r].each do |elem|
+#          cond_tmp << "#{@@JOIN_TABLES[r]['col']} = ?"
+#          cond_params << elem
+#          cond_tmp << " OR " unless elem == params[r].last
+#        end
+#        cond_tmp << ")"
+#        cond << cond_tmp
+#      end
+#    end
+#    cond = cond.join(' AND ')
+#    cond = ' WHERE ' + cond if cond.size > 1
+#
+#    #insert into query proper joins and conditions
+#    query << joins << ' '
+#    query << cond << ' '
+#
+#    result = []
+#    result << query
+#    result.concat(cond_params)
+#
+#    result
+#  end
 
   #Finds agencies that serves all country, that means all agencies with locations
   # that do not have any geographic restrictions

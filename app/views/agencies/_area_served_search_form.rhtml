@@ -11,13 +11,13 @@
         <label>State</label>
       </span>
       <span id="county_ids_container">
-        <%= render :partial => 'shared/counties', :locals => {:states => restriction.states, :county_ids => params[:county_ids] } %>
+        <%= render :partial => 'shared/counties', :locals => {:states => selected_states, :county_ids => params[:county_ids] } %>
       </span>
       <span id="city_ids_container">
-        <%= render :partial => 'shared/cities', :locals => {:states => restriction.states, :counties => restriction.counties, :city_ids => restriction.city_ids } %>
+        <%= render :partial => 'shared/cities', :locals => {:counties => selected_counties, :city_ids => params[:city_ids] } %>
       </span>	
       <span id="zip_ids_container">
-        <%= render :partial => 'shared/zips', :locals => {:states => restriction.states, :counties => restriction.counties, :zip_ids => restriction.zip_ids } %>
+        <%= render :partial => 'shared/zips', :locals => {:counties => selected_counties, :zip_ids => params[:zip_ids] } %>
       </span>
     </div>
   </fieldset>
