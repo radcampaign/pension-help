@@ -55,7 +55,8 @@ class LocationsController < ApplicationController
       @location.restriction.save  
       @location.save
       flash[:notice] = 'Location was successfully created.'
-      redirect_to edit_agency_url(@agency) 
+      redirect_to edit_agency_url(@agency) and return if @params['update_and_return']
+      redirect_to edit_location_url(:agency_id => @agency, :id => @location)
     else
       flash[:error] = "There was a problem trying to save your information."  # flash not being set by validations ????
       render :template => 'locations/edit' 
@@ -90,7 +91,8 @@ class LocationsController < ApplicationController
       @location.restriction.save  
       @location.save
       flash[:notice] = 'Location was successfully updated.'
-      redirect_to edit_agency_url(@agency) 
+      redirect_to edit_agency_url(@agency) and return if @params['update_and_return']
+      redirect_to edit_location_url(:agency_id => @agency, :id => @location)
     else
       flash[:error] = "There was a problem trying to save your information." # flash not being set by validations ????
       render :action => "edit" 

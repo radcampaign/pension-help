@@ -9,7 +9,8 @@
 		<br/>
 	  <div class="clear fullwidth buttons">
 	    <%= submit_tag "Update Plan" %> 
-			<%= submit_tag 'Back to Agency Without Saving', :name=>'cancel' %>	
+			<%= submit_tag "Update Plan and Return to Agency", :name => 'update_and_return' %>
+			<%= submit_tag 'Return to Agency Without Saving', :name=>'cancel' %>	
 	  </div>
 		<div id="agency_details" class="left agency_header fullwidth">
 		  <%if @plan.updated_at %>
@@ -78,7 +79,8 @@
 
   <div class="clear fullwidth buttons">
     <%= submit_tag "Update Plan" %> 
-		<%= submit_tag 'Back to Agency Without Saving', :name=>'cancel' %>	
+		<%= submit_tag "Update Plan and Return to Agency", :name => 'update_and_return' %>
+		<%= submit_tag 'Return to Agency Without Saving', :name=>'cancel' %>	
   </div>
 
 <% end -%>

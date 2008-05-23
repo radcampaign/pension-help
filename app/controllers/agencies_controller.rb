@@ -60,6 +60,7 @@ class AgenciesController < ApplicationController
 
     if @agency.save
       flash[:notice] = 'Agency was successfully created.'
+      redirect_to agencies_url() and return if @params['update_and_return']
       redirect_to edit_agency_url(@agency)
     else
       render :action => "new"
@@ -94,7 +95,8 @@ class AgenciesController < ApplicationController
     begin
       if @agency.update_attributes(params[:agency])
         flash[:notice] = 'Agency was successfully updated.'
-        redirect_to agencies_url()
+        redirect_to agencies_url() and return if @params['update_and_return']
+        redirect_to edit_agency_url(@agency)
       else
         render :action => "edit"
       end 

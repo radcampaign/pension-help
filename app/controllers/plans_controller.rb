@@ -33,6 +33,9 @@ class PlansController < ApplicationController
   # POST /plans
   # POST /plans.xml
   def create
+    if @params['cancel']
+      redirect_to edit_agency_url(@agency) and return
+    end
     @plan = @agency.plans.build(params[:plan])
     @plan.updated_by = current_user.login
     @plan.build_restriction if !@plan.restriction
@@ -41,7 +44,8 @@ class PlansController < ApplicationController
     update_pha_contact
     if @plan.save
       flash[:notice] = 'Plan was successfully created.'
-      redirect_to edit_agency_url(@agency)
+      redirect_to edit_agency_url(@agency) and return if @params['update_and_return']
+      redirect_to edit_plan_url(:agency_id => @agency, :id => @plan)
     else
       render :action => "new"
     end
@@ -61,7 +65,8 @@ class PlansController < ApplicationController
     update_pha_contact
     if @plan.update_attributes(params[:plan])
       flash[:notice] = 'Plan was successfully updated.'
-      redirect_to edit_agency_url(@agency)
+      redirect_to edit_agency_url(@agency) and return if @params['update_and_return']
+      redirect_to edit_plan_url(:agency_id => @agency, :id => @plan)
     else
       render :action => "edit"
     end
