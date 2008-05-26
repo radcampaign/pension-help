@@ -77,6 +77,36 @@
 </p>
 
 <p>&nbsp;</p>
+<script type="text/javascript">
+  Event.observe( window, 'load', function() {
+    addValidation();
+    changeStateNextStepButton(false);
+  });
+
+  function addValidation() {
+    radios = document.getElementsByTagName('input');
+    for (i = 0; i < radios.length; i++) {
+      if (radios[i].type == 'radio' && radios[i].onchange == null) {
+        radios[i].onchange = validateStep;
+      }
+    }
+  }
+
+  function validateStep() {
+    changeStateNextStepButton(true);
+  }
+
+  function changeStateNextStepButton(active) {
+    var next_step_button = document.getElementById('nextLinkButton');
+    if (active) {
+      next_step_button.disabled = false;
+      next_step_button.src = '/images/buttons/next_button.gif';
+    } else {
+      next_step_button.disabled = true;
+      next_step_button.src = '/images/buttons/next_button_disabled.gif';
+    }
+  }
+</script>
 
 <%= image_submit_tag "buttons/next_button.gif", :id => 'nextLinkButton' %>
 

@@ -53,10 +53,12 @@
 <% if !@ask_aoa || (@counseling.work_state_abbrev.blank? && @counseling.hq_state_abbrev.blank? && @counseling.pension_state_abbrev.blank? && !@show_aoa_expansion) %>
 <script type="text/javascript">
 	$('aoa_expansion').hide();
+  doNotValidate = true;
 </script>
 <% else %>
 <script type="text/javascript">
 	new Effect.Highlight('aoa_expansion');
+  doNotValidate = false;
 </script>
 
 <% end %>
@@ -70,3 +72,44 @@
 <p>&nbsp;</p>
 
 <p>&nbsp;</p>
+
+<script type="text/javascript">
+  function addValidation() {
+    selects = document.getElementsByTagName('select');
+    for (i = 0; i < selects.length; i++) {
+      if (selects[i].onchange == null) {
+        selects[i].onchange = validateStep;
+      }
+    }
+  }
+
+  function validateStep() {
+    if (!doNotValidate) {
+      var selects = document.getElementsByTagName('select');
+      var next_step_enabled = true;
+
+      var result = true;
+      for (i = 0; i < selects.length; i++) {
+        result = selects[i].selectedIndex > 0
+        if (!result) {
+          break;
+        }
+      }
+
+      changeStateNextStepButton(result);
+    }
+  }
+
+  function changeStateNextStepButton(active) {
+    var next_step_button = document.getElementById('nextLinkButton');
+    if (active) {
+      next_step_button.disabled = false;
+      next_step_button.src = '/images/buttons/next_button.gif';
+    } else {
+      next_step_button.disabled = true;
+      next_step_button.src = '/images/buttons/next_button_disabled.gif';
+    }
+  }
+  addValidation();
+  validateStep();
+</script>

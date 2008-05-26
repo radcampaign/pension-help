@@ -1,11 +1,12 @@
 <p>Please select the plan that you're interested in: 
 <select name="counseling[selected_plan_id]" id="selected_plan" onchange="new Ajax.Request('/help/get_employee_list', {
-							asynchronous:true, 
+							asynchronous:false, 
 							evalScripts:true, 
 							parameters:'plan='+escape(this.value),
 							onSuccess: function(response) {
 								$('employee_list_container').update(response.responseText);
-							}
+							},
+              onComplete: validateStep()
 							})">
 	<option value=""></option>
 	<%= options_for_select @matching_agencies.collect{|a| a.plans}.flatten.collect{|p| [p.name[0,85]+(p.name.length>85 ? '...' : ''), p.id]} %>
@@ -14,6 +15,7 @@
 
 <div id="employee_list_container">&nbsp;</div>
 
-
-
-
+<script type="text/javascript">
+  addValidation();
+  validateStep();
+</script>

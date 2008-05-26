@@ -50,6 +50,27 @@
 
 <p>The American Federation of State, County and Municipal Employees (AFSCME) assists its members with pension counseling.</p>
 <p>Are you, or was the pension earner, a member?: <%= form.radio_button :is_afscme_member, true %>&nbsp;Yes &nbsp;&nbsp;&nbsp;<%= form.radio_button :is_afscme_member, false %>&nbsp;No</p>
+<script type="text/javascript">
+  $("counseling_is_afscme_member_true").observe('click', function(){
+    validateStep();
+  });
+  $("counseling_is_afscme_member_false").observe('click', function(){
+    validateStep();
+  });
+
+  function validateAfscme() {
+    var afscme_true = $("counseling_is_afscme_member_true");
+    var afscme_false = $("counseling_is_afscme_member_false");
+
+    if (!afscme_true.checked && !afscme_false.checked) {
+      changeStateNextStepButton(false);
+      return false;
+    } else {
+      changeStateNextStepButton(true);
+      return true;
+    }
+  }
+</script>
 <% end %>
 
 <p>&nbsp;</p>
@@ -60,16 +81,66 @@
 <p>&nbsp;</p>
 
 <script type="text/javascript">
-	if (<%= not @age_restrictions %>) { $("ageQuestion").hide()}
+	if (<%= not @age_restrictions %>) { $("ageQuestion").hide() }
 	($('counseling_is_over_60_false').checked && <%= @income_restrictions %>) ? $("incomeQuestion").show() : $("incomeQuestion").hide() ;
 	$('counseling_is_over_60_true').observe('click',function() {
 		$("counseling_monthly_income_tmp").clear();
 		$("counseling_yearly_income_tmp").clear();
 		$("counseling_number_in_household").clear();
 		$("incomeQuestion").hide();
+
+    validateStep();
 	} );
 	$('counseling_is_over_60_false').observe('click',function() {
-		if (<%= @income_restrictions %>) { $("incomeQuestion").show(); }
+		if (<%= @income_restrictions %>) { 
+      $("incomeQuestion").show();
+      validateStep();
+    }
 	} );
-	
+  
+  $("counseling_yearly_income_tmp").observe('keyup',function() {
+    validateStep();
+  });
+
+  $("counseling_monthly_income_tmp").observe('keyup',function() {
+    validateStep();
+  });
+
+  $("counseling_number_in_household").observe('keyup',function() {
+    validateStep();
+  });
+
+  function validateStep() {
+    var counseling_is_over_60_false = $("counseling_is_over_60_false");
+    var counseling_is_over_60_true = $("counseling_is_over_60_true");
+    var result = true;
+    if (!counseling_is_over_60_false.checked && !counseling_is_over_60_true.checked){
+      result = false;
+    }
+    if (counseling_is_over_60_false.checked && 
+        (($("counseling_yearly_income_tmp").value == '' && $("counseling_monthly_income_tmp").value == '') ||
+        $("counseling_number_in_household").value == '')) {
+      result = false;
+    }
+    <% if @ask_afscme -%>
+      <%# if it is visible, it must be validated with the rest. %>
+      if (!validateAfscme()) {
+        result = false;
+      }
+    <% end -%>
+    changeStateNextStepButton(result);
+  }
+  
+  function changeStateNextStepButton(active) {
+    var next_step_button = document.getElementById('nextLinkButton');
+    if (active) {
+      next_step_button.disabled = false;
+      next_step_button.src = '/images/buttons/next_button.gif';
+    } else {
+      next_step_button.disabled = true;
+      next_step_button.src = '/images/buttons/next_button_disabled.gif';
+    }
+  }
+
+	validateStep();
 </script>

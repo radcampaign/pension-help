@@ -18,7 +18,7 @@ module ApplicationHelper
       end
     end
     "<select name=\"#{object}[#{method}]\" id=\"#{object}[#{method}]\" onchange=\"new Ajax.Request('/#{controller}/#{action}', 
-    {asynchronous:true, evalScripts:true, parameters:'#{object}[#{method}]='+escape(value)})\">" + option_tags + "</select>"
+    {asynchronous:false, evalScripts:true, parameters:'#{object}[#{method}]='+escape(value), onComplete:validateStep()})\">" + option_tags + "</select>"
   end
   
 end

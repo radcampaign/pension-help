@@ -36,15 +36,17 @@ class HelpController < ApplicationController
           render :update do |page| 
             if @next_question
               page.replace_html 'q2', :partial => 'next_question', :locals => {'question' => @next_question, 'selected_value' => @counseling[@next_question.method]}
-              page.replace_html 'q3', '' 
-              page.replace_html 'q4', '' 
+              page.replace_html 'q3', ''
+              page.replace_html 'q4', ''
+              page.replace_html 'q5', ''
               page.visual_effect :highlight, 'q2' 
             else
               # no question found - clear page for now
               # we should reach this once we define all the questions
               page.replace_html 'q2', ''
-              page.replace_html 'q3', '' 
-              page.replace_html 'q4', '' 
+              page.replace_html 'q3', ''
+              page.replace_html 'q4', ''
+              page.replace_html 'q5', ''
             end
           end
           return
