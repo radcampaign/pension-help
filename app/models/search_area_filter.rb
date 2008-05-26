@@ -7,10 +7,16 @@ class SearchAreaFilter
   end
 
   def put_params(params)
+    clear_params() and return if (!params['clear'].nil?)
+
     @@PARAM_KEYS.each do |key|
       tab = params[key]
-      if !tab.nil? && !tab.empty? && !tab[0].blank?
-        @search_params[key] = tab
+      if !tab.nil?
+        if !tab.empty? && !tab[0].blank?
+          @search_params[key] = tab
+        else
+          @search_params[key] = nil
+        end
       end
     end
     @search_params[:active] = params[:active]
@@ -81,7 +87,16 @@ class SearchAreaFilter
   def get_zips
     @search_params['zip_ids']
   end
+
   private
+
+  def clear_params()
+    @search_params['state_abbrevs'] = nil
+    @search_params['county_ids'] = nil
+    @search_params['city_ids'] = nil
+    @search_params['zip_ids'] = nil
+  end
+
   @@JOIN_TABLES = {
     'state_abbrevs' => {
       'join' => ' JOIN restrictions_states AS rs ON r.id = rs.restriction_id',
