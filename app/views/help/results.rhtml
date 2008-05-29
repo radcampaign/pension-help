@@ -4,15 +4,15 @@
 <% @results.each do |agency| %>
 <% if loc=agency.best_location(@counseling) %> <%# if we can't find a best_location, don't show the agency %>
 	<div class="agency_result">
-	<h2><%= agency.name -%><br/>
-	<%= agency.name2 + '<br/>' if !agency.name2.blank? -%>
+    <h2 id="agency_name_header"><%= agency.name -%><br/></h2>
+	<%= '<h2>' + agency.name2 + '<br/></h2>' if !agency.name2.blank? -%>
 	<% if agency.plans[0] -%>
-		<%= agency.plans.first.name + '<br/>' if agency.plans.first.name and !agency.name.eql?(agency.plans.first.name)-%>
+		<%= '<h2>' + agency.plans.first.name + '<br/></h2>' if agency.plans.first.name and !agency.name.eql?(agency.plans.first.name)-%>
 	<% else -%>
-		<%= loc.name + '<br/>' if !agency.name.eql?(loc.name) -%>
+		<%= '<h2>' + loc.name + '<br/></h2>' if !agency.name.eql?(loc.name) -%>
 	<% end -%>
-	<%= loc.name2 + '<br/>' if !loc.name2.blank? -%>
-	</h2>
+	<%= '<h2>' + loc.name2 + '<br/></h2>' if !loc.name2.blank? -%>
+
 	<div class="agency_result_body">
 	<% if agency.description %><p><%= agency.description %></p><% end -%>
 

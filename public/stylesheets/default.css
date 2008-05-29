@@ -462,9 +462,11 @@ div.agency_result {
 }
 div.agency_result_body {
 	padding: 0 30px;
+  margin: 12px;
 }
 div.agency_result h2 {
-	padding-bottom: 12px;
+  padding-left: 1em;
+  text-indent: -1em;
 }
 table.dropin_address,
 table.phone_info {
@@ -478,6 +480,9 @@ table.dropin_address td {
 }
 div.result_buffer {
 	margin-top:12px;
+
+div.agency_result h2:first-line {
+  margin-left: -1em;
 }
 /* Safari Hacks */
 
