@@ -45,6 +45,7 @@ class PlansController < ApplicationController
     if @plan.save
       flash[:notice] = 'Plan was successfully created.'
       redirect_to edit_agency_url(@agency) and return if @params['update_and_return']
+      redirect_to agencies_path() and return if params['update_and_list']
       redirect_to edit_plan_url(:agency_id => @agency, :id => @plan)
     else
       render :action => "new"
@@ -66,6 +67,7 @@ class PlansController < ApplicationController
     if @plan.update_attributes(params[:plan])
       flash[:notice] = 'Plan was successfully updated.'
       redirect_to edit_agency_url(@agency) and return if @params['update_and_return']
+      redirect_to agencies_path() and return if params['update_and_list']
       redirect_to edit_plan_url(:agency_id => @agency, :id => @plan)
     else
       render :action => "edit"
