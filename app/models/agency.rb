@@ -48,13 +48,13 @@ class Agency < ActiveRecord::Base
       [:pha_contact_phone, :phone],
       [:pha_contact_email, :email],
     ]
-  
+
   validates_presence_of(:agency_category)
   validates_presence_of(:name)
-  
+
   def best_location(counseling)
     return hq unless counseling.zipcode || hq.nil?
-    
+
     home_geo_zip = ZipImport.find(counseling.zipcode)
     home_state = home_geo_zip.nil? ? '' : home_geo_zip.state_abbrev
 
@@ -74,9 +74,9 @@ class Agency < ActiveRecord::Base
                                  
     # return the relevant location instead of the address                                  
     return address.location if address 
-    
+
   end
-  
+
   def self.age_restrictions?(work_state_abbrev, hq_state_abbrev, pension_state_abbrev, home_state)
     sql = <<-SQL
         select a.id from agencies a
@@ -94,7 +94,7 @@ class Agency < ActiveRecord::Base
                                  home_state, AgencyCategory['Service Provider']]).size > 0
     
   end
-  
+
   def self.income_restrictions?(work_state_abbrev, hq_state_abbrev, pension_state_abbrev, home_state)
     sql = <<-SQL
         select a.id from agencies a
@@ -111,44 +111,26 @@ class Agency < ActiveRecord::Base
     Agency.find_by_sql([sql, work_state_abbrev, hq_state_abbrev, pension_state_abbrev, 
                                  home_state, AgencyCategory['Service Provider']]).size > 0
   end
-  
+
   def is_provider
     locations.count(:id, :conditions => 'is_provider = 1') > 0
   end
-  
+
   def self.find_agencies filter
     locations = find_locations filter
     plans = find_plans filter
 
-    #active = (params[:active].nil?) ? false : true
-    active = filter.is_active?
-
     agencies = Hash.new
-    locations.each do |location|
-      if filter.has_any_conditions?
-        agencies[location.agency.id] = location.agency if location.agency.is_active && location.agency.use_for_counseling
-      else
-        if active
-          agencies[location.agency.id] = location.agency if location.agency.is_active
-        else
-          agencies[location.agency.id] = location.agency
+    agencies_ids = Array.new
+    [locations, plans].each do |arr|
+      arr.each do |elem|
+        agency_id = elem.agency_id
+        if (!agencies_ids.include?(agency_id))
+          agencies[agency_id] = elem.agency
+          agencies_ids << agency_id
         end
       end
     end
-    plans.each do |plan|
-      if filter.has_any_conditions?
-        agencies[plan.agency.id] = plan.agency if plan.agency.is_active && plan.agency.use_for_counseling
-      else
-        if active
-          agencies[plan.agency.id] = plan.agency if plan.agency.is_active
-        else
-          agencies[plan.agency.id] = plan.agency
-        end
-      end
-    end
-
-    #Adding nation-wide agencies, if not yet selected
-    get_nation_wide_agencies().each {|agency| agencies[agency.id] = agency unless agencies.has_key?(agency.id)}
 
     agencies = agencies.values
     Agency.mark_locations_visible(agencies, locations)
@@ -415,52 +397,14 @@ class Agency < ActiveRecord::Base
 
   private
   def self.find_locations filter
-#    query = <<-SQL
-#      select
-#          l.*
-#      from
-#          locations as l
-#    SQL
-#
-#    query += " join restrictions as r on l.id = r.location_id " if !params['state_abbrevs'].nil? && params['state_abbrevs'].size > 0 && !params['state_abbrevs'][0].blank?
-#    query = prepare_sql_query query, params
-
     query = filter.get_find_locations_query
     Location.find_by_sql query
   end
   
   def self.find_plans filter
-#    query = <<-SQL
-#      select
-#          p.*
-#      from
-#          plans as p
-#    SQL
-#
-#    query += "  join restrictions as r on p.id = r.plan_id " if !params['state_abbrevs'].nil? && params['state_abbrevs'].size > 0 && !params['state_abbrevs'][0].blank?
-#    query = prepare_sql_query(query, params)
     query = filter.get_find_plans_query
     Plan.find_by_sql query
   end
-
-#  @@JOIN_TABLES = {
-#    'state_abbrevs' => {
-#      'join' => ' JOIN restrictions_states AS rs ON r.id = rs.restriction_id',
-#      'col' => 'rs.state_abbrev'
-#    },
-#    'county_ids' => {
-#      'join' => ' JOIN restrictions_counties AS rcu ON r.id = rcu.restriction_id',
-#      'col' => 'rcu.county_id'
-#    },
-#    'city_ids' => {
-#      'join' => ' JOIN restrictions_cities AS rct ON r.id = rct.restriction_id',
-#      'col' => 'rct.city_id'
-#    },
-#    'zip_ids' => {
-#      'join' => ' JOIN restrictions_zips AS rz ON r.id = rz.restriction_id',
-#      'col' => 'rz.zipcode'
-#      }
-#  }
   
   #sets visibility flag for a given location
   def self.mark_locations_visible(agencies, locations)
@@ -473,65 +417,4 @@ class Agency < ActiveRecord::Base
     
   end
 
-#  def self.prepare_sql_query(query, params)
-#    restrictions = ['state_abbrevs', 'county_ids', 'city_ids', 'zip_ids']
-#
-#    cond_params = Array.new
-#    joins = ''
-#    cond = Array.new
-#
-#    #for each restriction
-#    restrictions.each do |r|
-#      if (!params[r].nil? && params[r].size > 0 && !params[r][0].blank?)
-#        joins << @@JOIN_TABLES[r]['join']
-#        cond_tmp = "("
-#        params[r].each do |elem|
-#          cond_tmp << "#{@@JOIN_TABLES[r]['col']} = ?"
-#          cond_params << elem
-#          cond_tmp << " OR " unless elem == params[r].last
-#        end
-#        cond_tmp << ")"
-#        cond << cond_tmp
-#      end
-#    end
-#    cond = cond.join(' AND ')
-#    cond = ' WHERE ' + cond if cond.size > 1
-#
-#    #insert into query proper joins and conditions
-#    query << joins << ' '
-#    query << cond << ' '
-#
-#    result = []
-#    result << query
-#    result.concat(cond_params)
-#
-#    result
-#  end
-
-  #Finds agencies that serves all country, that means all agencies with locations
-  # that do not have any geographic restrictions
-  # - but make sure the locations 'serve' people (use_for_counseling=1 and is_provider=1 and is_active=1)
-  def self.get_nation_wide_agencies()
-    query =<<SQL_QUERY
-    select
-      agencies.*
-    from
-      agencies left join locations as l on agencies.id = l.agency_id
-      left join restrictions as r on r.location_id = l.id
-      left join restrictions_states rs on rs.restriction_id = r.id
-      left join restrictions_counties as rc on rc.restriction_id = r.id
-      left join restrictions_cities as rct on rct.restriction_id = r.id
-      left join restrictions_zips as rz on rz.restriction_id = r.id
-    where
-      rs.restriction_id IS NULL AND
-      rc.restriction_id IS NULL AND
-      rct.restriction_id IS NULL AND
-      rz.restriction_id IS NULL AND
-      agencies.use_for_counseling = 1 AND
-      agencies.is_active = 1 AND
-      l.is_provider = 1
-SQL_QUERY
-
-    Agency.find_by_sql(query)
-  end
 end
