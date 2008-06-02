@@ -142,7 +142,7 @@ class Counseling < ActiveRecord::Base
     geo = home_state || 'US'
     geo = 'US' unless geo == 'HI' or geo == 'AK'
     sql = <<-SQL
-      select ?/fpl as value from poverty_levels
+      select 100 * (?/fpl) as value from poverty_levels
       where number_in_household = ? and geographic = ? order by year desc
       SQL
     return Agency.find_by_sql([sql, monthly_income*12, hh, geo]).first.value
