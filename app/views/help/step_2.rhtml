@@ -67,9 +67,7 @@
 	<%= image_submit_tag "buttons/next_button.gif", :id => 'nextLinkButton', :name => 'continue' %>
 <% else %>
 	<%= image_submit_tag 'buttons/next_button_disabled.gif', :id => 'nextLinkButtonDisabled', :onclick => 'return false;',
-    :title => "There is an unanswered questions. Please review the page and answer all questions." +
-        " Once all the required questions are answered, " +
-        "this button will turn red and you can click it to continue through the site."
+    :title => "Answer all the questions below and click NEXT to continue."
   %>
 <% end %>
 <% end -%>
@@ -113,9 +111,7 @@
     } else {
       next_step_button.onclick = function() {return false};
       next_step_button.src = '/images/buttons/next_button_disabled.gif';
-      next_step_button.title = "There is an unanswered questions. Please review the page and answer all questions." +
-        " Once all the required questions are answered, " +
-        "this button will turn red and you can click it to continue through the site.";
+      next_step_button.title = "Answer all the questions below and click NEXT to continue.";
     }
   }
   addValidation();
