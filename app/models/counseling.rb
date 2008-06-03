@@ -101,6 +101,22 @@ class Counseling < ActiveRecord::Base
     agencies.flatten.uniq.compact
   end
 
+  #List of all AoA agencies.
+  def aoa_coveraged_states
+    sql = <<-SQL
+      select
+        s.abbrev
+      from
+        states as s join restrictions_states as rs on s.abbrev = rs.state_abbrev
+        join restrictions as r on r.id = rs.restriction_id
+        join locations as l on l.id = r.location_id and l.is_provider = 1
+        join agencies as a on a.id = l.agency_id
+      where a.result_type_id = ?
+        and a.use_for_counseling = 1 and a.is_active = 1
+        SQL
+     State.find_by_sql([sql, ResultType['AoA']])
+  end
+
   def aoa_coverage
     sql = <<-SQL
         select a.* from agencies a 

@@ -130,13 +130,13 @@ class HelpController < ApplicationController
     elsif params['continue.x']              # next button at bottom clicked
       redirect_to :action => :step_3 
       return
-    elsif @counseling.aoa_coverage.empty? &&
-          @ask_aoa                          # good zip, but no AoA coverage - ask more questions
+    elsif @ask_aoa                          # good zip, but no AoA coverage - ask more questions
+      @aoa_states = @counseling.aoa_coveraged_states
       @zip_found = true
       @show_aoa_expansion = true
     else
       @zip_found = true
-      @show_aoa_expansion = false           # good zip, AoA coverage, prompt user to continue
+      @show_aoa_expansion = false           # good zip, no AoA coverage
     end
     render :action => :step_2
   end
@@ -162,14 +162,14 @@ class HelpController < ApplicationController
       return
     end
     @counseling.step = 4
-    @ask_afscme = [6,7,8].include?(@counseling.employer_type_id)
+
     @age_restrictions = @counseling.age_restrictions? # put this in an instance variable so we don't have to call it again from the view
     @income_restrictions = @counseling.income_restrictions? # put this in an instance variable so we don't have to call it again from the view
     # show still_looking only if we need to
-    if @counseling.aoa_coverage.empty? and (@age_restrictions || @income_restrictions || @ask_afscme)
+    if @counseling.aoa_coverage.empty? and (@age_restrictions || @income_restrictions)
       render :template => 'help/still_looking' 
     else
-      redirect_to :action => :results and return
+      redirect_to :action => :step_5 and return
     end
   end
   
