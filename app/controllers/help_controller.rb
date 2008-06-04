@@ -169,7 +169,7 @@ class HelpController < ApplicationController
     if @counseling.aoa_coverage.empty? and (@age_restrictions || @income_restrictions)
       render :template => 'help/still_looking' 
     else
-      redirect_to :action => :step_4 and return
+      redirect_to :action => :results and return
     end
   end
   
