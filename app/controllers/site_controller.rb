@@ -10,7 +10,7 @@ class SiteController < ApplicationController
   end
   
   def exit
-    @dest_url = params[:dest]
+    @dest_url = CGI::unescape params[:dest]
     @dest_url = "http://" + @dest_url unless @dest_url.include? "http://" or @dest_url.include? "https://"
   end
   
