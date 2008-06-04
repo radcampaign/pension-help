@@ -14,13 +14,12 @@ class HelpController < ApplicationController
   end
   
   def counseling
-    @counseling = find_counseling
+    @counseling = session[:counseling] = Counseling.new #start with a fresh object
     @options = CounselAssistance.employer_types
   end
   
   def process_counseling
     @counseling = update_counseling
-
     @counseling.step = 1
     if @counseling.valid?
       redirect_to :action => :step_2
@@ -135,14 +134,14 @@ class HelpController < ApplicationController
     elsif params['continue.x']              # next button at bottom clicked
       redirect_to :action => :step_3 
       return
-    elsif @ask_aoa                          # good zip, but no AoA coverage - ask more questions
+    elsif @counseling.aoa_coverage.empty? and @ask_aoa  # good zip, but no AoA coverage - ask more questions
       @counseling.step = '2a'
       @aoa_states = @counseling.aoa_coveraged_states
       @zip_found = true
       @show_aoa_expansion = true
-    else
+    else                                    # good zip with AoA coverage, or good zip but no need to ask AoA questions
       @zip_found = true
-      @show_aoa_expansion = false           # good zip, no AoA coverage
+      @show_aoa_expansion = false           
     end
     render :action => :step_2
   end
@@ -171,7 +170,7 @@ class HelpController < ApplicationController
 
     @age_restrictions = @counseling.age_restrictions? # put this in an instance variable so we don't have to call it again from the view
     @income_restrictions = @counseling.income_restrictions? # put this in an instance variable so we don't have to call it again from the view
-    # show still_looking only if we need to
+    # show step_4 only if we need to
     if @counseling.aoa_coverage.empty? and (@age_restrictions || @income_restrictions)
       render :template => 'help/step_4' 
     else
