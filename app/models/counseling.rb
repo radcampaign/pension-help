@@ -46,7 +46,7 @@ class Counseling < ActiveRecord::Base
 
   #if Employer type = State Agency or Office
   validates_presence_of :work_state,
-    :if => Proc.new { |c| c.employer_type == EmployerType[6] || c.employer_type == EmployerType[7] || c.employer_type == EmployerType[8]}
+    :if => Proc.new { |c| (c.step == '2a') && (c.employer_type == EmployerType[6] || c.employer_type == EmployerType[7] || c.employer_type == EmployerType[8])}
   # if income is entered, then number_in_household must be entered along with it (ok to leave both income and household blank)
   validates_numericality_of :number_in_household, 
     :if => Proc.new {|c| c.step == 4 && (!c.monthly_income_tmp.blank? || !c.yearly_income_tmp.blank?)}
@@ -128,6 +128,19 @@ class Counseling < ActiveRecord::Base
         SQL
     Agency.find_by_sql([sql, ResultType['AoA'], work_state_abbrev, 
                         hq_state_abbrev, pension_state_abbrev, home_state])
+  end
+
+  #Conditions met to show step_5 
+  def show_step5?
+    #checking conditions
+    ask_afscme = [6,7,8].include?(employer_type_id)
+    not_aoa_covered = aoa_coverage.empty?
+    #either age not answered or not over 60
+    age_cond = is_over_60.blank? || !is_over_60
+    #monthly_income not answered or not over poverty threshold
+    income_cond = monthly_income.blank? || income_below_threshold?
+
+    return (ask_afscme && not_aoa_covered && age_cond && income_cond)
   end
 
   def state_abbrev
@@ -411,7 +424,7 @@ class Counseling < ActiveRecord::Base
   end
 
   protected
-  def before_save
+  def before_validation
     if !self.yearly_income_tmp.blank?
       self.monthly_income = self.yearly_income_tmp.gsub(/[^0-9.]/, '' )
     elsif !self.monthly_income_tmp.blank?
@@ -424,5 +437,33 @@ class Counseling < ActiveRecord::Base
     errors.add(:employment_end, 'date is required') if step == 3 && employer_type_id == 1 && employment_end.blank?
     errors.add(:employment_cutoff, 'date is required') if step == 3 && [4,5].include?(employer_type_id) && employment_cutoff.blank?
   end
-   
+
+  private
+  #Checks if given monthly income is below poverty threshold
+  def income_below_threshold?
+    p_level = poverty_level
+
+    unless p_level.nil?
+      #Age should be null or less than 60
+      query =<<END_QUERY
+        select
+          a.id, a.name
+        from
+          agencies as a join locations as l on a.id = l.agency_id and a.use_for_counseling=1 and is_active=1
+          join addresses as ad on ad.location_id = l.id
+          join restrictions as r on r.location_id = l.id and l.is_provider = 1
+          join restrictions_states as rs on rs.restriction_id = r.id
+        where
+          a.agency_category_id=#{AgencyCategory['Service Provider'].id}
+          and (r.minimum_age is null or r.minimum_age < 60 or r.max_poverty is null) 
+          and ad.address_type='dropin'
+          and rs.state_abbrev IN (?,?,?,?)
+          and r.max_poverty > #{p_level}
+END_QUERY
+      Agency.find_by_sql([query, work_state_abbrev, hq_state_abbrev,
+                              pension_state_abbrev, home_state ]).size > 0
+    else
+      nil
+    end
+  end
 end

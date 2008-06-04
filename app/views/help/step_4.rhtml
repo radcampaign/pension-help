@@ -9,7 +9,7 @@
 
 <p>&nbsp;</p>
 
-<% form_for :counseling, :url => {:action => :results} do |form| -%>
+<% form_for :counseling, :url => {:action => :process_step_4} do |form| -%>
 
 <h2>We’re still looking...</h2>
 
@@ -46,10 +46,11 @@
 <p>&nbsp;</p>
 </div>
 
-<% if @ask_afscme %>
-
+<%# if @ask_afscme -%>
+<!--
 <p>The American Federation of State, County and Municipal Employees (AFSCME) assists its members with pension counseling.</p>
 <p>Are you, or was the pension earner, a member?: <%= form.radio_button :is_afscme_member, true %>&nbsp;Yes &nbsp;&nbsp;&nbsp;<%= form.radio_button :is_afscme_member, false %>&nbsp;No</p>
+-->
 <!--
 <script type="text/javascript">
   $("counseling_is_afscme_member_true").observe('click', function(){
@@ -73,7 +74,7 @@
   }
 </script>
 -->
-<% end %>
+<%# end -%>
 
 <p>&nbsp;</p>
 

@@ -1,0 +1,16 @@
+<%= image_tag "layout/stepcircle-five.jpg", :id => 'counseling_step' %>
+
+<h1>Counseling &amp; Assistance</h1>
+
+<p>This is the fifth step in getting you to the right pension-help resource. Answer the questions below and click <b style="color: #cc0000; ">NEXT</b> to continue.</p>
+
+<p>&nbsp;</p>
+
+<% form_for :counseling, :url => {:action => :process_step_5} do |form| -%>
+
+  <p>The American Federation of State, County and Municipal Employees (AFSCME) assists its members with pension counseling.</p>
+  <p>Are you, or was the pension earner, a member?: <%= form.radio_button :is_afscme_member, true %>&nbsp;Yes &nbsp;&nbsp;&nbsp;<%= form.radio_button :is_afscme_member, false %>&nbsp;No</p>
+
+  <%= image_submit_tag "buttons/next_button.gif", :id => 'nextLinkButton', :name => 'continue' %>
+
+<% end %>

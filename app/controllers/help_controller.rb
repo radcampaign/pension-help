@@ -14,15 +14,20 @@ class HelpController < ApplicationController
   end
   
   def counseling
+    @counseling = find_counseling
     @options = CounselAssistance.employer_types
-    @counseling.step = 1 unless @counseling.nil?
-    if params[:counseling] || params[:redirect]
-      # we're coming back from the employer descriptions screen 
-      # or we're redirect back here due to a validation error
-      @counseling = update_counseling
-      @next_question_2 = CAQuestion.get_next(@counseling, 'EMP_TYPE')
+  end
+  
+  def process_counseling
+    @counseling = update_counseling
+
+    @counseling.step = 1
+    if @counseling.valid?
+      redirect_to :action => :step_2
     else
-      @counseling = session[:counseling] = Counseling.new  # start fresh
+      @next_question_2 = CAQuestion.get_next(@counseling, 'EMP_TYPE')
+      @options = CounselAssistance.employer_types
+      render :template => 'help/counseling'
     end
   end
 
@@ -110,8 +115,8 @@ class HelpController < ApplicationController
   end
   
   def step_2 #zip, AoA states, plan questions
-    @counseling = update_counseling
-    redirect_to(:action => :counseling, :redirect => true) and return if (!@counseling.valid? and request.post?)
+    @counseling = find_counseling
+
     @counseling.step = 2
     @states = CounselAssistance.states
     @ask_aoa = [1,2,3,4,5,9].include?(@counseling.employer_type_id)
@@ -131,6 +136,7 @@ class HelpController < ApplicationController
       redirect_to :action => :step_3 
       return
     elsif @ask_aoa                          # good zip, but no AoA coverage - ask more questions
+      @counseling.step = '2a'
       @aoa_states = @counseling.aoa_coveraged_states
       @zip_found = true
       @show_aoa_expansion = true
@@ -142,42 +148,71 @@ class HelpController < ApplicationController
   end
   
   def step_3 #employment dates, pension-earner, divorce questions
-    @counseling = update_counseling
-    if !@counseling.valid? and request.post?
-      @states = CounselAssistance.states
-      redirect_to :action => :step_2
-      return
-    end
-    @counseling.step = 3
+    @counseling = find_counseling
+
     # skip this question, unless we have a military/federal/private employer type
     redirect_to :action => :step_4 and return unless [1,4,5].include?(@counseling.employer_type_id)
     @options = CounselAssistance.pension_earner_choices
   end
   
-  def step_4
+  def process_step_3
     @counseling = update_counseling
-    if !@counseling.valid? and request.post?
+
+    if @counseling.valid?
+      redirect_to :action => :step_4
+    else
       @options = CounselAssistance.pension_earner_choices
-      redirect_to :action => :step_3
-      return
+      render :template => 'help/step_3'
     end
-    @counseling.step = 4
+  end
+
+  def step_4
+    @counseling = find_counseling
 
     @age_restrictions = @counseling.age_restrictions? # put this in an instance variable so we don't have to call it again from the view
     @income_restrictions = @counseling.income_restrictions? # put this in an instance variable so we don't have to call it again from the view
     # show still_looking only if we need to
     if @counseling.aoa_coverage.empty? and (@age_restrictions || @income_restrictions)
-      render :template => 'help/still_looking' 
+      render :template => 'help/step_4' 
     else
-      redirect_to :action => :results and return
+      redirect_to :action => :step_5
     end
   end
-  
-  def results
-    @counseling = update_counseling
-    @results = @counseling.matching_agencies
 
-    redirect_to :action => :step_4 unless (@counseling.valid? or !request.post?)
+  def process_step_4
+    @counseling = update_counseling
+
+    @counseling.step = 4
+    if @counseling.valid?
+      redirect_to :action => :step_5
+    else
+      @age_restrictions = @counseling.age_restrictions? # put this in an instance variable so we don't have to call it again from the view
+      @income_restrictions = @counseling.income_restrictions? # put this in an instance variable so we don't have to call it again from the view
+      render :template => 'help/step_4'
+    end
+  end
+
+  def step_5
+    @counseling = find_counseling
+
+    if (@counseling.show_step5?)
+      render :template => 'help/step_5'
+    else
+      redirect_to :action => :results
+    end
+  end
+
+  def process_step_5
+    @counseling = update_counseling
+    
+    @counseling.step = 5
+
+    redirect_to :action => :results
+  end
+
+  def results
+    @counseling = find_counseling
+    @results = @counseling.matching_agencies
 
     @counseling.save
     if @counseling.selected_plan_id
@@ -230,8 +265,9 @@ class HelpController < ApplicationController
     end
   end
 
-  def update_counseling 
-    c = session[:counseling] ||= Counseling.new
+  def update_counseling
+    c = find_counseling
+    #c = session[:counseling] ||= Counseling.new
     c.attributes = params[:counseling]
     # if yrly amt is entered, we need to override what's been put into monthly amount by setting the attributes
     c.yearly_income = params[:counseling][:yearly_income] if params[:counseling] and not params[:counseling][:yearly_income].blank? 
@@ -250,5 +286,10 @@ class HelpController < ApplicationController
     # c.city = City.find(params[:city]) if params[:city]
     c
   end
-  
+
+  def find_counseling
+    c = session[:counseling] ||= Counseling.new
+    c
+  end
+
 end
