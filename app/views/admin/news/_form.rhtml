@@ -2,16 +2,16 @@
 
 <!--[form:news]-->
 <p><label for="news_title">Title</label><br/>
-<%= text_field 'news', 'title'  %></p>
+<%= text_field 'news', 'title', :size => 100  %></p>
 
 <p><label for="news_intro">Intro</label><br/>
 <%= text_area 'news', 'intro'  %></p>
 
 <p><label for="news_article_url">Article url</label><br/>
-<%= text_field 'news', 'article_url'  %></p>
+<%= text_field 'news', 'article_url', :size => 100  %></p>
 
 <p><label for="news_source_url">Source url</label><br/>
-<%= text_field 'news', 'source_url'  %></p>
+<%= text_field 'news', 'source_url', :size => 100  %></p>
 
 <p><label for="news_is_internal">Is Internal</label><br/>
 <select id="news_is_internal" name="news[is_internal]">
