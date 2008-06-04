@@ -166,7 +166,7 @@ class Counseling < ActiveRecord::Base
   
   def aoa_afscme_dsp
     if aoa_coverage.empty?
-      ((is_afscme_member ? result_type_match('AFSCME') : nil) || Array.new) << closest_dsp
+      ((is_afscme_member ? result_type_match('AFSCME') : nil) || Array.new) << (closest_dsp ? closest_dsp : result_type_match('NPLN'))
     else
       aoa_coverage
     end
@@ -183,14 +183,17 @@ class Counseling < ActiveRecord::Base
     unless aoa_coverage.empty?
       return agencies << aoa_coverage
     end
-    agencies << closest_nsp
-    agencies << closest_dsp
+    nsp = closest_nsp
+    dsp = closest_dsp
+    agencies << nsp
+    agencies << dsp
     if employment_end.nil? or employment_end < d
       agencies << result_type_match('DOL')
     else
       agencies << result_type_match('IRS')
     end
     agencies << result_type_match('PBGC')  
+    agencies << result_type_match('NPLN') unless nsp or dsp
     agencies.flatten.uniq
   end
   
@@ -200,9 +203,11 @@ class Counseling < ActiveRecord::Base
     unless aoa_coverage.empty?
       return agencies << aoa_coverage
     end
-    agencies << closest_dsp
+    dsp = closest_dsp
+    agencies << dsp
     agencies << result_type_match('DOL')
     agencies << result_type_match('PBGC')
+    agencies << result_type_match('NPLN') unless dsp
     agencies.flatten.uniq
   end
 
@@ -212,8 +217,10 @@ class Counseling < ActiveRecord::Base
     unless aoa_coverage.empty?
       return agencies << aoa_coverage
     end
-    agencies << closest_dsp
+    dsp = closest_dsp
+    agencies << dsp
     agencies << result_type_match('SSA')
+    agencies << result_type_match('NPLN') unless dsp
     agencies.flatten.uniq
   end
   
@@ -225,7 +232,8 @@ class Counseling < ActiveRecord::Base
         return agencies << aoa_coverage
       end
       agencies << result_type_match('NARFE')
-      agencies << closest_dsp
+      dsp = closest_dsp
+      agencies << dsp    
       agencies << result_type_match('OPM')
     else  
       agencies << result_type_match('OPM')
@@ -233,9 +241,11 @@ class Counseling < ActiveRecord::Base
         return agencies << aoa_coverage
       end
       agencies << result_type_match('NARFE')
-      agencies << closest_dsp    
+      dsp = closest_dsp
+      agencies << dsp    
       agencies << tsp_by_date
     end
+    agencies << result_type_match('NPLN') unless dsp
     agencies.flatten.uniq
   end
   
@@ -248,17 +258,20 @@ class Counseling < ActiveRecord::Base
         return agencies << aoa_coverage
       end
       agencies << result_type_match('EXPOSE')
-      agencies << closest_dsp   
+      dsp = closest_dsp
+      agencies << dsp    
       agencies << tsp_by_date  
     else
       agencies << military_branch_match
       unless aoa_coverage.empty?
         return agencies << aoa_coverage
       end
-      agencies << closest_dsp   
+      dsp = closest_dsp
+      agencies << dsp    
       agencies << result_type_match('DFAS')
       agencies << tsp_by_date
     end
+    agencies << result_type_match('NPLN') unless dsp
     agencies.flatten.uniq    
   end
   
