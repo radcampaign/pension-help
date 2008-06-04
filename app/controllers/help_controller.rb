@@ -140,6 +140,10 @@ class HelpController < ApplicationController
       @zip_found = true
       @show_aoa_expansion = true
     else                                    # good zip with AoA coverage, or good zip but no need to ask AoA questions
+      # clear out extra state dropdowns, as we won't consider them in this case
+      @counseling.work_state_abbrev = 
+        @counseling.hq_state_abbrev = 
+        @counseling.pension_state_abbrev = nil
       @zip_found = true
       @show_aoa_expansion = false           
     end
