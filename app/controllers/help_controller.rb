@@ -114,8 +114,7 @@ class HelpController < ApplicationController
   end
   
   def step_2 #zip, AoA states, plan questions
-    @counseling = find_counseling
-
+    @counseling = update_counseling
     @counseling.step = 2
     @states = CounselAssistance.states
     @ask_aoa = [1,2,3,4,5,9].include?(@counseling.employer_type_id)
@@ -184,7 +183,6 @@ class HelpController < ApplicationController
 
   def process_step_4
     @counseling = update_counseling
-
     @counseling.step = 4
     if @counseling.valid?
       redirect_to :action => :step_5
@@ -197,7 +195,6 @@ class HelpController < ApplicationController
 
   def step_5
     @counseling = find_counseling
-
     if (@counseling.show_step5?)
       render :template => 'help/step_5'
     else
@@ -207,9 +204,7 @@ class HelpController < ApplicationController
 
   def process_step_5
     @counseling = update_counseling
-    
     @counseling.step = 5
-
     redirect_to :action => :results
   end
 
@@ -277,6 +272,7 @@ class HelpController < ApplicationController
     # make IDK => 0
     c.selected_plan_id = nil if c.selected_plan_id=="IDK"
     c.selected_plan_id = params[:selected_plan_override] if !params[:selected_plan_override].blank?
+    logger.debug('after setting, selected_plan_id = ' + c.selected_plan_id.to_s)
     # set date here if we have a year, but do validation on year elsewhere so we can redraw the page
     # we'll have to limit the display of the date to the year only
     c.employment_start = Date.new(params[:employment_start_year].to_i,1,1) if params[:employment_start_year] && params[:employment_start_year].to_i > EARLIEST_EMPLOYMENT_YEAR && params[:employment_start_year].to_i < LATEST_EMPLOYMENT_YEAR
@@ -291,8 +287,18 @@ class HelpController < ApplicationController
   end
 
   def find_counseling
-    c = session[:counseling] ||= Counseling.new
+    logger.debug('session[:counseling] exists? ' + (!session[:counseling].blank? ? 'true' : 'false'))
+    # c = session[:counseling] ||= Counseling.new
+    if session[:counseling]
+      c=session[:counseling]
+    else
+      c=Counseling.new
+    end
+    # logger.debug('c is now set to ' + PP::pp(c.attributes.each{|item| item.to_s}) )
+    logger.debug('c is of type ' + c.class.to_s)
+    logger.debug('selected_plan_id = ' + c.selected_plan_id.to_s)
     c
+    
   end
 
 end
