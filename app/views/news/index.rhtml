@@ -3,7 +3,7 @@
 <p>Read about new PensionHelp America information and referral resources, lost and found pension
 and retirement savings plans, and new PensionHelp America Partners and HelpNet members.</p>
 
-<% for news in @internal_news %>
+<% for news in @internal_news[0..2] %>
 <h2><a href="<%= news.article_url %>"><%= news.title %></a></h2>
 <%= news.intro %>
 <% end -%>
@@ -13,9 +13,13 @@ and retirement savings plans, and new PensionHelp America Partners and HelpNet m
 <p>Read current news articles and other announcements covering important developments related to
 pensions, retirement savings plans, and you the participant.</p> 
 
-<% for news in @external_news %>
+<% for news in @external_news[0..2] %>
 <h2>
 	<a href="/site/exit?dest=<%= CGI::escape news.article_url %>" class="offsite"><%= news.title %></a>
 </h2>
 <%= news.intro %>
 <% end -%>
+
+<% if @external_news.size > 3 %>
+	<%= link_to 'Show More News Items', :controller => '/news', :action => 'external_news' %>
+<% end %>
