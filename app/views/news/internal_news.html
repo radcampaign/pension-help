@@ -1,0 +1,8 @@
+<h1>New Developments at PensionHelp America</h1>
+
+<% for news in @internal_news %>
+<h2>
+	<a href="<%= news.article_url %>"><%= news.title %></a>
+</h2>
+<%= news.intro %>
+<% end -%>
