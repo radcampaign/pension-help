@@ -14,7 +14,14 @@
 	<%= '<h2>' + loc.name2 + '<br/></h2>' if !loc.name2.blank? -%>
 
 	<div class="agency_result_body">
-	<% if agency.description %><p><%= agency.description %></p><% end -%>
+    <p>
+      <% if agency.plans[0] and agency.plans.first.description %>
+        <%= agency.plans.first.description %>
+      <% elsif agency.description %>
+        <%= agency.description %>
+      <% else %>
+        <% end %>
+    </p>
 
 	<table class="dropin_address">
 		<tr>
