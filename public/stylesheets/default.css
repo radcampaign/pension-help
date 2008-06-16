@@ -456,6 +456,10 @@ documentElement.scrollTop
 	width:620px;
 }
 
+#plan_list_container select {
+  width:620px;
+}
+
 /* Results page */
 div.agency_result {
 	padding-bottom: 20px;

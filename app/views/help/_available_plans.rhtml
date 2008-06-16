@@ -1,4 +1,4 @@
-<p>Please select the plan that you're interested in: 
+<p id="plan_list_container">Please select the plan that you're interested in: 
 <select name="counseling[selected_plan_id]" id="selected_plan" onchange="new Ajax.Request('/help/get_employee_list', {
 							asynchronous:false, 
 							evalScripts:true, 
@@ -9,7 +9,7 @@
               onComplete: validateStep()
 							})">
 	<option value=""></option>
-	<%= options_for_select @matching_agencies.collect{|p| [p.name[0,85]+(p.name.length>85 ? '...' : ''), p.id]} %>
+	<%= options_for_select @matching_agencies.collect{|p| [p.name, p.id]} %>
 	<option value="IDK">I'm not sure</option>
 </select></p>
 
