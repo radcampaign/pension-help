@@ -9,7 +9,7 @@
               onComplete: validateStep()
 							})">
 	<option value=""></option>
-	<%= options_for_select @matching_agencies.collect{|a| a.plans}.flatten.collect{|p| [p.name[0,85]+(p.name.length>85 ? '...' : ''), p.id]} %>
+	<%= options_for_select @matching_agencies.collect{|p| [p.name[0,85]+(p.name.length>85 ? '...' : ''), p.id]} %>
 	<option value="IDK">I'm not sure</option>
 </select></p>
 
