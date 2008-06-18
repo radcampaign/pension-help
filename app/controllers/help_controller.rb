@@ -135,14 +135,14 @@ class HelpController < ApplicationController
       return
     elsif @counseling.aoa_coverage.empty? and @ask_aoa  # good zip, but no AoA coverage - ask more questions
       @counseling.step = '2a'
-      @aoa_states = @counseling.aoa_coveraged_states
+      @aoa_states = @counseling.aoa_covered_states
       @zip_found = true
       @show_aoa_expansion = true
     else                                    # good zip with AoA coverage, or good zip but no need to ask AoA questions
       # clear out extra state dropdowns, as we won't consider them in this case
-      @counseling.work_state_abbrev = 
-        @counseling.hq_state_abbrev = 
-        @counseling.pension_state_abbrev = nil
+      @counseling.hq_state_abbrev = @counseling.pension_state_abbrev = nil
+      # but preserve work_state if user is state/county/local employee
+      @counseling.work_state_abbrev = nil unless [6,7,8].include?(@counseling.employer_type_id) 
       @zip_found = true
       @show_aoa_expansion = false           
     end
@@ -272,7 +272,6 @@ class HelpController < ApplicationController
     # make IDK => 0
     c.selected_plan_id = nil if c.selected_plan_id=="IDK"
     c.selected_plan_id = params[:selected_plan_override] if !params[:selected_plan_override].blank?
-    logger.debug('after setting, selected_plan_id = ' + c.selected_plan_id.to_s)
     # set date here if we have a year, but do validation on year elsewhere so we can redraw the page
     # we'll have to limit the display of the date to the year only
     c.employment_start = Date.new(params[:employment_start_year].to_i,1,1) if params[:employment_start_year] && params[:employment_start_year].to_i > EARLIEST_EMPLOYMENT_YEAR && params[:employment_start_year].to_i < LATEST_EMPLOYMENT_YEAR
@@ -287,7 +286,6 @@ class HelpController < ApplicationController
   end
 
   def find_counseling
-    logger.debug('session[:counseling] exists? ' + (!session[:counseling].blank? ? 'true' : 'false'))
     # c = session[:counseling] ||= Counseling.new
     if session[:counseling]
       c=session[:counseling]
@@ -295,8 +293,6 @@ class HelpController < ApplicationController
       c=Counseling.new
     end
     # logger.debug('c is now set to ' + PP::pp(c.attributes.each{|item| item.to_s}) )
-    logger.debug('c is of type ' + c.class.to_s)
-    logger.debug('selected_plan_id = ' + c.selected_plan_id.to_s)
     c
     
   end

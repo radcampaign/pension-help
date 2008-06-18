@@ -102,10 +102,10 @@ class Counseling < ActiveRecord::Base
   end
 
   #List of all AoA agencies.
-  def aoa_coveraged_states
+  def aoa_covered_states
     sql = <<-SQL
       select
-        s.abbrev
+        distinct s.abbrev
       from
         states as s join restrictions_states as rs on s.abbrev = rs.state_abbrev
         join restrictions as r on r.id = rs.restriction_id
@@ -123,11 +123,19 @@ class Counseling < ActiveRecord::Base
         join locations l on l.agency_id = a.id and l.is_provider = 1
         join restrictions r on r.location_id = l.id or r.agency_id = a.id 
         join restrictions_states rs on rs.restriction_id = r.id 
+        left join addresses addr on addr.location_id = l.id and addr.address_type='dropin'
         where a.result_type_id = ? and rs.state_abbrev IN (?,?,?,?)
         and a.use_for_counseling = 1 and is_active = 1
+        ORDER BY CASE addr.state_abbrev 
+        WHEN ? then 1 
+        WHEN ? then 2 
+        ELSE 3
+        END
+        LIMIT 1
         SQL
+    # CASE orders aoa agencies so that home state appears first (if there's more than one aoa covered state involved)
     Agency.find_by_sql([sql, ResultType['AoA'], work_state_abbrev, 
-                        hq_state_abbrev, pension_state_abbrev, home_state])
+                        hq_state_abbrev, pension_state_abbrev, home_state, home_state, work_state_abbrev])
   end
 
   #Conditions met to show step_5 

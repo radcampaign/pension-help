@@ -255,6 +255,7 @@ class Agency < ActiveRecord::Base
 
   #Compares two agencies by state
   def compare_state(b, dir = 1)
+    #consider refactoring as: if (self.best_state.nil?) && (!b.best_state.nil?) and so on
     if (locations.empty? || locations.first.dropin_address.blank?) && (!b.locations.empty? && !b.locations.first.dropin_address.blank?)
       1 * dir
     elsif (!locations.empty? && !locations.first.dropin_address.blank?) && (b.locations.empty? || b.locations.first.dropin_address.blank?)
@@ -415,6 +416,11 @@ class Agency < ActiveRecord::Base
       end
     end
     
+  end
+
+  #helper method to get most relevant state for an agency
+  def best_state
+    dropin_addresses.first.state_abbrev unless dropin_addresses.blank?
   end
 
 end
