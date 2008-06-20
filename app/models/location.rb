@@ -80,6 +80,6 @@ class Location < ActiveRecord::Base
   end
   
   def and_restrictions?
-    restriction.age_and_income
+    restriction.age_and_income unless restriction.nil?
   end
 end
