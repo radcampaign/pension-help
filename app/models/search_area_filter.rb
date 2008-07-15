@@ -7,7 +7,10 @@ class SearchAreaFilter
   end
 
   def put_params(params)
-    clear_params() and return if (!params['clear'].nil?)
+    if (!params['clear'].nil?)
+      @search_params.clear
+      return
+    end
 
     @@PARAM_KEYS.each do |key|
       tab = params[key]
@@ -19,7 +22,15 @@ class SearchAreaFilter
         end
       end
     end
-    @search_params[:active] = params[:active]
+    if params.has_key?(:commit)
+      @search_params['active'] = params['active']
+      #show agencies with ready_for_counseling = 1,or
+      #ready_for_counseling = 0, or
+      #do not consider this flag
+      @search_params['counseling'] = params['counseling']
+      #filter on Agency category(Government, Service Provider, ...)
+      @search_params['agency_category_id'] = params['agency_category_id']
+    end
   end
 
   def has_any_conditions?
@@ -45,7 +56,15 @@ class SearchAreaFilter
   end
 
   def is_active?
-    @search_params[:active]
+    @search_params['active']
+  end
+
+  def has_counseling_condition?
+    !@search_params['counseling'].blank?
+  end
+
+  def has_category_condition?
+    !@search_params['agency_category_id'].blank?
   end
 
   def get_find_locations_query
@@ -62,19 +81,8 @@ class SearchAreaFilter
           join agencies as a ON a.id = l.agency_id
 
     SQL
-    
-    nation_wide_cond =<<NATION_WIDE_CONDITIONS
-        (rs.restriction_id IS NULL AND
-            rci.restriction_id IS NULL AND
-            rcu.restriction_id IS NULL AND
-            rz.restriction_id IS NULL AND
-            a.use_for_counseling = 1 AND
-            a.is_active = 1 AND
-            l.is_provider = 1 )
 
-NATION_WIDE_CONDITIONS
-
-    prepare_sql_query(query, nation_wide_cond, true)
+    prepare_sql_query(query, true)
   end
   
   def get_find_plans_query
@@ -92,17 +100,7 @@ NATION_WIDE_CONDITIONS
 
     SQL
 
-    nation_wide_cond =<<NATION_WIDE_CONDITIONS
-        (rs.restriction_id IS NULL AND
-            rci.restriction_id IS NULL AND
-            rcu.restriction_id IS NULL AND
-            rz.restriction_id IS NULL AND
-            a.use_for_counseling = 1 AND
-            a.is_active = 1)
-
-NATION_WIDE_CONDITIONS
-
-    prepare_sql_query(query, nation_wide_cond)
+    prepare_sql_query(query)
   end
 
   def get_states
@@ -120,15 +118,44 @@ NATION_WIDE_CONDITIONS
   def get_zips
     @search_params['zip_ids']
   end
+  
+  def get_category
+    @search_params['agency_category_id']
+  end
+
+  def prepare_counseling_condition
+    result = ' (a.use_for_counseling ='
+    result << (@search_params['counseling'] == '1' ? '1' : '0')
+    result << ') '
+    return result
+  end
+
+  def prepare_category_condition
+    return ' (a.agency_category_id = ?) ' , @search_params['agency_category_id']
+  end
+
+  #Prepares sql condition which selects Nation Wide Agencies
+  def prepare_nation_wide_condition(is_location = false)
+    sql_params = Array.new
+
+    sql_cond = '(rs.restriction_id IS NULL AND'
+    sql_cond << ' rci.restriction_id IS NULL AND'
+    sql_cond << ' rcu.restriction_id IS NULL AND'
+    sql_cond << ' rz.restriction_id IS NULL'
+    sql_cond << " AND #{prepare_counseling_condition}" if has_counseling_condition?
+    sql_cond << " AND a.is_active = 1" if is_active?
+    sql_cond << " AND l.is_provider = 1" if is_location
+
+    if has_category_condition?
+      s, p = prepare_category_condition
+      sql_cond << ' AND ' << s
+      sql_params << p
+    end
+    sql_cond << ") \n"
+    return sql_cond, sql_params
+  end
 
   private
-
-  def clear_params()
-    @search_params['state_abbrevs'] = nil
-    @search_params['county_ids'] = nil
-    @search_params['city_ids'] = nil
-    @search_params['zip_ids'] = nil
-  end
 
   @@JOIN_TABLES = {
     'state_abbrevs' => {
@@ -147,13 +174,18 @@ NATION_WIDE_CONDITIONS
 
   #Prepares array of query and parameters for ActiveRecord's find_by_sql method
   #[query_string, param1, param2, ...]
-  def prepare_sql_query(query, nation_wide_cond, is_location = false)
-    search_cond_string, cond_params = prepare_search_conditions(is_location)
+  def prepare_sql_query(query, is_location = false)
+    search_cond_string, search_cond_params = prepare_search_conditions(is_location)
+    n_wide_cond, n_wide_params = prepare_nation_wide_condition(is_location)
+
+    cond_params = Array.new
     cond_str = ''
     if (has_any_conditions?)
       cond_str << ' WHERE '
-      cond_str << nation_wide_cond
+      cond_str << n_wide_cond
       cond_str << ' OR (' << search_cond_string << ')'
+      cond_params.concat(n_wide_params)
+      cond_params.concat(search_cond_params)
     else
       cond_str << ' WHERE a.is_active = 1 ' if is_active?
     end
@@ -187,10 +219,11 @@ NATION_WIDE_CONDITIONS
     end
     cond << '(a.is_active = 1 )' if is_active? || has_any_conditions?
 
-    #show only providers and C&A if not showing all agencies
-    if (has_any_conditions?)
-      cond << ' (l.is_provider = 1) ' if is_location
-      cond << ' (a.use_for_counseling = 1 ) '
+    cond << prepare_counseling_condition if has_counseling_condition?
+    if (has_category_condition?)
+      sql_q, sql_p = prepare_category_condition
+      cond << sql_q
+      cond_params << sql_p
     end
 
     return [cond.join(' AND '), cond_params]

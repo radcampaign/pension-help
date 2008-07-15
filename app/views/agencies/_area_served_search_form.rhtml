@@ -19,6 +19,13 @@
       <span id="zip_ids_container">
         <%= render :partial => 'shared/zips', :locals => {:counties => selected_counties, :zip_ids => params[:zip_ids] } %>
       </span>
+      <div style="clear: both;">
+        <select id="" name="agency_category_id">
+          <option value=""></option>
+          <%= options_for_select AgencyCategory.all.collect{|category| [category.name, category.id.to_s]}, params[:agency_category_id] %>
+        </select>
+        <label>Category</label>
+      </div>
     </div>
   </fieldset>
   <div class="clear">

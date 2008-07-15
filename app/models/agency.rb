@@ -113,16 +113,21 @@ class Agency < ActiveRecord::Base
   end
 
   def is_provider
-    locations.count(:id, :conditions => 'is_provider = 1') > 0
+    unless @is_provider
+      @is_provider = locations.count(:id, :conditions => 'is_provider = 1') > 0
+    end
+    @is_provider
   end
 
   def self.find_agencies filter
     locations = find_locations filter
-    plans = find_plans filter
+    #Do not search by plans
+#    plans = find_plans filter
 
     agencies = Hash.new
     agencies_ids = Array.new
-    [locations, plans].each do |arr|
+#    [locations, plans].each do |arr|
+    [locations].each do |arr|
       arr.each do |elem|
         agency_id = elem.agency_id
         if (!agencies_ids.include?(agency_id))
