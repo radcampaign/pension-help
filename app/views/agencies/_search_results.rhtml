@@ -51,6 +51,9 @@
         <%= agencies_filter_link_to_remote 'Active', params, :order => 'active',
             :desc => (params[:order]=='active' && params[:desc].blank?) ? true : nil %>
       </th>
+      <th class="center">
+        DSP/NSP
+      </th>
     </tr>
 
     <%= render :partial => 'search_result', :collection => search_results %>

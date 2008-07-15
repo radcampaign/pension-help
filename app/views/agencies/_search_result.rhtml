@@ -26,6 +26,7 @@
       <%= render :partial=> 'agencies/active_check', :locals => {:agency => search_result} %>
     </span>
   </td>
+  <td></td>
 </tr>
 <% search_result.locations.each do |loc| %>
   <% if loc.visible_in_view %>
@@ -37,6 +38,7 @@
     <td>&nbsp;</td>
     <td class="center"><%= image_tag(loc.is_provider ? 'check_blue.gif' : 'close.gif')%></td>
     <td>&nbsp;</td>
+    <td class="center"><%= loc.get_provider_type %></td>
    </tr>
     <% end %>
 <% end %>

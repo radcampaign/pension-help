@@ -35,7 +35,7 @@ class SearchAreaFilter
 
   def has_any_conditions?
     has_state_condition? || has_county_condition? ||
-      has_city_condition? || has_zip_condition?
+      has_city_condition? || has_zip_condition? || has_category_condition?
   end
 
   def has_state_condition?
@@ -217,7 +217,7 @@ class SearchAreaFilter
         cond << cond_tmp
       end
     end
-    cond << '(a.is_active = 1 )' if is_active? || has_any_conditions?
+    cond << '(a.is_active = 1 )' if is_active?# || has_any_conditions?
 
     cond << prepare_counseling_condition if has_counseling_condition?
     if (has_category_condition?)

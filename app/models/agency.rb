@@ -131,7 +131,8 @@ class Agency < ActiveRecord::Base
       arr.each do |elem|
         agency_id = elem.agency_id
         if (!agencies_ids.include?(agency_id))
-          agencies[agency_id] = elem.agency
+#          agencies[agency_id] = elem.agency
+          agencies[agency_id] = Agency.find(agency_id, :include => [{:locations =>[:agency,:dropin_address,:restriction]}])
           agencies_ids << agency_id
         end
       end
