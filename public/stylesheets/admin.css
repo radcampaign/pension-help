@@ -174,7 +174,8 @@ table#admin_list th.sorted {
 table#admin_list th.sorted.desc {
 	background-image:url(desc.gif);
 }
-table#admin_list th a {
+table#admin_list th a,
+table#admin_list .columnHeading {
 	color:#FFF;
 	font-weight:normal;
 }
