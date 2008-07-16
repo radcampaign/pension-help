@@ -85,7 +85,7 @@ class Location < ActiveRecord::Base
   
   #returns "NSP","DSP", or ""
   def get_provider_type
-    logger.debug "get_provider_type"
+    #logger.debug "get_provider_type"
     if is_provider && !restriction.nil? && agency.use_for_counseling = 1
       (restriction.minimum_age.nil? && restriction.max_poverty.nil?) ? 'NSP' : 'DSP'
     else

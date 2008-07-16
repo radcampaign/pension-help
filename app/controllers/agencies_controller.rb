@@ -154,6 +154,8 @@ class AgenciesController < ApplicationController
     @selected_states = State.find_by_state_abbrevs(filter.get_states)
     @selected_counties = filter.get_counties.collect {|id| County.find(id)} if filter.get_counties
     params[:agency_category_id] = filter.get_category
+    params[:counseling] = filter.get_counseling
+    params[:active] = filter.get_active
 
     order = params[:order].nil? ? 'default' : params[:order]
     dir = params[:desc].nil? ? 1 : -1

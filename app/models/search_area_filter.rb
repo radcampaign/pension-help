@@ -35,7 +35,8 @@ class SearchAreaFilter
 
   def has_any_conditions?
     has_state_condition? || has_county_condition? ||
-      has_city_condition? || has_zip_condition? || has_category_condition?
+      has_city_condition? || has_zip_condition? || has_category_condition? ||
+      is_active? || has_counseling_condition?
   end
 
   def has_state_condition?
@@ -56,7 +57,7 @@ class SearchAreaFilter
   end
 
   def is_active?
-    @search_params['active']
+    !@search_params['active'].blank?
   end
 
   def has_counseling_condition?
@@ -122,6 +123,14 @@ class SearchAreaFilter
   def get_category
     @search_params['agency_category_id']
   end
+  
+  def get_active
+    @search_params['counseling']
+  end
+  
+  def get_counseling
+    @search_params['active']
+  end
 
   def prepare_counseling_condition
     result = ' (a.use_for_counseling ='
@@ -134,6 +143,13 @@ class SearchAreaFilter
     return ' (a.agency_category_id = ?) ' , @search_params['agency_category_id']
   end
 
+  def prepare_active_condition
+    result = ' (a.is_active = '
+    result << (@search_params['active'] == '1' ? '1' : '0')
+    result << ') '
+    return result
+  end
+
   #Prepares sql condition which selects Nation Wide Agencies
   def prepare_nation_wide_condition(is_location = false)
     sql_params = Array.new
@@ -143,7 +159,7 @@ class SearchAreaFilter
     sql_cond << ' rcu.restriction_id IS NULL AND'
     sql_cond << ' rz.restriction_id IS NULL'
     sql_cond << " AND #{prepare_counseling_condition}" if has_counseling_condition?
-    sql_cond << " AND a.is_active = 1" if is_active?
+    sql_cond << " AND #{prepare_active_condition}" if is_active?
     sql_cond << " AND l.is_provider = 1" if is_location
 
     if has_category_condition?
@@ -217,7 +233,7 @@ class SearchAreaFilter
         cond << cond_tmp
       end
     end
-    cond << '(a.is_active = 1 )' if is_active?# || has_any_conditions?
+    cond << prepare_active_condition if is_active?# || has_any_conditions?
 
     cond << prepare_counseling_condition if has_counseling_condition?
     if (has_category_condition?)

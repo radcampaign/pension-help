@@ -1,20 +1,5 @@
-<div>
-  <%= agencies_filter_button_to_clear %>
-
-  <%= agencies_filter_button_to_remote 'Agencies for counseling', params, :counseling => '1' %>
-    
-  <%= agencies_filter_button_to_remote 'Agencies not for counseling', params, :counseling => '0' %>
-</div>
 
 <%= link_to 'Add a new agency', new_agency_path, :class => 'add_new' %>
-
-<div class="right">
-  <% if params[:active]=='1' %>
-    <%= agencies_filter_link_to_remote 'show inactive agencies', params, :active => nil %>
-  <% else %>
-    <%= agencies_filter_link_to_remote 'hide inactive agencies', params, :active => '1' %>
-  <% end %>
-</div>
 
 <div>
   <%= link_to_function 'Open/Close All Locations', "$$(\".locationsRow\").each( function(e) {e.toggle()})" %>

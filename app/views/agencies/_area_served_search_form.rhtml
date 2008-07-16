@@ -1,5 +1,9 @@
 <%# AJAX form for picking geographical restrictions %>
-<% form_remote_tag :url =>{:action => :ajax_search}, :html => {:class => 'admin_form'} do |f|  %>
+<% form_remote_tag :url =>{:action => :ajax_search},
+      :before => "Element.show('spinner')",
+      :complete => "Element.hide('spinner')",
+      :html => {:class => 'admin_form'} do |f|  %>
+
   <%= hidden_field_tag 'report', 'search' %>
   <fieldset>
     <div class="clear fullwidth" id="geo_edit_container" style="display: block;">
@@ -20,11 +24,27 @@
         <%= render :partial => 'shared/zips', :locals => {:counties => selected_counties, :zip_ids => params[:zip_ids] } %>
       </span>
       <div style="clear: both;">
-        <select id="" name="agency_category_id">
-          <option value=""></option>
-          <%= options_for_select AgencyCategory.all.collect{|category| [category.name, category.id.to_s]}, params[:agency_category_id] %>
-        </select>
-        <label>Category</label>
+        <span>
+          <select id="" name="agency_category_id">
+            <option value="">All</option>
+            <%= options_for_select AgencyCategory.all.collect{|category| [category.name, category.id.to_s]}, params[:agency_category_id] %>
+          </select>
+          <label>Category</label>
+        </span>
+        <span>
+          <select id="" name="counseling">
+            <option value="">All</option>
+            <%= options_for_select([['Agencies for counseling','1'],['Agencies not for counseling','0']], params[:counseling])%>
+          </select>
+          <label>Counseling</label>
+        </span>
+        <span>
+          <select id="" name="active">
+            <option value="">All</option>
+            <%= options_for_select([['Active', '1'],['Inactive', '0']], params[:active]) %>
+          </select>
+          <label>Active</label>
+        </span>
       </div>
     </div>
   </fieldset>
