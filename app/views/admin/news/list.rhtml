@@ -37,6 +37,8 @@
 <%= link_to 'Next page', { :page => @internal_news_pages.current.next } if @internal_news_pages.current.next %> 
 <br/>
 
+<%= link_to "Add New Internal News Item", :controller => 'admin/news', :action => 'new' %>
+
 <table width="100%" cellspacing="0" class="newsTable">
 	<caption>External News</caption>
 	<tbody id="ext_news_list">
@@ -74,8 +76,7 @@
 <%= link_to 'Next page', { :page => @external_news_pages.current.next } if @external_news_pages.current.next %> 
 <br/>
 
-
-<%= link_to "Add New News Item", :controller => 'admin/news', :action => 'new'%>
+<%= link_to "Add New External News Item", :controller => 'admin/news', :action => 'new', :news => 'external'%>
 
 <%= sortable_element 'int_news_list', 
 			:tag => 'tr',

@@ -7,19 +7,20 @@
 <p><label for="news_intro">Intro</label><br/>
 <%= text_area 'news', 'intro'  %></p>
 
-<p><label for="news_article_url">Article url</label><br/>
-<%= text_field 'news', 'article_url', :size => 100  %></p>
+<% unless @news.is_internal %>
+  <p><label for="news_article_url">Article url</label><br/>
+  <%= text_field 'news', 'article_url', :size => 100  %></p>
+<% end %>
 
 <p><label for="news_source_url">Source url</label><br/>
 <%= text_field 'news', 'source_url', :size => 100  %></p>
 
-<p><label for="news_is_internal">Is Internal</label><br/>
-<select id="news_is_internal" name="news[is_internal]">
-	<%= options_for_select([['Yes',true], ['No',false]], @news.is_internal) %>
-</select></p>
+<%= hidden_field 'news', 'is_internal', :value => @news.is_internal %>
 
-<p><label for="news_body">Body</label><br/>
-<%= text_area 'news', 'body'  %></p>
+<% if @news.is_internal %>
+  <p><label for="news_body">Body</label><br/>
+  <%= text_area 'news', 'body'  %></p>
+<% end %>
 
 <p><label for="news_publish_date">Publish date</label><br/>
 <%= date_select 'news', 'publish_date'  %></p>

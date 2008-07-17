@@ -41,6 +41,7 @@ class Admin::NewsController < ApplicationController
 
   def new
     @news = News.new
+    @news.is_internal = params[:news].blank?
   end
 
   def create
