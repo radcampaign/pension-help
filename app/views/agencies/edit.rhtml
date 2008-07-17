@@ -95,44 +95,55 @@
                 </li>
 		</ul>
 		<div class="left fullwidth">
-		<table class="admin_table" id="loc_table" cellspacing="0">
-			<tbody id="location_list">
-			<tr><th colspan="7" id="table_title">AGENCY LOCATIONS</th></tr>
-			<% if @locations %>
-				<tr>
-					<th class="hq">HQ</th>
-					<th class="hq">Provider</th>
-					<th class="loc"><%= link_to 'Location', edit_agency_path(:order=>'name') %></th>
-					<th class="city">City, <%= link_to 'State', edit_agency_path(:order=>'state') %></th>
-          <th class="">Age</th>
-          <th class="">FPG</th>
-          <th class="">AND</th>
-				</tr>
-				<% @locations.each_with_index do |location, i| -%>
-				<tr id="location_<%=location.id.to_s%>">
-					<td class="hq"><%= (location.is_hq? ? image_tag('check.gif') : '&nbsp;') %></td>
-					<td class="hq"><%= (location.is_provider? ? image_tag('check_blue.gif')  : '&nbsp;') %></td>
-					<td class="loc "><%= link_to h(location.name), edit_agency_location_url(:agency_id => @agency, :id => location) %></td>
-					<td class="city "><%  if location.dropin_address -%>
-						<%= location.dropin_address.city %><% if !location.dropin_address.city.blank? -%>, <% end -%><%= location.dropin_address.state_abbrev %>
-					<%end -%></td>
-          <td><%= (location.age_restrictions? ? image_tag('check.gif') : '&nbsp;')%></td>
-          <td><%= (location.income_restrictions? ? image_tag('check.gif') : '&nbsp;')%></td>
-          <td><%= (location.and_restrictions? ? image_tag('check.gif') : '&nbsp;')%></td>
-				</tr>
-				<% end %>
-			<% end %>
-			</tbody>
-		</table>
-		<% if @agency.new_record? %>
-			Please save changes to this agency before adding locations
-		<% else %>
-			<%= link_to 'Add a new location', 
-					new_agency_location_path(@agency),
-					:method => :get,
-					:class => 'add_new' %>
-		<% end -%>
-			<table class="admin_table" id="plan_table" cellspacing="0">
+    <div class="admin_table">
+      <div class="showHideLinks">
+        <%= link_to_function 'Show/Hide inactive locations', "toggleRows('disabledLocation')" %>
+      </div>
+      <table id="loc_table" cellspacing="0">
+        <tbody id="location_list">
+        <tr><th colspan="8" id="table_title">AGENCY LOCATIONS</th></tr>
+        <% if @locations %>
+          <tr>
+            <th class="hq">HQ</th>
+            <th class="hq">Provider</th>
+            <th class="loc"><%= link_to 'Location', edit_agency_path(:order=>'name') %></th>
+            <th class="city">City, <%= link_to 'State', edit_agency_path(:order=>'state') %></th>
+            <th class="">Age</th>
+            <th class="">FPG</th>
+            <th class="">AND</th>
+            <th class="">Active</th>
+          </tr>
+          <% @locations.each_with_index do |location, i| -%>
+          <tr id="location_<%=location.id.to_s%>" class="<%= 'disabledLocation' unless location.is_active %>">
+            <td class="hq"><%= (location.is_hq? ? image_tag('check.gif') : '&nbsp;') %></td>
+            <td class="hq"><%= (location.is_provider? ? image_tag('check_blue.gif')  : '&nbsp;') %></td>
+            <td class="loc "><%= link_to h(location.name), edit_agency_location_url(:agency_id => @agency, :id => location) %></td>
+            <td class="city "><%  if location.dropin_address -%>
+              <%= location.dropin_address.city %><% if !location.dropin_address.city.blank? -%>, <% end -%><%= location.dropin_address.state_abbrev %>
+            <%end -%></td>
+            <td><%= (location.age_restrictions? ? image_tag('check.gif') : '&nbsp;')%></td>
+            <td><%= (location.income_restrictions? ? image_tag('check.gif') : '&nbsp;')%></td>
+            <td><%= (location.and_restrictions? ? image_tag('check.gif') : '&nbsp;')%></td>
+            <td><%= image_tag(location.is_active ? 'check_blue.gif' : 'close.gif')%></td>
+          </tr>
+          <% end %>
+        <% end %>
+        </tbody>
+      </table>
+      <% if @agency.new_record? %>
+        Please save changes to this agency before adding locations
+      <% else %>
+        <%= link_to 'Add a new location', 
+            new_agency_location_path(@agency),
+            :method => :get,
+            :class => 'add_new' %>
+      <% end -%>
+    </div>
+    <div class="admin_table">
+      <div class="showHideLinks">
+        <%= link_to_function 'Show/Hide inactive plans', "toggleRows('disabledPlan')" %>
+      </div>
+			<table id="plan_table" cellspacing="0">
 				<tbody id="plan_list">
 				<tr>
 					<th colspan="4" id="table_title">PLANS</th></tr>
@@ -140,12 +151,14 @@
 						<th width="5%">drag to sort</th>
 						<th>Plan Name</th>
 						<th>Common Name</th>
+            <th>Active</th>
 					</tr>
 				<% @agency.plans.each_with_index do |plan, i| %>
-				<tr id="plan_<%=plan.id.to_s%>">
+				<tr id="plan_<%=plan.id.to_s%>" class="<%= 'disabledPlan' unless plan.is_active %>">
 					<td class="center"><%= image_tag 'play.gif'%></td>
 					<td><%= link_to h(plan.name), edit_plan_url(:agency_id => @agency, :id => plan)%></td>
 					<td><%= plan.name2 %></td>
+          <td><%= image_tag(plan.is_active ? 'check_blue.gif' : 'close.gif') %></td>
 				</tr>
 				<% end %>
 				</tbody>
@@ -158,7 +171,8 @@
 					:method => :get,
 					:class => 'add_new' %>
 			<% end -%>
-		</div>
+      </div>
+    </div>
 		<div class="clear">
 		  <%= submit_tag "Update Agency" %> 
 			<%= submit_tag "Update Agency and Return to List", :name => 'update_and_return' %>
@@ -174,3 +188,22 @@ sortable_element 'location_list',
 <%= sortable_element 'plan_list', 
 			:tag => 'tr',
       :url => { :action => "sort_plan" } %>
+
+<script type="text/javascript">
+  /* toggles all element with given class*/
+  function toggleRows(elemClass) {
+    $$("." + elemClass).each( function(e) {
+      e.toggle()}
+    );
+    return false;
+  }
+
+  /* Hide inactive locations and plans. */
+  Event.observe( window, 'load', function() {
+    ['.disabledLocation', '.disabledPlan'].each(function(item) {
+      $$(item).each(function(e_class) {
+        e_class.hide();
+      });
+    });
+  });
+</script>

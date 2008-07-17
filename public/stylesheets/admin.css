@@ -47,8 +47,13 @@ form.admin_form li {
 }
 
 .admin_table {
-	border: 1px solid #00D6F0;
-  margin: 20px 0 0 20px;
+  padding: 20px 0 0 20px;
+}
+.admin_table .showHideLinks {
+  margin-bottom: 5px;
+}
+.admin_table table {
+  border: 1px solid #00D6F0;
 	width: 800px;
 }
 .admin_table #table_title {

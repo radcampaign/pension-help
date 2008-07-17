@@ -161,6 +161,7 @@ class SearchAreaFilter
     sql_cond << " AND #{prepare_counseling_condition}" if has_counseling_condition?
     sql_cond << " AND #{prepare_active_condition}" if is_active?
     sql_cond << " AND l.is_provider = 1" if is_location
+    sql_cond << (is_location ? ' AND l.is_active = 1 ' : 'AND p.is_active = 1 ')
 
     if has_category_condition?
       s, p = prepare_category_condition
@@ -241,6 +242,9 @@ class SearchAreaFilter
       cond << sql_q
       cond_params << sql_p
     end
+
+    #use only active locations, or plans
+    cond << (is_location ? ' l.is_active = 1 ' : ' p.is_active = 1 ')
 
     return [cond.join(' AND '), cond_params]
   end

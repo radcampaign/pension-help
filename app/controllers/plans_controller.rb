@@ -19,6 +19,7 @@ class PlansController < ApplicationController
   def new
     @plan = Plan.new
     @plan.build_restriction
+    @plan.is_active = true
     render :template => 'plans/edit'
 #    render :partial => 'plans/plan_detail', :layout => false
   end
