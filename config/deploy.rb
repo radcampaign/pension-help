@@ -1,3 +1,8 @@
+# This recipe is for capistrano 1.4.x 
+# In order for this to work, we'll need capistrano 1.4.2, and net-ssh 1.1.2 (not 1.1.4 or 2.x!)
+# see http://www.mail-archive.com/capistrano@googlegroups.com/msg04235.html
+abort "needs capistrano 1 (e.g. cap _1.4.2_ production deploy)" if respond_to?(:namespace)
+
 # This defines a deployment "recipe" that you can feed to capistrano
 # (http://manuals.rubyonrails.com/read/book/17). It allows you to automate
 # (among other things) the deployment of your application.

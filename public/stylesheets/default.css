@@ -441,8 +441,15 @@ table tr.even {
 }
 #spinner {
 	position: fixed;
-	top: 50%;
-	left: 50%;
+	top: 40%;
+	left: 40%;
+	height: 40px;
+	min-width: 110px;
+	padding: 10px 18px 0 18px;
+	background-color: #DDD;
+}
+#spinner img#ajax_spinner {
+	margin: 0 8px;
 }
 * html div#spinner {position: absolute;
 top:expression(eval(document.compatMode &&
