@@ -30,3 +30,10 @@
 
 <!--[eoform:news]-->
 
+<script type="text/javascript">
+  Event.observe(window, 'load', function(){
+
+    var asr = new AdminSaveReminder();
+    asr.addObserverToLinkButtons(['javascript:;'], ['commit']);
+  });
+</script>

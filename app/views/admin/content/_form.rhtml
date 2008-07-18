@@ -11,4 +11,11 @@
 <%= text_area 'content', 'content', :cols => 70  %></p>
 
 <!--[eoform:content]-->
-
+<script type="text/javascript">
+  /* Hide inactive locations and plans. */
+  Event.observe( window, 'load', function() {
+    /*Add 'save reminder' to links and buttons */
+    var asr = new AdminSaveReminder();
+    asr.addObserverToLinkButtons(['javascript:;'], ['commit']);
+  });
+</script>

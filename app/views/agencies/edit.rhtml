@@ -97,7 +97,7 @@
 		<div class="left fullwidth">
     <div class="admin_table">
       <div class="showHideLinks">
-        <%= link_to_function 'Show/Hide inactive locations', "toggleRows('disabledLocation')" %>
+        <%= link_to_function 'Show/Hide inactive locations', "toggleRows('disabledLocation')", :id => 'showHideLocations' %>
       </div>
       <table id="loc_table" cellspacing="0">
         <tbody id="location_list">
@@ -135,13 +135,12 @@
       <% else %>
         <%= link_to 'Add a new location', 
             new_agency_location_path(@agency),
-            :method => :get,
             :class => 'add_new' %>
       <% end -%>
     </div>
     <div class="admin_table">
       <div class="showHideLinks">
-        <%= link_to_function 'Show/Hide inactive plans', "toggleRows('disabledPlan')" %>
+        <%= link_to_function 'Show/Hide inactive plans', "toggleRows('disabledPlan')", :id => 'showHidePlans' %>
       </div>
 			<table id="plan_table" cellspacing="0">
 				<tbody id="plan_list">
@@ -168,7 +167,6 @@
 			<% else %>
 				<%= link_to 'Add a new plan', 
 					new_agency_plan_path(@agency),
-					:method => :get,
 					:class => 'add_new' %>
 			<% end -%>
       </div>
@@ -205,5 +203,9 @@ sortable_element 'location_list',
         e_class.hide();
       });
     });
+
+    /*Add 'save reminder' to links and buttons */
+    var asr = new AdminSaveReminder();
+    asr.addObserverToLinkButtons(['showHideLocations','showHidePlans'], ['commit', 'update_and_return']);
   });
 </script>

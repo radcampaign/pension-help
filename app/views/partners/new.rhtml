@@ -74,3 +74,12 @@
 <% end %>
 
 <%= link_to 'Back', partners_path %>
+
+<script type="text/javascript">
+  /* Hide inactive locations and plans. */
+  Event.observe( window, 'load', function() {
+    /*Add 'save reminder' to links and buttons */
+    var asr = new AdminSaveReminder();
+    asr.addObserverToLinkButtons([], ['commit']);
+  });
+</script>
