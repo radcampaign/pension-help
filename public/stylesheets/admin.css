@@ -209,6 +209,7 @@ table.contentsTable td{
 }
 table.contentsTable th {
   text-align: left;
+	text-decoration: underline;
 }
 table.contentsTable caption{
 

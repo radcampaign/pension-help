@@ -14,7 +14,7 @@
     <td><%= h content.updated_by %> on <%= h content.updated_at.strftime("%Y-%m-%d") %></td>
   </tr>
   <% for child in content.all_children %>
-    <tr class="<%= 'active' if content.is_active %>">
+    <tr class="<%= 'active' if child.is_active %>">
       <td><div style="margin-left:<%= (child.level - 1) * 2%>em;"><%= link_to h(child.title), :action => 'edit', :id => child %></div></td>
       <td width="30%"><%= h child.url %></td>
       <td><%= h child.updated_by %> on <%= h child.updated_at.strftime("%Y-%m-%d") %></td>
