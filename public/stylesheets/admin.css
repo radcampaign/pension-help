@@ -204,6 +204,18 @@ table.newsTable caption{
 table.newsTable tr.active {
 	font-weight:bold;
 }
+table.contentsTable {
+
+}
+table.contentsTable th {
+  text-align: left;
+}
+table.contentsTable caption{
+
+}
+table.contentsTable tr.active {
+	font-weight:bold;
+}
 li.agency_header {
 	margin: 0 0 15px;
 }

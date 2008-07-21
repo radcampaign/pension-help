@@ -2,7 +2,7 @@ class SiteController < ApplicationController
   
   def show_page
     url = params[:url].to_s
-    @content = Content.find_by_url(url)
+    @content = Content.find_by_url_and_is_active(url, true)
     if @content.nil?
       redirect_to :action => :not_found
       return

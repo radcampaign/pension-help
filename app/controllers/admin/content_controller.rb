@@ -31,7 +31,8 @@ class Admin::ContentController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @content_pages, @contents = paginate :contents, :per_page => 20, :order => 'url'
+    collec = Content.root.children
+    @content_pages, @contents = paginate_collection collec, :per_page => 20
   end
 
   def show
@@ -40,11 +41,15 @@ class Admin::ContentController < ApplicationController
 
   def new
     @content = Content.new
+    @content.is_active = true
   end
 
   def create
     @content = Content.new(params[:content])
     if @content.save
+      @parent = Content.find(params[:parent_id])
+      @content.move_to_child_of @parent
+
       flash[:notice] = 'Content was successfully created.'
       redirect_to :action => 'list'
     else
@@ -65,6 +70,18 @@ class Admin::ContentController < ApplicationController
     else
       render :action => 'edit'
     end
+  end
+  
+  private
+  def paginate_collection(collection, options = {})
+    default_options = {:per_page => 10, :page => 1}
+    options = default_options.merge options
+
+    pages = Paginator.new self, collection.size, options[:per_page], options[:page]
+    first = pages.current.offset
+    last = [first + options[:per_page], collection.size].min
+    slice = collection[first...last]
+    return [pages, slice]
   end
 
 end

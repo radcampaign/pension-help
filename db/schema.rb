@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 51) do
+ActiveRecord::Schema.define(:version => 52) do
 
   create_table "addresses", :force => true do |t|
     t.column "location_id",    :integer
@@ -78,7 +78,13 @@ ActiveRecord::Schema.define(:version => 51) do
     t.column "created_at", :string
     t.column "updated_at", :datetime
     t.column "updated_by", :string
+    t.column "parent_id",  :integer
+    t.column "lft",        :integer
+    t.column "rgt",        :integer
+    t.column "is_active",  :boolean
   end
+
+  add_index "contents", ["parent_id"], :name => "parent_id"
 
   create_table "counselings", :force => true do |t|
     t.column "zipcode",                 :string
@@ -637,6 +643,8 @@ ActiveRecord::Schema.define(:version => 51) do
   add_foreign_key "agencies", ["result_type_id"], "result_types", ["id"], :name => "agencies_ibfk_2"
 
   add_foreign_key "cities", ["county_id"], "counties", ["id"], :name => "cities_ibfk_1"
+
+  add_foreign_key "contents", ["parent_id"], "contents", ["id"], :name => "contents_ibfk_1"
 
   add_foreign_key "counselings", ["employer_type_id"], "employer_types", ["id"], :name => "counselings_ibfk_1"
   add_foreign_key "counselings", ["federal_plan_id"], "federal_plans", ["id"], :name => "counselings_ibfk_2"

@@ -4,5 +4,9 @@
   <%= render :partial => 'form' %>
   <%= submit_tag 'Save' %>
 <% end %>
-
+<br/>
+<div>
+  <%= link_to 'Create sub-page', :action => :new, :parent_id => @content %>
+</div>
+<br/>
 <%= link_to 'Back to List', :action => 'list' %>

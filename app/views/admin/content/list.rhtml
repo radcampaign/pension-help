@@ -1,6 +1,6 @@
 <h2>Manage Content</h2>
 
-<table width="100%">
+<table class="contentsTable" width="100%">
   <tr>
     <th>Title</th>
     <th>URL</th>
@@ -8,11 +8,18 @@
   </tr>
   
 <% for content in @contents %>
-  <tr>
-    <td width="35%"><%= '&nbsp;' * 2 * (content.url.length > 1 ? content.url.count("/") : 0) %> <%= link_to h(content.title), :action => 'edit', :id => content %></td>
+  <tr class="<%= 'active' if content.is_active %>">
+    <td width="35%"><span style="margin-left:<%= (content.level - 1) * 2%>em;"><%= link_to h(content.title), :action => 'edit', :id => content %></span></td>
     <td width="30%"><%= h content.url %></td>
     <td><%= h content.updated_by %> on <%= h content.updated_at.strftime("%Y-%m-%d") %></td>
   </tr>
+  <% for child in content.all_children %>
+    <tr class="<%= 'active' if content.is_active %>">
+      <td width="35%"><span style="margin-left:<%= (child.level - 1) * 2%>em;"><%= link_to h(child.title), :action => 'edit', :id => child %></span></td>
+      <td width="30%"><%= h child.url %></td>
+      <td><%= h child.updated_by %> on <%= h child.updated_at.strftime("%Y-%m-%d") %></td>
+    </tr>
+  <% end %>
 <% end %>
 </table>
 
