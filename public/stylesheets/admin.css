@@ -204,8 +204,8 @@ table.newsTable caption{
 table.newsTable tr.active {
 	font-weight:bold;
 }
-table.contentsTable {
-
+table.contentsTable td{
+	padding:0 12px 0 0;
 }
 table.contentsTable th {
   text-align: left;
