@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
   include AuthenticatedSystem
   include ExceptionNotifiable
   
+  before_filter :check_support_for_cookies
+
   # Pick a unique cookie name to distinguish our session data from others'
   session :session_key => '_pha_session_id'
   layout 'default'
@@ -53,4 +55,26 @@ class ApplicationController < ActionController::Base
     return false
   end
 
+  #Checks if user's browser supports cookies.
+  def check_support_for_cookies
+    #list of controllers to check for support
+    controllers_to_check = %w[help content images menu news agencies]
+
+    if (controllers_to_check.include?(controller_name))
+      #Checks if there is session_id set in cookie
+      if (request.cookies["_pha_session_id"].to_s.blank?)
+        #if user enters site for the first time, cookie might not be set,
+        #so redirect to self and check again, this time we would know that user
+        #has already visitted page
+        #http://jameshalberg.com/2006/05/12/requiring-and-testing-cookies/
+        if params[:cookies].nil?
+          redirect_to :controller => params[:controller],
+                :action => params[:action],
+                :cookies => 'true'
+        else
+          redirect_to :controller => :warning, :action => :show, :cookies_disabled => true
+        end
+      end
+    end
+  end
 end

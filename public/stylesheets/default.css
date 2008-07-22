@@ -112,6 +112,13 @@ a img {
 	background-repeat:no-repeat;
 }
 
+#warning_header {
+	width:773px;
+	height:91px;
+	background-image:url('/images/layout/header-site.jpg');
+	background-repeat:no-repeat;
+}
+
 #home_link {
 	position:absolute;
 	height:76px;

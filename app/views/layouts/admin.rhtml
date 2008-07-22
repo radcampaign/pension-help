@@ -53,6 +53,7 @@
 					</div>
 				<br/>
 		    <% end -%>
+       <%= render :partial => 'shared/js_disabled_redirect' if controller.controller_name == 'help' %>
 <%= yield  %>
 			</div>
 		</div>
