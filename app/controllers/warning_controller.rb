@@ -5,7 +5,7 @@ class WarningController < ApplicationController
     unless params[:js_disabled].blank?
       @js_disabled = true
       #remember that user has seen warning message
-      session[:seen_js_disabled_warning] = true
+      # session[:seen_js_disabled_warning] = true
     end
 
     unless params[:cookies_disabled].blank?
