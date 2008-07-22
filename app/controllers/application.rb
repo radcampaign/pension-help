@@ -4,8 +4,8 @@
 class ApplicationController < ActionController::Base
   include AuthenticatedSystem
   include ExceptionNotifiable
-  
-  before_filter :check_support_for_cookies
+   
+  before_filter :check_support_for_cookies 
 
   # Pick a unique cookie name to distinguish our session data from others'
   session :session_key => '_pha_session_id'
@@ -58,7 +58,7 @@ class ApplicationController < ActionController::Base
   #Checks if user's browser supports cookies.
   def check_support_for_cookies
     #list of controllers to check for support
-    controllers_to_check = %w[help content images menu news agencies]
+    controllers_to_check = %w[help account]
 
     if (controllers_to_check.include?(controller_name))
       #Checks if there is session_id set in cookie
