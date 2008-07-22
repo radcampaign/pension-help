@@ -59,12 +59,18 @@ class Admin::ContentController < ApplicationController
 
   def edit
     @content = Content.find(params[:id])
+    @contents = Content.get_content_list()
   end
 
   def update
     @content = Content.find(params[:id])
     @content.updated_by = current_user.login
+    @contents = Content.get_content_list()
     if @content.update_attributes(params[:content])
+      unless params[:parent_id].blank?
+        @parent = Content.find(params[:parent_id])
+        @content.move_to_child_of @parent
+      end
       flash[:notice] = 'Content was successfully updated.'
       redirect_to :action => 'list'
     else

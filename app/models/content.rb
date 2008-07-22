@@ -14,4 +14,9 @@
 
 class Content < ActiveRecord::Base
   acts_as_nested_set
+  
+  #Returns list of contents, ommits element with given id
+  def Content.get_content_list(content_id = nil)
+    Content.root.full_set.collect{|elem| elem unless (content_id && elem.id == content_id) }.compact
+  end
 end
