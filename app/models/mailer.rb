@@ -55,4 +55,14 @@ class Mailer < ActionMailer::Base
     @body["partner"] = partner
   end
   
+  def page_email(email,site)
+    @recipients = email.recipient_email
+    @from = email.email
+    @sent_on = Time.now
+    @subject = "PensionHelp.org information"
+
+    @body['mail'] = email
+    @body['site'] = site
+  end
+
 end

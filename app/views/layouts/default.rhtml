@@ -22,7 +22,7 @@
 			<%= link_to_function('',"ts('body',1)", :id => 'ts_increase_link')%>
 			<%= link_to_function('',"ts('body',-1)", :id => 'ts_decrease_link')%>
 			<a href="/" id="home_link"></a>
-			<a href="mailto:?Subject=PensionHelp.org%20information&Body=http://<%= request.host %><%= request.request_uri %>" id="mailto_link"></a>
+      <%= link_to '', {:controller => :email_this_page, :action => :new, :link => request.request_uri}, :id => 'mailto_link' %>
 			<a href="#" onclick="print_preview(); return false;" id="print_link"></a>
 			</div>
 		</div>

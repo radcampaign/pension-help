@@ -1,0 +1,7 @@
+<h1>Email This Page</h1>
+
+<% form_for :email, @email, :url => {:action => :create} do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+
+  <%= submit_tag('Send') %>
+<% end %>
