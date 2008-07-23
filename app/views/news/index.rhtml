@@ -4,7 +4,7 @@
 and retirement savings plans, and new PensionHelp America Partners and HelpNet members.</p>
 
 <% for news in @internal_news[0..2] %>
-<h2><a href="<%= news.article_url %>"><%= news.title %></a></h2>
+  <h2><a href="<%= "/internal_news/#{news.id}/show" %>"><%= news.title %></a></h2>
 <%= news.intro %>
 <% end -%>
 <br/><br/>

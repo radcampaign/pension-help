@@ -24,6 +24,7 @@ ActionController::Routing::Routes.draw do |map|
 
   # Install the default route as the lowest priority.
   #route to: behind scenes search
+  map.connect 'internal_news/:id/show', :controller => 'news', :action => 'internal'
   map.connect 'search2', :controller => "search", :action => "search2"
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action.:format'

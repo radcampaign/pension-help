@@ -1,0 +1,11 @@
+<% unless @news %>
+  <p>News not found</p>
+<% else %>
+  <h1>Internal News</h1>
+
+  <h2><%= @news.title %></h2>
+  <p>
+    <%= @news.body %>
+  </p>
+<% end %>
+<%= link_to 'Return to list', :action => :index %>

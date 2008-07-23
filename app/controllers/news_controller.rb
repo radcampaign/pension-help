@@ -15,5 +15,8 @@ class NewsController < ApplicationController
     # @scroll = true
     @external_news = News.find(:all, :conditions => "is_internal = 1 AND publish_date <= current_date() AND archive_date > current_date()", :order => "position asc, publish_date desc")
   end
-
+  
+  def internal
+    @news = News.find_by_id_and_is_internal(params[:id], true)
+  end
 end
