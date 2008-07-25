@@ -8,6 +8,9 @@ ActionController::Routing::Routes.draw do |map|
     agency.resources :plans
   end
   
+  map.resources :feedbacks,
+      :controller => :feedback
+
   # The priority is based upon order of creation: first created -> highest priority.
   
   # Sample of regular route:

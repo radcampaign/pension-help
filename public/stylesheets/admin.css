@@ -260,3 +260,61 @@ h2#agency_heading {
 #geo_view_container {
 	width: 900px;
 }
+
+/* Feedbacks */
+div#feedbackFilter {
+  width: 100%;
+  clear: both;
+}
+table.feedbackTable {
+	border:1px solid #F00;
+	padding:6px;
+	background-color:#FEE;
+  width: 100%;
+}
+table.feedbackTable caption{
+	font-weight:bold;
+}
+table.feedbackTable tr.active {
+	font-weight:bold;
+}
+table.feedbackTable td{
+	padding:0 12px 0 0;
+   border-top: 1px solid grey;
+}
+table.feedbackTable th {
+  text-align: left;
+	text-decoration: underline;
+}
+table.feedbackTable tr.active {
+	font-weight:bold;
+}
+
+#feedback, #feedback div, #feedback table {
+  margin: 5px;
+}
+#manageFeedback, #manageFeedback form {
+  margin: 5px;
+}
+#feedback table.form td.label, #manageFeedback table.form td.label {
+  width: 25%;
+}
+#feedback table.form td.element, #manageFeedback table.form td.element {
+  width: 75%;
+}
+/* Comments */
+.comments {
+  margin: 5px;
+  width: 100%;
+}
+.comments div.comment {
+  margin: 5px;
+  border: 1px solid #CC0000;
+  padding: 5px;
+}
+.comments div.comment span {
+  margin-bottom: 5px;
+  text-decoration: underline;
+  display: block;
+}
+/* /END Feedback Table */

@@ -1,0 +1,21 @@
+<% form_tag '/feedbacks', :method => :get ,:class => 'admin_form' do -%>
+  <fieldset>
+    <span>
+      <select id="resolved_select" name="resolved">
+        <%= options_for_select([['All', 'a'], ['Resolved','1'], ['Unresolved', '0']], params[:resolved])%>
+      </select>
+      <label>Resolved: </label>
+    </span>
+
+    <span>
+      <select id="resolved_select" name="category">
+        <option value=""></option>
+        <%= options_for_select(Feedback.get_categories.collect{|c| [c,c]}, params[:category]) %>
+      </select>
+      <label>Category: </label>
+    </span>
+  </fieldset>
+  <div class="clear"></div>
+
+  <%= submit_tag 'Filter' %>
+<% end -%>

@@ -1,18 +1,18 @@
 class Mailer < ActionMailer::Base
   
-  def feedback(type,feedback,name=nil,email=nil,phone=nil,availability=nil)
-    @recipients = EMAIL_RECIPIENT
+  def feedback(feedback)
+    @recipients = 'atar@newitech.com'#EMAIL_RECIPIENT
     @from = EMAIL_FROM
     @sent_on = Time.now
-    @subject = "PHA: Feedback [#{type}]"
+    @subject = "PHA: Feedback [#{feedback.category}]"
     
     # Email body substitutions
-    @body["type"] = type  
-    @body["feedback"] = feedback  
-    @body["name"] = name
-    @body["email"] = email                       
-    @body["phone"] = phone                          
-    @body["availability"] = availability
+    @body["type"] = feedback.category  
+    @body["feedback"] = feedback.feedback
+    @body["name"] = feedback.name
+    @body["email"] = feedback.email
+    @body["phone"] = feedback.phone
+    @body["availability"] = feedback.availability
   end
   
   def search_net_application(partner)

@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 53) do
+ActiveRecord::Schema.define(:version => 55) do
 
   create_table "addresses", :force => true do |t|
     t.column "location_id",    :integer
@@ -70,6 +70,17 @@ ActiveRecord::Schema.define(:version => 53) do
     t.column "name",     :string
     t.column "position", :integer
   end
+
+  create_table "comments", :force => true do |t|
+    t.column "title",            :string,   :limit => 50, :default => ""
+    t.column "comment",          :text
+    t.column "created_at",       :datetime,                               :null => false
+    t.column "commentable_id",   :integer,                :default => 0,  :null => false
+    t.column "commentable_type", :string,   :limit => 15,                 :null => false
+    t.column "user_id",          :integer,                :default => 0,  :null => false
+  end
+
+  add_index "comments", ["user_id"], :name => "user_id"
 
   create_table "contents", :force => true do |t|
     t.column "url",        :string
@@ -145,7 +156,7 @@ ActiveRecord::Schema.define(:version => 53) do
     t.column "availability", :string
     t.column "category",     :string
     t.column "feedback",     :text
-    t.column "is_resolved",  :boolean
+    t.column "is_resolved",  :boolean,  :default => false
     t.column "created_at",   :datetime
     t.column "updated_at",   :datetime
   end
@@ -655,6 +666,8 @@ ActiveRecord::Schema.define(:version => 53) do
   add_foreign_key "agencies", ["result_type_id"], "result_types", ["id"], :name => "agencies_ibfk_2"
 
   add_foreign_key "cities", ["county_id"], "counties", ["id"], :name => "cities_ibfk_1"
+
+  add_foreign_key "comments", ["user_id"], "users", ["id"], :name => "comments_ibfk_1"
 
   add_foreign_key "contents", ["parent_id"], "contents", ["id"], :name => "contents_ibfk_1"
 

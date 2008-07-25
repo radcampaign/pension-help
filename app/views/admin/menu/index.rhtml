@@ -2,6 +2,7 @@
 
 <ul class="menuList">
 <li><%= link_to "Agencies / Locations / Plans", agencies_url(:clear=>true) %></li>
+<li><%= link_to "Manage feedback", :controller => "/feedbacks", :action => 'index'%></li>
 <li><%= link_to "Manage page content", :controller => "admin/content", :action => 'index' %></li>
 <li><%= link_to "Manage news items", :controller => "admin/news", :action => 'index' %></li>
 <li><%= link_to "Partner List", :controller => "/partners", :action => 'index'%></li>

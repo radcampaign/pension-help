@@ -1,0 +1,76 @@
+<h1>Feedback</h1>
+
+<strong>Your feedback is important to us.</strong>
+
+<p>Please complete the form below, then click SUBMIT to send us your feedback.</p>
+
+<%= error_messages_for :feedback %>
+<% form_for :feedback, @feedback, :url => {:controller => :feedback, :action => :save_feedback} do |f| %>
+	<table class="form">
+	<tr>
+		<td class="label">
+			Your Name:
+		</td>
+		<td class="element">
+			<%= f.text_field :name %>
+		</td>
+	</tr>
+	<tr>
+		<td class="label">
+			Your Email Address:
+		</td>
+		<td class="element">
+			<%= f.text_field :email %>
+		</td>
+	</tr>
+	<tr>
+		<td class="label">
+			Your Telephone Number:
+		</td>
+		<td class="element">
+			<%= f.text_field :phone %>
+		</td>
+	</tr>
+	<tr>
+		<td class="label">
+			Best Time to Reach You:
+		</td>
+		<td class="element">
+			<%= f.text_field :availability %>
+		</td>
+	</tr>
+	<tr>
+		<td class="label">
+			<span class="reqnote">*</span>
+			What does your feedback concern:
+		</td>
+		<td class="element">
+			<select name="feedback[category]">
+				<option value="">Select...</option>
+        <%= options_for_select(Feedback.get_categories.collect{|c| [c,c]}, params[:category]) %>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="label">
+			<span class="reqnote">*</span>
+			Your feedback:
+		</td>
+		<td class="element">
+      <%= f.text_area :feedback, :rows => 5, :cols => 40 %>
+		</td>
+	</tr>
+    <tr>
+      <td class="label"></td>
+      <td class="element">
+        <%= submit_tag 'Submit' %>
+      </td>
+    </tr>
+	<tr>
+		<td colspan="2">
+			<span style="font-size:80%; color:#ff0000;">*</span>
+			<span style="font-size:80%;"> denotes required field</span
+		</td>
+	</tr>
+	</table>
+<% end %>
