@@ -45,15 +45,18 @@ class LocationsController < ApplicationController
     @location.mailing_address.address_type='mailing'
     @location.dropin_address = @location.build_dropin_address(params[:dropin_address])
     @location.dropin_address.address_type='dropin'
-    @location.build_restriction if !@location.restriction
-    update_restriction
-    
+    @location.restriction = Restriction.create_restriction params
+
     update_pha_contact
-    
-    if @location.mailing_address.valid? and @location.dropin_address.valid? and @location.restriction.valid? and @location.valid?
-      @location.mailing_address.save 
+
+    #validate restriction only when restriction is notn null
+    restriction_valid = true
+    restriction_valid = @location.restriction.valid? if @location.restriction
+
+    if @location.mailing_address.valid? and @location.dropin_address.valid? and restriction_valid and @location.valid?
+      @location.mailing_address.save
       @location.dropin_address.save
-      @location.restriction.save  
+      @location.restriction.save if @location.restriction
       @location.save
       flash[:notice] = 'Location was successfully created.'
       redirect_to edit_agency_url(@agency) and return if @params['update_and_return']
@@ -82,15 +85,24 @@ class LocationsController < ApplicationController
     @location.dropin_address.attributes = params[:dropin_address]
     @location.dropin_address.address_type='dropin'
 
-    @location.build_restriction if !@location.restriction
-    update_restriction
+    if @location.restriction
+      @location.restriction.update_restriction params
+    else
+      @location.restriction = Restriction.create_restriction params
+    end
+    
     update_pha_contact
     @location.attributes = params[:location]
-  
-    if @location.mailing_address.valid? and @location.dropin_address.valid? and @location.restriction.valid? and @location.valid?
+
+    #validate restriction only when restriction is notn null
+    restriction_valid = true
+    restriction_valid = @location.restriction.valid? if @location.restriction
+
+    if @location.mailing_address.valid? and @location.dropin_address.valid? and
+        restriction_valid and @location.valid?
       @location.mailing_address.save 
       @location.dropin_address.save
-      @location.restriction.save  
+      @location.restriction.save if @location.restriction
       @location.save
       flash[:notice] = 'Location was successfully updated.'
       redirect_to edit_agency_url(@agency) and return if @params['update_and_return']
@@ -119,14 +131,6 @@ class LocationsController < ApplicationController
     @agency = Agency.find(params[:agency_id])
   end
   
-  def update_restriction
-    @location.restriction.attributes = params[:restriction]
-    @location.restriction.states=( params[:state_abbrevs].to_s.blank? ? [] : params[:state_abbrevs].collect{|s| State.find(s)} ) unless params[:state_abbrevs].nil?
-    @location.restriction.counties = ( params[:county_ids].to_s.blank? ? [] : params[:county_ids].collect{|c| County.find(c)} ) unless params[:county_ids].nil?
-    @location.restriction.counties=( params[:county_ids].to_s.blank? ? [] : params[:county_ids].collect{|c| County.find(c)} ) unless params[:county_ids].nil?
-    @location.restriction.cities=( params[:city_ids].to_s.blank? ? [] : params[:city_ids].collect{|c| City.find(c)} ) unless params[:city_ids].nil?
-    @location.restriction.zips=( params[:zip_ids].to_s.blank? ? [] : params[:zip_ids].collect{|c| Zip.find(c)} ) unless params[:zip_ids].nil?
-  end
   
   def update_pha_contact
     @location.pha_contact = PhaContact.new(params[:pha_contact][:name], params[:pha_contact][:title],

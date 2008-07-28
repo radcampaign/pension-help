@@ -1,7 +1,7 @@
 class Mailer < ActionMailer::Base
   
   def feedback(feedback)
-    @recipients = 'atar@newitech.com'#EMAIL_RECIPIENT
+    @recipients = EMAIL_RECIPIENT
     @from = EMAIL_FROM
     @sent_on = Time.now
     @subject = "PHA: Feedback [#{feedback.category}]"

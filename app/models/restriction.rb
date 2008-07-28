@@ -47,4 +47,37 @@ class Restriction < ActiveRecord::Base
     zips.collect(&:zipcode)
   end
 
+  #creates a new restriction from request params, or returns nil if restriction is empty.
+  def Restriction.create_restriction(params)
+    restriction = Restriction.new(params[:restriction])
+    restriction.states=( params[:state_abbrevs].to_s.blank? ? [] : params[:state_abbrevs].collect{|s| State.find(s)} ) unless params[:state_abbrevs].nil?
+    restriction.counties = ( params[:county_ids].to_s.blank? ? [] : params[:county_ids].collect{|c| County.find(c)} ) unless params[:county_ids].nil?
+    restriction.cities=( params[:city_ids].to_s.blank? ? [] : params[:city_ids].collect{|c| City.find(c)} ) unless params[:city_ids].nil?
+    restriction.zips=( params[:zip_ids].to_s.blank? ? [] : params[:zip_ids].collect{|c| Zip.find(c)} ) unless params[:zip_ids].nil?
+    return (restriction.empty?) ? nil : restriction
+  end
+  
+  #updates restriction from request params.
+  def update_restriction(params)
+    self.attributes = params[:restriction]
+    self.states=( params[:state_abbrevs].to_s.blank? ? [] : params[:state_abbrevs].collect{|s| State.find(s)} ) unless params[:state_abbrevs].nil?
+    self.counties = ( params[:county_ids].to_s.blank? ? [] : params[:county_ids].collect{|c| County.find(c)} ) unless params[:county_ids].nil?
+    self.cities=( params[:city_ids].to_s.blank? ? [] : params[:city_ids].collect{|c| City.find(c)} ) unless params[:city_ids].nil?
+    self.zips=( params[:zip_ids].to_s.blank? ? [] : params[:zip_ids].collect{|c| Zip.find(c)} ) unless params[:zip_ids].nil?
+  end
+
+  #Checks if this restriction is 'empty' (all attributes blank, all collections empty)
+  def empty?
+    result = true
+    attribute_names().each do |attr|
+      unless (attributes[attr].blank?)
+        result = false
+      end
+    end
+
+    if !states.empty? || !counties.empty? || !cities.empty? || !zips.empty?
+      result = false
+    end
+    return result
+  end
 end

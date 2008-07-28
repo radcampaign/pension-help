@@ -39,8 +39,7 @@ class PlansController < ApplicationController
     end
     @plan = @agency.plans.build(params[:plan])
     @plan.updated_by = current_user.login
-    @plan.build_restriction if !@plan.restriction
-    update_restriction
+    @plan.restriction = Restriction.create_restriction params
 
     update_pha_contact
     if @plan.save
@@ -61,11 +60,15 @@ class PlansController < ApplicationController
     end
     @plan = @agency.plans.find(params[:id])
     @plan.updated_by = current_user.login
-    @plan.build_restriction if !@plan.restriction
-    update_restriction
+    if @plan.restriction
+      @plan.restriction.update_restriction params
+    else
+      @plan.restriction = Restriction.create_restriction params
+    end
 
     update_pha_contact
     if @plan.update_attributes(params[:plan])
+      @plan.restriction.save if @plan.restriction
       flash[:notice] = 'Plan was successfully updated.'
       redirect_to edit_agency_url(@agency) and return if @params['update_and_return']
       redirect_to agencies_path() and return if params['update_and_list']
@@ -87,15 +90,6 @@ class PlansController < ApplicationController
   
   def find_agency
     @agency = Agency.find(params[:agency_id])
-  end
-  
-  def update_restriction
-    @plan.restriction.update_attributes(params[:restriction])
-    @plan.restriction.states=( params[:state_abbrevs].to_s.blank? ? [] : params[:state_abbrevs].collect{|s| State.find(s)} ) unless params[:state_abbrevs].nil?
-    @plan.restriction.counties = ( params[:county_ids].to_s.blank? ? [] : params[:county_ids].collect{|c| County.find(c)} ) unless params[:county_ids].nil?
-    @plan.restriction.counties=( params[:county_ids].to_s.blank? ? [] : params[:county_ids].collect{|c| County.find(c)} ) unless params[:county_ids].nil?
-    @plan.restriction.cities=( params[:city_ids].to_s.blank? ? [] : params[:city_ids].collect{|c| City.find(c)} ) unless params[:city_ids].nil?
-    @plan.restriction.zips=( params[:zip_ids].to_s.blank? ? [] : params[:zip_ids].collect{|c| Zip.find(c)} ) unless params[:zip_ids].nil?
   end
   
   def update_pha_contact
