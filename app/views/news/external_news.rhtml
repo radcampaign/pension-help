@@ -6,3 +6,5 @@
 </h2>
 <%= news.intro %>
 <% end -%>
+
+<%= render :partial => 'paginator', :locals => {:paginator => @paginator, :search_params => {}} %>
