@@ -47,7 +47,10 @@ class AgenciesController < ApplicationController
     end
     @agency = Agency.new(params[:agency])
     @agency.updated_by = current_user.login
-    @agency.publications[0] = @agency.publications.build(params[:publication])
+    
+    publication = Publication.new(params[:publication])
+    @agency.publications << publication unless publication.empty?
+
     #@agency.build_restriction
     #@agency.restriction.update_attributes(params[:restriction])
     #@agency.restriction.states=params[:state_abbrevs].collect{|s| State.find(s)} unless params[:state_abbrevs].to_s.blank?
@@ -78,17 +81,20 @@ class AgenciesController < ApplicationController
     if @agency.publication
       @agency.publications[0].update_attributes(params[:publication])
     else
-      @agency.publications[0] = @agency.publications.build(params[:publication])
-      @agency.publications[0].save!
+      publication = Publication.new(params[:publication])
+      unless publication.empty?
+        @agency.publications << publication
+        @agency.publications.last.save!
+      end
     end
-    @agency.build_restriction if !@agency.restriction
-      
-    @agency.restriction.update_attributes(params[:restriction])
-    @agency.restriction.states=params[:state_abbrevs].collect{|s| State.find(s)} unless params[:state_abbrevs].to_s.blank?
-    @agency.restriction.counties=params[:county_ids].collect{|c| County.find(c)} unless params[:county_ids].nil?
-    @agency.restriction.cities=params[:city_ids].collect{|c| City.find(c)} unless params[:city_ids].nil?
-    @agency.restriction.zips=params[:zip_ids].collect{|c| Zip.find(c)} unless params[:zip_ids].nil?
-    
+#    @agency.build_restriction if !@agency.restriction
+#
+#    @agency.restriction.update_attributes(params[:restriction])
+#    @agency.restriction.states=params[:state_abbrevs].collect{|s| State.find(s)} unless params[:state_abbrevs].to_s.blank?
+#    @agency.restriction.counties=params[:county_ids].collect{|c| County.find(c)} unless params[:county_ids].nil?
+#    @agency.restriction.cities=params[:city_ids].collect{|c| City.find(c)} unless params[:city_ids].nil?
+#    @agency.restriction.zips=params[:zip_ids].collect{|c| Zip.find(c)} unless params[:zip_ids].nil?
+
     #composed_of fields must be created manually
     update_pha_contact
 

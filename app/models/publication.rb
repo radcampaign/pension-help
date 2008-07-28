@@ -21,4 +21,15 @@
 
 class Publication < ActiveRecord::Base
   belongs_to :agency
+  
+  def empty?
+    result = true
+    attribute_names.each do |attr|
+      unless attributes[attr].blank?
+        result = false
+      end
+    end
+
+    return result
+  end
 end
