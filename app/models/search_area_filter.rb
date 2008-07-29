@@ -30,6 +30,7 @@ class SearchAreaFilter
       @search_params['counseling'] = params['counseling']
       #filter on Agency category(Government, Service Provider, ...)
       @search_params['agency_category_id'] = params['agency_category_id']
+      @search_params['provider'] = params['provider']
     end
   end
 
@@ -130,6 +131,10 @@ class SearchAreaFilter
   
   def get_counseling
     @search_params['active']
+  end
+  
+  def get_provider_type
+    @search_params['provider']
   end
 
   def prepare_counseling_condition

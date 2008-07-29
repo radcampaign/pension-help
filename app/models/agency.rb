@@ -126,13 +126,25 @@ class Agency < ActiveRecord::Base
 
     agencies = Hash.new
     agencies_ids = Array.new
+    #if we filter by agency's provider type, and given agency is not 'proper',
+    # we put its id in this table so we don't have to check it again.
+    ignored_agencies_ids = Array.new
 #    [locations, plans].each do |arr|
     [locations].each do |arr|
       arr.each do |elem|
         agency_id = elem.agency_id
-        if (!agencies_ids.include?(agency_id))
-#          agencies[agency_id] = elem.agency
-          agencies[agency_id] = Agency.find(agency_id, :include => [{:locations =>[:agency,:dropin_address,:restriction]}])
+        #checks if we already have this agency or should be ignored
+        if (!agencies_ids.include?(agency_id) && !ignored_agencies_ids.include?(agency_id))
+          agency_tmp = Agency.find(agency_id, :include => [{:locations =>[:agency,:dropin_address,:restriction]}])
+          #filter DSP/NSP
+          unless filter.get_provider_type.blank?
+            if agency_tmp.get_provider_type != filter.get_provider_type
+              #ignore this agency, 
+              ignored_agencies_ids << agency_tmp.id
+              next
+            end
+          end
+          agencies[agency_id] = agency_tmp
           agencies_ids << agency_id
         end
       end
@@ -165,6 +177,8 @@ class Agency < ActiveRecord::Base
         agencies.sort! { |a,b| a.compare_by_active(b, dir) }
       when 'provider'
         agencies.sort! { |a,b| a.compare_by_provider(b, dir) }
+      when 'nspdsp'
+        agencies.sort! { |a,b| a.compare_by_provider_type(b, dir) }
     end
     agencies
   end
@@ -241,6 +255,12 @@ class Agency < ActiveRecord::Base
         end
       end
       
+    end
+  end
+  
+  def compare_by_provider_type(b, dir)
+    compare_provider_type(b, dir) do 
+      self.compare_name(b, 1)
     end
   end
 
@@ -401,7 +421,57 @@ class Agency < ActiveRecord::Base
       end
     end
   end
+  
+  def compare_provider_type(b, dir = 1)
+    a = get_provider_type
+    b = b.get_provider_type
+    if (a.blank? || b.blank?)
+      if (a.blank? && !b.blank?)
+        1 * dir
+      elsif (!a.blank? && b.blank?)
+        -1 * dir
+      else
+        if block_given?
+          yield
+        else
+          0
+        end
+      end
+    else
+      if (a  < b)
+        -1 * dir
+      elsif (a > b)
+        1 * dir
+      else
+        if block_given?
+          yield
+        else
+          0
+        end        
+      end
+    end
+  end
 
+  #Returns provider type based on locations
+  def get_provider_type
+    #Hash with counts for each type of provider type
+    providers = Hash.new
+    locations.each do |loc|
+      loc_provider = loc.get_provider_type
+      if providers[loc_provider].nil?
+        providers[loc_provider] = 0
+      end
+      providers[loc_provider] += providers[loc_provider]
+    end
+    #if more than two entries in hash -> agency has both DSP an NSP locations
+    if providers.keys.size == 1
+      result = providers.keys[0]
+    else
+      result = 'NSP/DSP'
+    end
+    return result
+  end
+  
   private
   def self.find_locations filter
     query = filter.get_find_locations_query

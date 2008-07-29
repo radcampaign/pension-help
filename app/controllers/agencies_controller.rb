@@ -162,6 +162,7 @@ class AgenciesController < ApplicationController
     params[:agency_category_id] = filter.get_category
     params[:counseling] = filter.get_counseling
     params[:active] = filter.get_active
+    params[:provider] = filter.get_provider_type
 
     order = params[:order].nil? ? 'default' : params[:order]
     dir = params[:desc].nil? ? 1 : -1

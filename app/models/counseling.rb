@@ -113,6 +113,7 @@ class Counseling < ActiveRecord::Base
         join agencies as a on a.id = l.agency_id
       where a.result_type_id = ?
         and a.use_for_counseling = 1 and a.is_active = 1
+        and l.is_active = 1
         SQL
      State.find_by_sql([sql, ResultType['AoA']])
   end
@@ -125,7 +126,7 @@ class Counseling < ActiveRecord::Base
         join restrictions_states rs on rs.restriction_id = r.id 
         left join addresses addr on addr.location_id = l.id and addr.address_type='dropin'
         where a.result_type_id = ? and rs.state_abbrev IN (?,?,?,?)
-        and a.use_for_counseling = 1 and is_active = 1
+        and a.use_for_counseling = 1 and a.is_active = 1 and l.is_active = 1
         ORDER BY CASE addr.state_abbrev 
         WHEN ? then 1 
         WHEN ? then 2 
@@ -314,7 +315,7 @@ class Counseling < ActiveRecord::Base
     
     address = Address.find(:first, :origin => ZipImport.find(zipcode), :order => 'distance',
             :joins => 'join locations l on addresses.location_id = l.id 
-                                             and l.is_provider = 1
+                                             and l.is_provider = 1 and l.is_active = 1 
                        join agencies a on l.agency_id = a.id and a.use_for_counseling=1 and is_active=1
                        join restrictions r on r.location_id = l.id
                        join restrictions_states rs on rs.restriction_id = r.id',
@@ -329,7 +330,7 @@ class Counseling < ActiveRecord::Base
     address = Address.find(:first, :origin => ZipImport.find(zipcode), :order => 'distance',
 	    :include => :location,
             :joins => 'join locations l on addresses.location_id = l.id 
-                                             and l.is_provider = 1
+                                             and l.is_provider = 1 and l.is_active = 1 
                       join agencies a on l.agency_id = a.id and a.use_for_counseling=1 and a.is_active=1
                       left join restrictions r on r.location_id = l.id',
             :conditions => "a.agency_category_id=#{AgencyCategory['Service Provider'].id}
@@ -361,7 +362,7 @@ class Counseling < ActiveRecord::Base
         and rci.city_id is null
         and a.agency_category_id = 3
         and rs.state_abbrev = ?
-        and a.use_for_counseling = 1 and is_active = 1
+        and a.use_for_counseling = 1 and a.is_active = 1 and p.is_active = 1
         SQL
     Agency.find_by_sql([sql, work_state_abbrev])
   end
@@ -378,7 +379,7 @@ class Counseling < ActiveRecord::Base
         where rci.city_id is null
         and a.agency_category_id = 3
         and rc.county_id = ?
-        and a.use_for_counseling = 1 and is_active = 1
+        and a.use_for_counseling = 1 and a.is_active = 1 and p.is_active = 1
         SQL
     Agency.find_by_sql([sql, county_id])
   end
@@ -393,7 +394,7 @@ class Counseling < ActiveRecord::Base
         join restrictions_cities rc on rc.restriction_id = r.id
         where a.agency_category_id = 3 
         and rc.city_id = ?
-        and a.use_for_counseling = 1 and is_active = 1
+        and a.use_for_counseling = 1 and a.is_active = 1 and p.is_active = 1
         SQL
     Agency.find_by_sql([sql, city_id])
   end

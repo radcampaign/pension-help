@@ -45,6 +45,13 @@
           </select>
           <label>Active</label>
         </span>
+        <span>
+          <select id="" name="provider">
+            <option value="">All</option>
+            <%= options_for_select([['NSP', 'NSP'],['DSP', 'DSP'], ['NSP/DSP', 'NSP/DSP']], params[:provider]) %>
+          </select>
+          <label>Provider</label>
+        </span>
       </div>
     </div>
   </fieldset>

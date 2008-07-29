@@ -26,7 +26,7 @@
       <%= render :partial=> 'agencies/active_check', :locals => {:agency => search_result} %>
     </span>
   </td>
-  <td></td>
+  <td><%= search_result.get_provider_type %></td>
 </tr>
 <% search_result.locations.each do |loc| %>
   <% if loc.visible_in_view %>

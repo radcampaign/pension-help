@@ -36,8 +36,9 @@
         <%= agencies_filter_link_to_remote 'Active', params, :order => 'active',
             :desc => (params[:order]=='active' && params[:desc].blank?) ? true : nil %>
       </th>
-      <th class="center columnHeading">
-        DSP/NSP
+      <th class="center <%= (params[:order]=='nspdsp' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
+        <%= agencies_filter_link_to_remote 'DSP/NSP', params, :order => 'nspdsp',
+            :desc => (params[:order]=='nspdsp' && params[:desc].blank?) ? true : nil %>
       </th>
     </tr>
 
