@@ -57,7 +57,7 @@ class Agency < ActiveRecord::Base
 
     home_geo_zip = ZipImport.find(counseling.zipcode)
     home_state = home_geo_zip.nil? ? '' : home_geo_zip.state_abbrev
-    home_county = Zip.find_by_zipcode(home_geo_zip).county_id
+    home_county = (z=Zip.find_by_zipcode(home_geo_zip)) ? z.county_id : nil
     
     # out of state should find hq, unless there's a state restriction
     if hq && home_state == dropin_addresses.first.state_abbrev
