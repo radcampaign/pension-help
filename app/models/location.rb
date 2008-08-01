@@ -88,13 +88,12 @@ class Location < ActiveRecord::Base
 
   #returns "NSP","DSP", or ""
   def get_provider_type
-    unless restriction.nil?
-      (restriction.minimum_age.nil? && restriction.max_poverty.nil?) ? 'NSP' : 'DSP'
+    unless restrictions.empty?
+      restrictions.select{|r| r.minimum_age.nil? and r.max_poverty.nil?}.empty? ? 'DSP' : 'NSP'
+      # (restriction.minimum_age.nil? && restriction.max_poverty.nil?) ? 'NSP' : 'DSP'
     else
       'NSP'
     end
   end
-    restrictions.select{|r| r.age_and_income}.size > 0 unless restrictions.empty?
-  end
-
+  
 end

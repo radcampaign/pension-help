@@ -126,7 +126,6 @@ class Counseling < ActiveRecord::Base
         join restrictions_states rs on rs.restriction_id = r.id 
         left join addresses addr on addr.location_id = l.id and addr.address_type='dropin'
         where a.result_type_id = ? and rs.state_abbrev IN (?,?,?,?)
-<<<<<<< .working
         and a.use_for_counseling = 1 and a.is_active = 1 and l.is_active = 1
         ORDER BY CASE addr.state_abbrev 
         WHEN ? then 1 
@@ -134,9 +133,6 @@ class Counseling < ActiveRecord::Base
         ELSE 3
         END
         LIMIT 1
-=======
-        and a.use_for_counseling = 1 and a.is_active = 1
->>>>>>> .merge-right.r356
         SQL
     # CASE orders aoa agencies so that home state appears first (if there's more than one aoa covered state involved)
     Agency.find_by_sql([sql, ResultType['AoA'], work_state_abbrev, 
@@ -375,11 +371,7 @@ class Counseling < ActiveRecord::Base
         and rci.city_id is null
         and a.agency_category_id = 3
         and rs.state_abbrev = ?
-<<<<<<< .working
         and a.use_for_counseling = 1 and a.is_active = 1 and p.is_active = 1
-=======
-        and a.use_for_counseling = 1 and a.is_active = 1
->>>>>>> .merge-right.r356
         SQL
     Agency.find_by_sql([sql, work_state_abbrev])
   end
@@ -396,11 +388,7 @@ class Counseling < ActiveRecord::Base
         where rci.city_id is null
         and a.agency_category_id = 3
         and rc.county_id = ?
-<<<<<<< .working
         and a.use_for_counseling = 1 and a.is_active = 1 and p.is_active = 1
-=======
-        and a.use_for_counseling = 1 and a.is_active = 1
->>>>>>> .merge-right.r356
         SQL
     Agency.find_by_sql([sql, county_id])
   end
@@ -415,11 +403,7 @@ class Counseling < ActiveRecord::Base
         join restrictions_cities rc on rc.restriction_id = r.id
         where a.agency_category_id = 3 
         and rc.city_id = ?
-<<<<<<< .working
         and a.use_for_counseling = 1 and a.is_active = 1 and p.is_active = 1
-=======
-        and a.use_for_counseling = 1 and a.is_active = 1
->>>>>>> .merge-right.r356
         SQL
     Agency.find_by_sql([sql, city_id])
   end

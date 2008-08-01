@@ -70,16 +70,15 @@ class Agency < ActiveRecord::Base
                  :order => order,
                  :joins => "left join restrictions r on r.location_id = locations.id
                             left join restrictions_states rs on rs.restriction_id = r.id
-                                and rs.state_abbrev = '#{home_state}'
                             left join restrictions_counties rc on rc.restriction_id = r.id
-                                and rc.county_id = '#{home_county}'
-                            left join restrictions_zips rz on rz.restriction_id = r.id
-                                and rz.zipcode = '#{counseling.zipcode}'",
-                 :conditions => "addresses.latitude is not null and is_provider=1")
+                            left join restrictions_zips rz on rz.restriction_id = r.id",
+                 :conditions => "addresses.latitude is not null and locations.is_provider=1
+                            and (rs.restriction_id is null or rs.state_abbrev = '#{home_state}')
+                            and (rc.restriction_id is null or rc.county_id='#{home_county}')
+                            and (rz.restriction_id is null or rz.zipcode='#{counseling.zipcode}' )")
                  
 # FIXME:  Two problems exist here:
 # 1 - we can't join on restriction_cities, because we don't have a city_id, and it's non-trivial to look one up based on zipcode (consider a zip with more than one city - e.g. 04106 = Portland + South Portland)                 
-# 2 - current query can match on state_restriction OR county_restriction OR zip_restriction -- we need to make sure they all match if they exist
                                  
     # return the relevant location instead of the address                                  
     return address.location if address 
@@ -144,7 +143,7 @@ class Agency < ActiveRecord::Base
         agency_id = elem.agency_id
         #checks if we already have this agency or should be ignored
         if (!agencies_ids.include?(agency_id) && !ignored_agencies_ids.include?(agency_id))
-          agency_tmp = Agency.find(agency_id, :include => [{:locations =>[:agency,:dropin_address,:restriction]}])
+          agency_tmp = Agency.find(agency_id, :include => [{:locations =>[:agency,:dropin_address,:restrictions]}])
           #filter DSP/NSP
           unless filter.get_provider_type.blank?
             if agency_tmp.get_provider_type != filter.get_provider_type
