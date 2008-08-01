@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 55) do
+ActiveRecord::Schema.define(:version => 56) do
 
   create_table "addresses", :force => true do |t|
     t.column "location_id",    :integer
@@ -64,7 +64,16 @@ ActiveRecord::Schema.define(:version => 55) do
     t.column "state_abbrev", :string
   end
 
+  add_index "cities", ["name", "county_id"], :name => "index_cities_on_name_and_county_id", :unique => true
   add_index "cities", ["county_id"], :name => "county_id"
+
+  create_table "cities_zips", :id => false, :force => true do |t|
+    t.column "city_id",   :integer,              :null => false
+    t.column "zipcode",   :string,  :limit => 5, :null => false
+    t.column "city_type", :string,  :limit => 1
+  end
+
+  add_index "cities_zips", ["zipcode", "city_id"], :name => "idx_cities_zips_on_zip_and_city"
 
   create_table "claim_types", :force => true do |t|
     t.column "name",     :string
@@ -138,6 +147,8 @@ ActiveRecord::Schema.define(:version => 55) do
     t.column "fips_code",    :string
     t.column "state_abbrev", :string
   end
+
+  add_index "counties", ["fips_code", "state_abbrev"], :name => "index_counties_on_fips_code_and_state_abbrev", :unique => true
 
   create_table "employer_types", :force => true do |t|
     t.column "name",     :string
@@ -653,7 +664,7 @@ ActiveRecord::Schema.define(:version => 55) do
   add_index "zip_import", ["state_abbrev"], :name => "index_zip_import_on_state_abbrev"
 
   create_table "zips", :id => false, :force => true do |t|
-    t.column "zipcode",      :string
+    t.column "zipcode",      :string,  :null => false
     t.column "state_abbrev", :string
     t.column "county_id",    :integer
   end
@@ -666,6 +677,8 @@ ActiveRecord::Schema.define(:version => 55) do
   add_foreign_key "agencies", ["result_type_id"], "result_types", ["id"], :name => "agencies_ibfk_2"
 
   add_foreign_key "cities", ["county_id"], "counties", ["id"], :name => "cities_ibfk_1"
+
+  add_foreign_key "cities_zips", ["city_id"], "cities", ["id"], :name => "cities_zips_ibfk_1"
 
   add_foreign_key "comments", ["user_id"], "users", ["id"], :name => "comments_ibfk_1"
 
