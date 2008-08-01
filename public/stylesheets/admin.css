@@ -233,6 +233,7 @@ li.agency_header {
 	height: auto !important;
 }
 .legacy#legacyGeo {
+  clear: both;
 	overflow:auto;
 	width:575px;
 	height:100px !important;

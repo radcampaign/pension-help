@@ -12,7 +12,7 @@
 		<% end %>
 
     <%if restriction_form && (restriction_form.legacy_geo_counties || restriction_form.legacy_geo_cities || restriction_form.legacy_geo_states) %>
-      <div class="legacy left" id="legacyGeo"><b>Legacy Geographic Restrictions:</b> 
+      <div class="legacy" id="legacyGeo"><b>Legacy Geographic Restrictions:</b> 
         <ul>
           <% if restriction_form.legacy_geo_states %><li class="legacy_item">States - <%= h restriction_form.legacy_geo_states %></li><% end -%>
           <% if restriction_form.legacy_geo_counties %><li class="legacy_item">Counties - <%= h restriction_form.legacy_geo_counties %></li><% end -%>
