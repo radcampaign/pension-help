@@ -108,7 +108,13 @@
 		<label>Comments</label></span>
 </li>
 
-<%= render :partial => '/shared/restrictions', :locals => {:restriction => @location.restriction} %>
+<%#= render :partial => '/shared/restrictions', :locals => {:restriction => @location.restriction} %>
+<%#= render :partial => '/shared/restriction_form',
+    :collection => @location.restrictions,
+    :locals => {:is_location => true} %>
+
+<%= render :partial => '/shared/restrictions_panel',
+    :locals => {:restrictions => @location.restrictions, :new_restrictions => @new_restrictions, :is_location => true} %>
 
 <li class="left" id="pha_contact">
   <%= render :partial => 'shared/pha_contact', :object => @location.pha_contact %>

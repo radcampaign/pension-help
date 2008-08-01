@@ -31,6 +31,16 @@ class Restriction < ActiveRecord::Base
   has_and_belongs_to_many :cities, :join_table => "restrictions_cities"
   has_and_belongs_to_many :counties, :join_table => "restrictions_counties"
   
+  #Used in view
+  #mark restriction for removing
+  attr_accessor :delete_marker
+  #java script marks restriction to be saved as a new
+  attr_accessor :create_new
+  
+  def should_be_destroyed?
+    delete_marker.to_i == 1
+  end
+  
   def state_abbrevs
     states.collect(&:abbrev)
   end

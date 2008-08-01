@@ -18,7 +18,8 @@ class PlansController < ApplicationController
   # GET /plans/new
   def new
     @plan = Plan.new
-    @plan.build_restriction
+    @new_restrictions = @plan.get_empty_restrictions
+    #@plan.build_restriction
     @plan.is_active = true
     render :template => 'plans/edit'
 #    render :partial => 'plans/plan_detail', :layout => false
@@ -27,7 +28,8 @@ class PlansController < ApplicationController
   # GET /plans/1;edit
   def edit
     @plan = @agency.plans.find(params[:id])
-    @plan.build_restriction if !@plan.restriction
+    @new_restrictions = @plan.get_empty_restrictions
+    #@plan.build_restriction if !@plan.restriction
 #    render :partial => 'plans/plan_detail', :layout => false
   end
 
@@ -39,10 +41,23 @@ class PlansController < ApplicationController
     end
     @plan = @agency.plans.build(params[:plan])
     @plan.updated_by = current_user.login
-    @plan.restriction = Restriction.create_restriction params
+    #@plan.build_restriction if !@plan.restriction
+    #update_restriction
 
     update_pha_contact
-    if @plan.save
+
+    is_ok = true
+    @plan.transaction do
+      begin
+        @plan.update_restrictions(params)
+        @plan.save!
+      rescue
+        logger.error($!)
+        is_ok = false
+      end
+    end
+
+    if is_ok
       flash[:notice] = 'Plan was successfully created.'
       redirect_to edit_agency_url(@agency) and return if @params['update_and_return']
       redirect_to agencies_path() and return if params['update_and_list']
@@ -60,14 +75,23 @@ class PlansController < ApplicationController
     end
     @plan = @agency.plans.find(params[:id])
     @plan.updated_by = current_user.login
-    if @plan.restriction
-      @plan.restriction.update_restriction params
-    else
-      @plan.restriction = Restriction.create_restriction params
-    end
+    #@plan.build_restriction if !@plan.restriction
+    #update_restriction
 
     update_pha_contact
-    if @plan.update_attributes(params[:plan])
+    
+    is_ok = true
+    @plan.transaction do
+      begin
+        @plan.update_attributes!(params[:plan])
+        @plan.update_restrictions(params)
+      rescue
+        logger.error($!)
+        is_ok = false
+      end
+    end
+
+    if is_ok
       @plan.restriction.save if @plan.restriction
       flash[:notice] = 'Plan was successfully updated.'
       redirect_to edit_agency_url(@agency) and return if @params['update_and_return']

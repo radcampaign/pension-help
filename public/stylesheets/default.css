@@ -493,10 +493,6 @@ div.agency_result h2 {
   padding-left: 1em;
   text-indent: -1em;
 }
-table.dropin_address,
-table.phone_info {
-	display:inline;
-}
 table.mailing_address {
 	margin-top:12px;
 }

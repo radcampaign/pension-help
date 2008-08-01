@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
       nil
     end
     @county_ids = params[:county_ids]
-    render :partial => '/shared/counties', :locals => {:states => @states}, :layout => false
+    render :partial => '/shared/counties', :locals => {:states => @states, :id_prefix => params[:id_prefix]}, :layout => false
   end  
   
   def get_cities_for_counties
@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
       nil
     end
     @city_ids = params[:city_ids]
-    render :partial => '/shared/cities', :locals => {:counties => @counties}, :layout => false
+    render :partial => '/shared/cities', :locals => {:counties => @counties, :id_prefix => params[:id_prefix]}, :layout => false
   end
   
   def get_zips_for_counties
@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
       nil
     end
     @zip_ids = params[:zip_ids]
-    render :partial => '/shared/zips', :locals => {:counties => @counties}, :layout => false
+    render :partial => '/shared/zips', :locals => {:counties => @counties, :id_prefix => params[:id_prefix]}, :layout => false
   end
 
   def rescue_action_in_public(exception)

@@ -126,6 +126,7 @@ class Counseling < ActiveRecord::Base
         join restrictions_states rs on rs.restriction_id = r.id 
         left join addresses addr on addr.location_id = l.id and addr.address_type='dropin'
         where a.result_type_id = ? and rs.state_abbrev IN (?,?,?,?)
+<<<<<<< .working
         and a.use_for_counseling = 1 and a.is_active = 1 and l.is_active = 1
         ORDER BY CASE addr.state_abbrev 
         WHEN ? then 1 
@@ -133,6 +134,9 @@ class Counseling < ActiveRecord::Base
         ELSE 3
         END
         LIMIT 1
+=======
+        and a.use_for_counseling = 1 and a.is_active = 1
+>>>>>>> .merge-right.r356
         SQL
     # CASE orders aoa agencies so that home state appears first (if there's more than one aoa covered state involved)
     Agency.find_by_sql([sql, ResultType['AoA'], work_state_abbrev, 
@@ -302,21 +306,30 @@ class Counseling < ActiveRecord::Base
                    and addresses.latitude is not null
                    and rs.state_abbrev IN (?,?,?,?)"
                    
-    if is_over_60 and !poverty_level.nil?
-      conditions << "and (r.minimum_age >= 60 or r.max_poverty >= #{poverty_level.to_f})" 
-    elsif is_over_60
-      conditions << 'and r.minimum_age >= 60 '
-    elsif !poverty_level.nil?
-      conditions << "and r.max_poverty >= #{poverty_level.to_f} "
+    #is_over_60 == nil means user did not answer Age question(true or false -> user answered question
+    if !is_over_60.nil? && !monthly_income.blank?
+      # user ansered both questions, look for restrictions with age-and-income-condition with both matching, or
+      # without age-and-income condition with either age or income matching
+      conditions << " and (r.age_and_income = 1 and r.minimum_age >= 60 and r.max_poverty >= #{poverty_level.to_f})"
+      conditions << " or (r.age_and_income = 0 and (r.minimum_age >= 60 or r.max_poverty >= #{poverty_level.to_f}))" 
     else
-      # didn't answer question - don't return any age/income-restricted results
-      conditions << 'and r.minimum_age is null and r.max_poverty is null '  
+      #user anwsered either of questions, we only look for restrictions without AND condition
+      conditions << " and r.age_and_income = 0 "
+      #either age or income questions has been answered
+      if is_over_60
+        conditions << 'and r.minimum_age >= 60 '
+      elsif !poverty_level.nil?
+        conditions << "and r.max_poverty >= #{poverty_level.to_f} "
+      else
+        # didn't answer question - don't return any age/income-restricted results
+        conditions << 'and r.minimum_age is null and r.max_poverty is null '
+      end
     end
     
     address = Address.find(:first, :origin => ZipImport.find(zipcode), :order => 'distance',
             :joins => 'join locations l on addresses.location_id = l.id 
                                              and l.is_provider = 1 and l.is_active = 1 
-                       join agencies a on l.agency_id = a.id and a.use_for_counseling=1 and is_active=1
+                       join agencies a on l.agency_id = a.id and a.use_for_counseling=1 and a.is_active=1
                        join restrictions r on r.location_id = l.id
                        join restrictions_states rs on rs.restriction_id = r.id',
             :conditions => [conditions, work_state_abbrev, hq_state_abbrev,
@@ -362,7 +375,11 @@ class Counseling < ActiveRecord::Base
         and rci.city_id is null
         and a.agency_category_id = 3
         and rs.state_abbrev = ?
+<<<<<<< .working
         and a.use_for_counseling = 1 and a.is_active = 1 and p.is_active = 1
+=======
+        and a.use_for_counseling = 1 and a.is_active = 1
+>>>>>>> .merge-right.r356
         SQL
     Agency.find_by_sql([sql, work_state_abbrev])
   end
@@ -379,7 +396,11 @@ class Counseling < ActiveRecord::Base
         where rci.city_id is null
         and a.agency_category_id = 3
         and rc.county_id = ?
+<<<<<<< .working
         and a.use_for_counseling = 1 and a.is_active = 1 and p.is_active = 1
+=======
+        and a.use_for_counseling = 1 and a.is_active = 1
+>>>>>>> .merge-right.r356
         SQL
     Agency.find_by_sql([sql, county_id])
   end
@@ -394,7 +415,11 @@ class Counseling < ActiveRecord::Base
         join restrictions_cities rc on rc.restriction_id = r.id
         where a.agency_category_id = 3 
         and rc.city_id = ?
+<<<<<<< .working
         and a.use_for_counseling = 1 and a.is_active = 1 and p.is_active = 1
+=======
+        and a.use_for_counseling = 1 and a.is_active = 1
+>>>>>>> .merge-right.r356
         SQL
     Agency.find_by_sql([sql, city_id])
   end

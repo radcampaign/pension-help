@@ -35,9 +35,10 @@
 #
 
 class Plan < ActiveRecord::Base
+  include RestrictionsUpdater
   belongs_to :agency
   has_one :publication, :dependent => :destroy
-  has_one :restriction, :dependent => :destroy
+  has_many :restrictions, :dependent => :destroy
   
   composed_of :pha_contact, :class_name => PhaContact,
     :mapping => [

@@ -5,20 +5,11 @@
 		<% if @location %>
 		<%# only show these fields for location restriction %>
 			<div class="left">
-				<div><%= r.text_field :minimum_age %><label>Minimum Age</label></div><br/>
-				<div><%= r.text_field :age_restricted_phone %><label>Special Age Services Hotline</label></div><br/>
-				<div><%= r.text_field :max_poverty, :value => number_to_percentage(restriction.max_poverty, :precision => 0) %><label>Income Limit (% of FPL, eg 120)</label></div>
-                                <div><%= r.check_box :age_and_income %><label>Restricted by age <b><u>and</u></b> income</label></div>
-			</div>
+				<%= r.text_field :minimum_age %><label>Minimum Age</label></div>
+				<div class="left"><%= r.text_field :age_restricted_phone %><label>Special Age Services Hotline</label></div>
+				<div class="left"><%= r.text_field :max_poverty, :value => number_to_percentage(restriction.max_poverty, :precision => 0) %><label>Income Limit (% of FPL, eg 120)</label></div>
+                                <div class="left"><%= r.check_box :age_and_income %><label>Restricted by age <b><u>and</u></b> income</label></div>
 		<% end %>
-		<%if restriction && (restriction.legacy_geo_counties || restriction.legacy_geo_cities || restriction.legacy_geo_states) %>
-		<div class="legacy left" id="legacyGeo"><b>Legacy Geographic Restrictions:</b> 
-			<ul>
-				<% if restriction.legacy_geo_states %><li class="legacy_item">States - <%= h restriction.legacy_geo_states %></li><% end -%>
-				<% if restriction.legacy_geo_counties %><li class="legacy_item">Counties - <%= h restriction.legacy_geo_counties %></li><% end -%>
-				<% if restriction.legacy_geo_cities %><li class="legacy_item">Cities - <%= h restriction.legacy_geo_cities %></li><% end -%>
-			</ul></div>
-			<% end %>
 			<div class="clear fullwidth" id="geo_edit_container" style="display:none">
 				<span><select name="state_abbrevs[]" id="state_abbrevs" multiple=true size=6>
 					<option value="">-- Unrestricted --</option>

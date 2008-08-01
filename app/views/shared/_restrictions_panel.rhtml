@@ -1,0 +1,36 @@
+<%# partial params: restrictions(collection), is_location(boolean), new_restriction(collection)%>
+
+<%= render :partial => '/shared/restriction_form',
+    :collection => restrictions,
+    :locals => {:is_location => is_location} %>
+
+<%= render :partial => '/shared/new_restriction_form',
+    :collection => new_restrictions,
+    :locals => {:is_location => is_location} %>
+
+<li class="clear left fullwidth">
+  <%= link_to_function 'Add a new restriction', 'displayNewRestrictionDiv()'%>
+</li>
+
+<script type="text/javascript">
+  var restrictionsLiIds = [<%= new_restrictions.collect{|r| "#{r.id}, "} %>];
+  var currIndex = -1; //currently displayed new restriction <LI>
+  Event.observe( window, 'load',
+    function() {
+      restrictionsLiIds.each(
+        function(item) {
+          $('restriction_' + item).hide();
+        }
+      );
+    }
+  );
+
+  function displayNewRestrictionDiv() {
+    currIndex++;
+    /* show a new Restriction div */
+    if (currIndex < restrictionsLiIds.length) {
+      $('restriction_' + restrictionsLiIds[currIndex]).show();
+      $('<%= is_location ? 'location' : 'plan' %>[restriction_attr]_' + restrictionsLiIds[currIndex] + '_create_new').value = '1';
+    }
+  }
+</script>

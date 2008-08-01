@@ -57,7 +57,8 @@ class Agency < ActiveRecord::Base
 
     home_geo_zip = ZipImport.find(counseling.zipcode)
     home_state = home_geo_zip.nil? ? '' : home_geo_zip.state_abbrev
-
+    home_county = Zip.find_by_zipcode(home_geo_zip).county_id
+    
     # out of state should find hq, unless there's a state restriction
     if hq && home_state == dropin_addresses.first.state_abbrev
       order = 'rs.state_abbrev desc, distance'
@@ -69,8 +70,16 @@ class Agency < ActiveRecord::Base
                  :order => order,
                  :joins => "left join restrictions r on r.location_id = locations.id
                             left join restrictions_states rs on rs.restriction_id = r.id
-                                and rs.state_abbrev = '#{home_state}'",
+                                and rs.state_abbrev = '#{home_state}'
+                            left join restrictions_counties rc on rc.restriction_id = r.id
+                                and rc.county_id = '#{home_county}'
+                            left join restrictions_zips rz on rz.restriction_id = r.id
+                                and rz.zipcode = '#{counseling.zipcode}'",
                  :conditions => "addresses.latitude is not null and is_provider=1")
+                 
+# FIXME:  Two problems exist here:
+# 1 - we can't join on restriction_cities, because we don't have a city_id, and it's non-trivial to look one up based on zipcode (consider a zip with more than one city - e.g. 04106 = Portland + South Portland)                 
+# 2 - current query can match on state_restriction OR county_restriction OR zip_restriction -- we need to make sure they all match if they exist
                                  
     # return the relevant location instead of the address                                  
     return address.location if address 

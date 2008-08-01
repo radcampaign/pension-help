@@ -15,13 +15,16 @@
         <label>State</label>
       </span>
       <span id="county_ids_container">
-        <%= render :partial => 'shared/counties', :locals => {:states => selected_states, :county_ids => params[:county_ids] } %>
+        <%= render :partial => 'shared/counties',
+            :locals => {:states => selected_states, :county_ids => params[:county_ids], :id_prefix => '' } %>
       </span>
-      <span id="city_ids_container">
-        <%= render :partial => 'shared/cities', :locals => {:counties => selected_counties, :city_ids => params[:city_ids] } %>
+      <span id="city_ids_container_">
+        <%= render :partial => 'shared/cities',
+            :locals => {:counties => selected_counties, :city_ids => params[:city_ids], :id_prefix => '' } %>
       </span>	
-      <span id="zip_ids_container">
-        <%= render :partial => 'shared/zips', :locals => {:counties => selected_counties, :zip_ids => params[:zip_ids] } %>
+      <span id="zip_ids_container_">
+        <%= render :partial => 'shared/zips',
+            :locals => {:counties => selected_counties, :zip_ids => params[:zip_ids], :id_prefix => '' } %>
       </span>
       <div style="clear: both;">
         <span>
@@ -65,7 +68,7 @@
       :complete => "Element.hide('spinner')",
       :url => {:action => 'get_counties_for_states'},
       :with => "'states=' + encodeURIComponent(value) + 
-      '&county_ids=' +  $('county_ids').value" %>
+      '&county_ids=' +  $('county_ids_').value" %>
 
   <%# clear city/zips when changing state %>
   <%= observe_field :state_abbrevs,

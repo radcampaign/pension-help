@@ -31,10 +31,13 @@
 #  position           :integer(11)   
 #
 
-class Location < ActiveRecord::Base  
+class Location < ActiveRecord::Base
+  #include restrictions update code which exactly same for Locations and Plans
+  include RestrictionsUpdater
+
   belongs_to :agency
   has_many :addresses, :dependent => :destroy
-  has_one :restriction, :dependent => :destroy
+  has_many :restrictions, :dependent => :destroy
   
   has_one :mailing_address, :class_name => 'Address', 
             :conditions => "address_type = 'mailing'"
@@ -49,38 +52,38 @@ class Location < ActiveRecord::Base
       [:pha_contact_email, :email],
     ]
 
-  attr_accessor :visible_in_view 
-  
+  attr_accessor :visible_in_view
+
   def age_restrictions?
     sql = <<-SQL
-        select
-          l.id
-        from
-          locations l join restrictions r on r.location_id = l.id
-        where
-          l.id = ?
-          and r.minimum_age is not null
-        SQL
-
-    Location.find_by_sql([sql, id]).size > 0
-  end
-  
-  def income_restrictions?
-   sql = <<-SQL
-    select
-      l.id
-    from
-      locations l join restrictions r on r.location_id = l.id
-    where
-      l.id = ?
-      and r.max_poverty is not null 
+      select
+        l.id
+      from
+        locations l join restrictions r on r.location_id = l.id
+      where
+        l.id = ?
+        and r.minimum_age is not null
       SQL
 
     Location.find_by_sql([sql, id]).size > 0
   end
-  
+
+  def income_restrictions?
+    sql = <<-SQL
+      select
+        l.id
+      from
+        locations l join restrictions r on r.location_id = l.id
+      where
+        l.id = ?
+        and r.max_poverty is not null 
+      SQL
+
+    Location.find_by_sql([sql, id]).size > 0
+  end
+
   def and_restrictions?
-    restriction.age_and_income unless restriction.nil?
+    restrictions.select{|r| r.age_and_income}.size > 0 unless restrictions.empty?
   end
 
   #returns "NSP","DSP", or ""
@@ -91,4 +94,7 @@ class Location < ActiveRecord::Base
       'NSP'
     end
   end
+    restrictions.select{|r| r.age_and_income}.size > 0 unless restrictions.empty?
+  end
+
 end
