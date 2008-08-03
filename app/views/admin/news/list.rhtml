@@ -1,5 +1,8 @@
 <h1>Manage News</h1>
 
+<%= link_to "Add New Internal News Item", :controller => 'admin/news', :action => 'new' %> |
+<%= link_to "Add New External News Item", :controller => 'admin/news', :action => 'new', :news => 'external'%>
+
 <table width="100%" cellspacing="0" class="newsTable">
 	<caption>Internal News</caption>
 	<tbody id="int_news_list">
