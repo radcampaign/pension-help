@@ -471,13 +471,12 @@ class Agency < ActiveRecord::Base
       end
       providers[loc_provider] += providers[loc_provider]
     end
-    #if more than two entries in hash -> agency has both DSP an NSP locations
-    if providers.keys.size == 1
-      result = providers.keys[0]
-    else
-      result = 'NSP/DSP'
-    end
-    return result
+    nsp = providers['NSP']
+    dsp = providers['DSP']
+    return 'NSP' if nsp and not dsp
+    return 'DSP' if dsp and not nsp 
+    return 'NSP/DSP' if dsp and nsp
+    return ''
   end
   
   private
