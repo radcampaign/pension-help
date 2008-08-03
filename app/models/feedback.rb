@@ -85,6 +85,7 @@ class Feedback < ActiveRecord::Base
     "Information on this website",
     "Information on a website we link to",
     "Service Provider Referral",
+    "PensionWorks",
     "General Feedback"
   ]
 end
