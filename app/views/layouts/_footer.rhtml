@@ -8,7 +8,7 @@
 		<li class="list_separator">|</li>
 		<li><%= link_to_unless_current 'Terms of Use',  '/terms_of_use' %></li>
 		<li class="list_separator">|</li>
-		<li><%= link_to_unless_current 'Feedback', :controller => :feedback, :action => :show_form %></li>
+		<li><%= link_to_unless_current 'Feedback', :controller => '/feedback', :action => :show_form %></li>
 		<li class="list_separator">|</li>
 		<% if session[:user] -%>
 			<li><%= link_to_unless_current 'Management', :controller => '/admin', :action => 'menu' %></li>
