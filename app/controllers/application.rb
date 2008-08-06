@@ -43,11 +43,12 @@ class ApplicationController < ActionController::Base
 
   def rescue_action_in_public(exception)
     case exception
-      when ActiveRecord::RecordNotFound,ActionController::UnknownAction 
-        render "site/404", :status => "404"
+      #strange bug, in comparison ActionController::UknownAction is replaced with ActionWebService::Dispatcher::ActionController
+      when ActiveRecord::RecordNotFound,::ActionController::UnknownAction 
+        render :template => "site/404", :status => "404", :layout => 'default'
       else
         @message = exception
-        render "site/505", :status => "500"
+        render :template => "site/505", :status => "500", :layout => 'default'
     end
   end
 
