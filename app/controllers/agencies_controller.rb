@@ -2,6 +2,10 @@ class AgenciesController < ApplicationController
   before_filter :login_required, :except => :show
   layout 'admin'
   
+  def authorized?
+    current_user.is_admin?
+  end
+
   # GET /agencies
   # GET /agencies.xml
   def index

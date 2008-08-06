@@ -3,6 +3,10 @@ class PlansController < ApplicationController
   before_filter :find_agency, :except => [:get_counties_for_states, :get_cities_for_counties, :get_zips_for_counties]
   layout 'admin'
 
+  def authorized?
+    current_user.is_admin?
+  end
+
   # GET /plans
   # GET /plans.xml
   def index

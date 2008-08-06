@@ -2,6 +2,10 @@ class LocationsController < ApplicationController
   before_filter :login_required
   before_filter :find_agency, :except => [:get_counties_for_states, :get_cities_for_counties, :get_zips_for_counties]
   layout 'admin'
+
+  def authorized?
+    current_user.is_admin?
+  end
   
   # GET /locations
   # GET /locations.xml

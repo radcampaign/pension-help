@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 56) do
+ActiveRecord::Schema.define(:version => 58) do
 
   create_table "addresses", :force => true do |t|
     t.column "location_id",    :integer
@@ -389,7 +389,10 @@ ActiveRecord::Schema.define(:version => 56) do
     t.column "wants_pal",                      :boolean,               :default => false
     t.column "wants_help",                     :boolean,               :default => false
     t.column "wants_search",                   :boolean,               :default => false
+    t.column "user_id",                        :integer
   end
+
+  add_index "partners", ["user_id"], :name => "user_id"
 
   create_table "partners_claim_types", :id => false, :force => true do |t|
     t.column "partner_id",    :integer, :null => false
@@ -613,6 +616,19 @@ ActiveRecord::Schema.define(:version => 56) do
     t.column "position", :integer
   end
 
+  create_table "roles", :force => true do |t|
+    t.column "role_name",   :string
+    t.column "description", :string
+  end
+
+  create_table "roles_users", :id => false, :force => true do |t|
+    t.column "user_id", :integer
+    t.column "role_id", :integer
+  end
+
+  add_index "roles_users", ["user_id"], :name => "user_id"
+  add_index "roles_users", ["role_id"], :name => "role_id"
+
   create_table "search_plan_types", :force => true do |t|
     t.column "name",     :string
     t.column "position", :integer
@@ -653,7 +669,7 @@ ActiveRecord::Schema.define(:version => 56) do
     t.column "area_code",    :string,  :limit => 16
     t.column "time_zone",    :string,  :limit => 16
     t.column "utc",          :decimal,               :precision => 3, :scale => 1
-    t.column "dst",          :boolean
+    t.column "dst",          :string,  :limit => 1
     t.column "latitude",     :decimal,               :precision => 9, :scale => 6
     t.column "longitude",    :decimal,               :precision => 9, :scale => 6
   end
@@ -697,6 +713,8 @@ ActiveRecord::Schema.define(:version => 56) do
   add_foreign_key "images", ["parent_id"], "images", ["id"], :name => "images_ibfk_1"
 
   add_foreign_key "locations", ["agency_id"], "agencies", ["id"], :name => "locations_ibfk_1"
+
+  add_foreign_key "partners", ["user_id"], "users", ["id"], :name => "partners_ibfk_1"
 
   add_foreign_key "partners_claim_types", ["partner_id"], "partners", ["id"], :name => "partners_claim_types_ibfk_1"
   add_foreign_key "partners_claim_types", ["claim_type_id"], "claim_types", ["id"], :name => "partners_claim_types_ibfk_2"
@@ -748,6 +766,9 @@ ActiveRecord::Schema.define(:version => 56) do
   add_foreign_key "restrictions_states", ["restriction_id"], "restrictions", ["id"], :name => "restrictions_states_ibfk_1"
 
   add_foreign_key "restrictions_zips", ["restriction_id"], "restrictions", ["id"], :name => "restrictions_zips_ibfk_1"
+
+  add_foreign_key "roles_users", ["user_id"], "users", ["id"], :name => "roles_users_ibfk_1"
+  add_foreign_key "roles_users", ["role_id"], "roles", ["id"], :name => "roles_users_ibfk_2"
 
   add_foreign_key "zips", ["county_id"], "counties", ["id"], :name => "zips_ibfk_1"
 

@@ -1,4 +1,10 @@
 class Admin::ImagesController < ApplicationController
+  before_filter :login_required
+
+  def authorized?
+    current_user.is_admin?
+  end
+
   def index
     @images = Image.find(:all, :conditions => 'thumbnail is null') #get list of images here
     respond_to do |format|

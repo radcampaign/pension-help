@@ -1,80 +1,49 @@
-<h1>Editing partner</h1>
+<% if current_user.can_manage_partners? %>
+  <h1>Editing partner</h1>
+<% else %>
+  <h1>Partner's Profile</h1>
+<% end %>
 
-<%= error_messages_for :partner %>
+<%= link_to 'Survey', :action => 'survey', :id => @partner %>
+<%#= error_messages_for :partner %>
+<style>.fieldWithErrors {padding: 2px; background-color: red; display: table;}</style>
+<% if (not @partner.nil? and not @partner.errors.empty?) -%>
+<div class="warningBox">
+	<table class="warningTable">
+		<tr class="warningRow">
+			<td class="warningCell2">
+				<% @partner.errors.full_messages.each do |msg| -%>
+			  		<p><%= msg %></p>
+			  	<% end -%>
+			</td>
+		</tr>
+	</table>
+</div>
+<br/>
+<% end -%>
 
 <% form_for(:partner, :url => partner_path(@partner), :html => { :method => :put }) do |f| %>
-  <p>
-    <b>First name</b><br />
-    <%= f.text_field :first_name %>
-  </p>
+  <%= render :partial => 'works/contact_info' %>
 
-  <p>
-    <b>Last name</b><br />
-    <%= f.text_field :last_name %>
-  </p>
-
-  <p>
-    <b>Middle initial</b><br />
-    <%= f.text_field :middle_initial %>
-  </p>
-
-  <p>
-    <b>Company</b><br />
-    <%= f.text_field :company %>
-  </p>
-
-  <p>
-    <b>Line 1</b><br />
-    <%= f.text_field :line_1 %>
-  </p>
-
-  <p>
-    <b>Line 2</b><br />
-    <%= f.text_field :line_2 %>
-  </p>
-
-  <p>
-    <b>City</b><br />
-    <%= f.text_field :city %>
-  </p>
-
-  <p>
-    <b>State abbrev</b><br />
-    <%= f.text_field :state_abbrev %>
-  </p>
-
-  <p>
-    <b>Zip code</b><br />
-    <%= f.text_field :zip_code %>
-  </p>
-
-  <p>
-    <b>Phone</b><br />
-    <%= f.text_field :phone %>
-  </p>
-
-  <p>
-    <b>Fax</b><br />
-    <%= f.text_field :fax %>
-  </p>
-
-  <p>
-    <b>Email</b><br />
-    <%= f.text_field :email %>
-  </p>
-
-  <p>
-    <b>Url</b><br />
-    <%= f.text_field :url %>
-  </p>
+  <% fields_for :user, @partner.user do |f_user| %>
+    <%= render :partial => 'shared/login_information', :object => f_user %>
+  <% end %>
+  
+  <h2 style="margin-bottom:10px">I am interested in joining (you may select more than one):</h2>
+  
+  <%= render :partial => 'shared/join_service' %>
 
   <p>
     <%= submit_tag "Update" %>
   </p>
 <% end %>
 
-<%= link_to 'Show', partner_path(@partner) %> |
-<%= link_to 'Back', partners_path %>
+<%= render :partial => 'shared/service_description' %>
+
+<% if current_user.can_manage_partners? %>
+  <%= link_to 'Show', partner_path(@partner) %> |
+  <%= link_to 'Back', partners_path %>
+<% end %>
 
 <script type="text/javascript">
   /* Hide inactive locations and plans. */

@@ -2,6 +2,10 @@ class Admin::NewsController < ApplicationController
   before_filter :login_required
   layout "admin"
   
+  def authorized?
+    current_user.is_admin?
+  end
+
   uses_tiny_mce(:options => {:theme => 'advanced',
                              :browsers => %w{msie gecko},
                              :theme_advanced_toolbar_location => "top",

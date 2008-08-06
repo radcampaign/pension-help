@@ -11,7 +11,11 @@
 		<li><%= link_to_unless_current 'Feedback', :controller => '/feedback', :action => :show_form %></li>
 		<li class="list_separator">|</li>
 		<% if session[:user] -%>
-			<li><%= link_to_unless_current 'Management', :controller => '/admin', :action => 'menu' %></li>
+      <% if current_user.can_manage_site? %>
+        <li><%= link_to_unless_current 'Management', :controller => '/admin', :action => 'menu' %></li>
+      <% elsif current_user.is_network_user? %>
+        <li><%= link_to_unless_current "Partner's profile", edit_partner_path(current_user.partner) %></li>
+      <% end%>
 			<li class="list_separator">|</li>
 			<li><%= link_to 'Logout', :controller => '/account', :action => 'logout' %></li>
 		<% else %>

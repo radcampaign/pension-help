@@ -1,5 +1,8 @@
 <h1>Service &amp; Referral Networks for Pension Professionals</h1>
 
+<%= link_to (current_user.is_admin? ? "Editing Partner" : "Partner's Profile"), edit_partner_path(@partner) %>
+<br/>
+<br/>
 <style>.fieldWithErrors {padding: 2px; background-color: red; display: table;}</style>
 <% if (not @partner.nil? and not @partner.errors.empty?) -%>
 <div class="warningBox">
@@ -20,7 +23,7 @@
 
 <p>Please provide these additional details so that we may properly refer potential clients who are seeking specific pension counseling legal advice.</p>
 
-<% form_for :partner, @partner, :url => {:action => 'thank_you'} do |p| %>
+<% form_for :partner, @partner, :url => {:action => 'update_survey', :id => @partner} do |p| %>
 
 <div id="networkForm">
   <%= render :partial => 'works/professions', :locals => {:partner => @partner, :p => p} if @partner.wants_help or @partner.wants_search %>
@@ -35,6 +38,6 @@
 	<%= render :partial => 'works/referrals', :locals => {:partner => @partner, :p => p} if @partner.wants_npln or @partner.wants_pal %>
 	<%= render :partial => 'works/additional_info', :locals => {:partner => @partner, :p => p} if @partner.wants_npln or @partner.wants_pal or @partner.wants_help or @partner.wants_search %></div>
 
-<%= image_submit_tag "buttons/next_button.gif", :id => 'nextLinkButton' %>
+<%= submit_tag 'Update' %>
 
 <% end -%>

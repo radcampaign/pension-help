@@ -16,6 +16,9 @@
 
 require 'digest/sha1'
 class User < ActiveRecord::Base
+  has_and_belongs_to_many :roles
+  has_one :partner
+
   # Virtual attribute for the unencrypted password
   attr_accessor :password
 
@@ -66,6 +69,24 @@ class User < ActiveRecord::Base
     save(false)
   end
 
+  #Permissions
+  def can_manage_site?
+    has_relevant_roles([ADMIN_ROLE])
+  end
+
+  def is_admin?
+    has_relevant_roles([ADMIN_ROLE])
+  end
+
+  def is_network_user?
+    has_relevant_roles([NETWORK_USER_ROLE])
+  end
+
+  #Only admins can do that.
+  def can_manage_partners?
+    has_relevant_roles([ADMIN_ROLE])
+  end
+
   protected
     # before filter 
     def encrypt_password
@@ -77,4 +98,18 @@ class User < ActiveRecord::Base
     def password_required?
       crypted_password.blank? || !password.blank?
     end
+
+  #Checks if user has given roles
+  def has_relevant_roles(array_of_proper_roles)
+    is_relevant = false
+    
+    for role in self.roles
+      is_relevant = array_of_proper_roles.include?(role.role_name)
+
+      if(is_relevant == true)
+        break
+      end
+    end
+    return is_relevant
+  end
 end

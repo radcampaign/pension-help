@@ -68,6 +68,13 @@
     <%= f.text_field :url %>
   </p>
 
+  <% fields_for :user, @partner.user do |user_fields| %>
+    <%= render :partial => 'shared/login_information', :object => user_fields %>
+  <% end %>
+
+  <h3>Network selection:</h3>
+  <%= render :partial => 'shared/join_service' %>
+
   <p>
     <%= submit_tag "Create" %>
   </p>
