@@ -47,6 +47,10 @@ a img {
 	display:inline-block; */
 }
 
+body {
+	background-image:url('/images/layout/sidebar_bg.jpg');
+	background-repeat:repeat-y;
+}
 /* Layout - Header */
 
 .header {

@@ -4,6 +4,9 @@ body.admin #content {
 	font-size: 85%;
 	font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif;
 }
+body.admin {
+	background-image:none; /* no need for left blue bar on admin pages */
+}
 input, textarea, select {
 	font-size: small;
 	font-family: "Trebuchet MS", Helvetica, sans-serif;
