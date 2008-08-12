@@ -40,6 +40,7 @@ class AgenciesController < ApplicationController
     order = SORT_ORDER_LOC[params[:order]] if params[:order]
     @agency = Agency.find(params[:id])
     @locations = Location.find_all_by_agency_id(params[:id], :include => [:dropin_address], :order => order)
+    @plans = Plan.find_all_by_agency_id(params[:id], :order => 'position')
     #@agency.build_restriction if !@agency.restriction
   end
 

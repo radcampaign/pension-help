@@ -96,7 +96,6 @@ class PlansController < ApplicationController
     end
 
     if is_ok
-      @plan.restriction.save if @plan.restriction
       flash[:notice] = 'Plan was successfully updated.'
       redirect_to edit_agency_url(@agency) and return if @params['update_and_return']
       redirect_to agencies_path() and return if params['update_and_list']
