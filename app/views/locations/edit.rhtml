@@ -137,6 +137,8 @@
   Event.observe( window, 'load', function() {
     /*Add 'save reminder' to links and buttons */
     var asr = new AdminSaveReminder();
-    asr.addObserverToLinkButtons(['geo_edit_link','addNewRestrictionLink'], ['commit', 'update_and_return', 'update_and_list']);
+    asr.addObserverToLinkButtons(['geo_edit_link','addNewRestrictionLink'],
+      ['commit', 'update_and_return', 'update_and_list'],
+      ['location[restriction_attr][-4][create_new]','location[restriction_attr][-3][create_new]','location[restriction_attr][-2][create_new]','location[restriction_attr][-1][create_new]']);
   });
 </script>

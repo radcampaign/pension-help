@@ -1,9 +1,17 @@
+function isArray(array) {
+  return ( array && array.length != null && typeof array === 'object'
+      && array.constructor && !array.nodeType && !array.item );
+}
+
 /* Checks if assigned forms has been changed. */
 function AdminFormObserver() {
   //forms that will be checked
   this.adminForms = new Array();
   //serialized forms(before any change)
   this.serializedForms = new Array();
+  //Form's fields that should be ignored when checking if form has been updated.
+  //(it could be a different set of fields for each Form).
+  this.ignoredFields = new Array();
 
   /* Checks if any form has been changed. */
   this.allowLeave = function() {
@@ -18,19 +26,36 @@ function AdminFormObserver() {
       /* tinyMCE fields does not store its text in textarea until save. */
       try { tinyMCE.triggerSave(true,true); } catch(err) {}
 
-      var tempForm = Form.serialize(this.adminForms[i]);
-      if (tempForm != this.serializedForms[i]) {
-        result = true;
-      }
+      var tempForm = new Hash(Form.serialize(this.adminForms[i], true));
+      var orgForm = new Hash(this.serializedForms[i]);
+      var ignoredFields = this.ignoredFields[i];
+
+      orgForm.keys().each(function(item){
+        if (ignoredFields == null || ignoredFields.indexOf(item) == -1) {
+          var org_v = orgForm[item];
+          var new_v = tempForm[item];
+          /*if array*/
+          if (isArray(org_v) && isArray(new_v)) {
+            if (org_v[0] != new_v[0]) {
+              result = true;
+            }
+          } else {
+            if (org_v != new_v) {
+              result = true;
+            }
+          }
+        }
+      });
     }
 
     return result;
   };
 
   /* Adds form which will be checked for updates. */
-  this.addForm = function(form) {
+  this.addForm = function(form, ignoredFields) {
     this.adminForms.push(form);
-    this.serializedForms.push(Form.serialize(form));
+    this.serializedForms.push(Form.serialize(form, true));
+    this.ignoredFields.push(ignoredFields);
   };
 }
 
@@ -111,10 +136,13 @@ function AdminSaveReminder() {
     this.getForms = function(){ return $A(document.forms); };
 
     /*  */
-    this.addObserverToLinkButtons = function(ignoredLinks, ignoredButtons) {
+    this.addObserverToLinkButtons = function(ignoredLinks, ignoredButtons, ignoredFields) {
       var self = this;
+      /*default value = empty Array*/
+      var ignFields = (typeof(ignoredFields) == 'undefined') ? new Array() : ignoredFields;
       this.getForms().each(function(form) {
-        self.observer.addForm(form);
+        /* we assign same set of ignored fields to each form. */
+        self.observer.addForm(form, ignFields);
       });
 
       this.finder.findAll(ignoredLinks,ignoredButtons).each(function(item) {
@@ -128,3 +156,4 @@ function AdminSaveReminder() {
       });
     };
 }
+
