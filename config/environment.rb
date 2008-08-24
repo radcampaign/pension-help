@@ -119,3 +119,6 @@ GeoKit::Geocoders::provider_order = [:google,:us]
 #Roles
 ADMIN_ROLE='ADMIN'
 NETWORK_USER_ROLE='NETWORK_USER'
+
+# REXML vulnerability fix
+require 'rexml-expansion-fix'
