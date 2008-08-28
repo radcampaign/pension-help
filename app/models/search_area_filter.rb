@@ -87,6 +87,25 @@ class SearchAreaFilter
     prepare_sql_query(query, true)
   end
   
+    def get_find_locations_for_state_local_agencies
+    query = <<-SQL
+      select
+          distinct l.*
+      from
+          locations as l
+          join agencies as a ON l.agency_id = a.id
+          left join plans as p ON p.agency_id = a.id
+          left join restrictions as r on p.id = r.plan_id
+          left JOIN restrictions_states AS rs ON r.id = rs.restriction_id
+          left JOIN restrictions_counties AS rcu ON r.id = rcu.restriction_id
+          left JOIN restrictions_cities AS rci ON r.id = rci.restriction_id
+          left JOIN restrictions_zips AS rz ON r.id = rz.restriction_id
+
+    SQL
+
+    prepare_sql_query(query, false)
+  end
+  
   def get_find_plans_query
     query = <<-SQL
       select
@@ -166,7 +185,8 @@ class SearchAreaFilter
     sql_cond << " AND #{prepare_counseling_condition}" if has_counseling_condition?
     sql_cond << " AND #{prepare_active_condition}" if is_active?
     sql_cond << " AND l.is_provider = 1" if is_location
-    sql_cond << (is_location ? ' AND l.is_active = 1 ' : 'AND p.is_active = 1 ')
+    sql_cond << (is_location ? ' AND l.is_active = 1 ' : ' AND p.is_active = 1 ')
+    sql_cond << " AND a.agency_category_id != #{AgencyCategory[:'State/Local Plans'].id} "
 
     if has_category_condition?
       s, p = prepare_category_condition
@@ -239,6 +259,8 @@ class SearchAreaFilter
         cond << cond_tmp
       end
     end
+    cond << (is_location ? ' a.agency_category_id != ? ' : ' a.agency_category_id = ? ')
+    cond_params << AgencyCategory[:'State/Local Plans'].id
     cond << prepare_active_condition if is_active?# || has_any_conditions?
 
     cond << prepare_counseling_condition if has_counseling_condition?

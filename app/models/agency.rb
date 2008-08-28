@@ -481,8 +481,12 @@ class Agency < ActiveRecord::Base
   
   private
   def self.find_locations filter
+    result = Array.new
     query = filter.get_find_locations_query
-    Location.find_by_sql query
+    result += Location.find_by_sql query
+    query = filter.get_find_locations_for_state_local_agencies
+    result += Location.find_by_sql query
+    return result
   end
   
   def self.find_plans filter
