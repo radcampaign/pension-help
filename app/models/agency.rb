@@ -127,6 +127,7 @@ class Agency < ActiveRecord::Base
     @is_provider
   end
 
+  #Filters agencies with given condition
   def self.find_agencies filter
     locations = find_locations filter
     #Do not search by plans
@@ -159,6 +160,7 @@ class Agency < ActiveRecord::Base
     end
 
     agencies = agencies.values
+    #mark which locations should be visible
     Agency.mark_locations_visible(agencies, locations)
     return agencies
   end
@@ -193,6 +195,7 @@ class Agency < ActiveRecord::Base
 
   #Comparison functions
   #sorting by multiple columns: ticket #211
+  #we're using blocks for chaining sorting
   def compare_by_default(b, dir)
     compare_by_active(b, dir)
   end
@@ -480,15 +483,18 @@ class Agency < ActiveRecord::Base
   end
   
   private
+  #Finds locations.
   def self.find_locations filter
     result = Array.new
     query = filter.get_find_locations_query
     result += Location.find_by_sql query
+    #agencies with category == State/Local Plan ha to be treated differently.
     query = filter.get_find_locations_for_state_local_agencies
     result += Location.find_by_sql query
     return result
   end
   
+  #Finds plans(not used)
   def self.find_plans filter
     query = filter.get_find_plans_query
     Plan.find_by_sql query

@@ -1,17 +1,22 @@
 #Helper class or storing request params in session and preparing sql queries for Agencies search
 class SearchAreaFilter
+  #names used in filter template
   @@PARAM_KEYS = %w[state_abbrevs county_ids city_ids zip_ids]
 
   def initialize
     @search_params = Hash.new
   end
 
+  #Pulls from params argument parameters for filtering and keeps it.
   def put_params(params)
+    #When we navigate from Management section we should clear filter and search for all agencies
+    #in other caseswe should use stored values.
     if (!params['clear'].nil?)
       @search_params.clear
       return
     end
 
+    #find selected States, Counties, Cities and Zips
     @@PARAM_KEYS.each do |key|
       tab = params[key]
       if !tab.nil?
@@ -22,6 +27,7 @@ class SearchAreaFilter
         end
       end
     end
+    #The rest of filter options.
     if params.has_key?(:commit)
       @search_params['active'] = params['active']
       #show agencies with ready_for_counseling = 1,or
@@ -34,6 +40,7 @@ class SearchAreaFilter
     end
   end
 
+  #Checks if user has selected any condition for filtering.
   def has_any_conditions?
     has_state_condition? || has_county_condition? ||
       has_city_condition? || has_zip_condition? || has_category_condition? ||
@@ -69,6 +76,7 @@ class SearchAreaFilter
     !@search_params['agency_category_id'].blank?
   end
 
+  #Returns query for finding locations for which agencies has categotry != State/Local PLans
   def get_find_locations_query
     query = <<-SQL
       select
@@ -87,6 +95,9 @@ class SearchAreaFilter
     prepare_sql_query(query, true)
   end
   
+  #Returns query for finding locations for which agencies has categotry == State/Local PLans
+  #This requires searching for locations, for which agenecies have plans with geographic restrictions
+  #fullfilling filter's conditions.
     def get_find_locations_for_state_local_agencies
     query = <<-SQL
       select
@@ -106,6 +117,8 @@ class SearchAreaFilter
     prepare_sql_query(query, false)
   end
   
+  #Returns query for finding plans(Not Used).
+  #Be carefull, prepare_search_conditions changed!
   def get_find_plans_query
     query = <<-SQL
       select
@@ -156,6 +169,7 @@ class SearchAreaFilter
     @search_params['provider']
   end
 
+  #Returns string with preapred sql condition for Counseling
   def prepare_counseling_condition
     result = ' (a.use_for_counseling ='
     result << (@search_params['counseling'] == '1' ? '1' : '0')
@@ -174,7 +188,8 @@ class SearchAreaFilter
     return result
   end
 
-  #Prepares sql condition which selects Nation Wide Agencies
+  #Prepares sql condition which selects Nation Wide Agencies(Agency without any Geographic restrictions),
+  #pick only active locations, State/Local Agency can not serve whole nation.
   def prepare_nation_wide_condition(is_location = false)
     sql_params = Array.new
 
@@ -222,13 +237,17 @@ class SearchAreaFilter
 
     cond_params = Array.new
     cond_str = ''
+    #Start preparing 'WHERE' section for SQL query
     if (has_any_conditions?)
       cond_str << ' WHERE '
+      #we select Nation Wide and 'nomral' locations in one query
       cond_str << n_wide_cond
       cond_str << ' OR (' << search_cond_string << ')'
+      #add search params(order is important!)
       cond_params.concat(n_wide_params)
       cond_params.concat(search_cond_params)
     else
+      #find all active agencies.
       cond_str << ' WHERE a.is_active = 1 ' if is_active?
     end
 
@@ -242,11 +261,12 @@ class SearchAreaFilter
   end
 
   #prepares query conditions using parameters from AJAX request
+  #(this method will have to be changed if we want to use it in searching plans)
   def prepare_search_conditions(is_location)
     cond_params = Array.new
     cond = Array.new
 
-    #for each restriction
+    #This prepares filtering conditions for States, Counties, Cities and zips
     @@PARAM_KEYS.each do |r|
       unless (@search_params[r].nil?)
         cond_tmp = "("
@@ -259,6 +279,8 @@ class SearchAreaFilter
         cond << cond_tmp
       end
     end
+    #we use is_location as flag to switch between agencies
+    # with category != State/Local Plans and category == State/Local Plans
     cond << (is_location ? ' a.agency_category_id != ? ' : ' a.agency_category_id = ? ')
     cond_params << AgencyCategory[:'State/Local Plans'].id
     cond << prepare_active_condition if is_active?# || has_any_conditions?
@@ -273,6 +295,7 @@ class SearchAreaFilter
     #use only active locations, or plans
     cond << (is_location ? ' l.is_active = 1 ' : ' p.is_active = 1 ')
 
+    #selected locations must fullfil all conditions from filter
     return [cond.join(' AND '), cond_params]
   end
 end
