@@ -55,8 +55,7 @@ begin
   
   load data infile '#{filedir}/zip_import.txt' replace into table zip_import ignore 1 lines (zipcode,zip_type,city,city_type,county,county_fips,state_name,state_abbrev,state_fips,msa_code,area_code,time_zone,utc,dst,latitude,longitude);
   
-  insert into states select distinct state_abbrev, state_name from zip_import z
-  on duplicate key update name = z.state_name;
+  insert ignore into states(abbrev,name) select distinct state_abbrev, state_name from zip_import;
 
   update counties c join zip_import z on c.fips_code = z.county_fips and c.state_abbrev = z.state_abbrev
   set c.name = z.county;
