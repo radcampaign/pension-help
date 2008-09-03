@@ -10,7 +10,7 @@
       <span>
         <select name="state_abbrevs[]" id="state_abbrevs" multiple=true size=6>
           <option value="">-- Unrestricted --</option>
-          <%= options_for_select State.find(:all, :order => 'abbrev').collect{|s| [s.name, s.abbrev]}, params[:state_abbrevs] %>
+          <%= options_for_select State.find(:all, :order => 'name').collect{|s| [s.name, s.abbrev]}, params[:state_abbrevs] %>
         </select>
         <label>State</label>
       </span>
