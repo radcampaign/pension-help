@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
   
   def get_cities_for_counties
     begin
-      @counties = params[:counties].split(',').collect{|c| County.find(c)} if (params[:counties] != 'null')
+      @counties = params[:counties].split(',').collect{|c| County.find(c)} if (params[:counties] != nil)
     rescue ActiveRecord::RecordNotFound
       nil
     end
@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
   
   def get_zips_for_counties
     begin
-      @counties = params[:counties].split(',').collect{|c| County.find(c)} if (params[:counties]!='null')
+      @counties = params[:counties].split(',').collect{|c| County.find(c)} if (params[:counties]!=nil)
     rescue ActiveRecord::RecordNotFound
       nil
     end
