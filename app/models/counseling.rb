@@ -306,8 +306,8 @@ class Counseling < ActiveRecord::Base
     if !is_over_60.nil? && !monthly_income.blank?
       # user ansered both questions, look for restrictions with age-and-income-condition with both matching, or
       # without age-and-income condition with either age or income matching
-      conditions << " and (r.age_and_income = 1 and r.minimum_age >= 60 and r.max_poverty >= #{poverty_level.to_f})"
-      conditions << " or (r.age_and_income = 0 and (r.minimum_age >= 60 or r.max_poverty >= #{poverty_level.to_f}))" 
+      conditions << " and ((r.age_and_income = 1 and r.minimum_age >= 60 and r.max_poverty >= #{poverty_level.to_f})"
+      conditions << " or (r.age_and_income = 0 and (r.minimum_age >= 60 or r.max_poverty >= #{poverty_level.to_f})))" 
     else
       #user anwsered either of questions, we only look for restrictions without AND condition
       conditions << " and r.age_and_income = 0 "
