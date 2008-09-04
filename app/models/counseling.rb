@@ -161,9 +161,16 @@ class Counseling < ActiveRecord::Base
 #  private
   #######
   
+  def home_zip
+    ZipImport.find(zipcode) unless zipcode.blank?
+  end
+  
   def home_state
-    home_zip = ZipImport.find(zipcode) unless zipcode.blank?
-    return home_zip.nil? ? '' : home_zip.state_abbrev
+    home_zip.state_abbrev unless home_zip.nil?
+  end
+
+  def home_county
+    Zip.find(zipcode).county_id unless zipcode.nil?
   end
 
   def poverty_level
@@ -300,10 +307,12 @@ class Counseling < ActiveRecord::Base
                    and (r.minimum_age is not null or r.max_poverty is not null) 
                    and addresses.address_type='dropin'
                    and addresses.latitude is not null
-                   and rs.state_abbrev IN (?,?,?,?)"
+                   and (rs.restriction_id is null or rs.state_abbrev in (?, ?, ?, ?))
+                   and (rc.restriction_id is null or rc.county_id='#{home_county}')
+                   and (rz.restriction_id is null or rz.zipcode='#{zipcode}' )"
                    
-    #is_over_60 == nil means user did not answer Age question(true or false -> user answered question
-    if !is_over_60.nil? && !monthly_income.blank?
+    #is_over_60 == nil means user did not answer Age question(true or false -> user answered question)
+    if is_over_60 && !monthly_income.blank?
       # user ansered both questions, look for restrictions with age-and-income-condition with both matching, or
       # without age-and-income condition with either age or income matching
       conditions << " and ((r.age_and_income = 1 and r.minimum_age >= 60 and r.max_poverty >= #{poverty_level.to_f})"
@@ -326,8 +335,10 @@ class Counseling < ActiveRecord::Base
             :joins => 'join locations l on addresses.location_id = l.id 
                                              and l.is_provider = 1 and l.is_active = 1 
                        join agencies a on l.agency_id = a.id and a.use_for_counseling=1 and a.is_active=1
-                       join restrictions r on r.location_id = l.id
-                       join restrictions_states rs on rs.restriction_id = r.id',
+                       left join restrictions r on r.location_id = l.id
+                       left join restrictions_states rs on rs.restriction_id = r.id
+                       left join restrictions_counties rc on rc.restriction_id = r.id
+                       left join restrictions_zips rz on rz.restriction_id = r.id',
             :conditions => [conditions, work_state_abbrev, hq_state_abbrev,
                             pension_state_abbrev, home_state])
     return address.location.agency unless address.nil?
@@ -440,7 +451,7 @@ class Counseling < ActiveRecord::Base
   protected
   def before_validation
     if !self.yearly_income_tmp.blank?
-      self.monthly_income = self.yearly_income_tmp.gsub(/[^0-9.]/, '' )
+      self.monthly_income = self.yearly_income_tmp.gsub(/[^0-9.]/, '' ).to_i / 12
     elsif !self.monthly_income_tmp.blank?
       self.monthly_income = self.monthly_income_tmp.gsub(/[^0-9.]/, '' )
     end
