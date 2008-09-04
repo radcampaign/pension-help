@@ -73,7 +73,7 @@ class Agency < ActiveRecord::Base
                             left join restrictions_counties rc on rc.restriction_id = r.id
                             left join restrictions_zips rz on rz.restriction_id = r.id",
                  :conditions => "addresses.latitude is not null and locations.is_provider=1
-                            and (rs.restriction_id is null or rs.state_abbrev = '#{home_state}')
+                            and (rs.restriction_id is null or rs.state_abbrev in ('#{home_state}', '#{counseling.work_state_abbrev}', '#{counseling.hq_state_abbrev}', '#{counseling.pension_state_abbrev}'))
                             and (rc.restriction_id is null or rc.county_id='#{home_county}')
                             and (rz.restriction_id is null or rz.zipcode='#{counseling.zipcode}' )")
                  
