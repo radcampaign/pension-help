@@ -78,4 +78,17 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+  
+  #We might arrive here if user called a url with a valid controller, but a dynamically created 'action'
+  #i.e. - user creates a page: /help/new_page -- we'd get routed to the help controller and not wind up at 
+  #site/show_page
+  def method_missing(methodname, *args)
+    uri = request.request_uri
+    if @content = Content.find_by_url_and_is_active(uri.slice(1,uri.length-1), true) #strip leading /
+      render :template => '/site/show_page'
+    else
+      render :template => 'site/404', :status => 404
+    end
+  end
+
 end
