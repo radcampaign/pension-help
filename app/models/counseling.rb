@@ -307,7 +307,7 @@ class Counseling < ActiveRecord::Base
                    and (r.minimum_age is not null or r.max_poverty is not null) 
                    and addresses.address_type='dropin'
                    and addresses.latitude is not null
-                   and (rs.restriction_id is null or rs.state_abbrev in (?, ?, ?, ?))
+                   and (rs.restriction_id is null or rs.state_abbrev = ?)
                    and (rc.restriction_id is null or rc.county_id='#{home_county}')
                    and (rz.restriction_id is null or rz.zipcode='#{zipcode}' )"
                    
@@ -339,8 +339,7 @@ class Counseling < ActiveRecord::Base
                        left join restrictions_states rs on rs.restriction_id = r.id
                        left join restrictions_counties rc on rc.restriction_id = r.id
                        left join restrictions_zips rz on rz.restriction_id = r.id',
-            :conditions => [conditions, work_state_abbrev, hq_state_abbrev,
-                            pension_state_abbrev, home_state])
+            :conditions => [conditions, home_state])
     return address.location.agency unless address.nil?
   end
 
