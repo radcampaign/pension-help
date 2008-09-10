@@ -3,6 +3,7 @@
 		<option value=""> -- Please select a state -- </option>
 	<% else -%>
 		<option value=""> -- unrestricted -- </option>
+		<% county_ids ||= [] %>
 		<%= options_for_select states.collect{|s| s.counties}.flatten.collect{|c| [c.state_abbrev+':'+c.name, c.id]}.sort, county_ids || [] %>
 	<% end -%>
 </select><label>County</label>

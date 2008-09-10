@@ -150,11 +150,11 @@ class Counseling < ActiveRecord::Base
   end
 
   def age_restrictions?                   
-    Agency.age_restrictions?(work_state_abbrev, hq_state_abbrev, pension_state_abbrev, home_state)
+    Agency.age_restrictions?(home_state)
   end
   
   def income_restrictions?
-    Agency.income_restrictions?(work_state_abbrev, hq_state_abbrev, pension_state_abbrev, home_state)
+    Agency.income_restrictions?(home_state)
   end
 
   #######
