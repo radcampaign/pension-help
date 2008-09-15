@@ -72,13 +72,15 @@ class Agency < ActiveRecord::Base
                             left join restrictions_states rs on rs.restriction_id = r.id
                             left join restrictions_counties rc on rc.restriction_id = r.id
                             left join restrictions_zips rz on rz.restriction_id = r.id",
-                 :conditions => "addresses.latitude is not null and locations.is_provider=1
-                            and (rs.restriction_id is null or rs.state_abbrev ='#{home_state}')
+                 :conditions => ["addresses.latitude is not null and locations.is_provider=1
                             and (rc.restriction_id is null or rc.county_id='#{home_county}')
-                            and (rz.restriction_id is null or rz.zipcode='#{counseling.zipcode}' )")
+                            and (rz.restriction_id is null or rz.zipcode='#{counseling.zipcode}' ) 
+                            and (rs.restriction_id is null or rs.state_abbrev in (?))",
+                            result_type_id=ResultType['AoA'] ? [home_state, counseling.pension_state_abbrev, counseling.hq_state_abbrev, counseling.work_state_abbrev] : [home_state] ] )
+                              
                  
-# FIXME:  Two problems exist here:
-# 1 - we can't join on restriction_cities, because we don't have a city_id, and it's non-trivial to look one up based on zipcode (consider a zip with more than one city - e.g. 04106 = Portland + South Portland)                 
+# issue: - we can't join on restriction_cities, because we don't have a city_id, and it's non-trivial to look one up based on zipcode (consider a zip with more than one city - e.g. 04106 = Portland + South Portland)  
+#partially solved by addition of cities_zips table - we just need to incorporate this into query               
                                  
     # return the relevant location instead of the address                                  
     return address.location if address 
