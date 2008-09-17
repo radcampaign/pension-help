@@ -67,6 +67,8 @@ class PlansController < ApplicationController
       redirect_to agencies_path() and return if params['update_and_list']
       redirect_to edit_plan_url(:agency_id => @agency, :id => @plan)
     else
+      # setting object @new_restrictions in order to correct displaying partial _new_restriction_form.rhtml
+      @new_restrictions = @plan.get_empty_restrictions
       render :action => "new"
     end
   end
@@ -101,6 +103,8 @@ class PlansController < ApplicationController
       redirect_to agencies_path() and return if params['update_and_list']
       redirect_to edit_plan_url(:agency_id => @agency, :id => @plan)
     else
+      # setting object @new_restrictions in order to correct displaying partial _new_restriction_form.rhtml
+      @new_restrictions = @plan.get_empty_restrictions
       render :action => "edit"
     end
   end

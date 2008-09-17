@@ -40,6 +40,8 @@ class Plan < ActiveRecord::Base
   has_one :publication, :dependent => :destroy
   has_many :restrictions, :dependent => :destroy
   
+  validates_presence_of     :name
+  
   composed_of :pha_contact, :class_name => PhaContact,
     :mapping => [
       [:pha_contact_name, :name],

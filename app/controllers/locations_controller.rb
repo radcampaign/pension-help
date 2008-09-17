@@ -62,6 +62,8 @@ class LocationsController < ApplicationController
       redirect_to edit_location_url(:agency_id => @agency, :id => @location)
     else
       flash[:error] = "There was a problem trying to save your information."  # flash not being set by validations ????
+      # setting object @new_restrictions in order to correct displaying partial _new_restriction_form.rhtml
+      @new_restrictions = @location.get_empty_restrictions
       render :template => 'locations/edit' 
     end
   end
@@ -97,6 +99,8 @@ class LocationsController < ApplicationController
       redirect_to edit_location_url(:agency_id => @agency, :id => @location)
     else
       flash[:error] = "There was a problem trying to save your information." # flash not being set by validations ????
+      # setting object @new_restrictions in order to correct displaying partial _new_restriction_form.rhtml
+      @new_restrictions = @location.get_empty_restrictions
       render :action => "edit" 
     end
   end
