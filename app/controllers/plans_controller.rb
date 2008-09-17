@@ -69,7 +69,7 @@ class PlansController < ApplicationController
     else
       # setting object @new_restrictions in order to correct displaying partial _new_restriction_form.rhtml
       @new_restrictions = @plan.get_empty_restrictions
-      render :action => "new"
+      render :template => 'plans/edit' 
     end
   end
 
