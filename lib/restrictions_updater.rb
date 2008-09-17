@@ -30,7 +30,6 @@ module RestrictionsUpdater
 
   #called to save restrictions to db, should be called in transaction
   def update_restrictions(params)
-    debugger
     if (@restriction_attr)
       #for each restriction
       @restriction_attr.keys.each do |key|
