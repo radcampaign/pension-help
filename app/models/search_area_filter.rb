@@ -39,6 +39,10 @@ class SearchAreaFilter
       @search_params['provider'] = params['provider']
     end
   end
+  
+  def set_param(name, value)
+     @search_params[name] = value
+  end
 
   #Checks if user has selected any condition for filtering.
   def has_any_conditions?
@@ -158,11 +162,11 @@ class SearchAreaFilter
   end
   
   def get_active
-    @search_params['counseling']
+    @search_params['active']
   end
   
   def get_counseling
-    @search_params['active']
+    @search_params['counseling']
   end
   
   def get_provider_type
