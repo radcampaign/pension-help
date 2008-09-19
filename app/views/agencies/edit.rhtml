@@ -1,3 +1,7 @@
+<% content_for :script do %>
+	<%= javascript_include_tag("jquery", "jquery.noconflict.js", "jquery.maskedinput.js") %>
+<% end %>
+
 <h1>Agency / Plan Administration</h1>
 
 <%= error_messages_for :agency %>
@@ -210,4 +214,15 @@ sortable_element 'location_list',
     var asr = new AdminSaveReminder();
     asr.addObserverToLinkButtons(['showHideLocations','showHidePlans'], ['commit', 'update_and_return']);
   });
+</script>
+
+
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		jQuery("#publication_tollfree").mask("(999) 999-9999");
+		jQuery("#publication_phone").mask("(999) 999-9999");
+		jQuery("#publication_tty").mask("(999) 999-9999");
+		jQuery("#publication_fax").mask("(999) 999-9999");
+		jQuery("#pha_contact_phone").mask("(999) 999-9999");
+	 });
 </script>

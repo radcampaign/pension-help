@@ -1,3 +1,7 @@
+<% content_for :script do %>
+	<%= javascript_include_tag("jquery", "jquery.noconflict.js", "jquery.maskedinput.js") %>
+<% end %>
+
 <h1>Agency / Plan Administration</h1>
 
 <h2 id="agency_heading"><label>Agency: </label><%= @agency.name %>:<%= @agency.name2 %></h2>
@@ -98,4 +102,10 @@
       ['commit', 'update_and_return', 'update_and_list'],
       ['plan[restriction_attr][-4][create_new]','plan[restriction_attr][-3][create_new]','plan[restriction_attr][-2][create_new]','plan[restriction_attr][-1][create_new]']);
   });
+</script>
+
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		jQuery("#pha_contact_phone").mask("(999) 999-9999");
+	 });
 </script>
