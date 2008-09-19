@@ -74,6 +74,18 @@ class AgenciesController < ApplicationController
       render :action => "new"
     end
   end
+  
+  # check if user clicked back button - if yes, set 'back' param to true
+  # 'back' param is used for not to clear filter
+  def go_to_agencies
+    if params[:back]
+      session[:back] = true
+    else
+      session[:back] = false
+      redirect_to agencies_url(:clear=>true)
+    end
+  end
+  
 
   # PUT /agencies/1
   # PUT /agencies/1.xml
@@ -148,14 +160,14 @@ class AgenciesController < ApplicationController
   
   def ajax_search
 
-    session[:agency_order] = session[:agency_desc] = nil if params[:clear] # clear any params from session if this is our first time here
+    session[:agency_order] = session[:agency_desc] = nil if (params[:clear] && session[:back]) # clear any params from session if this is our first time here
     params[:order] ||= session[:agency_order] # retrieve any existing params from the session
     params[:desc] ||= session[:agency_desc] unless params[:order] # don't override params[:desc] if we're passing in params[:order] 
     session[:agency_order] = params[:order]   # save these params to session so they'll be 'remembered' on the next visit
     session[:agency_desc] = params[:desc]
 
     filter = find_search_filter
-    filter.put_params(params)
+    filter.put_params(params, session[:back])
     params[:state_abbrevs] = filter.get_states
     params[:county_ids] = filter.get_counties
     params[:city_ids] = filter.get_cities

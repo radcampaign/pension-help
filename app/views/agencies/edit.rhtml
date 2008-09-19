@@ -194,6 +194,15 @@ sortable_element 'location_list',
       :url => { :action => "sort_plan" } %>
 
 <script type="text/javascript">
+
+    window.onbeforeunload = function() {
+        new Ajax.Request('/agencies/go_to_agencies', {
+            method:       'post', 
+            asynchronous: false,
+            parameters: 'back=true'
+        });
+    };
+	
   /* toggles all element with given class*/
   function toggleRows(elemClass) {
     $$("." + elemClass).each( function(e) {

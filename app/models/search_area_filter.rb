@@ -8,10 +8,10 @@ class SearchAreaFilter
   end
 
   #Pulls from params argument parameters for filtering and keeps it.
-  def put_params(params)
+  def put_params(params, back)
     #When we navigate from Management section we should clear filter and search for all agencies
     #in other caseswe should use stored values.
-    if (!params['clear'].nil?)
+    if (!params['clear'].nil? && !back)
       @search_params.clear
       return
     end
