@@ -136,7 +136,7 @@ class Counseling < ActiveRecord::Base
         SQL
     # CASE orders aoa agencies so that home state appears first (if there's more than one aoa covered state involved)
     Agency.find_by_sql([sql, ResultType['AoA'], work_state_abbrev, 
-                        hq_state_abbrev, pension_state_abbrev, home_state, home_state, work_state_abbrev])
+                        hq_state_abbrev, pension_state_abbrev, home_state_abbrev, home_state_abbrev, work_state_abbrev])
   end
 
   #Conditions met to show step_5 
@@ -150,11 +150,11 @@ class Counseling < ActiveRecord::Base
   end
 
   def age_restrictions?                   
-    Agency.age_restrictions?(home_state)
+    Agency.age_restrictions?(home_state_abbrev)
   end
   
   def income_restrictions?
-    Agency.income_restrictions?(home_state)
+    Agency.income_restrictions?(home_state_abbrev)
   end
 
   #######
@@ -165,10 +165,14 @@ class Counseling < ActiveRecord::Base
     ZipImport.find(zipcode) unless zipcode.blank?
   end
   
-  def home_state
+  def home_state_abbrev
     home_zip.state_abbrev unless home_zip.nil?
   end
 
+  def home_state
+    State.find_by_abbrev(home_state_abbrev)
+  end
+  
   def home_county
     Zip.find(zipcode).county_id unless zipcode.nil?
   end
@@ -177,7 +181,7 @@ class Counseling < ActiveRecord::Base
     return nil unless number_in_household && monthly_income
     hh = number_in_household
     hh = 8 if hh > 8
-    geo = home_state || 'US'
+    geo = home_state_abbrev || 'US'
     geo = 'US' unless geo == 'HI' or geo == 'AK'
     sql = <<-SQL
       select 100 * (?/fpl) as value from poverty_levels
@@ -339,7 +343,7 @@ class Counseling < ActiveRecord::Base
                        left join restrictions_states rs on rs.restriction_id = r.id
                        left join restrictions_counties rc on rc.restriction_id = r.id
                        left join restrictions_zips rz on rz.restriction_id = r.id',
-            :conditions => [conditions, home_state])
+            :conditions => [conditions, home_state_abbrev])
     return address.location.agency unless address.nil?
   end
 

@@ -29,7 +29,7 @@
 
 <br/>
 <% if @zip_found && !@show_aoa_expansion %>
-<p id="zip_found">Zip Code confirmed to be in  <%= @counseling.home_state %>. Please press the 'Next' button to continue.</p>
+<p id="zip_found">Zip Code confirmed to be in  <%= @counseling.home_state.name %>. Please press the 'Next' button to continue.</p>
 <script type="text/javascript">
 	new Effect.Highlight('zip_found');
 </script>
@@ -37,7 +37,7 @@
 
 <div id="aoa_expansion">
 	<% if @zip_found && @show_aoa_expansion %>
-		<p>Zip Code confirmed to be in  <%= @counseling.home_state %>. Please consider the questions below.</p>
+		<p>Zip Code confirmed to be in  <%= @counseling.home_state.name %>. Please consider the questions below.</p>
 	<% end %>
   
 	<h2>Where did you work?</h2>

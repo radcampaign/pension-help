@@ -56,11 +56,11 @@ class Agency < ActiveRecord::Base
     return hq unless counseling.zipcode || hq.nil?
 
     home_geo_zip = ZipImport.find(counseling.zipcode)
-    home_state = home_geo_zip.nil? ? '' : home_geo_zip.state_abbrev
+    home_state_abbrev = home_geo_zip.nil? ? '' : home_geo_zip.state_abbrev
     home_county = (z=Zip.find_by_zipcode(home_geo_zip)) ? z.county_id : nil
     
     # out of state should find hq, unless there's a state restriction
-    if hq && home_state == dropin_addresses.first.state_abbrev
+    if hq && home_state_abbrev == dropin_addresses.first.state_abbrev
       order = 'rs.state_abbrev desc, distance'
     else
       order = 'rs.state_abbrev desc, is_hq desc, distance'
@@ -71,12 +71,15 @@ class Agency < ActiveRecord::Base
                  :joins => "left join restrictions r on r.location_id = locations.id
                             left join restrictions_states rs on rs.restriction_id = r.id
                             left join restrictions_counties rc on rc.restriction_id = r.id
-                            left join restrictions_zips rz on rz.restriction_id = r.id",
+                            left join restrictions_zips rz on rz.restriction_id = r.id
+                            left join restrictions_cities rcity on rcity.restriction_id = r.id",
                  :conditions => ["addresses.latitude is not null and locations.is_provider=1
                             and (rc.restriction_id is null or rc.county_id='#{home_county}')
                             and (rz.restriction_id is null or rz.zipcode='#{counseling.zipcode}' ) 
+                            and (rcity.restriction_id is null or rcity.city_id in 
+                              (select city_id from cities_zips where zipcode = '#{counseling.zipcode}'))
                             and (rs.restriction_id is null or rs.state_abbrev in (?))",
-                            result_type_id=ResultType['AoA'] ? [home_state, counseling.pension_state_abbrev, counseling.hq_state_abbrev, counseling.work_state_abbrev] : [home_state] ] )
+                            result_type_id=ResultType['AoA'] ? [home_state_abbrev, counseling.pension_state_abbrev, counseling.hq_state_abbrev, counseling.work_state_abbrev] : [home_state_abbrev] ] )
                               
                  
 # issue: - we can't join on restriction_cities, because we don't have a city_id, and it's non-trivial to look one up based on zipcode (consider a zip with more than one city - e.g. 04106 = Portland + South Portland)  
@@ -87,7 +90,7 @@ class Agency < ActiveRecord::Base
 
   end
 
-  def self.age_restrictions?(home_state)
+  def self.age_restrictions?(home_state_abbrev)
     sql = <<-SQL
         select a.id from agencies a
         join locations l on l.agency_id = a.id and l.is_provider = 1
@@ -100,11 +103,11 @@ class Agency < ActiveRecord::Base
         and (r.minimum_age is not null) 
         SQL
 
-    Agency.find_by_sql([sql, home_state, AgencyCategory['Service Provider']]).size > 0
+    Agency.find_by_sql([sql, home_state_abbrev, AgencyCategory['Service Provider']]).size > 0
     
   end
 
-  def self.income_restrictions?(home_state)
+  def self.income_restrictions?(home_state_abbrev)
     sql = <<-SQL
         select a.id from agencies a
         join locations l on l.agency_id = a.id and l.is_provider = 1
@@ -117,7 +120,7 @@ class Agency < ActiveRecord::Base
         and (r.max_poverty is not null) 
         SQL
 
-    Agency.find_by_sql([sql, home_state, AgencyCategory['Service Provider']]).size > 0
+    Agency.find_by_sql([sql, home_state_abbrev, AgencyCategory['Service Provider']]).size > 0
   end
 
   def is_provider
