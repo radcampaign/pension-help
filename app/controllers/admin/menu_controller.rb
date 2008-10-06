@@ -6,7 +6,7 @@ class Admin::MenuController < ApplicationController
   end
 
   def index
-    render :template => 'admin/menu/index', :layout => 'admin'
+    render :template => 'admin/menu/index'
   end
   
 end
