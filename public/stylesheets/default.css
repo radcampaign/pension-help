@@ -60,7 +60,8 @@ body {
 	background-repeat:repeat-x;
 }
 
-#site_header {
+#site_header,
+#account_header {
 	width:773px;
 	height:91px;
 	background-image:url('/images/layout/header-site.jpg');
