@@ -24,11 +24,13 @@
 <body class="admin">
 	<div id='spinner' style='display:none'><%= image_tag 'loading.gif', :id => 'ajax_spinner' %>Loading . . .</div>
 	<div id="container">
-		<div class="header" id="admin_header">
-			<div style="position:relative">
-			<a href="/" id="home_link"></a>
-			<%= link_to_function('',"ts('body',1)", :id => 'ts_increase_link')%>
-			<%= link_to_function('',"ts('body',-1)", :id => 'ts_decrease_link')%>
+		<div class="header">
+			<div id="admin_header">
+				<div style="position:relative">
+				<a href="/" id="home_link"></a>
+				<%= link_to_function('',"ts('body',1)", :id => 'ts_increase_link')%>
+				<%= link_to_function('',"ts('body',-1)", :id => 'ts_decrease_link')%>
+				</div>
 			</div>
 		</div>
 	<div id="content">
