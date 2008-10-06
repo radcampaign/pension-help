@@ -95,7 +95,8 @@ body {
 	background-repeat:no-repeat;
 }
 
-#works_header {
+#works_header,
+#partners_header {
 	width:773px;
 	height:91px;
 	background-image:url('/images/layout/header-works.jpg');
