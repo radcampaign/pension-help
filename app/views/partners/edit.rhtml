@@ -4,7 +4,7 @@
   <h1>Partner's Profile</h1>
 <% end %>
 
-<%= link_to 'Survey', :action => 'survey', :id => @partner %>
+<%= link_to 'Edit Additional Partner Information', :action => 'survey', :id => @partner %>
 <%#= error_messages_for :partner %>
 <style>.fieldWithErrors {padding: 2px; background-color: red; display: table;}</style>
 <% if (not @partner.nil? and not @partner.errors.empty?) -%>

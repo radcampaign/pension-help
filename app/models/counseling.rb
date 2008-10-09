@@ -1,34 +1,3 @@
-# == Schema Information
-# Schema version: 41
-#
-# Table name: counselings
-#
-#  id                      :integer(11)   not null, primary key
-#  zipcode                 :string(255)   
-#  employment_start        :date          
-#  employment_end          :date          
-#  is_divorce_related      :boolean(1)    
-#  is_survivorship_related :boolean(1)    
-#  work_state_abbrev       :string(255)   
-#  hq_state_abbrev         :string(255)   
-#  pension_state_abbrev    :string(255)   
-#  is_over_60              :boolean(1)    
-#  monthly_income          :integer(11)   
-#  number_in_household     :integer(11)   
-#  employer_type_id        :integer(11)   
-#  federal_plan_id         :integer(11)   
-#  military_service_id     :integer(11)   
-#  military_branch_id      :integer(11)   
-#  military_employer_id    :integer(11)   
-#  pension_earner_id       :integer(11)   
-#  state_abbrev            :string(255)   
-#  county_id               :integer(11)   
-#  city_id                 :integer(11)   
-#  created_at              :datetime      
-#  is_afscme_member        :boolean(1)    
-#  selected_plan_id        :integer(11)   
-#
-
 class Counseling < ActiveRecord::Base
   has_enumerated :pension_earner
   has_enumerated :employer_type
@@ -459,6 +428,7 @@ class Counseling < ActiveRecord::Base
       self.monthly_income = self.monthly_income_tmp.gsub(/[^0-9.]/, '' )
     end
   end
+  
   def validate
     errors.add :zipcode if(!zipcode.blank? && !ZipImport.find(zipcode) rescue true)
     errors.add(:zipcode, 'is required') if zipcode.blank? && step > 1

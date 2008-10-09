@@ -1,4 +1,5 @@
 class WorksController < ApplicationController
+  helper :partners
   
   def index
     @partner = Partner.new

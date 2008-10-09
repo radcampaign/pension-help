@@ -1,51 +1,3 @@
-# == Schema Information
-# Schema version: 41
-#
-# Table name: partners
-#
-#  id                             :integer(11)   not null, primary key
-#  first_name                     :string(80)    
-#  last_name                      :string(80)    
-#  middle_initial                 :string(2)     
-#  company                        :string(255)   
-#  line_1                         :string(255)   
-#  line_2                         :string(255)   
-#  city                           :string(50)    
-#  state_abbrev                   :string(2)     
-#  zip_code                       :string(10)    
-#  phone                          :string(20)    
-#  fax                            :string(20)    
-#  email                          :string(255)   
-#  url                            :string(255)   
-#  reduced_fee_desc               :string(255)   
-#  contingency_fee_desc           :string(255)   
-#  consultation_fee               :string(255)   
-#  hourly_rate                    :integer(11)   
-#  bar_admissions                 :string(255)   
-#  aaa_member                     :boolean(1)    
-#  willing_to_provide             :boolean(1)    
-#  willing_to_answer              :boolean(1)    
-#  wont_charge_fees               :boolean(1)    
-#  info_geo                       :string(255)   
-#  info_industries                :string(255)   
-#  profession_other               :string(255)   
-#  sponsor_type_other             :string(255)   
-#  plan_type_other                :string(255)   
-#  claim_type_other               :string(255)   
-#  npln_additional_area_other     :string(255)   
-#  npln_participation_level_other :string(255)   
-#  pal_additional_area_other      :string(255)   
-#  pal_participation_level_other  :string(255)   
-#  help_additional_area_other     :string(255)   
-#  certifications                 :text          
-#  affiliations                   :text          
-#  other_info                     :text          
-#  wants_npln                     :boolean(1)    
-#  wants_pal                      :boolean(1)    
-#  wants_help                     :boolean(1)    
-#  wants_search                   :boolean(1)    
-#
-
 class Partner < ActiveRecord::Base
   has_and_belongs_to_many :professions
   has_and_belongs_to_many :sponsor_types
@@ -75,11 +27,20 @@ class Partner < ActiveRecord::Base
                           :phone, 
                           :email
                           
-  validates_numericality_of :hourly_rate,
-                            :if => Proc.new {|p| !p.new_record? and (p.wants_npln or p.wants_pal) }
-  validates_numericality_of :consultation_fee,
-                            :if => Proc.new {|p| !p.new_record? and (p.wants_npln or p.wants_pal) }
-
+  validates_format_of :hourly_rate_str,
+                      :on => :update,
+                      :with => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
+                      :message => "^Hourly rate doesn't seem to be a valid amount",
+                      :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and p.hourly_rate.blank? }
+                      
+  validates_format_of :consultation_fee_str,
+                      :on => :update,
+                      :with => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
+                      :message => "^Consultation fee doesn't seem to be a valid amount",
+                      :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and p.consultation_fee.blank? }
+                      
+  attr_accessor :hourly_rate_str, :consultation_fee_str                    
+  
   #Updates questions answers from request params.
   def update_multiple_answer_questions params
     #clear questions first
@@ -122,11 +83,13 @@ class Partner < ActiveRecord::Base
     if !user.nil? 
       user.email = self.email
     end
+    self.hourly_rate = hourly_rate_str.gsub(/[$,]/,"") unless hourly_rate_str.nil?
+    self.consultation_fee = consultation_fee_str.gsub(/[$,]/,"") unless consultation_fee_str.nil?
   end
 
   #Copies errors from User to Partner(apart from Email, no need to show this error twice)
   def after_validation
-    unless user.errors.empty?
+    unless user.nil? or user.errors.empty?
       user.errors.each do |attr, mesg|
         self.errors.add attr, mesg unless (attr == 'email' && mesg != 'has already been taken')
       end

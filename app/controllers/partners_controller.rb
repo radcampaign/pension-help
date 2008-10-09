@@ -60,15 +60,11 @@ class PartnersController < ApplicationController
       is_ok = false
     end
 
-    respond_to do |format|
-      if is_ok
-        flash[:notice] = 'Partner was successfully created.'
-        format.html { redirect_to partner_url(@partner) }
-        format.xml  { head :created, :location => partner_url(@partner) }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @partner.errors.to_xml }
-      end
+    if is_ok
+      flash[:notice] = 'Partner was successfully created.'
+      redirect_to partner_url(@partner) 
+    else
+      render :action => "new" 
     end
   end
 
@@ -90,15 +86,11 @@ class PartnersController < ApplicationController
       is_ok = false
     end
 
-    respond_to do |format|
-      if is_ok
-        flash[:notice] = 'Partner was successfully updated.'
-        format.html { redirect_to partner_url(@partner) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @partner.errors.to_xml }
-      end
+    if is_ok
+      flash[:notice] = 'Partner profile was successfully updated.'
+      redirect_to :action => :edit
+    else
+      render :action => "edit"
     end
   end
 
@@ -131,14 +123,12 @@ class PartnersController < ApplicationController
       is_ok = false
     end
 
-    respond_to do |format|
-      if is_ok
-        format.html { render :action => 'survey' }
-        format.xml { head :ok }
-      else
-        format.html { render :action => 'survey' }
-        format.xml { render :xml => @partner.errors.to_xml }
-      end
+    if is_ok
+      flash[:notice] = 'Information was succesfully updated.'
+      redirect_to :action => :edit
+    else
+      render :action => 'survey'
     end
   end
+  
 end
