@@ -12,10 +12,20 @@ class HelpController < ApplicationController
     @content = Content.find_by_url('help/resources')
     render :template => "site/show_page.rhtml"
   end
-  
+
   def counseling
     @counseling = session[:counseling] = Counseling.new #start with a fresh object
     @options = CounselAssistance.employer_types
+  end
+
+  def employer_descriptions
+    @counseling = update_counseling
+  end
+
+  def update_employer_type
+    @counseling = update_counseling
+    @options = CounselAssistance.employer_types
+    render :action => :counseling
   end
   
   def process_counseling
