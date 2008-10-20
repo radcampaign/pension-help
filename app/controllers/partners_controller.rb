@@ -125,7 +125,7 @@ class PartnersController < ApplicationController
 
     if is_ok
       flash[:notice] = 'Information was succesfully updated.'
-      redirect_to :action => :edit
+      redirect_to :action => :survey, :id => @partner.id
     else
       render :action => 'survey'
     end

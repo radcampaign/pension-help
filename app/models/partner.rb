@@ -27,18 +27,26 @@ class Partner < ActiveRecord::Base
                           :phone, 
                           :email
                           
-  validates_format_of :hourly_rate_str,
-                      :on => :update,
-                      :with => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
-                      :message => "^Hourly rate doesn't seem to be a valid amount",
-                      :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and p.hourly_rate.blank? }
-                      
+  validates_presence_of :consultation_fee_str,
+                        :message => "^Consultation fee can't be blank",
+                        :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and !p.new_record? }
+
+  validates_presence_of :hourly_rate_str,
+                        :message => "^Hourly rate can't be blank",
+                        :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and !p.new_record? }
+
   validates_format_of :consultation_fee_str,
                       :on => :update,
                       :with => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
                       :message => "^Consultation fee doesn't seem to be a valid amount",
-                      :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and p.consultation_fee.blank? }
+                      :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and p.errors["consultation_fee_str"].nil? }
                       
+  validates_format_of :hourly_rate_str,
+                      :on => :update,
+                      :with => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
+                      :message => "^Hourly rate doesn't seem to be a valid amount",
+                      :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and p.errors["hourly_rate_str"].nil?  }
+
   attr_accessor :hourly_rate_str, :consultation_fee_str                    
   
   #Updates questions answers from request params.
