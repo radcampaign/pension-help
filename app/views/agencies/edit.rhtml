@@ -154,15 +154,15 @@
 						<tr>
 							<th width="5%">drag to sort</th>
 							<th>Plan Name</th>
-							<th>Common Name</th>
 	            <th>Active</th>
+							<th>Catch-all Employees</th>
 						</tr>
 						<% @plans.each_with_index do |plan, i| %>
 						<tr id="plan_<%=plan.id.to_s%>" class="<%= 'disabledPlan' unless plan.is_active %>">
 							<td class="center"><%= image_tag 'play.gif'%></td>
 							<td><%= link_to h(plan.name), edit_agency_plan_url(:agency_id => @agency, :id => plan)%></td>
-							<td><%= plan.name2 %></td>
 		          <td><%= image_tag(plan.is_active ? 'check_blue.gif' : 'close.gif') %></td>
+							<td><%= plan.catchall_employees %></td>
 						</tr>
 						<% end %>
 					<% end %>
