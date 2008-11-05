@@ -1,44 +1,11 @@
-# == Schema Information
-# Schema version: 41
-#
-# Table name: plans
-#
-#  id                 :integer(11)   not null, primary key
-#  agency_id          :integer(11)   
-#  name               :string(255)   
-#  name2              :string(255)   
-#  description        :text          
-#  comments           :text          
-#  start_date         :date          
-#  end_date           :date          
-#  covered_employees  :text          
-#  catchall_employees :text          
-#  plan_type1         :string(255)   
-#  plan_type2         :string(255)   
-#  plan_type3         :string(255)   
-#  url                :string(255)   
-#  url_title          :string(255)   
-#  admin_url          :string(255)   
-#  admin_url_title    :string(255)   
-#  tpa_url            :string(255)   
-#  tpa_url_title      :string(255)   
-#  spd_url            :string(255)   
-#  spd_url_title      :string(255)   
-#  govt_employee_type :string(255)   
-#  fmp2_code          :string(255)   
-#  legacy_category    :string(255)   
-#  legacy_status      :string(255)   
-#  updated_at         :datetime      
-#  updated_by         :string(255)   
-#  email              :string(255)   
-#  position           :integer(11)   
-#
-
 class Plan < ActiveRecord::Base
   include RestrictionsUpdater
   belongs_to :agency
   has_one :publication, :dependent => :destroy
   has_many :restrictions, :dependent => :destroy
+  has_many :plan_catch_all_employees, :dependent => :destroy, :order => :position
+  has_many :employee_types, :through => :plan_catch_all_employees
+  before_save :update_employee_types
   
   validates_presence_of     :name
   
@@ -49,6 +16,14 @@ class Plan < ActiveRecord::Base
       [:pha_contact_phone, :phone],
       [:pha_contact_email, :email],
     ]
+  
+  def catchall_employees
+    self.employee_types.collect{|et| et.name}.join(', ')
+  end
+
+  def catchall_employees=(value)
+    @catchall_employees=value
+  end
   
   def employee_list
     return nil if catchall_employees.blank?
@@ -69,6 +44,19 @@ class Plan < ActiveRecord::Base
   
   def end_date_formatted=(value)
      self.end_date = Date.parse(value) if !value.blank?
+  end
+
+  def update_employee_types
+    @catchall_employees.split(', ').each do |e|
+      unless et=EmployeeType.find_by_name(e)
+        et=EmployeeType.new
+        et.name = e
+        et.save!
+      end
+      pcae=PlanCatchAllEmployee.new(:employee_type_id => et.id, :plan_id => self.id)
+      self.plan_catch_all_employees << pcae unless self.employee_types.include?(et)
+    end
+    plan_catch_all_employees.select{|item| !@catchall_employees.split(', ').include?( item.employee_type.name )}.each{|pcae| pcae.destroy}
   end
 
 end

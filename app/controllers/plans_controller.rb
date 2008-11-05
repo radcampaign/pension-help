@@ -1,8 +1,14 @@
 class PlansController < ApplicationController
   before_filter :login_required
-  before_filter :find_agency, :except => [:get_counties_for_states, :get_cities_for_counties, :get_zips_for_counties]
+  before_filter :find_agency, 
+                :except => [:get_counties_for_states, 
+                            :get_cities_for_counties, 
+                            :get_zips_for_counties,
+                            :auto_complete_for_plan_catchall_employees]
   layout 'admin'
 
+  auto_complete_for :plans, :catchall_employees
+  
   def authorized?
     current_user.is_admin?
   end
@@ -115,6 +121,10 @@ class PlansController < ApplicationController
     @plan = @agency.plans.find(params[:id])
     @plan.destroy
     redirect_to edit_agency_url(@agency)
+  end
+
+  def auto_complete_for_plan_catchall_employees
+    render :inline => Plan.find(params[:id]).catchall_employees.split(', ').to_s, :layout => false
   end
   
   protected

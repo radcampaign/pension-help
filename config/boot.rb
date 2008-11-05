@@ -23,6 +23,7 @@ unless defined?(Rails::Initializer)
 
     if version = defined?(RAILS_GEM_VERSION) ? RAILS_GEM_VERSION : rails_gem_version
       # Asking for 1.1.6 will give you 1.1.6.5206, if available -- makes it easier to use beta gems
+      # following will throw a deprecation warning due to upgrade to gem 1.3.0
       rails_gem = Gem.cache.search('rails', "~>#{version}.0").sort_by { |g| g.version.version }.last
 
       if rails_gem

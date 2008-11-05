@@ -122,6 +122,11 @@ form.admin_form table#coverage td {
 	padding: 8px 0 0 4px;
 	margin-bottom: 10px;
 }
+#catchall_save input,
+#return_button input {
+	position: relative;
+	left: 32%;
+}
 .right {
 	float: right;
 	/*height: 1px;*/

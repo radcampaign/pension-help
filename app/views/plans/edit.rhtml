@@ -55,6 +55,12 @@
 		<span><%= f.text_area :catchall_employees, :rows => 6, :cols => 60 %>
 		<label>Catch-all Employees</label></span>
 	</li>
+	<li class="clear left fullwidth">
+		<span>
+			<%#= f.text_field :catchall_employees %>
+			<%#= text_field_with_auto_complete :plan, :catchall_employees, {}, :url =>{ :controller => 'plans', :action => 'auto_complete_for_plan_catchall_employees', :id => @plan.id }%>
+		</span>
+	</li>
 	<%#= render :partial => '/shared/restrictions', :locals => {:restriction => @plan.restriction} %>
   <%= render :partial => '/shared/restrictions_panel',
     :locals => {:restrictions => @plan.restrictions, :new_restrictions => @new_restrictions, :is_location => false} %>

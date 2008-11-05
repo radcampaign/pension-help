@@ -196,11 +196,11 @@ body {
 	background-repeat:no-repeat;
 }
 
-#menuLink {
+.menuLink {
 	height:62px;
 }
 
-* html #menuLink {
+* html .menuLink {
 	height:62px;
 	margin-top:-5px;
 }

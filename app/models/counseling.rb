@@ -126,6 +126,10 @@ class Counseling < ActiveRecord::Base
     Agency.income_restrictions?(home_state_abbrev)
   end
 
+  def employee_list
+    PlanCatchAllEmployee.find(:all, :conditions => ['plan_id in (?)', matching_agencies.collect{|a| a.plans}.flatten], :order => :position).compact.collect{|emp| [EmployeeType.find(emp.employee_type_id).name, emp.plan_id]}
+  end
+  
   #######
 #  private
   #######
@@ -342,23 +346,10 @@ class Counseling < ActiveRecord::Base
   
   def state_plan_matches
     return [Plan.find(selected_plan_id).agency] if selected_plan_id
-    sql = <<-SQL
-        select distinct a.*
-        from agencies a
-        join plans p on p.agency_id = a.id
-        join restrictions r on r.plan_id = p.id
-        join restrictions_states rs on rs.restriction_id = r.id
-        left join restrictions_counties rc on rc.restriction_id = r.id
-        left join restrictions_cities rci on rci.restriction_id = r.id
-        where rc.county_id is null
-        and rci.city_id is null
-        and a.agency_category_id = 3
-        and rs.state_abbrev = ?
-        and a.use_for_counseling = 1 and a.is_active = 1 and p.is_active = 1
-        SQL
-    Agency.find_by_sql([sql, work_state_abbrev])
+    State.agency_matches(work_state_abbrev)
   end
 
+  # move to County model
   def county_plan_matches
     return [nil] if selected_plan_id
     sql = <<-SQL
@@ -376,6 +367,7 @@ class Counseling < ActiveRecord::Base
     Agency.find_by_sql([sql, county_id])
   end
 
+  # move to City model
   def city_plan_matches
     return [nil] if selected_plan_id
     sql = <<-SQL

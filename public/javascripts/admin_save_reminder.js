@@ -128,6 +128,14 @@ function LinkButtonFinder() {
     /* /END PRIVATE */
 }
 
+function checkForExit(event,self) {
+	if (!self.observer.allowLeave()) {
+	  if (!confirm('Form has been changed, leave without saving?')) {
+	    Event.stop(event);
+	  }
+	}
+}
+
 /* Monitors links and buttons on screen, shows pop-up if any form has been changed. */
 function AdminSaveReminder() {
     this.finder = new LinkButtonFinder();
@@ -146,14 +154,11 @@ function AdminSaveReminder() {
       });
 
       this.finder.findAll(ignoredLinks,ignoredButtons).each(function(item) {
-        item.observe('click', function(event) {
-          if (!self.observer.allowLeave()) {
-            if (!confirm('Form has been changed, leave without saving?')) {
-              Event.stop(event);
-            }
-          }
-        });
+        item.observe('click', function(event) {checkForExit(event,self)});
       });
+			
+			window.onbeforeunload = checkForExit(this,this);
+
     };
 }
 

@@ -251,17 +251,19 @@ class HelpController < ApplicationController
   def get_employee_list
     if params[:plan]=="IDK"
       c = update_counseling #get counseling object from session
-      employees_unsorted = c.matching_agencies.collect{|a| a.plans}.flatten.collect{|p| p.employee_list}.compact.flatten.in_groups_of(2)
-      employees = employees_unsorted.sort do |a,b|
-        # put all employees with 'other' at the end of the list
-        if a[0].downcase.include?('other') and !b[0].downcase.include?('other')
-          1
-        elsif b[0].downcase.include?('other') and !a[0].downcase.include?('other')
-          -1
-        else
-          a[0].downcase <=> b[0].downcase
-        end
-      end
+      employees = c.employee_list
+      
+      # Since it's now possible to sort employees (see #269), there's no need to force the 'other's to the bottom
+      # employees = employees_unsorted.sort do |a,b|
+      #   # put all employees with 'other' at the end of the list
+      #   if a[0].downcase.include?('other') and !b[0].downcase.include?('other')
+      #     1
+      #   elsif b[0].downcase.include?('other') and !a[0].downcase.include?('other')
+      #     -1
+      #   else
+      #     a[0].downcase <=> b[0].downcase
+      #   end
+      # end
       render :update do |page|
         page.replace_html 'employee_list_container', :partial => 'employee_list', :layout => false, :locals => {'employees' => employees}
         page.visual_effect :highlight, 'employee_list_container'

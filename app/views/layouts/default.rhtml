@@ -34,19 +34,19 @@
 				<div id="menu">
 					<div id="menuHeader"></div>
 					<div style="height:56px">
-						<%= link_to image_tag('layout/button-help-off.jpg', { :height => "56px", :alt => "help", :name => "help", :id => "help", :onmouseover => "MM_swapImage('help','','/images/layout/button-help-on.jpg',1);", :onmouseout => "MM_swapImgRestore()" }), { :controller => :help } %>
+						<%= link_to image_tag('layout/button-help-off.jpg', { :height => "56px", :alt => "help", :name => "help", :id => "help", :onmouseover => "MM_swapImage('help','','/images/layout/button-help-on.jpg',1);", :onmouseout => "MM_swapImgRestore()" }), { :controller => '/help' } %>
 					</div>
-					<div id="menuLink">
-						<%= link_to image_tag('layout/button-search-off.jpg', { :height => "62px", :alt => "search", :name => "search", :id => "search", :onmouseover => "MM_swapImage('search','','/images/layout/button-search-on.jpg',1);", :onmouseout => "MM_swapImgRestore()" }), { :controller => :search } %>
+					<div class="menuLink">
+						<%= link_to image_tag('layout/button-search-off.jpg', { :height => "62px", :alt => "search", :name => "search", :id => "search", :onmouseover => "MM_swapImage('search','','/images/layout/button-search-on.jpg',1);", :onmouseout => "MM_swapImgRestore()" }), { :controller => '/search' } %>
 					</div>
-					<div id="menuLink">
-						<%= link_to image_tag('layout/button-news-off.jpg', { :height => "62px", :alt => "news", :name => "news", :id => "news", :onmouseover => "MM_swapImage('news','','/images/layout/button-news-on.jpg',1);", :onmouseout => "MM_swapImgRestore()" }), { :controller => :news } %>
+					<div class="menuLink">
+						<%= link_to image_tag('layout/button-news-off.jpg', { :height => "62px", :alt => "news", :name => "news", :id => "news", :onmouseover => "MM_swapImage('news','','/images/layout/button-news-on.jpg',1);", :onmouseout => "MM_swapImgRestore()" }), { :controller => '/news' } %>
 					</div>
-					<div id="menuLink">
-						<%= link_to image_tag('layout/button-pals-off.jpg', { :height => "62px", :alt => "pals", :name => "pals", :id => "pals", :onmouseover => "MM_swapImage('pals','','/images/layout/button-pals-on.jpg',1);", :onmouseout => "MM_swapImgRestore()" }), { :controller => :pals } %>
+					<div class="menuLink">
+						<%= link_to image_tag('layout/button-pals-off.jpg', { :height => "62px", :alt => "pals", :name => "pals", :id => "pals", :onmouseover => "MM_swapImage('pals','','/images/layout/button-pals-on.jpg',1);", :onmouseout => "MM_swapImgRestore()" }), { :controller => '/pals' } %>
 					</div>
-					<div id="menuLink">
-						<%= link_to image_tag('layout/button-works-off.jpg', { :height => "62px", :alt => "works", :name => "works", :id => "works", :onmouseover => "MM_swapImage('works','','/images/layout/button-works-on.jpg',1);", :onmouseout => "MM_swapImgRestore()" }), { :controller => :works } %>
+					<div class="menuLink">
+						<%= link_to image_tag('layout/button-works-off.jpg', { :height => "62px", :alt => "works", :name => "works", :id => "works", :onmouseover => "MM_swapImage('works','','/images/layout/button-works-on.jpg',1);", :onmouseout => "MM_swapImgRestore()" }), { :controller => '/works' } %>
 					</div>
 					<% if @scroll -%><div id="scrollDownIcon"/><% end -%>
 				</div>
@@ -87,3 +87,4 @@
 		</tr>
 	</table>
 </body>
+</html>
