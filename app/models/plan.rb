@@ -18,7 +18,7 @@ class Plan < ActiveRecord::Base
     ]
   
   def catchall_employees
-    # self.employee_types.collect{|et| et.name}.join(', ')
+    self.employee_types.collect{|et| et.name}.join(', ')
   end
 
   def catchall_employees=(value)
