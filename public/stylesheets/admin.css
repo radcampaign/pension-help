@@ -11,6 +11,10 @@ input, textarea, select {
 	font-size: small;
 	font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
+form.admin_form input.btn {
+	width:auto;
+	overflow:visible;
+}
 form.admin_form label.desc,
 legend.desc {
 	display: block;
@@ -140,6 +144,9 @@ form.admin_form table#coverage td {
 	margin-bottom: 12px;
 	margin-right: 12px;
 }
+#pha_contact {
+	margin-top: 12px;
+}
 form.admin_form textarea {
 	margin: 0 12px 0 0;
 }
@@ -169,7 +176,7 @@ a.add_new {
 	text-decoration:none;
 }
 .fullwidth {
-	width: 96%;
+	width: 100%;
 }
 table#admin_list {
 	width: 99%;

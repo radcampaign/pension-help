@@ -8,9 +8,9 @@
 
 	<% form_for(:agency, :url => (@agency.id ? agency_path(@agency) : agencies_path), :html => { :method => (@agency.id ? :put : :post) , :class => 'admin_form' }) do |f| %>
 		<div class="clear">
-		  <%= submit_tag "Update Agency" %> 
-			<%= submit_tag "Update Agency and Return to List", :name => 'update_and_return' %>
-			<%= submit_tag 'Return to Agency List Without Saving', :name=>'cancel' %>	
+		  <%= submit_tag " Update Agency ", :class => 'btn' %> 
+			<%= submit_tag " Update Agency and Return to List ", :name => 'update_and_return', :class => 'btn' %>
+			<%= submit_tag ' Return to Agency List Without Saving ', :name=>'cancel', :class => 'btn' %>	
 		</div>	
 		<div id="agency_details" class="left agency_header fullwidth">
 			<span><b>Category: </b><%= select :agency, :agency_category, AgencyCategory.find(:all, :order => 'position').collect{|c| [c.name, c.name]}, {:selected => (@agency.agency_category ? @agency.agency_category.name : "")}%>
@@ -178,9 +178,9 @@
       </div>
     </div>
 		<div class="clear">
-		  <%= submit_tag "Update Agency" %> 
-			<%= submit_tag "Update Agency and Return to List", :name => 'update_and_return' %>
-			<%= submit_tag 'Return to Agency List Without Saving', :name=>'cancel' %>	
+		  <%= submit_tag " Update Agency ", :class => 'btn' %> 
+			<%= submit_tag " Update Agency and Return to List ", :name => 'update_and_return', :class => 'btn' %>
+			<%= submit_tag ' Return to Agency List Without Saving ', :name=>'cancel', :class => 'btn' %>	
 		</div>
 <% end %>
 

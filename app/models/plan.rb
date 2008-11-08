@@ -56,7 +56,7 @@ class Plan < ActiveRecord::Base
       pcae=PlanCatchAllEmployee.new(:employee_type_id => et.id, :plan_id => self.id)
       self.plan_catch_all_employees << pcae unless self.employee_types.include?(et)
     end
-    plan_catch_all_employees.select{|item| !@catchall_employees.split(', ').include?( item.employee_type.name )}.each{|pcae| pcae.destroy}
+    plan_catch_all_employees.select{|item| !@catchall_employees.downcase.split(', ').include?( item.employee_type.name.downcase )}.each{|pcae| pcae.destroy}
   end
 
 end
