@@ -1,4 +1,11 @@
 <%# partial params: restrictions(collection), is_location(boolean), new_restriction(collection)%>
+<% if restrictions.empty? %>
+	<li class="clear left fullwidth" id="empty_restriction">
+		<fieldset class="fullwidth"><legend class="desc">Restriction</legend>
+			No restrictions.<br/><br/>
+		</fieldset>
+	</li>
+<% end %>
 
 <%= render :partial => '/shared/restriction_form',
     :collection => restrictions,
@@ -8,9 +15,10 @@
     :collection => new_restrictions,
     :locals => {:is_location => is_location} %>
 
-<li class="clear left fullwidth">
+<li class="clear left fullwidth" id="newRestrictionLink">
   <%= link_to_function 'Add a new restriction', 'displayNewRestrictionDiv()', :id => 'addNewRestrictionLink'%>
 </li>
+
 
 <script type="text/javascript">
   var restrictionsLiIds = [<%= new_restrictions.collect{|r| "#{r.id}, "} %>];
@@ -29,6 +37,7 @@
     currIndex++;
     /* show a new Restriction div */
     if (currIndex < restrictionsLiIds.length) {
+			if ($('empty_restriction')) { $('empty_restriction').hide() };
       $('restriction_' + restrictionsLiIds[currIndex]).show();
       $('<%= is_location ? 'location' : 'plan' %>[restriction_attr]_' + restrictionsLiIds[currIndex] + '_create_new').value = '1';
     }

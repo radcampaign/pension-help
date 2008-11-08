@@ -64,8 +64,8 @@
 	<%#= render :partial => '/shared/restrictions', :locals => {:restriction => @plan.restriction} %>
   <%= render :partial => '/shared/restrictions_panel',
     :locals => {:restrictions => @plan.restrictions, :new_restrictions => @new_restrictions, :is_location => false} %>
-	<li class="left" id="phone_web">
-				<fieldset><legend class="desc">Plan Contact Information</legend>
+	<li class="left fullwidth" id="phone_web">
+				<fieldset class="left fullwidth"><legend class="desc">Plan Contact Information</legend>
 				<fieldset class="left fullwidth">
 				<span><%= f.text_field :url_title, :size => 62 %><label for="tollfree">Plan URL Title</label></span>
 				<span><%= f.text_field :url, :size => 62 %><label for="tollfree">Plan URL</label></span>

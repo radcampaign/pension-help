@@ -1,8 +1,0 @@
-|open|/help/counseling?cookies=true||
-|select|counseling[employer_type_id]|label=Railroad|
-|clickAndWait|nextLinkButton||
-|type|counseling_zipcode|10001|
-|clickAndWait|confirm||
-|clickAndWait|nextLinkButton||
-|verifyTextPresent|Office of the U.S. Railroad Retirement Board||
-|verifyTextPresent|South Brooklyn Legal Services||

@@ -59,32 +59,43 @@ class Agency < ActiveRecord::Base
     home_state_abbrev = home_geo_zip.nil? ? '' : home_geo_zip.state_abbrev
     home_county = (z=Zip.find_by_zipcode(home_geo_zip)) ? z.county_id : nil
     
-    # out of state should find hq, unless there's a state restriction
+    # out of state should find hq
     if hq && home_state_abbrev == dropin_addresses.first.state_abbrev
-      order = 'rs.state_abbrev desc, distance'
+      # in home state
+      order = 'distance'
     else
-      order = 'rs.state_abbrev desc, is_hq desc, distance'
+      #out of state
+      order = 'is_hq desc, distance'
     end
 
     address = dropin_addresses.find(:first, :origin => home_geo_zip, 
                  :order => order,
                  :joins => "left join restrictions r on r.location_id = locations.id
                             left join restrictions_states rs on rs.restriction_id = r.id
-                            left join restrictions_counties rc on rc.restriction_id = r.id
-                            left join restrictions_zips rz on rz.restriction_id = r.id
-                            left join restrictions_cities rcity on rcity.restriction_id = r.id",
+                            left join restrictions_counties rc on rc.restriction_id = r.id 
+                              and rc.county_id in (select id from counties where state_abbrev=rs.state_abbrev)
+                            left join restrictions_zips rz on rz.restriction_id = r.id 
+                              and rz.zipcode in (select z.zipcode from zips z where z.state_abbrev=rs.state_abbrev)
+                            left join restrictions_cities rcity on rcity.restriction_id = r.id
+                              and rcity.city_id in (select c.id from cities c where c.state_abbrev=rs.state_abbrev)",
                  :conditions => ["addresses.latitude is not null and locations.is_provider=1
                             and (rc.restriction_id is null or rc.county_id='#{home_county}')
                             and (rz.restriction_id is null or rz.zipcode='#{counseling.zipcode}' ) 
                             and (rcity.restriction_id is null or rcity.city_id in 
                               (select city_id from cities_zips where zipcode = '#{counseling.zipcode}'))
                             and (rs.restriction_id is null or rs.state_abbrev in (?))",
-                            result_type_id=ResultType['AoA'] ? [home_state_abbrev, counseling.pension_state_abbrev, counseling.hq_state_abbrev, counseling.work_state_abbrev] : [home_state_abbrev] ] )
-                              
-                 
-# issue: - we can't join on restriction_cities, because we don't have a city_id, and it's non-trivial to look one up based on zipcode (consider a zip with more than one city - e.g. 04106 = Portland + South Portland)  
-#partially solved by addition of cities_zips table - we just need to incorporate this into query               
-                                 
+                            result_type==ResultType['AoA'] ? [home_state_abbrev, counseling.pension_state_abbrev, counseling.hq_state_abbrev, counseling.work_state_abbrev] : [home_state_abbrev] ] )
+
+    if result_type==ResultType['RRB'] and address.nil?
+      # If RRB doesn't match on an office by restriction, find the closest office, regardless of restrictions
+      address = dropin_addresses.find(:first, :origin => home_geo_zip, :order => 'distance')
+    end
+
+    if result_type==ResultType['AoA'] and address.nil?
+      # If AoA doesn't match on an office (say because of restrictions), find the hq or the closest office
+      address = dropin_addresses.find(:first, :origin => home_geo_zip, :order => 'is_hq desc, distance')
+    end
+    
     # return the relevant location instead of the address                                  
     return address.location if address 
 
