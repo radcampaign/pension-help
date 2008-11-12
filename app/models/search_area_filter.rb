@@ -244,7 +244,7 @@ class SearchAreaFilter
     #Start preparing 'WHERE' section for SQL query
     if (has_any_conditions?)
       cond_str << ' WHERE '
-      #we select Nation Wide and 'nomral' locations in one query
+      #we select Nation Wide and 'normal' locations in one query
       cond_str << n_wide_cond
       cond_str << ' OR (' << search_cond_string << ')'
       #add search params(order is important!)
@@ -297,7 +297,7 @@ class SearchAreaFilter
     end
 
     #use only active locations, or plans
-    cond << (is_location ? ' l.is_active = 1 ' : ' p.is_active = 1 ')
+    cond << (is_location ? ' l.is_active = 1 ' : ' l.is_active=1 and p.is_active = 1 ')
 
     #selected locations must fullfil all conditions from filter
     return [cond.join(' AND '), cond_params]

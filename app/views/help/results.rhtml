@@ -35,7 +35,7 @@
 	</table>
 
 	<table class="phone_info">
-		<% if @counseling.is_over_60 and loc.restrictions and not loc.restrictions.select{|r| r.age_restricted_phone}.empty? %>
+		<% if @counseling.is_over_60 and loc.restrictions and not loc.restrictions.select{|r| not r.age_restricted_phone.blank?}.empty? %>
 			<tr>
 				<td width="80px">Toll Free:</td>
 				<td><%= loc.restrictions.map{|r| r.age_restricted_phone}.first %></td>

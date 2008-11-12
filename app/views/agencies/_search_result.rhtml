@@ -37,7 +37,7 @@
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class="center"><%= image_tag(loc.is_provider ? 'check_blue.gif' : 'close.gif')%></td>
-    <td>&nbsp;</td>
+    <td class="center"><%= image_tag(loc.is_active ? 'check_blue.gif' : 'close.gif')%></td>
     <td class="center"><%= loc.get_provider_type %></td>
    </tr>
     <% end %>

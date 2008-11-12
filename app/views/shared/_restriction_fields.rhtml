@@ -5,7 +5,7 @@
       <%# only show these fields for location restriction %>
 			<div class="left">
 				<div class="left"><%= r.text_field :minimum_age %><label>Minimum Age</label></div>
-				<div class="left"><%= r.text_field :age_restricted_phone %><label>Special Age Services Hotline</label></div>
+				<div class="left"><%= r.text_field :age_restricted_phone, :id=>restriction_form.id.to_s+'_ageRestrictedPhone' %><label>Special Age Services Hotline</label></div>
 				<div class="left"><%= r.text_field :max_poverty, :value => number_to_percentage(restriction_form.max_poverty, :precision => 0) %><label>Income Limit (% of FPL, eg 120)</label></div>
         <div class="left"><%= r.check_box :age_and_income %><label>Restricted by age <b><u>and</u></b> income</label></div>
 			</div>
@@ -92,3 +92,9 @@
       :with => "'counties=" + 
         "&id_prefix=#{id_prefix}'"%>
 	</fieldset>
+
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+			jQuery("#<%= restriction_form.id.to_s+'_ageRestrictedPhone' %>").mask("(999) 999-9999");
+		 });
+	</script>

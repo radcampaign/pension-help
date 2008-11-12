@@ -94,7 +94,7 @@ class LocationsController < ApplicationController
       @location.update_restrictions(params)  
       @location.save
       flash[:notice] = 'Location was successfully updated.'
-      redirect_to edit_agency_url(@agency) and return if @params['update_and_return']
+      redirect_to edit_agency_url(@agency) and return if params['update_and_return']
       redirect_to agencies_path() and return if params['update_and_list']
       redirect_to edit_location_url(:agency_id => @agency, :id => @location)
     else

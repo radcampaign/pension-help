@@ -105,9 +105,9 @@ class PlansController < ApplicationController
 
     if is_ok
       flash[:notice] = 'Plan was successfully updated.'
-      redirect_to edit_agency_url(@agency) and return if @params['update_and_return']
+      redirect_to edit_agency_url(@agency) and return if params['update_and_return']
       redirect_to agencies_path() and return if params['update_and_list']
-      redirect_to edit_plan_url(:agency_id => @agency, :id => @plan)
+      redirect_to edit_agency_plan_url(:agency_id => @agency, :id => @plan)
     else
       # setting object @new_restrictions in order to correct displaying partial _new_restriction_form.rhtml
       @new_restrictions = @plan.get_empty_restrictions
