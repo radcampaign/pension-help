@@ -51,7 +51,7 @@ class Admin::ContentController < ApplicationController
   def create
     @content = Content.new(params[:content])
     if @content.save
-      @parent = Content.find(params[:parent_id])
+      @parent = params[:parent_id] ? Content.find(params[:parent_id]) : Content.root
       @content.move_to_child_of @parent
 
       flash[:notice] = 'Content was successfully created.'

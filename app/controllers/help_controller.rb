@@ -64,7 +64,7 @@ class HelpController < ApplicationController
             end
           end
           return
-        when 9: # don't know 
+        when EMP_TYPE[:unknown]: # don't know 
           render :update do |page| 
             page.redirect_to(:controller => 'help', :action => 'employer_descriptions')
           end
@@ -127,7 +127,8 @@ class HelpController < ApplicationController
     @counseling = update_counseling
     @counseling.step = 2
     @states = CounselAssistance.states
-    @ask_aoa = [1,2,3,4,5,9].include?(@counseling.employer_type_id)
+    @ask_aoa = [EMP_TYPE[:company], EMP_TYPE[:railroad], EMP_TYPE[:religious], 
+                EMP_TYPE[:federal], EMP_TYPE[:military], EMP_TYPE[:unknown]].include?(@counseling.employer_type_id)
   end
   
   # ajax call to check if zipcode is in aoa coverage area
@@ -136,7 +137,8 @@ class HelpController < ApplicationController
     @counseling.zipcode = params[:zip] if !params[:zip].blank?
     #@counseling.step = 3
     @states = CounselAssistance.states
-    @ask_aoa = [1,2,3,4,5,9].include?(@counseling.employer_type_id)
+    @ask_aoa = [EMP_TYPE[:company], EMP_TYPE[:railroad], EMP_TYPE[:religious], 
+                EMP_TYPE[:federal], EMP_TYPE[:military], EMP_TYPE[:unknown] ].include?(@counseling.employer_type_id)
     if !@counseling.valid?                  # bad zip code entered
       @zip_found = false
       @show_aoa_expansion = false
@@ -152,7 +154,9 @@ class HelpController < ApplicationController
       # clear out extra state dropdowns, as we won't consider them in this case
       @counseling.hq_state_abbrev = @counseling.pension_state_abbrev = nil
       # but preserve work_state if user is state/county/local employee
-      @counseling.work_state_abbrev = nil unless [6,7,8].include?(@counseling.employer_type_id) 
+      @counseling.work_state_abbrev = nil unless [EMP_TYPE[:state], 
+                                                  EMP_TYPE[:county], 
+                                                  EMP_TYPE[:city] ].include?(@counseling.employer_type_id) 
       @zip_found = true
       @show_aoa_expansion = false           
     end
@@ -161,9 +165,6 @@ class HelpController < ApplicationController
   
   def step_3 #employment dates, pension-earner, divorce questions
     @counseling = find_counseling
-
-    # skip this question, unless we have a military/federal/private employer type
-    redirect_to :action => :step_4 and return unless [1,4,5].include?(@counseling.employer_type_id)
     @options = CounselAssistance.pension_earner_choices
   end
   
@@ -221,7 +222,11 @@ class HelpController < ApplicationController
   def results
     @counseling = find_counseling
     @results = @counseling.matching_agencies
-
+    begin
+      @currently_employed_text = Content.find_by_url('currently_employed_text').content
+    rescue ActiveRecord::RecordNotFound 
+      nil # continue on if we don't find anything
+    end
     @counseling.save
     if @counseling.selected_plan_id
       @results.each{|a| a.plans.delete_if {|p| p.id != @counseling.selected_plan_id.to_i &&

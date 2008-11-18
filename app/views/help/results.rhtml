@@ -1,6 +1,7 @@
 <h1 style="font-weight:bold">Here is the PensionHelp you requested...</h1>
 
 <p>We recommend that you print this page for your records.</p>
+<%= @currently_employed_text if @counseling.currently_employed %>
 <% @results.each do |agency| %>
 <% if loc=agency.best_location(@counseling) %> <%# if we can't find a best_location, don't show the agency %>
 	<div class="agency_result">

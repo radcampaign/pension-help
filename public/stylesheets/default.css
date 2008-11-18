@@ -400,6 +400,8 @@ body.results div.group {
 #ageIncomeQuestions #householdRow td {
 	padding-top:2.5em;
 }
+.answer { color: #000;}
+
 /* User Messages */
 
 .warningBox, 

@@ -7,28 +7,37 @@
 
 <p>Almost there! Answer the question or questions below to help us connect you to the right service provider, then click <b style="color: #cc0000; ">NEXT</b> to continue.</p>
 
+<div id="employmentDateQuestion">
 <p>&nbsp;</p>
-
 <h2>What dates of employment?</h2>
 
 <p>This tells us more about the governing law. Use the spaces to provide the employment dates of the person who earned the pension or retirement savings plan you have a question about.</p>
 
 <% form_for :counseling, :url => {:action => :process_step_3} do |form| -%>
 
-<p>
-		<% if @counseling.employer_type_id == 1 %>
+<p>	
+		<script type="text/javascript">var ask_currently_employed_question = false;</script>
+		<% if @counseling.employer_type_id == EMP_TYPE[:company] %>
 			Year employment ended: 
 			<%= text_field_tag "employment_end_year", @counseling.employment_end ? @counseling.employment_end.strftime("%Y") : '', {:size => 4} %>
-			<br/><div id="employment_end_year_example">Example: 1974</div>
-		<% elsif  [4,5].include?(@counseling.employer_type_id) %>
+			Example: 1974
+		<% elsif  [EMP_TYPE[:federal], EMP_TYPE[:military]].include?(@counseling.employer_type_id) and
+		 					@counseling.federal_plan != FederalPlan['Thrift Savings Plan (TSP)'] and
+							@counseling.military_service != MilitaryService['Civilian military employment']%>
 			Did your work end before 4/1/1987? &nbsp;
-			<%= radio_button_tag "counseling[employment_cutoff]", "on", @counseling.employment_cutoff %>Yes&nbsp;&nbsp;
-				<%= radio_button_tag "counseling[employment_cutoff]", "off", @counseling.employment_cutoff %>No
+			<%= radio_button_tag "counseling[employment_cutoff]", "on", @counseling.employment_cutoff, :id => "employment_cutoff_on" %>&nbsp;Yes&nbsp;&nbsp;
+				<%= radio_button_tag "counseling[employment_cutoff]", "off", @counseling.employment_cutoff, :id => "employment_cutoff_off" %>&nbsp;No
 		<% end %>
 </p>
+</div>
 
-<% if @counseling.employer_type_id == 5 %>
-
+<div id="currentlyEmployedQuestion">
+	<div>Are you currently employed by this employer?&nbsp;&nbsp;&nbsp;
+	<span class="answer"><%= form.radio_button  :currently_employed, true %>&nbsp;Yes&nbsp;&nbsp;&nbsp;<%= form.radio_button  :currently_employed, false %>&nbsp;No</span></div>
+</div>
+	
+<% if @counseling.employer_type_id == EMP_TYPE[:military] %>
+	<p>&nbsp;</p>
 	<h2>Who is the pension-earner?</h2> 
 
 	<p>Pension rights may vary depending on a person&#39;s relationship to the pension-earner. Please tell us who earned the pension or retirement savings plan you have a question about.</p> 
@@ -123,6 +132,37 @@
       next_step_button.title = "Answer all the questions on this page then click NEXT to continue.";
     }
   }
+
+	function checkForCurrentlyEmployed() {
+		console.log('checking for currently employed');
+		if (($('employment_end_year') && 
+				 $('employment_end_year').getValue().length == 4 && 
+				 $('employment_end_year').getValue() >= new Date().getFullYear()) ||
+		 		($('employment_cutoff_off') && $('employment_cutoff_off').getValue() == 'off') ) {
+			console.log('show the question');
+			$('currentlyEmployedQuestion').show();
+		}
+		else {
+			console.log('hide the question');
+			$('counseling_currently_employed_true').checked = $('counseling_currently_employed_false').checked = null;
+			$('currentlyEmployedQuestion').hide();
+		}
+	}
+	
   addValidation();
   validateStep();
+	//if ( ! ask_currently_employed_question ) { $('currentlyEmployedQuestion').hide(); }
+	$('currentlyEmployedQuestion').hide();
+	Event.observe(window, 'load', function() {
+		if ($('employment_end_year') ) { 
+			Event.observe('employment_end_year','change',checkForCurrentlyEmployed); 
+			Event.observe('employment_end_year','keyup',checkForCurrentlyEmployed); 
+		}
+		if ($('employment_cutoff_off') ) { 
+			Event.observe('employment_cutoff_off','change',checkForCurrentlyEmployed); 
+			Event.observe('employment_cutoff_on','change',checkForCurrentlyEmployed); 
+		}	
+		checkForCurrentlyEmployed();
+	});
+
 </script>
