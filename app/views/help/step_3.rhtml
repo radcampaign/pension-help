@@ -16,7 +16,7 @@
 <% form_for :counseling, :url => {:action => :process_step_3} do |form| -%>
 
 <p>	
-		<script type="text/javascript">var ask_currently_employed_question = false;</script>
+		<% display_current_employee_question = false %>
 		<% if @counseling.employer_type_id == EMP_TYPE[:company] %>
 			Year employment ended: 
 			<%= text_field_tag "employment_end_year", @counseling.employment_end ? @counseling.employment_end.strftime("%Y") : '', {:size => 4} %>
@@ -26,7 +26,8 @@
 							@counseling.military_service != MilitaryService['Civilian military employment']%>
 			Did your work end before 4/1/1987? &nbsp;
 			<%= radio_button_tag "counseling[employment_cutoff]", "on", @counseling.employment_cutoff, :id => "employment_cutoff_on" %>&nbsp;Yes&nbsp;&nbsp;
-				<%= radio_button_tag "counseling[employment_cutoff]", "off", @counseling.employment_cutoff, :id => "employment_cutoff_off" %>&nbsp;No
+			<%= radio_button_tag "counseling[employment_cutoff]", "off", @counseling.employment_cutoff, :id => "employment_cutoff_off" %>&nbsp;No
+		<% else display_current_employee_question=true %>
 		<% end %>
 </p>
 </div>
@@ -134,7 +135,8 @@
   }
 
 	function checkForCurrentlyEmployed() {
-		if (($('employment_end_year') && 
+		if (!($('employment_end_year') || $('employment_cutoff_off')) ||
+				($('employment_end_year') && 
 				 $('employment_end_year').getValue().length == 4 && 
 				 $('employment_end_year').getValue() >= new Date().getFullYear()) ||
 		 		($('employment_cutoff_off') && $('employment_cutoff_off').getValue() == 'off') ) {
@@ -148,9 +150,8 @@
 	
   addValidation();
   validateStep();
-	//if ( ! ask_currently_employed_question ) { $('currentlyEmployedQuestion').hide(); }
-	$('currentlyEmployedQuestion').hide();
 	Event.observe(window, 'load', function() {
+		$('currentlyEmployedQuestion').hide();
 		if ($('employment_end_year') ) { 
 			Event.observe('employment_end_year','change',checkForCurrentlyEmployed); 
 			Event.observe('employment_end_year','keyup',checkForCurrentlyEmployed); 
