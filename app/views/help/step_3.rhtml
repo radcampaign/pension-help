@@ -134,16 +134,13 @@
   }
 
 	function checkForCurrentlyEmployed() {
-		console.log('checking for currently employed');
 		if (($('employment_end_year') && 
 				 $('employment_end_year').getValue().length == 4 && 
 				 $('employment_end_year').getValue() >= new Date().getFullYear()) ||
 		 		($('employment_cutoff_off') && $('employment_cutoff_off').getValue() == 'off') ) {
-			console.log('show the question');
 			$('currentlyEmployedQuestion').show();
 		}
 		else {
-			console.log('hide the question');
 			$('counseling_currently_employed_true').checked = $('counseling_currently_employed_false').checked = null;
 			$('currentlyEmployedQuestion').hide();
 		}
