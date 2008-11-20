@@ -4,12 +4,12 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="" />
-<title>RRB_34119_NY</title>
+<title>272_federal_non_TSP_yes</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">RRB_34119_NY</td></tr>
+<tr><td rowspan="1" colspan="3">272_federal_non_TSP_yes</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
@@ -19,7 +19,17 @@
 <tr>
 	<td>select</td>
 	<td>counseling[employer_type_id]</td>
-	<td>label=Railroad</td>
+	<td>label=Federal agency or office</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//option[@value='4']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>counseling[federal_plan_id]</td>
+	<td>label=Federal Employee Retirement System (FERS)</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -29,7 +39,7 @@
 <tr>
 	<td>type</td>
 	<td>counseling_zipcode</td>
-	<td>34119</td>
+	<td>04032</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -37,19 +47,39 @@
 	<td></td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>counseling_work_state_abbrev</td>
-	<td>label=Florida</td>
+	<td>clickAndWait</td>
+	<td>nextLinkButton</td>
+	<td></td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>counseling_hq_state_abbrev</td>
-	<td>label=Florida</td>
+	<td>verifyTextPresent</td>
+	<td>Did your work end before 4/1/1987</td>
+	<td></td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>counseling_pension_state_abbrev</td>
-	<td>label=New York</td>
+	<td>click</td>
+	<td>employment_cutoff_on</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyNotVisible</td>
+	<td>currentlyEmployedQuestion</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>employment_cutoff_off</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyVisible</td>
+	<td>currentlyEmployedQuestion</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>counseling_currently_employed_true</td>
+	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -57,23 +87,8 @@
 	<td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
-</tr>
-<tr>
 	<td>verifyTextPresent</td>
-	<td>Office of the U.S. Railroad Retirement Board</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>Tampa, FL </td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>Mid-Atlantic Pension Rights Project</td>
+	<td>Current employees should consider first contacting their personnel office </td>
 	<td></td>
 </tr>
 

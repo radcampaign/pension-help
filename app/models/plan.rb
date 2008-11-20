@@ -48,7 +48,8 @@ class Plan < ActiveRecord::Base
 
   def update_employee_types
     @catchall_employees.split(', ').each do |e|
-      unless et=EmployeeType.find_by_name(e)
+      # MySQL is case insensitive, so we grab all matching employees and do the comparisons on our own
+      unless et=EmployeeType.find(:all, :conditions => ['name = ?', e]).select{|emp| emp.name==e}.first
         et=EmployeeType.new
         et.name = e
         et.save!
@@ -56,7 +57,7 @@ class Plan < ActiveRecord::Base
       pcae=PlanCatchAllEmployee.new(:employee_type_id => et.id, :plan_id => self.id)
       self.plan_catch_all_employees << pcae unless self.employee_types.include?(et)
     end
-    plan_catch_all_employees.select{|item| !@catchall_employees.downcase.split(', ').include?( item.employee_type.name.downcase )}.each{|pcae| pcae.destroy}
+    plan_catch_all_employees.select{|item| !@catchall_employees.split(', ').include?( item.employee_type.name )}.each{|pcae| pcae.destroy}
   end
 
 end

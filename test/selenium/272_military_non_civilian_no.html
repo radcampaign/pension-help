@@ -3,13 +3,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="selenium.base" href="" />
-<title>M_Uniformed_Marine_05461_1987+_Self</title>
+<title>272_federal_non_TSP_yes</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">M_Uniformed_Marine_05461_1987+_Self</td></tr>
+<tr><td rowspan="1" colspan="3">272_federal_non_TSP_yes</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
@@ -23,7 +22,7 @@
 </tr>
 <tr>
 	<td>click</td>
-	<td>//option[@value='5']</td>
+	<td>//option[@value='4']</td>
 	<td></td>
 </tr>
 <tr>
@@ -32,14 +31,9 @@
 	<td>label=Uniformed Services Active duty</td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>//select[@id='counseling[military_service_id]']/option[2]</td>
-	<td></td>
-</tr>
-<tr>
 	<td>select</td>
 	<td>counseling[military_branch_id]</td>
-	<td>label=Marine Corps</td>
+	<td>label=Army</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -49,7 +43,7 @@
 <tr>
 	<td>type</td>
 	<td>counseling_zipcode</td>
-	<td>05461</td>
+	<td>04032</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -62,8 +56,33 @@
 	<td></td>
 </tr>
 <tr>
+	<td>verifyTextPresent</td>
+	<td>Did your work end before 4/1/1987</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>employment_cutoff_on</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyNotVisible</td>
+	<td>currentlyEmployedQuestion</td>
+	<td></td>
+</tr>
+<tr>
 	<td>click</td>
 	<td>employment_cutoff_off</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyVisible</td>
+	<td>currentlyEmployedQuestion</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>counseling_currently_employed_false</td>
 	<td></td>
 </tr>
 <tr>
@@ -77,13 +96,8 @@
 	<td></td>
 </tr>
 <tr>
-	<td>verifyTextPresent</td>
-	<td>United States Marine Corps (USMC) Personnel Management Division</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>New England Pension Assistance Project</td>
+	<td>verifyTextNotPresent</td>
+	<td>Current employees should consider first contacting their personnel office </td>
 	<td></td>
 </tr>
 
