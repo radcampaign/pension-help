@@ -62,7 +62,8 @@ body {
 
 #site_header,
 #admin\/menu_header,
-#account_header {
+#account_header,
+#agencies_header {
 	width:773px;
 	height:91px;
 	background-image:url('/images/layout/header-site.jpg');

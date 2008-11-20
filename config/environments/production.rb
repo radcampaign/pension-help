@@ -17,8 +17,6 @@ config.action_controller.perform_caching             = true
 # Disable delivery errors, bad email addresses will be ignored
 # config.action_mailer.raise_delivery_errors = false
 
-#ExceptionNotifier.exception_recipients = 'dan@gradientblue.com'
-
 ActionMailer::Base.smtp_settings = { 
   :address => 'localhost',
   :domain  => 'pensionhelp.org'

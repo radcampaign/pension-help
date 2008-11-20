@@ -4,7 +4,7 @@
 class ApplicationController < ActionController::Base
   include AuthenticatedSystem
   include ExceptionNotifiable
-   
+
   before_filter :check_support_for_cookies 
 
   # Pick a unique cookie name to distinguish our session data from others'
@@ -39,17 +39,6 @@ class ApplicationController < ActionController::Base
     end
     @zip_ids = params[:zip_ids]
     render :partial => '/shared/zips', :locals => {:counties => @counties, :id_prefix => params[:id_prefix]}, :layout => false
-  end
-
-  def rescue_action_in_public(exception)
-    case exception
-      #strange bug, in comparison ActionController::UknownAction is replaced with ActionWebService::Dispatcher::ActionController
-      when ActiveRecord::RecordNotFound,::ActionController::UnknownAction 
-        render :template => "site/404", :status => "404", :layout => 'default'
-      else
-        @message = exception
-        render :template => "site/505", :status => "500", :layout => 'default'
-    end
   end
 
   def local_request?
@@ -87,8 +76,16 @@ class ApplicationController < ActionController::Base
     if @content = Content.find_by_url_and_is_active(uri.slice(1,uri.length-1), true) #strip leading /
       render :template => '/site/show_page'
     else
-      render :template => 'site/404', :status => 404
+      render_404
     end
+  end
+  
+  def render_404
+    render :template => "site/404", :status => "404", :layout => 'default'
+  end
+  
+  def render_505
+    render :template => "site/505", :status => "500", :layout => 'default'
   end
 
 end
