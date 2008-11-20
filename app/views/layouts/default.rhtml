@@ -17,7 +17,7 @@
 <body>
 	<div id='spinner' style='display:none'><%= image_tag 'loading.gif' %></div>
 	<div class="header">
-		<div id="<%= request.request_parameters['controller'] %>_header">
+		<div id="<%= request.request_parameters['controller'] %>_header" class="subheader">
 			<div style="position:relative">
 			<%= link_to_function('',"ts('body',1)", :id => 'ts_increase_link')%>
 			<%= link_to_function('',"ts('body',-1)", :id => 'ts_decrease_link')%>
