@@ -120,6 +120,12 @@ form.admin_form table#coverage td {
 #area_textbox {
 	width: 400px;
 }
+#addressGroup {
+	width:98%;
+}
+.admin_form li.fullwidth > fieldset {
+	width: 98%;
+}
 #loc_detail #phone_web {
 	width: 90%;
 }

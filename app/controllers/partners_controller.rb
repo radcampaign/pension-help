@@ -25,12 +25,7 @@ class PartnersController < ApplicationController
   # GET /partners/1
   # GET /partners/1.xml
   def show
-    @partner = Partner.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.rhtml
-      format.xml  { render :xml => @partner.to_xml }
-    end
+    redirect_to edit_partner_url()
   end
 
   # GET /partners/new
@@ -72,6 +67,7 @@ class PartnersController < ApplicationController
   # PUT /partners/1.xml
   def update
     @partner = Partner.find(params[:id])
+    @partner.basic_profile = true    # we're only editing basic info here, not extended partner info (see update_survey)
     is_ok = true
     begin
       Partner.transaction do
@@ -112,6 +108,7 @@ class PartnersController < ApplicationController
 
   def update_survey
     @partner = Partner.find(params[:id])
+    @partner.basic_profile = false    # we're editing extended partner info here, not just basic profile (see update)
     is_ok = true
     begin
       Partner.transaction do

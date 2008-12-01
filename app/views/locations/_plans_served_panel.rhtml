@@ -1,0 +1,31 @@
+<div class="admin_table">
+	<table id="plan_table" cellspacing="0">
+		<tbody id="plan_list">
+		<tr>
+			<th colspan="4" id="table_title">Plans served by <%= @location.name %></th></tr>
+				<tr>
+          <th class="center">Served by this Location</th>
+					<th class="center">HQ for this Plan</th>
+					<th>Plan Name</th>
+					<th>Catch-all Employees</th>
+				</tr>
+				<% @location.agency.plans.sort_by{|p| p.name }.each_with_index do |plan, i| %>
+				<tr id="plan_<%=plan.id.to_s%>">
+					<td class="center"><%= check_box_tag 'location[new_plans][]', plan.id, @location.plans_served.include?(plan), :id => "new_plan_#{plan.id}" %></td>
+					<td class="center"><%= check_box_tag 'location[plan_hq][]', plan.id, (!plan.location_plan_relationships.select{|rel| rel.location_id == @location.id and rel.is_hq?}.empty? unless plan.location_plan_relationships.empty?), :id => "plan_hq_#{plan.id}" %></td>
+          <td><%= link_to plan.name, edit_agency_plan_url(@location.agency, plan) %></td>
+					<td><%= plan.catchall_employees %></td>
+				</tr>
+				<% end %>
+		</tbody>
+	</table>
+</div>
+
+<script type="text/javascript">
+jQuery("input[name*=plan_hq]").click(function(){
+	var this_id=jQuery(this).attr("id");
+	var this_plan=this_id.slice(this.id.lastIndexOf("_")+1);
+	jQuery("#new_plan_"+this_plan).attr("checked", "checked");
+})
+
+</script>

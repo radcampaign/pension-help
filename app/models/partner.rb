@@ -29,25 +29,25 @@ class Partner < ActiveRecord::Base
                           
   validates_presence_of :consultation_fee_str,
                         :message => "^Consultation fee can't be blank",
-                        :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and !p.new_record? }
+                        :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and !p.new_record? and !p.basic_profile }
 
   validates_presence_of :hourly_rate_str,
                         :message => "^Hourly rate can't be blank",
-                        :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and !p.new_record? }
+                        :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and !p.new_record? and !p.basic_profile }
 
   validates_format_of :consultation_fee_str,
                       :on => :update,
                       :with => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
                       :message => "^Consultation fee doesn't seem to be a valid amount",
-                      :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and p.errors["consultation_fee_str"].nil? }
+                      :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and p.errors["consultation_fee_str"].nil? and !p.basic_profile }
                       
   validates_format_of :hourly_rate_str,
                       :on => :update,
                       :with => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
                       :message => "^Hourly rate doesn't seem to be a valid amount",
-                      :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and p.errors["hourly_rate_str"].nil?  }
+                      :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and p.errors["hourly_rate_str"].nil? and !p.basic_profile }
 
-  attr_accessor :hourly_rate_str, :consultation_fee_str                    
+  attr_accessor :hourly_rate_str, :consultation_fee_str, :basic_profile                    
   
   #Updates questions answers from request params.
   def update_multiple_answer_questions params
@@ -93,6 +93,7 @@ class Partner < ActiveRecord::Base
     end
     self.hourly_rate = hourly_rate_str.gsub(/[$,]/,"") unless hourly_rate_str.nil?
     self.consultation_fee = consultation_fee_str.gsub(/[$,]/,"") unless consultation_fee_str.nil?
+    puts (self.inspect)
   end
 
   #Copies errors from User to Partner(apart from Email, no need to show this error twice)

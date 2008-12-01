@@ -46,11 +46,12 @@ class PlansController < ApplicationController
   # POST /plans
   # POST /plans.xml
   def create
-    if @params['cancel']
+    if params['cancel']
       redirect_to edit_agency_url(@agency) and return
     end
     @plan = @agency.plans.build(params[:plan])
     @plan.updated_by = current_user.login
+    params[:plan][:new_locations] ||= []  # in case no checkboxes are checked
     #@plan.build_restriction if !@plan.restriction
     #update_restriction
 
@@ -69,7 +70,7 @@ class PlansController < ApplicationController
 
     if is_ok
       flash[:notice] = 'Plan was successfully created.'
-      redirect_to edit_agency_url(@agency) and return if @params['update_and_return']
+      redirect_to edit_agency_url(@agency) and return if params['update_and_return']
       redirect_to agencies_path() and return if params['update_and_list']
       redirect_to edit_plan_url(:agency_id => @agency, :id => @plan)
     else
@@ -82,11 +83,12 @@ class PlansController < ApplicationController
   # PUT /plans/1
   # PUT /plans/1.xml
   def update
-    if @params['cancel']
+    if params['cancel']
       redirect_to edit_agency_url(@agency) and return
     end
     @plan = @agency.plans.find(params[:id])
     @plan.updated_by = current_user.login
+    params[:plan][:new_locations] ||= []  # in case no checkboxes are checked
     #@plan.build_restriction if !@plan.restriction
     #update_restriction
 

@@ -38,11 +38,14 @@ class Location < ActiveRecord::Base
   belongs_to :agency
   has_many :addresses, :dependent => :destroy
   has_many :restrictions, :dependent => :destroy
+  has_many :location_plan_relationships, :dependent => :destroy
+  has_many :plans_served, :through => :location_plan_relationships, :source => :plan
   
   has_one :mailing_address, :class_name => 'Address', 
             :conditions => "address_type = 'mailing'"
   has_one :dropin_address, :class_name => 'Address', 
             :conditions => "address_type =  'dropin'"
+  before_save :update_plans_served
   
   validates_presence_of     :name
   
@@ -54,7 +57,7 @@ class Location < ActiveRecord::Base
       [:pha_contact_email, :email],
     ]
 
-  attr_accessor :visible_in_view
+  attr_accessor :visible_in_view, :new_plans, :plan_hq
 
   def age_restrictions?
     sql = <<-SQL
@@ -96,6 +99,22 @@ class Location < ActiveRecord::Base
       # (restriction.minimum_age.nil? && restriction.max_poverty.nil?) ? 'NSP' : 'DSP'
     else
       'NSP'
+    end
+  end
+
+  # update list of plans that served by this location
+  def update_plans_served
+    unless new_plans.nil?
+      self.location_plan_relationships.each do |relationship|
+        relationship.is_hq = plan_hq.include?(relationship.location_id)
+        relationship.destroy unless new_plans.include?(relationship.plan_id)
+        new_plans.delete(relationship.plan_id)
+      end
+      new_plans.each do |plan_id|
+        self.location_plan_relationships.create(:plan_id => plan_id, :is_hq=> plan_hq.include?(plan_id)) unless plan_id.blank?
+      end
+      reload
+      self.new_plans = nil
     end
   end
   

@@ -40,10 +40,12 @@ class LocationsController < ApplicationController
   # POST /locations
   # POST /locations.xml
   def create
-    if @params['cancel']
+    if params['cancel']
       redirect_to edit_agency_url(@agency) and return
     end
-      @location = @agency.locations.build(params[:location])
+    params[:location][:new_plans] ||= []  # in case no checkboxes are checked
+    params[:location][:plan_hq] ||= []  # in case no checkboxes are checked
+    @location = @agency.locations.build(params[:location])
     @location.updated_by = current_user.login
     @location.mailing_address = @location.build_mailing_address(params[:mailing_address])
     @location.mailing_address.address_type='mailing'
@@ -57,7 +59,7 @@ class LocationsController < ApplicationController
       @location.update_restrictions(params)  
       @location.save
       flash[:notice] = 'Location was successfully created.'
-      redirect_to edit_agency_url(@agency) and return if @params['update_and_return']
+      redirect_to edit_agency_url(@agency) and return if params['update_and_return']
       redirect_to agencies_path() and return if params['update_and_list']
       redirect_to edit_location_url(:agency_id => @agency, :id => @location)
     else
@@ -71,9 +73,12 @@ class LocationsController < ApplicationController
   # PUT /locations/1
   # PUT /locations/1.xml
   def update
-    if @params['cancel']
+    if params['cancel']
       redirect_to edit_agency_url(@agency) and return
     end
+    params[:location][:new_plans] ||= []  # in case no checkboxes are checked
+    params[:location][:plan_hq] ||= []  # in case no checkboxes are checked
+
     @location = @agency.locations.find(params[:id])
     @location.updated_by = current_user.login
 
