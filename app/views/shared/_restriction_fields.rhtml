@@ -64,7 +64,7 @@
     </div>
 
     <div class="clear fullwidth">
-      <span><%= r.check_box(:delete_marker) %><label for="location[restriction_attr]_<%= restriction_form.id %>_delete_marker">Remove this restriction.</label></span>
+      <span id="addRestriction"><%= r.check_box(:delete_marker) %><label for="location[restriction_attr]_<%= restriction_form.id %>_delete_marker">Remove this restriction</label></span>
     </div>
 		</div>
     <%= observe_field :"state_abbrevs_#{id_prefix}",

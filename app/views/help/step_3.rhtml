@@ -34,7 +34,10 @@
 
 <div id="currentlyEmployedQuestion">
 	<div>Are you currently employed by this employer?&nbsp;&nbsp;&nbsp;
-	<span class="answer"><%= form.radio_button  :currently_employed, true %>&nbsp;Yes&nbsp;&nbsp;&nbsp;<%= form.radio_button  :currently_employed, false %>&nbsp;No</span></div>
+	<span class="answer">
+	<%= form.radio_button  :currently_employed, true %><label for="counseling_currently_employed_true">&nbsp;Yes&nbsp;&nbsp;&nbsp;</label>
+	<%= form.radio_button  :currently_employed, false %><label for="counseling_currently_employed_false">&nbsp;No</label>
+	</span></div>
 </div>
 	
 <% if @counseling.employer_type_id == EMP_TYPE[:military] %>

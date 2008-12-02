@@ -24,12 +24,3 @@
 		</tbody>
 	</table>
 </div>
-
-<script type="text/javascript">
-jQuery("input[name*=plan_hq]").click(function(){
-	var this_id=jQuery(this).attr("id");
-	var this_plan=this_id.slice(this.id.lastIndexOf("_")+1);
-	jQuery("#new_plan_"+this_plan).attr("checked", "checked");
-})
-
-</script>
