@@ -10,6 +10,7 @@ class Counseling < ActiveRecord::Base
   belongs_to :work_state, :class_name => "State", :foreign_key => "work_state_abbrev"
   belongs_to :hq_state, :class_name => "State", :foreign_key => "hq_state_abbrev"
   belongs_to :pension_state, :class_name => "State", :foreign_key => "pension_state_abbrev"
+  belongs_to :selected_plan, :class_name => "Plan", :foreign_key => "selected_plan_id"
 
   validates_presence_of :employer_type
 

@@ -80,4 +80,21 @@ class Plan < ActiveRecord::Base
     end
   end
   
+  def best_location(counseling)
+    # out of state should find hq
+    if counseling.home_state_abbrev == serving_locations.first.dropin_address.state_abbrev # in home state
+      closest_serving_location(counseling.home_zip)
+    else  #out of state
+      hq_serving_location
+    end
+  end
+
+  def hq_serving_location
+    self.location_plan_relationships.select{|rel| rel.is_hq}.first.location
+  end
+  
+  def closest_serving_location(zip)
+    serving_locations.map{|loc| loc.dropin_address}.sort_by_distance_from(zip).first.location
+  end
+  
 end
