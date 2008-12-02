@@ -73,6 +73,7 @@
       if (elem.tagName.toLowerCase() == "select") {
         elem.validate = function() { return this.selectedIndex > 0 };
       } else if (elem.tagName.toLowerCase() == "input" && elem.type == "radio") {
+        elem.onclick = validateStep;
         elem.validate = validateRadio;/*function() { return this.checked; };*/
       } else {
         elem.onkeyup = validateStep;
