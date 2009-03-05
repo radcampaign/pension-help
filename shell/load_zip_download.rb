@@ -12,7 +12,7 @@ db_pass = ''
 db_name = 'pha_development'
 
 zip_user = 'jleavelle@pensionrights.org'
-zip_pass = 'password'
+zip_pass = 'studebaker'
 
 filedir = '/tmp'
 
