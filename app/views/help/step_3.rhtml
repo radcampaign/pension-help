@@ -64,6 +64,7 @@
 
 <% end -%>
 <p>&nbsp;</p>
+<%= javascript_include_tag 'tooltip' %>
 <script type="text/javascript">
   elementsToValidate = new Array();
   employerTypeId = <%= @counseling.employer_type_id %>;
@@ -87,7 +88,7 @@
 
   function findElements() {
     if (elementsToValidate.length == 0) {
-      elems = ['employment_end_year', 'counseling[employment_cutoff]_on', 'counseling[employment_cutoff]_off', 'counseling_pension_earner_id','counseling_currently_employed_true','counseling_currently_employed_false'];
+      elems = ['employment_end_year', 'employment_cutoff_on', 'employment_cutoff_off', 'counseling_pension_earner_id','counseling_currently_employed_true','counseling_currently_employed_false'];
       for (i = 0; i < elems.length; i++) {
         var elem = document.getElementById(elems[i]);
         if (elem) {
@@ -130,11 +131,12 @@
     if (active) {
       next_step_button.src = '/images/buttons/next_button.gif';
       next_step_button.onclick = function() {return true};
-      next_step_button.title = "";
+			next_step_button.stopObserving('mouseover');
     } else {
       next_step_button.onclick = function() {return false};
       next_step_button.src = '/images/buttons/next_button_disabled.gif';
-      next_step_button.title = "Answer all the questions on this page then click NEXT to continue.";
+			next_step_button.observe( 'mouseover', showTooltip );
+			next_step_button.observe( 'mouseout', hideTooltip );
     }
   }
 
@@ -154,6 +156,7 @@
 			$('currentlyEmployedQuestion').hide();
 			document.getElementById('counseling_currently_employed_true').validate=function() { return true};
 			document.getElementById('counseling_currently_employed_false').validate=function() { return true};			
+			validateStep();
 		}
 	}
 	

@@ -34,6 +34,11 @@ form.admin_form span label {
 	margin: 0;
 	padding-top: 1px;
 }
+form.admin_form span#addRestriction label { 
+	display: inline;
+	font-size: inherit;
+	padding-left: 4px;
+}
 form.admin_form div,
 form.admin_form span {
 	padding-bottom: 12px;

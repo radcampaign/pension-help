@@ -1,3 +1,4 @@
+<%= javascript_include_tag 'tooltip' %>
 <div id="counseling_errors">
 	<%= render :partial => 'help/counseling_errors', :locals => {'counseling' => @counseling} %>
 </div>
@@ -60,13 +61,14 @@
 </script>
 
 <% end %>
-
 <% if @zip_found %>
 	<%= image_submit_tag "buttons/next_button.gif", :id => 'nextLinkButton', :name => 'continue' %>
 <% else %>
-	<%= image_submit_tag 'buttons/next_button_disabled.gif', :id => 'nextLinkButtonDisabled', :onclick => 'return false;',
-    :title => "Answer all the questions on this page then click NEXT to continue."
-  %>
+	<%= image_submit_tag 'buttons/next_button_disabled.gif', :id => 'nextLinkButtonDisabled', :onclick => 'return false;' %>
+	<script>
+		$('nextLinkButtonDisabled').observe('mouseover', showTooltip );
+		$('nextLinkButtonDisabled').observe('mouseout', hideTooltip );
+	</script>
 <% end %>
 <% end -%>
 <p>&nbsp;</p>
@@ -134,22 +136,26 @@
       }
     }
 
-    function changeStateNextStepButton(active) {
-      var next_step_button = document.getElementById('nextLinkButton');
-      if (active) {
-        next_step_button.src = '/images/buttons/next_button.gif';
-        next_step_button.onclick = function() {return true};
-        next_step_button.title = "";
-      } else {
-        next_step_button.onclick = function() {return false};
-        next_step_button.src = '/images/buttons/next_button_disabled.gif';
-        next_step_button.title = 'Answer all the questions on this page then click NEXT to continue.';
-      }
-    }
-
     var aoa_states = new Array();
     <% for state in @aoa_states %>
       aoa_states.push('<%= state.abbrev %>');
     <% end %>
+
 </script>
 <% end %>
+
+<script>
+function changeStateNextStepButton(active) {
+  var next_step_button = document.getElementById('nextLinkButton');
+  if (active) {
+    next_step_button.src = '/images/buttons/next_button.gif';
+    next_step_button.onclick = function() {return true};
+		next_step_button.stopObserving('mouseover');
+  } else {
+    next_step_button.onclick = function() {return false};
+    next_step_button.src = '/images/buttons/next_button_disabled.gif';
+		next_step_button.observe( 'mouseover', showTooltip );
+		next_step_button.observe( 'mouseout', hideTooltip );
+  }
+}
+</script>
