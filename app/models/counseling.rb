@@ -385,7 +385,7 @@ class Counseling < ActiveRecord::Base
   end
   
   def tsp_by_date
-    if !employment_end.nil? and employment_end > Date.new(1987,4,1)
+    if !employment_end.nil? and employment_end > Date.new(2001,10,9)
       return result_type_match('TSP')
     end
   end
