@@ -150,12 +150,12 @@ function changeStateNextStepButton(active) {
   if (active) {
     next_step_button.src = '/images/buttons/next_button.gif';
     next_step_button.onclick = function() {return true};
-		next_step_button.stopObserving('mouseover');
+		Event.stopObserving( 'nextLinkButton', 'mouseover');
   } else {
     next_step_button.onclick = function() {return false};
     next_step_button.src = '/images/buttons/next_button_disabled.gif';
-		next_step_button.observe( 'mouseover', showTooltip );
-		next_step_button.observe( 'mouseout', hideTooltip );
+		Event.observe( 'nextLinkButton',  'mouseover', showTooltip );
+		Event.observe( 'nextLinkButton',  'mouseout', hideTooltip );
   }
 }
 </script>
