@@ -22,5 +22,5 @@ ActionMailer::Base.smtp_settings = {
   :domain  => 'pensionhelp.org'
 }
 
-EMAIL_RECIPIENT = "JHotz@PensionRights.org, dave@ianet.org"
+EMAIL_RECIPIENT = "JHotz@PensionRights.org, dan@gradientblue.com"
 EMAIL_FROM = "do-not-reply@PensionRights.org"
