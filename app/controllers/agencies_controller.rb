@@ -154,7 +154,7 @@ class AgenciesController < ApplicationController
   end
 
   def sort_plan
-    params[:plan_list].each_with_index { |id,idx| Plan.update(id, :position => idx) }
+    params[:plan_list].each_with_index { |id,idx| Plan.update(id, :position => idx) unless id.blank? }
     render :nothing => 'true'
   end
   

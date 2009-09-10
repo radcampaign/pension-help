@@ -51,6 +51,7 @@ class Plan < ActiveRecord::Base
   end
 
   def update_employee_types
+    return if @catchall_employees.nil?
     @catchall_employees.split(', ').each do |e|
       # MySQL is case insensitive, so we grab all matching employees and do the comparisons on our own
       unless et=EmployeeType.find(:all, :conditions => ['name = ?', e]).select{|emp| emp.name==e}.first
@@ -75,7 +76,6 @@ class Plan < ActiveRecord::Base
       new_locations.each do |loc_id|
         self.location_plan_relationships.create(:location_id => loc_id, :is_hq=> loc_id == location_hq) unless loc_id.blank?
       end
-      reload
       self.new_locations = nil
     end
   end
