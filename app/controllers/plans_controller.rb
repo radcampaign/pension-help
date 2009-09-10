@@ -28,6 +28,7 @@ class PlansController < ApplicationController
   # GET /plans/new
   def new
     @plan = Plan.new
+    @plan.agency = @agency
     @new_restrictions = @plan.get_empty_restrictions
     #@plan.build_restriction
     @plan.is_active = true
