@@ -116,7 +116,7 @@ class HelpController < ApplicationController
   def show_available_plans
     @counseling = update_counseling
     @counseling.step = 1
-    @matching_agencies = @counseling.matching_agencies.collect{|a| a.plans}.flatten.sort{|a,b| a.name <=> b.name} # find plans for state/county/local
+    @matching_agencies = @counseling.matching_agencies.collect{|a| a.plans.select{|p| p.is_active}}.flatten.sort{|a,b| a.name <=> b.name} # find plans for state/county/local
     render :update do |page|
       page.replace_html 'q5', :partial => 'available_plans'
       page.visual_effect :highlight, 'q5'
