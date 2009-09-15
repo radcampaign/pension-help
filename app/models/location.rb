@@ -80,7 +80,6 @@ class Location < ActiveRecord::Base
       new_plans.each do |plan_id|
         self.location_plan_relationships.create(:plan_id => plan_id, :is_hq=> plan_hq.include?(plan_id)) unless plan_id.blank?
       end
-      reload unless id.nil?
       self.new_plans = nil
     end
   end
