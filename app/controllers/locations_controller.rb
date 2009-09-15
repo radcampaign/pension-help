@@ -22,6 +22,7 @@ class LocationsController < ApplicationController
   # GET /locations/new
   def new
     @location = Location.new
+    @location.agency = @agency
     @new_restrictions = @location.get_empty_restrictions
 
     #set defaults
