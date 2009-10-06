@@ -49,6 +49,7 @@ class WorksController < ApplicationController
         end
         Mailer.deliver_npln_application(@partner) if @partner.wants_npln
         Mailer.deliver_aaa_application(@partner) if @partner.wants_pal
+        Mailer.deliver_user_application_confirmation(@partner) # sends confirmation email to user
         flash[:success] = "Your application has been saved successfully."
         redirect_to '/'
       end

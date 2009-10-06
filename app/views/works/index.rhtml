@@ -1,3 +1,5 @@
+<%= javascript_include_tag("jquery-1.3.2.min.js", "jquery.noconflict.js", "jquery-ui-1.7.2.custom.min.js") %>
+<%= stylesheet_link_tag("smoothness/jquery-ui-1.7.2.custom.css")%>
 <h1>Service &amp; Referral Networks for Pension Professionals</h1>
 
 <style>.fieldWithErrors {padding: 2px; background-color: red; display: table;}</style>
@@ -21,24 +23,50 @@
 <p>If you are a pension lawyer, actuary or other pension professional, then please join one or more of our four PensionHelp networks. Each network is described below.  Your assistance will help to ensure that pension plan participants receive the benefits they have earned. Fill in the contact information, create a login and password (so you can edit your information later), then select the network or networks that you are most interested and able to participate in. Click "Next" and you will be forwarded to a second page of questions that will help us learn more about your specific expertise and interests.</p>
 
 <p>&nbsp;</p>
+<div id="tabs">
+	<ul>
+		<li><a href="#newAccount">Create a new account</a></li>
+		<li><a href="#existingAccount">I already have an account</a></li>
+	</ul>
+	<div id="newAccount">	
+		<% form_tag({:controller => :works, :action => :questions}, {:id => 'works_form'}) do %>
+		  <div id="networkForm">
+		    <%= render :partial => 'works/contact_info' %>
+		    <% fields_for :user, @partner.user do |user| %>
+		      <%= render :partial => 'shared/login_information', :object => user, :locals => {:existing_user => false} %>
+		    <% end %>
+		  </div>
+		  <h2 style="margin-bottom:10px">I am interested in joining (you may select more than one):</h2>
+		  <%= render :partial => 'shared/join_service' %>
+		  <%= image_submit_tag "buttons/next_button.gif", :id => 'nextLinkButton' %>
+		<% end -%>
+		<div class="clear">&nbsp;</div>
+	</div>
+	<div id="existingAccount">
+		<% form_tag(:controller => :account, :action => :login ) do -%>
+		  <table class="form">
+		    <tr>
+		      <th><span class="reqnote">*</span>Username: </th>
+		      <td>
+		        <%= text_field_tag :login %>
+		      </td>
+		    </tr>
+		    <tr>
+		      <th><span class="reqnote">*</span>Password: </th>
+		      <td>
+		        <%= password_field_tag :password %>
+		      </td>
+		    </tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td><%= submit_tag 'Log in' %></td>
+				</tr>
+		  </table>
 
-<% form_tag({:controller => :works, :action => :questions}, {:id => 'works_form'}) do %>
+		<% end -%>
+	</div>
+</div>
 
-  <div id="networkForm">
-    <%= render :partial => 'works/contact_info' %>
-    <% fields_for :user, @partner.user do |user_fields| %>
-      <%= render :partial => 'shared/login_information', :object => user_fields %>
-    <% end %>
-    <h3>Professional information and experience</h3>
-  </div>
-
-  <h2 style="margin-bottom:10px">I am interested in joining (you may select more than one):</h2>
-
-  <%= render :partial => 'shared/join_service' %>
-
-  <%= image_submit_tag "buttons/next_button.gif", :id => 'nextLinkButton' %>
-
-<% end -%>
 
 <%= render :partial => 'shared/service_description' %>
 
@@ -51,4 +79,6 @@
 		}
 	}
 //-->
+jQuery("#tabs").tabs();
+
 </script>

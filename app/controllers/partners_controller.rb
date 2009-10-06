@@ -1,6 +1,6 @@
 class PartnersController < ApplicationController
   before_filter :login_required
-  layout 'admin'
+  layout :partner_layout, :except => [:survey] 
 
   def authorized?
     if current_user.is_admin?
@@ -127,5 +127,10 @@ class PartnersController < ApplicationController
       render :action => 'survey'
     end
   end
+
+  private
+    def partner_layout
+      current_user and current_user.is_admin? ? 'admin' : 'default'
+    end
   
 end

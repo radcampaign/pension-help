@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 58) do
+ActiveRecord::Schema.define(:version => 65) do
 
   create_table "addresses", :force => true do |t|
     t.column "location_id",    :integer
@@ -130,6 +130,7 @@ ActiveRecord::Schema.define(:version => 58) do
     t.column "created_at",              :datetime
     t.column "is_afscme_member",        :boolean
     t.column "selected_plan_id",        :integer
+    t.column "currently_employed",      :boolean
   end
 
   add_index "counselings", ["employer_type_id"], :name => "employer_type_id"
@@ -149,6 +150,19 @@ ActiveRecord::Schema.define(:version => 58) do
   end
 
   add_index "counties", ["fips_code", "state_abbrev"], :name => "index_counties_on_fips_code_and_state_abbrev", :unique => true
+
+  create_table "dup_temp", :id => false, :force => true do |t|
+    t.column "AgencyID",        :integer, :default => 0, :null => false
+    t.column "Agency Name",     :string
+    t.column "Agency Name 2",   :string
+    t.column "LocationID",      :integer, :default => 0, :null => false
+    t.column "Location Name",   :string
+    t.column "Location Name 2", :string
+  end
+
+  create_table "employee_types", :force => true do |t|
+    t.column "name", :string
+  end
 
   create_table "employer_types", :force => true do |t|
     t.column "name",     :string
@@ -170,6 +184,116 @@ ActiveRecord::Schema.define(:version => 58) do
     t.column "is_resolved",  :boolean,  :default => false
     t.column "created_at",   :datetime
     t.column "updated_at",   :datetime
+  end
+
+  create_table "fmp1_agencies", :id => false, :force => true do |t|
+    t.column "agency_name_1",              :string
+    t.column "agency_name_2",              :string
+    t.column "comments",                   :text
+    t.column "con_ad_drop_city",           :string
+    t.column "con_ad_drop_state",          :string
+    t.column "con_ad_drop_street_1",       :string
+    t.column "con_ad_drop_street_2",       :string
+    t.column "con_ad_drop_zip",            :string
+    t.column "con_ad_mail_city",           :string
+    t.column "con_ad_mail_state",          :string
+    t.column "con_ad_mail_street_1",       :string
+    t.column "con_ad_mail_street_2",       :string
+    t.column "con_ad_mail_zip",            :string
+    t.column "con_email",                  :string
+    t.column "con_ext_local",              :string
+    t.column "con_ext_toll_free",          :string
+    t.column "con_ext_tty",                :string
+    t.column "con_phone_fax",              :string
+    t.column "con_phone_local",            :string
+    t.column "con_phone_toll_free",        :string
+    t.column "con_phone_tty",              :string
+    t.column "con_pubs_email",             :string
+    t.column "con_pubs_ext_local",         :string
+    t.column "con_pubs_ext_toll_free",     :string
+    t.column "con_pubs_ext_tty",           :string
+    t.column "con_pubs_fax",               :string
+    t.column "con_pubs_local",             :string
+    t.column "con_pubs_toll_free",         :string
+    t.column "con_pubs_tty",               :string
+    t.column "con_pubs_url",               :string
+    t.column "con_url_1",                  :string
+    t.column "con_url_2",                  :string
+    t.column "con_url_title_1",            :string
+    t.column "con_url_title_2",            :string
+    t.column "descriptive_summary",        :text
+    t.column "hours_o_operation",          :string
+    t.column "logisitics",                 :text
+    t.column "pension_system",             :string
+    t.column "res_max_poverty_percent",    :decimal,  :precision => 9, :scale => 2
+    t.column "res_min_age",                :decimal,  :precision => 5, :scale => 2
+    t.column "Serial",                     :integer,                                :default => 0,    :null => false
+    t.column "services_provided",          :text
+    t.column "source_o_data",              :string
+    t.column "stamp_creation",             :datetime
+    t.column "stamp_modification",         :datetime
+    t.column "sts_status_flag",            :string
+    t.column "user_modification",          :string
+    t.column "help_book_macro",            :string
+    t.column "help_book_micro",            :string
+    t.column "service_provider",           :string
+    t.column "other_services_provided",    :string
+    t.column "sts_status",                 :string
+    t.column "non_pension_resource_types", :string
+    t.column "military_branches",          :string
+    t.column "public_plan_type",           :string
+    t.column "import_to_pha",              :boolean,                                :default => true, :null => false
+  end
+
+  create_table "fmp1_subagencies", :id => false, :force => true do |t|
+    t.column "AgencyId",                   :integer
+    t.column "agency_name_1",              :string
+    t.column "agency_name_2",              :string
+    t.column "comments",                   :text
+    t.column "con_ad_drop_city",           :string
+    t.column "con_ad_drop_state",          :string
+    t.column "con_ad_drop_street_1",       :string
+    t.column "con_ad_drop_street_2",       :string
+    t.column "con_ad_drop_zip",            :string
+    t.column "con_ad_mail_city",           :string
+    t.column "con_ad_mail_state",          :string
+    t.column "con_ad_mail_street_1",       :string
+    t.column "con_ad_mail_street_2",       :string
+    t.column "con_ad_mail_zip",            :string
+    t.column "con_email",                  :string
+    t.column "con_ext_local",              :string
+    t.column "con_ext_toll_free",          :string
+    t.column "con_ext_tty",                :string
+    t.column "con_phone_fax",              :string
+    t.column "con_phone_local",            :string
+    t.column "con_phone_toll_free",        :string
+    t.column "con_phone_tty",              :string
+    t.column "con_pubs_email",             :string
+    t.column "con_pubs_ext_local",         :string
+    t.column "con_pubs_ext_toll_free",     :string
+    t.column "con_pubs_ext_tty",           :string
+    t.column "con_pubs_fax",               :string
+    t.column "con_pubs_local",             :string
+    t.column "con_pubs_toll_free",         :string
+    t.column "con_pubs_tty",               :string
+    t.column "con_pubs_url",               :string
+    t.column "con_url_1",                  :string
+    t.column "con_url_2",                  :string
+    t.column "con_url_title_1",            :string
+    t.column "con_url_title_2",            :string
+    t.column "descriptive_summary",        :text
+    t.column "hours_o_operation",          :string
+    t.column "logisitics",                 :text
+    t.column "Serial",                     :integer,  :default => 0, :null => false
+    t.column "services_provided",          :text
+    t.column "source_o_data",              :string
+    t.column "stamp_creation",             :datetime
+    t.column "stamp_modification",         :datetime
+    t.column "sts_status_flag",            :string
+    t.column "user_modification",          :string
+    t.column "other_services_provided",    :string
+    t.column "sts_status",                 :string
+    t.column "non_pension_resource_types", :string
   end
 
   create_table "fmp2", :force => true do |t|
@@ -249,6 +373,15 @@ ActiveRecord::Schema.define(:version => 58) do
   end
 
   add_index "images", ["parent_id"], :name => "parent_id"
+
+  create_table "location_plan_relationships", :force => true do |t|
+    t.column "location_id", :integer
+    t.column "plan_id",     :integer
+    t.column "is_hq",       :boolean
+  end
+
+  add_index "location_plan_relationships", ["location_id"], :name => "location_id"
+  add_index "location_plan_relationships", ["plan_id"], :name => "plan_id"
 
   create_table "locations", :force => true do |t|
     t.column "agency_id",          :integer
@@ -364,8 +497,8 @@ ActiveRecord::Schema.define(:version => 58) do
     t.column "url",                            :string
     t.column "reduced_fee_desc",               :string
     t.column "contingency_fee_desc",           :string
-    t.column "consultation_fee",               :string
-    t.column "hourly_rate",                    :integer
+    t.column "consultation_fee",               :decimal,               :precision => 10, :scale => 2
+    t.column "hourly_rate",                    :decimal,               :precision => 10, :scale => 2
     t.column "bar_admissions",                 :string
     t.column "aaa_member",                     :boolean
     t.column "willing_to_provide",             :boolean
@@ -385,10 +518,10 @@ ActiveRecord::Schema.define(:version => 58) do
     t.column "certifications",                 :text
     t.column "affiliations",                   :text
     t.column "other_info",                     :text
-    t.column "wants_npln",                     :boolean,               :default => false
-    t.column "wants_pal",                      :boolean,               :default => false
-    t.column "wants_help",                     :boolean,               :default => false
-    t.column "wants_search",                   :boolean,               :default => false
+    t.column "wants_npln",                     :boolean,                                              :default => false
+    t.column "wants_pal",                      :boolean,                                              :default => false
+    t.column "wants_help",                     :boolean,                                              :default => false
+    t.column "wants_search",                   :boolean,                                              :default => false
     t.column "user_id",                        :integer
   end
 
@@ -476,6 +609,15 @@ ActiveRecord::Schema.define(:version => 58) do
     t.column "position", :integer
   end
 
+  create_table "plan_catch_all_employees", :force => true do |t|
+    t.column "plan_id",          :integer
+    t.column "employee_type_id", :integer
+    t.column "position",         :integer
+  end
+
+  add_index "plan_catch_all_employees", ["plan_id"], :name => "plan_id"
+  add_index "plan_catch_all_employees", ["employee_type_id"], :name => "employee_type_id"
+
   create_table "plan_categories", :force => true do |t|
     t.column "name",     :string
     t.column "position", :integer
@@ -495,7 +637,6 @@ ActiveRecord::Schema.define(:version => 58) do
     t.column "start_date",         :date
     t.column "end_date",           :date
     t.column "covered_employees",  :text
-    t.column "catchall_employees", :text
     t.column "plan_type1",         :string
     t.column "plan_type2",         :string
     t.column "plan_type3",         :string
@@ -597,6 +738,37 @@ ActiveRecord::Schema.define(:version => 58) do
 
   add_index "restrictions_counties", ["county_id", "restriction_id"], :name => "index_restrictions_counties_on_county_id_and_restriction_id"
 
+  create_table "restrictions_reload", :id => false, :force => true do |t|
+    t.column "discriminatory_count",            :integer
+    t.column "sp_display_babies_states",        :text
+    t.column "sp_display_babies_counties",      :text
+    t.column "sp_display_babies_cities",        :text
+    t.column "sp_display_counseling_states",    :text
+    t.column "sp_display_counseling_counties",  :text
+    t.column "sp_display_counseling_cities",    :text
+    t.column "res_geographic",                  :string
+    t.column "res_geographic_meaning",          :string
+    t.column "res_languages",                   :string
+    t.column "res_max_age",                     :integer
+    t.column "res_max_poverty_percent",         :decimal,  :precision => 8, :scale => 2
+    t.column "res_military",                    :string
+    t.column "res_min_age",                     :integer
+    t.column "res_pop_number_o_family_members", :integer
+    t.column "res_pov_guide_year",              :integer
+    t.column "res_pov_threshold_household",     :integer
+    t.column "res_pov_threshold_type",          :string
+    t.column "res_residency",                   :string
+    t.column "res_resident",                    :string
+    t.column "res_restriction_categories",      :string
+    t.column "sn",                              :integer,                                :default => 0, :null => false
+    t.column "sn_o_baby",                       :integer
+    t.column "sn_o_counseling",                 :integer
+    t.column "stamp_creation",                  :datetime
+    t.column "stamp_modification",              :datetime
+    t.column "user_creation",                   :string
+    t.column "user_modification",               :string
+  end
+
   create_table "restrictions_states", :id => false, :force => true do |t|
     t.column "restriction_id", :integer,              :null => false
     t.column "state_abbrev",   :string,  :limit => 2, :null => false
@@ -604,172 +776,3 @@ ActiveRecord::Schema.define(:version => 58) do
 
   add_index "restrictions_states", ["state_abbrev", "restriction_id"], :name => "index_restrictions_states_on_state_abbrev_and_restriction_id"
 
-  create_table "restrictions_zips", :id => false, :force => true do |t|
-    t.column "restriction_id", :integer,              :null => false
-    t.column "zipcode",        :string,  :limit => 5, :null => false
-  end
-
-  add_index "restrictions_zips", ["zipcode", "restriction_id"], :name => "index_restrictions_zips_on_zipcode_and_restriction_id"
-
-  create_table "result_types", :force => true do |t|
-    t.column "name",     :string
-    t.column "position", :integer
-  end
-
-  create_table "roles", :force => true do |t|
-    t.column "role_name",   :string
-    t.column "description", :string
-  end
-
-  create_table "roles_users", :id => false, :force => true do |t|
-    t.column "user_id", :integer
-    t.column "role_id", :integer
-  end
-
-  add_index "roles_users", ["user_id"], :name => "user_id"
-  add_index "roles_users", ["role_id"], :name => "role_id"
-
-  create_table "search_plan_types", :force => true do |t|
-    t.column "name",     :string
-    t.column "position", :integer
-  end
-
-  create_table "sponsor_types", :force => true do |t|
-    t.column "name",     :string
-    t.column "position", :integer
-  end
-
-  create_table "states", :id => false, :force => true do |t|
-    t.column "abbrev", :string, :limit => 2,  :null => false
-    t.column "name",   :string, :limit => 50
-  end
-
-  create_table "users", :force => true do |t|
-    t.column "login",                     :string
-    t.column "email",                     :string
-    t.column "crypted_password",          :string,   :limit => 40
-    t.column "salt",                      :string,   :limit => 40
-    t.column "created_at",                :datetime
-    t.column "updated_at",                :datetime
-    t.column "remember_token",            :string
-    t.column "remember_token_expires_at", :datetime
-  end
-
-  create_table "zip_import", :id => false, :force => true do |t|
-    t.column "zipcode",      :string,  :limit => 5,                                :null => false
-    t.column "city",         :string,  :limit => 64
-    t.column "county",       :string,  :limit => 64
-    t.column "state_abbrev", :string,  :limit => 2
-    t.column "zip_type",     :string,  :limit => 1
-    t.column "city_type",    :string,  :limit => 1
-    t.column "county_fips",  :string,  :limit => 5
-    t.column "state_name",   :string,  :limit => 64
-    t.column "state_fips",   :string,  :limit => 2
-    t.column "msa_code",     :string,  :limit => 4
-    t.column "area_code",    :string,  :limit => 16
-    t.column "time_zone",    :string,  :limit => 16
-    t.column "utc",          :decimal,               :precision => 3, :scale => 1
-    t.column "dst",          :string,  :limit => 1
-    t.column "latitude",     :decimal,               :precision => 9, :scale => 6
-    t.column "longitude",    :decimal,               :precision => 9, :scale => 6
-  end
-
-  add_index "zip_import", ["zipcode"], :name => "index_zip_import_on_zipcode"
-  add_index "zip_import", ["city"], :name => "index_zip_import_on_city"
-  add_index "zip_import", ["county"], :name => "index_zip_import_on_county"
-  add_index "zip_import", ["state_abbrev"], :name => "index_zip_import_on_state_abbrev"
-
-  create_table "zips", :id => false, :force => true do |t|
-    t.column "zipcode",      :string,  :null => false
-    t.column "state_abbrev", :string
-    t.column "county_id",    :integer
-  end
-
-  add_index "zips", ["county_id"], :name => "county_id"
-
-  add_foreign_key "addresses", ["location_id"], "locations", ["id"], :name => "addresses_ibfk_1"
-
-  add_foreign_key "agencies", ["agency_category_id"], "agency_categories", ["id"], :name => "agencies_ibfk_1"
-  add_foreign_key "agencies", ["result_type_id"], "result_types", ["id"], :name => "agencies_ibfk_2"
-
-  add_foreign_key "cities", ["county_id"], "counties", ["id"], :name => "cities_ibfk_1"
-
-  add_foreign_key "cities_zips", ["city_id"], "cities", ["id"], :name => "cities_zips_ibfk_1"
-
-  add_foreign_key "comments", ["user_id"], "users", ["id"], :name => "comments_ibfk_1"
-
-  add_foreign_key "contents", ["parent_id"], "contents", ["id"], :name => "contents_ibfk_1"
-
-  add_foreign_key "counselings", ["employer_type_id"], "employer_types", ["id"], :name => "counselings_ibfk_1"
-  add_foreign_key "counselings", ["federal_plan_id"], "federal_plans", ["id"], :name => "counselings_ibfk_2"
-  add_foreign_key "counselings", ["military_service_id"], "military_services", ["id"], :name => "counselings_ibfk_3"
-  add_foreign_key "counselings", ["military_branch_id"], "military_branches", ["id"], :name => "counselings_ibfk_4"
-  add_foreign_key "counselings", ["military_employer_id"], "military_employers", ["id"], :name => "counselings_ibfk_5"
-  add_foreign_key "counselings", ["pension_earner_id"], "pension_earners", ["id"], :name => "counselings_ibfk_6"
-  add_foreign_key "counselings", ["county_id"], "counties", ["id"], :name => "counselings_ibfk_7"
-  add_foreign_key "counselings", ["city_id"], "cities", ["id"], :name => "counselings_ibfk_8"
-  add_foreign_key "counselings", ["selected_plan_id"], "plans", ["id"], :name => "counselings_ibfk_9"
-
-  add_foreign_key "images", ["parent_id"], "images", ["id"], :name => "images_ibfk_1"
-
-  add_foreign_key "locations", ["agency_id"], "agencies", ["id"], :name => "locations_ibfk_1"
-
-  add_foreign_key "partners", ["user_id"], "users", ["id"], :name => "partners_ibfk_1"
-
-  add_foreign_key "partners_claim_types", ["partner_id"], "partners", ["id"], :name => "partners_claim_types_ibfk_1"
-  add_foreign_key "partners_claim_types", ["claim_type_id"], "claim_types", ["id"], :name => "partners_claim_types_ibfk_2"
-
-  add_foreign_key "partners_help_additional_areas", ["partner_id"], "partners", ["id"], :name => "partners_help_additional_areas_ibfk_1"
-  add_foreign_key "partners_help_additional_areas", ["help_additional_area_id"], "help_additional_areas", ["id"], :name => "partners_help_additional_areas_ibfk_2"
-
-  add_foreign_key "partners_npln_additional_areas", ["partner_id"], "partners", ["id"], :name => "partners_npln_additional_areas_ibfk_1"
-  add_foreign_key "partners_npln_additional_areas", ["npln_additional_area_id"], "npln_additional_areas", ["id"], :name => "partners_npln_additional_areas_ibfk_2"
-
-  add_foreign_key "partners_npln_participation_levels", ["partner_id"], "partners", ["id"], :name => "partners_npln_participation_levels_ibfk_1"
-  add_foreign_key "partners_npln_participation_levels", ["npln_participation_level_id"], "npln_participation_levels", ["id"], :name => "partners_npln_participation_levels_ibfk_2"
-
-  add_foreign_key "partners_pal_additional_areas", ["partner_id"], "partners", ["id"], :name => "partners_pal_additional_areas_ibfk_1"
-  add_foreign_key "partners_pal_additional_areas", ["pal_additional_area_id"], "pal_additional_areas", ["id"], :name => "partners_pal_additional_areas_ibfk_2"
-
-  add_foreign_key "partners_pal_participation_levels", ["partner_id"], "partners", ["id"], :name => "partners_pal_participation_levels_ibfk_1"
-  add_foreign_key "partners_pal_participation_levels", ["pal_participation_level_id"], "pal_participation_levels", ["id"], :name => "partners_pal_participation_levels_ibfk_2"
-
-  add_foreign_key "partners_plan_types", ["partner_id"], "partners", ["id"], :name => "partners_plan_types_ibfk_1"
-  add_foreign_key "partners_plan_types", ["plan_type_id"], "plan_types", ["id"], :name => "partners_plan_types_ibfk_2"
-
-  add_foreign_key "partners_professions", ["partner_id"], "partners", ["id"], :name => "partners_professions_ibfk_1"
-  add_foreign_key "partners_professions", ["profession_id"], "professions", ["id"], :name => "partners_professions_ibfk_2"
-
-  add_foreign_key "partners_referral_fees", ["partner_id"], "partners", ["id"], :name => "partners_referral_fees_ibfk_1"
-  add_foreign_key "partners_referral_fees", ["referral_fee_id"], "referral_fees", ["id"], :name => "partners_referral_fees_ibfk_2"
-
-  add_foreign_key "partners_search_plan_types", ["partner_id"], "partners", ["id"], :name => "partners_search_plan_types_ibfk_1"
-  add_foreign_key "partners_search_plan_types", ["search_plan_type_id"], "search_plan_types", ["id"], :name => "partners_search_plan_types_ibfk_2"
-
-  add_foreign_key "partners_sponsor_types", ["partner_id"], "partners", ["id"], :name => "partners_sponsor_types_ibfk_1"
-  add_foreign_key "partners_sponsor_types", ["sponsor_type_id"], "sponsor_types", ["id"], :name => "partners_sponsor_types_ibfk_2"
-
-  add_foreign_key "plans", ["agency_id"], "agencies", ["id"], :name => "plans_ibfk_1"
-
-  add_foreign_key "publications", ["agency_id"], "agencies", ["id"], :name => "publications_ibfk_1"
-
-  add_foreign_key "restrictions", ["agency_id"], "agencies", ["id"], :name => "restrictions_ibfk_1"
-  add_foreign_key "restrictions", ["location_id"], "locations", ["id"], :name => "restrictions_ibfk_2"
-  add_foreign_key "restrictions", ["plan_id"], "plans", ["id"], :name => "restrictions_ibfk_3"
-
-  add_foreign_key "restrictions_cities", ["restriction_id"], "restrictions", ["id"], :name => "restrictions_cities_ibfk_1"
-  add_foreign_key "restrictions_cities", ["city_id"], "cities", ["id"], :name => "restrictions_cities_ibfk_2"
-
-  add_foreign_key "restrictions_counties", ["restriction_id"], "restrictions", ["id"], :name => "restrictions_counties_ibfk_1"
-  add_foreign_key "restrictions_counties", ["county_id"], "counties", ["id"], :name => "restrictions_counties_ibfk_2"
-
-  add_foreign_key "restrictions_states", ["restriction_id"], "restrictions", ["id"], :name => "restrictions_states_ibfk_1"
-
-  add_foreign_key "restrictions_zips", ["restriction_id"], "restrictions", ["id"], :name => "restrictions_zips_ibfk_1"
-
-  add_foreign_key "roles_users", ["user_id"], "users", ["id"], :name => "roles_users_ibfk_1"
-  add_foreign_key "roles_users", ["role_id"], "roles", ["id"], :name => "roles_users_ibfk_2"
-
-  add_foreign_key "zips", ["county_id"], "counties", ["id"], :name => "zips_ibfk_1"
-
-end

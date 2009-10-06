@@ -1,7 +1,3 @@
-<h1>Service &amp; Referral Networks for Pension Professionals</h1>
-
-<%= link_to "Edit Partner Profile", edit_partner_path(@partner) %>
-<br/>
 <br/>
 <style>.fieldWithErrors {padding: 2px; background-color: red; display: table;}</style>
 <% if (not @partner.nil? and not @partner.errors.empty?) -%>
@@ -26,10 +22,10 @@
 <% form_for :partner, @partner, :url => {:action => 'update_survey', :id => @partner} do |p| %>
 
 <div id="networkForm">
-  <%= render :partial => 'works/professions', :locals => {:partner => @partner, :p => p} if @partner.wants_help or @partner.wants_search %>
-	<%= render :partial => 'works/affiliations', :locals => {:partner => @partner, :p => p} if @partner.wants_npln or @partner.wants_help or @partner.wants_search %>
-  <%= render :partial => 'works/sponsor_types', :locals => {:partner => @partner, :p => p} if @partner.wants_npln or @partner.wants_help or @partner.wants_pal %>
   <%= render :partial => 'works/plan_types', :locals => {:partner => @partner, :p => p} if @partner.wants_npln or @partner.wants_help or @partner.wants_pal %>
+  <%= render :partial => 'works/sponsor_types', :locals => {:partner => @partner, :p => p} if @partner.wants_npln or @partner.wants_help or @partner.wants_pal %>
+  <%= render :partial => 'works/professions', :locals => {:partner => @partner, :p => p} if @partner.wants_help or @partner.wants_search %>
+	<%#= render :partial => 'works/affiliations', :locals => {:partner => @partner, :p => p} if @partner.wants_npln or @partner.wants_help or @partner.wants_search %>
   <%= render :partial => 'works/npln_info', :locals => {:partner => @partner, :p => p} if @partner.wants_npln %>
   <%= render :partial => 'works/aaa_info', :locals => {:partner => @partner, :p => p} if @partner.wants_pal %>
 	<%= render :partial => 'works/npln_levels', :locals => {:partner => @partner, :p => p} if @partner.wants_npln %>
