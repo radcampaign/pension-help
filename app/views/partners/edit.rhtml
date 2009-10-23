@@ -32,7 +32,7 @@
 		<br/>
 		<% end -%>
 
-		<% form_for(:partner, :url => partner_path(@partner), :html => { :method => :put }) do |f| %>
+			<% form_for(:partner, :url => partner_path(@partner), :html => { :method => :put }) do |f| %>
 		  <%= render :partial => 'works/contact_info' %>
 
 		  <% fields_for :user, @partner.user do |f_user| %>
@@ -47,9 +47,9 @@
 		  <p>
 		    <%= submit_tag "Update" %>
 		  </p>
-		<% end %>
 
 		<%= render :partial => 'shared/service_description' %>
+		<% end %>
 
 		<% if current_user.can_manage_partners? %>
 		  <%= link_to 'Show', partner_path(@partner) %> |

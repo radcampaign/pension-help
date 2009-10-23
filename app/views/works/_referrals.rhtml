@@ -2,12 +2,21 @@
 
 <p>
 <table class="form">
-	<% for item in ReferralFee.find(:all) %>
+	<% for item in ReferralFee.find(:all, :order => :position, :conditions => (@partner.wants_npln or @partner.wants_help ? nil : {:use_for_pal => true}) ) %>
 		<tr>
 			<th><%= check_box_tag("referral_fees[]", item.name, partner.referral_fees.collect(&:name).include?(item.name)) %></th>
-			<td><%= item.name %> 
-				<% if item.name.match('Reduced fee') %>Describe: <%= p.text_field :reduced_fee_desc, :size => 25 %><% end %>
-				<% if item.name.match('Contingency') %>Describe: <%= p.text_field :contingency_fee_desc, :size => 25 %><% end %>
+			<td><%= item.name %>
+				<% if item.name.match('Hourly Rate') %>
+					<%= p.text_field :hourly_rate_str, :size => 10, :value => hourly_rate_display %> 
+					<br/>Describe: <%= p.text_field :hourly_rate_desc, :size => 25 %>
+				<% end %>
+				<% if item.name.match('Consultation Fee') %>
+					<%= p.text_field :consultation_fee_str, :size => 10, :value => consultation_fee_display %> 
+					<br/>Describe: <%= p.text_field :consultation_fee_desc, :size => 25 %>
+				<% end %>
+				<% if item.name.match('Contingency') %><br/>Describe: <%= p.text_field :contingency_fee_desc, :size => 25 %><% end %>
+				<% if item.name.match('Fee-Shifting') %><br/>Describe: <%= p.text_field :fee_shifting_desc, :size => 25 %><% end %>
+				<% if item.name.match('Reduced Rate') %><br/>Describe: <%= p.text_field :reduced_fee_desc, :size => 25 %><% end %>
 			</td>
 		</tr>
 	<% end -%>
@@ -17,6 +26,3 @@
 
 <p>&nbsp;</p>
 
-<p class="works_question"><span class="reqnote">*</span>Initial Consultation Fee: <%= p.text_field :consultation_fee_str, :size => 20, :value => consultation_fee_display %></p>
-
-<p class="works_question"><span class="reqnote">*</span>Hourly Rate: <%= p.text_field :hourly_rate_str, :size => 20, :value => hourly_rate_display %></p>

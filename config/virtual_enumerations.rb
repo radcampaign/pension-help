@@ -22,6 +22,8 @@ ActiveRecord::VirtualEnumerations.define do |config|
                  :federal_plan,
                  :military_service,
                  :military_branch,
-                 :military_employer
+                 :military_employer,
+                 :jurisdiction,
+                 :geo_area
                  ], :order => 'position ASC'
 end

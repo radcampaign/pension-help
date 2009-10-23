@@ -15,6 +15,10 @@ class Partner < ActiveRecord::Base
   has_and_belongs_to_many :search_plan_types
   has_and_belongs_to_many :help_additional_areas, 
                           :join_table => "partners_help_additional_areas"
+  has_and_belongs_to_many :jurisdictions,
+                          :join_table => "partners_jurisdictions"
+  has_and_belongs_to_many :geo_areas,
+                          :join_table => "partners_geo_areas"
 
   belongs_to :user
 
@@ -27,25 +31,25 @@ class Partner < ActiveRecord::Base
                           :phone, 
                           :email
                           
-  validates_presence_of :consultation_fee_str,
-                        :message => "^Consultation fee can't be blank",
-                        :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and !p.new_record? and !p.basic_profile }
-
-  validates_presence_of :hourly_rate_str,
-                        :message => "^Hourly rate can't be blank",
-                        :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and !p.new_record? and !p.basic_profile }
-
-  validates_format_of :consultation_fee_str,
-                      :on => :update,
-                      :with => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
-                      :message => "^Consultation fee doesn't seem to be a valid amount",
-                      :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and p.errors["consultation_fee_str"].nil? and !p.basic_profile }
-                      
-  validates_format_of :hourly_rate_str,
-                      :on => :update,
-                      :with => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
-                      :message => "^Hourly rate doesn't seem to be a valid amount",
-                      :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and p.errors["hourly_rate_str"].nil? and !p.basic_profile }
+  # validates_presence_of :consultation_fee_str,
+  #                       :message => "^Consultation fee can't be blank",
+  #                       :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and !p.new_record? and !p.basic_profile }
+  # 
+  # validates_presence_of :hourly_rate_str,
+  #                       :message => "^Hourly rate can't be blank",
+  #                       :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and !p.new_record? and !p.basic_profile }
+  # 
+  # validates_format_of :consultation_fee_str,
+  #                     :on => :update,
+  #                     :with => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
+  #                     :message => "^Consultation fee doesn't seem to be a valid amount",
+  #                     :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and p.errors["consultation_fee_str"].nil? and !p.basic_profile }
+  #                     
+  # validates_format_of :hourly_rate_str,
+  #                     :on => :update,
+  #                     :with => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
+  #                     :message => "^Hourly rate doesn't seem to be a valid amount",
+  #                     :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and p.errors["hourly_rate_str"].nil? and !p.basic_profile }
 
   attr_accessor :hourly_rate_str, :consultation_fee_str, :basic_profile                    
   
@@ -63,6 +67,8 @@ class Partner < ActiveRecord::Base
     self.claim_types.clear
     self.sponsor_types.clear
     self.npln_additional_areas.clear
+    self.jurisdictions.clear
+    self.geo_areas.clear
 
     self.pal_additional_areas << params[:pal_additional_areas].collect{|p| PalAdditionalArea[p]} if params[:pal_additional_areas]
     self.pal_participation_levels << params[:pal_participation_levels].collect{|p| PalParticipationLevel[p]} if params[:pal_participation_levels]
@@ -75,6 +81,8 @@ class Partner < ActiveRecord::Base
     self.claim_types << params[:claim_types].collect{|p| ClaimType[p]} if params[:claim_types]
     self.sponsor_types << params[:sponsor_types].collect{|p| SponsorType[p]} if params[:sponsor_types]
     self.npln_additional_areas << params[:npln_additional_areas].collect{|p| NplnAdditionalArea[p]} if params[:npln_additional_areas]
+    self.jurisdictions << params[:jurisdictions].collect{|p| Jurisdiction[p]} if params[:jurisdictions]
+    self.geo_areas << params[:geo_areas].collect{|p| GeoArea[p]} if params[:geo_areas]
   end
 
   protected

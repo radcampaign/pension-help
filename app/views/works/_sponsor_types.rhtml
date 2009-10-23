@@ -2,12 +2,39 @@
 
 <p>
 <table class="form">
-	<% for item in SponsorType.find(:all) %>
+	<% conditions = [] %>
+	<% conditions << "use_for_npln=1" if @partner.wants_npln %>
+	<% conditions << "use_for_pal=1" if @partner.wants_pal %>
+	<% conditions << "use_for_help=1" if @partner.wants_help %>
+	<% conditions << "use_for_search=1" if @partner.wants_search %>
+	<% for item in SponsorType.find(:all, :conditions => conditions.join(" OR "), :order => :position) %>
 		<tr>
-			<th><%= check_box_tag("sponsor_types[]", item.name, partner.sponsor_types.collect(&:name).include?(item.name)) %></th>
-			<td><%= item.name %> 
-				<%= p.text_field :sponsor_type_other if item.name.match('Other') %>
-			</td>
+			<% if item.name.match("Single-employer") %>
+				<td colspan="2"><strong>Private Entities</strong></td></tr>
+				<tr>
+			<% end %>
+			<% if item.name.match("Pension Benefit Guaranty") %>
+				<td colspan="2"><strong>Federal Government Entities</strong></td></tr>
+				<tr>
+			<% end %>
+				<!-- <th>&nbsp;</th>
+				<td>
+					<%#= check_box_tag("sponsor_types[]", item.name, partner.sponsor_types.collect(&:name).include?(item.name)) %>
+					<%#= item.heading? ? "<strong>#{item.name}</strong>" : item.name %>
+					<%#= p.text_field :sponsor_type_other if item.name.match('Other') %>
+				</td> -->
+				<% if item.name.match("State") or item.name.match("Other") or item.name.match("Federal") %>
+					<th>
+							<%= check_box_tag("sponsor_types[]", item.name, partner.sponsor_types.collect(&:name).include?(item.name)) %>
+					</th>
+					<td>
+				<% else %>
+					<th>&nbsp;</th>
+					<td><%= check_box_tag("sponsor_types[]", item.name, partner.sponsor_types.collect(&:name).include?(item.name)) %>
+				<% end %>
+					<%= item.name %>
+					<%= p.text_field :sponsor_type_other if item.name.match('Other') %>
+				</td>
 		</tr>
 	<% end -%>	
 </table>

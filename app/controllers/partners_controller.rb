@@ -121,8 +121,9 @@ class PartnersController < ApplicationController
     end
 
     if is_ok
-      flash[:notice] = 'Information was succesfully updated.'
-      redirect_to :action => :survey, :id => @partner.id
+      flash[:notice] = 'Thank you. Your profile was succesfully updated.'
+      redirect_to edit_partner_path(@partner)
+      # redirect_to :action => :survey, :id => @partner.id
     else
       render :action => 'survey'
     end

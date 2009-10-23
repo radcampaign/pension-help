@@ -23,15 +23,18 @@
 
 <div id="networkForm">
   <%= render :partial => 'works/plan_types', :locals => {:partner => @partner, :p => p} if @partner.wants_npln or @partner.wants_help or @partner.wants_pal %>
-  <%= render :partial => 'works/sponsor_types', :locals => {:partner => @partner, :p => p} if @partner.wants_npln or @partner.wants_help or @partner.wants_pal %>
-  <%= render :partial => 'works/professions', :locals => {:partner => @partner, :p => p} if @partner.wants_help or @partner.wants_search %>
+  <%= render :partial => 'works/sponsor_types', :locals => {:partner => @partner, :p => p} %>
 	<%#= render :partial => 'works/affiliations', :locals => {:partner => @partner, :p => p} if @partner.wants_npln or @partner.wants_help or @partner.wants_search %>
   <%= render :partial => 'works/npln_info', :locals => {:partner => @partner, :p => p} if @partner.wants_npln %>
-  <%= render :partial => 'works/aaa_info', :locals => {:partner => @partner, :p => p} if @partner.wants_pal %>
+  <%= render :partial => 'works/pal_info', :locals => {:partner => @partner, :p => p} if @partner.wants_pal %>
 	<%= render :partial => 'works/npln_levels', :locals => {:partner => @partner, :p => p} if @partner.wants_npln %>
 	<%= render :partial => 'works/help_info', :locals => {:partner => @partner, :p => p} if @partner.wants_help %>
+	<%= render :partial => 'works/geo_areas', :locals => {:partner => @partner, :p => p} if @partner.wants_search %>
 	<%= render :partial => 'works/search_info', :locals => {:partner => @partner, :p => p} if @partner.wants_search %>
 	<%= render :partial => 'works/referrals', :locals => {:partner => @partner, :p => p} if @partner.wants_npln or @partner.wants_pal %>
+	<%= render :partial => 'works/jurisdictions', :locals => {:partner => @partner, :p => p} if @partner.wants_npln %>
+  <%= render :partial => 'works/aaa_info', :locals => {:partner => @partner, :p => p} if @partner.wants_pal %>
+  <%= render :partial => 'works/professions', :locals => {:partner => @partner, :p => p} if @partner.wants_search %>
 	<%= render :partial => 'works/additional_info', :locals => {:partner => @partner, :p => p} if @partner.wants_npln or @partner.wants_pal or @partner.wants_help or @partner.wants_search %></div>
 
 <%= submit_tag 'Update' %>

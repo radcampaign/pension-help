@@ -1,0 +1,24 @@
+<p class="works_question">I am (my firm is) admitted to practice law in the following jurisdictions (check all that apply):</p>
+
+<p>
+<table class="form">
+	<% count = Jurisdiction.count() %>
+	<table>
+		<tr>
+			<td>
+				<table>
+				<% for item in Jurisdiction.find(:all, :order => :position ) %>
+					<tr>
+						<th><%= check_box_tag("jurisdictions[]", item.name, partner.jurisdictions.collect(&:name).include?(item.name), :id => "jurisdiction_#{item.id}") %></th>
+						<td><%= content_tag(:label, item.name, :for => "jurisdiction_#{item.id}") %>
+						</td>
+					</tr>
+					<%= '</table></td><td style="vertical-align:top"><table>' if [17,34,50].include? item.position %>
+				<% end -%>
+			</td>
+		</tr>
+	</table>
+</table>
+</p>
+
+<p>&nbsp;</p>

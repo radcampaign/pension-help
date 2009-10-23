@@ -1,0 +1,37 @@
+<p class="works_question">I have experience in the following additional areas:</p>
+
+<p>
+<table class="form">
+	<% for item in PalAdditionalArea.find(:all, :order => :position) %>
+		<tr>
+			<th><%= check_box_tag("pal_additional_areas[]", item.name, partner.pal_additional_areas.collect(&:name).include?(item.name)) %></th>
+			<td><%= item.name %> 
+			<%= p.text_field :pal_additional_area_other if item.name.match('Other') %>
+			</td>
+		</tr>
+	<% end -%>
+	
+</table>
+</p>
+
+<p>&nbsp;</p>
+
+<p class="works_question">I am willing to participate at the following levels (check all that apply):</p>
+
+<p>
+<table class="form">
+	<% for item in PalParticipationLevel.find(:all) %>
+		<tr>
+			<th><%= check_box_tag("pal_participation_levels[]", item.name, partner.pal_participation_levels.collect(&:name).include?(item.name)) %></th>
+			<td><%= item.name %> 
+			<%= p.text_field :pal_participation_level_other if item.name.match('Other') %>
+			</td>
+		</tr>
+	<% end -%>
+	
+</table>
+</p>
+
+<p>&nbsp;</p>
+
+<%= hidden_field_tag "partner[wants_pal]", true %>

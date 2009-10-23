@@ -1,0 +1,29 @@
+<p class="works_question">I am most likely to have information about plans in the following geographic areas (check all that apply):</p>
+<style type="text/css" media="screen">
+	.column {float:left; margin-right:2em;}
+</style>
+<div class="column">
+		<% for item in GeoArea.find(:all, :order => :position ) %>
+					<%= content_tag(:h2, 'New England') if item.name.match("Connecticut")%>
+					<%= content_tag(:h2, '<br/>Mid-Atlantic') if item.name.match("Delaware")%>
+					<% if item.name.match("Alabama") %>
+						</div><div class="column">
+						<%= content_tag(:h2, 'South') %>
+					<% end %>
+					<% if item.name.match("Indiana") %>
+						</div><div class="column">
+						<%= content_tag(:h2, 'Midwest') %>
+					<% end %>
+					<% if item.name.match("Alaska")%>
+						</div><div class="column">
+						<%= content_tag(:h2, 'Northwest') %>
+					<% end %>
+					<%= content_tag(:h2, '<br/>Southwest') if item.name.match("Arizona")%>
+					<div>
+						<%= check_box_tag("geo_areas[]", item.name, partner.geo_areas.collect(&:name).include?(item.name), :id => "geo_#{item.id}") %>
+						<%= content_tag(:label, item.name, :for => "geo_#{item.id}") %>
+					</div>
+		<% end %>
+</div>
+
+<p style="clear:both;">&nbsp;</p>
