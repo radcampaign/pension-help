@@ -67,13 +67,15 @@ class PartnersController < ApplicationController
   # PUT /partners/1.xml
   def update
     @partner = Partner.find(params[:id])
-    @partner.basic_profile = true    # we're only editing basic info here, not extended partner info (see update_survey)
+    @partner.basic_profile = false    # we're only editing basic info here, not extended partner info (see update_survey)
     is_ok = true
     begin
       Partner.transaction do
         #we want to 'validate' both models
         @partner.user.attributes = params[:user]
         @partner.attributes = params[:partner]
+        @partner.update_multiple_answer_questions(params)
+        @partner.update_attributes!(params[:partner])    
         @partner.save!
         @partner.user.save!
       end

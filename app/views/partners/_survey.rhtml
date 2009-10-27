@@ -1,0 +1,64 @@
+<br/>
+<style>.fieldWithErrors {
+    padding: 2px;
+    background-color: red;
+    display: table;
+}</style>
+<% if (not @partner.nil? and not @partner.errors.empty?) -%>
+    <div class="warningBox">
+      <table class="warningTable">
+        <tr class="warningRow">
+          <td class="warningCell2">
+            <% @partner.errors.full_messages.each do |msg| -%>
+                <p><%= msg %></p>
+            <% end -%>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <br/>
+<% end -%>
+
+<h2>Be a part of our nationwide pension assistance network!</h2>
+
+<p>Please provide these additional details so that we may properly refer potential clients who are seeking specific
+  pension counseling legal advice.</p>
+
+<%# form_for :partner, @partner, :id=>'questions_form', :url => {:action => 'update_survey', :id => @partner}, :html=> {:id=>'questions_from'} do |p| %>
+
+<div id="networkForm">
+  <div id="plan_types"></div>
+    <%# render :partial => 'works/plan_types', :locals => {:partner => @partner, :p => p} if @partner.wants_npln or @partner.wants_help or @partner.wants_pal %>
+
+  <div id="sponsor_types"></div>
+    <%# render :partial => 'works/sponsor_types', :locals => {:partner => @partner, :p => p} if @partner.wants_npln or @partner.wants_help or @partner.wants_pal %>
+
+
+
+  <%#  render :partial => 'works/affiliations', :locals => {:partner => @partner, :p => p} if @partner.wants_npln or @partner.wants_help or @partner.wants_search %>
+  <div id="npln_info"></div>
+    <%# render :partial => 'works/npln_info', :locals => {:partner => @partner, :p => p} if @partner.wants_npln %>
+  <div id="pal_info"></div>
+  <%# render :partial => 'works/pal_info', :locals => {:partner => @partner, :p => p} if @partner.wants_pal %>
+  <div id="npln_levels"></div>
+    <%# render :partial => 'works/npln_levels', :locals => {:partner => @partner, :p => p} if @partner.wants_npln %>
+  <div id="help_info"></div>
+    <%# render :partial => 'works/help_info', :locals => {:partner => @partner, :p => p} if @partner.wants_help %>
+  <div id="geo_areas"></div>
+    <%# render :partial => 'works/geo_areas', :locals => {:partner => @partner, :p => p} if @partner.wants_search %>
+  <div id="search_info"></div>
+    <%# render :partial => 'works/search_info', :locals => {:partner => @partner, :p => p} if @partner.wants_search %>
+  <div id="referrals"></div>
+    <%# render :partial => 'works/referrals', :locals => {:partner => @partner, :p => p} if @partner.wants_npln or @partner.wants_pal %>
+  <div id="jurisdictions"></div>
+    <%# render :partial => 'works/jurisdictions', :locals => {:partner => @partner, :p => p} if @partner.wants_npln %>
+  <div id="aaa_info"></div>
+    <%# render :partial => 'works/aaa_info', :locals => {:partner => @partner, :p => p} if @partner.wants_pal %>
+  <div id="professions"></div>
+    <%# render :partial => 'works/professions', :locals => {:partner => @partner, :p => p} if @partner.wants_help or @partner.wants_search %>
+  <div id="additional_info"></div>
+    <%# render :partial => 'works/additional_info', :locals => {:partner => @partner, :p => p} if @partner.wants_npln or @partner.wants_pal or @partner.wants_help or @partner.wants_search %></div>
+
+<%= submit_tag 'Update' %>
+
+<%# end -%>
