@@ -17,7 +17,6 @@ class AddNewPensionWorksFields < ActiveRecord::Migration
     execute "alter table sponsor_types add column use_for_pal tinyint(1) default 1"
     execute "alter table sponsor_types add column use_for_pal_only tinyint(1) default 0"
     execute "update sponsor_types set name='Federal Government entities', use_for_pal_only=1 where name='Federal government'"
-    execute "delete from partners_sponsor_types where sponsor_type_id in (select id from sponsor_types where selectable=0)"
     execute "update sponsor_types set name='Religious Institution' where name='Church plans'"
     execute "update sponsor_types set position = position + 1 where position > 3"
     execute "update sponsor_types set position=4 where name='Religious Institution'"
@@ -45,7 +44,6 @@ class AddNewPensionWorksFields < ActiveRecord::Migration
 
   def self.down
     remove_column :plan_types, :use_for_pal
-    remove_column :sponsor_types, :selectable
     remove_column :sponsor_types, :heading  
   end
 end
