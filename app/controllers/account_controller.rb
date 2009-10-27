@@ -10,6 +10,16 @@ class AccountController < ApplicationController
 
   def login
     return unless request.post?
+
+    tmp_user = User.authenticate(params[:login], params[:password])
+
+    if (tmp_user != :false) && !tmp_user.nil?
+      if tmp_user.is_random_pass
+        redirect_to edit_password_path(tmp_user)
+        return
+      end
+    end
+
     self.current_user = User.authenticate(params[:login], params[:password])
     if logged_in?
       if params[:remember_me] == "1"
