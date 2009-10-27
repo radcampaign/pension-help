@@ -25,7 +25,6 @@
   pension counseling legal advice.</p>
 
 <% form_for :partner, @partner, :url => {:action => 'update_survey', :id => @partner} do |p| %>
-                                fdsfdsfds
     <div id="networkForm">
       <%= render :partial => 'works/plan_types', :locals => {:partner => @partner, :p => p} if @partner.wants_npln or @partner.wants_help or @partner.wants_pal %>
       <%= render :partial => 'works/sponsor_types', :locals => {:partner => @partner, :p => p} %>
