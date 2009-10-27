@@ -1,8 +1,9 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :partners
-
+  map.resources :passwords
   map.resources :restrictions
-
+  map.resources :users, :has_one => [:password]
+  
   map.resources :agencies do |agency|
     agency.resources :locations
     agency.resources :plans
