@@ -192,7 +192,38 @@
        });
     }
 
-A    
+    function hideSponorsRow(row){
+        /* ORDER NPLN PAL HELP SEARCH */
+        var valuesArray = new Array(
+                jQuery("#partner_wants_npln").attr('checked'),
+                jQuery("#partner_wants_pal").attr('checked'),
+                jQuery("#partner_wants_help").attr('checked'),
+                jQuery("#partner_wants_search").attr('checked')
+                );
+       var str = jQuery(row).attr('class');
+       var regexp = new Array(
+        /use_for_npln/,
+        /use_for_pal/,
+        /use_for_help/,
+        /use_for_search/
+      );
+
+       var questionValuesArray = new Array(
+                (regexp[0].exec(str) != null ? true : false),
+                (regexp[1].exec(str) != null ? true : false),
+                (regexp[2].exec(str) != null ? true : false),
+                (regexp[3].exec(str) != null ? true : false)
+       );
+        for (var i = 0; i < 4; i++){
+            
+            if(valuesArray[i] && questionValuesArray[i]){
+                return false;
+            }
+        }
+      
+        return true;
+    }
+    
     function loadSponsorType(){    
        jQuery("#sponsor_types").html('<%= escape_javascript(render (:partial => 'works/sponsor_types', :locals => {:partner => @partner, :p => f})) %>');
        if(jQuery("#partner_wants_pal").attr('checked'))    showPalFileds(true);
