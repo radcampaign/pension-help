@@ -2,7 +2,7 @@
 <p>
 <table class="form">
 	<% for item in PlanType.find(:all) %>
-		<tr class="<%=plan_type_class_display(item).to_s %>" style="display:none;">
+		<tr class="<%=plan_type_class_display(item).to_s %>" style="display:none;" remove_on_submit="true">
 			<th><%= check_box_tag("plan_types[]", item.name, partner.plan_types.collect(&:name).include?(item.name)) %></th>
 			<td><%= item.name %> 
 			<%= p.text_field :plan_type_other if item.name.match('Other') %>

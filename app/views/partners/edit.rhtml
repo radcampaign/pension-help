@@ -8,7 +8,7 @@
 <% else %>
   <h1>Partner's Profile</h1>
 <% end %>
-<% form_for(:partner, :url => partner_path(@partner), :html => { :method => :put }) do |f| %>
+<% form_for(:partner, :url => partner_path(@partner), :html => { :method => :put, :id=>'partner_edit_form' }) do |f| %>
 
 <div id="tabs">
 	<ul>
@@ -67,6 +67,14 @@
 <script type="text/javascript">
 	jQuery(document).ready(function() {
 
+        jQuery('#partner_edit_form').submit(function(){
+           jQuery(".form tr:hidden").each(function() {
+               if(jQuery(this).attr('remove_on_submit')=='true'){
+                 jQuery(this).remove();
+               }
+           })
+        return true;
+    });
 
     jQuery("#partner_wants_npln").click(function (){
       loadPlansType(jQuery(this).attr('checked'));
@@ -99,8 +107,6 @@
       showSearchFields(jQuery(this).attr('checked'));
     });
 
-
-
 	jQuery("#a_contactInfo").click(function(){
 	  setActiveTab(0);
 
@@ -110,8 +116,6 @@
 	});
 
 	jQuery("#tabs").tabs({selected: jQuery.cookie('active_tab') ? jQuery.cookie('active_tab') : 0,spinner: 'Retrieving data...'});
-
-
       loadPlansType(true);
       loadNplnJurisdictions(true);
       loadProfessions(true);
@@ -130,13 +134,16 @@
 	    jQuery.cookie('active_tab', i);
 	}
 
+
     function showHelpFields(condition){
         jQuery(".form .use_for_help").each(function() {
           if(condition){
+            jQuery(this).attr('remove_on_submit', false);
             jQuery(this).show();
           }
           else {
            if(hideSponorsRow(this)){
+             jQuery(this).attr('remove_on_submit', true);
              jQuery(this).hide();
           } 
           }
@@ -145,10 +152,12 @@
     function showPalFileds(condition){
         jQuery(".form .use_for_pal").each(function() {
          if(condition){
+            jQuery(this).attr('remove_on_submit', false);
             jQuery(this).show();
          }
          else {
           if(hideSponorsRow(this)){
+             jQuery(this).attr('remove_on_submit', true);
              jQuery(this).hide();
           }
          }
@@ -157,10 +166,12 @@
     function showNplnFields(condition){
         jQuery(".form .use_for_npln").each(function() {
          if(condition){
+            jQuery(this).attr('remove_on_submit', false);
             jQuery(this).show();
          }
          else {
            if(hideSponorsRow(this)){
+             jQuery(this).attr('remove_on_submit', true);
              jQuery(this).hide();
           }
          }
@@ -169,11 +180,13 @@
     function showSearchFields(condition){
        jQuery(".form .use_for_search").each(function() {
         if(condition){
+           jQuery(this).attr('remove_on_submit', false);
            jQuery(this).show();
         }
         else {
           if(hideSponorsRow(this)){
-             jQuery(this).hide(); 
+             jQuery(this).attr('remove_on_submit', true);
+             jQuery(this).hide();
           }
         }
        });
@@ -207,10 +220,11 @@
                 return false;
             }
         }
+      
         return true;
     }
     
-    function loadSponsorType(){
+    function loadSponsorType(){    
        jQuery("#sponsor_types").html('<%= escape_javascript(render (:partial => 'works/sponsor_types', :locals => {:partner => @partner, :p => f})) %>');
        if(jQuery("#partner_wants_pal").attr('checked'))    showPalFileds(true);
        if(jQuery("#partner_wants_help").attr('checked'))   showHelpFields(true);

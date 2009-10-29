@@ -3,7 +3,7 @@
 <p>
 <table class="form">
 	<% for item in ReferralFee.find(:all, :order => :position ) %>
-		<tr class="<%=refferals_class_display(item).to_s %>" style="display:none;">
+		<tr class="<%=refferals_class_display(item).to_s %>" style="display:none;" remove_on_submit="true">
 			<th><%= check_box_tag("referral_fees[]", item.name, partner.referral_fees.collect(&:name).include?(item.name)) %></th>
 			<td><%= item.name %>
 				<% if item.name.match('Hourly Rate') %>
