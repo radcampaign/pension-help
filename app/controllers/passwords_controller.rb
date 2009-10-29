@@ -31,7 +31,7 @@ class PasswordsController < ApplicationController
           redirect_to :controller=> :account, :action=>:login
         }
       else
-        flash[:notice] =  "We can't find that account.  Try again."
+        flash[:notice] =  "We can't find and account matching that username and email.  Please try again."
         format.html { render :action => "new" }
       end
     end
@@ -47,7 +47,7 @@ class PasswordsController < ApplicationController
     @user.is_random_pass = false
     respond_to do |format|
       if @user.save
-        flash[:notice] = "Password has been updated."
+        flash[:notice] = "Password has been updated. Please log in using the new password."
         format.html {  redirect_to :controller=>:account, :action=>:login }
       else
         format.html { render :action => 'edit' }
