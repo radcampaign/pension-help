@@ -8,14 +8,14 @@
 	<% conditions << "use_for_help=1" # if @partner.wants_help %>
 	<% conditions << "use_for_search=1" # if @partner.wants_search %>
 	<% for item in SponsorType.find(:all, :conditions => conditions.join(" OR "), :order => :position) %>
-		<tr class="<%=sponsor_type_class_display(item).to_s %>" style="display:none;" remove_on_submit="true">
+		<tr class="<%=sponsor_type_class_display(item).to_s %>" style="display:none;">
 			<% if item.name.match("Single-employer") %>
 				<td colspan="2"><strong>Private Entities</strong></td></tr>
-				<tr class="<%=sponsor_type_class_display(item).to_s %>"  style="display:none;" remove_on_submit="true">
+				<tr class="<%=sponsor_type_class_display(item).to_s %>"  style="display:none;">
 			<% end %>
 			<% if item.name.match("Pension Benefit Guaranty") %>
 				<td colspan="2"><strong>Federal Government Entities</strong></td></tr>
-				<tr class="<%=sponsor_type_class_display(item).to_s %>"  style="display:none;" remove_on_submit="true">
+				<tr class="<%=sponsor_type_class_display(item).to_s %>"  style="display:none;">
 			<% end %>
 				<!-- <th>&nbsp;</th>
 				<td>

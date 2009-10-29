@@ -69,11 +69,11 @@
 
         jQuery('#partner_edit_form').submit(function(){
            jQuery(".form tr:hidden").each(function() {
-               if(jQuery(this).attr('remove_on_submit')=='true'){
+               if(jQuery(this).hasClass('remove_on_submit')){
                  jQuery(this).remove();
                }
            })
-        return true;
+        return false;
     });
 
     jQuery("#partner_wants_npln").click(function (){
@@ -119,7 +119,7 @@
       loadPlansType(true);
       loadNplnJurisdictions(true);
       loadProfessions(true);
-      loadGeoSearchInfo(jQuery(this).attr('checked'));
+      loadGeoSearchInfo(true);
       loadHelpInfo(true);
       loadReferrals(true);
       loadPalAaaInfo(true);
@@ -138,12 +138,12 @@
     function showHelpFields(condition){
         jQuery(".form .use_for_help").each(function() {
           if(condition){
-            jQuery(this).attr('remove_on_submit', false);
+            jQuery(this).removeClass('remove_on_submit');
             jQuery(this).show();
           }
           else {
            if(hideSponorsRow(this)){
-             jQuery(this).attr('remove_on_submit', true);
+             jQuery(this).addClass('remove_on_submit');
              jQuery(this).hide();
           } 
           }
@@ -152,12 +152,12 @@
     function showPalFileds(condition){
         jQuery(".form .use_for_pal").each(function() {
          if(condition){
-            jQuery(this).attr('remove_on_submit', false);
+            jQuery(this).removeClass('remove_on_submit');
             jQuery(this).show();
          }
          else {
           if(hideSponorsRow(this)){
-             jQuery(this).attr('remove_on_submit', true);
+             jQuery(this).addClass('remove_on_submit');
              jQuery(this).hide();
           }
          }
@@ -166,12 +166,12 @@
     function showNplnFields(condition){
         jQuery(".form .use_for_npln").each(function() {
          if(condition){
-            jQuery(this).attr('remove_on_submit', false);
+            jQuery(this).removeClass('remove_on_submit');
             jQuery(this).show();
          }
          else {
            if(hideSponorsRow(this)){
-             jQuery(this).attr('remove_on_submit', true);
+             jQuery(this).addClass('remove_on_submit');
              jQuery(this).hide();
           }
          }
@@ -180,12 +180,12 @@
     function showSearchFields(condition){
        jQuery(".form .use_for_search").each(function() {
         if(condition){
-           jQuery(this).attr('remove_on_submit', false);
+           jQuery(this).removeClass('remove_on_submit');
            jQuery(this).show();
         }
         else {
           if(hideSponorsRow(this)){
-             jQuery(this).attr('remove_on_submit', true);
+             jQuery(this).addClass('remove_on_submit');
              jQuery(this).hide();
           }
         }
@@ -201,18 +201,18 @@
                 jQuery("#partner_wants_search").attr('checked')
                 );
        var str = jQuery(row).attr('class');
-       var regexp = new Array(
-        /use_for_npln/,
-        /use_for_pal/,
-        /use_for_help/,
-        /use_for_search/
+       var classNames = new Array(
+        "use_for_npln",
+        "use_for_pal",
+        "use_for_help",
+        "use_for_search"
       );
 
        var questionValuesArray = new Array(
-                (regexp[0].exec(str) != null ? true : false),
-                (regexp[1].exec(str) != null ? true : false),
-                (regexp[2].exec(str) != null ? true : false),
-                (regexp[3].exec(str) != null ? true : false)
+                (jQuery(row).hasClass(classNames[0])),
+                (jQuery(row).hasClass(classNames[1])),
+                (jQuery(row).hasClass(classNames[2])),
+                (jQuery(row).hasClass(classNames[3]))
        );
         for (var i = 0; i < 4; i++){
             
@@ -220,7 +220,6 @@
                 return false;
             }
         }
-      
         return true;
     }
     
