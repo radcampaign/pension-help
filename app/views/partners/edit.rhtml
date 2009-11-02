@@ -14,7 +14,12 @@
 		<li><a href ="#otherInfo" id="a_otherInfo">Professional Information and Experience</a></li>
 	</ul>
 	<div id="otherInfo">
+      <div id="otherInfoNoSelection" style="display:none;">
+       <h2>On the Contact Information tab, please select one or more networks to join by checking the appropriate boxes.</h2>
+      </div>
+      <div id="otherInfoSelection">
       <%= render :partial => 'survey', :id => @partner, :locals => {:partner => @partner, :p => f}%>
+      </div>
 	</div>
 	</ul>
 	<div id="contactInfo">
@@ -78,6 +83,7 @@
       loadReferrals(jQuery(this).attr('checked'));
       loadAdditionalInfo(jQuery(this).attr('checked'));
       showNplnFields(jQuery(this).attr('checked'));
+      checkBoxes();
     });
 
     jQuery("#partner_wants_pal").click(function (){
@@ -86,6 +92,7 @@
       loadPalAaaInfo(jQuery(this).attr('checked'));
       loadAdditionalInfo(jQuery(this).attr('checked'));
       showPalFileds(jQuery(this).attr('checked'));
+      checkBoxes();
     });
 
     jQuery("#partner_wants_help").click(function (){
@@ -94,6 +101,7 @@
       loadHelpInfo((jQuery(this).attr('checked')));
       loadAdditionalInfo(jQuery(this).attr('checked'));
       showHelpFields(jQuery(this).attr('checked'));
+      checkBoxes();
     });
 
     jQuery("#partner_wants_search").click(function (){
@@ -101,6 +109,7 @@
       loadGeoSearchInfo(jQuery(this).attr('checked'));
       loadAdditionalInfo(jQuery(this).attr('checked'));
       showSearchFields(jQuery(this).attr('checked'));
+      checkBoxes();
     });
 
 	jQuery("#a_contactInfo").click(function(){
@@ -126,6 +135,18 @@
     // var asr = new AdminSaveReminder();
     // asr.addObserverToLinkButtons([], ['commit']);
    });
+
+    function checkBoxes(){
+             if(!(jQuery("#partner_wants_npln").attr('checked') ||  jQuery("#partner_wants_pal").attr('checked') || jQuery("#partner_wants_help").attr('checked') || jQuery("#partner_wants_search").attr('checked'))){
+               jQuery("#otherInfoNoSelection").show();
+               jQuery("#otherInfoSelection").hide();
+             }
+        else{
+               jQuery("#otherInfoNoSelection").hide();
+               jQuery("#otherInfoSelection").show();
+             }
+    }
+
     function setActiveTab(i){
 	    jQuery.cookie('active_tab', i);
 	}
