@@ -46,6 +46,7 @@ class Admin::NewsController < ApplicationController
   def new
     @news = News.new
     @news.is_internal = params[:news].blank?
+    @news.archive_date = Time.now.advance(:months => 3)
   end
 
   def create
