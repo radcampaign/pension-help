@@ -9,7 +9,7 @@ class UpdatePensionHelpSponsorTypes < ActiveRecord::Migration
     execute "alter table sponsor_types add column use_for_npln tinyint(1) default 1"
     execute "alter table sponsor_types add column use_for_help tinyint(1) default 1"
     execute "alter table sponsor_types drop column use_for_pal_only"
-    execute "update sponsor_types set use_for_npln=0, use_for_help=0, use_for_search=0 where name like 'Federal Government%'"
+    execute "update sponsor_types set use_for_npln=0, use_for_help=0, use_for_search=0 where name like 'Federal government%'"
     
     add_column :partners, :willing_to_provide_plan_info, :boolean
   end

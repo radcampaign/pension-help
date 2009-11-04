@@ -16,13 +16,13 @@ class AddNewPensionWorksFields < ActiveRecord::Migration
     
     execute "alter table sponsor_types add column use_for_pal tinyint(1) default 1"
     execute "alter table sponsor_types add column use_for_pal_only tinyint(1) default 0"
-    execute "update sponsor_types set name='Federal Government entities', use_for_pal_only=1 where name='Federal government'"
+    execute "update sponsor_types set name='Federal government entities', use_for_pal_only=1 where name='Federal government'"
     execute "update sponsor_types set name='Religious Institution' where name='Church plans'"
     execute "update sponsor_types set position = position + 1 where position > 3"
     execute "update sponsor_types set position=4 where name='Religious Institution'"
     execute "update sponsor_types set name='Defense Finance and Accounting Service', position=9, use_for_pal=0  where name='Military'"
     execute "update sponsor_types set name='Railroad Retirement Board', position=10, use_for_pal=0 where name='Railroad'"
-    execute "update sponsor_types set name='State, county and local plans', position=11 where name='State, county and other government plans'"
+    execute "update sponsor_types set name='State, county and local government entities', position=11 where name='State, county and other government plans'"
     execute "update sponsor_types set position=12 where name='Other:'"
     execute "insert into sponsor_types (name, position, use_for_pal) values 
              ('Pension Benefit Guaranty Corporation', 6, 0),
