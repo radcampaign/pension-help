@@ -131,6 +131,94 @@
       loadAdditionalInfo(true);
       loadSponsorType();
       checkBoxes();
+      checkAllRegions();
+      checkNationwide();
+
+
+
+      var geo_name = new Array(
+        "geo_northwest",
+        "geo_england",
+        "geo_atlantic",
+        "geo_southwest",
+        "geo_south",
+        "geo_midwest"
+      );
+
+       jQuery("#geo_codes INPUT[type='checkbox']").each(function(){
+             jQuery(this).click(function(){
+                
+                if(!jQuery(this).attr('checked')){
+                 for (var i = 0; i < geo_name.length; i++){
+                    if(jQuery(this).hasClass(geo_name[i])){
+                      jQuery("#"+geo_name[i]).attr('checked', false);
+                      jQuery("#geo_nationwide").attr('checked', false);
+                    }
+
+                }
+                } else {
+                  for (var i = 0; i < geo_name.length; i++){
+                    if(jQuery(this).hasClass(geo_name[i])){
+                          var  if_all_selected  = true;
+                             jQuery("."+geo_name[i]).each(function(){
+                                 if_all_selected = if_all_selected && jQuery(this).attr('checked');
+
+                             });
+                         jQuery("#"+geo_name[i]).attr('checked', if_all_selected);
+                         checkNationwide();
+                        }
+                    }
+
+                }
+             });
+       });
+
+       jQuery("#geo_nationwide").click(function(){        
+          jQuery("#geo_codes INPUT[type='checkbox']").attr('checked', jQuery(this).attr('checked'));
+       });
+
+        for (var i = 0; i < geo_name.length; i++){
+        jQuery("#"+geo_name[i]).click(function(){
+          jQuery("#geo_codes ."+this.id).attr('checked', jQuery(this).attr('checked'));
+          checkNationwide();
+         });
+        }
+
+    function checkNationwide(){
+       var geo_name = new Array(
+        "geo_northwest",
+        "geo_england",
+        "geo_atlantic",
+        "geo_southwest",
+        "geo_south",
+        "geo_midwest"
+      );
+       var is_nationwide_all= true;
+       for (var i = 0; i < geo_name.length; i++){
+             is_nationwide_all = is_nationwide_all &&  jQuery("#"+geo_name[i]).attr('checked');
+      }
+      jQuery("#geo_nationwide").attr('checked', is_nationwide_all);
+    }
+    function checkAllRegions(){
+      var geo_name = new Array(
+        "geo_northwest",
+        "geo_england",
+        "geo_atlantic",
+        "geo_southwest",
+        "geo_south",
+        "geo_midwest"
+      );
+      var if_all_selected = true;
+        for (var i = 0; i < geo_name.length; i++){
+           jQuery("."+geo_name[i]).each(function(){
+            if_all_selected = if_all_selected && jQuery(this).attr('checked');
+            });
+           jQuery("#"+geo_name[i]).attr('checked', if_all_selected);
+         }
+    }
+
+
+    
     /*Add 'save reminder' to links and buttons */
     // temporarily removing due to some bugs that crop up in IE
     // var asr = new AdminSaveReminder();
@@ -374,6 +462,8 @@
                jQuery("#additional_info").html('<%= escape_javascript(render (:partial => 'works/additional_info', :locals => {:partner => @partner, :p => f})) %>');
             }
          }
-     };
+     }
+
+
 </script>
 <% end %>
