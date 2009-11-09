@@ -67,13 +67,15 @@
 
 <script type="text/javascript">
 	jQuery(document).ready(function() {
-
         jQuery('#partner_edit_form').submit(function(){
            jQuery(".form tr:hidden").each(function() {
                if(jQuery(this).hasClass('remove_on_submit')){
                  jQuery(this).remove();
                }
-           })
+           });
+        if(!jQuery("#partner_wants_search").attr('checked')){
+            jQuery("#geo_areas").remove();
+        }
         return true;
     });
 
@@ -144,7 +146,7 @@
         "geo_south",
         "geo_midwest"
       );
-
+ 
        jQuery("#geo_codes INPUT[type='checkbox']").each(function(){
              jQuery(this).click(function(){
                 
@@ -424,16 +426,14 @@
          if(!condition){
             if(!jQuery("#partner_wants_search").attr('checked')){
                  jQuery("#search_info").html('');
-                 jQuery("#geo_areas").html('');
+                 jQuery("#geo_areas").hide();
             }
          }
          else if(jQuery("#partner_wants_search").attr('checked')){
           if(jQuery("#search_info").html()==''){
               jQuery("#search_info").html('<%= escape_javascript(render (:partial => 'works/search_info', :locals => {:partner => @partner, :p => f})) %>');
           }
-          if(jQuery("#geo_areas").html()==''){
-           jQuery("#geo_areas").html('<%= escape_javascript(render (:partial => 'works/geo_areas', :locals => {:partner => @partner, :p => f})) %>');
-          }
+           jQuery("#geo_areas").show();
          }
      };
   /* referrals  */
