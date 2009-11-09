@@ -308,6 +308,11 @@ ol, blockquote {
 
 /* Misc */
 
+.nationwide  {
+   font-size: 1.1em;
+   font-weight: normal;
+   color: #c00;
+}
 .reqnote {
 	color:#ff0000;
 }
