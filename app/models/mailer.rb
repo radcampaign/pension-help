@@ -66,7 +66,7 @@ class Mailer < ActionMailer::Base
   end
 
   def user_application_confirmation(partner)
-    @recipients = 'dan@freeportmetrics.com'
+    @recipients = partner.user.email
     @from = EMAIL_FROM
     @subject = "Thank for joining our nationwide pension assistance network"
     body["username"] = partner.user.login unless partner.user.nil?

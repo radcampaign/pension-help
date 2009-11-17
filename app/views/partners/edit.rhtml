@@ -332,7 +332,7 @@
     }
     
     function loadSponsorType(){    
-       jQuery("#sponsor_types").html('<%= escape_javascript(render (:partial => 'works/sponsor_types', :locals => {:partner => @partner, :p => f})) %>');
+       jQuery("#sponsor_types").html('<%= escape_javascript(render(:partial => 'works/sponsor_types', :locals => {:partner => @partner, :p => f})) %>');
        if(jQuery("#partner_wants_pal").attr('checked'))    showPalFileds(true);
        if(jQuery("#partner_wants_help").attr('checked'))   showHelpFields(true);
        if(jQuery("#partner_wants_npln").attr('checked'))   showNplnFields(true);
@@ -348,7 +348,7 @@
          }
          else  if((jQuery('#partner_wants_npln').attr('checked') || jQuery("#partner_wants_help").attr('checked') || jQuery("#partner_wants_pal").attr('checked'))){
              if(jQuery("#plan_types").html()==''){
-               jQuery("#plan_types").html('<%= escape_javascript(render (:partial => 'works/plan_types', :locals => {:partner => @partner, :p => f})) %>');
+               jQuery("#plan_types").html('<%= escape_javascript(render(:partial => 'works/plan_types', :locals => {:partner => @partner, :p => f})) %>');
             }
          }
      };
@@ -361,7 +361,7 @@
          }
          else if((jQuery("#partner_wants_help").attr('checked') || jQuery("#partner_wants_search").attr('checked'))){
              if(jQuery("#professions").html()==''){
-                  jQuery("#professions").html('<%= escape_javascript(render (:partial => 'works/professions', :locals => {:partner => @partner, :p => f})) %>');
+                  jQuery("#professions").html('<%= escape_javascript(render(:partial => 'works/professions', :locals => {:partner => @partner, :p => f})) %>');
              }
          }
      };
@@ -378,13 +378,13 @@
          else  if(jQuery("#partner_wants_npln").attr('checked')){
 
            if(jQuery("#npln_info").html().replace('\n','')==''){
-             jQuery("#npln_info").html('<%= escape_javascript(render (:partial => 'works/npln_info', :locals => {:partner => @partner, :p => f})) %>');
+             jQuery("#npln_info").html('<%= escape_javascript(render(:partial => 'works/npln_info', :locals => {:partner => @partner, :p => f})) %>');
          }
            if(jQuery("#npln_levels").html()==''){
-             jQuery("#npln_levels").html('<%= escape_javascript(render (:partial => 'works/npln_levels', :locals => {:partner => @partner, :p => f})) %>');
+             jQuery("#npln_levels").html('<%= escape_javascript(render(:partial => 'works/npln_levels', :locals => {:partner => @partner, :p => f})) %>');
            }
            if(jQuery("#jurisdictions").html()==''){
-             jQuery("#jurisdictions").html('<%= escape_javascript(render (:partial => 'works/jurisdictions', :locals => {:partner => @partner, :p => f})) %>');
+             jQuery("#jurisdictions").html('<%= escape_javascript(render(:partial => 'works/jurisdictions', :locals => {:partner => @partner, :p => f})) %>');
            }
 
          }
@@ -399,10 +399,10 @@
          }
          else  if(jQuery("#partner_wants_pal").attr('checked')){
              if(jQuery("#aaa_info").html()==''){
-                    jQuery("#aaa_info").html('<%= escape_javascript(render (:partial => 'works/aaa_info', :locals => {:partner => @partner, :p => f})) %>');
+                    jQuery("#aaa_info").html('<%= escape_javascript(render(:partial => 'works/aaa_info', :locals => {:partner => @partner, :p => f})) %>');
              }
              if(jQuery("#pal_info").html()=='') {
-                    jQuery("#pal_info").html('<%= escape_javascript(render (:partial => 'works/pal_info', :locals => {:partner => @partner, :p => f})) %>');
+                    jQuery("#pal_info").html('<%= escape_javascript(render(:partial => 'works/pal_info', :locals => {:partner => @partner, :p => f})) %>');
 
             }
          }
@@ -417,7 +417,7 @@
          }
          else if(jQuery("#partner_wants_help").attr('checked')){
              if(jQuery("#help_info").html()==''){
-                jQuery("#help_info").html('<%= escape_javascript(render (:partial => 'works/help_info', :locals => {:partner => @partner, :p => f})) %>');
+                jQuery("#help_info").html('<%= escape_javascript(render(:partial => 'works/help_info', :locals => {:partner => @partner, :p => f})) %>');
             }
          }
      };
@@ -431,7 +431,7 @@
          }
          else if(jQuery("#partner_wants_search").attr('checked')){
           if(jQuery("#search_info").html()==''){
-              jQuery("#search_info").html('<%= escape_javascript(render (:partial => 'works/search_info', :locals => {:partner => @partner, :p => f})) %>');
+              jQuery("#search_info").html('<%= escape_javascript(render(:partial => 'works/search_info', :locals => {:partner => @partner, :p => f})) %>');
           }
            jQuery("#geo_areas").show();
          }
@@ -445,7 +445,7 @@
          }
          else if((jQuery("#partner_wants_pal").attr('checked') || jQuery("#partner_wants_npln").attr('checked'))){
             if(jQuery("#referrals").html()==''){
-                jQuery("#referrals").html('<%= escape_javascript(render (:partial => 'works/referrals', :locals => {:partner => @partner, :p => f})) %>');
+                jQuery("#referrals").html('<%= escape_javascript(render(:partial => 'works/referrals', :locals => {:partner => @partner, :p => f})) %>');
             }
          }
      };
@@ -459,7 +459,7 @@
          }
          else if((jQuery('#partner_wants_npln').attr('checked') || jQuery('#partner_wants_search').attr('checked') || jQuery("#partner_wants_help").attr('checked') || jQuery("#partner_wants_pal").attr('checked'))){
              if(jQuery("#additional_info").html()==''){
-               jQuery("#additional_info").html('<%= escape_javascript(render (:partial => 'works/additional_info', :locals => {:partner => @partner, :p => f})) %>');
+               jQuery("#additional_info").html('<%= escape_javascript(render(:partial => 'works/additional_info', :locals => {:partner => @partner, :p => f})) %>');
             }
          }
      }
