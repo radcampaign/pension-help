@@ -1,17 +1,16 @@
 <p id="plan_list_container">Please select the plan that you're interested in: 
-<select name="counseling[selected_plan_id]" id="selected_plan" onchange="new Ajax.Request('/help/get_employee_list', {
+<select name="counseling[selected_plan_id]" id="selected_plan" onchange="new Ajax.Request('/help/get_after_plan_selection_questions', {
 							asynchronous:false, 
 							evalScripts:true, 
 							parameters:'plan='+escape(this.value),
 							onSuccess: function(response) {
-								$('employee_list_container').update(response.responseText);
+								$('question_container').update(response.responseText);
 							},
-              onComplete: validateStep()
+                            onComplete: validateStep()
 							})">
 	<option value=""></option>
 	<%= options_for_select @matching_agencies.collect{|p| [p.name, p.id]} %>
-	<option value="IDK">I'm not sure</option>
-    <option value="IDK2">I'm not know</option>
+    <option value="IDK">I don't know</option>
     <option value="OTHER">Other</option>
 </select></p>
 

@@ -117,9 +117,16 @@ class HelpController < ApplicationController
     @counseling = update_counseling
     @counseling.step = 1
     @matching_agencies = @counseling.matching_agencies.collect{|a| a.plans.select{|p| p.is_active}}.flatten.sort{|a, b| a.name <=> b.name} # find plans for state/county/local
-    render :update do |page|
-      page.replace_html 'q5', :partial => 'available_plans'
-      page.visual_effect :highlight, 'q5'
+    if @matching_agencies.blank?
+      render :update do |page|
+        page.replace_html 'q5', :partial => 'other_plans'
+        page.visual_effect :highlight, 'q5'
+      end
+    else
+      render :update do |page|
+        page.replace_html 'q5', :partial => 'available_plans'
+        page.visual_effect :highlight, 'q5'
+      end
     end
   end
 
@@ -253,7 +260,9 @@ class HelpController < ApplicationController
     end
   end
 
-  def get_employee_list
+  def get_after_plan_selection_questions
+
+    @counseling = update_counseling
     if params[:plan]=="IDK"
       c = update_counseling #get counseling object from session
       employees = c.employee_list
@@ -269,14 +278,17 @@ class HelpController < ApplicationController
       #     a[0].downcase <=> b[0].downcase
       #   end
       # end
-      render :update do |page|
-        page.replace_html 'question_container', :partial => 'employee_list', :layout => false, :locals => {'employees' => employees}
-        page.visual_effect :highlight, 'question_container'
-      end
-    elsif params[:plan]=="IDK2"
-      render :update do |page|
-        page.replace_html 'question_container', :partial => 'not_known_plans', :layout => false
-        page.visual_effect :highlight, 'question_container'
+
+      if @counseling.employer_type_id == 6 # State agency or office
+        render :update do |page|
+          page.replace_html 'question_container', :partial => 'employee_list', :layout => false, :locals => {'employees' => employees}
+          page.visual_effect :highlight, 'question_container'
+        end
+      else
+        render :update do |page|
+          page.replace_html 'question_container', :partial => 'not_known_plans', :layout => false
+          page.visual_effect :highlight, 'question_container'
+        end
       end
     elsif params[:plan]=="OTHER"
       render :update do |page|

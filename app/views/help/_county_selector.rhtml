@@ -1,12 +1,18 @@
 <% if cities == "true" -%>
-	<%= remote_select "counseling", "county_id", options, "help", "get_localities" %>
-<% else -%>	
-	<select name="counseling[county_id]">
-		<option></option>
-		<%= options_for_select options %>
-	</select>
+    <%= remote_select "counseling", "county_id", options, "help", "get_localities" %>
+<% else -%>
+    <select name="counseling[county_id]" onchange="new Ajax.Request('/help/show_available_plans',
+                    {asynchronous:false, 
+                    evalScripts:true,
+                    parameters:'counseling[work_state_abbrev]='+escape(value),
+                    onComplete:validateStep()})">
+      <option></option>
+      <%= options_for_select options %>
+    </select>
 <% end -%>
+
+
 <script type="text/javascript">
-  addValidation();
-  validateStep();
+    addValidation();
+    validateStep();
 </script>
