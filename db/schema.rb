@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 73) do
+ActiveRecord::Schema.define(:version => 74) do
 
   create_table "addresses", :force => true do |t|
     t.column "location_id",    :integer
@@ -131,6 +131,9 @@ ActiveRecord::Schema.define(:version => 73) do
     t.column "is_afscme_member",        :boolean
     t.column "selected_plan_id",        :integer
     t.column "currently_employed",      :boolean
+    t.column "plan_name",               :string
+    t.column "agency_name",             :string
+    t.column "job_function",            :string
   end
 
   add_index "counselings", ["employer_type_id"], :name => "employer_type_id"

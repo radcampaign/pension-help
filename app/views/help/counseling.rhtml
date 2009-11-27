@@ -1,97 +1,119 @@
 <div id="counseling_errors">
-	<%= render :partial => 'help/counseling_errors', :locals => {'counseling' => @counseling} %>
+  <%= render :partial => 'help/counseling_errors', :locals => {'counseling' => @counseling} %>
 </div>
 <%= image_tag "layout/stepcircle-one.jpg", :id => 'counseling_step' %>
 
 <h1>Counseling &amp; Assistance</h1>
 
-<p>Welcome to our Counseling and Assistance service area. To make sure you get the right type of referral, we&#39;d like you to answer a few questions. When you have completed these, the grey <b style="color: #cc0000">NEXT</b> button at the bottom of the page will turn red. Click it to continue.</p>
+<p>Welcome to our Counseling and Assistance service area. To make sure you get the right type of referral, we&#39;d like
+  you to answer a few questions. When you have completed these, the grey <b style="color: #cc0000">NEXT</b> button at
+  the bottom of the page will turn red. Click it to continue.</p>
 
 <h2>What type of employer?</h2>
 
-<p>This will help us determine what law governs your pension question. Make the menu selection that best describes the employer offering the pension or retirement savings plan you have a question about.</p>
+<p>This will help us determine what law governs your pension question. Make the menu selection that best describes the
+  employer offering the pension or retirement savings plan you have a question about.</p>
 
 <% form_tag :action => :step_2 do -%>
 
-<p>Employer type: <%= remote_select "counseling", "employer_type_id", @options, 'help', 'show_second_question', (@counseling.employer_type.id if @counseling.employer_type) %></p>
+    <p>Employer
+      type: <%= remote_select "counseling", "employer_type_id", @options, 'help', 'show_second_question', (@counseling.employer_type.id if @counseling.employer_type) %></p>
 
-<div id="q2" class="counselingQuestion">
-	<% if @next_question_2 -%>
-		<%= render :partial => 'next_question', :locals => {'question' => @next_question_2, 'selected_value' => @selected_value_2} %>
-	<% end -%>
-</div>
-<div id="q3" class="counselingQuestion">
-	<% if @next_question_3 -%>
-		<%= render :partial => 'next_question', :locals => {'question' => @next_question_3, 'selected_value' => @selected_value_3} %>
-	<% end -%>
-</div>
-<div id="q4" class="counselingQuestion">
-	<% if @next_question_4 -%>
-		<%= render :partial => 'next_question', :locals => {'question' => @next_question_4, 'selected_value' => @selected_value_4} %>
-	<% end -%>
-</div>
-<div id="q5" class="counselingQuestion">
-	<% if @next_question_5 -%>
-		<%= render :partial => 'available_plans' %>
-	<% end %>
-</div>
+    <div id="q2" class="counselingQuestion">
+      <% if @next_question_2 -%>
+          <%= render :partial => 'next_question', :locals => {'question' => @next_question_2, 'selected_value' => @selected_value_2} %>
+      <% end -%>
+    </div>
+    <div id="q3" class="counselingQuestion">
+      <% if @next_question_3 -%>
+          <%= render :partial => 'next_question', :locals => {'question' => @next_question_3, 'selected_value' => @selected_value_3} %>
+      <% end -%>
+    </div>
+    <div id="q4" class="counselingQuestion">
+      <% if @next_question_4 -%>
+          <%= render :partial => 'next_question', :locals => {'question' => @next_question_4, 'selected_value' => @selected_value_4} %>
+      <% end -%>
+    </div>
+    <div id="q5" class="counselingQuestion">
+      <% if @next_question_5 -%>
+          <%= render :partial => 'available_plans' %>
+      <% end %>
+    </div>
 
-<p>&nbsp;</p>
+    <p>&nbsp;</p>
 
-<%= image_submit_tag "buttons/next_button.gif", :id => 'nextLinkButton' %>
+    <%= image_submit_tag "buttons/next_button.gif",:value=>"submit", :id => 'nextLinkButton' %>
 
 <% end -%>
 <p>&nbsp;</p>
-	
+
 <%= javascript_include_tag 'tooltip' %>
 <script type="text/javascript">
-	Event.observe( window, 'load', function() {
-		//trigger display of second question (but not for 'i don't know' as that would put us in an endless loop)
-		if (emp_type = $F("counseling[employer_type_id]")) {
-			if (emp_type !=9 ) {
-				new Ajax.Request('/help/show_second_question', 
-		    {asynchronous:true, evalScripts:true, parameters:'counseling[employer_type_id]='+emp_type})
-			}
-		}
-	});
+    Event.observe(window, 'load', function() {
+        //trigger display of second question (but not for 'i don't know' as that would put us in an endless loop)
+        if (emp_type = $F("counseling[employer_type_id]")) {
+            if (emp_type != 9) {
+                new Ajax.Request('/help/show_second_question',
+                {asynchronous:true, evalScripts:true, parameters:'counseling[employer_type_id]=' + emp_type})
+            }
+        }
+    });
 
-  function addValidation() {
-    selects = document.getElementsByTagName('select');
-    for (i = 0; i < selects.length; i++) {
-      if (selects[i].onchange == null) {
-        selects[i].onchange = validateStep;
-      }
-    }
-  }
-
-  function validateStep() {
-    var selects = document.getElementsByTagName('select');
-    var next_step_enabled = true;
-
-    var result = true;
-    for (i = 0; i < selects.length; i++) {
-      result = selects[i].selectedIndex > 0
-      if (!result) {
-        break;
-      }
+    function addValidation() {
+        selects = document.getElementsByTagName('select');
+        inputs = document.getElementsByTagName('input');
+        for (i = 0; i < selects.length; i++) {
+            if (selects[i].onchange == null) {
+                selects[i].onchange = validateStep;
+            }
+        }
+        for (i = 0; i < inputs.length; i++) {
+            if (inputs[i].onchange == null) {
+                inputs[i].onchange = validateStep;
+            }
+        }
     }
 
-    changeStateNextStepButton(result);
-  }
+    function validateStep() {
+        var selects = document.getElementsByTagName('select');
+        var inputs = document.getElementsByTagName('input');
+        var next_step_enabled = true;
 
-  function changeStateNextStepButton(active) {
-    var next_step_button = document.getElementById('nextLinkButton');
-    if (active) {
-      next_step_button.src = '/images/buttons/next_button.gif';
-      next_step_button.onclick = function() {return true};
-			Event.stopObserving('nextLinkButton','mouseover'); 
-    } else {
-      next_step_button.onclick = function() {return false};
-      next_step_button.src = '/images/buttons/next_button_disabled.gif';
-			Event.observe( 'nextLinkButton', 'mouseover', showTooltip );
-			Event.observe( 'nextLinkButton', 'mouseout', hideTooltip );
+        var result = true;
+        for (i = 0; i < selects.length; i++) {
+            result = selects[i].selectedIndex > 0
+            if (!result) {
+                break;
+            }
+        }
+        var result2 = true;
+        for (i = 0; i < inputs.length; i++) {
+            result2 = inputs[i].value.length > 0
+            if (!result2) {
+                break;
+            }
+        }
+
+        changeStateNextStepButton((result2&&result));
     }
-  }
-  
-  validateStep();
+
+    function changeStateNextStepButton(active) {
+        var next_step_button = document.getElementById('nextLinkButton');
+        if (active) {
+            next_step_button.src = '/images/buttons/next_button.gif';
+            next_step_button.onclick = function() {
+                return true
+            };
+            Event.stopObserving('nextLinkButton', 'mouseover');
+        } else {
+            next_step_button.onclick = function() {
+                return false
+            };
+            next_step_button.src = '/images/buttons/next_button_disabled.gif';
+            Event.observe('nextLinkButton', 'mouseover', showTooltip);
+            Event.observe('nextLinkButton', 'mouseout', hideTooltip);
+        }
+    }
+
+    validateStep();
 </script>

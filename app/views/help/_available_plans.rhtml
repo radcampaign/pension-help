@@ -11,9 +11,12 @@
 	<option value=""></option>
 	<%= options_for_select @matching_agencies.collect{|p| [p.name, p.id]} %>
 	<option value="IDK">I'm not sure</option>
+    <option value="IDK2">I'm not know</option>
+    <option value="OTHER">Other</option>
 </select></p>
 
-<div id="employee_list_container">&nbsp;</div>
+<div id="question_container">&nbsp;</div>
+
 
 <script type="text/javascript">
   addValidation();
