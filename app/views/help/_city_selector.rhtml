@@ -1,7 +1,7 @@
 <select name="counseling[city_id]" onchange="new Ajax.Request('/help/show_available_plans',
                     {asynchronous:false,
                     evalScripts:true,
-                    parameters:'counseling[work_state_abbrev]='+escape(value),
+                    parameters:'counseling[city_id]='+escape(value),
                     onComplete:validateStep()})">
 	<option></option>
 	<%= options_for_select options %>

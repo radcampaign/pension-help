@@ -55,7 +55,7 @@ class Counseling < ActiveRecord::Base
   end
 
   def matching_agencies
-    agencies = case employer_type.name
+    agencies = case employer_type ? employer_type.name : nil
     when 'Company or nonprofit':     company_matches
     when 'Railroad':                 railroad_matches
     when 'Religious institution':    religious_matches
