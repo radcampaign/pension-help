@@ -32,8 +32,8 @@ begin
   agent = WWW::Mechanize.new
   page = agent.get('http://www.zipcodedownload.com/Login/')
   login_form = page.form('aspnetForm')
-  login_form['_ctl1:templateBase:loginLogin:textEmail'] = zip_user
-  login_form['_ctl1:templateBase:loginLogin:textPassword'] = zip_pass
+  login_form['ctl01$templateBase$loginLogin$textEmail'] = zip_user
+  login_form['ctl01$templateBase$loginLogin$textPassword'] = zip_pass
   page = agent.submit(login_form, login_form.buttons.first)
   
   File.open("#{filedir}/zip_import.zip", 'w') do |f|
