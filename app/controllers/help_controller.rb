@@ -115,7 +115,6 @@ class HelpController < ApplicationController
 
   def show_available_plans
     @counseling = update_counseling
-logger.debug("Counseling = #{@counseling.inspect}")
     @counseling.step = 1
     @matching_agencies = @counseling.matching_agencies.collect{|a| a.plans.select{|p| p.is_active}}.flatten.sort{|a, b| a.name <=> b.name} # find plans for state/county/local
     if @matching_agencies.blank?
@@ -124,6 +123,7 @@ logger.debug("Counseling = #{@counseling.inspect}")
         page.visual_effect :highlight, 'q5'
       end
     else
+      @show_option_other = [EMP_TYPE[:county], EMP_TYPE[:city]].include?(@counseling.employer_type_id)
       render :update do |page|
         page.replace_html 'q5', :partial => 'available_plans'
         page.visual_effect :highlight, 'q5'
