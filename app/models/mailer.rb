@@ -71,4 +71,23 @@ class Mailer < ActionMailer::Base
     @subject = "Thank for joining our nationwide pension assistance network"
     body["username"] = partner.user.login unless partner.user.nil?
   end
+  
+  def unavailable_plan(counseling)
+    @recipients = EMAIL_RECIPIENT
+    @from = EMAIL_FROM
+    @subject = "PHA: A user has requested information on a plan that is not in the PHA database"
+    body :state => counseling.work_state_abbrev, :county => County.find(counseling.county_id).name, 
+         :city => (counseling.city_id ? City.find(counseling.city_id).name : nil),
+         :plan_name => counseling.plan_name, :agency_name => counseling.agency_name, :job_function => counseling.job_function
+  end
+
+  def unavailable_plan_feedback(counseling)
+    @recipients = EMAIL_RECIPIENT
+    @from = EMAIL_FROM
+    @subject = "PHA: A user has requested to be contacted regarding a plan that is not in the PHA database"
+    body :state => counseling.work_state_abbrev, :county => County.find(counseling.county_id).name, 
+         :city => (counseling.city_id ? City.find(counseling.city_id).name : nil),
+         :plan_name => counseling.plan_name, :agency_name => counseling.agency_name, :job_function => counseling.job_function,
+         :feedback_email => counseling.feedback_email
+  end
 end

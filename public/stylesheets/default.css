@@ -385,6 +385,12 @@ body.results div.group {
 	margin-bottom: 12px;
 	padding: 6px 0 6px 6px;
 }
+#feedbackEmailResponse p {
+	margin-top: 6px;
+	border: 1px solid grey;
+	padding: 6px;
+	background-color: #EEE;
+}
 .clear {
 	clear: both;
 }

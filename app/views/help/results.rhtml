@@ -5,6 +5,19 @@
 <% else %>
 	<p>We recommend that you print this page for your records.</p>
 <% end %>
+<% if @ask_user_for_email %>
+	<h2>We could not find information about your specific plan</h2>
+	<div class="agency_result_body">
+		<p>We don't have information specific to the plan: <%= @counseling.plan_name %> <%= " for #{City.find(@counseling.city_id).name}" if @counseling.city_id %> <%= " in #{County.find(@counseling.county_id).name}" if @counseling.county_id %>.</p>
+		<p>If you'd like to be contacted with additional information once we research your request, please enter your email address below:</p> 
+		<% remote_form_for :counseling, :url => {:action => :submit_email_address} do |form| -%>
+			<%= form.text_field :feedback_email, :size => 30 %>
+			<%= form.hidden_field :id %>
+			<%= submit_tag 'contact me with more information', :id => 'feedbackEmailSubmit' %>
+		<% end %>
+		<div id="feedbackEmailResponse"></div>
+	</div>
+<% end %>
 <% @results.each do |agency| %>
 <% if loc=agency.best_location(@counseling) %> <%# if we can't find a best_location, don't show the agency %>
 	<div class="agency_result">
