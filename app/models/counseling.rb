@@ -62,9 +62,8 @@ class Counseling < ActiveRecord::Base
     when 'Federal agency or office': federal_matches
     when 'Military':                 military_matches
     when 'State agency or office':   state_plan_matches + aoa_afscme_dsp
-    when 'County agency or office':  state_plan_matches + county_plan_matches + aoa_afscme_dsp
-    when 'City or other local government agency or office': state_plan_matches +  
-                                     county_plan_matches + city_plan_matches + aoa_afscme_dsp
+    when 'County agency or office':  county_plan_matches + aoa_afscme_dsp
+    when 'City or other local government agency or office': city_plan_matches + aoa_afscme_dsp
     else Array.new    
     end
     

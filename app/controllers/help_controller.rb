@@ -115,6 +115,7 @@ class HelpController < ApplicationController
 
   def show_available_plans
     @counseling = update_counseling
+logger.debug("Counseling = #{@counseling.inspect}")
     @counseling.step = 1
     @matching_agencies = @counseling.matching_agencies.collect{|a| a.plans.select{|p| p.is_active}}.flatten.sort{|a, b| a.name <=> b.name} # find plans for state/county/local
     if @matching_agencies.blank?
@@ -309,7 +310,7 @@ class HelpController < ApplicationController
     # if yrly amt is entered, we need to override what's been put into monthly amount by setting the attributes
     c.yearly_income = params[:counseling][:yearly_income] if params[:counseling] and not params[:counseling][:yearly_income].blank?
     # make IDK => 0
-    c.selected_plan_id = nil if c.selected_plan_id=="IDK"
+    c.selected_plan_id = nil if (c.selected_plan_id=="IDK" or c.selected_plan_id=="OTHER" or c.selected_plan_id==0)
     c.selected_plan_id = params[:selected_plan_override] if !params[:selected_plan_override].blank?
     # set date here if we have a year, but do validation on year elsewhere so we can redraw the page
     # we'll have to limit the display of the date to the year only
