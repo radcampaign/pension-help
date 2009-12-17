@@ -1,12 +1,26 @@
 /**
- * $Id: editor_plugin_src.js 373 2007-11-12 17:57:47Z spocke $
+ * $Id: editor_plugin_src.js 1209 2009-08-20 12:35:10Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2007, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
 (function() {
 	var each = tinymce.each;
+
+	// Checks if the selection/caret is at the start of the specified block element
+	function isAtStart(rng, par) {
+		var doc = par.ownerDocument, rng2 = doc.createRange(), elm;
+
+		rng2.setStartBefore(par);
+		rng2.setEnd(rng.endContainer, rng.endOffset);
+
+		elm = doc.createElement('body');
+		elm.appendChild(rng2.cloneContents());
+
+		// Check for text characters of other elements that should be treated as content
+		return elm.innerHTML.replace(/<(br|img|object|embed|input|textarea)[^>]*>/gi, '-').replace(/<[^>]+>/g, '').length == 0;
+	};
 
 	tinymce.create('tinymce.plugins.TablePlugin', {
 		init : function(ed, url) {
@@ -33,13 +47,98 @@
 				ed.addButton(c[0], {title : c[1], cmd : c[2], ui : c[3]});
 			});
 
+			if (ed.getParam('inline_styles')) {
+				// Force move of attribs to styles in strict mode
+				ed.onPreProcess.add(function(ed, o) {
+					var dom = ed.dom;
+
+					each(dom.select('table', o.node), function(n) {
+						var v;
+
+						if (v = dom.getAttrib(n, 'width')) {
+							dom.setStyle(n, 'width', v);
+							dom.setAttrib(n, 'width');
+						}
+
+						if (v = dom.getAttrib(n, 'height')) {
+							dom.setStyle(n, 'height', v);
+							dom.setAttrib(n, 'height');
+						}
+					});
+				});
+			}
+
 			ed.onInit.add(function() {
+				// Fixes an issue on Gecko where it's impossible to place the caret behind a table
+				// This fix will force a paragraph element after the table but only when the forced_root_block setting is enabled
+				if (!tinymce.isIE && ed.getParam('forced_root_block')) {
+					function fixTableCaretPos() {
+						var last = ed.getBody().lastChild;
+
+						if (last && last.nodeName == 'TABLE')
+							ed.dom.add(ed.getBody(), 'p', null, '<br mce_bogus="1" />');
+					};
+
+					// Fixes an bug where it's impossible to place the caret before a table in Gecko
+					// this fix solves it by detecting when the caret is at the beginning of such a table
+					// and then manually moves the caret infront of the table
+					if (tinymce.isGecko) {
+						ed.onKeyDown.add(function(ed, e) {
+							var rng, table, dom = ed.dom;
+
+							// On gecko it's not possible to place the caret before a table
+							if (e.keyCode == 37 || e.keyCode == 38) {
+								rng = ed.selection.getRng();
+								table = dom.getParent(rng.startContainer, 'table');
+
+								if (table && ed.getBody().firstChild == table) {
+									if (isAtStart(rng, table)) {
+										rng = dom.createRng();
+
+										rng.setStartBefore(table);
+										rng.setEndBefore(table);
+
+										ed.selection.setRng(rng);
+
+										e.preventDefault();
+									}
+								}
+							}
+						});
+					}
+
+					ed.onKeyUp.add(fixTableCaretPos);
+					ed.onSetContent.add(fixTableCaretPos);
+					ed.onVisualAid.add(fixTableCaretPos);
+
+					ed.onPreProcess.add(function(ed, o) {
+						var last = o.node.lastChild;
+
+						if (last && last.childNodes.length == 1 && last.firstChild.nodeName == 'BR')
+							ed.dom.remove(last);
+					});
+
+					fixTableCaretPos();
+				}
+
 				if (ed && ed.plugins.contextmenu) {
 					ed.plugins.contextmenu.onContextMenu.add(function(th, m, e) {
-						var sm;
+						var sm, se = ed.selection, el = se.getNode() || ed.getBody();
 
 						if (ed.dom.getParent(e, 'td') || ed.dom.getParent(e, 'th')) {
 							m.removeAll();
+
+							if (el.nodeName == 'A' && !ed.dom.getAttrib(el, 'name')) {
+								m.add({title : 'advanced.link_desc', icon : 'link', cmd : ed.plugins.advlink ? 'mceAdvLink' : 'mceLink', ui : true});
+								m.add({title : 'advanced.unlink_desc', icon : 'unlink', cmd : 'UnLink'});
+								m.addSeparator();
+							}
+
+							if (el.nodeName == 'IMG' && el.className.indexOf('mceItem') == -1) {
+								m.add({title : 'advanced.image_desc', icon : 'image', cmd : ed.plugins.advimage ? 'mceAdvImage' : 'mceImage', ui : true});
+								m.addSeparator();
+							}
+
 							m.add({title : 'table.desc', icon : 'table', cmd : 'mceInsertTable', ui : true, value : {action : 'insert'}});
 							m.add({title : 'table.props_desc', icon : 'table_props', cmd : 'mceInsertTable', ui : true});
 							m.add({title : 'table.del', icon : 'delete_table', cmd : 'mceTableDelete', ui : true});
@@ -74,10 +173,34 @@
 				}
 			});
 
+			// Add undo level when new rows are created using the tab key
+			ed.onKeyDown.add(function(ed, e) {
+				if (e.keyCode == 9 && ed.dom.getParent(ed.selection.getNode(), 'TABLE')) {
+					if (!tinymce.isGecko && !tinymce.isOpera) {
+						tinyMCE.execInstanceCommand(ed.editorId, "mceTableMoveToNextRow", true);
+						return tinymce.dom.Event.cancel(e);
+					}
+
+					ed.undoManager.add();
+				}
+			});
+
+			// Select whole table is a table border is clicked
+			if (!tinymce.isIE) {
+				if (ed.getParam('table_selection', true)) {
+					ed.onClick.add(function(ed, e) {
+						e = e.target;
+
+						if (e.nodeName === 'TABLE')
+							ed.selection.select(e);
+					});
+				}
+			}
+
 			ed.onNodeChange.add(function(ed, cm, n) {
 				var p = ed.dom.getParent(n, 'td,th,caption');
 
-				cm.setActive('table', !!p);
+				cm.setActive('table', n.nodeName === 'TABLE' || !!p);
 				if (p && p.nodeName === 'CAPTION')
 					p = null;
 
@@ -94,6 +217,14 @@
 				cm.setDisabled('split_cells', !p || (parseInt(ed.dom.getAttrib(p, 'colspan', '1')) < 2 && parseInt(ed.dom.getAttrib(p, 'rowspan', '1')) < 2));
 				cm.setDisabled('merge_cells', !p);
 			});
+
+			// Padd empty table cells
+			if (!tinymce.isIE) {
+				ed.onBeforeSetContent.add(function(ed, o) {
+					if (o.initial)
+						o.content = o.content.replace(/<(td|th)([^>]+|)>\s*<\/(td|th)>/g, tinymce.isOpera ? '<$1$2>&nbsp;</$1>' : '<$1$2><br mce_bogus="1" /></$1>');
+				});
+			}
 		},
 
 		execCommand : function(cmd, ui, val) {
@@ -101,6 +232,7 @@
 
 			// Is table command
 			switch (cmd) {
+				case "mceTableMoveToNextRow":
 				case "mceInsertTable":
 				case "mceTableRowProps":
 				case "mceTableCellProps":
@@ -170,6 +302,25 @@
 				return false;
 			}
 
+			function select(dx, dy) {
+				var td;
+
+				grid = getTableGrid(tableElm);
+				dx = dx || 0;
+				dy = dy || 0;
+				dx = Math.max(cpos.cellindex + dx, 0);
+				dy = Math.max(cpos.rowindex + dy, 0);
+
+				// Recalculate grid and select
+				inst.execCommand('mceRepaint');
+				td = getCell(grid, dy, dx);
+
+				if (td) {
+					inst.selection.select(td.firstChild || td);
+					inst.selection.collapse(1);
+				}
+			};
+
 			function makeTD() {
 				var newTD = doc.createElement("td");
 
@@ -207,8 +358,21 @@
 				return null;
 			}
 
+			function getNextCell(table, cell) {
+				var cells = [], x = 0, i, j, cell, nextCell;
+
+				for (i = 0; i < table.rows.length; i++)
+					for (j = 0; j < table.rows[i].cells.length; j++, x++)
+						cells[x] = table.rows[i].cells[j];
+
+				for (i = 0; i < cells.length; i++)
+					if (cells[i] == cell)
+						if (nextCell = cells[i+1])
+							return nextCell;
+			}
+
 			function getTableGrid(table) {
-				var grid = new Array(), rows = table.rows, x, y, td, sd, xstart, x2, y2;
+				var grid = [], rows = table.rows, x, y, td, sd, xstart, x2, y2;
 
 				for (y=0; y<rows.length; y++) {
 					for (x=0; x<rows[y].cells.length; x++) {
@@ -221,7 +385,7 @@
 						// Fill box
 						for (y2=y; y2<y+sd['rowspan']; y2++) {
 							if (!grid[y2])
-								grid[y2] = new Array();
+								grid[y2] = [];
 
 							for (x2=xstart; x2<xstart+sd['colspan']; x2++)
 								grid[y2][x2] = td;
@@ -374,6 +538,19 @@
 
 			// Handle commands
 			switch (command) {
+				case "mceTableMoveToNextRow":
+					var nextCell = getNextCell(tableElm, tdElm);
+
+					if (!nextCell) {
+						inst.execCommand("mceTableInsertRowAfter", tdElm);
+						nextCell = getNextCell(tableElm, tdElm);
+					}
+
+					inst.selection.select(nextCell);
+					inst.selection.collapse(true);
+
+					return true;
+
 				case "mceTableRowProps":
 					if (trElm == null)
 						return true;
@@ -381,8 +558,8 @@
 					if (user_interface) {
 						inst.windowManager.open({
 							url : url + '/row.htm',
-							width : 400 + inst.getLang('table.rowprops_delta_width', 0),
-							height : 295 + inst.getLang('table.rowprops_delta_height', 0),
+							width : 400 + parseInt(inst.getLang('table.rowprops_delta_width', 0)),
+							height : 295 + parseInt(inst.getLang('table.rowprops_delta_height', 0)),
 							inline : 1
 						}, {
 							plugin_url : url
@@ -398,8 +575,8 @@
 					if (user_interface) {
 						inst.windowManager.open({
 							url : url + '/cell.htm',
-							width : 400 + inst.getLang('table.cellprops_delta_width', 0),
-							height : 295 + inst.getLang('table.cellprops_delta_height', 0),
+							width : 400 + parseInt(inst.getLang('table.cellprops_delta_width', 0)),
+							height : 295 + parseInt(inst.getLang('table.cellprops_delta_height', 0)),
 							inline : 1
 						}, {
 							plugin_url : url
@@ -412,8 +589,8 @@
 					if (user_interface) {
 						inst.windowManager.open({
 							url : url + '/table.htm',
-							width : 400 + inst.getLang('table.table_delta_width', 0),
-							height : 320 + inst.getLang('table.table_delta_height', 0),
+							width : 400 + parseInt(inst.getLang('table.table_delta_width', 0)),
+							height : 320 + parseInt(inst.getLang('table.table_delta_height', 0)),
 							inline : 1
 						}, {
 							plugin_url : url,
@@ -534,6 +711,7 @@
 								}
 
 								trElm.parentNode.insertBefore(newTR, trElm);
+								select(0, 1);
 							break;
 
 							case "mceTableInsertRowAfter":
@@ -573,6 +751,8 @@
 									else
 										tableElm.appendChild(newTR);
 								}
+
+								select(0, 1);
 							break;
 
 							case "mceTableDeleteRow":
@@ -583,9 +763,8 @@
 								var cpos = getCellPos(grid, tdElm);
 
 								// Only one row, remove whole table
-								if (grid.length == 1) {
-									tableElm = inst.dom.getParent(tableElm, "table"); // Look for table instead of tbody
-									tableElm.parentNode.removeChild(tableElm);
+								if (grid.length == 1 && tableElm.nodeName == 'TBODY') {
+									inst.dom.remove(inst.dom.getParent(tableElm, "table"));
 									return true;
 								}
 
@@ -629,20 +808,14 @@
 
 								deleteMarked(tableElm);
 
-								cpos.rowindex--;
-								if (cpos.rowindex < 0)
-									cpos.rowindex = 0;
-
-								// Recalculate grid and select
-								grid = getTableGrid(tableElm);
-								inst.selection.select(getCell(grid, cpos.rowindex, 0), tinymce.isGecko, true); // Only collape on gecko
+								select(0, -1);
 							break;
 
 							case "mceTableInsertColBefore":
 								if (!trElm || !tdElm)
 									return true;
 
-								var grid = getTableGrid(tableElm);
+								var grid = getTableGrid(inst.dom.getParent(tableElm, "table"));
 								var cpos = getCellPos(grid, tdElm);
 								var lastTDElm = null;
 
@@ -665,13 +838,15 @@
 										lastTDElm = tdElm;
 									}
 								}
+
+								select();
 							break;
 
 							case "mceTableInsertColAfter":
 								if (!trElm || !tdElm)
 									return true;
 
-								var grid = getTableGrid(tableElm);
+								var grid = getTableGrid(inst.dom.getParent(tableElm, "table"));
 								var cpos = getCellPos(grid, tdElm);
 								var lastTDElm = null;
 
@@ -698,6 +873,8 @@
 										lastTDElm = tdElm;
 									}
 								}
+
+								select(1);
 							break;
 
 							case "mceTableDeleteCol":
@@ -709,9 +886,8 @@
 								var lastTDElm = null;
 
 								// Only one col, remove whole table
-								if (grid.length > 1 && grid[0].length <= 1) {
-									tableElm = inst.dom.getParent(tableElm, "table"); // Look for table instead of tbody
-									tableElm.parentNode.removeChild(tableElm);
+								if ((grid.length > 1 && grid[0].length <= 1) && tableElm.nodeName == 'TBODY') {
+									inst.dom.remove(inst.dom.getParent(tableElm, "table"));
 									return true;
 								}
 
@@ -731,13 +907,7 @@
 									}
 								}
 
-								cpos.cellindex--;
-								if (cpos.cellindex < 0)
-									cpos.cellindex = 0;
-
-								// Recalculate grid and select
-								grid = getTableGrid(tableElm);
-								inst.selection.select(getCell(grid, cpos.rowindex, 0), tinymce.isGecko, true); // Only collape on gecko
+								select(-1);
 							break;
 
 						case "mceTableSplitCells":
@@ -784,8 +954,8 @@
 
 									inst.windowManager.open({
 										url : url + '/merge_cells.htm',
-										width : 240 + inst.getLang('table.merge_cells_delta_width', 0),
-										height : 110 + inst.getLang('table.merge_cells_delta_height', 0),
+										width : 240 + parseInt(inst.getLang('table.merge_cells_delta_width', 0)),
+										height : 110 + parseInt(inst.getLang('table.merge_cells_delta_height', 0)),
 										inline : 1
 									}, {
 										action : "update",
@@ -809,7 +979,7 @@
 									// Get rows and cells
 									var tRows = tableElm.rows;
 									for (var y=cpos.rowindex; y<grid.length; y++) {
-										var rowCells = new Array();
+										var rowCells = [];
 
 										for (var x=cpos.cellindex; x<grid[y].length; x++) {
 											var td = getCell(grid, y, x);
@@ -825,6 +995,12 @@
 
 										if (rowCells.length > 0)
 											rows[rows.length] = rowCells;
+
+										var td = getCell(grid, cpos.rowindex, cpos.cellindex);
+										each(ed.dom.select('br', td), function(e, i) {
+											if (i > 0 && ed.dom.getAttrib('mce_bogus'))
+												ed.dom.remove(e);
+										});
 									}
 
 									//return true;
@@ -848,14 +1024,14 @@
 									if (!tdElm)
 										break;
 
-									if (tdElm.nodeName == "TD")
+									if (tdElm.nodeName == "TD" || tdElm.nodeName == "TH")
 										cells[cells.length] = tdElm;
 								}
 
 								// Get rows and cells
 								var tRows = tableElm.rows;
 								for (var y=0; y<tRows.length; y++) {
-									var rowCells = new Array();
+									var rowCells = [];
 
 									for (var x=0; x<tRows[y].cells.length; x++) {
 										var td = tRows[y].cells[x];
@@ -872,7 +1048,7 @@
 								}
 
 								// Find selected cells in grid and box
-								var curRow = new Array();
+								var curRow = [];
 								var lastTR = null;
 								for (var y=0; y<grid.length; y++) {
 									for (var x=0; x<grid[y].length; x++) {
@@ -999,13 +1175,18 @@
 								}
 							}
 
+							// Remove all but one bogus br
+							each(ed.dom.select('br', tdElm), function(e, i) {
+								if (i > 0 && ed.dom.getAttrib(e, 'mce_bogus'))
+									ed.dom.remove(e);
+							});
+
 							break;
 						}
 
 						tableElm = inst.dom.getParent(inst.selection.getNode(), "table");
 						inst.addVisual(tableElm);
 						inst.nodeChanged();
-						inst.execCommand('mceRepaint');
 					}
 
 				return true;

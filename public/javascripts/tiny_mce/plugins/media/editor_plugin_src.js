@@ -1,8 +1,8 @@
 /**
- * $Id: editor_plugin_src.js 403 2007-11-18 15:58:58Z spocke $
+ * $Id: editor_plugin_src.js 1222 2009-09-03 17:26:47Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2007, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
 (function() {
@@ -19,12 +19,17 @@
 				return /^(mceItemFlash|mceItemShockWave|mceItemWindowsMedia|mceItemQuickTime|mceItemRealMedia)$/.test(n.className);
 			};
 
+			ed.onPreInit.add(function() {
+				// Force in _value parameter this extra parameter is required for older Opera versions
+				ed.serializer.addRules('param[name|value|_mce_value]');
+			});
+
 			// Register commands
 			ed.addCommand('mceMedia', function() {
 				ed.windowManager.open({
 					file : url + '/media.htm',
-					width : 430 + ed.getLang('media.delta_width', 0),
-					height : 470 + ed.getLang('media.delta_height', 0),
+					width : 430 + parseInt(ed.getLang('media.delta_width', 0)),
+					height : 470 + parseInt(ed.getLang('media.delta_height', 0)),
 					inline : 1
 				}, {
 					plugin_url : url
@@ -47,9 +52,16 @@
 					mceItemRealMedia : 'realmedia'
 				};
 
-				ed.dom.loadCSS(url + "/css/content.css");
+				ed.selection.onSetContent.add(function() {
+					t._spansToImgs(ed.getBody());
+				});
 
-				if (ed.theme.onResolveName) {
+				ed.selection.onBeforeSetContent.add(t._objectsToSpans, t);
+
+				if (ed.settings.content_css !== false)
+					ed.dom.loadCSS(url + "/css/content.css");
+
+				if (ed.theme && ed.theme.onResolveName) {
 					ed.theme.onResolveName.add(function(th, o) {
 						if (o.name == 'img') {
 							each(lo, function(v, k) {
@@ -72,31 +84,17 @@
 				}
 			});
 
-			ed.onBeforeSetContent.add(function(ed, o) {
-				var h = o.content;
-
-				h = h.replace(/<script[^>]*>\s*write(Flash|ShockWave|WindowsMedia|QuickTime|RealMedia)\(\{([^\)]*)\}\);\s*<\/script>/gi, function(a, b, c) {
-					return '<img class="mceItem' + b + '" title="' + ed.dom.encode(c) + '" src="' + url + '/img/trans.gif" />'
-				});
-
-				h = h.replace(/<object([^>]*)>/gi, '<div class="mceItemObject" $1>');
-				h = h.replace(/<embed([^>]*)>/gi, '<div class="mceItemEmbed" $1>');
-				h = h.replace(/<\/(object|embed)([^>]*)>/gi, '</div>');
-				h = h.replace(/<param([^>]*)>/gi, '<div $1 class="mceItemParam"></div>');
-				h = h.replace(/\/ class=\"mceItemParam\"><\/div>/gi, 'class="mceItemParam"></div>');
-
-				o.content = h;
-			});
+			ed.onBeforeSetContent.add(t._objectsToSpans, t);
 
 			ed.onSetContent.add(function() {
-				t._divsToImgs(ed.getBody());
+				t._spansToImgs(ed.getBody());
 			});
 
 			ed.onPreProcess.add(function(ed, o) {
 				var dom = ed.dom;
 
 				if (o.set) {
-					t._divsToImgs(o.node);
+					t._spansToImgs(o.node);
 
 					each(dom.select('IMG', o.node), function(n) {
 						var p;
@@ -163,14 +161,18 @@
 				}
 			});
 
-			if (ed.getParam('media_use_script')) {
-				function getAttr(s, n) {
-					n = new RegExp(n + '=\"([^\"]+)\"', 'g').exec(s);
+			ed.onPostProcess.add(function(ed, o) {
+				o.content = o.content.replace(/_mce_value=/g, 'value=');
+			});
 
-					return n ? ed.dom.decode(n[1]) : '';
-				};
+			function getAttr(s, n) {
+				n = new RegExp(n + '=\"([^\"]+)\"', 'g').exec(s);
 
-				ed.onPostProcess.add(function(ed, o) {
+				return n ? ed.dom.decode(n[1]) : '';
+			};
+
+			ed.onPostProcess.add(function(ed, o) {
+				if (ed.getParam('media_use_script')) {
 					o.content = o.content.replace(/<img[^>]+>/g, function(im) {
 						var cl = getAttr(im, 'class');
 
@@ -183,8 +185,8 @@
 
 						return im;
 					});
-				});
-			}
+				}
+			});
 		},
 
 		getInfo : function() {
@@ -198,38 +200,80 @@
 		},
 
 		// Private methods
+		_objectsToSpans : function(ed, o) {
+			var t = this, h = o.content;
+
+			h = h.replace(/<script[^>]*>\s*write(Flash|ShockWave|WindowsMedia|QuickTime|RealMedia)\(\{([^\)]*)\}\);\s*<\/script>/gi, function(a, b, c) {
+				var o = t._parse(c);
+
+				return '<img class="mceItem' + b + '" title="' + ed.dom.encode(c) + '" src="' + t.url + '/img/trans.gif" width="' + o.width + '" height="' + o.height + '" />'
+			});
+
+			h = h.replace(/<object([^>]*)>/gi, '<span class="mceItemObject" $1>');
+			h = h.replace(/<embed([^>]*)\/?>/gi, '<span class="mceItemEmbed" $1></span>');
+			h = h.replace(/<embed([^>]*)>/gi, '<span class="mceItemEmbed" $1>');
+			h = h.replace(/<\/(object)([^>]*)>/gi, '</span>');
+			h = h.replace(/<\/embed>/gi, '');
+			h = h.replace(/<param([^>]*)>/gi, function(a, b) {return '<span ' + b.replace(/value=/gi, '_mce_value=') + ' class="mceItemParam"></span>'});
+			h = h.replace(/\/ class=\"mceItemParam\"><\/span>/gi, 'class="mceItemParam"></span>');
+
+			o.content = h;
+		},
 
 		_buildObj : function(o, n) {
-			var ob, ed = this.editor, dom = ed.dom, p = this._parse(n.title);
+			var ob, ed = this.editor, dom = ed.dom, p = this._parse(n.title), stc;
+			
+			stc = ed.getParam('media_strict', true) && o.type == 'application/x-shockwave-flash';
 
 			p.width = o.width = dom.getAttrib(n, 'width') || 100;
 			p.height = o.height = dom.getAttrib(n, 'height') || 100;
 
-			ob = dom.create('div', {
-				mce_name : 'object',
-				classid : "clsid:" + o.classid,
-				codebase : o.codebase,
-				width : o.width,
-				height : o.height
-			});
-
 			if (p.src)
 				p.src = ed.convertURL(p.src, 'src', n);
 
+			if (stc) {
+				ob = dom.create('span', {
+					id : p.id,
+					mce_name : 'object',
+					type : 'application/x-shockwave-flash',
+					data : p.src,
+					style : dom.getAttrib(n, 'style'),
+					width : o.width,
+					height : o.height
+				});
+			} else {
+				ob = dom.create('span', {
+					id : p.id,
+					mce_name : 'object',
+					classid : "clsid:" + o.classid,
+					style : dom.getAttrib(n, 'style'),
+					codebase : o.codebase,
+					width : o.width,
+					height : o.height
+				});
+			}
+
 			each (p, function(v, k) {
-				if (v && !/^(width|height|codebase|classid)$/.test(k))
-					dom.add(ob, 'div', {mce_name : 'param', name : k, value : v});
+				if (!/^(width|height|codebase|classid|id|_cx|_cy)$/.test(k)) {
+					// Use url instead of src in IE for Windows media
+					if (o.type == 'application/x-mplayer2' && k == 'src' && !p.url)
+						k = 'url';
+
+					if (v)
+						dom.add(ob, 'span', {mce_name : 'param', name : k, '_mce_value' : v});
+				}
 			});
 
-			dom.add(ob, 'div', tinymce.extend({mce_name : 'embed', type : o.type}, p));
+			if (!stc)
+				dom.add(ob, 'span', tinymce.extend({mce_name : 'embed', type : o.type, style : dom.getAttrib(n, 'style')}, p));
 
 			return ob;
 		},
 
-		_divsToImgs : function(p) {
+		_spansToImgs : function(p) {
 			var t = this, dom = t.editor.dom, im, ci;
 
-			each(dom.select('div', p), function(n) {
+			each(dom.select('span', p), function(n) {
 				// Convert object into image
 				if (dom.getAttrib(n, 'class') == 'mceItemObject') {
 					ci = dom.getAttrib(n, "classid").toLowerCase().replace(/\s+/g, '');
@@ -260,39 +304,89 @@
 						default:
 							dom.replace(t._createImg('mceItemFlash', n), n);
 					}
+					
+					return;
 				}
+
+				// Convert embed into image
+				if (dom.getAttrib(n, 'class') == 'mceItemEmbed') {
+					switch (dom.getAttrib(n, 'type')) {
+						case 'application/x-shockwave-flash':
+							dom.replace(t._createImg('mceItemFlash', n), n);
+							break;
+
+						case 'application/x-director':
+							dom.replace(t._createImg('mceItemShockWave', n), n);
+							break;
+
+						case 'application/x-mplayer2':
+							dom.replace(t._createImg('mceItemWindowsMedia', n), n);
+							break;
+
+						case 'video/quicktime':
+							dom.replace(t._createImg('mceItemQuickTime', n), n);
+							break;
+
+						case 'audio/x-pn-realaudio-plugin':
+							dom.replace(t._createImg('mceItemRealMedia', n), n);
+							break;
+
+						default:
+							dom.replace(t._createImg('mceItemFlash', n), n);
+					}
+				}			
 			});
 		},
 
 		_createImg : function(cl, n) {
-			var im, dom = this.editor.dom, pa = {}, ti = '';
+			var im, dom = this.editor.dom, pa = {}, ti = '', args;
+
+			args = ['id', 'name', 'width', 'height', 'bgcolor', 'align', 'flashvars', 'src', 'wmode', 'allowfullscreen', 'quality', 'data'];	
 
 			// Create image
 			im = dom.create('img', {
 				src : this.url + '/img/trans.gif',
 				width : dom.getAttrib(n, 'width') || 100,
 				height : dom.getAttrib(n, 'height') || 100,
+				style : dom.getAttrib(n, 'style'),
 				'class' : cl
 			});
 
 			// Setup base parameters
-			each(['id', 'name', 'width', 'height', 'bgcolor', 'align'], function(n) {
-				var v = dom.getAttrib(n, 'align');
+			each(args, function(na) {
+				var v = dom.getAttrib(n, na);
 
 				if (v)
-					pa[v] = v;
+					pa[na] = v;
 			});
 
 			// Add optional parameters
-			each(dom.select('div', n), function(n) {
+			each(dom.select('span', n), function(n) {
 				if (dom.hasClass(n, 'mceItemParam'))
-					pa[dom.getAttrib(n, 'name')] = dom.getAttrib(n, 'value');
+					pa[dom.getAttrib(n, 'name')] = dom.getAttrib(n, '_mce_value');
 			});
 
 			// Use src not movie
 			if (pa.movie) {
 				pa.src = pa.movie;
 				delete pa.movie;
+			}
+
+			// No src try data
+			if (!pa.src) {
+				pa.src = pa.data;
+				delete pa.data;
+			}
+
+			// Merge with embed args
+			n = dom.select('.mceItemEmbed', n)[0];
+			if (n) {
+				each(args, function(na) {
+					var v = dom.getAttrib(n, na);
+
+					if (v && !pa[na])
+						pa[na] = v;
+				});
 			}
 
 			delete pa.width;

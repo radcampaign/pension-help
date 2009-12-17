@@ -1,8 +1,8 @@
 /**
- * $Id: editor_plugin_src.js 372 2007-11-11 18:38:50Z spocke $
+ * $Id: editor_plugin_src.js 743 2008-03-23 17:47:33Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2007, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
 (function() {
@@ -48,6 +48,12 @@
 		},
 
 		_block : function(ed, e) {
+			var k = e.keyCode;
+
+			// Don't block arrow keys, pg up/down, and F1-F12
+			if ((k > 32 && k < 41) || (k > 111 && k < 124))
+				return;
+
 			return Event.cancel(e);
 		},
 
