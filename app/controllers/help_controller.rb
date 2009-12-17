@@ -240,11 +240,32 @@ class HelpController < ApplicationController
       @results.each{|a| a.plans.delete_if {|p| p.id != @counseling.selected_plan_id.to_i &&
               a.agency_category_id==3}}
     end
+    if [EMP_TYPE[:county], EMP_TYPE[:city] ].include?(@counseling.employer_type_id) &&
+      @counseling.selected_plan_id.nil?
+        # we don't have a plan on file.  notify PRC and ask user if they want to be notified
+        Mailer.deliver_unavailable_plan(@counseling)
+        @ask_user_for_email = true
+    end
+    
     @results
   end
 
+  def submit_email_address
+    counseling = Counseling.find(params[:counseling][:id])
+    if counseling
+      counseling.feedback_email = params[:counseling][:feedback_email]
+      counseling.save
+      Mailer.deliver_unavailable_plan_feedback(counseling)
+      render :update do |page|
+        page << "$('counseling_feedback_email').writeAttribute('disabled', true)"
+        page << "$('feedbackEmailSubmit').writeAttribute('disabled', true)"
+        page.replace_html 'feedbackEmailResponse', :partial => 'feedback_email_accepted'
+        page.visual_effect :highlight, 'feedbackEmailResponse'
+      end
+    end
+  end
+  
   # Used for populating state, county and local pulldowns 
-
   def get_counties
     counties = State.find(params[:counseling][:work_state_abbrev]).counties
     render :update do |page|
