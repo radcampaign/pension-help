@@ -52,6 +52,7 @@ class Admin::NewsController < ApplicationController
   def create
     @news = News.new(params[:news])
     @news.updated_by = User.find(session[:user]).login
+    News.find(:all, :conditions => {:is_internal => @news.is_internal}).each{|item| item.update_attributes(:position => item.position+1)}
     @news.position = 0
     if @news.save
       flash[:notice] = 'News was successfully created.'
@@ -90,7 +91,7 @@ class Admin::NewsController < ApplicationController
   def sort_news
     to_sort = params[:int_news_list] unless params[:int_news_list].blank?
     to_sort = params[:ext_news_list] unless params[:ext_news_list].blank?
-    to_sort.each_with_index { |id,idx| News.update(id, :position => idx) }
+    to_sort.each_with_index { |id,idx| News.update(id, :position => idx-1) unless id.blank? }
     render :nothing => 'true'
   end
   
