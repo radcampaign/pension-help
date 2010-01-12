@@ -70,6 +70,7 @@
         for (i = 0; i < inputs.length; i++) {
             if (inputs[i].onchange == null) {
                 inputs[i].onchange = validateStep;
+								inputs[i].onkeyup = validateStep;
             }
         }
     }
