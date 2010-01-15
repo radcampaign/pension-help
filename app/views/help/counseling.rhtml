@@ -61,23 +61,24 @@
 
     function addValidation() {
         selects = document.getElementsByTagName('select');
-        inputs = document.getElementsByTagName('input');
+				// don't require entry in textfields on this page
+        // inputs = document.getElementsByTagName('input');
         for (i = 0; i < selects.length; i++) {
             if (selects[i].onchange == null) {
                 selects[i].onchange = validateStep;
             }
         }
-        for (i = 0; i < inputs.length; i++) {
-            if (inputs[i].onchange == null) {
-                inputs[i].onchange = validateStep;
-								inputs[i].onkeyup = validateStep;
-            }
-        }
+        // for (i = 0; i < inputs.length; i++) {
+        //     if (inputs[i].onchange == null) {
+        //         inputs[i].onchange = validateStep;
+        // 								inputs[i].onkeyup = validateStep;
+        //     }
+        // }
     }
 
     function validateStep() {
         var selects = document.getElementsByTagName('select');
-        var inputs = document.getElementsByTagName('input');
+        // var inputs = document.getElementsByTagName('input');
         var next_step_enabled = true;
 
         var result = true;
@@ -88,13 +89,13 @@
             }
         }
         var result2 = true;
-        for (i = 0; i < inputs.length; i++) {
-            result2 = inputs[i].value.length > 0
-            if (!result2) {
-                break;
-            }
-        }
-
+        // for (i = 0; i < inputs.length; i++) {
+        //     result2 = inputs[i].value.length > 0
+        //     if (!result2) {
+        //         break;
+        //     }
+        // }
+        // 
         changeStateNextStepButton((result2&&result));
     }
 
