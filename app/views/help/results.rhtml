@@ -1,10 +1,8 @@
 <h1 style="font-weight:bold">Here is the PensionHelp you requested...</h1>
 
-<% if @counseling.currently_employed %>
-	<%= @currently_employed_text  %>
-<% else %>
-	<p>We recommend that you print this page for your records.</p>
-<% end %>
+<p><%= @currently_employed_text if @counseling.currently_employed %></p>
+
+<p>We recommend that you print this page for your records.</p>
 <% if @ask_user_for_email %>
 	<h2>We could not find information about your specific plan</h2>
 	<div class="agency_result_body">

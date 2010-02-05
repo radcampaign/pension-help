@@ -62,12 +62,21 @@ class Counseling < ActiveRecord::Base
     when 'Federal agency or office': federal_matches
     when 'Military':                 military_matches
     when 'State agency or office':   state_plan_matches + aoa_afscme_dsp
-    when 'County agency or office':  county_plan_matches + aoa_afscme_dsp
-    when 'City or other local government agency or office': city_plan_matches + aoa_afscme_dsp
+    when 'County agency or office':  county_plan_agency_matches + aoa_afscme_dsp
+    when 'City or other local government agency or office': city_plan_agency_matches + aoa_afscme_dsp
     else Array.new    
     end
     
     agencies.flatten.uniq.compact
+  end
+
+  def matching_plans
+    case employer_type_id
+    when EMP_TYPE[:state]   : State.find(:first, :conditions => {:abbrev => work_state_abbrev} ).plan_matches
+    when EMP_TYPE[:county]  : County.find(county_id).plan_matches
+    when EMP_TYPE[:city]    : City.find(city_id).plan_matches
+    else Array.new
+    end
   end
 
   #List of all AoA agencies.
@@ -350,16 +359,14 @@ class Counseling < ActiveRecord::Base
   end
 
   # move to County model
-  def county_plan_matches
-    return [nil] if selected_plan_id
+  def county_plan_agency_matches
+    return [Plan.find(selected_plan_id).agency] if selected_plan_id
     sql = <<-SQL
         select distinct a.*
         from agencies a
         join plans p on p.agency_id = a.id
         join restrictions r on r.plan_id = p.id
         join restrictions_counties rc on rc.restriction_id = r.id
-        left join restrictions_cities rci on rci.restriction_id = r.id
-        where rci.city_id is null
         and a.agency_category_id = 3
         and rc.county_id = ?
         and a.use_for_counseling = 1 and a.is_active = 1 and p.is_active = 1
@@ -368,8 +375,8 @@ class Counseling < ActiveRecord::Base
   end
 
   # move to City model
-  def city_plan_matches
-    return [nil] if selected_plan_id
+  def city_plan_agency_matches
+    return [Plan.find(selected_plan_id).agency] if selected_plan_id
     sql = <<-SQL
         select distinct a.*
         from agencies a

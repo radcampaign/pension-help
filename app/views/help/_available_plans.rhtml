@@ -9,7 +9,7 @@
                             onComplete: validateStep()
 							})">
 	<option value=""></option>
-	<%= options_for_select @matching_agencies.collect{|p| [p.name, p.id]} %>
+	<%= options_for_select @matching_plans.collect{|p| [p.name, p.id]} %>
     <option value="IDK">I don't know</option>
     <%= "<option value=\"OTHER\">Other</option>" if @show_option_other %>
 </select></p>

@@ -47,6 +47,20 @@ class State < ActiveRecord::Base
     Agency.find_by_sql([sql, state_abbrev])
   end
   
+  def plan_matches
+    sql = <<-SQL
+        select distinct p.*
+        from plans p 
+        join agencies a on p.agency_id = a.id
+        join restrictions r on r.plan_id = p.id
+        join restrictions_states rs on rs.restriction_id = r.id
+        and a.agency_category_id = 3
+        and rs.state_abbrev = ?
+        and a.use_for_counseling = 1 and a.is_active = 1 and p.is_active = 1
+        SQL
+    Plan.find_by_sql([sql, abbrev])
+  end
+  
   def catchall_employees
     PlanCatchAllEmployee.find(:all, :conditions => ['plan_id in (?)', State.agency_matches(self.abbrev).collect{|agency| agency.plans}.flatten], :order => :position)
     # State.agency_matches(self.abbrev).collect{|agency| agency.plans}.flatten.collect{|plan| plan.plan_catch_all_employees}.flatten

@@ -30,4 +30,19 @@ class County < ActiveRecord::Base
     end
     result
   end
+
+  def plan_matches
+    sql = <<-SQL
+        select distinct p.*
+        from plans p 
+        join agencies a on p.agency_id = a.id
+        join restrictions r on r.plan_id = p.id
+        join restrictions_counties rc on rc.restriction_id = r.id
+        and a.agency_category_id = 3
+        and rc.county_id = ?
+        and a.use_for_counseling = 1 and a.is_active = 1 and p.is_active = 1
+        SQL
+    Plan.find_by_sql([sql, id])
+  end
+
 end
