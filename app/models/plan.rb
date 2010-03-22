@@ -1,7 +1,7 @@
 class Plan < ActiveRecord::Base
   include RestrictionsUpdater
   belongs_to :agency
-  has_one :publication, :dependent => :destroy
+  has_one :publication
   has_many :restrictions, :dependent => :destroy
   has_many :plan_catch_all_employees, :dependent => :destroy, :order => :position
   has_many :employee_types, :through => :plan_catch_all_employees

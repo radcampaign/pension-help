@@ -102,7 +102,7 @@ class Agency < ActiveRecord::Base
 
   end
 
-  def self.age_restrictions?(home_state_abbrev)
+  def self.age_restrictions_deprecated?(home_state_abbrev)
     sql = <<-SQL
         select a.id from agencies a
         join locations l on l.agency_id = a.id and l.is_provider = 1

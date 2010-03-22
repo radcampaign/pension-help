@@ -127,14 +127,6 @@ class Counseling < ActiveRecord::Base
     raise ArgumentError, 'state_abbrev is deprecated'
   end
 
-  def age_restrictions?                   
-    Agency.age_restrictions?(home_state_abbrev)
-  end
-  
-  def income_restrictions?
-    Agency.income_restrictions?(home_state_abbrev)
-  end
-
   def employee_list
     PlanCatchAllEmployee.find(:all, :conditions => ['plan_id in (?)', matching_agencies.collect{|a| a.plans}.flatten], :order => :position).compact.collect{|emp| [EmployeeType.find(emp.employee_type_id).name, emp.plan_id]}
   end
@@ -284,6 +276,22 @@ class Counseling < ActiveRecord::Base
       agencies << tsp_by_date
     end
     agencies.flatten.uniq    
+  end
+  
+  def age_restrictions?
+    new_counseling = Counseling.new
+    new_counseling.attributes = self.attributes
+    new_counseling.is_over_60 = true
+    new_counseling.monthly_income = new_counseling.number_in_household = nil
+    !new_counseling.closest_dsp.nil? && new_counseling.closest_dsp.class==Agency
+  end
+  
+  def income_restrictions?
+    new_counseling = Counseling.new
+    new_counseling.attributes = self.attributes
+    new_counseling.is_over_60 = nil
+    new_counseling.monthly_income = new_counseling.number_in_household = 1
+    !new_counseling.closest_dsp.nil? && new_counseling.closest_dsp.class==Agency
   end
   
   def closest_dsp
