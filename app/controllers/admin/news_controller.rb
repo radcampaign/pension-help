@@ -55,7 +55,7 @@ class Admin::NewsController < ApplicationController
     News.find(:all, :conditions => {:is_internal => @news.is_internal}).each{|item| item.update_attributes(:position => item.position+1)}
     @news.position = 0
     if @news.save
-      flash[:notice] = 'News was successfully created.'
+      flash[:notice] = 'News item was successfully created.'
       redirect_to :action => 'list'
     else
       render :action => 'new'
@@ -91,7 +91,9 @@ class Admin::NewsController < ApplicationController
   def sort_news
     to_sort = params[:int_news_list] unless params[:int_news_list].blank?
     to_sort = params[:ext_news_list] unless params[:ext_news_list].blank?
-    to_sort.each_with_index { |id,idx| News.update(id, :position => idx-1) unless id.blank? }
+    # find lowest ordered item on this page (we don't want to start at 0 all the time)
+    min_value = News.find(:first, :conditions => {:id => to_sort}, :order => :position).position
+    to_sort.each_with_index { |id,idx| News.update(id, :position => idx+min_value-1) unless id.blank? }
     render :nothing => 'true'
   end
   
