@@ -229,8 +229,9 @@ class HelpController < ApplicationController
     redirect_to :action => :results
   end
 
-  def results
+  def results    
     @counseling = find_counseling
+    @zip_import = ZipImport.find_by_zipcode(@counseling.zipcode)
     @results = @counseling.matching_agencies
     begin
       @currently_employed_text = Content.find_by_url('currently_employed_text').content

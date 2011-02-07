@@ -20,10 +20,7 @@
 	<table>
 		<tr>
 			<td>Zip Code:</td> 
-			<td><%= form.text_field :zipcode, :size => 5 %></td>
-			<td>
-				<%= submit_tag 'confirm my zip code', :name => 'confirm' unless @zip_found %>
-			</td>
+			<td><%= form.text_field :zipcode, :size => 5 %></td>			
 		</tr>
 	<table>
 </p>
@@ -51,15 +48,9 @@
 </script>
 
 <% end %>
-<% if @zip_found %>
+
 	<%= image_submit_tag "buttons/next_button.gif", :id => 'nextLinkButton', :name => 'continue' %>
-<% else %>
-	<%= image_submit_tag 'buttons/next_button_disabled.gif', :id => 'nextLinkButtonDisabled', :onclick => 'return false;' %>
-	<script type="text/javascript">
-		$('nextLinkButtonDisabled').observe('mouseover', showTooltip );
-		$('nextLinkButtonDisabled').observe('mouseout', hideTooltip );
-	</script>
-<% end %>
+
 <% end -%>
 <p>&nbsp;</p>
 

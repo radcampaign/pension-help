@@ -37,8 +37,7 @@ class PlansController < ApplicationController
   end
 
   # GET /plans/1;edit
-  def edit
-    debugger
+  def edit    
     @plan = @agency.plans.find(params[:id])
     @new_restrictions = @plan.get_empty_restrictions
     #@plan.build_restriction if !@plan.restriction

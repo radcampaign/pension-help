@@ -1,5 +1,9 @@
 <h1 style="font-weight:bold">Here is the PensionHelp you requested...</h1>
-
+<p>The resources below are based on the zip code you entered (<%= @counseling.zipcode %>) 
+<% unless @zip_import.city.blank? && @zip_import.state_abbrev.blank? %>
+  near <%= "#{@zip_import.city}, #{@zip_import.state_abbrev}" %>
+<% end %>
+ </p>
 <p><%= @currently_employed_text if @counseling.currently_employed %></p>
 
 <p>We recommend that you print this page for your records.</p>
