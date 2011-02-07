@@ -22,25 +22,15 @@
 			<td>Zip Code:</td> 
 			<td><%= form.text_field :zipcode, :size => 5 %></td>
 			<td>
-				<%= submit_tag 'confirm my zip code', :name => 'confirm' %>
+				<%= submit_tag 'confirm my zip code', :name => 'confirm' unless @zip_found %>
 			</td>
 		</tr>
 	<table>
 </p>
 
 <br/>
-<% if @zip_found && !@show_aoa_expansion %>
-<p id="zip_found">Zip Code confirmed to be in  <%= @counseling.home_state.name %>. Please press the 'Next' button to continue.</p>
-<script type="text/javascript">
-	new Effect.Highlight('zip_found');
-</script>
-<% end -%>
 
 <div id="aoa_expansion">
-	<% if @zip_found && @show_aoa_expansion %>
-		<p>Zip Code confirmed to be in  <%= @counseling.home_state.name %>. Please consider the questions below.</p>
-	<% end %>
-  
 	<h2>Where did you work?</h2>
 
 	<p>Some organizations provide assistance based on where the work occurred while earning the pension, where the company is headquartered, or where the benefit is being paid from.</p>
@@ -65,7 +55,7 @@
 	<%= image_submit_tag "buttons/next_button.gif", :id => 'nextLinkButton', :name => 'continue' %>
 <% else %>
 	<%= image_submit_tag 'buttons/next_button_disabled.gif', :id => 'nextLinkButtonDisabled', :onclick => 'return false;' %>
-	<script>
+	<script type="text/javascript">
 		$('nextLinkButtonDisabled').observe('mouseover', showTooltip );
 		$('nextLinkButtonDisabled').observe('mouseout', hideTooltip );
 	</script>

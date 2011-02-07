@@ -1,4 +1,5 @@
 class HelpController < ApplicationController
+  before_filter :check_aoa_zip, :only => [:step3]
 
   EARLIEST_EMPLOYMENT_YEAR = 1880
   LATEST_EMPLOYMENT_YEAR = 2025
@@ -132,6 +133,7 @@ class HelpController < ApplicationController
   end
 
   def step_2 #zip, AoA states, plan questions
+    @zip_found = true
     @counseling = update_counseling
     @counseling.step = 2
     @states = CounselAssistance.states
@@ -140,7 +142,7 @@ class HelpController < ApplicationController
   end
 
   # ajax call to check if zipcode is in aoa coverage area
-  def check_aoa_zip
+  def check_aoa_zip    
     @counseling = update_counseling
     @counseling.zipcode = params[:zip] if !params[:zip].blank?
     #@counseling.step = 3
