@@ -23,12 +23,12 @@ module ApplicationHelper
 
   def pal_checked?(partner, item)
     levels = partner.pal_participation_levels
-    levels.collect(&:name).include?(item.name) || (levels.map(&:name).blank? && partner.wants_pal )
+    levels.collect(&:name).include?(item.name) || (levels.map(&:name).blank? && partner.wants_pal && !item.name.match('Other'))
   end
 
   def npln_checked?(partner, item)
     levels = partner.npln_participation_levels
-    levels.collect(&:name).include?(item.name) || (levels.map(&:name).blank? && partner.wants_npln )
+    levels.collect(&:name).include?(item.name) || (levels.map(&:name).blank? && partner.wants_npln && !item.name.match('Other'))
   end
 
 end
