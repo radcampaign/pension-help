@@ -20,5 +20,15 @@ module ApplicationHelper
     "<select name=\"#{object}[#{method}]\" id=\"#{object}[#{method}]\" onchange=\"new Ajax.Request('/#{controller}/#{action}', 
     {asynchronous:false, evalScripts:true, parameters:'#{object}[#{method}]='+escape(value), onComplete:validateStep()})\">" + option_tags + "</select>"
   end
-  
+
+  def pal_checked?(partner, item)
+    levels = partner.pal_participation_levels
+    levels.collect(&:name).include?(item.name) || (levels.map(&:name).blank? && partner.wants_pal )
+  end
+
+  def npln_checked?(partner, item)
+    levels = partner.npln_participation_levels
+    levels.collect(&:name).include?(item.name) || (levels.map(&:name).blank? && partner.wants_npln )
+  end
+
 end

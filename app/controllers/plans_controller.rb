@@ -38,6 +38,7 @@ class PlansController < ApplicationController
 
   # GET /plans/1;edit
   def edit
+    debugger
     @plan = @agency.plans.find(params[:id])
     @new_restrictions = @plan.get_empty_restrictions
     #@plan.build_restriction if !@plan.restriction
@@ -84,6 +85,7 @@ class PlansController < ApplicationController
   # PUT /plans/1
   # PUT /plans/1.xml
   def update
+    debugger
     if params['cancel']
       redirect_to edit_agency_url(@agency) and return
     end
