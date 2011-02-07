@@ -85,7 +85,6 @@ class PlansController < ApplicationController
   # PUT /plans/1
   # PUT /plans/1.xml
   def update
-    debugger
     if params['cancel']
       redirect_to edit_agency_url(@agency) and return
     end
