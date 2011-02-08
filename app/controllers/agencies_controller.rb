@@ -10,9 +10,8 @@ class AgenciesController < ApplicationController
   # GET /agencies.xml
   def index
     @restriction = Restriction.new
-
+    
     ajax_search
-
     render :action => :area_served_search
 
    end
