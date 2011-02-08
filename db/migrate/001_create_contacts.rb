@@ -14,7 +14,7 @@ class CreateContacts < ActiveRecord::Migration
       t.column "fax", :string, :limit => 20
       t.column "email", :string
       t.column "url", :string
-      t.column "profession_id", :integer
+      t.column "profession_id", :integer, :null => true, :references => nil
       t.column "profession_other", :string
       t.column "affiliations", :string
       t.column "wants_npln", :boolean
