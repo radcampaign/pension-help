@@ -22,7 +22,7 @@
 <table class="form">
 	<% for item in PalParticipationLevel.find(:all) %>
 		<tr>
-			<th><%= check_box_tag("pal_participation_levels[]", item.name, pal_checked?(partner, item))  %></th>
+			<th><%= check_box_tag("pal_participation_levels[]", item.name, partner.pal_participation_levels.collect(&:name).include?(item.name))  %></th>
 			<td><%= item.name %> 
 			<%= p.text_field :pal_participation_level_other if item.name.match('Other') %>
 			</td>

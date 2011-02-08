@@ -4,7 +4,7 @@
 <table class="form">
 	<% for item in NplnParticipationLevel.find(:all) %>
 		<tr>
-			<th><%= check_box_tag("npln_participation_levels[]", item.name, npln_checked?(partner, item)) %></th>
+			<th><%= check_box_tag("npln_participation_levels[]", item.name, partner.npln_participation_levels.collect(&:name).include?(item.name)) %></th>
 			<td><%= item.name %> 
 			<%= p.text_field :npln_participation_level_other if item.name.match('Other') %>
 			</td>
