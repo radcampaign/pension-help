@@ -17,10 +17,16 @@ config.action_controller.perform_caching             = true
 # Disable delivery errors, bad email addresses will be ignored
 # config.action_mailer.raise_delivery_errors = false
 
-ActionMailer::Base.smtp_settings = { 
-  :address => 'localhost',
-  :domain  => 'pensionhelp.org'
+ActionMailer::Base.smtp_settings = {
+  :address => 'smtp.gmail.com',
+  :domain  => 'gmail.com',
+  :port => 587,
+  :authentication => :plain,
+  :user_name => 'pensionhelpamerica@gmail.com',
+  :password => 'gblue2011',
+  :tls =>  true
+
 }
 
-EMAIL_RECIPIENT = "JHotz@PensionRights.org, dan@gradientblue.com"
+EMAIL_RECIPIENT = "dan@freeportmetrics.com, marcin@freeportmetrics.com"
 EMAIL_FROM = "do-not-reply@PensionRights.org"
