@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 75) do
+ActiveRecord::Schema.define(:version => 77) do
 
   create_table "addresses", :force => true do |t|
     t.column "location_id",    :integer
@@ -664,38 +664,39 @@ ActiveRecord::Schema.define(:version => 75) do
   end
 
   create_table "plans", :force => true do |t|
-    t.column "agency_id",          :integer
-    t.column "name",               :string
-    t.column "name2",              :string
-    t.column "description",        :text
-    t.column "comments",           :text
-    t.column "start_date",         :date
-    t.column "end_date",           :date
-    t.column "covered_employees",  :text
-    t.column "plan_type1",         :string
-    t.column "plan_type2",         :string
-    t.column "plan_type3",         :string
-    t.column "url",                :string
-    t.column "url_title",          :string
-    t.column "admin_url",          :string
-    t.column "admin_url_title",    :string
-    t.column "tpa_url",            :string
-    t.column "tpa_url_title",      :string
-    t.column "spd_url",            :string
-    t.column "spd_url_title",      :string
-    t.column "govt_employee_type", :string
-    t.column "fmp2_code",          :string
-    t.column "legacy_category",    :string
-    t.column "legacy_status",      :string
-    t.column "updated_at",         :datetime
-    t.column "updated_by",         :string
-    t.column "email",              :string
-    t.column "position",           :integer
-    t.column "pha_contact_name",   :string
-    t.column "pha_contact_title",  :string
-    t.column "pha_contact_phone",  :string,   :limit => 20
-    t.column "pha_contact_email",  :string
-    t.column "is_active",          :boolean,                :default => true
+    t.column "agency_id",             :integer
+    t.column "name",                  :string
+    t.column "name2",                 :string
+    t.column "description",           :text
+    t.column "comments",              :text
+    t.column "start_date",            :date
+    t.column "end_date",              :date
+    t.column "covered_employees",     :text
+    t.column "plan_type1",            :string
+    t.column "plan_type2",            :string
+    t.column "plan_type3",            :string
+    t.column "url",                   :string
+    t.column "url_title",             :string
+    t.column "admin_url",             :string
+    t.column "admin_url_title",       :string
+    t.column "tpa_url",               :string
+    t.column "tpa_url_title",         :string
+    t.column "spd_url",               :string
+    t.column "spd_url_title",         :string
+    t.column "govt_employee_type",    :string
+    t.column "fmp2_code",             :string
+    t.column "legacy_category",       :string
+    t.column "legacy_status",         :string
+    t.column "updated_at",            :datetime
+    t.column "updated_by",            :string
+    t.column "email",                 :string
+    t.column "position",              :integer
+    t.column "pha_contact_name",      :string
+    t.column "pha_contact_title",     :string
+    t.column "pha_contact_phone",     :string,   :limit => 20
+    t.column "pha_contact_email",     :string
+    t.column "is_active",             :boolean,                :default => true
+    t.column "previous_gov_employee", :string
   end
 
   add_index "plans", ["agency_id"], :name => "agency_id"

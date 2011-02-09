@@ -48,6 +48,7 @@ class HelpController < ApplicationController
     case @counseling.employer_type_id
       when 1..8: # valid responses
         @next_question = CAQuestion.get_next(@counseling, 'EMP_TYPE')
+        (@next_question.options = @next_question.options.delete_if {|opt| opt[1] == "AA" || opt[1] == "AE" or opt[1] == "AP"}) if @next_question # remove armed forces                
         render :update do |page|
           if @next_question
             page.replace_html 'q2', :partial => 'next_question', :locals => {'question' => @next_question, 'selected_value' => @counseling[@next_question.method]}
@@ -270,7 +271,7 @@ class HelpController < ApplicationController
   
   # Used for populating state, county and local pulldowns 
   def get_counties
-    counties = State.find(params[:counseling][:work_state_abbrev]).counties
+    counties = State.find(params[:counseling][:work_state_abbrev]).counties    
     render :update do |page|
       page.replace_html 'counties', :partial => 'county_selector', :locals => {'options' => counties.collect{|c| [c.name, c.id]}.sort, 'cities' => params[:local]}
       page.visual_effect :highlight, 'county_container'

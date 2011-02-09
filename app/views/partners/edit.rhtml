@@ -83,18 +83,22 @@
       loadPlansType(jQuery(this).attr('checked'));
       loadNplnJurisdictions(jQuery(this).attr('checked'));
       loadReferrals(jQuery(this).attr('checked'));
+      loadProfessions(jQuery(this).attr('checked'));
       loadAdditionalInfo(jQuery(this).attr('checked'));
       showNplnFields(jQuery(this).attr('checked'));
       checkBoxes();
+      selectProfession();
     });
 
     jQuery("#partner_wants_pal").click(function (){
       loadPlansType(jQuery(this).attr('checked'));
       loadReferrals(jQuery(this).attr('checked'));
+      loadProfessions(jQuery(this).attr('checked'));
       loadPalAaaInfo(jQuery(this).attr('checked'));
       loadAdditionalInfo(jQuery(this).attr('checked'));
       showPalFileds(jQuery(this).attr('checked'));
       checkBoxes();
+      selectProfession();
     });
 
     jQuery("#partner_wants_help").click(function (){
@@ -104,6 +108,7 @@
       loadAdditionalInfo(jQuery(this).attr('checked'));
       showHelpFields(jQuery(this).attr('checked'));
       checkBoxes();
+      selectProfession();
     });
 
     jQuery("#partner_wants_search").click(function (){
@@ -112,6 +117,7 @@
       loadAdditionalInfo(jQuery(this).attr('checked'));
       showSearchFields(jQuery(this).attr('checked'));
       checkBoxes();
+      selectProfession();
     });
 
 	jQuery("#a_contactInfo").click(function(){
@@ -354,15 +360,10 @@
      };
     /* professions  */
      function loadProfessions(condition) {
-         if(!condition){
-            if(!(jQuery("#partner_wants_help").attr('checked') || jQuery("#partner_wants_search").attr('checked'))){
-                 jQuery("#professions").html('');
-            }
-         }
-         else if((jQuery("#partner_wants_help").attr('checked') || jQuery("#partner_wants_search").attr('checked'))){
-             if(jQuery("#professions").html()==''){
+        if(condition){
+             if(jQuery("#professions").html()=='')
                   jQuery("#professions").html('<%= escape_javascript(render(:partial => 'works/professions', :locals => {:partner => @partner, :p => f})) %>');
-             }
+             
          }
      };
     /* nlpn_infp, npln_levels  */
@@ -464,6 +465,14 @@
          }
      }
 
+     function selectProfession(){
+      if (jQuery('#partner_wants_npln').attr('checked') && !jQuery('#partner_wants_pal').attr('checked') && !jQuery('#partner_wants_search').attr('checked') && !jQuery('#partner_wants_help').attr('checked'))
+        jQuery('select#profession').val('Attorney');
+      else if (jQuery('#partner_wants_pal').attr('checked') && !jQuery('#partner_wants_npln').attr('checked') && !jQuery('#partner_wants_search').attr('checked') && !jQuery('#partner_wants_help').attr('checked'))
+        jQuery('select#profession').val('Actuary');
+      else
+        jQuery('select#profession').val('');
+     }
 
 </script>
 <% end %>
