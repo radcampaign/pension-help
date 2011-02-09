@@ -68,7 +68,7 @@
 <script type="text/javascript">
 	jQuery(document).ready(function() {
 
-      
+        
         jQuery('#partner_edit_form').submit(function(){
            jQuery(".form tr:hidden").each(function() {
                if(jQuery(this).hasClass('remove_on_submit')){
@@ -472,15 +472,18 @@
      }
 
      function selectProfession(){
-      if (jQuery('#partner_wants_npln').attr('checked') && !jQuery('#partner_wants_pal').attr('checked') && !jQuery('#partner_wants_search').attr('checked') && !jQuery('#partner_wants_help').attr('checked'))
-        jQuery('select#profession').val('Attorney');
-      else if (jQuery('#partner_wants_pal').attr('checked') && !jQuery('#partner_wants_npln').attr('checked') && !jQuery('#partner_wants_search').attr('checked') && !jQuery('#partner_wants_help').attr('checked'))
-        jQuery('select#profession').val('Actuary');
-      else
-        jQuery('select#profession').val('');
+       if (!(window.profession_selected == true)){
+        if (jQuery('#partner_wants_npln').attr('checked') && !jQuery('#partner_wants_pal').attr('checked') && !jQuery('#partner_wants_search').attr('checked') && !jQuery('#partner_wants_help').attr('checked'))
+          jQuery('select#profession').val('Attorney');
+        else if (jQuery('#partner_wants_pal').attr('checked') && !jQuery('#partner_wants_npln').attr('checked') && !jQuery('#partner_wants_search').attr('checked') && !jQuery('#partner_wants_help').attr('checked'))
+          jQuery('select#profession').val('Actuary');
+        else
+          jQuery('select#profession').val('');
+      }
      }
 
      function hideShowProfessionOtherTextField(){
+
          jQuery('select#profession').change(function(){
              if (jQuery('#profession :selected').val() == 'Other...')
                 jQuery('input#partner_profession_other').show();
@@ -498,6 +501,7 @@
 
      function hideShowProfessionOtherTextField(){
          jQuery('select#profession').live('change', function(){
+         window.profession_selected = true;
          show_hide_professions();
          });
      }
