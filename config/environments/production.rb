@@ -16,6 +16,9 @@ config.action_controller.perform_caching             = true
 
 # Disable delivery errors, bad email addresses will be ignored
 # config.action_mailer.raise_delivery_errors = false
+require 'tlsmail'
+
+Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE)
 
 ActionMailer::Base.smtp_settings = {
   :address => 'smtp.gmail.com',
