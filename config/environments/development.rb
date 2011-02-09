@@ -19,6 +19,7 @@ config.action_view.debug_rjs                         = true
 
 # Don't care if the mailer can't send
 require 'tlsmail'
+
 Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE)
 config.action_mailer.raise_delivery_errors = true
 
