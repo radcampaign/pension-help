@@ -67,6 +67,8 @@
 
 <script type="text/javascript">
 	jQuery(document).ready(function() {
+
+      
         jQuery('#partner_edit_form').submit(function(){
            jQuery(".form tr:hidden").each(function() {
                if(jQuery(this).hasClass('remove_on_submit')){
@@ -363,6 +365,10 @@
         if(condition){
              if(jQuery("#professions").html()=='')
                   jQuery("#professions").html('<%= escape_javascript(render(:partial => 'works/professions', :locals => {:partner => @partner, :p => f})) %>');
+
+
+                show_hide_professions();
+                hideShowProfessionOtherTextField()
              
          }
      };
@@ -473,6 +479,32 @@
       else
         jQuery('select#profession').val('');
      }
+
+     function hideShowProfessionOtherTextField(){
+         jQuery('select#profession').change(function(){
+             if (jQuery('#profession :selected').val() == 'Other...')
+                jQuery('input#partner_profession_other').show();
+           else
+             jQuery('input#partner_profession_other').hide();
+         });
+     }
+
+  var show_hide_professions = function(){
+          if (jQuery('#profession :selected').val() == 'Other...')
+                jQuery('tr#partner_profession_other').show();
+           else
+             jQuery('tr#partner_profession_other').hide();
+     }
+
+     function hideShowProfessionOtherTextField(){
+         jQuery('select#profession').live('change', function(){
+         show_hide_professions();
+         });
+     }
+
+
+
+	
 
 </script>
 <% end %>
