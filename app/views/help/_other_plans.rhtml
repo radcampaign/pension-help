@@ -1,9 +1,13 @@
-<h2>We need a little more information...</h2>
-<p>Answer the questions below to help identify the particular pension plan you have a question about. Then click “Next” to continue.</p>
-<p id="plan_name_container">What plan were you inquiring about?
-<input name="counseling[plan_name]" type="text" id="plan_name" />
+<h3><a href="">We need a little more information...</a></h3>
+<p class="normal">
+  Answer the questions below to help identify the particular pension plan you have a question about. Then click “Next” to continue.
 </p>
+<div id="plan_name_container" class="normal">
+  <label>What plan were you inquiring about?</label>
+  <input name="counseling[plan_name]" type="text" id="plan_name" />
+</div>
 <%= render :partial => 'not_known_plans' %>
+
 <script type="text/javascript">
   addValidation();
   validateStep();

@@ -1,23 +1,21 @@
-<div id="counseling_errors">
+<div id="content-no-sidebar">
+
+ <h1>Find Help</h1>
+
+ <div id="counseling_errors">
   <%= render :partial => 'help/counseling_errors', :locals => {'counseling' => @counseling} %>
-</div>
-<%= image_tag "layout/stepcircle-one.jpg", :id => 'counseling_step' %>
+ </div>
 
-<h1>Counseling &amp; Assistance</h1>
+<p class="intro border-bottom">
+  Welcome to our Counseling and Assistance service area. To make sure you get the right type of referral, we'd like you to answer a few questions. When you have completed these, the grey NEXT button at the bottom of the page will turn red. Click it to continue.</p>
+  <h3><a href="">What type of employer</a></h3>
 
-<p>Welcome to our Counseling and Assistance service area. To make sure you get the right type of referral, we&#39;d like
-  you to answer a few questions. When you have completed these, the grey <b style="color: #cc0000">NEXT</b> button at
-  the bottom of the page will turn red. Click it to continue.</p>
-
-<h2>What type of employer?</h2>
-
-<p>This will help us determine what law governs your pension question. Make the menu selection that best describes the
+  <p>This will help us determine what law governs your pension question. Make the menu selection that best describes the
   employer offering the pension or retirement savings plan you have a question about.</p>
 
 <% form_tag :action => :step_2 do -%>
 
-    <p>Employer
-      type: <%= remote_select "counseling", "employer_type_id", @options, 'help', 'show_second_question', (@counseling.employer_type.id if @counseling.employer_type) %></p>
+    <label>Employer type: <%= remote_select "counseling", "employer_type_id", @options, 'help', 'show_second_question', (@counseling.employer_type.id if @counseling.employer_type) %></label>
 
     <div id="q2" class="counselingQuestion">
       <% if @next_question_2 -%>
@@ -42,7 +40,7 @@
 
     <p>&nbsp;</p>
 
-    <%= image_submit_tag "buttons/next_button.gif",:value=>"submit", :id => 'nextLinkButton' %>
+    <%= image_submit_tag "/images/next.png",:value=> "submit", :id => 'nextLinkButton' %>
 
 <% end -%>
 <p>&nbsp;</p>
@@ -119,3 +117,4 @@
 
     validateStep();
 </script>
+</div>

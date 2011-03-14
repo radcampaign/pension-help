@@ -21,19 +21,17 @@ module ApplicationHelper
     {asynchronous:false, evalScripts:true, parameters:'#{object}[#{method}]='+escape(value), onComplete:validateStep()})\">" + option_tags + "</select>"
   end
 
-   def current_class(*class_names)
-    for klass in class_names do
-      if params[:controller] == klass
-        return "active"
-      else
-        ""
-      end
-    end
+  def current_class(url)
+    return "active" if  (url == 'home' && params[:controller] == 'site' && params[:url].to_s == '/') || request.path.include?(url)
   end
 
-    def show_flash_message(options={})
-      flash.collect{ |key,msg| content_tag(:div, msg, :class => key) }.join           
-    end
+  def show_flash_message
+    flash.collect{ |key,msg| content_tag(:div, msg, :class => key) }.join
+  end
+
+  def image_submit_button
+    %Q{<input src="/images/submit.png" type="image" />}
+  end
 
 
 end

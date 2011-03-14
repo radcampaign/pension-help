@@ -19,4 +19,15 @@ class Content < ActiveRecord::Base
   def Content.get_content_list(content_id = nil)
     Content.root.full_set.collect{|elem| elem unless (content_id && elem.id == content_id) }.compact
   end
+
+  def show_sidebar?(url)
+    return true if sidebar_urls.include?(url.to_s)
+    false
+  end
+
+  def sidebar_urls
+    %w(/ about_us terms_of_use)
+  end
+
+
 end
