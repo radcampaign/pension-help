@@ -1,1 +1,4 @@
+<% content_for :sidebar do  %>
+  <%= render :partial => "layouts/sidebar" if params[:url] == "/" %>
+<% end %>
 <%= @content.content %>

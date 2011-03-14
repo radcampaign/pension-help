@@ -1,8 +1,10 @@
-<% for column in Content.content_columns %>
-<p>
-  <b><%= column.human_name %>:</b> <%=h @content.send(column.name) %>
-</p>
-<% end %>
+<div id="content-no-sidebar">
+  <% for column in Content.content_columns %>
+  <p>
+    <b><%= column.human_name %>:</b> <%=h @content.send(column.name) %>
+  </p>
+  <% end %>
 
-<%= link_to 'Edit', :action => 'edit', :id => @content %> |
-<%= link_to 'Back', :action => 'list' %>
+  <%= link_to 'Edit', :action => 'edit', :id => @content %> |
+  <%= link_to 'Back', :action => 'list' %>
+</div>

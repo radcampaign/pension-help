@@ -1,6 +1,5 @@
 class Admin::ContentController < ApplicationController
-  before_filter :login_required
-  layout "admin"
+  before_filter :login_required  
   
   def authorized?
     current_user.is_admin?

@@ -1,0 +1,9 @@
+<div id="header">
+    <a id="logo" rel="home" title="Home" href="/"><%= image_tag "header.png", :alt => "Home" %></a>
+    <%= image_tag "print-text-email.png", :border => 0, :usemap => "#Map", :class => "right" %>
+    <map name="Map">
+      <area shape="rect" coords="247,4,373,32" href="#" onclick="print_preview(); return false;" alt="Print this page" id="print_link"/>
+      <area shape="rect" coords="112,4,238,32" href="<%= url_for(:controller => :email_this_page, :action => :new, :link => request.request_uri)%>" alt="Email this page"/>
+      <area shape="rect" coords="27,4,94,32" href="#" alt="Text size" id="text_size"/>
+    </map>
+</div>

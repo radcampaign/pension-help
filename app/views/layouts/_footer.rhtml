@@ -1,30 +1,17 @@
 <div id="footer">
-	<ul id="footer_links">
-		<li><%= link_to_unless_current 'Home', '/' %></li>
-		<li class="list_separator">|</li>
-		<li><%= link_to_unless_current 'About Us', '/about_us' %></li>
-		<li class="list_separator">|</li>
-		<li><%= link_to_unless_current 'Privacy',  '/privacy' %></li>
-		<li class="list_separator">|</li>
-		<li><%= link_to_unless_current 'Terms of Use',  '/terms_of_use' %></li>
-		<li class="list_separator">|</li>
-		<li><%= link_to_unless_current 'Feedback', :controller => '/feedback', :action => :show_form %></li>
-		<li class="list_separator">|</li>
-		<% if session[:user] -%>               
-      <% if current_user.can_manage_site? %>
-        <li><%= link_to_unless_current 'Management', :controller => '/admin', :action => 'menu' %></li>
-      <% elsif current_user.is_network_user? %>
-        <li><%= link_to_unless_current "Partner's profile", edit_partner_path(current_user.partner) %></li>
-      <% end%>
-			<li class="list_separator">|</li>
-			<li><%= link_to 'Logout', :controller => '/account', :action => 'logout' %></li>
-		<% else %>
-			<li><%= link_to 'Login', :controller => '/account', :action => 'login' %></li>
-		<% end -%>
-	</ul>
-	<%= link_to_unless_current "Copyright &copy;#{Time.now.strftime('%Y')} Pension Rights Center", '/copyright' %>
-	<div id="print_disclaimer">All Rights Reserved with Permission of the Pension Rights Center.</div>
+  <ul>
+    <li><%= link_to_unless_current 'Home', '/' %></li>
+    <li>|</li>
+    <li><%= link_to_unless_current 'Terms of Use',  '/terms_of_use' %></li>
+    <li>|</li>
+    <li><%= link_to_unless_current 'Feedback', :controller => '/feedback', :action => :show_form %></li>
+    <li>|</li>
+    <li><%= link_to_unless_current 'Site Administration', :controller => '/admin', :action => 'menu' %></li>
+  </ul>
+  <div class="address-cc">
+    <p>PensionHelp America is a Pension Rights Center Initiative</p>
+    <%= image_tag "cc-by-sa.png", :class => "left" %>
+    <p>Pension Rights Center</p>
+    <p>1350 Connecticut Avenue NW, Suite 206   |   Washington, DC 20036   |   (202) 296-3776</p>
+  </div>
 </div>
-<% if ENV['RAILS_ENV']=='production' %>
-	<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"> </script> <script type="text/javascript"> _uacct = "UA-3486550-1"; urchinTracker(); </script>
-<% end %>

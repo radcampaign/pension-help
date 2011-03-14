@@ -24,5 +24,7 @@ class PageEmail < ActiveRecord::Base
     return result
   end
 
-  validates_presence_of :name, :recipient_name, :recipient_email
+  validates_presence_of :name, :message => "^Your name"
+  validates_presence_of :recipient_name, :message => "^Your friend's name"
+  validates_presence_of :recipient_email, :message => "^Your friend's email address"
 end

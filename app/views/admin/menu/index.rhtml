@@ -1,10 +1,12 @@
-<h1>Management Menu</h1>
+<div id="content-no-sidebar">
+  <h1>Management Menu</h1>
 
-<ul class="menuList">
-<li><%= link_to "Agencies / Locations / Plans",:controller => "/agencies", :action=>"go_to_agencies", :id=>true  %></li>
-<li><%= link_to "Manage catch-all employees", :controller => "/state", :action => 'index'%></li>
-<li><%= link_to "Manage feedback", :controller => "/feedbacks", :action => 'index'%></li>
-<li><%= link_to "Manage page content", :controller => "admin/content", :action => 'index' %></li>
-<li><%= link_to "Manage news items", :controller => "admin/news", :action => 'index' %></li>
-<li><%= link_to "Partner List", :controller => "/partners", :action => 'index'%></li>
-</ul>
+  <ul class="menuList">
+  <li><%= link_to "Agencies / Locations / Plans",:controller => "/agencies", :action=>"go_to_agencies", :id=>true  %></li>
+  <li><%= link_to "Manage catch-all employees", :controller => "/state", :action => 'index'%></li>
+  <li><%= link_to "Manage feedback", :controller => "/feedbacks", :action => 'index'%></li>
+  <li><%= link_to "Manage page content", :controller => "admin/content", :action => 'index' %></li>
+  <li><%= link_to "Manage news items", :controller => "admin/news", :action => 'index' %></li>
+  <li><%= link_to "Partner List", :controller => "/partners", :action => 'index'%></li>
+  </ul>
+</div>

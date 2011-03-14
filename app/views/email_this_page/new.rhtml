@@ -1,7 +1,17 @@
-<h1>Email This Page</h1>
-
-<% form_for :email, @email, :url => {:action => :create} do |f| %>
-  <%= render :partial => 'form', :locals => {:f => f} %>
-
-  <%= submit_tag('Send') %>
-<% end %>
+<div id="content-no-sidebar">
+  <h1>Email This Page</h1>
+  <p class="intro">Page title: <%= @email.page_title %></p>
+  <% form_for :email, @email, :url => {:action => :create}, :html => {:class => :email} do |f| %>
+    <%= render :partial => 'form', :locals => {:f => f} %>
+    <input src="/images/submit.png" type="image" />
+    <p class="req">* denotes required field</p>
+  <% end %>       
+    <h3>The email you send will look like the following:</h3>
+    <p class="data">To: yourfriend@theiraddress.com</p>
+    <p class="data">From: Your Name</p>
+    <p class="data">Subject: I've found a helpful site!</p>
+    <p>[YOUR PERSONAL MESSAGE GOES HERE]</p>
+    <p>I think you'll find the BenefitsCheckUp website very helpful.</p>
+    <p>Just go to http://www.BenefitsCheckUp.org to learn about benefit programs you may be eligible for. You could receive help paying for prescription drugs, energy bills, property taxes, and more. If you are eligible for Medicare and have limited income and resources, you can also apply online for Extra Help available through Medicare's Prescription Drug Coverage. It’s simple, it's fast, and it's free!</p>
+    <p>This email was sent to you by [your name]. BenefitsCheckUp respects your privacy and will not contact you.</p>
+</div>

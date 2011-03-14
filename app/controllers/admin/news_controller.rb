@@ -1,6 +1,5 @@
 class Admin::NewsController < ApplicationController
   before_filter :login_required
-  layout "admin"
   
   def authorized?
     current_user.is_admin?
