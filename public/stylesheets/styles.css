@@ -360,3 +360,16 @@ form.admin_form .half {
 form.admin_form li {
 	list-style:none;
 }
+
+.notice {
+	width: 641px;
+	background-color: #EFE;
+	background-repeat: repeat-x;
+	text-align: center;
+ }
+.error {
+	width:620px;
+	background-color:#FEE;
+	border: 1px solid #F00;
+	text-align: center;
+ }

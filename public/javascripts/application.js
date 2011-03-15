@@ -12,5 +12,27 @@ Event.observe( window, 'DOMContentLoaded', function() {
     });    
   });
 
+(function($) {
+  $.fn.increaseFontsize = function(size, speed, easing, callback) {
+    return this.animate({fontSize: size}, speed, easing, callback);
+  };
+})(jQuery);
+
+
+
+jQuery(function() {
+  jQuery('.font').click(function() {
+    if (jQuery(this).attr('class')=="small font") {
+        jQuery('body, p, div, td, tr,label').increaseFontsize(10, 'fast');
+    }
+    if (jQuery(this).attr('class')=="medium font") {
+        jQuery('body, p, div, td, tr,label').increaseFontsize(13, 'fast');
+    }
+     if (jQuery(this).attr('class')=="big font") {
+        jQuery('body, p, div, td, tr,label').increaseFontsize(17, 'fast');
+    }
+  });
+});
+
 });
 
