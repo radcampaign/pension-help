@@ -20,6 +20,7 @@
           <div id="main-content" class="clearfix">
             <div id="content">
               <%= show_flash_message %>
+              <%= image_tag 'loading.gif', :id => 'spinner', :style => 'display:none' %>
               <%= yield %>
             </div>
             <%= yield(:sidebar) %>

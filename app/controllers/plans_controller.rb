@@ -5,8 +5,7 @@ class PlansController < ApplicationController
                             :get_cities_for_counties, 
                             :get_zips_for_counties,
                             :auto_complete_for_plan_catchall_employees]
-  layout 'admin'
-
+  
   auto_complete_for :plans, :catchall_employees
   
   def authorized?

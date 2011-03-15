@@ -1,13 +1,15 @@
-<h1>Feedback</h1>
-<p>
-  <span>Resolved: </span>
-  <%= image_tag(@feedback.is_resolved ? 'check_blue.gif' : 'close.gif')%>
-</p>
+<div id="content-no-sidebar">
+  <h2>Feedback</h2>
+  <p>
+    <span>Resolved: </span>
+    <%= image_tag(@feedback.is_resolved ? 'check_blue.gif' : 'close.gif')%>
+  </p>
 
-<div id="feedback">
-  <%= render :partial => 'feedback_read_only', :locals => {:f => @feedback} %>
+  <div id="feedback">
+    <%= render :partial => 'feedback_read_only', :locals => {:f => @feedback} %>
+  </div>
+
+  <%= render :partial => 'comments', :object => @comments %>
+
+  <%= link_to 'Return to list', feedbacks_path() %>
 </div>
-
-<%= render :partial => 'comments', :object => @comments %>
-
-<%= link_to 'Return to list', feedbacks_path() %>

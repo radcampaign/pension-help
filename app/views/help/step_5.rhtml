@@ -1,16 +1,18 @@
-<%= image_tag "layout/stepcircle-four.jpg", :id => 'counseling_step' %>
+<div id="content-no-sidebar" style="width: 760px;">
 
-<h1>Counseling &amp; Assistance</h1>
+  <h2>Counseling &amp; Assistance</h2>
 
-<p>This is the last step in getting you to the right pension-help resource. Answer the questions below and click <b style="color: #cc0000; ">NEXT</b> to continue.</p>
+  <p class="intro border-bottom">This is the last step in getting you to the right pension-help resource. Answer the questions below and click <b style="color: #cc0000; ">NEXT</b> to continue.</p>
 
-<p>&nbsp;</p>
+  <p>&nbsp;</p>
 
-<% form_for :counseling, :url => {:action => :process_step_5} do |form| -%>
+  <% form_for :counseling, :url => {:action => :process_step_5} do |form| -%>
 
-  <p>The American Federation of State, County and Municipal Employees (AFSCME) assists its members with pension counseling.</p>
-  <p>Are you, or was the pension earner, a member?: <%= form.radio_button :is_afscme_member, true %>&nbsp;Yes &nbsp;&nbsp;&nbsp;<%= form.radio_button :is_afscme_member, false %>&nbsp;No</p>
+    <p class="normal">The American Federation of State, County and Municipal Employees (AFSCME) assists its members with pension counseling.</p>
+    <p class="normal">Are you, or was the pension earner, a member?: <%= form.radio_button :is_afscme_member, true %>&nbsp;Yes &nbsp;&nbsp;&nbsp;<%= form.radio_button :is_afscme_member, false %>&nbsp;No</p>
 
-  <%= image_submit_tag "buttons/next_button.gif", :id => 'nextLinkButton', :name => 'continue' %>
+    <%= image_submit_tag "buttons/next_button.gif", :id => 'nextLinkButton', :name => 'continue' %>
 
-<% end %>
+  <% end %>
+
+</div>  

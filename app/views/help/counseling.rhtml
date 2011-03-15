@@ -1,4 +1,4 @@
-<div id="content-no-sidebar">
+<div id="content-no-sidebar" style="width: 760px">
 
  <h1>Find Help</h1>
 
@@ -40,7 +40,7 @@
 
     <p>&nbsp;</p>
 
-    <%= image_submit_tag "/images/next.png",:value=> "submit", :id => 'nextLinkButton' %>
+    <%= content_tag :p, image_submit_tag("/images/next.png",:value=> "submit", :id => 'nextLinkButton') %>
 
 <% end -%>
 <p>&nbsp;</p>
@@ -100,7 +100,7 @@
     function changeStateNextStepButton(active) {
         var next_step_button = document.getElementById('nextLinkButton');
         if (active) {
-            next_step_button.src = '/images/buttons/next_button.gif';
+            next_step_button.src = '/images/next-enabled.png';
             next_step_button.onclick = function() {
                 return true
             };
@@ -109,7 +109,7 @@
             next_step_button.onclick = function() {
                 return false
             };
-            next_step_button.src = '/images/buttons/next_button_disabled.gif';
+            next_step_button.src = '/images/next.png';
             Event.observe('nextLinkButton', 'mouseover', showTooltip);
             Event.observe('nextLinkButton', 'mouseout', hideTooltip);
         }

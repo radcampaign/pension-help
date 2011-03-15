@@ -1,4 +1,6 @@
-<h1>Listing partners</h1>
+<div id="content-no-sidebar">
+
+<h2>Listing partners</h2>
 <div id="return_button">
 <%= button_to 'Back to Management Menu', :controller => '/admin/menu', :action => 'index' %>
 </div>
@@ -14,7 +16,7 @@
   </tr>
   
 <% for partner in @partners %>
-  <tr>
+  <tr class="<%= cycle('odd','even') %> ">
     <td><%= link_to((h partner.first_name), edit_partner_path(partner)) %> <%= link_to((h partner.last_name), edit_partner_path(partner)) %></td>
     <td><%=h partner.company %></td>
     <td><%=h partner.city %></td>
@@ -28,3 +30,4 @@
 
 <br />
 
+</div>

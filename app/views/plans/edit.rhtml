@@ -1,6 +1,7 @@
-<h1>Agency / Plan Administration</h1>
+<div id="content-no-sidebar">
+<h2>Agency / Plan Administration</h2>
 
-<h2 id="agency_heading"><label>Agency: </label><%= @agency.name %>:<%= @agency.name2 %></h2>
+<h3 id="agency_heading"><label>Agency: </label><%= @agency.name %>:<%= @agency.name2 %></h3>
 <%= error_messages_for :plan %>
 
 	<% form_for(:plan, 
@@ -119,3 +120,5 @@
 		jQuery("#pha_contact_phone").mask("(999) 999-9999");
 	 });
 </script>
+
+</div>

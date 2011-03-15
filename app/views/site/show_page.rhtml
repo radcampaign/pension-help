@@ -1,4 +1,10 @@
 <% content_for :sidebar do  %>
   <%= render :partial => "layouts/sidebar" if @content.show_sidebar?(params[:url].to_s) %>
 <% end %>
-<%= @content.content %>
+<%  if @content.full_width_page?(params[:url]) %>
+  <div id="content-no-sidebar">
+    <%= @content.content %>
+  </div>
+<% else %>
+    <%= @content.content %>
+<% end %>

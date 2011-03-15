@@ -1,18 +1,20 @@
-<h1>Agency List</h1>
-<ul class="center" id="footer_links">
-	<li><%= link_to_unless_current 'Home', '/' %></li>
-	<li class="list_separator">|</li>
-	<% if session[:user] -%>
-		<li><%= link_to_unless_current 'Management', :controller => '/admin', :action => 'menu' %></li>
-		<li class="list_separator">|</li>
-		<li><%= link_to 'Logout', :controller => '/account', :action => 'logout' %></li>
-	<% end -%>
-</ul>
+<div id="content-no-sidebar" style="width: 830px;">
+  <h2>Agency List</h2>
+  <div class="center border-bottom" id="footer_links">
+          <%= link_to_unless_current 'Home', '/' %>
+          |
+          <% if session[:user] -%>
+                  <%= link_to_unless_current 'Management', :controller => '/admin', :action => 'menu' %>
+                  |
+                  <%= link_to 'Logout', :controller => '/account', :action => 'logout' %>
+          <% end -%>
+  </div>
 
-<%= render :partial => 'area_served_search_form', :locals => {:restriction => @restriction,
-      :selected_states => @selected_states,
-      :selected_counties => @selected_counties} %>
+  <%= render :partial => 'area_served_search_form', :locals => {:restriction => @restriction,
+        :selected_states => @selected_states,
+        :selected_counties => @selected_counties} %>
 
-<div id="area_served_results" class="clear fullwidth">
-    <%= render :partial => 'search_results', :object => @search_results %>
+  <div id="area_served_results" class="clear fullwidth">
+      <%= render :partial => 'search_results', :object => @search_results %>
+  </div>
 </div>

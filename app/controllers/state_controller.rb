@@ -1,6 +1,5 @@
 class StateController < ApplicationController
     before_filter :login_required
-    layout 'admin'
     
   def index
     @states=State.find(:all)

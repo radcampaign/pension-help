@@ -1,14 +1,5 @@
-<div id="content-no-sidebar">
-  <h1>Agency List</h1>
-  <ul class="center" id="footer_links">
-          <li><%= link_to_unless_current 'Home', '/' %></li>
-          <li class="list_separator">|</li>
-          <% if session[:user] -%>
-                  <li><%= link_to_unless_current 'Management', :controller => '/admin', :action => 'menu' %></li>
-                  <li class="list_separator">|</li>
-                  <li><%= link_to 'Logout', :controller => '/account', :action => 'logout' %></li>
-          <% end -%>
-  </ul>
+<div id="content-no-sidebar" style="width: 760px">
+  <h2>Agency List</h2>
 
   <div class="right">
   <% if params[:active]=='1' %>

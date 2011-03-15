@@ -1,180 +1,184 @@
-<div id="counseling_errors">
-	<%= render :partial => 'help/counseling_errors', :locals => {'counseling' => @counseling} %>
-</div>
-<%= image_tag "layout/stepcircle-three.jpg", :id => 'counseling_step' %>
+<div id="content-no-sidebar" style="width: 760px;">
+  <div id="counseling_errors">
+    <%= render :partial => 'help/counseling_errors', :locals => {'counseling' => @counseling} %>
+  </div>
 
-<h1>Counseling &amp; Assistance</h1>
 
-<p>Almost there! Answer the question or questions below to help us connect you to the right service provider, then click <b style="color: #cc0000; ">NEXT</b> to continue.</p>
+  <h2>Counseling &amp; Assistance</h2>
 
-<div id="employmentDateQuestion">
-<p>&nbsp;</p>
-<h2>What dates of employment?</h2>
+  <p class="intro border-bottom">Almost there! Answer the question or questions below to help us connect you to the right service provider, then click <b style="color: #cc0000; ">NEXT</b> to continue.</p>
 
-<p>This tells us more about the governing law. Answer the question or questions below about the employment of the person who earned the pension or retirement savings plan you are interested in.</p>
+  <div id="employmentDateQuestion">
+  <p>&nbsp;</p>
+  <h3><a href="">What dates of employment?</a></h3>
 
-<% form_for :counseling, :url => {:action => :process_step_3} do |form| -%>
+  <p class="normal">This tells us more about the governing law. Answer the question or questions below about the employment of the person who earned the pension or retirement savings plan you are interested in.</p>
 
-<p>	
-		<% display_current_employee_question = false %>
-		<% if @counseling.employer_type_id == EMP_TYPE[:company] %>
-			Year employment ended: 
-			<%= text_field_tag "employment_end_year", @counseling.employment_end ? @counseling.employment_end.strftime("%Y") : '', {:size => 4} %>
-			Example: 1974
-		<% elsif  [EMP_TYPE[:federal], EMP_TYPE[:military]].include?(@counseling.employer_type_id) and
-		 					@counseling.federal_plan != FederalPlan['Thrift Savings Plan (TSP)'] and
-							@counseling.military_service != MilitaryService['Civilian military employment'] and 
-							@counseling.military_service != MilitaryService['Armed Services National Guard'] %>
-			Were you serving on or after October 9, 2001? &nbsp;
-			<%= radio_button_tag "counseling[employment_cutoff]", "off", @counseling.employment_cutoff, :id => "employment_cutoff_off" %>&nbsp;Yes
-			&nbsp;&nbsp;
-			<%= radio_button_tag "counseling[employment_cutoff]", "on", @counseling.employment_cutoff, :id => "employment_cutoff_on" %>&nbsp;No
-		<% else display_current_employee_question=true %>
-		<% end %>
-</p>
-</div>
+  <% form_for :counseling, :url => {:action => :process_step_3} do |form| -%>
 
-<div id="currentlyEmployedQuestion">
-	<div>Are you currently employed by this employer?&nbsp;&nbsp;&nbsp;
-	<span class="answer">
-	<%= form.radio_button  :currently_employed, true %><label for="counseling_currently_employed_true">&nbsp;Yes&nbsp;&nbsp;&nbsp;</label>
-	<%= form.radio_button  :currently_employed, false %><label for="counseling_currently_employed_false">&nbsp;No</label>
-	</span></div>
-</div>
-	
-<% if @counseling.employer_type_id == EMP_TYPE[:military] %>
-	<p>&nbsp;</p>
-	<h2>Who is the pension-earner?</h2> 
+  <p>
+                  <% display_current_employee_question = false %>
+                  <% if @counseling.employer_type_id == EMP_TYPE[:company] %>
+                          <label>Year employment ended:</label>
+                          <%= text_field_tag "employment_end_year", @counseling.employment_end ? @counseling.employment_end.strftime("%Y") : '', {:size => 4} %>
+                          <label> Example: 1974</label>
+                  <% elsif  [EMP_TYPE[:federal], EMP_TYPE[:military]].include?(@counseling.employer_type_id) and
+                                                          @counseling.federal_plan != FederalPlan['Thrift Savings Plan (TSP)'] and
+                                                          @counseling.military_service != MilitaryService['Civilian military employment'] and
+                                                          @counseling.military_service != MilitaryService['Armed Services National Guard'] %>
+                          <label>Were you serving on or after October 9, 2001? </label>&nbsp;
+                          <%= radio_button_tag "counseling[employment_cutoff]", "off", @counseling.employment_cutoff, :id => "employment_cutoff_off" %>&nbsp;Yes
+                          &nbsp;&nbsp;
+                          <%= radio_button_tag "counseling[employment_cutoff]", "on", @counseling.employment_cutoff, :id => "employment_cutoff_on" %>&nbsp;No
+                  <% else display_current_employee_question=true %>
+                  <% end %>
+  </p>
+  </div>
 
-	<p>Pension rights may vary depending on a person&#39;s relationship to the pension-earner. Please tell us who earned the pension or retirement savings plan you have a question about.</p> 
+  <div id="currentlyEmployedQuestion">
+          <div><label><h3><a href="">Are you currently employed by this employer?&nbsp;&nbsp;&nbsp;</a></h3></label>
+          <span class="answer">
+          <%= form.radio_button  :currently_employed, true %><label for="counseling_currently_employed_true">&nbsp;Yes&nbsp;&nbsp;&nbsp;</label>
+          <%= form.radio_button  :currently_employed, false %><label for="counseling_currently_employed_false">&nbsp;No</label>
+          </span></div>
+  </div>
 
-	<p>Pension-earner: <%= form.select :pension_earner_id, @options, {:include_blank => true}, {} %></p>
+  <% if @counseling.employer_type_id == EMP_TYPE[:military] %>
+          <p>&nbsp;</p>
+          <h3><a href="">Who is the pension-earner?</a></h3>
 
-	<h2>Does your question involve divorce or survivorship?</h2>
+          <p class="normal">Pension rights may vary depending on a person&#39;s relationship to the pension-earner. Please tell us who earned the pension or retirement savings plan you have a question about.</p>
 
-	<p>Pension laws may provide certain protections in divorce and survivorship situations. You may select one, both or neither of the following choices.</p> 
+          <p class="normal"><label>Pension-earner:</label> <%= form.select :pension_earner_id, @options, {:include_blank => true}, {} %></p>
 
-	<div style="float:left"><%= form.check_box :is_divorce_related %> I have a divorce-related question.</div>        
-	<div style="float:right"><%= form.check_box :is_survivorship_related %> I have a survivorship-related question.</div>
-	<div style="clear:both"></div>
+          <h3><a href="">Does your question involve divorce or survivorship?</a></h3>
 
-<% end -%>
+          <p class="normal">Pension laws may provide certain protections in divorce and survivorship situations. You may select one, both or neither of the following choices.</p>
 
-<p>&nbsp;</p>
+          <div style="float:left"><%= form.check_box :is_divorce_related %><label> I have a divorce-related question.</label></div>
+          <div style="float:left"><%= form.check_box :is_survivorship_related %><label> I have a survivorship-related question.</label></div>
+          <br/>
+          <div style="clear:both"></div>
 
-<%= image_submit_tag "buttons/next_button.gif", :id => 'nextLinkButton' %>
+  <% end -%>
 
-<% end -%>
-<p>&nbsp;</p>
-<%= javascript_include_tag 'tooltip' %>
-<script type="text/javascript">
-  elementsToValidate = new Array();
-  employerTypeId = <%= @counseling.employer_type_id %>;
+  <p>&nbsp;</p>
 
-  function addValidation() {
-    elems = findElements();
-    for (i = 0; i < elems.length; i++) {
-      elem = elems[i];
-      elem.onchange = validateStep;
-      if (elem.tagName.toLowerCase() == "select") {
-        elem.validate = function() { return this.selectedIndex > 0 };
-      } else if (elem.tagName.toLowerCase() == "input" && elem.type == "radio") {
-        elem.onclick = validateStep;
-        elem.validate = validateRadio;/*function() { return this.checked; };*/
-      } else {
-        elem.onkeyup = validateStep;
-        elem.validate = function() {return this.value.length > 0 }
-      }
-    }
-  }
+  <%= image_submit_tag "/images/next.png", :id => 'nextLinkButton' %>
 
-  function findElements() {
-    if (elementsToValidate.length == 0) {
-      elems = ['employment_end_year', 'employment_cutoff_on', 'employment_cutoff_off', 'counseling_pension_earner_id','counseling_currently_employed_true','counseling_currently_employed_false'];
+  <% end -%>
+  <p>&nbsp;</p>
+  <%= javascript_include_tag 'tooltip' %>
+  <script type="text/javascript">
+    elementsToValidate = new Array();
+    employerTypeId = <%= @counseling.employer_type_id %>;
+
+    function addValidation() {
+      elems = findElements();
       for (i = 0; i < elems.length; i++) {
-        var elem = document.getElementById(elems[i]);
-        if (elem) {
-          elementsToValidate.push(elem);
+        elem = elems[i];
+        elem.onchange = validateStep;
+        if (elem.tagName.toLowerCase() == "select") {
+          elem.validate = function() { return this.selectedIndex > 0 };
+        } else if (elem.tagName.toLowerCase() == "input" && elem.type == "radio") {
+          elem.onclick = validateStep;
+          elem.validate = validateRadio;/*function() { return this.checked; };*/
+        } else {
+          elem.onkeyup = validateStep;
+          elem.validate = function() {return this.value.length > 0 }
         }
       }
     }
-    return elementsToValidate;
-  }
 
-  function validateRadio() {
-    radios = document.getElementsByName(this.name);
-    for (j = 0; j < radios.length; j++) {
-      if (radios[j].checked) {
-        return true;
+    function findElements() {
+      if (elementsToValidate.length == 0) {
+        elems = ['employment_end_year', 'employment_cutoff_on', 'employment_cutoff_off', 'counseling_pension_earner_id','counseling_currently_employed_true','counseling_currently_employed_false'];
+        for (i = 0; i < elems.length; i++) {
+          var elem = document.getElementById(elems[i]);
+          if (elem) {
+            elementsToValidate.push(elem);
+          }
+        }
+      }
+      return elementsToValidate;
+    }
+
+    function validateRadio() {
+      radios = document.getElementsByName(this.name);
+      for (j = 0; j < radios.length; j++) {
+        if (radios[j].checked) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    function validateSelect() {
+       return this.selectedIndex > 0
+    }
+
+    function validateStep() {
+      elems = findElements();
+      result = true;
+
+      for(i = 0; i < elems.length; i++) {
+        result = elems[i].validate();
+        if (!result) {
+          break;
+        }
+      }
+      changeStateNextStepButton(result);
+    }
+
+    function changeStateNextStepButton(active) {
+      var next_step_button = document.getElementById('nextLinkButton');
+      if (active) {
+        next_step_button.src = '/images/next-enabled.png';
+        next_step_button.onclick = function() {return true};
+                          Event.stopObserving( 'nextLinkButton', 'mouseover');
+      } else {
+        next_step_button.onclick = function() {return false};
+        next_step_button.src = '/images/next.png';
+                          Event.observe( 'nextLinkButton',  'mouseover', showTooltip );
+                          Event.observe( 'nextLinkButton',  'mouseout', hideTooltip );
       }
     }
-    return false;
-  }
 
-  function validateSelect() {
-     return this.selectedIndex > 0 
-  }
+          function checkForCurrentlyEmployed() {
+                  if (!($('employment_end_year') || $('employment_cutoff_off')) ||
+                                  ($('employment_end_year') &&
+                                   $('employment_end_year').getValue().length == 4 &&
+                                   $('employment_end_year').getValue() >= new Date().getFullYear()) ||
+                                  ($('employment_cutoff_off') && $('employment_cutoff_off').getValue() == 'off') ) {
+                          $('currentlyEmployedQuestion').show();
+                          document.getElementById('counseling_currently_employed_true').validate=validateRadio;
+                          document.getElementById('counseling_currently_employed_false').validate=validateRadio;
+                          validateStep();
+                  }
+                  else {
+                          $('counseling_currently_employed_true').checked = $('counseling_currently_employed_false').checked = null;
+                          $('currentlyEmployedQuestion').hide();
+                          document.getElementById('counseling_currently_employed_true').validate=function() { return true};
+                          document.getElementById('counseling_currently_employed_false').validate=function() { return true};
+                          validateStep();
+                  }
+          }
 
-  function validateStep() {
-    elems = findElements();
-    result = true;
+    addValidation();
+    validateStep();
+          Event.observe(window, 'load', function() {
+                  $('currentlyEmployedQuestion').hide();
+                  if ($('employment_end_year') ) {
+                          Event.observe('employment_end_year','change',checkForCurrentlyEmployed);
+                          Event.observe('employment_end_year','keyup',checkForCurrentlyEmployed);
+                  }
+                  if ($('employment_cutoff_off') ) {
+                          Event.observe('employment_cutoff_off','change',checkForCurrentlyEmployed);
+                          Event.observe('employment_cutoff_on','change',checkForCurrentlyEmployed);
+                  }
+                  checkForCurrentlyEmployed();
+          });
 
-    for(i = 0; i < elems.length; i++) {
-      result = elems[i].validate();
-      if (!result) {
-        break;
-      }
-    }
-    changeStateNextStepButton(result);
-  }
+  </script>
 
-  function changeStateNextStepButton(active) {
-    var next_step_button = document.getElementById('nextLinkButton');
-    if (active) {
-      next_step_button.src = '/images/buttons/next_button.gif';
-      next_step_button.onclick = function() {return true};
-			Event.stopObserving( 'nextLinkButton', 'mouseover');
-    } else {
-      next_step_button.onclick = function() {return false};
-      next_step_button.src = '/images/buttons/next_button_disabled.gif';
-			Event.observe( 'nextLinkButton',  'mouseover', showTooltip );
-			Event.observe( 'nextLinkButton',  'mouseout', hideTooltip );
-    }
-  }
-
-	function checkForCurrentlyEmployed() {
-		if (!($('employment_end_year') || $('employment_cutoff_off')) ||
-				($('employment_end_year') && 
-				 $('employment_end_year').getValue().length == 4 && 
-				 $('employment_end_year').getValue() >= new Date().getFullYear()) ||
-		 		($('employment_cutoff_off') && $('employment_cutoff_off').getValue() == 'off') ) {
-			$('currentlyEmployedQuestion').show();
-			document.getElementById('counseling_currently_employed_true').validate=validateRadio;
-			document.getElementById('counseling_currently_employed_false').validate=validateRadio;			
-			validateStep();
-		}
-		else {
-			$('counseling_currently_employed_true').checked = $('counseling_currently_employed_false').checked = null;
-			$('currentlyEmployedQuestion').hide();
-			document.getElementById('counseling_currently_employed_true').validate=function() { return true};
-			document.getElementById('counseling_currently_employed_false').validate=function() { return true};			
-			validateStep();
-		}
-	}
-	
-  addValidation();
-  validateStep();
-	Event.observe(window, 'load', function() {
-		$('currentlyEmployedQuestion').hide();
-		if ($('employment_end_year') ) { 
-			Event.observe('employment_end_year','change',checkForCurrentlyEmployed); 
-			Event.observe('employment_end_year','keyup',checkForCurrentlyEmployed); 
-		}
-		if ($('employment_cutoff_off') ) { 
-			Event.observe('employment_cutoff_off','change',checkForCurrentlyEmployed); 
-			Event.observe('employment_cutoff_on','change',checkForCurrentlyEmployed); 
-		}	
-		checkForCurrentlyEmployed();
-	});
-
-</script>
+</div>

@@ -1,4 +1,5 @@
-<h1>Manage News</h1>
+<div id="content-no-sidebar">
+<h2>Manage News</h2>
 
 <%= link_to "Add New Internal News Item", :controller => 'admin/news', :action => 'new' %> |
 <%= link_to "Add New External News Item", :controller => 'admin/news', :action => 'new', :news => 'external'%>
@@ -88,3 +89,5 @@
 <%= sortable_element 'ext_news_list', 
 			:tag => 'tr',
       :url => { :action => "sort_news" } %>
+
+</div>

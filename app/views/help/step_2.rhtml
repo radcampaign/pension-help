@@ -1,20 +1,20 @@
-<%= javascript_include_tag 'tooltip' %>
+<div id="content-no-sidebar" style="width: 760px;">
+  <%= javascript_include_tag 'tooltip' %>
 <div id="counseling_errors">
 	<%= render :partial => 'help/counseling_errors', :locals => {'counseling' => @counseling} %>
 </div>
-<%= image_tag "layout/stepcircle-two.jpg", :id => 'counseling_step' %>
 
-<h1>Counseling &amp; Assistance</h1>
+<h2>Counseling &amp; Assistance</h2>
 
-<p>This is the second step in getting you to the right pension-help resource. Answer the questions below and click <b style="color: #cc0000; ">NEXT</b> to continue.</p>
+<p class="intro border-bottom">This is the second step in getting you to the right pension-help resource. Answer the questions below and click <b style="color: #cc0000; ">NEXT</b> to continue.</p>
 
 <p>&nbsp;</p>
 
 <% form_for :counseling, :url => {:action => :check_aoa_zip} do |form| -%>
 
-<h2>Where are you located?</h2>
+<h3>Where are you located?</h3>
 
-<p>Providing your Zip Code will allow us to look for a pension-help resource that is as close to your residence as possible.</p>
+<p class="normal">Providing your Zip Code will allow us to look for a pension-help resource that is as close to your residence as possible.</p>
 
 <p>
 	<table>
@@ -22,15 +22,15 @@
 			<td>Zip Code:</td> 
 			<td><%= form.text_field :zipcode, :size => 5 %></td>			
 		</tr>
-	<table>
+	</table>
 </p>
 
 <br/>
 
 <div id="aoa_expansion">
-	<h2>Where did you work?</h2>
+	<h3>Where did you work?</h3>
 
-	<p>Some organizations provide assistance based on where the work occurred while earning the pension, where the company is headquartered, or where the benefit is being paid from.</p>
+	<p class="normal">Some organizations provide assistance based on where the work occurred while earning the pension, where the company is headquartered, or where the benefit is being paid from.</p>
 
 	<p id="work_state_abbrev">Where did the work occur: <%= select :counseling, :work_state_abbrev, @states, :include_blank => true %></p>
 
@@ -49,7 +49,7 @@
 
 <% end %>
 
-	<%= image_submit_tag "buttons/next_button.gif", :id => 'nextLinkButton', :name => 'continue' %>
+	<%= image_submit_tag "/images/next-enabled.png", :id => 'nextLinkButton', :name => 'continue' %>
 
 <% end -%>
 <p>&nbsp;</p>
@@ -140,3 +140,5 @@ function changeStateNextStepButton(active) {
   }
 }
 </script>
+
+</div>

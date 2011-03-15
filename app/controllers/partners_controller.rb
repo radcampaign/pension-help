@@ -1,6 +1,6 @@
 class PartnersController < ApplicationController
   before_filter :login_required
-  layout :partner_layout, :except => [:survey] 
+
 
   def authorized?
     if current_user.is_admin?

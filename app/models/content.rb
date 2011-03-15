@@ -29,5 +29,8 @@ class Content < ActiveRecord::Base
     %w(/ about_us terms_of_use)
   end
 
+  def full_width_page?(url)
+    !sidebar_urls.include?(url.to_s)
+  end
 
 end

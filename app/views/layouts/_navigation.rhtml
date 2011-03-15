@@ -4,12 +4,12 @@
       <%= link_to "Home",'/' %>
   <% end %>
 
-  <% content_tag :li, :class => current_class('help/counseling')  do %>
-      <%= link_to "Find Help", :controller => "help", :action => "counseling" %>
+  <% content_tag :li, :class => current_class('counseling', 'employer_descriptions')  do %>
+      <%= link_to "Find Help", '/help/counseling' %>
   <% end %>
 
-  <% content_tag :li, :class => current_class('site')  do %>
-      <%= link_to "Resources", :controller => "site", :action => "show_page" %>
+  <% content_tag :li, :class => current_class('resources')  do %>
+      <%= link_to "Resources", :controller => "site", :action => "show_page", :url => "help/resources" %>
   <% end %>
 
   <% content_tag :li, :class => current_class('about_us')  do %>

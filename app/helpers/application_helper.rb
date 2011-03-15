@@ -21,8 +21,10 @@ module ApplicationHelper
     {asynchronous:false, evalScripts:true, parameters:'#{object}[#{method}]='+escape(value), onComplete:validateStep()})\">" + option_tags + "</select>"
   end
 
-  def current_class(url)
-    return "active" if  (url == 'home' && params[:controller] == 'site' && params[:url].to_s == '/') || request.path.include?(url)
+  def current_class(*urls)
+    for url in urls do
+      return "active" if  (url == 'home' && params[:controller] == 'site' && params[:url].to_s == '/') || request.path.include?(url)
+    end
   end
 
   def show_flash_message

@@ -1,5 +1,5 @@
 class FeedbackController < ApplicationController
-  layout 'admin', :except => [:show_form, :save_feedback]
+  
   before_filter :login_required, :only => [:index,:show,:edit,:update]
 
   def authorized?

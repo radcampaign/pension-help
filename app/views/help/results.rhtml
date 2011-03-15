@@ -1,145 +1,147 @@
-<h1 style="font-weight:bold">Here is the PensionHelp you requested...</h1>
-<p>The resources below are based on the zip code you entered (<%= @counseling.zipcode %>) 
-<% unless @zip_import.city.blank? && @zip_import.state_abbrev.blank? %>
-  near <%= "#{@zip_import.city}, #{@zip_import.state_abbrev}" %>
-<% end %>
- </p>
-<p><%= @currently_employed_text if @counseling.currently_employed %></p>
+<div id="content-no-sidebar" style="width: 760px">
+  <h3>Here is the PensionHelp you requested...</h3>
+  <p class="intro border-bottom">The resources below are based on the zip code you entered (<%= @counseling.zipcode %>)
+  <% unless @zip_import.city.blank? && @zip_import.state_abbrev.blank? %>
+    near <%= "#{@zip_import.city}, #{@zip_import.state_abbrev}" %>
+  <% end %>
+   </p>
+  <p><%= @currently_employed_text if @counseling.currently_employed %></p>
 
-<p>We recommend that you print this page for your records.</p>
-<% if @ask_user_for_email %>
-	<h2>We could not find information about your specific plan</h2>
-	<div class="agency_result_body">
-		<p>We don't have information specific to the plan: <%= @counseling.plan_name %> <%= " for #{City.find(@counseling.city_id).name}" if @counseling.city_id %> <%= " in #{County.find(@counseling.county_id).name}" if @counseling.county_id %>.</p>
-		<p>If you'd like to be contacted with additional information once we research your request, please enter your email address below:</p> 
-		<% remote_form_for :counseling, :url => {:action => :submit_email_address} do |form| -%>
-			<%= form.text_field :feedback_email, :size => 30 %>
-			<%= form.hidden_field :id %>
-			<%= submit_tag 'contact me with more information', :id => 'feedbackEmailSubmit' %>
-		<% end %>
-		<div id="feedbackEmailResponse"></div>
-	</div>
-<% end %>
-<% @results.each do |agency| %>
-<% if loc=agency.best_location(@counseling) %> <%# if we can't find a best_location, don't show the agency %>
-	<div class="agency_result">
-    <h2 id="agency_name_header"><%= agency.name -%><br/></h2>
-	<%= '<h2>' + agency.name2 + '<br/></h2>' if !agency.name2.blank? -%>
-	<% if agency.plans[0] -%>
-		<%= '<h2>' + agency.plans.first.name + '<br/></h2>' if agency.plans.first.name and !agency.name.eql?(agency.plans.first.name)-%>
-	<% else -%>
-		<%= '<h2>' + loc.name + '<br/></h2>' if !agency.name.eql?(loc.name) -%>
-	<% end -%>
-	<%= '<h2>' + loc.name2 + '<br/></h2>' if !loc.name2.blank? -%>
+  <p class="normal">We recommend that you print this page for your records.</p>
+  <% if @ask_user_for_email %>
+          <h3>We could not find information about your specific plan</h3>
+          <div class="agency_result_body">
+                  <p class="normal">We don't have information specific to the plan: <%= @counseling.plan_name %> <%= " for #{City.find(@counseling.city_id).name}" if @counseling.city_id %> <%= " in #{County.find(@counseling.county_id).name}" if @counseling.county_id %>.</p>
+                  <p class="normal">If you'd like to be contacted with additional information once we research your request, please enter your email address below:</p>
+                  <% remote_form_for :counseling, :url => {:action => :submit_email_address} do |form| -%>
+                          <%= form.text_field :feedback_email, :size => 30 %>
+                          <%= form.hidden_field :id %>
+                          <%= submit_tag 'contact me with more information', :id => 'feedbackEmailSubmit' %>
+                  <% end %>
+                  <div id="feedbackEmailResponse"></div>
+          </div>
+  <% end %>
+  <% @results.each do |agency| %>
+  <% if loc=agency.best_location(@counseling) %> <%# if we can't find a best_location, don't show the agency %>
+          <div class="agency_result">
+      <h2 id="agency_name_header"><%= agency.name -%><br/></h2>
+          <%= '<h2>' + agency.name2 + '<br/></h2>' if !agency.name2.blank? -%>
+          <% if agency.plans[0] -%>
+                  <%= '<h3>' + agency.plans.first.name + '<br/></h3>' if agency.plans.first.name and !agency.name.eql?(agency.plans.first.name)-%>
+          <% else -%>
+                  <%= '<h3>' + loc.name + '<br/></h3>' if !agency.name.eql?(loc.name) -%>
+          <% end -%>
+          <%= '<h3>' + loc.name2 + '<br/></h3>' if !loc.name2.blank? -%>
 
-	<div class="agency_result_body">
-    <p>
-      <% if agency.plans[0] and agency.plans.first.description %>
-        <%= agency.plans.first.description %>
-      <% elsif agency.description %>
-        <%= agency.description %>
-      <% else %>
-        <% end %>
-    </p>
+   <div class="agency_result_body">
+      <p class="normal">
+        <% if agency.plans[0] and agency.plans.first.description %>
+          <%= agency.plans.first.description %>
+        <% elsif agency.description %>
+          <%= agency.description %>
+        <% else %>
+          <% end %>
+      </p>
 
-	<table class="dropin_address">
-		<tr>
-			<td width="80px">Address:</td>
-			<td width="250px"><%= loc.dropin_address.line1 %><br/>
-				<% if not loc.dropin_address.line2.blank? %>
-					<%= loc.dropin_address.line2 %><br/>
-				<% end -%>
-			<%= loc.dropin_address.city + ', ' + loc.dropin_address.state_abbrev + ' ' + loc.dropin_address.zip %></td>
-		</tr>
-	</table>
+          <table class="dropin_address">
+                  <tr>
+                          <td width="80px">Address:</td>
+                          <td width="250px"><%= loc.dropin_address.line1 %><br/>
+                                  <% if not loc.dropin_address.line2.blank? %>
+                                          <%= loc.dropin_address.line2 %><br/>
+                                  <% end -%>
+                          <%= loc.dropin_address.city + ', ' + loc.dropin_address.state_abbrev + ' ' + loc.dropin_address.zip %></td>
+                  </tr>
+          </table>
 
-	<table class="phone_info">
-		<% if @counseling.is_over_60 and loc.restrictions and not loc.restrictions.select{|r| not r.age_restricted_phone.blank?}.empty? %>
-			<tr>
-				<td width="80px">Toll Free:</td>
-				<td><%= loc.restrictions.map{|r| r.age_restricted_phone}.first %></td>
-			</tr>
-		<% elsif not loc.tollfree.blank? %>
-			<tr>
-				<td width="80px">Toll Free:</td>
-				<td><%= loc.tollfree + ' ' +  loc.tollfree_ext %></td>
-			</tr>
-		<% end %>
-		<% if not loc.phone.blank? %>
-			<tr>
-				<td width="80px">Local:</td><td><%= loc.phone + ' ' + loc.phone_ext %></td>
-			</tr>
-		<% end %>
-		<% if not loc.email.blank? %>
-			<tr>
-				<td width="80px">Email:</td><td><a href="mailto:<%= loc.email %>"><%= loc.email %></a>
-			</tr>
-		<% end %>
-		
-	</table>
-	
-	<% if not loc.mailing_address.line1.eql?(loc.dropin_address.line1) %>
-	<table class="mailing_address">
-		<tr>
-			<td width="80px">Mailing Address:</td>
-			<td width="250px"><%= loc.mailing_address.line1 %><br/>
-				<% if not loc.mailing_address.line2.blank? %>
-					<%= loc.mailing_address.line2 %><br/>
-				<% end %>
-				<%= loc.mailing_address.city + ', ' + loc.mailing_address.state_abbrev + ' ' + loc.mailing_address.zip %></td>
-		</tr>
-	</table>
-	<% end %>
-		<div class="result_buffer"></div>
-		<% if !loc.hours_of_operation.blank? %>
-			<table class="results_hours">
-				<tr>
-					<td style="padding-right:5px"><b>Hours:</b></td>
-					<td><%= loc.hours_of_operation %></td>
-				</tr>
-			</table>
-		<% end %>
-		<% if !loc.logistics.blank? %>
-			<table class="results_logistics">
-				<tr>
-					<td style="padding-right:5px"><b>Helpful Information:</b></td>
-					<td><%= loc.logistics %></td>
-				</tr>
-			</table>
-		<% end %>
-		<% if !agency.url.blank? || !agency.url2.blank? || !loc.url.blank? || !loc.url2.blank? %>
-			<table class="results_web">
-				<% unless loc.url.blank? %>
-				<tr>
-					<td style="padding-right:5px; width:105px"><b>On the Web:</b></td>
-					<td><a href="/site/exit?dest=<%= loc.url %>" class="offsite">
-					<%= loc.url_title.blank? ? loc.name : loc.url_title %></a></td>
-				</tr>
-				<% end %>
-				<% unless loc.url2.blank? %>
-				<tr>
-					<td style="padding-right:5px; width:105px"><b>On the Web:</b></td>
-					<td><a href="/site/exit?dest=<%= loc.url2 %>" class="offsite">
-					<%= loc.url2_title.blank? ? loc.name : loc.url2_title %></a></td>
-				</tr>
-				<% end %>
-				<% unless agency.url.blank? %>
-				<tr>
-					<td style="padding-right:5px; width:105px"><b>On the Web:</b></td>
-					<td><a href="/site/exit?dest=<%= agency.url %>" class="offsite">
-					<%= agency.url_title.blank? ? agency.name : agency.url_title %></a></td>
-				</tr>
-				<% end %>
-				<% unless agency.url2.blank? %>
-				<tr>
-					<td style="padding-right:5px; width:105px"><b>On the Web:</b></td>
-					<td><a href="/site/exit?dest=<%= agency.url2 %>" class="offsite">
-					<%= agency.url2_title.blank? ? agency.name : agency.url2_title %></a></td>
-				</tr>
-				<% end %>
-			</table>
-		<% end %>
-		</div>
-		</div>
-<% end -%>
-<% end -%>	
+          <table class="phone_info">
+                  <% if @counseling.is_over_60 and loc.restrictions and not loc.restrictions.select{|r| not r.age_restricted_phone.blank?}.empty? %>
+                          <tr>
+                                  <td width="80px">Toll Free:</td>
+                                  <td><%= loc.restrictions.map{|r| r.age_restricted_phone}.first %></td>
+                          </tr>
+                  <% elsif not loc.tollfree.blank? %>
+                          <tr>
+                                  <td width="80px">Toll Free:</td>
+                                  <td><%= loc.tollfree + ' ' +  loc.tollfree_ext %></td>
+                          </tr>
+                  <% end %>
+                  <% if not loc.phone.blank? %>
+                          <tr>
+                                  <td width="80px">Local:</td><td><%= loc.phone + ' ' + loc.phone_ext %></td>
+                          </tr>
+                  <% end %>
+                  <% if not loc.email.blank? %>
+                          <tr>
+                                  <td width="80px">Email:</td><td><a href="mailto:<%= loc.email %>"><%= loc.email %></a>
+                          </tr>
+                  <% end %>
+
+          </table>
+
+          <% if not loc.mailing_address.line1.eql?(loc.dropin_address.line1) %>
+          <table class="mailing_address">
+                  <tr>
+                          <td width="80px">Mailing Address:</td>
+                          <td width="250px"><%= loc.mailing_address.line1 %><br/>
+                                  <% if not loc.mailing_address.line2.blank? %>
+                                          <%= loc.mailing_address.line2 %><br/>
+                                  <% end %>
+                                  <%= loc.mailing_address.city + ', ' + loc.mailing_address.state_abbrev + ' ' + loc.mailing_address.zip %></td>
+                  </tr>
+          </table>
+          <% end %>
+                  <div class="result_buffer"></div>
+                  <% if !loc.hours_of_operation.blank? %>
+                          <table class="results_hours">
+                                  <tr>
+                                          <td style="padding-right:5px"><b>Hours:</b></td>
+                                          <td><%= loc.hours_of_operation %></td>
+                                  </tr>
+                          </table>
+                  <% end %>
+                  <% if !loc.logistics.blank? %>
+                          <table class="results_logistics">
+                                  <tr>
+                                          <td style="padding-right:5px"><b>Helpful Information:</b></td>
+                                          <td><%= loc.logistics %></td>
+                                  </tr>
+                          </table>
+                  <% end %>
+                  <% if !agency.url.blank? || !agency.url2.blank? || !loc.url.blank? || !loc.url2.blank? %>
+                          <table class="results_web">
+                                  <% unless loc.url.blank? %>
+                                  <tr>
+                                          <td style="padding-right:5px; width:105px"><b>On the Web:</b></td>
+                                          <td><a href="/site/exit?dest=<%= loc.url %>" class="offsite">
+                                          <%= loc.url_title.blank? ? loc.name : loc.url_title %></a></td>
+                                  </tr>
+                                  <% end %>
+                                  <% unless loc.url2.blank? %>
+                                  <tr>
+                                          <td style="padding-right:5px; width:105px"><b>On the Web:</b></td>
+                                          <td><a href="/site/exit?dest=<%= loc.url2 %>" class="offsite">
+                                          <%= loc.url2_title.blank? ? loc.name : loc.url2_title %></a></td>
+                                  </tr>
+                                  <% end %>
+                                  <% unless agency.url.blank? %>
+                                  <tr>
+                                          <td style="padding-right:5px; width:105px"><b>On the Web:</b></td>
+                                          <td><a href="/site/exit?dest=<%= agency.url %>" class="offsite">
+                                          <%= agency.url_title.blank? ? agency.name : agency.url_title %></a></td>
+                                  </tr>
+                                  <% end %>
+                                  <% unless agency.url2.blank? %>
+                                  <tr>
+                                          <td style="padding-right:5px; width:105px"><b>On the Web:</b></td>
+                                          <td><a href="/site/exit?dest=<%= agency.url2 %>" class="offsite">
+                                          <%= agency.url2_title.blank? ? agency.name : agency.url2_title %></a></td>
+                                  </tr>
+                                  <% end %>
+                          </table>
+                  <% end %>
+       </div>
+                  </div>
+  <% end -%>
+  <% end -%>
+</div>
