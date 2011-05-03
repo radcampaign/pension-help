@@ -11,69 +11,59 @@
 <tr><td rowspan="1" colspan="3">MT_out_state_AOA</td></tr>
 </thead><tbody>
 <tr>
-	<td>open</td>
-	<td>/help/counseling</td>
-	<td></td>
+  <td>open</td>
+  <td>/help/counseling</td>
+  <td></td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>counseling[employer_type_id]</td>
-	<td>label=Company or nonprofit</td>
+  <td>select</td>
+  <td>counseling[employer_type_id]</td>
+  <td>label=Company or nonprofit</td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>counseling_zipcode</td>
-	<td>19104</td>
+  <td>type</td>
+  <td>counseling_zipcode</td>
+  <td>19104</td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>confirm</td>
-	<td></td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>verifyTextPresent</td>
-	<td>Zip Code confirmed to be in Pennsylvania. Please press the 'Next' button to continue</td>
-	<td></td>
+  <td>type</td>
+  <td>employment_end_year</td>
+  <td>1990</td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>employment_end_year</td>
-	<td>1990</td>
+  <td>verifyTextPresent</td>
+  <td>Department of Labor</td>
+  <td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>verifyTextPresent</td>
+  <td>Mid-America Pension Rights Project</td>
+  <td></td>
 </tr>
 <tr>
-	<td>verifyTextPresent</td>
-	<td>Department of Labor</td>
-	<td></td>
+  <td>verifyTextPresent</td>
+  <td>Elder Law of Michigan</td>
+  <td></td>
 </tr>
 <tr>
-	<td>verifyTextPresent</td>
-	<td>Mid-America Pension Rights Project</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>Elder Law of Michigan</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyXpathCount</td>
-	<td>//div[@class='agency_result']</td>
-	<td>2</td>
+  <td>verifyXpathCount</td>
+  <td>//div[@class='agency_result']</td>
+  <td>2</td>
 </tr>
 
 </tbody></table>

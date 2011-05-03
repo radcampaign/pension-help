@@ -12,69 +12,64 @@
 <tr><td rowspan="1" colspan="3">272_federal_non_TSP_yes</td></tr>
 </thead><tbody>
 <tr>
-	<td>open</td>
-	<td>/help/counseling</td>
-	<td></td>
+  <td>open</td>
+  <td>/help/counseling</td>
+  <td></td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>counseling[employer_type_id]</td>
-	<td>label=Federal agency or office</td>
+  <td>select</td>
+  <td>counseling[employer_type_id]</td>
+  <td>label=Federal agency or office</td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>//option[@value='4']</td>
-	<td></td>
+  <td>click</td>
+  <td>//option[@value='4']</td>
+  <td></td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>counseling[federal_plan_id]</td>
-	<td>label=Thrift Savings Plan (TSP)</td>
+  <td>select</td>
+  <td>counseling[federal_plan_id]</td>
+  <td>label=Thrift Savings Plan (TSP)</td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>counseling_zipcode</td>
-	<td>04032</td>
+  <td>type</td>
+  <td>counseling_zipcode</td>
+  <td>04032</td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>confirm</td>
-	<td></td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>verifyTextNotPresent</td>
+  <td>Were you serving on or after October 9, 2001</td>
+  <td></td>
 </tr>
 <tr>
-	<td>verifyTextNotPresent</td>
-	<td>Were you serving on or after October 9, 2001</td>
-	<td></td>
+  <td>verifyVisible</td>
+  <td>currentlyEmployedQuestion</td>
+  <td></td>
 </tr>
 <tr>
-	<td>verifyVisible</td>
-	<td>currentlyEmployedQuestion</td>
-	<td></td>
+  <td>click</td>
+  <td>counseling_currently_employed_false</td>
+  <td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>counseling_currently_employed_false</td>
-	<td></td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextNotPresent</td>
-	<td>Current employees should consider first contacting their personnel office </td>
-	<td></td>
+  <td>verifyTextNotPresent</td>
+  <td>Current employees should consider first contacting their personnel office </td>
+  <td></td>
 </tr>
 
 </tbody></table>

@@ -161,12 +161,14 @@ class HelpController < ApplicationController
       @zip_found = true
       @show_aoa_expansion = true
     else # good zip with AoA coverage, or good zip but no need to ask AoA questions
-      # clear out extra state dropdowns, as we won't consider them in this case
-      @counseling.hq_state_abbrev = @counseling.pension_state_abbrev = nil
-      # but preserve work_state if user is state/county/local employee
-      @counseling.work_state_abbrev = nil unless [EMP_TYPE[:state],
-                                                  EMP_TYPE[:county],
-                                                  EMP_TYPE[:city] ].include?(@counseling.employer_type_id)
+      if @counseling.aoa_coverage.empty?
+        # clear out extra state dropdowns, as we won't consider them in this case
+        @counseling.hq_state_abbrev = @counseling.pension_state_abbrev = nil
+        # but preserve work_state if user is state/county/local employee
+        @counseling.work_state_abbrev = nil unless [EMP_TYPE[:state],
+                                                    EMP_TYPE[:county],
+                                                    EMP_TYPE[:city] ].include?(@counseling.employer_type_id)
+      end
       @zip_found = true
       @show_aoa_expansion = false
       redirect_to :action => :step_3

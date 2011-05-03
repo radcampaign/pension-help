@@ -12,79 +12,74 @@
 <tr><td rowspan="1" colspan="3">Fed_FERS_34119_IL_PA</td></tr>
 </thead><tbody>
 <tr>
-	<td>open</td>
-	<td>/help/counseling</td>
-	<td></td>
+  <td>open</td>
+  <td>/help/counseling</td>
+  <td></td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>counseling[employer_type_id]</td>
-	<td>label=Federal agency or office</td>
+  <td>select</td>
+  <td>counseling[employer_type_id]</td>
+  <td>label=Federal agency or office</td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>//option[@value='4']</td>
-	<td></td>
+  <td>click</td>
+  <td>//option[@value='4']</td>
+  <td></td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>counseling[federal_plan_id]</td>
-	<td>label=Federal Employee Retirement System (FERS)</td>
+  <td>select</td>
+  <td>counseling[federal_plan_id]</td>
+  <td>label=Federal Employee Retirement System (FERS)</td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>counseling_zipcode</td>
-	<td>34119</td>
+  <td>type</td>
+  <td>counseling_zipcode</td>
+  <td>34119</td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>confirm</td>
-	<td></td>
+  <td>select</td>
+  <td>counseling_work_state_abbrev</td>
+  <td>label=Illinois</td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>counseling_work_state_abbrev</td>
-	<td>label=Illinois</td>
+  <td>select</td>
+  <td>counseling_hq_state_abbrev</td>
+  <td>label=Pennsylvania</td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>counseling_hq_state_abbrev</td>
-	<td>label=Pennsylvania</td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>click</td>
+  <td>employment_cutoff_on</td>
+  <td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>employment_cutoff_on</td>
-	<td></td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>verifyTextPresent</td>
+  <td>Office of Personnel Management</td>
+  <td></td>
 </tr>
 <tr>
-	<td>verifyTextPresent</td>
-	<td>Office of Personnel Management</td>
-	<td></td>
+  <td>verifyTextPresent</td>
+  <td>Mid-America Pension Rights Project</td>
+  <td></td>
 </tr>
 <tr>
-	<td>verifyTextPresent</td>
-	<td>Mid-America Pension Rights Project</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>Elder Law of Michigan</td>
-	<td></td>
+  <td>verifyTextPresent</td>
+  <td>Elder Law of Michigan</td>
+  <td></td>
 </tr>
 
 </tbody></table>

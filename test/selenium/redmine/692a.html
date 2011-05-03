@@ -11,94 +11,89 @@
 <tr><td rowspan="1" colspan="3">692a</td></tr>
 </thead><tbody>
 <tr>
-	<td>open</td>
-	<td>/help/counseling</td>
-	<td></td>
+  <td>open</td>
+  <td>/help/counseling</td>
+  <td></td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>counseling[employer_type_id]</td>
-	<td>label=State agency or office</td>
+  <td>select</td>
+  <td>counseling[employer_type_id]</td>
+  <td>label=State agency or office</td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>counseling[work_state_abbrev]</td>
-	<td>label=Colorado</td>
+  <td>select</td>
+  <td>counseling[work_state_abbrev]</td>
+  <td>label=Colorado</td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>selected_plan</td>
-	<td>label=FPPA Statewide Defined Benefit Plan (SWDB)</td>
+  <td>select</td>
+  <td>selected_plan</td>
+  <td>label=FPPA Statewide Defined Benefit Plan (SWDB)</td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>counseling_zipcode</td>
-	<td>80439</td>
+  <td>type</td>
+  <td>counseling_zipcode</td>
+  <td>80439</td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>confirm</td>
-	<td></td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>click</td>
+  <td>counseling_currently_employed_false</td>
+  <td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>counseling_currently_employed_false</td>
-	<td></td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>verifyNotVisible</td>
+  <td>ageQuestion</td>
+  <td></td>
 </tr>
 <tr>
-	<td>verifyNotVisible</td>
-	<td>ageQuestion</td>
-	<td></td>
+  <td>verifyVisible</td>
+  <td>incomeQuestion</td>
+  <td></td>
 </tr>
 <tr>
-	<td>verifyVisible</td>
-	<td>incomeQuestion</td>
-	<td></td>
+  <td>type</td>
+  <td>counseling_monthly_income_tmp</td>
+  <td>100</td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>counseling_monthly_income_tmp</td>
-	<td>100</td>
+  <td>type</td>
+  <td>counseling_number_in_household</td>
+  <td>1</td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>counseling_number_in_household</td>
-	<td>1</td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>verifyTextPresent</td>
+  <td>Colorado Legal Services</td>
+  <td></td>
 </tr>
 <tr>
-	<td>verifyTextPresent</td>
-	<td>Colorado Legal Services</td>
-	<td></td>
+  <td>verifyTextNotPresent</td>
+  <td>National Pension Lawyers Network</td>
+  <td></td>
 </tr>
 <tr>
-	<td>verifyTextNotPresent</td>
-	<td>National Pension Lawyers Network</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyXpathCount</td>
-	<td>//div[@class='agency_result']</td>
-	<td>2</td>
+  <td>verifyXpathCount</td>
+  <td>//div[@class='agency_result']</td>
+  <td>2</td>
 </tr>
 
 </tbody></table>

@@ -11,99 +11,94 @@
 <tr><td rowspan="1" colspan="3">304_MD_LegalAid</td></tr>
 </thead><tbody>
 <tr>
-	<td>open</td>
-	<td>/help/counseling</td>
-	<td></td>
+  <td>open</td>
+  <td>/help/counseling</td>
+  <td></td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>counseling[employer_type_id]</td>
-	<td>label=State agency or office</td>
+  <td>select</td>
+  <td>counseling[employer_type_id]</td>
+  <td>label=State agency or office</td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>//option[@value='6']</td>
-	<td></td>
+  <td>click</td>
+  <td>//option[@value='6']</td>
+  <td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>//option[@value='IL']</td>
-	<td></td>
+  <td>click</td>
+  <td>//option[@value='IL']</td>
+  <td></td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>counseling[work_state_abbrev]</td>
-	<td>label=Maryland</td>
+  <td>select</td>
+  <td>counseling[work_state_abbrev]</td>
+  <td>label=Maryland</td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>//option[@value='MD']</td>
-	<td></td>
+  <td>click</td>
+  <td>//option[@value='MD']</td>
+  <td></td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>selected_plan</td>
-	<td>label=SRPS Legislative Pension Plan</td>
+  <td>select</td>
+  <td>selected_plan</td>
+  <td>label=SRPS Legislative Pension Plan</td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>counseling_zipcode</td>
-	<td>20853</td>
+  <td>type</td>
+  <td>counseling_zipcode</td>
+  <td>20853</td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>confirm</td>
-	<td></td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>click</td>
+  <td>counseling_currently_employed_false</td>
+  <td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>counseling_currently_employed_false</td>
-	<td></td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>click</td>
+  <td>counseling_is_over_60_true</td>
+  <td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>counseling_is_over_60_true</td>
-	<td></td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>verifyTextPresent</td>
+  <td>SRPS</td>
+  <td></td>
 </tr>
 <tr>
-	<td>verifyTextPresent</td>
-	<td>SRPS</td>
-	<td></td>
+  <td>verifyTextPresent</td>
+  <td>Legal Aid Bureau</td>
+  <td></td>
 </tr>
 <tr>
-	<td>verifyTextPresent</td>
-	<td>Legal Aid Bureau</td>
-	<td></td>
+  <td>verifyTextPresent</td>
+  <td>Toll Free</td>
+  <td></td>
 </tr>
 <tr>
-	<td>verifyTextPresent</td>
-	<td>Toll Free</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>215-5316</td>
-	<td></td>
+  <td>verifyTextPresent</td>
+  <td>215-5316</td>
+  <td></td>
 </tr>
 
 </tbody></table>

@@ -11,74 +11,69 @@
 <tr><td rowspan="1" colspan="3">272_federal_non_TSP_yes</td></tr>
 </thead><tbody>
 <tr>
-	<td>open</td>
-	<td>/help/counseling</td>
-	<td></td>
+  <td>open</td>
+  <td>/help/counseling</td>
+  <td></td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>counseling[employer_type_id]</td>
-	<td>label=Military</td>
+  <td>select</td>
+  <td>counseling[employer_type_id]</td>
+  <td>label=Military</td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>//option[@value='4']</td>
-	<td></td>
+  <td>click</td>
+  <td>//option[@value='4']</td>
+  <td></td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>counseling[military_service_id]</td>
-	<td>label=Civilian military employment</td>
+  <td>select</td>
+  <td>counseling[military_service_id]</td>
+  <td>label=Civilian military employment</td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>counseling[military_employer_id]</td>
-	<td>label=Marine Corps Exchanges</td>
+  <td>select</td>
+  <td>counseling[military_employer_id]</td>
+  <td>label=Marine Corps Exchanges</td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>counseling_zipcode</td>
-	<td>04032</td>
+  <td>type</td>
+  <td>counseling_zipcode</td>
+  <td>04032</td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>confirm</td>
-	<td></td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>verifyVisible</td>
+  <td>currentlyEmployedQuestion</td>
+  <td></td>
 </tr>
 <tr>
-	<td>verifyVisible</td>
-	<td>currentlyEmployedQuestion</td>
-	<td></td>
+  <td>click</td>
+  <td>counseling_currently_employed_true</td>
+  <td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>counseling_currently_employed_true</td>
-	<td></td>
+  <td>select</td>
+  <td>counseling_pension_earner_id</td>
+  <td>label=I earned the pension</td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>counseling_pension_earner_id</td>
-	<td>label=I earned the pension</td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>Current employees should consider first contacting their personnel office </td>
-	<td></td>
+  <td>verifyTextPresent</td>
+  <td>Current employees should consider first contacting their personnel office </td>
+  <td></td>
 </tr>
 
 </tbody></table>

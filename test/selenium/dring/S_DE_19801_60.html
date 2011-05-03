@@ -12,89 +12,84 @@
 <tr><td rowspan="1" colspan="3">S_DE_60+</td></tr>
 </thead><tbody>
 <tr>
-	<td>open</td>
-	<td>/help/counseling</td>
-	<td></td>
+  <td>open</td>
+  <td>/help/counseling</td>
+  <td></td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>counseling[employer_type_id]</td>
-	<td>label=State agency or office</td>
+  <td>select</td>
+  <td>counseling[employer_type_id]</td>
+  <td>label=State agency or office</td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>//option[@value='6']</td>
-	<td></td>
+  <td>click</td>
+  <td>//option[@value='6']</td>
+  <td></td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>counseling[work_state_abbrev]</td>
-	<td>label=Delaware</td>
+  <td>select</td>
+  <td>counseling[work_state_abbrev]</td>
+  <td>label=Delaware</td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>//option[@value='DE']</td>
-	<td></td>
+  <td>click</td>
+  <td>//option[@value='DE']</td>
+  <td></td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>selected_plan</td>
-	<td>label=DPERS Closed Judicial Pension Plan</td>
+  <td>select</td>
+  <td>selected_plan</td>
+  <td>label=DPERS Closed Judicial Pension Plan</td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>counseling_zipcode</td>
-	<td>19801</td>
+  <td>type</td>
+  <td>counseling_zipcode</td>
+  <td>19801</td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>confirm</td>
-	<td></td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>click</td>
+  <td>counseling_currently_employed_false</td>
+  <td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>counseling_currently_employed_false</td>
-	<td></td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>click</td>
+  <td>counseling_is_over_60_true</td>
+  <td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>counseling_is_over_60_true</td>
-	<td></td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>verifyTextPresent</td>
+  <td>Delaware System Closed Judicial Pension Plan</td>
+  <td></td>
 </tr>
 <tr>
-	<td>verifyTextPresent</td>
-	<td>Delaware System Closed Judicial Pension Plan</td>
-	<td></td>
+  <td>verifyTextPresent</td>
+  <td>Delaware Community Legal Aid Society, Inc.</td>
+  <td></td>
 </tr>
 <tr>
-	<td>verifyTextPresent</td>
-	<td>Delaware Community Legal Aid Society, Inc.</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>New Castle County Office</td>
-	<td></td>
+  <td>verifyTextPresent</td>
+  <td>New Castle County Office</td>
+  <td></td>
 </tr>
 
 </tbody></table>

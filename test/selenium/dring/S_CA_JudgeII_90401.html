@@ -12,79 +12,74 @@
 <tr><td rowspan="1" colspan="3">S_CA_JudgeII_90401</td></tr>
 </thead><tbody>
 <tr>
-	<td>open</td>
-	<td>/help/counseling</td>
-	<td></td>
+  <td>open</td>
+  <td>/help/counseling</td>
+  <td></td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>counseling[employer_type_id]</td>
-	<td>label=State agency or office</td>
+  <td>select</td>
+  <td>counseling[employer_type_id]</td>
+  <td>label=State agency or office</td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>//option[@value='6']</td>
-	<td></td>
+  <td>click</td>
+  <td>//option[@value='6']</td>
+  <td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>//option[@value='IN']</td>
-	<td></td>
+  <td>click</td>
+  <td>//option[@value='IN']</td>
+  <td></td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>counseling[work_state_abbrev]</td>
-	<td>label=California</td>
+  <td>select</td>
+  <td>counseling[work_state_abbrev]</td>
+  <td>label=California</td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>//option[@value='CA']</td>
-	<td></td>
+  <td>click</td>
+  <td>//option[@value='CA']</td>
+  <td></td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>selected_plan</td>
-	<td>label=CalPERS Judges' Retirement System II (JRS II)</td>
+  <td>select</td>
+  <td>selected_plan</td>
+  <td>label=CalPERS Judges' Retirement System II (JRS II)</td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>counseling_zipcode</td>
-	<td>90401</td>
+  <td>type</td>
+  <td>counseling_zipcode</td>
+  <td>90401</td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>confirm</td>
-	<td></td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>click</td>
+  <td>counseling_currently_employed_false</td>
+  <td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>counseling_currently_employed_false</td>
-	<td></td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>verifyTextPresent</td>
+  <td>CalPERS Judges' Retirement System II</td>
+  <td></td>
 </tr>
 <tr>
-	<td>verifyTextPresent</td>
-	<td>CalPERS Judges' Retirement System II</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>Western States Pension Assistance Project</td>
-	<td></td>
+  <td>verifyTextPresent</td>
+  <td>Western States Pension Assistance Project</td>
+  <td></td>
 </tr>
 
 </tbody></table>

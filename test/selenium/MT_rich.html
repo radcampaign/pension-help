@@ -11,109 +11,104 @@
 <tr><td rowspan="1" colspan="3">MT_rich</td></tr>
 </thead><tbody>
 <tr>
-	<td>open</td>
-	<td>/help/counseling</td>
-	<td></td>
+  <td>open</td>
+  <td>/help/counseling</td>
+  <td></td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>counseling[employer_type_id]</td>
-	<td>label=Company or nonprofit</td>
+  <td>select</td>
+  <td>counseling[employer_type_id]</td>
+  <td>label=Company or nonprofit</td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>counseling_zipcode</td>
-	<td>59601</td>
+  <td>type</td>
+  <td>counseling_zipcode</td>
+  <td>59601</td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>confirm</td>
-	<td></td>
+  <td>select</td>
+  <td>counseling_work_state_abbrev</td>
+  <td>label=Montana</td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>counseling_work_state_abbrev</td>
-	<td>label=Montana</td>
+  <td>select</td>
+  <td>counseling_hq_state_abbrev</td>
+  <td>label=Montana</td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>counseling_hq_state_abbrev</td>
-	<td>label=Montana</td>
+  <td>select</td>
+  <td>counseling_pension_state_abbrev</td>
+  <td>label=Montana</td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>counseling_pension_state_abbrev</td>
-	<td>label=Montana</td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>type</td>
+  <td>employment_end_year</td>
+  <td>1990</td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>employment_end_year</td>
-	<td>1990</td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>verifyNotVisible</td>
+  <td>ageQuestion</td>
+  <td></td>
 </tr>
 <tr>
-	<td>verifyNotVisible</td>
-	<td>ageQuestion</td>
-	<td></td>
+  <td>verifyVisible</td>
+  <td>incomeQuestion</td>
+  <td></td>
 </tr>
 <tr>
-	<td>verifyVisible</td>
-	<td>incomeQuestion</td>
-	<td></td>
+  <td>type</td>
+  <td>counseling_monthly_income_tmp</td>
+  <td>10000</td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>counseling_monthly_income_tmp</td>
-	<td>10000</td>
+  <td>type</td>
+  <td>counseling_number_in_household</td>
+  <td>1</td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>counseling_number_in_household</td>
-	<td>1</td>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+  <td>verifyTextPresent</td>
+  <td>Department of Labor</td>
+  <td></td>
 </tr>
 <tr>
-	<td>verifyTextPresent</td>
-	<td>Department of Labor</td>
-	<td></td>
+  <td>verifyTextPresent</td>
+  <td>National Pension Lawyers Network</td>
+  <td></td>
 </tr>
 <tr>
-	<td>verifyTextPresent</td>
-	<td>National Pension Lawyers Network</td>
-	<td></td>
+  <td>verifyTextPresent</td>
+  <td>Pension Benefit Guaranty Corporation</td>
+  <td></td>
 </tr>
 <tr>
-	<td>verifyTextPresent</td>
-	<td>Pension Benefit Guaranty Corporation</td>
-	<td></td>
+  <td>verifyTextPresent</td>
+  <td>Internal Revenue Service (IRS)</td>
+  <td></td>
 </tr>
 <tr>
-	<td>verifyTextPresent</td>
-	<td>Internal Revenue Service (IRS)</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyXpathCount</td>
-	<td>//div[@class='agency_result']</td>
-	<td>4</td>
+  <td>verifyXpathCount</td>
+  <td>//div[@class='agency_result']</td>
+  <td>4</td>
 </tr>
 
 </tbody></table>
