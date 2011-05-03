@@ -1,5 +1,6 @@
 log/*
 nbproject/*
 config/database.yml
+config/environments/development.rb
 tmp/**/*
 .DS_Store
