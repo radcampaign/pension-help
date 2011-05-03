@@ -45,11 +45,12 @@ class Mailer < ActionMailer::Base
     @body["partner"] = partner
   end
 
-  def page_email(email,site)
+  def page_email(email,site,sender)
     @recipients = email.recipient_email
     @from = email.email
     @sent_on = Time.now
     @subject = "I've found a helpful site!"
+    @headers['Reply-to'] = sender
 
     @body['mail'] = email
     @body['site'] = site

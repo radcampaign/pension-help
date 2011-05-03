@@ -11,7 +11,7 @@ class EmailThisPageController < ApplicationController
     @email = PageEmail.new(params[:email])
 
     if @email.save
-      Mailer.deliver_page_email(@email, 'www.pensionhelp.org')
+      Mailer.deliver_page_email(@email, 'www.pensionhelp.org', params[:email][:email])
       flash[:notice] = "Thank you for sharing.  Your email has been sent."
     else
       render :action => 'new'
