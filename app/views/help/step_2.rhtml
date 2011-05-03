@@ -127,12 +127,12 @@
 function changeStateNextStepButton(active) {
   var next_step_button = document.getElementById('nextLinkButton');
   if (active) {
-    next_step_button.src = '/images/buttons/next_button.gif';
+    next_step_button.src = '/images/next-enabled.png';
     next_step_button.onclick = function() {return true};
     Event.stopObserving( 'nextLinkButton', 'mouseover');
   } else {
     next_step_button.onclick = function() {return false};
-    next_step_button.src = '/images/buttons/next_button_disabled.gif';
+    next_step_button.src = '/images/next.png';
     Event.observe( 'nextLinkButton',  'mouseover', showTooltip );
     Event.observe( 'nextLinkButton',  'mouseout', hideTooltip );
   }

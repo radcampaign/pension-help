@@ -48,7 +48,7 @@ class HelpController < ApplicationController
     case @counseling.employer_type_id
       when 1..8: # valid responses
         @next_question = CAQuestion.get_next(@counseling, 'EMP_TYPE')
-        (@next_question.options = @next_question.options.delete_if {|opt| opt[1] == "AA" || opt[1] == "AE" or opt[1] == "AP"}) if @next_question # remove armed forces                
+        (@next_question.options = @next_question.options.delete_if {|opt| opt[1] == "AA" || opt[1] == "AE" or opt[1] == "AP"}) if @next_question # remove armed forces
         render :update do |page|
           if @next_question
             page.replace_html 'q2', :partial => 'next_question', :locals => {'question' => @next_question, 'selected_value' => @counseling[@next_question.method]}
@@ -99,7 +99,7 @@ class HelpController < ApplicationController
     @counseling = update_counseling
     @counseling.step = 1
     if @counseling[:federal_plan_id] == 5 # 'I don't know'
-      # Don’t Know Federal Plan Loop 
+      # Don’t Know Federal Plan Loop
       render :update do |page|
         page.redirect_to(:controller => 'help', :action => 'federal_plan_descriptions')
       end
@@ -143,7 +143,7 @@ class HelpController < ApplicationController
   end
 
   # ajax call to check if zipcode is in aoa coverage area
-  def check_aoa_zip    
+  def check_aoa_zip
     @counseling = update_counseling
     @counseling.zipcode = params[:zip] if !params[:zip].blank?
     #@counseling.step = 3
@@ -153,10 +153,9 @@ class HelpController < ApplicationController
     if !@counseling.valid? # bad zip code entered
       @zip_found = false
       @show_aoa_expansion = false
-    elsif params['continue.x'] # next button at bottom clicked
-      redirect_to :action => :step_3
-      return
-    elsif @counseling.aoa_coverage.empty? and @ask_aoa # good zip, but no AoA coverage - ask more questions
+    elsif @counseling.aoa_coverage.empty? and @ask_aoa and
+         (@counseling.hq_state_abbrev.blank? or @counseling.pension_state_abbrev.blank? or @counseling.work_state_abbrev.blank?)
+      # good zip, but no AoA coverage - ask more questions
       @counseling.step = '2a'
       @aoa_states = @counseling.aoa_covered_states
       @zip_found = true
@@ -170,6 +169,8 @@ class HelpController < ApplicationController
                                                   EMP_TYPE[:city] ].include?(@counseling.employer_type_id)
       @zip_found = true
       @show_aoa_expansion = false
+      redirect_to :action => :step_3
+      return
     end
     render :action => :step_2
   end
@@ -230,7 +231,7 @@ class HelpController < ApplicationController
     redirect_to :action => :results
   end
 
-  def results    
+  def results
     @counseling = find_counseling
     @zip_import = ZipImport.find_by_zipcode(@counseling.zipcode)
     @results = @counseling.matching_agencies
@@ -250,7 +251,7 @@ class HelpController < ApplicationController
         Mailer.deliver_unavailable_plan(@counseling)
         @ask_user_for_email = true
     end
-    
+
     @results
   end
 
@@ -268,10 +269,10 @@ class HelpController < ApplicationController
       end
     end
   end
-  
-  # Used for populating state, county and local pulldowns 
+
+  # Used for populating state, county and local pulldowns
   def get_counties
-    counties = State.find(params[:counseling][:work_state_abbrev]).counties    
+    counties = State.find(params[:counseling][:work_state_abbrev]).counties
     render :update do |page|
       page.replace_html 'counties', :partial => 'county_selector', :locals => {'options' => counties.collect{|c| [c.name, c.id]}.sort, 'cities' => params[:local]}
       page.visual_effect :highlight, 'county_container'
