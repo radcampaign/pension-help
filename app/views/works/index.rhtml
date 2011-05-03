@@ -9,72 +9,70 @@
 <style>.fieldWithErrors {padding: 2px; background-color: red; display: table;}</style>
 <% if (not @partner.nil? and not @partner.errors.empty?) -%>
 <div class="warningBox">
-	<table class="warningTable">
-		<tr class="warningRow">
-			<td class="warningCell2">
-				<% @partner.errors.full_messages.each do |msg| -%>
-			  		<p><%= msg %></p>
-			  	<% end -%>
-			</td>
-		</tr>
-	</table>
+  <table class="warningTable">
+    <tr class="warningRow">
+      <td class="warningCell2">
+        <% @partner.errors.full_messages.each do |msg| -%>
+            <p><%= msg %></p>
+          <% end -%>
+      </td>
+    </tr>
+  </table>
 </div>
 <br/>
 <% end -%>
 
-<h2>Be a part of our nationwide pension assistance network!</h2>
-
-<p>If you are a pension lawyer, actuary or other pension professional, then please join one or more of our four PensionHelp networks. Each network is described below.  Your assistance will help to ensure that pension plan participants receive the benefits they have earned. Fill in the contact information, create a login and password (so you can edit your information later), then select the network or networks that you are most interested and able to participate in. Click "Next" and you will be forwarded to a second page of questions that will help us learn more about your specific expertise and interests.</p>
+<p>Become part of a nation-wide pension assistance effort. If you are a pension lawyer, actuary or other pension professional, please complete the form below to join a network of professionals working to help people obtain the pensions they have earned.  </p>
 
 <p>&nbsp;</p>
 <div id="tabs">
-	<ul>
-		<li><a href="#newAccount">Create a new account</a></li>
-		<li><a href="#existingAccount">I already have an account</a></li>
-	</ul>
-	<div id="newAccount">	
-		<% form_tag({:controller => :works, :action => :questions}, {:id => 'works_form'}) do %>
-		  <div id="networkForm">
-		    <%= render :partial => 'works/contact_info' %>
-		    <% fields_for :user, @partner.user do |user| %>
-		      <%= render :partial => 'shared/login_information', :object => user, :locals => {:existing_user => false} %>
-		    <% end %>
-		  </div>
-		  <h2 style="margin-bottom:10px">I am interested in joining (you may select more than one):</h2>
-		  <%= render :partial => 'shared/join_service' %>
-		  <%= image_submit_tag "/images/next-enabled.png", :id => 'nextLinkButton' %>
-		<% end -%>
-		<div class="clear">&nbsp;</div>
-	</div>
-	<div id="existingAccount">
-		<% form_tag(:controller => :account, :action => :login ) do -%>
-		  <table class="form">
-		    <tr>
-		      <th><span class="reqnote">*</span>Username: </th>
-		      <td>
-		        <%= text_field_tag :login %>
-		      </td>
-		    </tr>
-		    <tr>
-		      <th><span class="reqnote">*</span>Password: </th>
-		      <td>
-		        <%= password_field_tag :password %>
-		      </td>
-		    </tr>
-				<tr>
-					<td>&nbsp;</td>
-					<td><%= submit_tag 'Log in' %></td>
-				</tr>
-				<tr>
-					<td>&nbsp;</td>
-					<td>
-						<%= link_to 'I forgot my password', :controller=>'passwords', :action=>'new' %>
-					</td>
-				</tr>
-		  </table>
+  <ul>
+    <li><a href="#newAccount">Create a new account</a></li>
+    <li><a href="#existingAccount">I already have an account</a></li>
+  </ul>
+  <div id="newAccount">
+    <% form_tag({:controller => :works, :action => :questions}, {:id => 'works_form'}) do %>
+      <div id="networkForm">
+        <%= render :partial => 'works/contact_info' %>
+        <% fields_for :user, @partner.user do |user| %>
+          <%= render :partial => 'shared/login_information', :object => user, :locals => {:existing_user => false} %>
+        <% end %>
+      </div>
+      <h2 style="margin-bottom:10px">I am interested in joining (you may select more than one):</h2>
+      <%= render :partial => 'shared/join_service' %>
+      <%= image_submit_tag "/images/next-enabled.png", :id => 'nextLinkButton' %>
+    <% end -%>
+    <div class="clear">&nbsp;</div>
+  </div>
+  <div id="existingAccount">
+    <% form_tag(:controller => :account, :action => :login ) do -%>
+      <table class="form">
+        <tr>
+          <th><span class="reqnote">*</span>Username: </th>
+          <td>
+            <%= text_field_tag :login %>
+          </td>
+        </tr>
+        <tr>
+          <th><span class="reqnote">*</span>Password: </th>
+          <td>
+            <%= password_field_tag :password %>
+          </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><%= submit_tag 'Log in' %></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>
+            <%= link_to 'I forgot my password', :controller=>'passwords', :action=>'new' %>
+          </td>
+        </tr>
+      </table>
 
-		<% end -%>
-	</div>
+    <% end -%>
+  </div>
 </div>
 
 
@@ -82,12 +80,12 @@
 
 <script type="text/javascript">
 <!--
-	function submitAjaxForm(id) {
-		var form = document.getElementById(id);
-		if(form.onsubmit()){
-			form.submit();
-		}
-	}
+  function submitAjaxForm(id) {
+    var form = document.getElementById(id);
+    if(form.onsubmit()){
+      form.submit();
+    }
+  }
 //-->
 jQuery("#tabs").tabs();
 

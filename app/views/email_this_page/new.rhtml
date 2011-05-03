@@ -1,11 +1,12 @@
 <div id="content-no-sidebar">
   <h1>Email This Page</h1>
-  <p class="intro">Page title: <%= @email.page_title %></p>
+  <p class="intro border-bottom">Think this page is useful?  If so, complete the fields below to send this page to a friend.</p>
+  <p>Page title: <%= @email.page_title %></p>
   <% form_for :email, @email, :url => {:action => :create}, :html => {:class => :email} do |f| %>
     <%= render :partial => 'form', :locals => {:f => f} %>
     <input src="/images/submit.png" type="image" />
     <p class="req">* denotes required field</p>
-  <% end %>       
+  <% end %>
     <h3>The email you send will look like the following:</h3>
     <p class="data">To: yourfriend@theiraddress.com</p>
     <p class="data">From: Your Name</p>
