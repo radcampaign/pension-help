@@ -49,7 +49,7 @@ class Mailer < ActionMailer::Base
     @recipients = email.recipient_email
     @from = email.email
     @sent_on = Time.now
-    @subject = "PensionHelp.org information"
+    @subject = "I've found a helpful site!"
 
     @body['mail'] = email
     @body['site'] = site
