@@ -1,10 +1,10 @@
-<div id="navigation">  
+<div id="navigation">
  <ul>
   <% content_tag :li, :class => current_class('home')  do %>
       <%= link_to "Home",'/' %>
   <% end %>
 
-  <% content_tag :li, :class => current_class('counseling', 'employer_descriptions')  do %>
+  <% content_tag :li, :class => current_class('counseling', 'employer_descriptions', 'help')  do %>
       <%= link_to "Find Help", '/help/counseling' %>
   <% end %>
 
@@ -14,6 +14,6 @@
 
   <% content_tag :li, :class => current_class('about_us')  do %>
       <%= link_to 'About Us', :controller => 'site', :action => "show_page", :url => 'about_us' %>
-  <% end %>      
- </ul>  
+  <% end %>
+ </ul>
 </div>
