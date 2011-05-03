@@ -1,5 +1,6 @@
 <div id="header">
     <a id="logo" rel="home" title="Home" href="/"><%= image_tag "header.png", :alt => "Home" %></a>
+    <%= image_tag 'loading.gif', :id => 'spinner', :style => 'display:none' %>
     <%= image_tag "print-text-email.png", :border => 0, :usemap => "#Map", :class => "right" %>
     <map name="Map" id="Map">
       <area shape="rect" coords="33,7,96,27" onclick="print_preview(); return false;" alt="Print this page"  href="#" />

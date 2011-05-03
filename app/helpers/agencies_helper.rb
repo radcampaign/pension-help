@@ -1,7 +1,7 @@
 module AgenciesHelper
 
   #Prepares link_to_remote for Served Area page,
-  #options contains new values for params, or markers for omitting those params 
+  #options contains new values for params, or markers for omitting those params
   def agencies_filter_link_to_remote(label, params, options = {})
     link_to_remote label,
         :update => 'search_results',

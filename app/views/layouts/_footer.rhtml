@@ -7,11 +7,9 @@
     <li><%= link_to_unless_current 'Feedback', :controller => '/feedback', :action => :show_form %></li>
     <li>|</li>
     <li><%= link_to_unless_current 'Site Administration', :controller => '/admin', :action => 'menu' %></li>
-    <li>|</li>
     <%- if session[:user] %>
+      <li>|</li>
       <li><%= link_to_unless_current 'Logout', '/account/logout'%></li>
-    <% else %>
-      <li><%= link_to_unless_current 'Login', :controller => '/account', :action => 'login' %></li>
     <% end %>
 
   </ul>

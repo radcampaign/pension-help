@@ -21,7 +21,7 @@
       <span id="city_ids_container_">
         <%= render :partial => 'shared/cities',
             :locals => {:counties => selected_counties, :city_ids => params[:city_ids], :id_prefix => '' } %>
-      </span>	
+      </span>
       <span id="zip_ids_container_">
         <%= render :partial => 'shared/zips',
             :locals => {:counties => selected_counties, :zip_ids => params[:zip_ids], :id_prefix => '' } %>
@@ -67,7 +67,7 @@
       :before => "Element.show('spinner')",
       :complete => "Element.hide('spinner')",
       :url => {:action => 'get_counties_for_states'},
-      :with => "'states=' + encodeURIComponent(value) + 
+      :with => "'states=' + encodeURIComponent(value) +
       '&county_ids=' +  $('county_ids_').value" %>
 
   <%# clear city/zips when changing state %>
