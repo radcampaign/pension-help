@@ -16,5 +16,5 @@ ActionMailer::Base.smtp_settings = {
 
 }
 
-EMAIL_RECIPIENT = "dan@freeportmetrics.com, marcin@freeportmetrics.com"
+EMAIL_RECIPIENT = "dan@freeportmetrics.com, jhotz@pensionrights.org, JLeavelle@PensionRights.org"
 EMAIL_FROM = "do-not-reply@PensionRights.org"
