@@ -1,12 +1,10 @@
 <div id="content-no-sidebar" style="width: 760px;">
   <%= javascript_include_tag 'tooltip' %>
 <div id="counseling_errors">
-	<%= render :partial => 'help/counseling_errors', :locals => {'counseling' => @counseling} %>
+  <%= render :partial => 'help/counseling_errors', :locals => {'counseling' => @counseling} %>
 </div>
 
-<h2>Counseling &amp; Assistance</h2>
-
-<p class="intro border-bottom">This is the second step in getting you to the right pension-help resource. Answer the questions below and click <b style="color: #cc0000; ">NEXT</b> to continue.</p>
+<p class="intro border-bottom">To make sure you receive the right type of referral, PensionHelp America will guide you through a series of questions.  After you've answered each question, the grey NEXT button at the bottom of the page will turn yellow. Click it to continue on to the next question.</p>
 
 <p>&nbsp;</p>
 
@@ -17,39 +15,39 @@
 <p class="normal">Providing your Zip Code will allow us to look for a pension-help resource that is as close to your residence as possible.</p>
 
 <p>
-	<table>
-		<tr>
-			<td>Zip Code:</td> 
-			<td><%= form.text_field :zipcode, :size => 5 %></td>			
-		</tr>
-	</table>
+  <table>
+    <tr>
+      <td>Zip Code:</td>
+      <td><%= form.text_field :zipcode, :size => 5 %></td>
+    </tr>
+  </table>
 </p>
 
 <br/>
 
 <div id="aoa_expansion">
-	<h3>Where did you work?</h3>
+  <h3>Where did you work?</h3>
 
-	<p class="normal">Some organizations provide assistance based on where the work occurred while earning the pension, where the company is headquartered, or where the benefit is being paid from.</p>
+  <p class="normal">Some organizations provide assistance based on where the work occurred while earning the pension, where the company is headquartered, or where the benefit is being paid from.</p>
 
-	<p id="work_state_abbrev">Where did the work occur: <%= select :counseling, :work_state_abbrev, @states, :include_blank => true %></p>
+  <p id="work_state_abbrev">Where did the work occur: <%= select :counseling, :work_state_abbrev, @states, :include_blank => true %></p>
 
-	<p id="hq_state_abbrev">Where is the company headquartered: <%= select :counseling, :hq_state_abbrev, @states, :include_blank => true %></p>
+  <p id="hq_state_abbrev">Where is the company headquartered: <%= select :counseling, :hq_state_abbrev, @states, :include_blank => true %></p>
 
-	<p id="pension_state_abbrev">Where is the pension paid from: <%= select :counseling, :pension_state_abbrev, @states, :include_blank => true %></p>
+  <p id="pension_state_abbrev">Where is the pension paid from: <%= select :counseling, :pension_state_abbrev, @states, :include_blank => true %></p>
 </div>
 <% if !@ask_aoa || (@counseling.work_state_abbrev.blank? && @counseling.hq_state_abbrev.blank? && @counseling.pension_state_abbrev.blank? && !@show_aoa_expansion) %>
 <script type="text/javascript">
-	$('aoa_expansion').hide();
+  $('aoa_expansion').hide();
 </script>
 <% else %>
 <script type="text/javascript">
-	new Effect.Highlight('aoa_expansion');
+  new Effect.Highlight('aoa_expansion');
 </script>
 
 <% end %>
 
-	<%= image_submit_tag "/images/next-enabled.png", :id => 'nextLinkButton', :name => 'continue' %>
+  <%= image_submit_tag "/images/next-enabled.png", :id => 'nextLinkButton', :name => 'continue' %>
 
 <% end -%>
 <p>&nbsp;</p>
@@ -60,7 +58,7 @@
   <script type="text/javascript">
     Event.observe( window, 'load', function() {
       /* Select observers */
-      var selects = [$('counseling_work_state_abbrev'), $('counseling_hq_state_abbrev'), 
+      var selects = [$('counseling_work_state_abbrev'), $('counseling_hq_state_abbrev'),
         $('counseling_pension_state_abbrev')];
 
       for (i=0; i < selects.length; i++) {
@@ -131,12 +129,12 @@ function changeStateNextStepButton(active) {
   if (active) {
     next_step_button.src = '/images/buttons/next_button.gif';
     next_step_button.onclick = function() {return true};
-		Event.stopObserving( 'nextLinkButton', 'mouseover');
+    Event.stopObserving( 'nextLinkButton', 'mouseover');
   } else {
     next_step_button.onclick = function() {return false};
     next_step_button.src = '/images/buttons/next_button_disabled.gif';
-		Event.observe( 'nextLinkButton',  'mouseover', showTooltip );
-		Event.observe( 'nextLinkButton',  'mouseout', hideTooltip );
+    Event.observe( 'nextLinkButton',  'mouseover', showTooltip );
+    Event.observe( 'nextLinkButton',  'mouseout', hideTooltip );
   }
 }
 </script>

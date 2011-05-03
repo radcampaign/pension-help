@@ -3,8 +3,6 @@
           <%= render :partial => 'help/counseling_errors', :locals => {'counseling' => @counseling} %>
   </div>
 
-<h2>Counseling &amp; Assistance</h2>
-
 <p class="intro border-bottom">Almost there! Answer the question or questions below to help us connect you to the right service provider, then click <b style="color: #cc0000; ">NEXT</b> to continue.</p>
 
 <p>&nbsp;</p>
@@ -14,33 +12,33 @@
 <h3>We’re still looking...</h3>
 
 <div id="ageQuestion">
-	<p class="normal">Some organizations will help people based on certain age and income criteria. If you are interested in this type of referral, complete the information below and then click <b style="color: #cc0000; ">NEXT</b>. Otherwise, you may skip the question and click <b style="color: #cc0000; ">NEXT</b> to proceed.</p>
+  <p class="normal">Some organizations will help people based on certain age and income criteria. If you are interested in this type of referral, complete the information below and then click <b style="color: #cc0000; ">NEXT</b>. Otherwise, you may skip the question and click <b style="color: #cc0000; ">NEXT</b> to proceed.</p>
 
-	<p class="normal">Are you age 60 or over:&nbsp;&nbsp;&nbsp;<%= form.radio_button  :is_over_60, true %> &nbsp;Yes&nbsp;&nbsp;&nbsp;<%= form.radio_button  :is_over_60, false %> &nbsp;No</p>
-	<p class="normal">&nbsp;</p>
+  <p class="normal">Are you age 60 or over:&nbsp;&nbsp;&nbsp;<%= form.radio_button  :is_over_60, true %> &nbsp;Yes&nbsp;&nbsp;&nbsp;<%= form.radio_button  :is_over_60, false %> &nbsp;No</p>
+  <p class="normal">&nbsp;</p>
 </div>
 
 <div id="incomeQuestion">
 
 <p class="normal">
-	<table cellpadding="0" cellspacing="0" id="ageIncomeQuestions">
-		<tr>
-			<td valign="top" align="right" >What is your household income: Monthly:&nbsp;</td>
-			<td><%= form.text_field :monthly_income_tmp, :size => 5 %></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td>or</td>
-		</tr>
-		<tr>
-			<td align="right">Yearly:&nbsp;</td>
-			<td><%= form.text_field :yearly_income_tmp, :size => 5 %></td>
-		</tr>
-		<tr id="householdRow">
-			<td align="right">How many people live in your household:&nbsp;</td>
-			<td><%= form.text_field :number_in_household, :size => 5 %></td>
-		</tr>
-	</table>
+  <table cellpadding="0" cellspacing="0" id="ageIncomeQuestions">
+    <tr>
+      <td valign="top" align="right" >What is your household income: Monthly:&nbsp;</td>
+      <td><%= form.text_field :monthly_income_tmp, :size => 5 %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>or</td>
+    </tr>
+    <tr>
+      <td align="right">Yearly:&nbsp;</td>
+      <td><%= form.text_field :yearly_income_tmp, :size => 5 %></td>
+    </tr>
+    <tr id="householdRow">
+      <td align="right">How many people live in your household:&nbsp;</td>
+      <td><%= form.text_field :number_in_household, :size => 5 %></td>
+    </tr>
+  </table>
 </p>
 
 <p>&nbsp;</p>
@@ -54,23 +52,23 @@
 <p>&nbsp;</p>
 
 <script type="text/javascript">
-	$("incomeQuestion").hide();
-	if (<%= not @age_restrictions %>) { 
-		$("ageQuestion").hide() 
-		if ( <%= @income_restrictions %> ) { $("incomeQuestion").show() }
-	}
-	if ($('counseling_is_over_60_false').checked && <%= @income_restrictions %>) { $("incomeQuestion").show() } 
-	$('counseling_is_over_60_true').observe('click',function() {
-		$("counseling_monthly_income_tmp").clear();
-		$("counseling_yearly_income_tmp").clear();
-		$("counseling_number_in_household").clear();
-		$("incomeQuestion").hide();
+  $("incomeQuestion").hide();
+  if (<%= not @age_restrictions %>) {
+    $("ageQuestion").hide()
+    if ( <%= @income_restrictions %> ) { $("incomeQuestion").show() }
+  }
+  if ($('counseling_is_over_60_false').checked && <%= @income_restrictions %>) { $("incomeQuestion").show() }
+  $('counseling_is_over_60_true').observe('click',function() {
+    $("counseling_monthly_income_tmp").clear();
+    $("counseling_yearly_income_tmp").clear();
+    $("counseling_number_in_household").clear();
+    $("incomeQuestion").hide();
 
-	} );
-	$('counseling_is_over_60_false').observe('click',function() {
-		if (<%= @income_restrictions %>) { 
+  } );
+  $('counseling_is_over_60_false').observe('click',function() {
+    if (<%= @income_restrictions %>) {
       $("incomeQuestion").show();
     }
-	} );
+  } );
 
 </script>

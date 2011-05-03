@@ -1,12 +1,12 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
-  
+
   def scroll_arrow
     "<script type=\"text/javascript\" language=\"javascript\">
-    	$('scrollDownIcon').show();
+      $('scrollDownIcon').show();
     </script>"
   end
-  
+
   # Create select tag that submits an Ajax call onchange
   def remote_select(object,method,options,controller,action,selected_value=nil)
     option_tags = "<option value=''></option>"
@@ -17,12 +17,13 @@ module ApplicationHelper
         option_tags << "<option value='#{option[1]}'>#{option[0]}</option>"
       end
     end
-    "<select name=\"#{object}[#{method}]\" id=\"#{object}[#{method}]\" onchange=\"new Ajax.Request('/#{controller}/#{action}', 
+    "<select name=\"#{object}[#{method}]\" id=\"#{object}[#{method}]\" onchange=\"new Ajax.Request('/#{controller}/#{action}',
     {asynchronous:false, evalScripts:true, parameters:'#{object}[#{method}]='+escape(value), onComplete:validateStep()})\">" + option_tags + "</select>"
   end
 
   def current_class(*urls)
     for url in urls do
+      return "" if url == 'help' and request.path.include?('resource') # special case as URL help/resources matches twice
       return "active" if  (url == 'home' && params[:controller] == 'site' && params[:url].to_s == '/') || request.path.include?(url)
     end
   end

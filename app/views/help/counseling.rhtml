@@ -6,8 +6,9 @@
   <%= render :partial => 'help/counseling_errors', :locals => {'counseling' => @counseling} %>
  </div>
 
-<p class="intro border-bottom">
-  Welcome to our Counseling and Assistance service area. To make sure you get the right type of referral, we'd like you to answer a few questions. When you have completed these, the grey NEXT button at the bottom of the page will turn red. Click it to continue.</p>
+<p class="intro">Ready to find resources to help you find answers to questions you have about your retirement plan? Let's get started!</p>
+
+  <p class="intro border-bottom">To make sure you receive the right type of referral, PensionHelp America will guide you through a series of questions.  After you've answered each question, the grey NEXT button at the bottom of the page will turn yellow. Click it to continue on to the next question.</p>
   <h3><a href="">What type of employer</a></h3>
 
   <p>This will help us determine what law governs your pension question. Make the menu selection that best describes the
@@ -59,7 +60,7 @@
 
     function addValidation() {
         selects = document.getElementsByTagName('select');
-				// don't require entry in textfields on this page
+        // don't require entry in textfields on this page
         // inputs = document.getElementsByTagName('input');
         for (i = 0; i < selects.length; i++) {
             if (selects[i].onchange == null) {
@@ -69,7 +70,7 @@
         // for (i = 0; i < inputs.length; i++) {
         //     if (inputs[i].onchange == null) {
         //         inputs[i].onchange = validateStep;
-        // 								inputs[i].onkeyup = validateStep;
+        //                 inputs[i].onkeyup = validateStep;
         //     }
         // }
     }
@@ -93,7 +94,7 @@
         //         break;
         //     }
         // }
-        // 
+        //
         changeStateNextStepButton((result2&&result));
     }
 
