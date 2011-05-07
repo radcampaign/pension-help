@@ -376,3 +376,7 @@ form.admin_form li {
   border: 1px solid #F00;
   text-align: center;
  }
+
+ #ageIncomeQuestions #householdRow td {
+   padding-top:2.5em;
+ }

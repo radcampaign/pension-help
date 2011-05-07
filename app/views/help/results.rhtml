@@ -1,10 +1,12 @@
 <div id="content-no-sidebar" style="width: 760px">
   <h3>Here is the PensionHelp you requested...</h3>
-  <p class="intro border-bottom">The resources below are based on the zip code you entered (<%= @counseling.zipcode %>)
-  <% unless @zip_import.city.blank? && @zip_import.state_abbrev.blank? %>
-    near <%= "#{@zip_import.city}, #{@zip_import.state_abbrev}" %>
+  <% unless @counseling.non_us_resident == '1' %>
+    <p class="intro border-bottom">The resources below are based on the zip code you entered (<%= @counseling.zipcode %>)
+    <% unless @zip_import.city.blank? && @zip_import.state_abbrev.blank? %>
+      near <%= "#{@zip_import.city}, #{@zip_import.state_abbrev}" %>
+    <% end %>
+    </p>
   <% end %>
-   </p>
   <p><%= @currently_employed_text if @counseling.currently_employed %></p>
 
   <p class="normal">We recommend that you print this page for your records.</p>

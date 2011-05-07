@@ -3,6 +3,7 @@ class HelpController < ApplicationController
 
   EARLIEST_EMPLOYMENT_YEAR = 1880
   LATEST_EMPLOYMENT_YEAR = 2025
+  DEFAULT_ZIP = '20036' # used for non-US residents
 
   def index
     @content = Content.find_by_url('help')
@@ -150,6 +151,7 @@ class HelpController < ApplicationController
     @states = CounselAssistance.states
     @ask_aoa = [EMP_TYPE[:company], EMP_TYPE[:railroad], EMP_TYPE[:religious],
                 EMP_TYPE[:federal], EMP_TYPE[:military], EMP_TYPE[:unknown] ].include?(@counseling.employer_type_id)
+    @counseling.zipcode = DEFAULT_ZIP if @counseling.non_us_resident == '1'
     if !@counseling.valid? # bad zip code entered
       @zip_found = false
       @show_aoa_expansion = false
@@ -344,8 +346,6 @@ class HelpController < ApplicationController
     # we'll have to limit the display of the date to the year only
     c.employment_start = Date.new(params[:employment_start_year].to_i, 1, 1) if params[:employment_start_year] && params[:employment_start_year].to_i > EARLIEST_EMPLOYMENT_YEAR && params[:employment_start_year].to_i < LATEST_EMPLOYMENT_YEAR
     c.employment_end = Date.new(params[:employment_end_year].to_i, 1, 1) if params[:employment_end_year] && params[:employment_end_year].to_i > EARLIEST_EMPLOYMENT_YEAR && params[:employment_end_year].to_i < LATEST_EMPLOYMENT_YEAR
-    c.employment_end = Date.new(2001, 10, 8) if c.employment_cutoff=="on"
-    c.employment_end = Date.new(2001, 10, 10) if c.employment_cutoff=="off"
     # c.employer_type = EmployerType.find(params[:employer_type]) if params[:employer_type]
     # c.work_state = State.find(params[:state]) if params[:state]
     # c.county = County.find(params[:county]) if params[:county]

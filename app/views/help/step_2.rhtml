@@ -17,8 +17,11 @@
 <p>
   <table>
     <tr>
-      <td>Zip Code:</td>
+      <td style='width:65px'>Zip Code:</td>
       <td><%= form.text_field :zipcode, :size => 5 %></td>
+      <td>OR</td>
+      <td><%= form.check_box :non_us_resident %></td>
+      <td>Check this box if you reside outside the United States, but have questions about a retirement benefit govered by U.S. law (other than Social Security).</td>
     </tr>
   </table>
 </p>
@@ -32,7 +35,7 @@
 
   <p id="work_state_abbrev">Where did the work occur: <%= select :counseling, :work_state_abbrev, @states, :include_blank => true %></p>
 
-  <p id="hq_state_abbrev">Where is the company headquartered: <%= select :counseling, :hq_state_abbrev, @states, :include_blank => true %></p>
+  <p id="hq_state_abbrev">Where is the employer located: <%= select :counseling, :hq_state_abbrev, @states, :include_blank => true %></p>
 
   <p id="pension_state_abbrev">Where is the pension paid from: <%= select :counseling, :pension_state_abbrev, @states, :include_blank => true %></p>
 </div>
@@ -137,6 +140,27 @@ function changeStateNextStepButton(active) {
     Event.observe( 'nextLinkButton',  'mouseout', hideTooltip );
   }
 }
+
+jQuery(document).ready(function() {
+  // hide zip if non-us-resident box is checked upon page display
+  if (jQuery("#counseling_non_us_resident").is(':checked')) {
+    jQuery("#counseling_zipcode").val('');
+  }
+  
+  // hide zip if user checks non-us-resident box
+  jQuery("#counseling_non_us_resident").click(function() {
+    if (jQuery("#counseling_non_us_resident").is(':checked')) {
+      jQuery("#counseling_zipcode").val('');
+    }
+  });
+  
+  jQuery("#counseling_zipcode").change(function() {
+    if (jQuery("#counseling_zipcode").val().replace(/^\s+|\s+$/g, "").length > 0) {
+      jQuery("#counseling_non_us_resident").removeAttr('checked');
+    }
+  });
+});
+
 </script>
 
 </div>

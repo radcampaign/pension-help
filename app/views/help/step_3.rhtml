@@ -14,20 +14,10 @@
   <% form_for :counseling, :url => {:action => :process_step_3} do |form| -%>
 
   <p>
-                  <% display_current_employee_question = false %>
                   <% if @counseling.employer_type_id == EMP_TYPE[:company] %>
                           <label>Year employment ended:</label>
                           <%= text_field_tag "employment_end_year", @counseling.employment_end ? @counseling.employment_end.strftime("%Y") : '', {:size => 4} %>
                           <label> Example: 1974</label>
-                  <% elsif  [EMP_TYPE[:federal], EMP_TYPE[:military]].include?(@counseling.employer_type_id) and
-                                                          @counseling.federal_plan != FederalPlan['Thrift Savings Plan (TSP)'] and
-                                                          @counseling.military_service != MilitaryService['Civilian military employment'] and
-                                                          @counseling.military_service != MilitaryService['Armed Services National Guard'] %>
-                          <label>Were you serving on or after October 9, 2001? </label>&nbsp;
-                          <%= radio_button_tag "counseling[employment_cutoff]", "off", @counseling.employment_cutoff, :id => "employment_cutoff_off" %>&nbsp;Yes
-                          &nbsp;&nbsp;
-                          <%= radio_button_tag "counseling[employment_cutoff]", "on", @counseling.employment_cutoff, :id => "employment_cutoff_on" %>&nbsp;No
-                  <% else display_current_employee_question=true %>
                   <% end %>
   </p>
   </div>
@@ -89,7 +79,7 @@
 
     function findElements() {
       if (elementsToValidate.length == 0) {
-        elems = ['employment_end_year', 'employment_cutoff_on', 'employment_cutoff_off', 'counseling_pension_earner_id','counseling_currently_employed_true','counseling_currently_employed_false'];
+        elems = ['employment_end_year',  'counseling_pension_earner_id', 'counseling_currently_employed_true', 'counseling_currently_employed_false'];
         for (i = 0; i < elems.length; i++) {
           var elem = document.getElementById(elems[i]);
           if (elem) {
@@ -142,11 +132,10 @@
     }
 
           function checkForCurrentlyEmployed() {
-                  if (!($('employment_end_year') || $('employment_cutoff_off')) ||
-                                  ($('employment_end_year') &&
-                                   $('employment_end_year').getValue().length == 4 &&
-                                   $('employment_end_year').getValue() >= new Date().getFullYear()) ||
-                                  ($('employment_cutoff_off') && $('employment_cutoff_off').getValue() == 'off') ) {
+                  if (!$('employment_end_year') || 
+                     ($('employment_end_year') &&
+                      $('employment_end_year').getValue().length == 4 &&
+                      $('employment_end_year').getValue() >= new Date().getFullYear()) ) {
                           $('currentlyEmployedQuestion').show();
                           document.getElementById('counseling_currently_employed_true').validate=validateRadio;
                           document.getElementById('counseling_currently_employed_false').validate=validateRadio;
@@ -168,10 +157,6 @@
                   if ($('employment_end_year') ) {
                           Event.observe('employment_end_year','change',checkForCurrentlyEmployed);
                           Event.observe('employment_end_year','keyup',checkForCurrentlyEmployed);
-                  }
-                  if ($('employment_cutoff_off') ) {
-                          Event.observe('employment_cutoff_off','change',checkForCurrentlyEmployed);
-                          Event.observe('employment_cutoff_on','change',checkForCurrentlyEmployed);
                   }
                   checkForCurrentlyEmployed();
           });
