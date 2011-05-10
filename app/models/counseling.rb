@@ -197,7 +197,11 @@ class Counseling < ActiveRecord::Base
 
   def other_matches
     agencies = Array.new
-    aoa_coverage.empty? ? agencies << result_type_match('NPLN') : agencies << aoa_coverage
+    return agencies << aoa_coverage unless aoa_coverage.empty?
+    dsp = closest_dsp
+    agencies << closest_dsp
+    agencies << result_type_match('NPLN') unless dsp
+    agencies.flatten.uniq
   end
 
   def religious_matches
