@@ -244,6 +244,8 @@ class HelpController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       nil # continue on if we don't find anything
     end
+    logger.debug "SLPR = " + @counseling.show_lost_plan_resources.to_s
+    @lost_plan_resources = Content.find_by_url('lost_plan_resources').content rescue nil if @counseling.show_lost_plan_resources
     @counseling.save
     if @counseling.selected_plan_id
       @results.each{|a| a.plans.delete_if {|p| p.id != @counseling.selected_plan_id.to_i &&
@@ -346,6 +348,8 @@ class HelpController < ApplicationController
     # we'll have to limit the display of the date to the year only
     c.employment_start = Date.new(params[:employment_start_year].to_i, 1, 1) if params[:employment_start_year] && params[:employment_start_year].to_i > EARLIEST_EMPLOYMENT_YEAR && params[:employment_start_year].to_i < LATEST_EMPLOYMENT_YEAR
     c.employment_end = Date.new(params[:employment_end_year].to_i, 1, 1) if params[:employment_end_year] && params[:employment_end_year].to_i > EARLIEST_EMPLOYMENT_YEAR && params[:employment_end_year].to_i < LATEST_EMPLOYMENT_YEAR
+    # force currently_employed false if employment ended in a prior year
+    c.currently_employed = false if c.currently_employed.nil? and !c.employment_end.nil? and c.employment_end.year < Time.now.year
     # c.employer_type = EmployerType.find(params[:employer_type]) if params[:employer_type]
     # c.work_state = State.find(params[:state]) if params[:state]
     # c.county = County.find(params[:county]) if params[:county]

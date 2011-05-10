@@ -51,7 +51,7 @@ class Counseling < ActiveRecord::Base
     agencies = case employer_type ? employer_type.name : nil
     when 'Company or nonprofit':     company_matches
     when 'Railroad':                 railroad_matches
-    when 'Religious institution':    religious_matches
+    when 'Church or Religious institution':    religious_matches
     when 'Federal agency or office': federal_matches
     when 'Military':                 military_matches
     when 'State agency or office':   state_plan_matches + aoa_afscme_dsp
@@ -116,12 +116,12 @@ class Counseling < ActiveRecord::Base
     ask_afscme and aoa_coverage.blank? and closest_dsp.blank?
   end
 
-  def state_abbrev
-    raise ArgumentError, 'state_abbrev is deprecated'
-  end
-
   def employee_list
     PlanCatchAllEmployee.find(:all, :conditions => ['plan_id in (?)', matching_agencies.collect{|a| a.plans}.flatten], :order => :position).compact.collect{|emp| [EmployeeType.find(emp.employee_type_id).name, emp.plan_id]}
+  end
+
+  def lost_plan_eligible?
+    (employer_type_id == EMP_TYPE[:company] || employer_type_id == EMP_TYPE[:religious]) && aoa_coverage.empty?
   end
 
   #######
@@ -418,6 +418,10 @@ class Counseling < ActiveRecord::Base
   def result_type_match(type)
     return nil if ResultType[type].nil?
     Agency.find(:all, :conditions => ['result_type_id = ? and use_for_counseling = 1 and is_active = 1', ResultType[type]])
+  end
+
+  def show_lost_plan_resources
+    aoa_coverage.empty? and currently_employed == false and lost_plan
   end
 
   protected

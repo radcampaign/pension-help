@@ -1,4 +1,4 @@
-<div id="content-no-sidebar" style="width: 760px">
+<div id="content-no-sidebar" class="help" style="width: 760px">
   <h3>Here is the PensionHelp you requested...</h3>
   <% unless @counseling.non_us_resident == '1' %>
     <p class="intro border-bottom">The resources below are based on the zip code you entered (<%= @counseling.zipcode %>)
@@ -150,4 +150,5 @@
                   </div>
   <% end -%>
   <% end -%>
+  <%= @lost_plan_resources %>
 </div>

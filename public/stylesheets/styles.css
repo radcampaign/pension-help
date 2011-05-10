@@ -71,7 +71,7 @@ form.email p {float:left}
 form.help {clear:both;float:left;width:900px;margin-top:20px}
 form.help input {float:left;clear:both;margin-bottom:15px}
 form.help input.message {}
-form.help label {float:left;clear:both;margin-bottom:5px;color:#222;font-family:Verdana,Arial,sans-serif;font-weight:bold;font-size:14px}
+form.help label, .help label {margin-bottom:5px;color:#222;font-family:Verdana,Arial,sans-serif;font-weight:bold;font-size:14px}
 form.help select {float:left;clear:both;margin-bottom:15px}
 form.help textarea {float:left;clear:both;margin-bottom:15px}
 form.help p {float:left}
@@ -376,7 +376,6 @@ form.admin_form li {
   border: 1px solid #F00;
   text-align: center;
  }
+#ageIncomeQuestions #householdRow td { padding-top:2.5em; }
 
- #ageIncomeQuestions #householdRow td {
-   padding-top:2.5em;
- }
+.indent { margin-left: 3em; }
