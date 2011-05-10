@@ -14,7 +14,7 @@
     <% if @counseling.employer_type_id == EMP_TYPE[:company] %>
       <label>Year employment ended:</label>
       <%= text_field_tag "employment_end_year", @counseling.employment_end ? @counseling.employment_end.strftime("%Y") : '', {:size => 4} %>
-      Example: 1974
+      <span style="font-weight:normal">Enter the current year if still employed. (example: 1974)</span>
     <% end %>
   </div>
 
@@ -162,8 +162,8 @@
       else if ($('counseling_currently_employed_false') && $('counseling_currently_employed_false').checked ) {
         $('lostPlanQuestion').show();
       }
-      else { 
-        $('lostPlanQuestion').hide(); 
+      else {
+        $('lostPlanQuestion').hide();
       }
     }
 
