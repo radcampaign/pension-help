@@ -57,7 +57,7 @@ class Counseling < ActiveRecord::Base
     when 'State agency or office':   state_plan_matches + aoa_afscme_dsp
     when 'County agency or office':  county_plan_agency_matches + aoa_afscme_dsp
     when 'City or other local government agency or office': city_plan_agency_matches + aoa_afscme_dsp
-    else Array.new
+    else other_matches # for "I Don't Know" employer type
     end
 
     agencies.flatten.uniq.compact
@@ -193,6 +193,11 @@ class Counseling < ActiveRecord::Base
     agencies << result_type_match('PBGC')
     agencies << result_type_match('NPLN') unless nsp or dsp
     agencies.flatten.uniq
+  end
+
+  def other_matches
+    agencies = Array.new
+    aoa_coverage.empty? ? agencies << result_type_match('NPLN') : agencies << aoa_coverage
   end
 
   def religious_matches
