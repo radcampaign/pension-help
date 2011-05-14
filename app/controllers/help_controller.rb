@@ -47,7 +47,7 @@ class HelpController < ApplicationController
     @counseling = update_counseling
     @counseling.step = 1
     case @counseling.employer_type_id
-      when 1..8: # valid responses
+      when 1..10: # valid responses
         @next_question = CAQuestion.get_next(@counseling, 'EMP_TYPE')
         (@next_question.options = @next_question.options.delete_if {|opt| opt[1] == "AA" || opt[1] == "AE" or opt[1] == "AP"}) if @next_question # remove armed forces
         render :update do |page|
@@ -65,11 +65,6 @@ class HelpController < ApplicationController
             page.replace_html 'q4', ''
             page.replace_html 'q5', ''
           end
-        end
-        return
-      when EMP_TYPE[:unknown]: # don't know
-        render :update do |page|
-          page.redirect_to(:controller => 'help', :action => 'employer_descriptions')
         end
         return
       else # start over
@@ -150,7 +145,8 @@ class HelpController < ApplicationController
     #@counseling.step = 3
     @states = CounselAssistance.states
     @ask_aoa = [EMP_TYPE[:company], EMP_TYPE[:railroad], EMP_TYPE[:religious],
-                EMP_TYPE[:federal], EMP_TYPE[:military], EMP_TYPE[:unknown] ].include?(@counseling.employer_type_id)
+                EMP_TYPE[:federal], EMP_TYPE[:military], EMP_TYPE[:unknown],
+                EMP_TYPE[:farm_credit] ].include?(@counseling.employer_type_id)
     @counseling.zipcode = DEFAULT_ZIP if @counseling.non_us_resident == '1'
     if !@counseling.valid? # bad zip code entered
       @zip_found = false

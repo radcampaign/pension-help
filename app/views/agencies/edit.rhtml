@@ -36,9 +36,9 @@
     <% end -%>
     <ul>
     <li class="clear left fullwidth">
-        <div class=""><%= f.text_field :name, {:size => 150}  %>
+        <div class=""><%= f.text_field :name, {:size => 130}  %>
         <label for="agency_name1">Agency Name 1</label></div>
-        <div class=""><%= f.text_field :name2, {:size => 150}  %>
+        <div class=""><%= f.text_field :name2, {:size => 130}  %>
         <label for="agency_name2">Agency Name 2</label></div>
     </li>
     </ul>
@@ -85,7 +85,7 @@
           <span class="legacy"><b>Old SN:</b> <%= (@agency.publication.legacy_code.nil? ? (@agency.publication.fmp2_code || '') + ' (fmp2)' : @agency.publication.legacy_code) %></span>
         <% end %>
         <div class="clear left"><%= pub.text_field :url_title, {:size => 62} %>
-        <label for="agency_url_title" style="width:150px;">Publication URL Title (for display)</label></div>
+        <label for="agency_url_title">Publication URL Title (for display)</label></div>
         <div class="left"><%= pub.text_field :url, {:size => 62}  %>
         <label for="agency_url">Publication URL</label></div>
         <div class="clear left"><%= pub.text_field :email, :size => 30 %><label for="email">Email</label></div>

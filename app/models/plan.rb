@@ -8,9 +8,9 @@ class Plan < ActiveRecord::Base
   has_many :location_plan_relationships, :dependent => :destroy
   has_many :serving_locations, :through => :location_plan_relationships, :source => :location
   before_save :update_employee_types, :update_serving_locations
-  
+
   validates_presence_of     :name
-  
+
   composed_of :pha_contact, :class_name => PhaContact,
     :mapping => [
       [:pha_contact_name, :name],
@@ -18,9 +18,9 @@ class Plan < ActiveRecord::Base
       [:pha_contact_phone, :phone],
       [:pha_contact_email, :email],
     ]
-  
+
   attr_accessor :new_locations, :location_hq
-  
+
   def catchall_employees
     self.employee_types.collect{|et| et.name}.join(', ')
   end
@@ -28,7 +28,7 @@ class Plan < ActiveRecord::Base
   def catchall_employees=(value)
     @catchall_employees=value
   end
-  
+
   def employee_list
     return nil if catchall_employees.blank?
     catchall_employees.split(', ').collect{|e| [e, id]}
@@ -37,7 +37,7 @@ class Plan < ActiveRecord::Base
   def start_date_formatted
      start_date.strftime '%m/%d/%Y' if start_date
   end
-  
+
   def start_date_formatted=(value)
      self.start_date = Date.parse(value) if !value.blank?
   end
@@ -45,7 +45,7 @@ class Plan < ActiveRecord::Base
   def end_date_formatted
      end_date.strftime '%m/%d/%Y' if end_date
   end
-  
+
   def end_date_formatted=(value)
      self.end_date = Date.parse(value) if !value.blank?
   end
@@ -69,7 +69,7 @@ class Plan < ActiveRecord::Base
   def update_serving_locations
     unless new_locations.nil?
       self.location_plan_relationships.each do |relationship|
-        relationship.is_hq = relationship.location_id == location_hq
+        relationship.update_attribute(:is_hq, relationship.location_id == location_hq)
         relationship.destroy unless new_locations.include?(relationship.location_id)
         new_locations.delete(relationship.location_id)
       end
@@ -79,7 +79,7 @@ class Plan < ActiveRecord::Base
       self.new_locations = nil
     end
   end
-  
+
   def best_location(counseling)
     # out of state should find hq
     if counseling.home_state_abbrev == serving_locations.first.dropin_address.state_abbrev # in home state
@@ -92,9 +92,9 @@ class Plan < ActiveRecord::Base
   def hq_serving_location
     self.location_plan_relationships.select{|rel| rel.is_hq}.first.location
   end
-  
+
   def closest_serving_location(zip)
     serving_locations.map{|loc| loc.dropin_address}.sort_by_distance_from(zip).first.location
   end
-  
+
 end

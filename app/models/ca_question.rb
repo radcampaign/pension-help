@@ -1,5 +1,5 @@
 class CAQuestion
-  
+
   attr_accessor :header,
                 :text,
                 :desc,
@@ -11,21 +11,21 @@ class CAQuestion
                 :state,
                 :county,
                 :local
-                
+
   def initialize(p)
       @header = p[:header]
-      @text = p[:text]   
-      @desc = p[:desc]             
+      @text = p[:text]
+      @desc = p[:desc]
       @object = p[:object]
       @method = p[:method]
-      @controller = p[:controller]   
-      @action = p[:action]   
+      @controller = p[:controller]
+      @action = p[:action]
       @options = p[:options]
-      @state = p[:state]  
-      @county = p[:county]  
-      @local = p[:local]  
+      @state = p[:state]
+      @county = p[:county]
+      @local = p[:local]
   end
-  
+
   def self.get_next(counseling, type=nil)
     if type=='EMP_TYPE'
       case counseling.employer_type_id
@@ -38,7 +38,7 @@ class CAQuestion
                         :controller => "",
                         :action => "",
                         :options => CounselAssistance.government_plans)
-        when 5 # Military service 
+        when 5 # Military service
          CAQuestion.new(:header => "What type of military service or employment?",
                         :text => "There are different retirement plans for uniformed servicemen and civilian military employees.  Select the most recent type of military service or employment that earned the pension or retirement savings plan you have a question about.",
                         :desc => "Military service",
@@ -79,13 +79,22 @@ class CAQuestion
                          :options => CounselAssistance.states,
                          :county => true,
                          :local => true)
+           when 10 # Farm Credit
+            CAQuestion.new(:header => "Which Farm Credit plan do you have a question about?",
+                           :text => "There are many retirement plans throughout the Farm Credit System.  Use the menu to select the Farm Credit plan you are asking about.",
+                           :desc => "Farm Credit plan",
+                           :object => "counseling",
+                           :method => "selected_plan_id",
+                           :controller => "",
+                           :action => "",
+                           :options => CounselAssistance.farm_credit_plans)
         else nil
       end #case
     elsif type=='PLANS'
       # state/county/local selected. Show available plans
       true # question is defined in partial
     else
-      # not coming here from emp_type drop down or state/local, 
+      # not coming here from emp_type drop down or state/local,
       # so must be from military service drop down
       case counseling.military_service_id
         when 4 # Civilian military employment
@@ -96,7 +105,7 @@ class CAQuestion
                          :method => "military_employer_id",
                          :controller => "",
                          :action => "",
-                         :options => CounselAssistance.military_employer_types) 
+                         :options => CounselAssistance.military_employer_types)
         when 3 # National Guard
           #includes: uniformed service, ready reserve, national guard, and 'I don't know'
           CAQuestion.new(:header => "Which branch of service?",
@@ -107,7 +116,7 @@ class CAQuestion
                          :controller => "",
                          :action => "",
                          :options => CounselAssistance.national_guard_branches)
-        else 
+        else
           #includes: uniformed service, ready reserve, and 'I don't know'
           CAQuestion.new(:header => "Which branch of service?",
                          :text => "Please select the appropriate uniformed service branch from the menu below.",
@@ -118,8 +127,8 @@ class CAQuestion
                          :action => "",
                          :options => CounselAssistance.uniformed_service_branches)
       end #case
-    end 
+    end
   end
-        
-  
+
+
 end

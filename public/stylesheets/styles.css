@@ -379,3 +379,5 @@ form.admin_form li {
 #ageIncomeQuestions #householdRow td { padding-top:2.5em; }
 
 .indent { margin-left: 3em; }
+
+.clear { clear:both; }

@@ -3,27 +3,27 @@
 <p class="normal"><%= question.text %></p>
 
 <% if question.county -%>
-	<% if question.local -%>
-              
-		<p><label>State:</label> <%= remote_select question.object, question.method, question.options,"help","get_counties?local=true" %></p>
-	<% else -%>
+  <% if question.local -%>
 
-		<p><label>State:</label> <%= remote_select question.object, question.method, question.options,"help","get_counties?local=false" %></p>
-	<% end -%>
-<% else -%>	
-	<p><%= question.desc %>: <%= remote_select question.object, question.method, question.options, question.controller, question.action, selected_value %></p>
+    <p><label>State:</label> <%= remote_select question.object, question.method, question.options,"help","get_counties?local=true" %></p>
+  <% else -%>
+
+    <p><label>State:</label> <%= remote_select question.object, question.method, question.options,"help","get_counties?local=false" %></p>
+  <% end -%>
+<% else -%>
+  <p><%= question.desc %>: <%= remote_select question.object, question.method, question.options, question.controller, question.action, selected_value %></p>
 <% end -%>
 
 <% if question.county -%>
-	<div id="county_container"><p>County: <span id="counties"><select><option>-- Please select a state -- </option></select></span></p></div>
+  <div id="county_container"><p>County: <span id="counties"><select><option>-- Please select a state -- </option></select></span></p></div>
 <% end -%>
 
 <% if question.local -%>
-	<div id="city_container"><p>Local Government: <span id="localities"><select><option>-- Please select a county -- </option></select></span></p></div>
+  <div id="city_container"><p>Local Government: <span id="localities"><select><option>-- Please select a county -- </option></select></span></p></div>
 <% end -%>
 
 <script type="text/javascript">
-  <%# This function is called od partial reload. %>
+  <%# This function is called on partial reload. %>
   addValidation();
   validateStep();
 </script>

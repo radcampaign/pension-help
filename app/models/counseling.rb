@@ -51,12 +51,13 @@ class Counseling < ActiveRecord::Base
     agencies = case employer_type ? employer_type.name : nil
     when 'Company or nonprofit':     company_matches
     when 'Railroad':                 railroad_matches
-    when 'Church or Religious institution':    religious_matches
+    when 'Religious institution':    religious_matches
     when 'Federal agency or office': federal_matches
     when 'Military':                 military_matches
     when 'State agency or office':   state_plan_matches + aoa_afscme_dsp
     when 'County agency or office':  county_plan_agency_matches + aoa_afscme_dsp
     when 'City or other local government agency or office': city_plan_agency_matches + aoa_afscme_dsp
+    when 'Farm Credit District, Bank or System Affiliate' : farm_credit_matches
     else other_matches # for "I Don't Know" employer type
     end
 
@@ -65,9 +66,10 @@ class Counseling < ActiveRecord::Base
 
   def matching_plans
     case employer_type_id
-    when EMP_TYPE[:state]   : State.find(:first, :conditions => {:abbrev => work_state_abbrev} ).plan_matches
-    when EMP_TYPE[:county]  : County.find(county_id).plan_matches
-    when EMP_TYPE[:city]    : City.find(city_id).plan_matches
+    when EMP_TYPE[:state]       : State.find(:first, :conditions => {:abbrev => work_state_abbrev} ).plan_matches
+    when EMP_TYPE[:county]      : County.find(county_id).plan_matches
+    when EMP_TYPE[:city]        : City.find(city_id).plan_matches
+    # when EMP_TYPE[:farm_credit] : farm_credit_plan_matches  # not used
     else Array.new
     end
   end
@@ -170,6 +172,15 @@ class Counseling < ActiveRecord::Base
     end
   end
 
+  def aoa_dsp_npln
+    if aoa_coverage.empty?
+      dsp=closest_dsp
+      dsp.blank? ? result_type_match('NPLN') : [dsp]
+    else
+      aoa_coverage
+    end
+  end
+
   def company_matches
     agencies = Array.new
     d = Date.new(1976,1,1)
@@ -201,6 +212,13 @@ class Counseling < ActiveRecord::Base
     dsp = closest_dsp
     agencies << closest_dsp
     agencies << result_type_match('NPLN') unless dsp
+    agencies.flatten.uniq
+  end
+
+  def farm_credit_matches
+    agencies = selected_plan_id ? [Plan.find(selected_plan_id).agency] : [result_type_match('FCD')]
+    agencies << aoa_dsp_npln
+    agencies << result_type_match('FCD') if selected_plan_id and aoa_coverage.empty?
     agencies.flatten.uniq
   end
 
@@ -366,6 +384,17 @@ class Counseling < ActiveRecord::Base
   def state_plan_matches
     return [Plan.find(selected_plan_id).agency] if selected_plan_id
     State.agency_matches(work_state_abbrev)
+  end
+
+  def self.farm_credit_plan_matches
+    sql = <<-SQL
+        select distinct p.*
+        from agencies a
+        join plans p on p.agency_id = a.id
+        and a.agency_category_id = 6
+        and a.use_for_counseling = 1 and a.is_active = 1 and p.is_active = 1
+        SQL
+    Agency.find_by_sql([sql])
   end
 
   # move to County model

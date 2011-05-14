@@ -7,15 +7,15 @@ class Location < ActiveRecord::Base
   has_many :restrictions, :dependent => :destroy
   has_many :location_plan_relationships, :dependent => :destroy
   has_many :plans_served, :through => :location_plan_relationships, :source => :plan
-  
-  has_one :mailing_address, :class_name => 'Address', 
+
+  has_one :mailing_address, :class_name => 'Address',
             :conditions => "address_type = 'mailing'"
-  has_one :dropin_address, :class_name => 'Address', 
+  has_one :dropin_address, :class_name => 'Address',
             :conditions => "address_type =  'dropin'"
   before_save :update_plans_served
-  
+
   validates_presence_of     :name
-  
+
   composed_of :pha_contact, :class_name => PhaContact,
     :mapping => [
       [:pha_contact_name, :name],
@@ -48,7 +48,7 @@ class Location < ActiveRecord::Base
         locations l join restrictions r on r.location_id = l.id
       where
         l.id = ?
-        and r.max_poverty is not null 
+        and r.max_poverty is not null
       SQL
 
     Location.find_by_sql([sql, id]).size > 0
@@ -73,7 +73,7 @@ class Location < ActiveRecord::Base
   def update_plans_served
     unless new_plans.nil?
       self.location_plan_relationships.each do |relationship|
-        relationship.is_hq = plan_hq.include?(relationship.location_id)
+        relationship.update_attribute(:is_hq, plan_hq.include?(relationship.location_id))
         relationship.destroy unless new_plans.include?(relationship.plan_id)
         new_plans.delete(relationship.plan_id)
       end
@@ -83,5 +83,5 @@ class Location < ActiveRecord::Base
       self.new_plans = nil
     end
   end
-  
+
 end
