@@ -90,7 +90,10 @@ class Plan < ActiveRecord::Base
   end
 
   def hq_serving_location
-    self.location_plan_relationships.select{|rel| rel.is_hq}.first.location
+    potential_matches = self.location_plan_relationships
+    return nil if potential_matches.empty?
+    #use hq if available otherwise just return first match (admin probably forgot to assign a HQ for this plan)
+    potential_matches.select{|rel| rel.is_hq}.first.location rescue potential_matches.first.location
   end
 
   def closest_serving_location(zip)
