@@ -8,8 +8,8 @@ class CounselAssistance
     EmployerType.find(:all, :order => 'position ASC').collect{|et| [et.name, et.id]}
   end
 
-  def self.government_plans
-    FederalPlan.find(:all, :order => 'position ASC').collect{|fp| [fp.name, fp.id]}
+  def self.top_federal_plans
+    FederalPlan.find(:all, :conditions => {:parent_id => nil}, :order => 'position ASC').collect{|fp| [fp.name, fp.id]}
   end
 
   def self.military_service_types

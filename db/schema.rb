@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 81) do
+ActiveRecord::Schema.define(:version => 83) do
 
   create_table "addresses", :force => true do |t|
     t.column "location_id",    :integer
@@ -175,9 +175,14 @@ ActiveRecord::Schema.define(:version => 81) do
   end
 
   create_table "federal_plans", :force => true do |t|
-    t.column "name",     :string
-    t.column "position", :integer
+    t.column "name",               :string
+    t.column "position",           :integer
+    t.column "parent_id",          :integer
+    t.column "associated_plan_id", :integer
   end
+
+  add_index "federal_plans", ["parent_id"], :name => "parent_id"
+  add_index "federal_plans", ["associated_plan_id"], :name => "associated_plan_id"
 
   create_table "feedbacks", :force => true do |t|
     t.column "name",         :string
@@ -301,10 +306,11 @@ ActiveRecord::Schema.define(:version => 81) do
     t.column "non_pension_resource_types", :string
   end
 
-  create_table "fmp2", :force => true do |t|
+  create_table "fmp2", :id => false, :force => true do |t|
+    t.column "newDbSerial",                  :integer, :default => 0, :null => false
     t.column "ResultType",                   :string
-    t.column "OldPHA_AgencySerialNumber",    :string
-    t.column "OldPHA_BabiesSerialNumber",    :string
+    t.column "OldPHA_AgencySerialNumber",    :integer
+    t.column "OldPHA_BabiesSerialNumber",    :integer
     t.column "AgencyName1",                  :string
     t.column "AgencyName2",                  :string
     t.column "PlanDescription",              :text
@@ -359,6 +365,10 @@ ActiveRecord::Schema.define(:version => 81) do
     t.column "GovtSpDist",                   :string
     t.column "GovtState",                    :string
     t.column "GovtEmployerType",             :string
+    t.column "MultipleOffices",              :string
+    t.column "primary_serial",               :integer
+    t.column "loc_serial",                   :integer
+    t.column "plan_serial",                  :integer
   end
 
   create_table "geo_areas", :force => true do |t|
@@ -924,6 +934,9 @@ ActiveRecord::Schema.define(:version => 81) do
   add_foreign_key "counselings", ["county_id"], "counties", ["id"], :name => "counselings_ibfk_7"
   add_foreign_key "counselings", ["city_id"], "cities", ["id"], :name => "counselings_ibfk_8"
   add_foreign_key "counselings", ["selected_plan_id"], "plans", ["id"], :name => "counselings_ibfk_9"
+
+  add_foreign_key "federal_plans", ["associated_plan_id"], "plans", ["id"], :name => "federal_plans_ibfk_2"
+  add_foreign_key "federal_plans", ["parent_id"], "federal_plans", ["id"], :name => "federal_plans_ibfk_1"
 
   add_foreign_key "images", ["parent_id"], "images", ["id"], :name => "images_ibfk_1"
 

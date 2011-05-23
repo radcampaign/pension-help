@@ -1,7 +1,6 @@
 class Counseling < ActiveRecord::Base
   has_enumerated :pension_earner
   has_enumerated :employer_type
-  has_enumerated :federal_plan
   has_enumerated :military_service
   has_enumerated :military_branch
   has_enumerated :military_employer
@@ -11,6 +10,7 @@ class Counseling < ActiveRecord::Base
   belongs_to :hq_state, :class_name => "State", :foreign_key => "hq_state_abbrev"
   belongs_to :pension_state, :class_name => "State", :foreign_key => "pension_state_abbrev"
   belongs_to :selected_plan, :class_name => "Plan", :foreign_key => "selected_plan_id"
+  belongs_to :federal_plan
 
   validates_presence_of :employer_type
 
@@ -251,25 +251,41 @@ class Counseling < ActiveRecord::Base
 
   def federal_matches
     agencies = Array.new
-    if federal_plan.nil? or federal_plan.name == 'Thrift Savings Plan (TSP)'
-      agencies << result_type_match('TSP')
-      unless aoa_coverage.empty?
-        return agencies << aoa_coverage
-      end
-      agencies << result_type_match('NARFE')
-      dsp = closest_dsp
-      agencies << dsp
-      agencies << result_type_match('OPM')
+    # if user selected TSP then offer TSP as result
+    agencies << ((selected_plan_id.blank? or Plan.find(selected_plan_id).nil?) ? result_type_match('OPM') : Plan.find(selected_plan_id).agency)
+    unless aoa_coverage.empty?
+      agencies << aoa_coverage
     else
-      agencies << result_type_match('OPM')
-      unless aoa_coverage.empty?
-        return agencies << aoa_coverage
-      end
-      agencies << result_type_match('NARFE')
+      # agencies << result_type_match('NARFE')
       dsp = closest_dsp
       agencies << dsp
-      agencies << tsp_by_date
+      agencies << result_type_match('NPLN') unless dsp
+      agencies << result_type_match('OPM') unless selected_plan_id.blank?
+      agencies << result_type_match('TSP') unless selected_plan_id.blank?
     end
+
+##########  OLD LOGIC
+    # if federal_plan.nil? or federal_plan.name == 'Thrift Savings Plan (TSP)'
+    #   agencies << result_type_match('TSP')
+    #   unless aoa_coverage.empty?
+    #     return agencies << aoa_coverage
+    #   end
+    #   agencies << result_type_match('NARFE')
+    #   dsp = closest_dsp
+    #   agencies << dsp
+    #   agencies << result_type_match('OPM')
+    # else
+    #   agencies << result_type_match('OPM')
+    #   unless aoa_coverage.empty?
+    #     return agencies << aoa_coverage
+    #   end
+    #   agencies << result_type_match('NARFE')
+    #   dsp = closest_dsp
+    #   agencies << dsp
+    #   agencies << tsp_by_date
+    # end
+############
+
     agencies.flatten.uniq
   end
 

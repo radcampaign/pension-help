@@ -30,14 +30,14 @@ class CAQuestion
     if type=='EMP_TYPE'
       case counseling.employer_type_id
         when 4 # Federal agency
-         CAQuestion.new(:header => "Which federal plan do you have a question about?",
+         CAQuestion.new(:header => "Which retirement plan do you have a question about?",
                         :text => "There are many different retirement plans for federal employees.  Use the menu to select the federal retirement plan you are asking about.",
                         :desc => "Federal plan",
                         :object => "counseling",
                         :method => "federal_plan_id",
-                        :controller => "",
-                        :action => "",
-                        :options => CounselAssistance.government_plans)
+                        :controller => "help",
+                        :action => "show_third_question",
+                        :options => CounselAssistance.top_federal_plans)
         when 5 # Military service
          CAQuestion.new(:header => "What type of military service or employment?",
                         :text => "There are different retirement plans for uniformed servicemen and civilian military employees.  Select the most recent type of military service or employment that earned the pension or retirement savings plan you have a question about.",
@@ -95,38 +95,54 @@ class CAQuestion
       true # question is defined in partial
     else
       # not coming here from emp_type drop down or state/local,
-      # so must be from military service drop down
-      case counseling.military_service_id
-        when 4 # Civilian military employment
-          CAQuestion.new(:header => "Which military employer?",
-                         :text => "Make the menu selection that best describes the military employer offering the pension or retirement savings plan you have a question about.",
-                         :desc => "Military employer",
+      if counseling.employer_type_id == EMP_TYPE[:military]
+        case counseling.military_service_id
+          when 4 # Civilian military employment
+            CAQuestion.new(:header => "Which military employer?",
+                           :text => "Make the menu selection that best describes the military employer offering the pension or retirement savings plan you have a question about.",
+                           :desc => "Military employer",
+                           :object => "counseling",
+                           :method => "military_employer_id",
+                           :controller => "",
+                           :action => "",
+                           :options => CounselAssistance.military_employer_types)
+          when 3 # National Guard
+            #includes: uniformed service, ready reserve, national guard, and 'I don't know'
+            CAQuestion.new(:header => "Which branch of service?",
+                           :text => "Please select the appropriate uniformed service branch from the menu below.",
+                           :desc => "Uniformed service",
+                           :object => "counseling",
+                           :method => "military_branch_id",
+                           :controller => "",
+                           :action => "",
+                           :options => CounselAssistance.national_guard_branches)
+          else
+            #includes: uniformed service, ready reserve, and 'I don't know'
+            CAQuestion.new(:header => "Which branch of service?",
+                           :text => "Please select the appropriate uniformed service branch from the menu below.",
+                           :desc => "Uniformed service",
+                           :object => "counseling",
+                           :method => "military_branch_id",
+                           :controller => "",
+                           :action => "",
+                           :options => CounselAssistance.uniformed_service_branches)
+        end #case
+      elsif counseling.employer_type_id = EMP_TYPE[:federal]
+        child_plans = FederalPlan.find(:all, :conditions => {:parent_id => counseling.federal_plan_id}, :order => :position)
+        if !child_plans.empty?
+          CAQuestion.new(:header => "",
+                         :text => "",
+                         :desc => FederalPlan.find(counseling.federal_plan_id).name,
                          :object => "counseling",
-                         :method => "military_employer_id",
-                         :controller => "",
-                         :action => "",
-                         :options => CounselAssistance.military_employer_types)
-        when 3 # National Guard
-          #includes: uniformed service, ready reserve, national guard, and 'I don't know'
-          CAQuestion.new(:header => "Which branch of service?",
-                         :text => "Please select the appropriate uniformed service branch from the menu below.",
-                         :desc => "Uniformed service",
-                         :object => "counseling",
-                         :method => "military_branch_id",
-                         :controller => "",
-                         :action => "",
-                         :options => CounselAssistance.national_guard_branches)
-        else
-          #includes: uniformed service, ready reserve, and 'I don't know'
-          CAQuestion.new(:header => "Which branch of service?",
-                         :text => "Please select the appropriate uniformed service branch from the menu below.",
-                         :desc => "Uniformed service",
-                         :object => "counseling",
-                         :method => "military_branch_id",
-                         :controller => "",
-                         :action => "",
-                         :options => CounselAssistance.uniformed_service_branches)
-      end #case
+                         :method => "federal_plan_id",
+                         :controller => "help",
+                         :action => type == 'THIRD_QUESTION' ? 'show_fourth_question' : 'show_fifth_question',
+                         :options => child_plans.collect{|cp| [cp.name, cp.id]} << ["I don't know", "IDK"] << ["Other", "OTHER"] )
+         else
+           nil
+         end
+
+      end
     end
   end
 

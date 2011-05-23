@@ -19,7 +19,6 @@ ActiveRecord::VirtualEnumerations.define do |config|
                  :help_additional_area,
                  :pension_earner,
                  :employer_type,
-                 :federal_plan,
                  :military_service,
                  :military_branch,
                  :military_employer,

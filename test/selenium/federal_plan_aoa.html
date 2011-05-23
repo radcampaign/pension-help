@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:3000/" />
+<title>federal_plan_aoa</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">federal_plan_aoa</td></tr>
+</thead><tbody>
+<tr>
+  <td>open</td>
+  <td>/help/counseling</td>
+  <td></td>
+</tr>
+<tr>
+  <td>select</td>
+  <td>counseling[employer_type_id]</td>
+  <td>label=Federal agency or office</td>
+</tr>
+<tr>
+  <td>click</td>
+  <td>//option[@value='4']</td>
+  <td></td>
+</tr>
+<tr>
+  <td>select</td>
+  <td>counseling[federal_plan_id]</td>
+  <td>label=Other federal employee retirement plans</td>
+</tr>
+<tr>
+  <td>click</td>
+  <td>//select[@id='counseling[federal_plan_id]']/option[5]</td>
+  <td></td>
+</tr>
+<tr>
+  <td>select</td>
+  <td>document.forms[0].elements['counseling[federal_plan_id]'][1]</td>
+  <td>label=Federal Judiciary Plans</td>
+</tr>
+<tr>
+  <td>click</td>
+  <td>//div[2]/p[2]/select/option[4]</td>
+  <td></td>
+</tr>
+<tr>
+  <td>select</td>
+  <td>document.forms[0].elements['counseling[federal_plan_id]'][2]</td>
+  <td>label=Judicial Survivors' Annuity System (JSAS)</td>
+</tr>
+<tr>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
+</tr>
+<tr>
+  <td>type</td>
+  <td>counseling_zipcode</td>
+  <td>10016</td>
+</tr>
+<tr>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
+</tr>
+<tr>
+  <td>click</td>
+  <td>counseling_currently_employed_false</td>
+  <td></td>
+</tr>
+<tr>
+  <td>clickAndWait</td>
+  <td>nextLinkButton</td>
+  <td></td>
+</tr>
+<tr>
+  <td>verifyTextPresent</td>
+  <td>Office of Judges Compensation </td>
+  <td></td>
+</tr>
+<tr>
+  <td>verifyTextPresent</td>
+  <td>Judicial Survivors' Annuity System (JSAS)</td>
+  <td></td>
+</tr>
+<tr>
+  <td>verifyTextPresent</td>
+  <td>Mid-Atlantic Pension Rights Project</td>
+  <td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

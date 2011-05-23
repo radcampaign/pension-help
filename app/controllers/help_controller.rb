@@ -79,7 +79,7 @@ class HelpController < ApplicationController
   def show_third_question
     @counseling = update_counseling
     @counseling.step = 1
-    @next_question = CAQuestion.find(params[:id])
+    @next_question = CAQuestion.get_next(@counseling, 'THIRD_QUESTION')
     render :update do |page|
       if @next_question
         @states = CounselAssistance.states if @next_question.state
@@ -102,13 +102,18 @@ class HelpController < ApplicationController
       return
     end
 
-    @next_question = CAQuestion.get_next(@counseling, 'STATE')
+    @next_question = CAQuestion.get_next(@counseling, 'FOURTH_QUESTION')
     render :update do |page|
       if @next_question
         page.replace_html 'q4', :partial => 'next_question', :locals => {'question' => @next_question, 'selected_value' => nil}
         page.visual_effect :highlight, 'q4'
       end
     end
+  end
+
+  def show_fifth_question
+    @counseling = update_counseling
+    render :nothing => true
   end
 
   def show_available_plans
@@ -240,7 +245,6 @@ class HelpController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       nil # continue on if we don't find anything
     end
-    logger.debug "SLPR = " + @counseling.show_lost_plan_resources.to_s
     @lost_plan_resources = Content.find_by_url('lost_plan_resources').content rescue nil if @counseling.show_lost_plan_resources
     @counseling.save
     if @counseling.selected_plan_id
@@ -296,18 +300,6 @@ class HelpController < ApplicationController
       c = update_counseling #get counseling object from session
       employees = c.employee_list
 
-      # Since it's now possible to sort employees (see #269), there's no need to force the 'other's to the bottom
-      # employees = employees_unsorted.sort do |a,b|
-      #   # put all employees with 'other' at the end of the list
-      #   if a[0].downcase.include?('other') and !b[0].downcase.include?('other')
-      #     1
-      #   elsif b[0].downcase.include?('other') and !a[0].downcase.include?('other')
-      #     -1
-      #   else
-      #     a[0].downcase <=> b[0].downcase
-      #   end
-      # end
-
       if @counseling.employer_type_id == 6 # State agency or office
         render :update do |page|
           page.replace_html 'question_container', :partial => 'employee_list', :layout => false, :locals => {'employees' => employees}
@@ -333,12 +325,14 @@ class HelpController < ApplicationController
 
   def update_counseling
     c = find_counseling
-    #c = session[:counseling] ||= Counseling.new
     c.attributes = params[:counseling]
     # if yrly amt is entered, we need to override what's been put into monthly amount by setting the attributes
     c.yearly_income = params[:counseling][:yearly_income] if params[:counseling] and not params[:counseling][:yearly_income].blank?
     # make IDK => 0
     c.selected_plan_id = nil if (c.selected_plan_id=="IDK" or c.selected_plan_id=="OTHER" or c.selected_plan_id==0)
+    c.selected_plan_id = c.federal_plan.associated_plan_id if c.federal_plan_id and FederalPlan.find(c.federal_plan_id).associated_plan_id
+    logger.debug ("\nc.federal_plan_id is " + c.federal_plan_id.to_s)
+    logger.debug ("\nFederalPlan.find(c.federal_plan_id).associated_plan_id is " + FederalPlan.find(c.federal_plan_id).associated_plan_id.to_s) unless c.federal_plan_id.nil?
     c.selected_plan_id = params[:selected_plan_override] if !params[:selected_plan_override].blank?
     # set date here if we have a year, but do validation on year elsewhere so we can redraw the page
     # we'll have to limit the display of the date to the year only
@@ -350,19 +344,17 @@ class HelpController < ApplicationController
     # c.work_state = State.find(params[:state]) if params[:state]
     # c.county = County.find(params[:county]) if params[:county]
     # c.city = City.find(params[:city]) if params[:city]
+    logger.debug('after update, c is now set to ' + c.inspect )
     c
   end
 
   def find_counseling
-    # c = session[:counseling] ||= Counseling.new
     if session[:counseling]
       c=session[:counseling]
     else
       c=Counseling.new
     end
-    # logger.debug('c is now set to ' + PP::pp(c.attributes.each{|item| item.to_s}) )
     c
-
   end
 
 end
