@@ -77,7 +77,6 @@
 
     function validateStep() {
         var selects = document.getElementsByTagName('select');
-        // var inputs = document.getElementsByTagName('input');
         var next_step_enabled = true;
 
         var result = true;
@@ -87,15 +86,7 @@
                 break;
             }
         }
-        var result2 = true;
-        // for (i = 0; i < inputs.length; i++) {
-        //     result2 = inputs[i].value.length > 0
-        //     if (!result2) {
-        //         break;
-        //     }
-        // }
-        //
-        changeStateNextStepButton((result2&&result));
+        changeStateNextStepButton(result);
     }
 
     function changeStateNextStepButton(active) {

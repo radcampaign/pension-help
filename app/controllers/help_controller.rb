@@ -107,6 +107,9 @@ class HelpController < ApplicationController
       if @next_question
         page.replace_html 'q4', :partial => 'next_question', :locals => {'question' => @next_question, 'selected_value' => nil}
         page.visual_effect :highlight, 'q4'
+      else
+        page.replace_html 'q4', nil
+        page << 'validateStep();'
       end
     end
   end

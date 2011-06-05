@@ -13,7 +13,7 @@ class CounselAssistance
   end
 
   def self.military_service_types
-    MilitaryService.find(:all, :order => 'position ASC').collect{|ms| [ms.name, ms.id]}
+    MilitaryService.find(:all, :conditions => {:is_active => true}, :order => 'position ASC').collect{|ms| [ms.name, ms.id]}
   end
 
   def self.military_employer_types
@@ -35,6 +35,10 @@ class CounselAssistance
 
   def self.farm_credit_plans
     Counseling.farm_credit_plan_matches.collect{|fcp| [fcp.name, fcp.id] } << ["I don't know", "IDK"] << ["Other", "OTHER"]
+  end
+
+  def self.civilian_plans
+    Plan.find_all_by_plan_category_id(PlanCategory.find_by_name('Civilian Employee (NAF and other)').id).collect{|cp| [cp.name,cp.id]}
   end
 
 end

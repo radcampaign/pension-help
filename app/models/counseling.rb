@@ -53,7 +53,7 @@ class Counseling < ActiveRecord::Base
     when 'Railroad':                 railroad_matches
     when 'Religious institution':    religious_matches
     when 'Federal agency or office': federal_matches
-    when 'Military':                 military_matches
+    when 'Uniformed services':       military_matches
     when 'State agency or office':   state_plan_matches + aoa_afscme_dsp
     when 'County agency or office':  county_plan_agency_matches + aoa_afscme_dsp
     when 'City or other local government agency or office': city_plan_agency_matches + aoa_afscme_dsp
@@ -291,6 +291,7 @@ class Counseling < ActiveRecord::Base
 
   def military_matches
     agencies = Array.new
+    agencies << Plan.find(selected_plan_id).agency unless (selected_plan_id.blank? or Plan.find(selected_plan_id).nil?)
     if !pension_earner.nil? && pension_earner.name.include?("spouse") and
           (is_divorce_related? or is_survivorship_related?)
       agencies << result_type_match('DFAS')
@@ -454,17 +455,19 @@ class Counseling < ActiveRecord::Base
   def military_branch_match
     return nil unless military_branch
     case military_branch.name
-      when 'Army':        result_type_match('RSO')
-      when 'Navy':        result_type_match('NRAO')
-      when 'Air Force':   result_type_match('AFRSB')
-      when 'Coast Guard': result_type_match('OHSPSC')
-      when 'Marine Corps':
+      when /Army/:        result_type_match('RSO')
+      when /Navy/:        result_type_match('NRAO')
+      when /Air Force/:   result_type_match('AFRSB')
+      when /Coast Guard/: result_type_match('OHSPSC')
+      when /Marine Corps/:
                           result_type_match('USMCP')
-      when 'National Oceanic and Atmospheric Administration Commissioned Corps':
+      when /National Oceanic and Atmospheric Administration Commissioned Corps/:
                           result_type_match('OPMOSB')
-      when 'U.S. Public Health Service Commissioned Corps':
+      when /U.S. Public Health Service Commissioned Corps/:
                           result_type_match('PHSRC')
-      when 'I don&rsquo;t know':
+      when /Thrift Savings Plan/:
+                          result_type_match('TSP')
+      when /I don&rsquo;t know/:
                           result_type_match('RSO')
   end
   end

@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 83) do
+ActiveRecord::Schema.define(:version => 85) do
 
   create_table "addresses", :force => true do |t|
     t.column "location_id",    :integer
@@ -708,9 +708,11 @@ ActiveRecord::Schema.define(:version => 83) do
     t.column "pha_contact_email",     :string
     t.column "is_active",             :boolean,                :default => true
     t.column "previous_gov_employee", :string
+    t.column "plan_category_id",      :integer
   end
 
   add_index "plans", ["agency_id"], :name => "agency_id"
+  add_index "plans", ["plan_category_id"], :name => "plan_category_id"
 
   create_table "poverty_levels", :force => true do |t|
     t.column "year",                :integer
@@ -935,8 +937,8 @@ ActiveRecord::Schema.define(:version => 83) do
   add_foreign_key "counselings", ["city_id"], "cities", ["id"], :name => "counselings_ibfk_8"
   add_foreign_key "counselings", ["selected_plan_id"], "plans", ["id"], :name => "counselings_ibfk_9"
 
-  add_foreign_key "federal_plans", ["associated_plan_id"], "plans", ["id"], :name => "federal_plans_ibfk_2"
   add_foreign_key "federal_plans", ["parent_id"], "federal_plans", ["id"], :name => "federal_plans_ibfk_1"
+  add_foreign_key "federal_plans", ["associated_plan_id"], "plans", ["id"], :name => "federal_plans_ibfk_2"
 
   add_foreign_key "images", ["parent_id"], "images", ["id"], :name => "images_ibfk_1"
 
@@ -989,6 +991,7 @@ ActiveRecord::Schema.define(:version => 83) do
   add_foreign_key "plan_catch_all_employees", ["plan_id"], "plans", ["id"], :name => "plan_catch_all_employees_ibfk_1"
   add_foreign_key "plan_catch_all_employees", ["employee_type_id"], "employee_types", ["id"], :name => "plan_catch_all_employees_ibfk_2"
 
+  add_foreign_key "plans", ["plan_category_id"], "plan_categories", ["id"], :name => "plans_ibfk_2"
   add_foreign_key "plans", ["agency_id"], "agencies", ["id"], :name => "plans_ibfk_1"
 
   add_foreign_key "publications", ["agency_id"], "agencies", ["id"], :name => "publications_ibfk_1"

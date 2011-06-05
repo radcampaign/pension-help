@@ -1,4 +1,4 @@
-<h3><a href=""><%= question.header %></a></h3>
+<%= '<br/><h3>' + question.header + '</h3>' unless question.header.blank? %>
 
 <p class="normal"><%= question.text %></p>
 
