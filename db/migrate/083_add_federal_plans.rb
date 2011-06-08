@@ -1,6 +1,5 @@
 class AddFederalPlans < ActiveRecord::Migration
   def self.up
-    FederalPlan.enumeration_model_updates_permitted = true
     Agency.find_by_name("Farm Credit Administration").update_attributes(:result_type_id => ResultType.find_by_name("FCD").id, :agency_category_id => AgencyCategory.find_by_name("Farm Credit Plan").id)
     Agency.find(:all, :conditions => ["name in (?)", ["Farm Credit Foundations", "CoBank", "AgFirst Bank Farm Credit Bank", "Farm Credit Bank of Texas"]]).each{|a| a.update_attributes(:agency_category_id => AgencyCategory.find_by_name("Farm Credit Plan").id)}
     other_plan = FederalPlan.find_by_name('other')
