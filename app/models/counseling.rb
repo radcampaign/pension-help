@@ -306,7 +306,7 @@ class Counseling < ActiveRecord::Base
     else
       agencies << military_branch_match
       agencies << aoa_dsp_npln
-      if aoa_coverage_empty?
+      if aoa_coverage.empty?
         agencies << result_type_match('DFAS')
         agencies << result_type_match('TSP')
       end
