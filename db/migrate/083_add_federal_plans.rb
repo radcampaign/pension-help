@@ -1,9 +1,12 @@
 class AddFederalPlans < ActiveRecord::Migration
   def self.up
+    puts "Updating Farm Agencies"
     Agency.find_by_name("Farm Credit Administration").update_attributes(:result_type_id => ResultType.find_by_name("FCD").id, :agency_category_id => AgencyCategory.find_by_name("Farm Credit Plan").id)
     Agency.find(:all, :conditions => ["name in (?)", ["Farm Credit Foundations", "CoBank", "AgFirst Bank Farm Credit Bank", "Farm Credit Bank of Texas"]]).each{|a| a.update_attributes(:agency_category_id => AgencyCategory.find_by_name("Farm Credit Plan").id)}
+    puts "Updating 'other' plan"
     other_plan = FederalPlan.find_by_name('other')
     other_plan.update_attribute("name", "Other federal employee retirement plans")
+    puts "Updating TSP plan"
     if Plan.find_by_name("Thrift Savings Plan").nil?
       Plan.create(:name => "Thrift Savings Plan", :agency_id => Agency.find_by_name('Federal Retirement Thrift Investment Board'))
     else
@@ -109,6 +112,6 @@ puts "Adding TVA plans"
   def self.down
     first_plan_added = FederalPlan.find_by_name("Central Intelligence Agency Voluntary Investment Plan")
     execute "DELETE from federal_plans where id >= #{first_plan_added.id}"
-    execute "UPDATE federal_plans SET name='Other' WHERE name = 'Other federal employee retirement plan'"
+    execute "UPDATE federal_plans SET name='Other' WHERE name = 'Other federal employee retirement plans'"
   end
 end

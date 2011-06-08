@@ -455,8 +455,9 @@ ActiveRecord::Schema.define(:version => 85) do
   end
 
   create_table "military_services", :force => true do |t|
-    t.column "name",     :string
-    t.column "position", :integer
+    t.column "name",      :string
+    t.column "position",  :integer
+    t.column "is_active", :boolean, :default => true
   end
 
   create_table "news", :force => true do |t|
@@ -937,8 +938,8 @@ ActiveRecord::Schema.define(:version => 85) do
   add_foreign_key "counselings", ["city_id"], "cities", ["id"], :name => "counselings_ibfk_8"
   add_foreign_key "counselings", ["selected_plan_id"], "plans", ["id"], :name => "counselings_ibfk_9"
 
-  add_foreign_key "federal_plans", ["parent_id"], "federal_plans", ["id"], :name => "federal_plans_ibfk_1"
   add_foreign_key "federal_plans", ["associated_plan_id"], "plans", ["id"], :name => "federal_plans_ibfk_2"
+  add_foreign_key "federal_plans", ["parent_id"], "federal_plans", ["id"], :name => "federal_plans_ibfk_1"
 
   add_foreign_key "images", ["parent_id"], "images", ["id"], :name => "images_ibfk_1"
 
