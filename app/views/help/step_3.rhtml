@@ -34,13 +34,13 @@
 
   <% if @counseling.employer_type_id == EMP_TYPE[:military] %>
     <p>&nbsp;</p>
-    <h3><a href="">Who is the pension-earner?</a></h3>
+    <h3>Who is the pension-earner?</h3>
 
     <p class="normal">Pension rights may vary depending on a person&#39;s relationship to the pension-earner. Please tell us who earned the pension or retirement savings plan you have a question about.</p>
 
     <p class="normal"><label>Pension-earner:</label> <%= form.select :pension_earner_id, @options, {:include_blank => true}, {} %></p>
 
-    <h3><a href="">Does your question involve divorce or survivorship?</a></h3>
+    <h3>Does your question involve divorce or survivorship?</h3>
 
     <p class="normal">Pension laws may provide certain protections in divorce and survivorship situations. You may select one, both or neither of the following choices.</p>
 

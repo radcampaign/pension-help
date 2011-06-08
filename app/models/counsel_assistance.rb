@@ -20,7 +20,7 @@ class CounselAssistance
     MilitaryEmployer.find(:all, :order => 'position ASC').collect{|me| [me.name, me.id]}
   end
 
-  def self.uniformed_service_branches
+  def self.military_branches
     MilitaryBranch.find(:all, :order => 'position ASC').collect{|mb| [mb.name, mb.id]}
   end
 

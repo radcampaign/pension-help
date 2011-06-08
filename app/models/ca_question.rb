@@ -102,10 +102,10 @@ class CAQuestion
                            :text => "Please select the appropriate uniformed service branch from the menu below.",
                            :desc => "Member plans",
                            :object => "counseling",
-                           :method => "military_employer_id",
+                           :method => "military_branch_id",
                            :controller => "",
                            :action => "",
-                           :options => CounselAssistance.military_employer_types)
+                           :options => CounselAssistance.military_branches)
           when 8 # Civilian employee (NAF and other) plans
             #includes: uniformed service, ready reserve, national guard, and 'I don't know'
             CAQuestion.new(:header => "Member plans",

@@ -292,6 +292,7 @@ class Counseling < ActiveRecord::Base
   def military_matches
     agencies = Array.new
     agencies << Plan.find(selected_plan_id).agency unless (selected_plan_id.blank? or Plan.find(selected_plan_id).nil?)
+    agencies << result_type_match('DFAS') if self.military_service_id == 5 # Military service = I don't know
     if !pension_earner.nil? && pension_earner.name.include?("spouse") and
           (is_divorce_related? or is_survivorship_related?)
       agencies << result_type_match('DFAS')
@@ -300,17 +301,15 @@ class Counseling < ActiveRecord::Base
       end
       agencies << result_type_match('EXPOSE')
       dsp = closest_dsp
-      agencies << dsp
-      agencies << tsp_by_date
+      agencies << dsp ? dsp : result_type_match('NPLN')
+      agencies << result_type_match('TSP')
     else
       agencies << military_branch_match
-      unless aoa_coverage.empty?
-        return agencies << aoa_coverage
+      agencies << aoa_dsp_npln
+      if aoa_coverage_empty?
+        agencies << result_type_match('DFAS')
+        agencies << result_type_match('TSP')
       end
-      dsp = closest_dsp
-      agencies << dsp
-      agencies << result_type_match('DFAS')
-      agencies << tsp_by_date
     end
     agencies.flatten.uniq
   end
@@ -468,7 +467,7 @@ class Counseling < ActiveRecord::Base
       when /Thrift Savings Plan/:
                           result_type_match('TSP')
       when /I don&rsquo;t know/:
-                          result_type_match('RSO')
+                          result_type_match('DFAS')
   end
   end
 
