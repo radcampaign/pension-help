@@ -1,6 +1,8 @@
 namespace :backup do
   namespace :s3 do
     task :database => :environment do
+      require "aws/s3"
+
       `sudo -i eybackup -d 0:phamerica`
 
       backup_filename = "#{`ls -at /mnt/tmp/*.sql.gz`.split("\n")[0]}"
@@ -13,7 +15,7 @@ namespace :backup do
 
       AWS::S3::S3Object.store "backups/database-#{Date.today}.sql.gz", open(backup_filename), "phamerica-#{RAILS_ENV}", :access => :private
 
-      File.delete backup_filename
+      `sudo rm -f #{backup_filename}`
     end
   end
 end
