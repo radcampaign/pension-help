@@ -13,7 +13,7 @@ namespace :backup do
         :secret_access_key => "MH5UBVcokzlb+GDrtemuvttmEk1wxb8casf3jDKE"
       )
 
-      AWS::S3::S3Object.store "backups/database-#{Date.today}.sql.gz", open(backup_filename), "phamerica-#{RAILS_ENV}", :access => :private
+      AWS::S3::S3Object.store "backups=#{RAILS_ENV}/database-#{Date.today}.sql.gz", open(backup_filename), "freeport-metrics-pha", :access => :private
 
       `sudo rm -f #{backup_filename}`
     end
