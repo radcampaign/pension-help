@@ -120,4 +120,9 @@ WHERE a.longitude IS NULL ;
 # and dan's plan_catch_all_employees migration scripts
 
 -- assume that there exists only one location for the agency related to this plan, and make it the servicing location
--- insert into location_plan_relationships (is_hq, location_id, plan_id) select 1, l.id, p.id from plans p join agencies a on p.agency_id = a.id join locations l on l.agency_id = a.id where p.id >= #first 'new' plan from above;
+insert into location_plan_relationships (is_hq, location_id, plan_id) select 1, l.id, p.id from plans p join agencies a on p.agency_id = a.id join locations l on l.agency_id = a.id where p.id >= #first 'new' plan from above;
+
+update locations set tollfree = NULL where tollfree = "(###) ###-####";
+update locations set phone = NULL where phone = "(###) ###-####";
+update locations set tty = NULL where tty = "(###) ###-####";
+update locations set fax = NULL where fax = "(###) ###-####";
