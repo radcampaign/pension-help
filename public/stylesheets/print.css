@@ -1,121 +1,81 @@
 body {
-	min-width:800px;
+  min-width:800px;
   font-size: 12pt;
   font-family: Verdana, Arial, sans-serif;
-	background: white;
+  background: white;
 }
 
-#preview-message {
-	display:none;
-}
-
-@page {
-  margin: 3cm;
+#preview-message,
+.no-print {
+  display:none;
 }
 
 #wrapper, #content {
-	width: auto; 
-	margin: 0 5%;
-	padding: 0; 
-	border: 0;
-	float: none !important;
-	color: black; 
-	background: transparent;
-	}
+  width: auto;
+  margin: 0 5%;
+  padding: 0;
+  border: 0;
+  float: none !important;
+  color: black;
+  background: transparent;
+  }
 
 * {
-	margin:0px;
-	padding:0px;
+  margin:0px;
+  padding:0px;
 }
 
 /* Generic site wide hypertext link selectors */
 
 a:link, a:visited {
-	color: #000;
-	background: transparent;
-	font-weight: bold;
-	text-decoration: underline;
+  color: #000;
+  background: transparent;
+  font-weight: bold;
+  text-decoration: underline;
 }
 
-a:link:after, a:visited:after {
-   content: " (" attr(href) ") ";
-   font-size: 90%;
-}
-
-a[href^="/"]:after {
- content: " (http://www.pensionhelp.org" attr(href) ") ";
-}
-
-a img { 
-	border: none;
+a img {
+  border: none;
 }
 
 /* Layout */
 
 #container {
-    width:800px;
-    margin:0px auto 0px 0px;	
-}
-
-#header,#menu,#content,#footer {
-	overflow:hidden;
-  /* Make these elements inline-block so we can set widths */
-	display:inline-block;
+    margin:0px auto 0px 0px;
 }
 
 /* Layout - Header */
 
 .header {
-	display: none;
+  display: none;
 }
 
 /* Layout - Menu */
 
 #menu {
-	display: none;
+  display: none;
 }
 
 /* Layout - Content */
 
 #content {
-	width:641px;
-	float:right;
+  float:right;
 }
 
 /* Layout - Footer */
 
 #footer {
-	width:773px;
-	padding-bottom:30px;
-	color:#001384;
-	font-weight:bold;
-	text-align:center;
-	clear:both;
-}
-
-#footer ul {
-    white-space: nowrap; 
-		margin-bottom:10px;
-}
-
-#footer li {
-	  padding:2px;
-    list-style-type: none;
-    display: list-item;
-}
-
-#footer li.list_separator {
-	display:none;
-}
-
-#print_disclaimer {
-	display:block;
+  padding-bottom:30px;
+  color:#001384;
+  font-size:90%;
+  text-align:center;
+  clear:both;
 }
 
 /* HTML element styles */
 
 p {
-	margin:10px 0px 10px 0px;
+  margin:10px 0px 10px 0px;
 }
 
 h2 {
@@ -138,7 +98,7 @@ h3 {
   font-weight: bold;
   color: #cc0000;
   margin-top: 1.5em;
-	margin-bottom: 1.5em;
+  margin-bottom: 1.5em;
 }
 
 h4 {
@@ -156,11 +116,11 @@ h5 {
 /* Misc */
 
 .buffer {
-	margin:10px 0px 50px 10px;
+  margin:10px 0px 50px 10px;
 }
 
 .blueheader {
-	font-size: 18px;
+  font-size: 18px;
   font-weight: bold;
   color: #000088;
  }
