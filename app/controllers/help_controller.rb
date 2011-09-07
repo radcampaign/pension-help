@@ -241,6 +241,10 @@ class HelpController < ApplicationController
 
   def results
     @counseling = find_counseling
+    if @counseling.attributes.values.uniq.compact.empty?
+      flash[:error] = "Please answer the following questions in order to find out which agencies can best assist you."
+      redirect_to "/help/counseling"
+    end
     @zip_import = ZipImport.find_by_zipcode(@counseling.zipcode)
     @results = @counseling.matching_agencies
     begin
@@ -334,8 +338,6 @@ class HelpController < ApplicationController
     # make IDK => 0
     c.selected_plan_id = nil if (c.selected_plan_id=="IDK" or c.selected_plan_id=="OTHER" or c.selected_plan_id==0)
     c.selected_plan_id = c.federal_plan.associated_plan_id if c.federal_plan_id and FederalPlan.find(c.federal_plan_id).associated_plan_id
-    logger.debug ("\nc.federal_plan_id is " + c.federal_plan_id.to_s)
-    logger.debug ("\nFederalPlan.find(c.federal_plan_id).associated_plan_id is " + FederalPlan.find(c.federal_plan_id).associated_plan_id.to_s) unless c.federal_plan_id.nil?
     c.selected_plan_id = params[:selected_plan_override] if !params[:selected_plan_override].blank?
     # set date here if we have a year, but do validation on year elsewhere so we can redraw the page
     # we'll have to limit the display of the date to the year only
