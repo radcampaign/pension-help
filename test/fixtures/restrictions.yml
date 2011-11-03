@@ -4,21 +4,21 @@
 # Table name: restrictions
 #
 #  id                  :integer(11)   not null, primary key
-#  agency_id           :integer(11)   
-#  location_id         :integer(11)   
-#  plan_id             :integer(11)   
-#  minimum_age         :decimal(5, 2) 
-#  max_poverty         :decimal(5, 2) 
-#  special_district    :string(255)   
-#  other_restrictions  :text          
-#  created_at          :datetime      
-#  updated_at          :datetime      
-#  legacy_geo_states   :string(255)   
-#  legacy_code         :string(10)    
-#  legacy_subcode      :string(10)    
-#  fmp2_code           :string(10)    
-#  legacy_geo_counties :text          
-#  legacy_geo_cities   :text          
+#  agency_id           :integer(11)
+#  location_id         :integer(11)
+#  plan_id             :integer(11)
+#  minimum_age         :decimal(5, 2)
+#  max_poverty         :decimal(5, 2)
+#  special_district    :string(255)
+#  other_restrictions  :text
+#  created_at          :datetime
+#  updated_at          :datetime
+#  legacy_geo_states   :string(255)
+#  legacy_code         :string(10)
+#  legacy_subcode      :string(10)
+#  fmp2_code           :string(10)
+#  legacy_geo_counties :text
+#  legacy_geo_cities   :text
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
@@ -33,9 +33,6 @@ one:
   updated_at: 2007-11-23 22:07:45
   legacy_code: MyString
   legacy_subcode: MyString
-  legacy_residency: MyString
-  legacy_geo_agency: MyText
-  legacy_geo_subagency: MyText
 two:
   id: 2
   agency_id: 1
@@ -47,6 +44,3 @@ two:
   updated_at: 2007-11-23 22:07:45
   legacy_code: MyString
   legacy_subcode: MyString
-  legacy_residency: MyString
-  legacy_geo_agency: MyText
-  legacy_geo_subagency: MyText

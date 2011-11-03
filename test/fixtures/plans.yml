@@ -4,34 +4,34 @@
 # Table name: plans
 #
 #  id                 :integer(11)   not null, primary key
-#  agency_id          :integer(11)   
-#  name               :string(255)   
-#  name2              :string(255)   
-#  description        :text          
-#  comments           :text          
-#  start_date         :date          
-#  end_date           :date          
-#  covered_employees  :text          
-#  catchall_employees :text          
-#  plan_type1         :string(255)   
-#  plan_type2         :string(255)   
-#  plan_type3         :string(255)   
-#  url                :string(255)   
-#  url_title          :string(255)   
-#  admin_url          :string(255)   
-#  admin_url_title    :string(255)   
-#  tpa_url            :string(255)   
-#  tpa_url_title      :string(255)   
-#  spd_url            :string(255)   
-#  spd_url_title      :string(255)   
-#  govt_employee_type :string(255)   
-#  fmp2_code          :string(255)   
-#  legacy_category    :string(255)   
-#  legacy_status      :string(255)   
-#  updated_at         :datetime      
-#  updated_by         :string(255)   
-#  email              :string(255)   
-#  position           :integer(11)   
+#  agency_id          :integer(11)
+#  name               :string(255)
+#  name2              :string(255)
+#  description        :text
+#  comments           :text
+#  start_date         :date
+#  end_date           :date
+#  covered_employees  :text
+#  catchall_employees :text
+#  plan_type1         :string(255)
+#  plan_type2         :string(255)
+#  plan_type3         :string(255)
+#  url                :string(255)
+#  url_title          :string(255)
+#  admin_url          :string(255)
+#  admin_url_title    :string(255)
+#  tpa_url            :string(255)
+#  tpa_url_title      :string(255)
+#  spd_url            :string(255)
+#  spd_url_title      :string(255)
+#  govt_employee_type :string(255)
+#  fmp2_code          :string(255)
+#  legacy_category    :string(255)
+#  legacy_status      :string(255)
+#  updated_at         :datetime
+#  updated_by         :string(255)
+#  email              :string(255)
+#  position           :integer(11)
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
@@ -42,13 +42,9 @@ one:
   start_date: 2007-11-14
   end_date: 2007-11-14
   covered_employees: MyText
-  catchall_employees: MyText
   description: MyText
-  service_description: MyText
   comments: MyText
-  status: MyString
   govt_employee_type: MyString
-  special_district: MyString
   plan_type1: MyString
   plan_type2: MyString
   plan_type3: MyString
@@ -67,13 +63,9 @@ two:
   start_date: 2007-11-14
   end_date: 2007-11-14
   covered_employees: MyText
-  catchall_employees: MyText
   description: MyText
-  service_description: MyText
   comments: MyText
-  status: MyString
   govt_employee_type: MyString
-  special_district: MyString
   plan_type1: MyString
   plan_type2: MyString
   plan_type3: MyString

@@ -4,12 +4,12 @@
 # Table name: zips
 #
 #  zipcode      :string(255)   primary key
-#  state_abbrev :string(255)   
-#  county_id    :integer(11)   
+#  state_abbrev :string(255)
+#  county_id    :integer(11)
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 one:
-  id: 1
+  zipcode: 1
 two:
-  id: 2
+  zipcode: 2
