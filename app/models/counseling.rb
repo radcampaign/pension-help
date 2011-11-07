@@ -252,7 +252,13 @@ class Counseling < ActiveRecord::Base
   def federal_matches
     agencies = Array.new
     # if user selected TSP then offer TSP as result
-    agencies << ((selected_plan_id.blank? or Plan.find(selected_plan_id).nil?) ? result_type_match('OPM') : Plan.find(selected_plan_id).agency)
+    if selected_plan_id and Plan.find(selected_plan_id)
+      agencies << Plan.find(selected_plan_id).agency
+    elsif federal_plan.name == 'Thrift Savings Plan (TSP)'
+      agencies << result_type_match('TSP')
+    else
+      agencies << result_type_match('OPM')
+    end
     unless aoa_coverage.empty?
       agencies << aoa_coverage
     else
