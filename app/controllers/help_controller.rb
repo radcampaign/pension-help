@@ -349,7 +349,6 @@ class HelpController < ApplicationController
     # c.work_state = State.find(params[:state]) if params[:state]
     # c.county = County.find(params[:county]) if params[:county]
     # c.city = City.find(params[:city]) if params[:city]
-    logger.debug('after update, c is now set to ' + c.inspect )
     c
   end
 
