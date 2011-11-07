@@ -1,6 +1,6 @@
 class AgenciesController < ApplicationController
-  before_filter :login_required, :except => :show  
-  
+  before_filter :login_required, :except => :show
+
   def authorized?
     current_user.is_admin?
   end
@@ -9,7 +9,7 @@ class AgenciesController < ApplicationController
   # GET /agencies.xml
   def index
     @restriction = Restriction.new
-    
+
     ajax_search
     render :action => :area_served_search
 
@@ -50,7 +50,7 @@ class AgenciesController < ApplicationController
     end
     @agency = Agency.new(params[:agency])
     @agency.updated_by = current_user.login
-    
+
     publication = Publication.new(params[:publication])
     @agency.publications << publication unless publication.empty?
 
@@ -60,7 +60,7 @@ class AgenciesController < ApplicationController
     #@agency.restriction.counties=params[:county_ids].collect{|c| County.find(c)} unless params[:county_ids].nil?
     #@agency.restriction.cities=params[:city_ids].collect{|c| City.find(c)} unless params[:city_ids].nil?
     #@agency.restriction.zips=params[:zip_ids].collect{|c| Zip.find(c)} unless params[:zip_ids].nil?
-    
+
     #composed_of fields must be created manually
     update_pha_contact
 
@@ -72,7 +72,7 @@ class AgenciesController < ApplicationController
       render :action => "new"
     end
   end
-  
+
   # check if user clicked back button - if yes, set 'back' param to true
   # 'back' param is used for not to clear filter
   def go_to_agencies
@@ -83,7 +83,7 @@ class AgenciesController < ApplicationController
       redirect_to agencies_url(:clear=>true)
     end
   end
-  
+
 
   # PUT /agencies/1
   # PUT /agencies/1.xml
@@ -120,7 +120,7 @@ class AgenciesController < ApplicationController
         redirect_to edit_agency_url(@agency)
       else
         render :action => "edit"
-      end 
+      end
     end
   end
 
@@ -131,7 +131,7 @@ class AgenciesController < ApplicationController
     @agency.destroy
     redirect_to agencies_url
   end
-  
+
   def switch_counseling
     if (agency=Agency.find(params[:id]))
       agency.update_attribute(:use_for_counseling, !agency.use_for_counseling)
@@ -155,12 +155,12 @@ class AgenciesController < ApplicationController
     params[:plan_list].each_with_index { |id,idx| Plan.update(id, :position => idx) unless id.blank? }
     render :nothing => 'true'
   end
-  
+
   def ajax_search
 
     session[:agency_order] = session[:agency_desc] = nil if (params[:clear] && session[:back]) # clear any params from session if this is our first time here
     params[:order] ||= session[:agency_order] # retrieve any existing params from the session
-    params[:desc] ||= session[:agency_desc] unless params[:order] # don't override params[:desc] if we're passing in params[:order] 
+    params[:desc] ||= session[:agency_desc] unless params[:order] # don't override params[:desc] if we're passing in params[:order]
     session[:agency_order] = params[:order]   # save these params to session so they'll be 'remembered' on the next visit
     session[:agency_desc] = params[:desc]
 
@@ -198,8 +198,8 @@ class AgenciesController < ApplicationController
 #  CATEGORY_SORT = 'if(agencies.agency_category_id is null or agencies.agency_category_id="", "9999", agencies.agency_category_id)'
 #  STATE_SORT = 'if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev)'
 #  RESULT_SORT = 'if(agencies.result_type_id is null or agencies.result_type_id="", "9999", agencies.result_type_id)'
-  
-#  SORT_ORDER = { 
+
+#  SORT_ORDER = {
 #    'default' => CATEGORY_SORT + ', ' + STATE_SORT + ', agencies.name asc',
 #    'name' => 'agencies.name',
 #    'state' => STATE_SORT + ', agencies.name',
@@ -231,7 +231,7 @@ class AgenciesController < ApplicationController
     # 'active_desc' => 'agencies.is_active asc, ' + 'agencies.use_for_counseling desc, ' + CATEGORY_SORT + ' desc , ' + RESULT_SORT + ', agencies.name',
     # 'provider' => 'agencies.use_for_counseling desc, ' + CATEGORY_SORT + ' desc , ' + RESULT_SORT + ', agencies.name',
 #  }
-    
+
   SORT_ORDER_LOC = {
     'name' => 'locations.name',
     'state' => 'if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev), locations.name'
