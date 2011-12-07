@@ -18,6 +18,10 @@ config.action_controller.perform_caching             = true
 # config.action_mailer.raise_delivery_errors = false
 require 'tlsmail'
 
+config.action_mailer.default_url_options = {
+  :host => "www.pensionhelp.org",
+}
+
 Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE)
 
 ActionMailer::Base.smtp_settings = {
@@ -33,3 +37,5 @@ ActionMailer::Base.smtp_settings = {
 
 EMAIL_RECIPIENT = "dan@freeportmetrics.com, JLeavelle@PensionRights.org"
 EMAIL_FROM = "do-not-reply@PensionRights.org"
+LINK_CHECKER_RECIPIENT = "dan@freeportmetrics.com, JLeavelle@PensionRights.org"
+LINK_CHECKER_FROM = "do-not-reply@PensionRights.org"

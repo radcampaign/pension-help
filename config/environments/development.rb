@@ -17,6 +17,10 @@ config.action_controller.perform_caching             = false
 config.action_view.cache_template_extensions         = false
 config.action_view.debug_rjs                         = true
 
+config.action_mailer.default_url_options = {
+  :host => "localhost:3000",
+}
+
 # Don't care if the mailer can't send
 require 'tlsmail'
 
@@ -41,5 +45,9 @@ ActionMailer::Base.smtp_settings = {
 
   EMAIL_RECIPIENT = "dan@gradientblue.com, dan@piltch.com"
   EMAIL_FROM = "dan@gradientblue.com"
+  LINK_CHECKER_RECIPIENT = "dan@gradientblue.com, dan@piltch.com"
+  LINK_CHECKER_FROM = "dan@gradientblue.com"
+  # LINK_CHECKER_RECIPIENT = "filip@freeportmetrics.com"
+  # LINK_CHECKER_FROM = "filip@freeportmetrics.com"
 
 require "ruby-debug"
