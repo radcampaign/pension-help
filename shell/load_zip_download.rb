@@ -2,8 +2,8 @@ require 'rubygems'
 gem 'mysql'
 require 'mysql'
 require 'optparse'
-require 'mechanize'
-require 'zip/zip'
+# require 'mechanize'
+# require 'zip/zip'
 
 # configuration
 db_host = 'localhost'
@@ -53,7 +53,7 @@ begin
   sql = <<-SQL
   truncate table zip_import;
 
-  load data infile '#{filedir}/zip_import.txt' replace into table zip_import ignore 1 lines (zipcode,zip_type,city,city_type,county,county_fips,state_name,state_abbrev,state_fips,msa_code,area_code,time_zone,utc,dst,latitude,longitude);
+  load data local infile '#{filedir}/zip_import.txt' replace into table zip_import ignore 1 lines (zipcode,zip_type,city,city_type,county,county_fips,state_name,state_abbrev,state_fips,msa_code,area_code,time_zone,utc,dst,latitude,longitude);
 
   insert ignore into states(abbrev,name) select distinct state_abbrev, state_name from zip_import;
 
