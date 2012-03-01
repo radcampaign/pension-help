@@ -81,4 +81,13 @@ class Mailer < ActionMailer::Base
          :plan_name => counseling.plan_name, :agency_name => counseling.agency_name, :job_function => counseling.job_function,
          :feedback_email => counseling.feedback_email
   end
+
+  def links(errors)
+    body["errors"] = errors
+
+    @from = LINK_CHECKER_FROM
+    @recipients = LINK_CHECKER_RECIPIENT
+    @subject = "Link checker results"
+    @headers["return-path"] = LINK_CHECKER_FROM
+  end
 end

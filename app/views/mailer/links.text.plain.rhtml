@@ -1,0 +1,8 @@
+Invalid links:
+
+<%- @errors.each do |error| -%>
+  <%= error[:url] %>
+  <%= error[:error] %>
+  <%= send(error[:path], error[:object]) %> (<%= error[:label] %> field)
+
+<%- end -%>
