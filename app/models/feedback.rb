@@ -4,15 +4,15 @@
 # Table name: feedbacks
 #
 #  id           :integer(11)   not null, primary key
-#  name         :string(255)   
-#  email        :string(255)   
-#  phone        :string(255)   
-#  availability :string(255)   
-#  category     :string(255)   
-#  feedback     :text          
-#  is_resolved  :boolean(1)    
-#  created_at   :datetime      
-#  updated_at   :datetime      
+#  name         :string(255)
+#  email        :string(255)
+#  phone        :string(255)
+#  availability :string(255)
+#  category     :string(255)
+#  feedback     :text
+#  is_resolved  :boolean(1)
+#  created_at   :datetime
+#  updated_at   :datetime
 #
 
 class Feedback < ActiveRecord::Base
@@ -27,7 +27,7 @@ class Feedback < ActiveRecord::Base
 
     return {:conditions => prepare_condition(params),:select => select, :order =>order}
   end
-  
+
   #list of concern issues
   def Feedback.get_categories
     @@CATEGORIES
@@ -57,7 +57,7 @@ class Feedback < ActiveRecord::Base
       sql_cond << 'feedbacks.is_resolved = ?'
       sql_param << params[:resolved]
     end
-    
+
     if params[:category]
       sql_cond << 'feedbacks.category = ?'
       sql_param << (@@CATEGORIES.include?(params[:category]) ? params[:category] : '')
@@ -79,7 +79,7 @@ class Feedback < ActiveRecord::Base
     'resolved' => 'feedbacks.is_resolved',
     'updated' => 'feedbacks.updated_at'
   }
-  
+
   @@CATEGORIES = [
     "Broken Link(s)",
     "Information on this website",
