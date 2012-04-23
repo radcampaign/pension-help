@@ -2,23 +2,19 @@
 // This file is automatically included by javascript_include_tag :defaults
 // for zebra striping tables.
 // from http://blog.internautdesign.com/2007/11/30/zebra-striping-with-prototype
-Event.observe(window, 'DOMContentLoaded', function() {
 
+jQuery(function() {
   $$('.zebra').each(function(e) {
     Selector.findChildElements(e, ['tr', 'li']).each(function(e, idx) {
       e.addClassName(idx % 2 == 1 ? 'odd' : 'even');
     });
   });
 
-  (function($) {
-    $.fn.increaseFontsize = function(size, speed, easing, callback) {
-      return this.animate({
-        fontSize: size
-      }, speed, easing, callback);
-    };
-  })(jQuery);
-
-  alert("aaaa")
+  jQuery.fn.increaseFontsize = function(size, speed, easing, callback) {
+    return this.animate({
+      fontSize: size
+    }, speed, easing, callback);
+  };
 
   jQuery(function() {
     jQuery('.font').click(function() {
@@ -33,5 +29,4 @@ Event.observe(window, 'DOMContentLoaded', function() {
       }
     });
   });
-
 });
