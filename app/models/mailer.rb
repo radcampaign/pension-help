@@ -15,16 +15,6 @@ class Mailer < ActionMailer::Base
     @body["availability"] = feedback.availability
   end
 
-  def help_net_application(partner)
-    @recipients = EMAIL_RECIPIENT
-    @from = EMAIL_FROM
-    @sent_on = Time.now
-    @subject = "PHA: PensionAnswers Net Application"
-
-    # Email body substitutions
-    @body["partner"] = partner
-  end
-
   def npln_application(partner)
     @recipients = EMAIL_RECIPIENT
     @from = EMAIL_FROM
