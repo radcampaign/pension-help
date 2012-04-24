@@ -2,15 +2,21 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
+  include SslRequirement
+
+  def ssl_required?
+    true unless ENV["RAILS_ENV"] == "development"
+  end
+
   include AuthenticatedSystem
   include ExceptionNotifiable
 
-  before_filter :check_support_for_cookies 
+  before_filter :check_support_for_cookies
 
   # Pick a unique cookie name to distinguish our session data from others'
   session :session_key => '_pha_session_id'
   layout 'default'
-  
+
   def get_counties_for_states
     begin
       @states = params[:states].split(',').collect{|s| State.find_by_abbrev(s)}
@@ -19,8 +25,8 @@ class ApplicationController < ActionController::Base
     end
     @county_ids = params[:county_ids]
     render :partial => '/shared/counties', :locals => {:states => @states, :id_prefix => params[:id_prefix]}, :layout => false
-  end  
-  
+  end
+
   def get_cities_for_counties
     begin
       @counties = params[:counties].split(',').collect{|c| County.find(c)} if (params[:counties] != nil)
@@ -30,7 +36,7 @@ class ApplicationController < ActionController::Base
     @city_ids = params[:city_ids]
     render :partial => '/shared/cities', :locals => {:counties => @counties, :id_prefix => params[:id_prefix]}, :layout => false
   end
-  
+
   def get_zips_for_counties
     begin
       @counties = params[:counties].split(',').collect{|c| County.find(c)} if (params[:counties]!=nil)
@@ -67,9 +73,9 @@ class ApplicationController < ActionController::Base
       end
     end
   end
-  
+
   #We might arrive here if user called a url with a valid controller, but a dynamically created 'action'
-  #i.e. - user creates a page: /help/new_page -- we'd get routed to the help controller and not wind up at 
+  #i.e. - user creates a page: /help/new_page -- we'd get routed to the help controller and not wind up at
   #site/show_page
   def method_missing(methodname, *args)
     uri = request.request_uri
@@ -79,11 +85,11 @@ class ApplicationController < ActionController::Base
       render_404
     end
   end
-  
+
   def render_404
     render :template => "site/404", :status => "404", :layout => 'default'
   end
-  
+
   def render_505
     render :template => "site/505", :status => "500", :layout => 'default'
   end
