@@ -15,8 +15,18 @@
       &nbsp;&nbsp;</span>
       <span><b>Result Type: </b><%= select :agency, :result_type, ResultType.find(:all, :order => 'position').collect{|c| [c.name, c.name]}, {:selected => (@agency.result_type ? @agency.result_type.name : "")}%>
       &nbsp;&nbsp;&nbsp;</span>
-      <span><b>Active: </b><%= f.check_box :is_active %>&nbsp;&nbsp;&nbsp;</span>
-      <span><b>Use for counseling: </b><%= f.check_box :use_for_counseling %>&nbsp;&nbsp;&nbsp;</span>
+      <span class="regular-label">
+        <b>
+          <label for="agency_is_active">Active:</label>
+        </b>
+        <%= f.check_box :is_active %>&nbsp;&nbsp;&nbsp;
+      </span>
+      <span class="regular-label">
+        <b>
+          <label for="agency_use_for_counseling">Use for counseling:
+        </b>
+        <%= f.check_box :use_for_counseling %>&nbsp;&nbsp;&nbsp;
+      </span>
       <span><b>Last updated: </b>
         <% if @agency.updated_at %><%= @agency.updated_at.strftime("%m/%d/%Y %I:%M %p")%><% end %>
         <% if @agency.updated_by %> by <%= @agency.updated_by %><% end -%></span>

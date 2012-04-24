@@ -1,5 +1,5 @@
 <div id="loc_detail" >
-<a class="close_window" onclick="$('loc_detail').hide()">&nbsp;</a>							
+<a class="close_window" onclick="$('loc_detail').hide()">&nbsp;</a>
 <h2>Location Detail</h2>
 <% error_messages_for :location %>
 <% form_for :location, @location,
@@ -9,7 +9,7 @@
 <li class="clear left">
 	<span><%= f.text_field :name, :size => 100 %><label>Location Name</label>
 	</span>
-	<span>&nbsp;&nbsp;&nbsp;<b>Is this a headquarters location?</b><%= f.check_box :is_hq %></span>
+	<span>&nbsp;&nbsp;&nbsp;<b><label for="location_is_hq">Is this a headquarters location?</label></b><%= f.check_box :is_hq %></span>
 </li>
 <li id="agency_dropin" class="clear left">
 	<% fields_for :dropin_address, @location.dropin_address do |d_addr| %>
@@ -17,7 +17,7 @@
 	<div><%= d_addr.text_field :line1, :size => 50 %>
 	<label>Street Address 1</label></div>
 	<div><%= d_addr.text_field :line2, :size => 50 %>
-	<label>Street Address 2</label></div>		
+	<label>Street Address 2</label></div>
 	<span><%= d_addr.text_field :city, :size => 29 %>
 	<label>City</label></span>
 	<span><%= d_addr.select :state_abbrev, State.find(:all, :order => 'abbrev').collect(&:abbrev) %>
@@ -30,9 +30,9 @@
   <% fields_for :mailing_address, @location.mailing_address do |m_addr| %>
   <label class="desc">Mailing Address</label>
 	<div><%= m_addr.text_field :line1, :size => 50 %>
-	<label>Street Address 1</label></div>  
+	<label>Street Address 1</label></div>
 	<div><%= m_addr.text_field :line2, :size => 50 %>
-	<label>Street Address 2</label></div>	
+	<label>Street Address 2</label></div>
 	<span><%= m_addr.text_field :city, :size => 29 %>
 	<label>City</label></span>
 	<span><%= m_addr.select :state_abbrev, State.find(:all, :order => 'abbrev').collect(&:abbrev) %>
@@ -59,7 +59,7 @@
 										:before => "Element.show('spinner')",
 										:complete => "Element.hide('spinner')",
 										:url => {:action => 'get_counties_for_states'},
-										:with => "'states=' + encodeURIComponent(value) + 
+										:with => "'states=' + encodeURIComponent(value) +
 															'&county_ids=' +  $('location_county_ids').value +
 															'&context=location'" %>
 	<span id="county_ids_container">

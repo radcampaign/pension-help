@@ -15,7 +15,7 @@
       <%= submit_tag ' Update Plan and Return to List ', :name => 'update_and_list', :class => 'btn' %>
     </div>
     <div id="agency_details" class="left agency_header fullwidth">
-      <span><b>Active: </b><%= f.check_box :is_active %>&nbsp;&nbsp;&nbsp;</span>
+      <span class="regular-label"><b><label for="plan_is_active">Active:</label> </b><%= f.check_box :is_active %>&nbsp;&nbsp;&nbsp;</span>
       <%if @plan.updated_at %>
         <span><b>Last updated: </b><%= @plan.updated_at.strftime("%m/%d/%Y %I:%M %p") if @plan.updated_at %>
         <%if @plan.updated_by %>by <%= @plan.updated_by %><% end -%></span>

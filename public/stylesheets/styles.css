@@ -381,3 +381,8 @@ form.admin_form li {
 .indent { margin-left: 3em; }
 
 .clear { clear:both; }
+
+form.admin_form span.regular-label label {
+  display: inline;
+  font-size: 13px;
+}

@@ -5,7 +5,7 @@
 	<% for item in HelpAdditionalArea.find(:all) %>
 		<tr>
 			<th><%= check_box_tag("help_additional_areas[]", item.name, partner.help_additional_areas.collect(&:name).include?(item.name)) %></th>
-			<td><%= item.name %> 
+			<td><%= item.name %>
 			<%= p.text_field :help_additional_area_other if item.name.match('Other') %>
 			</td>
 		</tr>
@@ -23,13 +23,17 @@
 	<tr>
 		<th><%= p.check_box :willing_to_answer, {}, true, false %></th>
 		<td>
-			Provide basic answers to individuals' questions.
+			<label for="partner_willing_to_answer">
+				Provide basic answers to individuals' questions.
+			</label>
 		</td>
 	</tr>
 	<tr>
 		<th><%= p.check_box :willing_to_provide, {}, true, false %></th>
 		<td>
-			Provide these services free of charge.
+			<label for="partner_willing_to_provide">
+				Provide these services free of charge.
+			</label>
 		</td>
 	</tr>
 </table>

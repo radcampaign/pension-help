@@ -29,7 +29,16 @@
 
   <div id="lostPlanQuestion" style="display:none">
     <p>&nbsp;</p>
-    <div><label><%= form.check_box :lost_plan %> <span style="display:inline-block; vertical-align:top">Check this box if you are unable to locate or contact the employer offering<br/>the plan you have a question about.</span></label></div>
+    <div>
+      <%= form.check_box :lost_plan %>
+      <span style="display:inline-block; vertical-align:top">
+        <label for="counseling_lost_plan">
+          Check this box if you are unable to locate or contact the employer offering
+          <br/>
+          the plan you have a question about.
+        </label>
+      </span>
+    </div>
   </div>
 
   <% if @counseling.employer_type_id == EMP_TYPE[:military] %>
@@ -44,8 +53,8 @@
 
     <p class="normal">Pension laws may provide certain protections in divorce and survivorship situations. You may select one, both or neither of the following choices.</p>
 
-    <div style="float:left"><%= form.check_box :is_divorce_related %><label> I have a divorce-related question.</label></div>
-    <div style="float:left"><%= form.check_box :is_survivorship_related %><label> I have a survivorship-related question.</label></div>
+    <div style="float:left"><%= form.check_box :is_divorce_related %><label for="counseling_is_divorce_related"> I have a divorce-related question.</label></div>
+    <div style="float:left"><%= form.check_box :is_survivorship_related %><label for="counseling_is_survivorship_related"> I have a survivorship-related question.</label></div>
     <br/>
     <div style="clear:both"></div>
   <% end -%>

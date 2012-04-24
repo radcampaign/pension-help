@@ -8,12 +8,12 @@
 				<div class="left"><%= r.text_field :minimum_age %><label>Minimum Age</label></div>
 				<div class="left"><%= r.text_field :age_restricted_phone, :id=>restriction_form.id.to_s+'_ageRestrictedPhone' %><label>Special Age Services Hotline</label></div>
 				<div class="left"><%= r.text_field :max_poverty, :value => number_to_percentage(restriction_form.max_poverty, :precision => 0) %><label>Income Limit (% of FPL, eg 120)</label></div>
-        <div class="left"><%= r.check_box :age_and_income %><label>Restricted by age <b><u>and</u></b> income</label></div>
+        <div class="left"><%= r.check_box :age_and_income %><label for="location_age_and_income">Restricted by age <b><u>and</u></b> income</label></div>
 			</div>
 		<% end %>
 
     <%if restriction_form && (restriction_form.legacy_geo_counties || restriction_form.legacy_geo_cities || restriction_form.legacy_geo_states) %>
-      <div class="legacy" id="legacyGeo"><b>Legacy Geographic Restrictions:</b> 
+      <div class="legacy" id="legacyGeo"><b>Legacy Geographic Restrictions:</b>
         <ul>
           <% if restriction_form.legacy_geo_states %><li class="legacy_item">States - <%= h restriction_form.legacy_geo_states %></li><% end -%>
           <% if restriction_form.legacy_geo_counties %><li class="legacy_item">Counties - <%= h restriction_form.legacy_geo_counties %></li><% end -%>
@@ -39,7 +39,7 @@
         <%= render :partial => 'shared/cities',
               :locals => {:states => restriction_form.states, :counties => restriction_form.counties,
                     :city_ids => restriction_form.city_ids, :id_prefix => id_prefix } %>
-      </span>	
+      </span>
       <span id="zip_ids_container_<%= id_prefix %>">
         <%= render :partial => 'shared/zips',
             :locals => {:states => restriction_form.states, :counties => restriction_form.counties,
@@ -54,7 +54,7 @@
       ZIPs: <%= (restriction_form.zips.empty? ? '<i>n/a</i>' : restriction_form.zips.collect(&:zipcode).sort.join(', ')) %><br/>
 		</div>
     <%= link_to_function('Edit geographic restrictions', nil, :id=>"geo_edit_link_#{id_prefix}") do |page|
-            page[:"geo_edit_container_#{id_prefix}"].show() 
+            page[:"geo_edit_container_#{id_prefix}"].show()
             page[:"geo_edit_link_#{id_prefix}"].hide()
         end %>
 
@@ -73,7 +73,7 @@
       :before => "Element.show('spinner')",
       :complete => "Element.hide('spinner')",
       :url => {:action => 'get_counties_for_states'},
-      :with => "'id_prefix=#{id_prefix}&states=' + encodeURIComponent(value) + 
+      :with => "'id_prefix=#{id_prefix}&states=' + encodeURIComponent(value) +
       '&county_ids=' +  $('county_ids_#{id_prefix}').value" %>
     <%# clear city/zips when changing state %>
     <%= observe_field :"state_abbrevs_#{id_prefix}",
@@ -82,7 +82,7 @@
       :before => "Element.show('spinner')",
       :complete => "Element.hide('spinner')",
       :url => {:action => 'get_cities_for_counties'},
-      :with => "'counties="  + 
+      :with => "'counties="  +
         "&id_prefix=#{id_prefix}'"%>
     <%= observe_field :"state_abbrevs_#{id_prefix}",
       :frequency => 0.5,
@@ -90,7 +90,7 @@
       :before => "Element.show('spinner')",
       :complete => "Element.hide('spinner')",
       :url => {:action => 'get_zips_for_counties'},
-      :with => "'counties=" + 
+      :with => "'counties=" +
         "&id_prefix=#{id_prefix}'"%>
 	</fieldset>
 

@@ -47,7 +47,7 @@
             </div>
             <div class="column">
               <%= check_box_tag("northwest", 'northwest', false, :id => "geo_northwest") %>
-              <%= content_tag(:label, 'Northwest', :for=>"northwest", :class=>"nationwide") %> <br/>
+              <%= content_tag(:label, 'Northwest', :for=>"geo_northwest", :class=>"nationwide") %> <br/>
         <% end %>
         <% if item.name.match("Arizona") %>
             <% item_class = "geo_southwest" %>

@@ -15,9 +15,9 @@
       <%= submit_tag ' Update Location and Return to List ', :name => 'update_and_list', :class => 'btn' %>
     </div>
       <div id="agency_details" class="left agency_header fullwidth">
-      <span><b>Headquarters: </b><%= f.check_box :is_hq %>&nbsp;&nbsp;&nbsp;</span>
-      <span><b>Provider: </b><%= f.check_box :is_provider %>&nbsp;&nbsp;&nbsp;</span>
-      <span><b>Active: </b><%= f.check_box :is_active %>&nbsp;&nbsp;&nbsp;</span>
+      <span class="regular-label"><b><label for="location_is_hq">Headquarters:</label> </b><%= f.check_box :is_hq %>&nbsp;&nbsp;&nbsp;</span>
+      <span class="regular-label"><b><label for="location_is_provider">Provider:</label> </b><%= f.check_box :is_provider %>&nbsp;&nbsp;&nbsp;</span>
+      <span class="regular-label"><b><label for="location_is_active">Active:</label> </b><%= f.check_box :is_active %>&nbsp;&nbsp;&nbsp;</span>
       <span><b>Last updated: </b><%= @location.updated_at.strftime("%m/%d/%Y %I:%M %p") if @location.updated_at %>
         <%if @location.updated_by %>by <%= @location.updated_by %><% end -%></span>
     </div>

@@ -2,19 +2,27 @@
 
 <p>&nbsp;</p>
 
-<p class="works_question">I am willing to participate at the following levels (check all that apply):</p> 
+<p class="works_question">I am willing to participate at the following levels (check all that apply):</p>
 
 <p>
 <table class="form">
 	<tr>
 		<th><%= p.check_box :willing_to_provide_plan_info, {}, true, false %></th>
-		<td>Provide information about pension or other retirement savings plans including but not limited to contact information for plan administrators and sponsors, and other information that would be helpful to deferred vested participants seeking potential benefits. 
+		<td>
+			<label for="partner_willing_to_provide_plan_info">
+				Provide information about pension or other retirement savings plans
+				including but not limited to contact information for plan administrators
+				and sponsors, and other information that would be helpful to deferred
+				vested participants seeking potential benefits.
+			</label>
 		</td>
 	</tr>
 	<tr>
 		<th><%= p.check_box :wont_charge_fees, {}, true, false %></th>
 		<td>
-			Provide these services free of charge.
+			<label for="partner_wont_charge_fees">
+				Provide these services free of charge.
+			</label>
 		</td>
 	</tr>
 </table>
