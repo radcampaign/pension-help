@@ -32,46 +32,9 @@ function add_print_link( id ){
 function print_preview() {
 	// Switch the stylesheet
 	setActiveStyleSheet('Print Preview');
-	
-	// Create preview message
-	add_preview_message();
 
 	// Print the page
 	window.print();
-}
-
-function add_preview_message(){
-var main_content = document.getElementById('content');
-var main_body = main_content.parentNode;
-
-	if (document.getElementById){
-		
-		var preview_message = document.createElement('div');
-		preview_message.id = 'preview-message';
-	
-		// Create Heading
-		var preview_header = document.createElement('h3');
-		var preview_header_text = document.createTextNode('This is a print preview of this page');
-		preview_header.appendChild(preview_header_text);
-		
-		// Create paragraph
-		var preview_para = document.createElement('p');
-		var preview_para_text = document.createTextNode('Without this message of course. ');
-		
-		var cancel_function_link = document.createElement('a');
-			cancel_function_link.onclick = function(){ cancel_print_preview(); return false; };
-			cancel_function_link.setAttribute('href', '#');	
-		var cancel_function_link_text = document.createTextNode('Return to the existing page.');
-		cancel_function_link.appendChild(cancel_function_link_text);
-		preview_para.appendChild(preview_para_text); //
-		preview_para.appendChild(cancel_function_link);
-		
-		// Put it all toegether
-		preview_message.appendChild(preview_header); 
-		preview_message.appendChild(preview_para);
-		main_body.insertBefore(preview_message, main_content);
-
-	}
 }
 
 function cancel_print_preview() {
@@ -79,7 +42,7 @@ function cancel_print_preview() {
 	var print_preview = document.getElementById('preview-message');
 	var main_body = print_preview.parentNode;
 	main_body.removeChild(print_preview);
-	
+
 	// Switch back stylesheet
 	setActiveStyleSheet('default');
 }
