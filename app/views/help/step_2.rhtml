@@ -1,5 +1,4 @@
 <div id="content-no-sidebar" class="help" style="width: 760px;">
-  <%= javascript_include_tag 'tooltip' %>
 <div id="counseling_errors">
   <%= render :partial => 'help/counseling_errors', :locals => {'counseling' => @counseling} %>
 </div>
@@ -136,8 +135,6 @@ function changeStateNextStepButton(active) {
   } else {
     next_step_button.onclick = function() {return false};
     next_step_button.src = '/images/next.png';
-    Event.observe( 'nextLinkButton',  'mouseover', showTooltip );
-    Event.observe( 'nextLinkButton',  'mouseout', hideTooltip );
   }
 }
 

@@ -56,7 +56,6 @@
 
   <% end -%>
   <p>&nbsp;</p>
-  <%= javascript_include_tag 'tooltip' %>
   <script type="text/javascript">
     elementsToValidate = new Array();
     employerTypeId = <%= @counseling.employer_type_id %>;
@@ -127,8 +126,6 @@
       } else {
         next_step_button.onclick = function() {return false};
         next_step_button.src = '/images/next.png';
-                          Event.observe( 'nextLinkButton',  'mouseover', showTooltip );
-                          Event.observe( 'nextLinkButton',  'mouseout', hideTooltip );
       }
     }
 

@@ -46,7 +46,6 @@
 <% end -%>
 <p>&nbsp;</p>
 
-<%= javascript_include_tag 'tooltip' %>
 <script type="text/javascript">
     Event.observe(window, 'load', function() {
         //trigger display of second question (but not for 'i don't know' as that would put us in an endless loop)
@@ -102,8 +101,6 @@
                 return false
             };
             next_step_button.src = '/images/next.png';
-            Event.observe('nextLinkButton', 'mouseover', showTooltip);
-            Event.observe('nextLinkButton', 'mouseout', hideTooltip);
         }
     }
 
