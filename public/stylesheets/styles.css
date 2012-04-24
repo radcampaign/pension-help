@@ -297,12 +297,12 @@ tbody tr.odd td {
   border-color:#EBE5D9;
   background:#F7F4EE;
   }
-tbody tr:hover td,
+/*tbody tr:hover td,
 tbody tr:hover th {
   background:#ffffee;
   border-color:#523A0B;
   }
-caption {
+*/caption {
   font-family:Georgia,Times,serif;
   font-weight:normal;
   font-size:1.4em;
