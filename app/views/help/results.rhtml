@@ -123,33 +123,25 @@
                                   <% unless loc.url.blank? %>
                                   <tr>
                                           <td style="padding-right:5px; width:105px"><b>On the Web:</b></td>
-                                          <td><a href="<%= loc.url %>" class="offsite">
-                                          <%= loc.url_title.blank? ? loc.name : loc.url_title %></a>
-                                          (<%= link_to loc.url, loc.url %>)</td>
+                                          <td><%= link_to loc.url, loc.url %></td>
                                   </tr>
                                   <% end %>
                                   <% unless loc.url2.blank? %>
                                   <tr>
                                           <td style="padding-right:5px; width:105px"><b>On the Web:</b></td>
-                                          <td><a href="<%= loc.url2 %>" class="offsite">
-                                          <%= loc.url2_title.blank? ? loc.name : loc.url2_title %></a>
-                                          (<%= link_to loc.url2, loc.url2 %>)</td>
+                                          <td><%= link_to loc.url2, loc.url2 %></td>
                                   </tr>
                                   <% end %>
                                   <% unless agency.url.blank? %>
                                   <tr>
                                           <td style="padding-right:5px; width:105px"><b>On the Web:</b></td>
-                                          <td><a href="<%= agency.url %>" class="offsite">
-                                          <%= agency.url_title.blank? ? agency.name : agency.url_title %></a>
-                                          (<%= link_to agency.url, agency.url %>)</td>
+                                          <td><%= link_to agency.url, agency.url %></td>
                                   </tr>
                                   <% end %>
                                   <% unless agency.url2.blank? %>
                                   <tr>
                                           <td style="padding-right:5px; width:105px"><b>On the Web:</b></td>
-                                          <td><a href="<%= agency.url2 %>" class="offsite">
-                                          <%= agency.url2_title.blank? ? agency.name : agency.url2_title %></a>
-                                          (<%= link_to agency.url2, agency.url2 %>)</td>
+                                          <td><%= link_to agency.url2, agency.url2 %></td>
                                   </tr>
                                   <% end %>
                           </table>
