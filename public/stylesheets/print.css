@@ -1,8 +1,9 @@
 body {
-  min-width:800px;
+  min-width: 800px;
   font-size: 12pt;
   font-family: Verdana, Arial, sans-serif;
   background: white;
+  color: #666;
 }
 
 #preview-message,
@@ -16,7 +17,7 @@ body {
   padding: 0;
   border: 0;
   float: none !important;
-  color: black;
+  /*color: black;*/
   background: transparent;
   }
 
@@ -28,7 +29,7 @@ body {
 /* Generic site wide hypertext link selectors */
 
 a:link, a:visited {
-  color: #000;
+  color: #004F5A;
   background: transparent;
   font-weight: bold;
   text-decoration: underline;
@@ -78,14 +79,18 @@ p {
   margin:10px 0px 10px 0px;
 }
 
+h1 {
+  color: #8d0e3a;
+}
+
 h2 {
   font-size: 16px;
   font-weight: bold;
-  color: #cc0000;
+  /*color: #cc0000;*/
 }
 
 h2 a:link, h2 a:visited {
-  color: #000088;
+  /*color: #000088;*/
   text-decoration: underline;
 }
 
@@ -96,21 +101,25 @@ h2 a:hover {
 h3 {
   font-size: 14px;
   font-weight: bold;
-  color: #cc0000;
+  color: #004e5a;
   margin-top: 1.5em;
   margin-bottom: 1.5em;
+}
+
+h3 a, h3 a:visited {
+  color:#004e5a;
 }
 
 h4 {
   font-size: 14px;
   font-weight: normal;
-  color: #000000;
+  /*color: #000000;*/
 }
 
 h5 {
   font-size: 14px;
   font-weight: normal;
-  color: #004CB2;
+  /*color: #004CB2;*/
 }
 
 /* Misc */
@@ -122,13 +131,17 @@ h5 {
 .blueheader {
   font-size: 18px;
   font-weight: bold;
-  color: #000088;
+  /*color: #000088;*/
  }
 
 .redheader {
   font-size: 16px;
   font-weight: bold;
-  color: #CC0000;
+  /*color: #CC0000;*/
+}
+
+form, .form {
+  color: #222;
 }
 
 table.form th {
@@ -144,4 +157,84 @@ table.form td {
 
 table.form table.form td {
   padding-bottom: 0;
+}
+
+#sidebar h3 a, #sidebar h3 a:visited {
+  color: #004e5a;
+}
+
+.required {
+  color: #cc0000;
+}
+
+#tabs h3, #tabs h2 {
+  color: #CC0000;
+}
+
+#content .ui-widget-content {
+  color: #222222;
+}
+
+#content .ui-widget-header {
+  color: #222222;
+}
+
+#content .ui-state-active, #content .ui-widget-content .ui-state-active {
+  color: #212121;
+}
+
+#content .ui-state-default, #content .ui-widget-content .ui-state-default {
+  color: #555555;
+}
+
+#content .ui-state-active, #content .ui-widget-content .ui-state-active {
+  color: #212121;
+}
+
+#content .ui-widget-header {
+  color: #222222;
+}
+
+.req {
+  color: #ff002e;
+}
+
+.reqnote {
+  color: #ff002e;
+}
+
+#navigation ul li a {
+  color: #fff;
+}
+
+#navigation ul li.active {
+  color: #004F5A;
+}
+
+#navigation ul li.active a {
+  color: #004F5A;
+}
+
+.breadcrumb, .breadcrumb a {
+  color:#004F5A;
+}
+
+#errorExplanation ul {
+  color: #FF002E;
+}
+
+table {
+  color: #000;
+}
+
+table a {
+  color: #523A0B;
+}
+
+table a:visited {
+  color:#444;
+}
+
+form.admin_form legend {
+  color: #000;
 }
