@@ -128,12 +128,47 @@ ul.links.inline li {background:none!important;}
 /* /list and widget styles ========================================================= */
 
 /* menu styles ========================================================= */
-#navigation {background:none repeat scroll 0 0 #008C99;width:960px;margin:10px 0px 0px 0px;height:40px}
+#navigation {
+  background: none repeat scroll 0 0 #008C99;
+  width: 960px;
+  margin: 10px 0px 10px 0;
+}
+
+#navigation {
+  background:none repeat scroll 0 0 #008C99;
+  width:960px;
+  margin:10px 0px 0px 0px;
+  height:40px
+}
 #navigation ul {float:left;height:40px}
 #navigation ul li {list-style:none;float:left}
-#navigation ul li a {float:left;font-size:18px;margin:10px 40px 0;color:#fff}
-#navigation ul li.active {    background:none repeat scroll 0 0 #F1E9B1;border:1px solid #004F5A;height:38px;color:#004F5A}
-#navigation ul li.active a {color:#004F5A}
+
+#navigation ul li:hover {
+  background-color: #004F5A;
+}
+
+#navigation ul li a {
+  float: left;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 10px 14px 0;
+  color: #fff;
+  height: 28px;
+}
+
+#navigation ul li a:hover {
+  text-decoration: none;
+}
+
+#navigation ul li.active {
+  background: none repeat scroll 0 0 #F1E9B1;
+  height: 38px;
+  color: #004F5A;
+}
+
+#navigation ul li.active a {
+  color: #004F5A;
+}
 /* /menu styles ========================================================= */
 
 /* header styles ========================================================= */
