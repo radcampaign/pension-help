@@ -40,7 +40,7 @@ acronym, abbr{font-size:90%;letter-spacing:.07em;}
 /* Layout ================================================================= */
 #page-wrapper {width:1044px;margin:0px auto;background:url("../images/shadow-left.png") repeat-y}
 #page-wrapper-inner {background:url("../images/shadow-right.png") top right repeat-y}
-#header {background:url("../images/header-background.png") repeat-x scroll 0 0 transparent;height:165px;}
+#header {background:url("../images/header-background.png") repeat-y scroll 0 0 transparent;height:165px;}
 #header img.left {margin-top:10px}
 #main-wrapper {clear:both}
 #content {float:left;margin:30px 30px 0 30px;width:570px;padding-bottom:30px;display:inline}
