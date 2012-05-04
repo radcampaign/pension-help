@@ -7,7 +7,6 @@ namespace :links do
         :fields => [[:url, "URL2"], [:url2, "URL2"]],
         :path => :edit_agency_location_url
       },
-      { :class => Partner, :fields => [[:url, "Url"]], :path => :edit_partner_url },
       {
         :class => Plan,
         :fields => [[:url, "Url"], [:admin_url, "Admin Url"],
@@ -20,7 +19,7 @@ namespace :links do
     errors = []
 
     checks.each do |check|
-      check[:class].find(:all, :limit => 20).each do |object|
+      check[:class].find(:all, :limit => 50).each do |object|
         check[:fields].each do |pair|
           field = pair[0]
           label = pair[1]
