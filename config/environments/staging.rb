@@ -20,5 +20,5 @@ ActionMailer::Base.smtp_settings = {
 
 EMAIL_RECIPIENT = "dan@gradientblue.com"
 EMAIL_FROM = "do-not-reply@PensionRights.org"
-LINK_CHECKER_RECIPIENT = "dan@gradientblue.com, JLeavelle@PensionRights.org, KGarrett@PensionRights.org"
+LINK_CHECKER_RECIPIENT = "dan@gradientblue.com"
 LINK_CHECKER_FROM = "do-not-reply@PensionRights.org"
