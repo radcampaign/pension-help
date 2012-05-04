@@ -19,7 +19,7 @@ namespace :links do
     errors = []
 
     checks.each do |check|
-      check[:class].find(:all, :limit => 50).each do |object|
+      check[:class].find(:all).each do |object|
         check[:fields].each do |pair|
           field = pair[0]
           label = pair[1]
