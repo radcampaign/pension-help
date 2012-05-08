@@ -2,78 +2,85 @@
   <h2>Agency List</h2>
 
   <div class="right">
-  <% if params[:active]=='1' %>
-          <%= link_to 'show inactive agencies', agencies_path(:order => params[:order])%>
-  <% else %>
-          <%= link_to 'hide inactive agencies', agencies_path(:order => params[:order], :active=>'1')%>
-  <% end %>
-  </div>
+    <% if params[:active]=='1' %>
+      <%= link_to 'show inactive agencies', agencies_path(:order => params[:order])%>
+    <% else %>
+      <%= link_to 'hide inactive agencies', agencies_path(:order => params[:order], :active=>'1')%>
+    <% end %>
+    </div>
+
   <%= link_to 'Add a new agency', new_agency_path, :class => 'add_new' %>
 
   <table id="admin_list">
     <tr>
       <th class="<%= (params[:order]=='name' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
-                          <%= link_to 'Agency Name', agencies_path(:order=>'name', :active => params[:active], :desc => (params[:order]=='name' && params[:desc].blank? ? true : nil)) %></th>
-                  <th class="<%= (params[:order]=='state' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
-                          <%= link_to 'State', agencies_path(:order=>'state', :active => params[:active], :desc => (params[:order]=='state' && params[:desc].blank? ? true : nil)) %></th>
-                  <th class="center <%= (params[:order]=='category' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
-                          <%= link_to 'Category', agencies_path(:order=>'category', :active => params[:active], :desc => (params[:order]=='category' && params[:desc].blank? ? true : nil)) %></th>
-                  <th class="center <%= (params[:order]=='result' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
-                          <%= link_to 'Result Type', agencies_path(:order=>'result', :active => params[:active], :desc => (params[:order]=='result' && params[:desc].blank? ? true : nil)) %></th>
-                  <th class="center <%= (params[:order]=='counseling' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>" width="40">
-                          <%= link_to 'C & A', agencies_path(:order=>'counseling', :active => params[:active], :desc => (params[:order]=='counseling' && params[:desc].blank? ? true : nil))%></th>
-                  <th class="center <%= (params[:order]=='provider' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
-                          <%= link_to 'Provider', agencies_path(:order=>'provider', :active => params[:active], :desc => (params[:order]=='provider' && params[:desc].blank? ? true : nil))%></th>
-                  <th class="center <%= (params[:order]=='active' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
-                          <%= link_to 'Active', agencies_path(:order=>'active', :active => params[:active], :desc => (params[:order]=='active' && params[:desc].blank? ? true : nil))%></th>
+        <%= link_to 'Agency Name', agencies_path(:order=>'name', :active => params[:active], :desc => (params[:order]=='name' && params[:desc].blank? ? true : nil)) %>
+      </th>
+      <th class="<%= (params[:order]=='state' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
+        <%= link_to 'State', agencies_path(:order=>'state', :active => params[:active], :desc => (params[:order]=='state' && params[:desc].blank? ? true : nil)) %>
+      </th>
+      <th class="center <%= (params[:order]=='category' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
+        <%= link_to 'Category', agencies_path(:order=>'category', :active => params[:active], :desc => (params[:order]=='category' && params[:desc].blank? ? true : nil)) %>
+      </th>
+      <th class="center <%= (params[:order]=='result' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
+        <%= link_to 'Result Type', agencies_path(:order=>'result', :active => params[:active], :desc => (params[:order]=='result' && params[:desc].blank? ? true : nil)) %>
+      </th>
+      <th class="center <%= (params[:order]=='counseling' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>" width="40">
+        <%= link_to 'C & A', agencies_path(:order=>'counseling', :active => params[:active], :desc => (params[:order]=='counseling' && params[:desc].blank? ? true : nil))%>
+      </th>
+      <th class="center <%= (params[:order]=='provider' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
+        <%= link_to 'Provider', agencies_path(:order=>'provider', :active => params[:active], :desc => (params[:order]=='provider' && params[:desc].blank? ? true : nil))%>
+      </th>
+      <th class="center <%= (params[:order]=='active' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
+        <%= link_to 'Active', agencies_path(:order=>'active', :active => params[:active], :desc => (params[:order]=='active' && params[:desc].blank? ? true : nil))%>
+      </th>
     </tr>
 
-          <% @agencies.each_with_index do |agency, i| %>
-          <% row_class = i%2 == 0 ? "even" : "odd" %>
-          <tr class="<%= row_class %>" id="agency_<%=agency.id%>">
-      <td><%= link_to (h agency.name), edit_agency_path(agency) %>
-                  <% unless agency.name2.empty? -%><br/>&nbsp;&nbsp;&nbsp;&nbsp;<%=h agency.name2 %> <% end -%>
-                  <%= link_to_function image_tag('add_blue.gif'), "$$(\".locations_#{agency.id}\").each( function(e) {e.toggle()})" unless agency.locations.size < 2 %>
-                  </td>
-                  <td class="center">
-                           <%= agency.locations.first.dropin_address.state_abbrev unless agency.locations.empty? or agency.locations.first.dropin_address.blank? %>
-                  </td>
-                  <td class="center">
-                    <%= agency.agency_category.name if agency.agency_category %>
-                  </td>
-                  <td class="center">
-                    <%= agency.result_type.name if agency.result_type %>
-                  </td>
-                  <td class="center">
-                          <span id=<%='use_for_counseling_'+agency.id.to_s %>
-                                  <%= render :partial=> 'agencies/counseling_check', :locals => {:agency => agency} %>
-                          </span>
-                  </td>
-                  <td class="center"><%= image_tag(agency.is_provider ? 'check_blue.gif' : 'close.gif') %></td>
-                  <td class="center">
-                          <span id=<%='active_'+agency.id.to_s %>
-                                  <%= render :partial=> 'agencies/active_check', :locals => {:agency => agency} %>
-                          </span>
-                  </td>
-          <% agency.locations.each do |loc| %>
-                  </tr>
-                  <tr style="display:none" class="locationsRow locations_<%=agency.id%>">
-                          <td class="location_name"><%= link_to "#{loc.name}", edit_location_url(:agency_id => agency, :id => loc) %></td>
-                          <td class="center"><%= loc.dropin_address.state_abbrev %></td>
-                          <td>&nbsp;</td>
-                          <td>&nbsp;</td>
-                          <td>&nbsp;</td>
-                          <td class="center"><%= image_tag(loc.is_provider ? 'check_blue.gif' : 'close.gif')%></td>
-                          <td>&nbsp;</td>
-          <% end %>
-          </tr>
-  <% end %>
+    <% @agencies.each_with_index do |agency, i| %>
+      <% row_class = cycle("even" : "odd") %>
+      <tr class="<%= row_class %>" id="agency_<%=agency.id%>">
+        <td>
+          <%= link_to (h agency.name), edit_agency_path(agency) %>
+          <% unless agency.name2.empty? -%><br/>&nbsp;&nbsp;&nbsp;&nbsp;<%=h agency.name2 %> <% end -%>
+          <%= link_to_function image_tag('add_blue.gif'), "$$(\".locations_#{agency.id}\").each( function(e) {e.toggle()})" unless agency.locations.size < 2 %>
+        </td>
+        <td class="center">
+          <%= agency.locations.first.dropin_address.state_abbrev unless agency.locations.empty? or agency.locations.first.dropin_address.blank? %>
+        </td>
+        <td class="center">
+          <%= agency.agency_category.name if agency.agency_category %>
+        </td>
+        <td class="center">
+          <%= agency.result_type.name if agency.result_type %>
+        </td>
+        <td class="center">
+          <span id=<%='use_for_counseling_'+agency.id.to_s %>
+            <%= render :partial=> 'agencies/counseling_check', :locals => {:agency => agency} %>
+          </span>
+        </td>
+        <td class="center"><%= image_tag(agency.is_provider ? 'check_blue.gif' : 'close.gif') %></td>
+        <td class="center">
+          <span id=<%='active_'+agency.id.to_s %>
+            <%= render :partial=> 'agencies/active_check', :locals => {:agency => agency} %>
+          </span>
+        </td>
+
+        <% agency.locations.each do |loc| %>
+      </tr>
+      <tr style="display:none" class="locationsRow locations_<%=agency.id%>">
+        <td class="location_name"><%= link_to "#{loc.name}", edit_location_url(:agency_id => agency, :id => loc) %></td>
+        <td class="center"><%= loc.dropin_address.state_abbrev %></td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td class="center"><%= image_tag(loc.is_provider ? 'check_blue.gif' : 'close.gif')%></td>
+        <td>&nbsp;</td>
+        <% end %>
+      </tr>
+    <% end %>
   </table>
 
   <br />
 
   <%= link_to 'Add a new agency', new_agency_path, :class => 'add_new' %>
-
-
-
 </div>

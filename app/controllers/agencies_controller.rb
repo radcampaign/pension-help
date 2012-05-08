@@ -5,14 +5,11 @@ class AgenciesController < ApplicationController
     current_user.is_admin?
   end
 
-  # GET /agencies
-  # GET /agencies.xml
   def index
     @restriction = Restriction.new
 
     ajax_search
     render :action => :area_served_search
-
    end
 
   # GET /agencies/1
@@ -185,7 +182,6 @@ class AgenciesController < ApplicationController
 
     search_results = Agency.find_agencies filter
     @search_results = Agency.sort_agencies(search_results, order, dir)
-
   end
 
   private
