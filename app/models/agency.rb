@@ -4,28 +4,28 @@
 # Table name: agencies
 #
 #  id                 :integer(11)   not null, primary key
-#  agency_category_id :integer(11)   
-#  result_type_id     :integer(11)   
-#  name               :string(255)   
-#  name2              :string(255)   
-#  description        :text          
-#  data_source        :string(255)   
-#  is_active          :boolean(1)    
-#  url                :string(255)   
-#  url_title          :string(255)   
-#  url2               :string(255)   
-#  url2_title         :string(255)   
-#  comments           :text          
-#  services_provided  :text          
-#  use_for_counseling :boolean(1)    
-#  created_at         :datetime      
-#  updated_at         :datetime      
-#  updated_by         :string(255)   
-#  legacy_code        :string(10)    
-#  legacy_status      :string(255)   
-#  legacy_category1   :string(255)   
-#  legacy_category2   :string(255)   
-#  fmp2_code          :string(10)    
+#  agency_category_id :integer(11)
+#  result_type_id     :integer(11)
+#  name               :string(255)
+#  name2              :string(255)
+#  description        :text
+#  data_source        :string(255)
+#  is_active          :boolean(1)
+#  url                :string(255)
+#  url_title          :string(255)
+#  url2               :string(255)
+#  url2_title         :string(255)
+#  comments           :text
+#  services_provided  :text
+#  use_for_counseling :boolean(1)
+#  created_at         :datetime
+#  updated_at         :datetime
+#  updated_by         :string(255)
+#  legacy_code        :string(10)
+#  legacy_status      :string(255)
+#  legacy_category1   :string(255)
+#  legacy_category2   :string(255)
+#  fmp2_code          :string(10)
 #
 
 class Agency < ActiveRecord::Base
@@ -53,13 +53,13 @@ class Agency < ActiveRecord::Base
   validates_presence_of(:name)
 
   def best_location(counseling)
-    
+
     return hq unless counseling.zipcode || hq.nil?
 
     # special processing if we're looking at a specific plan
     selected_plan=counseling.selected_plan
     return selected_plan.best_location(counseling) if (selected_plan and self==selected_plan.agency)
-    
+
     # out of state should find hq
     if hq && counseling.home_state_abbrev == dropin_addresses.first.state_abbrev
       # in home state
@@ -69,20 +69,20 @@ class Agency < ActiveRecord::Base
       order = 'is_hq desc, distance'
     end
 
-    address = dropin_addresses.find(:first, :origin => counseling.home_zip, 
+    address = dropin_addresses.find(:first, :origin => counseling.home_zip,
                  :order => order,
                  :joins => "left join restrictions r on r.location_id = locations.id
                             left join restrictions_states rs on rs.restriction_id = r.id
-                            left join restrictions_counties rc on rc.restriction_id = r.id 
+                            left join restrictions_counties rc on rc.restriction_id = r.id
                               and rc.county_id in (select id from counties where state_abbrev=rs.state_abbrev)
-                            left join restrictions_zips rz on rz.restriction_id = r.id 
+                            left join restrictions_zips rz on rz.restriction_id = r.id
                               and rz.zipcode in (select z.zipcode from zips z where z.state_abbrev=rs.state_abbrev)
                             left join restrictions_cities rcity on rcity.restriction_id = r.id
                               and rcity.city_id in (select c.id from cities c where c.state_abbrev=rs.state_abbrev)",
                  :conditions => ["addresses.latitude is not null and locations.is_provider=1
                             and (rc.restriction_id is null or rc.county_id='#{counseling.home_county}')
-                            and (rz.restriction_id is null or rz.zipcode='#{counseling.zipcode}' ) 
-                            and (rcity.restriction_id is null or rcity.city_id in 
+                            and (rz.restriction_id is null or rz.zipcode='#{counseling.zipcode}' )
+                            and (rcity.restriction_id is null or rcity.city_id in
                               (select city_id from cities_zips where zipcode = '#{counseling.zipcode}'))
                             and (rs.restriction_id is null or rs.state_abbrev in (?))",
                             result_type==ResultType['AoA'] ? [counseling.home_state_abbrev, counseling.pension_state_abbrev, counseling.hq_state_abbrev, counseling.work_state_abbrev] : [counseling.home_state_abbrev] ] )
@@ -96,9 +96,9 @@ class Agency < ActiveRecord::Base
       # If AoA doesn't match on an office (say because of restrictions), find the hq or the closest office
       address = dropin_addresses.find(:first, :origin => counseling.home_zip, :order => 'is_hq desc, distance')
     end
-    
-    # return the relevant location instead of the address                                  
-    return address.location if address 
+
+    # return the relevant location instead of the address
+    return address.location if address
 
   end
 
@@ -107,16 +107,16 @@ class Agency < ActiveRecord::Base
         select a.id from agencies a
         join locations l on l.agency_id = a.id and l.is_provider = 1
         join restrictions r on r.location_id = l.id
-        join restrictions_states rs on rs.restriction_id = r.id 
+        join restrictions_states rs on rs.restriction_id = r.id
               and rs.state_abbrev = ?
         where a.agency_category_id = ?
         and a.use_for_counseling = 1
         and a.is_active = 1
-        and (r.minimum_age is not null) 
+        and (r.minimum_age is not null)
         SQL
 
     Agency.find_by_sql([sql, home_state_abbrev, AgencyCategory['Service Provider']]).size > 0
-    
+
   end
 
   def self.income_restrictions?(home_state_abbrev)
@@ -124,12 +124,12 @@ class Agency < ActiveRecord::Base
         select a.id from agencies a
         join locations l on l.agency_id = a.id and l.is_provider = 1
         join restrictions r on r.location_id = l.id
-        join restrictions_states rs on rs.restriction_id = r.id 
+        join restrictions_states rs on rs.restriction_id = r.id
               and rs.state_abbrev = ?
         where a.agency_category_id = ?
         and a.use_for_counseling = 1
         and a.is_active = 1
-        and (r.max_poverty is not null) 
+        and (r.max_poverty is not null)
         SQL
 
     Agency.find_by_sql([sql, home_state_abbrev, AgencyCategory['Service Provider']]).size > 0
@@ -280,12 +280,12 @@ class Agency < ActiveRecord::Base
           end
         end
       end
-      
+
     end
   end
-  
+
   def compare_by_provider_type(b, dir)
-    compare_provider_type(b, dir) do 
+    compare_provider_type(b, dir) do
       self.compare_name(b, 1)
     end
   end
@@ -447,7 +447,7 @@ class Agency < ActiveRecord::Base
       end
     end
   end
-  
+
   def compare_provider_type(b, dir = 1)
     a = get_provider_type
     b = b.get_provider_type
@@ -473,7 +473,7 @@ class Agency < ActiveRecord::Base
           yield
         else
           0
-        end        
+        end
       end
     end
   end
@@ -492,11 +492,11 @@ class Agency < ActiveRecord::Base
     nsp = providers['NSP']
     dsp = providers['DSP']
     return 'NSP' if nsp and not dsp
-    return 'DSP' if dsp and not nsp 
+    return 'DSP' if dsp and not nsp
     return 'NSP/DSP' if dsp and nsp
     return ''
   end
-  
+
   private
   #Finds locations.
   def self.find_locations filter
@@ -508,13 +508,13 @@ class Agency < ActiveRecord::Base
     result += Location.find_by_sql query
     return result
   end
-  
+
   #Finds plans(not used)
   def self.find_plans filter
     query = filter.get_find_plans_query
     Plan.find_by_sql query
   end
-  
+
   #sets visibility flag for a given location
   def self.mark_locations_visible(agencies, locations)
     agencies.each do |agency|
@@ -523,7 +523,7 @@ class Agency < ActiveRecord::Base
         location.visible_in_view = true if locs.find { |elem| elem.id == location.id}
       end
     end
-    
+
   end
 
   #helper method to get most relevant state for an agency
