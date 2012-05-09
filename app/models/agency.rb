@@ -136,20 +136,20 @@ class Agency < ActiveRecord::Base
   end
 
   def is_provider
-    unless @is_provider
-      @is_provider = locations.count(:id, :conditions => 'is_provider = 1') > 0
-    end
-    @is_provider
+    @is_provider ||= self.locations.reject { |location| !location.is_provider }.size > 0
   end
 
   #Filters agencies with given condition
-  def self.find_agencies filter
+  def self.find_agencies(filter)
     locations = find_locations filter
-    #Do not search by plans
-#    plans = find_plans filter
 
     agencies = Hash.new
     agencies_ids = Array.new
+
+    all_agencies = Hash[*Agency.find(:all, :include => [{
+      :locations => [:agency, :dropin_address, :restrictions
+    ]}]).collect { |agency| [agency.id, agency] }.flatten]
+
     #if we filter by agency's provider type, and given agency is not 'proper',
     # we put its id in this table so we don't have to check it again.
     ignored_agencies_ids = Array.new
@@ -159,11 +159,11 @@ class Agency < ActiveRecord::Base
         agency_id = elem.agency_id
         #checks if we already have this agency or should be ignored
         if (!agencies_ids.include?(agency_id) && !ignored_agencies_ids.include?(agency_id))
-          agency_tmp = Agency.find(agency_id, :include => [{:locations =>[:agency,:dropin_address,:restrictions]}])
+          agency_tmp = all_agencies[agency_id]
           #filter DSP/NSP
           unless filter.get_provider_type.blank?
             if agency_tmp.get_provider_type != filter.get_provider_type
-              #ignore this agency, 
+              #ignore this agency,
               ignored_agencies_ids << agency_tmp.id
               next
             end
