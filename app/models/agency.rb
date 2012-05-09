@@ -146,9 +146,16 @@ class Agency < ActiveRecord::Base
     agencies = Hash.new
     agencies_ids = Array.new
 
-    all_agencies = Hash[*Agency.find(:all, :include => [{
-      :locations => [:agency, :dropin_address, :restrictions
-    ]}]).collect { |agency| [agency.id, agency] }.flatten]
+    agencies_conditions = ["1 = 1"]
+    unless filter.get_agency.nil?
+      agencies_conditions = ["`agencies`.`name` LIKE ?", "%#{filter.get_agency["name"]}%"] unless filter.get_agency["name"].nil?
+    end
+
+    all_agencies = Hash[*Agency.find(:all, :conditions => agencies_conditions,
+      :include => [{
+        :locations => [:agency, :dropin_address, :restrictions
+      ]}
+    ]).collect { |agency| [agency.id, agency] }.flatten]
 
     #if we filter by agency's provider type, and given agency is not 'proper',
     # we put its id in this table so we don't have to check it again.
@@ -160,6 +167,8 @@ class Agency < ActiveRecord::Base
         #checks if we already have this agency or should be ignored
         if (!agencies_ids.include?(agency_id) && !ignored_agencies_ids.include?(agency_id))
           agency_tmp = all_agencies[agency_id]
+          next if agency_tmp.nil?
+
           #filter DSP/NSP
           unless filter.get_provider_type.blank?
             if agency_tmp.get_provider_type != filter.get_provider_type

@@ -176,6 +176,7 @@ class AgenciesController < ApplicationController
     params[:counseling] = filter.get_counseling
     params[:active] = filter.get_active
     params[:provider] = filter.get_provider_type
+    params[:agency] = filter.get_agency
 
     order = params[:order].nil? ? 'default' : params[:order]
     dir = params[:desc].nil? ? 1 : -1
