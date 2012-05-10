@@ -37,9 +37,12 @@ class SearchAreaFilter
       #filter on Agency category(Government, Service Provider, ...)
       @search_params['agency_category_id'] = params['agency_category_id']
       @search_params['provider'] = params['provider']
+      @search_params["agency_name"] = params["agency_name"]
+      @search_params["agency_plan"] = params["agency_plan"]
+      @search_params["agency_location"] = params["agency_location"]
     end
   end
-  
+
   def set_param(name, value)
      @search_params[name] = value
   end
@@ -62,7 +65,7 @@ class SearchAreaFilter
 
   def has_city_condition?
     !@search_params['city_ids'].nil?
-  end  
+  end
 
   def has_zip_condition?
     !@search_params['zip_ids'].nil?
@@ -98,7 +101,7 @@ class SearchAreaFilter
 
     prepare_sql_query(query, true)
   end
-  
+
   #Returns query for finding locations for which agencies has categotry == State/Local PLans
   #This requires searching for locations, for which agenecies have plans with geographic restrictions
   #fullfilling filter's conditions.
@@ -120,7 +123,7 @@ class SearchAreaFilter
 
     prepare_sql_query(query, false)
   end
-  
+
   #Returns query for finding plans(Not Used).
   #Be carefull, prepare_search_conditions changed!
   def get_find_plans_query
@@ -148,7 +151,7 @@ class SearchAreaFilter
   def get_counties
     @search_params['county_ids']
   end
-  
+
   def get_cities
     @search_params['city_ids']
   end
@@ -156,21 +159,33 @@ class SearchAreaFilter
   def get_zips
     @search_params['zip_ids']
   end
-  
+
   def get_category
     @search_params['agency_category_id']
   end
-  
+
   def get_active
     @search_params['active']
   end
-  
+
   def get_counseling
     @search_params['counseling']
   end
-  
+
   def get_provider_type
     @search_params['provider']
+  end
+
+  def get_agency_name
+    @search_params["agency_name"]
+  end
+
+  def get_agency_plan
+    @search_params["agency_plan"]
+  end
+
+  def get_agency_location
+    @search_params["agency_location"]
   end
 
   #Returns string with preapred sql condition for Counseling
