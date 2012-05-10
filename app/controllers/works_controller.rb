@@ -1,9 +1,10 @@
 class WorksController < ApplicationController
   helper :partners
 
-  def index
-    @partner = Partner.new
-    @scroll = true
+  def npln
+  end
+
+  def pal
   end
 
   # non-Ajax replacement for show_network_info
