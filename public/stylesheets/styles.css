@@ -421,3 +421,13 @@ form.admin_form span.regular-label label {
   display: inline;
   font-size: 13px;
 }
+
+.partner-form label {
+  display: inline-block;
+  font-weight: bold;
+  width: 120px;
+}
+
+.partner-form {
+  font-weight: normal;
+}

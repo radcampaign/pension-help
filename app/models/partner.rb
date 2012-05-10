@@ -4,16 +4,16 @@ class Partner < ActiveRecord::Base
   has_and_belongs_to_many :plan_types
   has_and_belongs_to_many :referral_fees
   has_and_belongs_to_many :claim_types, :join_table => "partners_claim_types"
-  has_and_belongs_to_many :npln_additional_areas, 
+  has_and_belongs_to_many :npln_additional_areas,
                           :join_table => "partners_npln_additional_areas"
-  has_and_belongs_to_many :npln_participation_levels, 
+  has_and_belongs_to_many :npln_participation_levels,
                           :join_table => "partners_npln_participation_levels"
-  has_and_belongs_to_many :pal_additional_areas, 
+  has_and_belongs_to_many :pal_additional_areas,
                           :join_table => "partners_pal_additional_areas"
-  has_and_belongs_to_many :pal_participation_levels, 
+  has_and_belongs_to_many :pal_participation_levels,
                           :join_table => "partners_pal_participation_levels"
   has_and_belongs_to_many :search_plan_types
-  has_and_belongs_to_many :help_additional_areas, 
+  has_and_belongs_to_many :help_additional_areas,
                           :join_table => "partners_help_additional_areas"
   has_and_belongs_to_many :jurisdictions,
                           :join_table => "partners_jurisdictions"
@@ -22,37 +22,37 @@ class Partner < ActiveRecord::Base
 
   belongs_to :user
 
-  validates_presence_of   :first_name, 
-                          :last_name, 
-                          :line_1, 
-                          :city, 
-                          :state_abbrev, 
-                          :zip_code, 
-                          :phone, 
-                          :email
-                          
+  # validates_presence_of   :first_name,
+  #                         :last_name,
+  #                         :line_1,
+  #                         :city,
+  #                         :state_abbrev,
+  #                         :zip_code,
+  #                         :phone,
+  #                         :email
+
   # validates_presence_of :consultation_fee_str,
   #                       :message => "^Consultation fee can't be blank",
   #                       :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and !p.new_record? and !p.basic_profile }
-  # 
+  #
   # validates_presence_of :hourly_rate_str,
   #                       :message => "^Hourly rate can't be blank",
   #                       :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and !p.new_record? and !p.basic_profile }
-  # 
+  #
   # validates_format_of :consultation_fee_str,
   #                     :on => :update,
   #                     :with => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
   #                     :message => "^Consultation fee doesn't seem to be a valid amount",
   #                     :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and p.errors["consultation_fee_str"].nil? and !p.basic_profile }
-  #                     
+  #
   # validates_format_of :hourly_rate_str,
   #                     :on => :update,
   #                     :with => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
   #                     :message => "^Hourly rate doesn't seem to be a valid amount",
   #                     :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and p.errors["hourly_rate_str"].nil? and !p.basic_profile }
 
-  attr_accessor :hourly_rate_str, :consultation_fee_str, :basic_profile                    
-  
+  attr_accessor :hourly_rate_str, :consultation_fee_str, :basic_profile
+
   #Updates questions answers from request params.
   def update_multiple_answer_questions params
     #clear questions first
@@ -96,7 +96,7 @@ class Partner < ActiveRecord::Base
 
   #Copies email from Partner to User
   def before_validation
-    if !user.nil? 
+    if !user.nil?
       user.email = self.email
     end
     self.hourly_rate = hourly_rate_str.gsub(/[$,]/,"") unless hourly_rate_str.nil?
@@ -117,8 +117,8 @@ class Partner < ActiveRecord::Base
     result = true
     #Validates network selection
     if (wants_npln.blank? or !wants_npln) &&
-        (wants_pal.blank? or !wants_pal) && 
-        (wants_help.blank? or !wants_help) && 
+        (wants_pal.blank? or !wants_pal) &&
+        (wants_help.blank? or !wants_help) &&
         (wants_search.blank? or !wants_search)
       self.errors.add_to_base('Please select at least one network')
       result = false;
