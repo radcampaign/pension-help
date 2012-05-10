@@ -4,7 +4,6 @@ class WorksController < ApplicationController
   def index
     @partner = Partner.new
     @scroll = true
-#   parse_networks
   end
 
   # non-Ajax replacement for show_network_info
