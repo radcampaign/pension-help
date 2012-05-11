@@ -52,7 +52,7 @@
       <label for="partner_state_abbrev">
         <span class="reqnote">*</span>State:
       </label>
-      <%= f.text_field :state_abbrev, :size => 10 %>
+      <%= select("partner", "state_abbrev", State.find(:all).collect { |s| [s.abbrev, s.abbrev] }, { :include_blank => true }) %>
     </p>
 
     <p>
@@ -121,6 +121,7 @@
       </p>
     </div>
 
+    <input type="submit" value="Submit" />
   </div>
 
 
