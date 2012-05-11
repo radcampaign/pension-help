@@ -3,7 +3,9 @@ namespace :db do
     [
       Expertise,
       Assistance,
-      Practice
+      Practice,
+      Participation,
+      FeeArrangement
     ].each { |klass| klass.destroy_all }
 
     Expertise.create! :name => "Private pension plans", :form => "pal"
@@ -29,5 +31,13 @@ namespace :db do
     Practice.create! :name => "Private entities: Multi-employer"
     Practice.create! :name => "Federal Government (FERS/CSRS)"
     Practice.create! :name => "Military Retirement (DFAS)"
+
+    Participation.create! :name => "Represent individual plan participants"
+    Participation.create! :name => "Represent a spouse in a domestic relations case"
+    Participation.create! :name => "Provide technical assistance to other lawyers"
+
+    FeeArrangement.create! :name => "Pro Bono"
+    FeeArrangement.create! :name => "Reduced Fee"
+    FeeArrangement.create! :name => "Regular Fee"
   end
 end

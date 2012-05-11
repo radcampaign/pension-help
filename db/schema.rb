@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 91) do
+ActiveRecord::Schema.define(:version => 93) do
 
   create_table "addresses", :force => true do |t|
     t.column "location_id",    :integer
@@ -192,6 +192,10 @@ ActiveRecord::Schema.define(:version => 91) do
 
   add_index "federal_plans", ["parent_id"], :name => "parent_id"
   add_index "federal_plans", ["associated_plan_id"], :name => "associated_plan_id"
+
+  create_table "fee_arrangements", :force => true do |t|
+    t.column "name", :string
+  end
 
   create_table "feedbacks", :force => true do |t|
     t.column "name",         :string
@@ -516,6 +520,10 @@ ActiveRecord::Schema.define(:version => 91) do
     t.column "position", :integer
   end
 
+  create_table "participations", :force => true do |t|
+    t.column "name", :string
+  end
+
   create_table "partners", :force => true do |t|
     t.column "first_name",                                   :string,  :limit => 80
     t.column "last_name",                                    :string,  :limit => 80
@@ -572,7 +580,7 @@ ActiveRecord::Schema.define(:version => 91) do
     t.column "has_other_level_of_participation",             :boolean,                                              :default => false
     t.column "other_level_of_participation",                 :string
     t.column "law_practice_states",                          :string
-    t.column "law_practice_circuts",                         :string
+    t.column "law_practice_circuits",                        :string
     t.column "us_supreme_court",                             :boolean,                                              :default => false
     t.column "malpractice_insurance",                        :boolean,                                              :default => false
   end

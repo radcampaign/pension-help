@@ -139,5 +139,105 @@
         <%= f.text_field :other_areas_of_expertise %>
       </div>
     </div>
+
+    <h3>Level of Participation</h3>
+
+    <div class="checkboxes">
+      <p>
+        1. I am willing to: (check all that apply)
+      </p>
+
+      <% Participation.find(:all).each do |participation| %>
+        <div>
+          <label>
+            <%= check_box_tag "partner[participation_ids][]", participation.id, @partner.participations.include?(participation) %>
+            <%= participation.name %>
+          </label>
+        </div>
+      <% end %>
+
+      <div>
+        <%= f.check_box :has_other_level_of_participation %>
+        <label for="has_other_level_of_participation">
+          If Other (please specify):
+        </label>
+        <%= f.text_field :other_level_of_participation %>
+      </div>
+    </div>
+
+    <p>
+      2. I am admitted to practice law in the following jurisdictions:
+    </p>
+
+    <div class="wide-label">
+      <p>
+        <label for="partner_law_practice_states">
+          <span class="reqnote">*</span>State(s):
+        </label>
+        <%= f.text_field :law_practice_states, :size => 20 %>
+      </p>
+
+      <p>
+        <label for="partner_law_practice_circuits">
+          <span class="reqnote">*</span>Circuit(s) [First, Second, DC, etc.]:
+        </label>
+        <%= f.text_field :law_practice_circuits, :size => 20 %>
+      </p>
+    </div>
+
+    <div class="checkboxes">
+      <p>
+        U.S. Supreme Court:
+        <br><br>
+        <label>
+          <%= f.radio_button :us_supreme_court, true %>
+          Yes
+        </label>
+        <label>
+          <%= f.radio_button :us_supreme_court, false %>
+          No
+        </label>
+      </p>
+    </div>
+
+    <div class="checkboxes">
+      <p>
+        3. I have current malpractive insurance:
+        <br><br>
+        <label>
+          <%= f.radio_button :malpractice_insurance, true %>
+          Yes
+        </label>
+        <label>
+          <%= f.radio_button :malpractice_insurance, false %>
+          No
+        </label>
+      </p>
+    </div>
+
+    <div class="checkboxes">
+      <p>
+        4. I am willing to accept referrals from the National Pension Lawyers Network under the following fee arrangements: (check all that apply)
+      </p>
+
+      <% FeeArrangement.find(:all).each do |fee_arrangement| %>
+        <div>
+          <label>
+            <%= check_box_tag "partner[fee_arrangement_ids][]", fee_arrangement.id, @partner.fee_arrangements.include?(fee_arrangement) %>
+            <%= fee_arrangement.name %>
+          </label>
+        </div>
+      <% end %>
+    </div>
+
+    <p class="checkboxes">
+      <label for="partner_other_info">
+        Please include any other information that would be helpful in making appropriate referrals.:
+      </label><br/>
+      <%= f.text_area :other_info %>
+    </p>
+
+    <input type="submit" value="Submit" />
+
   </div>
 <% end %>
