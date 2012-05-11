@@ -9,7 +9,103 @@
 </div>
 <% end %>
 
-<h2>Service &amp; Referral Networks for Pension Professionals</h2>
+<h2>National Pension Lawyers Network (NPLN)</h2>
 
-<% form_for @partner do |f| %>
+<% form_for :partner, @partner do |f| %>
+  <div class="form partner-form">
+    <p>
+      <label for="partner_first_name">
+        <span class="reqnote">*</span>First Name:
+      </label>
+      <%= f.text_field :first_name %>
+    </p>
+
+    <p>
+      <label for="partner_last_name">
+        <span class="reqnote">*</span>Last Name:
+      </label>
+      <%= f.text_field :last_name %>
+    </p>
+
+    <p>
+      <label for="partner_company">
+        <span class="reqnote">*</span>Firm:
+      </label>
+      <%= f.text_field :company %>
+    </p>
+
+    <p>
+      <label for="partner_line_1">
+        <span class="reqnote">*</span>Address:
+      </label>
+      <%= f.text_field :line_1 %>
+    </p>
+
+    <p>
+      <label for="partner_city">
+        <span class="reqnote">*</span>City:
+      </label>
+      <%= f.text_field :city %>
+    </p>
+
+    <p>
+      <label for="partner_state_abbrev">
+        <span class="reqnote">*</span>State:
+      </label>
+      <%= select("partner", "state_abbrev", State.find(:all).collect { |s| [s.abbrev, s.abbrev] }, { :include_blank => true }) %>
+    </p>
+
+    <p>
+      <label for="partner_zip_code">
+        <span class="reqnote">*</span>Zip:
+      </label>
+      <%= f.text_field :zip_code %>
+    </p>
+
+    <p>
+      <label for="partner_phone">
+        <span class="reqnote">*</span>Phone:
+      </label>
+      <%= f.text_field :phone %>
+    </p>
+
+    <p>
+      <label for="partner_fax">
+        <span class="reqnote">*</span>Fax:
+      </label>
+      <%= f.text_field :fax %>
+    </p>
+
+    <p>
+      <label for="partner_email">
+        <span class="reqnote">*</span>E-mail:
+      </label>
+      <%= f.text_field :email %>
+    </p>
+
+    <p>
+      <label for="partner_url">
+        <span class="reqnote">*</span>Website:
+      </label>
+      <%= f.text_field :url %>
+    </p>
+
+    <h3>Professional Experience</h3>
+
+    <div class="checkboxes">
+      <p>
+        I am a pension lawyer and my areas of practice are: (check all that apply)
+      </p>
+
+      <% Practice.find(:all).each do |practice| %>
+        <div>
+          <label>
+            <%= check_box_tag "partner[practice_ids][]", practice.id, @partner.practices.include?(practice) %>
+            <%= practice.name %>
+          </label>
+        </div>
+      <% end %>
+    </div>
+
+  </div>
 <% end %>

@@ -22,6 +22,7 @@ class Partner < ActiveRecord::Base
 
   has_and_belongs_to_many :expertises
   has_and_belongs_to_many :assistances
+  has_and_belongs_to_many :practices
 
   belongs_to :user
 

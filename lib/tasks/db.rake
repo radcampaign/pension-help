@@ -15,5 +15,10 @@ namespace :db do
     Assistance.create! :name => "Reduced rate"
     Assistance.create! :name => "Standard fee"
     Assistance.create! :name => "Depends on the participant’s income and the time involved"
+
+    Practice.create! :name => "Private entities: Single-employer"
+    Practice.create! :name => "Private entities: Multi-employer"
+    Practice.create! :name => "Federal Government (FERS/CSRS)"
+    Practice.create! :name => "Military Retirement (DFAS)"
   end
 end
