@@ -20,6 +20,9 @@ class Partner < ActiveRecord::Base
   has_and_belongs_to_many :geo_areas,
                           :join_table => "partners_geo_areas"
 
+  has_and_belongs_to_many :expertises
+  has_and_belongs_to_many :assistances
+
   belongs_to :user
 
   # validates_presence_of   :first_name,

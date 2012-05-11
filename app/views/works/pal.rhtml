@@ -98,6 +98,46 @@
       <label for="partner_preferred_method_of_contact_3">E-mail</label>
     </p>
 
+    <br/>
+
+    <div class="checkboxes">
+      <p>
+        Area(s) of expertise:
+      </p>
+
+      <% Expertise.find(:all).each do |expertise| %>
+        <div>
+          <label>
+            <%= check_box_tag "partner[expertise_ids][]", expertise.id, @partner.expertises.include?(expertise) %>
+            <%= expertise.name %>
+          </label>
+        </div>
+      <% end %>
+
+      <div>
+        <%= f.check_box :has_other_areas_of_expertise %>
+        <label for="partner_has_other_areas_of_expertise">
+          Other (Please specify):
+        </label>
+        <%= f.text_field :other_areas_of_expertise %>
+      </div>
+    </div>
+
+    <div class="checkboxes">
+      <p>
+        Type of assistance:
+      </p>
+
+      <% Assistance.find(:all).each do |assistance| %>
+        <div>
+          <label>
+            <%= check_box_tag "partner[assistance_ids][]", assistance.id, @partner.assistances.include?(assistance) %>
+            <%= assistance.name %>
+          </label>
+        </div>
+      <% end %>
+    </div>
+
     <div class="wide-label">
       <p>
         <label for="partner_fax">
@@ -123,88 +163,4 @@
 
     <input type="submit" value="Submit" />
   </div>
-
-
-
-<table class="form">
-  <tr>
-    <th><span class="reqnote">*</span>First&nbsp;Name:</th>
-    <td>
-      <table class="form" cellpadding="0" cellspacing="0">
-        <tr>
-          <td>
-            <%= text_field "partner", "first_name", :size => 15 %>
-          </td>
-          <th>&nbsp;<span class="reqnote">*</span>Last&nbsp;Name:</th>
-          <td>
-             <%= text_field "partner", "last_name", :size => 15 %>
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-  <tr>
-    <th>Firm:</th>
-    <td>
-      <%= text_field "partner", "company", :size => 55  %>
-    </td>
-  </tr>
-  <tr>
-    <th><span class="reqnote">*</span>Street&nbsp;Address:</th>
-    <td>
-      <%= text_field "partner", "line_1", :size => 55  %>
-    </td>
-  </tr>
-  <tr>
-    <th>Address 2:</th>
-    <td>
-      <%= text_field "partner", "line_2", :size => 55  %>
-    </td>
-  </tr>
-  <tr>
-    <th><span class="reqnote">*</span>City:</th>
-    <td>
-      <table cellpadding="0" cellspacing="0" class="form">
-        <tr>
-          <td>
-            <%= text_field "partner", "city", :size => 15 %>
-          </td>
-          <th>&nbsp;<span class="reqnote">*</span>State:</th>
-          <td>
-            <%= select("partner", "state_abbrev", State.find(:all).collect {|s| [s.abbrev, s.abbrev]}, {:include_blank => true}) %>
-          </td>
-          <th>&nbsp;<span class="reqnote">*</span>Zip:</th>
-          <td>
-            <%= text_field "partner", "zip_code", :size => 10 %>
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-  <tr>
-    <th><span class="reqnote">*</span>Telephone:</th>
-    <td>
-      <%= text_field "partner", "phone", :size => 15 %>
-    </td>
-  </tr>
-  <tr>
-    <th>Fax:</th>
-    <td>
-      <%= text_field "partner", "fax", :size => 15 %>
-    </td>
-  </tr>
-  <tr>
-    <th><span class="reqnote">*</span>E-Mail:</th>
-    <td>
-      <%= text_field "partner", "email", :size => 55  %>
-    </td>
-  </tr>
-  <tr>
-    <th>Website:</th>
-    <td>
-      <%= text_field "partner", "url", :size => 55  %>
-    </td>
-  </tr>
-</table>
-
 <% end %>
