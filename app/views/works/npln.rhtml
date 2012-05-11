@@ -105,7 +105,39 @@
           </label>
         </div>
       <% end %>
-    </div>
 
+      <p>
+        I am a domestic relations lawyer with expertise in related pension matters (DR):
+        <br><br>
+        <label>
+          <%= f.radio_button :dr_lawyer, true %>
+          Yes
+        </label>
+        <label>
+          <%= f.radio_button :dr_lawyer, false %>
+          No
+        </label>
+      </p>
+
+      <p>
+        I have expertise in the following areas related to pensions: (check all that apply)
+      </p>
+
+      <% Expertise.find(:all, :conditions => { :form => "npln" }).each do |expertise| %>
+        <div>
+          <label>
+            <%= check_box_tag "partner[expertise_ids][]", expertise.id, @partner.expertises.include?(expertise) %>
+            <%= expertise.name %>
+          </label>
+        </div>
+      <% end %>
+
+      <div>
+        <label for="partner_other_areas_of_expertise">
+          If Other (please specify):
+        </label>
+        <%= f.text_field :other_areas_of_expertise %>
+      </div>
+    </div>
   </div>
 <% end %>

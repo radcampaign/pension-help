@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 89) do
+ActiveRecord::Schema.define(:version => 91) do
 
   create_table "addresses", :force => true do |t|
     t.column "location_id",    :integer
@@ -180,6 +180,7 @@ ActiveRecord::Schema.define(:version => 89) do
 
   create_table "expertises", :force => true do |t|
     t.column "name", :string
+    t.column "form", :string
   end
 
   create_table "federal_plans", :force => true do |t|
@@ -567,6 +568,13 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "professional_certifications_and_affiliations", :string
     t.column "has_other_areas_of_expertise",                 :boolean
     t.column "other_areas_of_expertise",                     :string
+    t.column "dr_lawyer",                                    :boolean,                                              :default => false
+    t.column "has_other_level_of_participation",             :boolean,                                              :default => false
+    t.column "other_level_of_participation",                 :string
+    t.column "law_practice_states",                          :string
+    t.column "law_practice_circuts",                         :string
+    t.column "us_supreme_court",                             :boolean,                                              :default => false
+    t.column "malpractice_insurance",                        :boolean,                                              :default => false
   end
 
   add_index "partners", ["user_id"], :name => "user_id"

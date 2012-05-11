@@ -1,15 +1,24 @@
 namespace :db do
   task :seed => :environment do
-    Expertise.create! :name => "Private pension plans"
-    Expertise.create! :name => "403(b), 401(k) plans, & other DC-type plans"
-    Expertise.create! :name => "Government pension plans"
-    Expertise.create! :name => "IRAs, SEPs"
-    Expertise.create! :name => "Keoghs"
-    Expertise.create! :name => "Professional service providers"
-    Expertise.create! :name => "Church plans"
-    Expertise.create! :name => "Domestic relations orders"
-    Expertise.create! :name => "Plan changes"
-    Expertise.create! :name => "PBGC questions"
+    [
+      Expertise,
+      Assistance,
+      Practice
+    ].each { |klass| klass.destroy_all }
+
+    Expertise.create! :name => "Private pension plans", :form => "pal"
+    Expertise.create! :name => "403(b), 401(k) plans, & other DC-type plans", :form => "pal"
+    Expertise.create! :name => "Government pension plans", :form => "pal"
+    Expertise.create! :name => "IRAs, SEPs", :form => "pal"
+    Expertise.create! :name => "Keoghs", :form => "pal"
+    Expertise.create! :name => "Professional service providers", :form => "pal"
+    Expertise.create! :name => "Church plans", :form => "pal"
+    Expertise.create! :name => "Domestic relations orders", :form => "pal"
+    Expertise.create! :name => "Plan changes", :form => "pal"
+    Expertise.create! :name => "PBGC questions", :form => "pal"
+    Expertise.create! :name => "Employment Discrimination/Labor Law (ED)", :form => "npln"
+    Expertise.create! :name => "Health Care/COBRA (HC)", :form => "npln"
+    Expertise.create! :name => "Social Security (SS)/Disability", :form => "npln"
 
     Assistance.create! :name => "Pro bono"
     Assistance.create! :name => "Reduced rate"

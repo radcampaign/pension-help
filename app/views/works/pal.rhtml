@@ -105,7 +105,7 @@
         Area(s) of expertise:
       </p>
 
-      <% Expertise.find(:all).each do |expertise| %>
+      <% Expertise.find(:all, :conditions => { :form => "pal" }).each do |expertise| %>
         <div>
           <label>
             <%= check_box_tag "partner[expertise_ids][]", expertise.id, @partner.expertises.include?(expertise) %>
