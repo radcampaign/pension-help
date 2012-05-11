@@ -508,52 +508,55 @@ ActiveRecord::Schema.define(:version => 86) do
   end
 
   create_table "partners", :force => true do |t|
-    t.column "first_name",                     :string,  :limit => 80
-    t.column "last_name",                      :string,  :limit => 80
-    t.column "middle_initial",                 :string,  :limit => 2
-    t.column "company",                        :string
-    t.column "line_1",                         :string
-    t.column "line_2",                         :string
-    t.column "city",                           :string,  :limit => 50
-    t.column "state_abbrev",                   :string,  :limit => 2
-    t.column "zip_code",                       :string,  :limit => 10
-    t.column "phone",                          :string,  :limit => 20
-    t.column "fax",                            :string,  :limit => 20
-    t.column "email",                          :string
-    t.column "url",                            :string
-    t.column "reduced_fee_desc",               :string
-    t.column "contingency_fee_desc",           :string
-    t.column "consultation_fee",               :decimal,               :precision => 10, :scale => 2
-    t.column "hourly_rate",                    :decimal,               :precision => 10, :scale => 2
-    t.column "bar_admissions",                 :string
-    t.column "aaa_member",                     :boolean
-    t.column "willing_to_provide",             :boolean
-    t.column "willing_to_answer",              :boolean
-    t.column "wont_charge_fees",               :boolean
-    t.column "info_geo",                       :string
-    t.column "info_industries",                :string
-    t.column "profession_other",               :string
-    t.column "sponsor_type_other",             :string
-    t.column "plan_type_other",                :string
-    t.column "claim_type_other",               :string
-    t.column "npln_additional_area_other",     :string
-    t.column "npln_participation_level_other", :string
-    t.column "pal_additional_area_other",      :string
-    t.column "pal_participation_level_other",  :string
-    t.column "help_additional_area_other",     :string
-    t.column "certifications",                 :text
-    t.column "affiliations",                   :text
-    t.column "other_info",                     :text
-    t.column "wants_npln",                     :boolean,                                              :default => false
-    t.column "wants_pal",                      :boolean,                                              :default => false
-    t.column "wants_help",                     :boolean,                                              :default => false
-    t.column "wants_search",                   :boolean,                                              :default => false
-    t.column "user_id",                        :integer
-    t.column "consultation_fee_desc",          :string
-    t.column "hourly_rate_desc",               :string
-    t.column "fee_shifting_desc",              :string
-    t.column "willing_to_provide_plan_info",   :boolean
-    t.column "preferred_method_of_contact",    :integer
+    t.column "first_name",                                   :string,  :limit => 80
+    t.column "last_name",                                    :string,  :limit => 80
+    t.column "middle_initial",                               :string,  :limit => 2
+    t.column "company",                                      :string
+    t.column "line_1",                                       :string
+    t.column "line_2",                                       :string
+    t.column "city",                                         :string,  :limit => 50
+    t.column "state_abbrev",                                 :string,  :limit => 2
+    t.column "zip_code",                                     :string,  :limit => 10
+    t.column "phone",                                        :string,  :limit => 20
+    t.column "fax",                                          :string,  :limit => 20
+    t.column "email",                                        :string
+    t.column "url",                                          :string
+    t.column "reduced_fee_desc",                             :string
+    t.column "contingency_fee_desc",                         :string
+    t.column "consultation_fee",                             :decimal,               :precision => 10, :scale => 2
+    t.column "hourly_rate",                                  :decimal,               :precision => 10, :scale => 2
+    t.column "bar_admissions",                               :string
+    t.column "aaa_member",                                   :boolean
+    t.column "willing_to_provide",                           :boolean
+    t.column "willing_to_answer",                            :boolean
+    t.column "wont_charge_fees",                             :boolean
+    t.column "info_geo",                                     :string
+    t.column "info_industries",                              :string
+    t.column "profession_other",                             :string
+    t.column "sponsor_type_other",                           :string
+    t.column "plan_type_other",                              :string
+    t.column "claim_type_other",                             :string
+    t.column "npln_additional_area_other",                   :string
+    t.column "npln_participation_level_other",               :string
+    t.column "pal_additional_area_other",                    :string
+    t.column "pal_participation_level_other",                :string
+    t.column "help_additional_area_other",                   :string
+    t.column "certifications",                               :text
+    t.column "affiliations",                                 :text
+    t.column "other_info",                                   :text
+    t.column "wants_npln",                                   :boolean,                                              :default => false
+    t.column "wants_pal",                                    :boolean,                                              :default => false
+    t.column "wants_help",                                   :boolean,                                              :default => false
+    t.column "wants_search",                                 :boolean,                                              :default => false
+    t.column "user_id",                                      :integer
+    t.column "consultation_fee_desc",                        :string
+    t.column "hourly_rate_desc",                             :string
+    t.column "fee_shifting_desc",                            :string
+    t.column "willing_to_provide_plan_info",                 :boolean
+    t.column "preferred_method_of_contact",                  :integer
+    t.column "fee_for_initial_consultation",                 :string
+    t.column "hourly_continuous_fee",                        :string
+    t.column "professional_certifications_and_affiliations", :string
   end
 
   add_index "partners", ["user_id"], :name => "user_id"
