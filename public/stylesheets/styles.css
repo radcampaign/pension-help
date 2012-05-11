@@ -113,6 +113,7 @@ u {
 }
 a,
 a:visited {
+  font-weight: bold;
   text-decoration: none;
   outline: none;
   color: #004F5A;
@@ -879,21 +880,6 @@ table {
   border-spacing: 0;
   margin: 0 0 1em;
   color: #000;
-}
-table a {
-  color: #523A0B;
-  text-decoration: none;
-  border-bottom: 1px dotted;
-}
-table a:visited {
-  color: #444;
-  font-weight: normal;
-}
-table a:visited:after {
-  content: "\00A0\221A"
-}
-table a:hover {
-  border-bottom-style: solid
 }
 thead th,
 thead td,
