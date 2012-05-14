@@ -3,7 +3,7 @@
  AjaxScaffoldGenerator is freely distributable under the terms of an MIT-style license.
 
  For details, see the AjaxScaffoldGenerator web site: http://www.ajaxscaffold.com/ */
- 
+
 /* Holy Grail styling from A List Apart (http://www.alistapart.com/articles/holygrail/) */
 
  #center { padding: 0 20px; width: 100%; }
@@ -20,9 +20,9 @@ body { margin: 0; padding-left: 200px; /* LC fullwidth */ padding-right: 190px; 
 #footer, #footer a {background-color: #2175bc; color: white; text-align: center; font-style: italic; font-size: 9pt;}
 #footer a:hover {color:  orange;}
 #header { background-color: #2175bc; padding: 8px; height: 30px;}
- 
+
  body {background-color:  white;}
- 
+
  .mac_os_x_content {background-color: #DAFFCD; color: #555555; }
  .mac_os_x_content table label {font-size: 10px;}
  .mac_os_x_content table input {font-weight: bold;}
@@ -298,7 +298,7 @@ body { margin: 0; padding-left: 200px; /* LC fullwidth */ padding-right: 190px; 
  background-color: #e8e8e8;
  padding: 4px;
  text-align: center;
- color: #666;
+ color: #000;
  }
 
  .ajax-scaffold .message {
