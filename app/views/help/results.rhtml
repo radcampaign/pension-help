@@ -35,7 +35,7 @@
     </div>
   <% end %>
 
-  <% @results.each do |agency| %>
+  <% @results.each_with_index do |agency, index| %>
     <% if loc=agency.best_location(@counseling) %> <%# if we can't find a best_location, don't show the agency %>
       <div class="agency_result">
         <h2 id="agency_name_header"><%= agency.name -%><br/></h2>
@@ -170,6 +170,9 @@
             </table>
           <% end %>
         </div>
+        <% if (index + 1) != @results.size %>
+          <hr>
+        <% end %>
       </div>
     <% end -%>
   <% end -%>

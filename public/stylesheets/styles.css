@@ -1009,3 +1009,10 @@ form.admin_form span.regular-label label {
   display: inline;
   font-size: 13px;
 }
+
+.agency_result hr {
+  border: 0;
+  height: 1px;
+  color: #CCC;
+  background-color: #CCC;
+}
