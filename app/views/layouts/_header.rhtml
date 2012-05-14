@@ -1,12 +1,13 @@
 <div id="header">
-    <a id="logo" rel="home" title="Home" href="/"><%= image_tag "header.png", :alt => "Home", :class => 'left' %></a>
-    <%= image_tag 'loading.gif', :id => 'spinner', :style => 'display:none' %>
-    <%= image_tag "print-text-email.png", :border => 0, :usemap => "#Map", :class => "right no-print" %>
-    <map name="Map" id="Map">
-      <area shape="rect" coords="33,7,96,27" onclick="print_preview(); return false;" alt="Print this page"  href="#" />
-      <area shape="rect" coords="121,10,237,25" alt="Email this page"  href="<%= url_for(:controller => :email_this_page, :action => :new, :link => request.request_uri)%>" />
-      <area shape="rect" coords="315,7,330,26" alt="font-size small"  href="#" class="small font" />
-      <area shape="rect" coords="331,5,347,26" alt="font size medium"  href="#" class="medium font" />
-      <area shape="rect" coords="347,6,363,26" alt="font size big"  href="#" class="big font"/>
-    </map>
+  <a id="logo" rel="home" title="Home" href="/"><%= image_tag "header.png", :alt => "Home", :class => "left" %></a>
+  <%= image_tag "loading.gif", :id => "spinner", :style => "display: none" %>
+  <%= image_tag "print-text-email.png", :border => 0, :usemap => "#Map", :class => "right no-print" %>
+
+  <map name="Map" id="Map">
+    <area shape="rect" coords="33,7,96,27" onclick="print_preview(); return false;" alt="Print this page"  href="#" />
+    <area shape="rect" coords="121,10,237,25" alt="Email this page"  href="<%= url_for(:controller => :email_this_page, :action => :new, :link => request.request_uri)%>" />
+    <area shape="rect" coords="315,7,330,26" alt="font-size small"  href="#" class="small font" />
+    <area shape="rect" coords="331,5,347,26" alt="font size medium"  href="#" class="medium font" />
+    <area shape="rect" coords="347,6,363,26" alt="font size big"  href="#" class="big font"/>
+  </map>
 </div>
