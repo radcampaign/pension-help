@@ -31,19 +31,6 @@
         <% if @agency.updated_at %><%= @agency.updated_at.strftime("%m/%d/%Y %I:%M %p")%><% end %>
         <% if @agency.updated_by %> by <%= @agency.updated_by %><% end -%></span>
     </div>
-    <div class="clear left fullwidth">
-      <%if @agency.legacy_code || @agency.fmp2_code || @agency.data_source %>
-    <span class="legacy"><b>Old Agency SN:</b> <%= (@agency.legacy_code.nil? ? (@agency.fmp2_code || '') + ' (fmp2)' : @agency.legacy_code) %>&nbsp;&nbsp;&nbsp;</span>
-    <span class="legacy"><b>Data Source:</b> <%= @agency.data_source %></span><br/>
-    <% end -%>
-    </div>
-    <% if !@agency.legacy_status.blank? || !@agency.legacy_category1.blank? || !@agency.legacy_category2.blank? -%>
-      <div class="clear left fullwidth">
-      <% if !@agency.legacy_status.blank? %><div class=" left legacy"><b>Legacy Status:</b> <%= h @agency.legacy_status %></div><% end -%>
-      <% if !@agency.legacy_category1.blank? %><div class=" left legacy"><b>Legacy Category 1:</b> <%= h @agency.legacy_category1 %></div><% end -%>
-      <% if !@agency.legacy_category2.blank? %><div class=" left legacy"><b>Legacy Category 2:</b> <%= h @agency.legacy_category2 %></div><% end -%>
-      </div>
-    <% end -%>
     <ul>
     <li class="clear left fullwidth">
         <div class=""><%= f.text_field :name, {:size => 130}  %>
@@ -91,9 +78,6 @@
         <fieldset class="left">
         <span><%= pub.text_field :fax, :size => 15 %><label for="fax">Fax</label></span>
         </fieldset>
-        <% if @agency.publication %>
-          <span class="legacy"><b>Old SN:</b> <%= (@agency.publication.legacy_code.nil? ? (@agency.publication.fmp2_code || '') + ' (fmp2)' : @agency.publication.legacy_code) %></span>
-        <% end %>
         <div class="clear left"><%= pub.text_field :url_title, {:size => 62} %>
         <label for="agency_url_title">Publication URL Title (for display)</label></div>
         <div class="left"><%= pub.text_field :url, {:size => 62}  %>

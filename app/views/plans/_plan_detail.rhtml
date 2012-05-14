@@ -5,17 +5,11 @@
 				<%= error_messages_for :plan %>
 
 
-				<% form_for(:plan, 
-									  :url => plan_path(@agency), 
+				<% form_for(:plan,
+									  :url => plan_path(@agency),
 										:html => { :method => :put, :class => 'admin_form' }) do |f| %>
 				<ul>
 				<li class="left">
-				<%if @plan.legacy_category || @plan.legacy_status %>
-						<div class="clear left legacy"><b>Legacy info:<br/></b> 
-						<% if @plan.legacy_category %>Category - <%= h @plan.legacy_category %><br/><% end -%>
-						<% if @plan.legacy_status %>Status - <%= h @plan.legacy_status %><% end -%>
-						</div>
-				<% end %>
 						<div><%= f.text_field :name, :size => 140 %>
 						<label>Plan Name 1 (Official + Acronym)</label></div>
 						<div><%= f.text_field :name2, :size => 140 %>
@@ -30,7 +24,7 @@
 					</div>
 					<div class="left half">
 						<div class=""><%= f.text_field :url_title, :size => 50 %>
-						<label>Plan URL Title</label></div>						
+						<label>Plan URL Title</label></div>
 						<div class=""><%= f.text_field :url, :size => 50 %>
 						<label>Plan URL</label></div>
 					</div>
@@ -57,7 +51,7 @@
 																		:before => "Element.show('spinner')",
 																		:complete => "Element.hide('spinner')",
 																		:url => {:action => 'get_counties_for_states'},
-																		:with => "'states=' + encodeURIComponent(value) + 
+																		:with => "'states=' + encodeURIComponent(value) +
 																							'&county_ids=' +  $('plan_county_ids').value +
 																							'&context=plan'" %>
 									<span id="plan_county_ids_container">
@@ -103,4 +97,3 @@
 		<% end -%>
 	<div class="clear"/>
 </div>
-			

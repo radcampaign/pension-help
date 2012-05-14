@@ -28,17 +28,6 @@
   <%=h @agency.url_title %>
 </p>
 
-<p>
-  <b>Legacy code:</b>
-  <%=h @agency.legacy_code %>
-</p>
-
-<p>
-  <b>Legacy subcode:</b>
-  <%=h @agency.legacy_subcode %>
-</p>
-
-
 <%= link_to 'Add location', new_location_path(@agency) %> |
 <%= link_to 'Add plan', new_plan_path(@agency) %> |
 <%= link_to 'Edit', edit_agency_path(@agency) %> |

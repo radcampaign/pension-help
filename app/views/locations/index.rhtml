@@ -14,9 +14,8 @@
     <th>Email</th>
     <th>Hours of operation</th>
     <th>Logistics</th>
-    <th>Legacy subcode</th>
   </tr>
-  
+
 <% for location in @locations %>
   <tr>
     <td><%=h location.name %></td>
@@ -31,7 +30,6 @@
     <td><%=h location.email %></td>
     <td><%=h location.hours_of_operation %></td>
     <td><%=h location.logistics %></td>
-    <td><%=h location.legacy_subcode %></td>
     <td><%= link_to 'Show', location_path(@agency, location) %></td>
     <td><%= link_to 'Edit', edit_location_path(@agency, location) %></td>
     <td><%= link_to 'Destroy', location_path(@agency, location), :confirm => 'Are you sure?', :method => :delete %></td>

@@ -22,12 +22,6 @@
       <% end -%>
     </div>
 
-    <div class="clear left fullwidth">
-      <% if !@plan.fmp2_code.blank? %><span class=" left legacy"><b>Old SN:</b> <%= @plan.fmp2_code + ' (fmp2)' %></span><% end -%>
-      <% if !@plan.legacy_status.blank? %><span class=" left legacy"><b>Legacy Status:</b> <%= h @plan.legacy_status %></span><% end -%>
-      <% if !@plan.legacy_category.blank? %><span class=" left legacy"><b>Legacy Category:</b> <%= h @plan.legacy_category %></span><% end -%>
-    </div>
-
 
   <ul>
   <li class="clear left fullwidth">

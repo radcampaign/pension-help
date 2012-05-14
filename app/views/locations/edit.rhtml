@@ -22,14 +22,6 @@
         <%if @location.updated_by %>by <%= @location.updated_by %><% end -%></span>
     </div>
 
-    <%if @location.legacy_subcode || @location.fmp2_code || @location.legacy_code %>
-      <div class="clear left fullwidth">
-      <span class="legacy"><b>Old SN:</b> <%= (@location.fmp2_code.nil? ? @location.legacy_code : @location.fmp2_code + ' (fmp2)') %>&nbsp;&nbsp;&nbsp;</span>
-      <%if @location.legacy_subcode %><span class="legacy"><b>Legacy Sub-code:</b> <%= @location.legacy_subcode %></span><br/><% end -%>
-      </div>
-    <% end %>
-
-
 <ul>
 <li class="clear left fullwidth">
   <div><%= f.text_field :name, :size => 65 %><label>Location Name </label></div>
