@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 97) do
+ActiveRecord::Schema.define(:version => 98) do
 
   create_table "addresses", :force => true do |t|
     t.column "location_id",    :integer
@@ -61,6 +61,14 @@ ActiveRecord::Schema.define(:version => 97) do
   create_table "assistances", :force => true do |t|
     t.column "name", :string
   end
+
+  create_table "assistances_partners", :id => false, :force => true do |t|
+    t.column "partner_id",    :integer
+    t.column "assistance_id", :integer
+  end
+
+  add_index "assistances_partners", ["partner_id"], :name => "partner_id"
+  add_index "assistances_partners", ["assistance_id"], :name => "assistance_id"
 
   create_table "cities", :force => true do |t|
     t.column "name",         :string
@@ -985,6 +993,9 @@ ActiveRecord::Schema.define(:version => 97) do
 
   add_foreign_key "agencies", ["agency_category_id"], "agency_categories", ["id"], :name => "agencies_ibfk_1"
   add_foreign_key "agencies", ["result_type_id"], "result_types", ["id"], :name => "agencies_ibfk_2"
+
+  add_foreign_key "assistances_partners", ["partner_id"], "partners", ["id"], :name => "assistances_partners_ibfk_1"
+  add_foreign_key "assistances_partners", ["assistance_id"], "assistances", ["id"], :name => "assistances_partners_ibfk_2"
 
   add_foreign_key "cities", ["county_id"], "counties", ["id"], :name => "cities_ibfk_1"
 
