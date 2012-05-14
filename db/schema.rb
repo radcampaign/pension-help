@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 93) do
+ActiveRecord::Schema.define(:version => 97) do
 
   create_table "addresses", :force => true do |t|
     t.column "location_id",    :integer
@@ -183,6 +183,14 @@ ActiveRecord::Schema.define(:version => 93) do
     t.column "form", :string
   end
 
+  create_table "expertises_partners", :id => false, :force => true do |t|
+    t.column "expertise_id", :integer
+    t.column "partner_id",   :integer
+  end
+
+  add_index "expertises_partners", ["expertise_id"], :name => "expertise_id"
+  add_index "expertises_partners", ["partner_id"], :name => "partner_id"
+
   create_table "federal_plans", :force => true do |t|
     t.column "name",               :string
     t.column "position",           :integer
@@ -196,6 +204,14 @@ ActiveRecord::Schema.define(:version => 93) do
   create_table "fee_arrangements", :force => true do |t|
     t.column "name", :string
   end
+
+  create_table "fee_arrangements_partners", :id => false, :force => true do |t|
+    t.column "partner_id",         :integer
+    t.column "fee_arrangement_id", :integer
+  end
+
+  add_index "fee_arrangements_partners", ["partner_id"], :name => "partner_id"
+  add_index "fee_arrangements_partners", ["fee_arrangement_id"], :name => "fee_arrangement_id"
 
   create_table "feedbacks", :force => true do |t|
     t.column "name",         :string
@@ -524,6 +540,14 @@ ActiveRecord::Schema.define(:version => 93) do
     t.column "name", :string
   end
 
+  create_table "participations_partners", :id => false, :force => true do |t|
+    t.column "partner_id",       :integer
+    t.column "participation_id", :integer
+  end
+
+  add_index "participations_partners", ["partner_id"], :name => "partner_id"
+  add_index "participations_partners", ["participation_id"], :name => "participation_id"
+
   create_table "partners", :force => true do |t|
     t.column "first_name",                                   :string,  :limit => 80
     t.column "last_name",                                    :string,  :limit => 80
@@ -562,7 +586,7 @@ ActiveRecord::Schema.define(:version => 93) do
     t.column "affiliations",                                 :text
     t.column "other_info",                                   :text
     t.column "wants_npln",                                   :boolean,                                              :default => false
-    t.column "wants_pal",                                    :boolean,                                              :default => false
+    t.column "wants_pal",                                    :boolean,                                              :default => false, :null => false
     t.column "wants_help",                                   :boolean,                                              :default => false
     t.column "wants_search",                                 :boolean,                                              :default => false
     t.column "user_id",                                      :integer
@@ -651,6 +675,14 @@ ActiveRecord::Schema.define(:version => 93) do
   end
 
   add_index "partners_plan_types", ["plan_type_id", "partner_id"], :name => "index_partners_plan_types_on_plan_type_id_and_partner_id"
+
+  create_table "partners_practices", :id => false, :force => true do |t|
+    t.column "partner_id",  :integer
+    t.column "practice_id", :integer
+  end
+
+  add_index "partners_practices", ["partner_id"], :name => "partner_id"
+  add_index "partners_practices", ["practice_id"], :name => "practice_id"
 
   create_table "partners_professions", :id => false, :force => true do |t|
     t.column "partner_id",    :integer, :null => false
@@ -972,8 +1004,14 @@ ActiveRecord::Schema.define(:version => 93) do
   add_foreign_key "counselings", ["city_id"], "cities", ["id"], :name => "counselings_ibfk_8"
   add_foreign_key "counselings", ["selected_plan_id"], "plans", ["id"], :name => "counselings_ibfk_9"
 
+  add_foreign_key "expertises_partners", ["expertise_id"], "expertises", ["id"], :name => "expertises_partners_ibfk_1"
+  add_foreign_key "expertises_partners", ["partner_id"], "partners", ["id"], :name => "expertises_partners_ibfk_2"
+
   add_foreign_key "federal_plans", ["parent_id"], "federal_plans", ["id"], :name => "federal_plans_ibfk_1"
   add_foreign_key "federal_plans", ["associated_plan_id"], "plans", ["id"], :name => "federal_plans_ibfk_2"
+
+  add_foreign_key "fee_arrangements_partners", ["partner_id"], "partners", ["id"], :name => "fee_arrangements_partners_ibfk_1"
+  add_foreign_key "fee_arrangements_partners", ["fee_arrangement_id"], "fee_arrangements", ["id"], :name => "fee_arrangements_partners_ibfk_2"
 
   add_foreign_key "images", ["parent_id"], "images", ["id"], :name => "images_ibfk_1"
 
@@ -981,6 +1019,9 @@ ActiveRecord::Schema.define(:version => 93) do
   add_foreign_key "location_plan_relationships", ["plan_id"], "plans", ["id"], :name => "location_plan_relationships_ibfk_2"
 
   add_foreign_key "locations", ["agency_id"], "agencies", ["id"], :name => "locations_ibfk_1"
+
+  add_foreign_key "participations_partners", ["partner_id"], "partners", ["id"], :name => "participations_partners_ibfk_1"
+  add_foreign_key "participations_partners", ["participation_id"], "participations", ["id"], :name => "participations_partners_ibfk_2"
 
   add_foreign_key "partners", ["user_id"], "users", ["id"], :name => "partners_ibfk_1"
 
@@ -1010,6 +1051,9 @@ ActiveRecord::Schema.define(:version => 93) do
 
   add_foreign_key "partners_plan_types", ["partner_id"], "partners", ["id"], :name => "partners_plan_types_ibfk_1"
   add_foreign_key "partners_plan_types", ["plan_type_id"], "plan_types", ["id"], :name => "partners_plan_types_ibfk_2"
+
+  add_foreign_key "partners_practices", ["partner_id"], "partners", ["id"], :name => "partners_practices_ibfk_1"
+  add_foreign_key "partners_practices", ["practice_id"], "practices", ["id"], :name => "partners_practices_ibfk_2"
 
   add_foreign_key "partners_professions", ["partner_id"], "partners", ["id"], :name => "partners_professions_ibfk_1"
   add_foreign_key "partners_professions", ["profession_id"], "professions", ["id"], :name => "partners_professions_ibfk_2"

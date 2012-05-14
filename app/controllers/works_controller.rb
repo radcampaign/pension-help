@@ -3,10 +3,25 @@ class WorksController < ApplicationController
 
   def npln
     @partner = Partner.new
+    @partner.wants_npln = true
   end
 
   def pal
     @partner = Partner.new
+  end
+
+  def create
+    @partner = Partner.new params[:partner]
+    if @partner.save!
+      flash[:notice] = "Thank you for registering!"
+      redirect_to "/"
+    else
+      if @partner.wants_npln?
+        render :action => "npln"
+      elsif @partner.wants_pal?
+        render :action => "pal"
+      end
+    end
   end
 
   def index

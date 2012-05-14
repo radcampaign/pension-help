@@ -11,7 +11,8 @@
 
 <h2>National Pension Lawyers Network (NPLN)</h2>
 
-<% form_for :partner, @partner do |f| %>
+<% form_for :partner, @partner, :url => { :controller => "works", :action => "create" } do |f| %>
+  <%= f.hidden_field :wants_npln %>
   <div class="form partner-form">
     <p>
       <label for="partner_first_name">

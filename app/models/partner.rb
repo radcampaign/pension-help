@@ -26,8 +26,6 @@ class Partner < ActiveRecord::Base
   has_and_belongs_to_many :participations
   has_and_belongs_to_many :fee_arrangements
 
-  belongs_to :user
-
   # validates_presence_of   :first_name,
   #                         :last_name,
   #                         :line_1,
@@ -91,48 +89,13 @@ class Partner < ActiveRecord::Base
     self.geo_areas << params[:geo_areas].collect{|p| GeoArea[p]} if params[:geo_areas]
   end
 
-  protected
-  #Adds to a new User default role - NETWORK_USER_ROLE, only when creating a new partner
-  def before_validation_on_create
-    #copy email from partner to user, add role
-    if !user.nil?
-      user.roles << Role.find_by_role_name(NETWORK_USER_ROLE)
-    end
-  end
 
-  #Copies email from Partner to User
+  protected
+
+
   def before_validation
-    if !user.nil?
-      user.email = self.email
-    end
     self.hourly_rate = hourly_rate_str.gsub(/[$,]/,"") unless hourly_rate_str.nil?
     self.consultation_fee = consultation_fee_str.gsub(/[$,]/,"") unless consultation_fee_str.nil?
     puts (self.inspect)
-  end
-
-  #Copies errors from User to Partner(apart from Email, no need to show this error twice)
-  def after_validation
-    unless user.nil? or user.errors.empty?
-      user.errors.each do |attr, mesg|
-        self.errors.add attr, mesg unless (attr == 'email' && mesg != 'has already been taken')
-      end
-    end
-  end
-
-  def validate
-    result = true
-    #Validates network selection
-    if (wants_npln.blank? or !wants_npln) &&
-        (wants_pal.blank? or !wants_pal) &&
-        (wants_help.blank? or !wants_help) &&
-        (wants_search.blank? or !wants_search)
-      self.errors.add_to_base('Please select at least one network')
-      result = false;
-    end
-    #Validates user
-    if user.nil? || !user.valid?
-      result = false
-    end
-    return result
   end
 end
