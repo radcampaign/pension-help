@@ -149,24 +149,24 @@ class Agency < ActiveRecord::Base
     conditions_params = []
 
     unless filter.get_agency_name.blank?
-      conditions_query << "(`agencies`.`name` LIKE ? OR `agencies`.`name2` LIKE ?)"
+      conditions_query << %Q{
+        (
+          (`agencies`.`name` LIKE ? OR `agencies`.`name2` LIKE ?)
+        ) OR
+        (
+          (`plans`.`name` LIKE ? OR `plans`.`name2` LIKE ?)
+        ) OR
+        (
+          (`locations`.`name` LIKE ? OR `locations`.`name2` LIKE ?)
+        )
+      }
       # twice!
       conditions_params << "%#{filter.get_agency_name}%"
       conditions_params << "%#{filter.get_agency_name}%"
-    end
-
-    unless filter.get_agency_plan.blank?
-      conditions_query << "(`plans`.`name` LIKE ? OR `plans`.`name2` LIKE ?)"
-      # twice!
-      conditions_params << "%#{filter.get_agency_plan}%"
-      conditions_params << "%#{filter.get_agency_plan}%"
-    end
-
-    unless filter.get_agency_location.blank?
-      conditions_query << "(`locations`.`name` LIKE ? OR `locations`.`name2` LIKE ?)"
-      # twice!
-      conditions_params << "%#{filter.get_agency_location}%"
-      conditions_params << "%#{filter.get_agency_location}%"
+      conditions_params << "%#{filter.get_agency_name}%"
+      conditions_params << "%#{filter.get_agency_name}%"
+      conditions_params << "%#{filter.get_agency_name}%"
+      conditions_params << "%#{filter.get_agency_name}%"
     end
 
     search_params = {

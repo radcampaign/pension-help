@@ -53,6 +53,6 @@ module AgenciesHelper
   SEARCH_PARAMS = [
     :state_abbrevs, :county_ids, :city_ids, :zip_ids, :order,
     :active, :desc, :counseling, :agency_category_id, :provider, :commit,
-    :agency_name, :agency_plan, :agency_location
+    :agency_name
   ]
 end

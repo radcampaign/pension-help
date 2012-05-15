@@ -38,8 +38,6 @@ class SearchAreaFilter
       @search_params['agency_category_id'] = params['agency_category_id']
       @search_params['provider'] = params['provider']
       @search_params["agency_name"] = params["agency_name"]
-      @search_params["agency_plan"] = params["agency_plan"]
-      @search_params["agency_location"] = params["agency_location"]
     end
   end
 
@@ -178,14 +176,6 @@ class SearchAreaFilter
 
   def get_agency_name
     @search_params["agency_name"]
-  end
-
-  def get_agency_plan
-    @search_params["agency_plan"]
-  end
-
-  def get_agency_location
-    @search_params["agency_location"]
   end
 
   #Returns string with preapred sql condition for Counseling
