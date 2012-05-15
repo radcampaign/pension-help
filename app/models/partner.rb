@@ -26,34 +26,8 @@ class Partner < ActiveRecord::Base
   has_and_belongs_to_many :participations
   has_and_belongs_to_many :fee_arrangements
 
-  # validates_presence_of   :first_name,
-  #                         :last_name,
-  #                         :line_1,
-  #                         :city,
-  #                         :state_abbrev,
-  #                         :zip_code,
-  #                         :phone,
-  #                         :email
-
-  # validates_presence_of :consultation_fee_str,
-  #                       :message => "^Consultation fee can't be blank",
-  #                       :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and !p.new_record? and !p.basic_profile }
-  #
-  # validates_presence_of :hourly_rate_str,
-  #                       :message => "^Hourly rate can't be blank",
-  #                       :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and !p.new_record? and !p.basic_profile }
-  #
-  # validates_format_of :consultation_fee_str,
-  #                     :on => :update,
-  #                     :with => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
-  #                     :message => "^Consultation fee doesn't seem to be a valid amount",
-  #                     :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and p.errors["consultation_fee_str"].nil? and !p.basic_profile }
-  #
-  # validates_format_of :hourly_rate_str,
-  #                     :on => :update,
-  #                     :with => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
-  #                     :message => "^Hourly rate doesn't seem to be a valid amount",
-  #                     :if => Proc.new {|p| (p.wants_npln or p.wants_pal) and p.errors["hourly_rate_str"].nil? and !p.basic_profile }
+  validates_presence_of   :first_name, :last_name, :line_1, :city,
+                          :state_abbrev, :zip_code, :phone, :email
 
   attr_accessor :hourly_rate_str, :consultation_fee_str, :basic_profile
 
@@ -97,5 +71,11 @@ class Partner < ActiveRecord::Base
     self.hourly_rate = hourly_rate_str.gsub(/[$,]/,"") unless hourly_rate_str.nil?
     self.consultation_fee = consultation_fee_str.gsub(/[$,]/,"") unless consultation_fee_str.nil?
     puts (self.inspect)
+  end
+
+  def validate
+    if self.assistances.count == 0
+      self.errors.add(:assistances, "is required")
+    end
   end
 end

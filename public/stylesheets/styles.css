@@ -440,3 +440,12 @@ form.admin_form span.regular-label label {
   display: inline;
   font-weight: normal;
 }
+
+.partner-form .fieldWithErrors {
+  display: inline-block;
+}
+
+.partner-form div {
+  margin: 5px 0px 10px 0px;
+  line-height: 1.3;
+}

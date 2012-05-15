@@ -12,13 +12,13 @@ class WorksController < ApplicationController
 
   def create
     @partner = Partner.new params[:partner]
-    if @partner.save!
+    if @partner.save
       flash[:notice] = "Thank you for registering!"
       redirect_to "/"
     else
       if @partner.wants_npln?
         render :action => "npln"
-      elsif @partner.wants_pal?
+      else
         render :action => "pal"
       end
     end

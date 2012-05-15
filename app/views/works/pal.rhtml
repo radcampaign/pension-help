@@ -14,79 +14,89 @@
 <% form_for :partner, @partner, :url => { :controller => "works", :action => "create" } do |f| %>
   <%= f.hidden_field :wants_pal %>
   <div class="form partner-form">
-    <p>
+    <div>
       <label for="partner_first_name">
         <span class="reqnote">*</span>First Name:
       </label>
       <%= f.text_field :first_name %>
-    </p>
+      <%= error_message_on :partner, :first_name %>
+    </div>
 
-    <p>
+    <div>
       <label for="partner_last_name">
         <span class="reqnote">*</span>Last Name:
       </label>
       <%= f.text_field :last_name %>
-    </p>
+      <%= error_message_on :partner, :last_name %>
+    </div>
 
-    <p>
+    <div>
       <label for="partner_company">
         <span class="reqnote">*</span>Company:
       </label>
       <%= f.text_field :company %>
-    </p>
+      <%= error_message_on :partner, :company %>
+    </div>
 
-    <p>
+    <div>
       <label for="partner_line_1">
         <span class="reqnote">*</span>Address:
       </label>
       <%= f.text_field :line_1 %>
-    </p>
+      <%= error_message_on :partner, :line_1 %>
+    </div>
 
-    <p>
+    <div>
       <label for="partner_city">
         <span class="reqnote">*</span>City:
       </label>
       <%= f.text_field :city %>
-    </p>
+      <%= error_message_on :partner, :city %>
+    </div>
 
-    <p>
+    <div>
       <label for="partner_state_abbrev">
         <span class="reqnote">*</span>State:
       </label>
       <%= select("partner", "state_abbrev", State.find(:all).collect { |s| [s.abbrev, s.abbrev] }, { :include_blank => true }) %>
-    </p>
+      <%= error_message_on :partner, :state_abbrev %>
+    </div>
 
-    <p>
+    <div>
       <label for="partner_zip_code">
         <span class="reqnote">*</span>Zip:
       </label>
       <%= f.text_field :zip_code, :size => 20 %>
-    </p>
+      <%= error_message_on :partner, :zip_code %>
+    </div>
 
-    <p>
+    <div>
       <label for="partner_email">
         <span class="reqnote">*</span>E-mail:
       </label>
       <%= f.text_field :email, :size => 20 %>
-    </p>
+      <%= error_message_on :partner, :email %>
+    </div>
 
-    <p>
+    <div>
       <label for="partner_phone">
         <span class="reqnote">*</span>Phone:
       </label>
       <%= f.text_field :phone, :size => 20 %>
-    </p>
+      <%= error_message_on :partner, :phone %>
+    </div>
 
-    <p>
+    <div>
       <label for="partner_fax">
-        <span class="reqnote">*</span>Fax:
+        Fax:
       </label>
       <%= f.text_field :fax, :size => 20 %>
-    </p>
+      <%= error_message_on :partner, :phone %>
+    </div>
 
     <br>
 
-    <p>
+    <div>
       Preferred method of contact:
       <br><br>
       <%= f.radio_button :preferred_method_of_contact, 1 %>
@@ -97,14 +107,14 @@
 
       <%= f.radio_button :preferred_method_of_contact, 3 %>
       <label for="partner_preferred_method_of_contact_3">E-mail</label>
-    </p>
+    </div>
 
     <br/>
 
     <div class="checkboxes">
-      <p>
+      <div>
         Area(s) of expertise:
-      </p>
+      </div>
 
       <% Expertise.find(:all, :conditions => { :form => "pal" }).each do |expertise| %>
         <div>
@@ -125,9 +135,9 @@
     </div>
 
     <div class="checkboxes">
-      <p>
+      <div>
         Type of assistance:
-      </p>
+      </div>
 
       <% Assistance.find(:all).each do |assistance| %>
         <div>
@@ -137,29 +147,31 @@
           </label>
         </div>
       <% end %>
+
+      <%= error_message_on :partner, :assistances %>
     </div>
 
     <div class="wide-label">
-      <p>
+      <div>
         <label for="partner_fee_for_initial_consultation">
-          <span class="reqnote">*</span>Fee for initial consultation:
+          Fee for initial consultation:
         </label>
         <%= f.text_field :fee_for_initial_consultation, :size => 20 %>
-      </p>
+      </div>
 
-      <p>
+      <div>
         <label for="partner_hourly_continuous_fee">
-          <span class="reqnote">*</span>Hourly continuous fee:
+          Hourly continuous fee:
         </label>
         <%= f.text_field :hourly_continuous_fee, :size => 20 %>
-      </p>
+      </div>
 
-      <p>
+      <div>
         <label for="partner_professional_certifications_and_affiliations">
-          <span class="reqnote">*</span>Professional certifications and affiliations:
+          Professional certifications and affiliations:
         </label>
         <%= f.text_field :professional_certifications_and_affiliations, :size => 20 %>
-      </p>
+      </div>
     </div>
 
     <input type="submit" value="Submit" />
