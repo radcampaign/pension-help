@@ -2,7 +2,7 @@
   <a id="logo" rel="home" title="Home" href="/"><%= image_tag "header.png", :alt => "Home", :class => "left" %></a>
   <%= image_tag "loading.gif", :id => "spinner", :style => "display: none" %>
   <div class="right no-print">
-    <%= image_tag "print.png", :border => "0", :onclick => "print_preview(); return false;", :alt => "Print this page" %><% unless @hide_print_button %><%= image_tag "separator.png", :border => "0" %><a href="<%= url_for(:controller => :email_this_page, :action => :new, :link => request.request_uri)%>"><%= image_tag "email-this-page.png", :border => "0", :alt => "E-mail this page" %></a><% end %><%= image_tag "separator.png", :border => "0" %><%= image_tag "text-size.png", :border => "0", :alt => "Text size", :usemap => "#Map" %>
+    <%= image_tag "print.png", :border => "0", :onclick => "print_preview(); return false;", :alt => "Print this page" %><% unless @hide_email_button %><%= image_tag "separator.png", :border => "0" %><a href="<%= url_for(:controller => :email_this_page, :action => :new, :link => request.request_uri)%>"><%= image_tag "email-this-page.png", :border => "0", :alt => "E-mail this page" %></a><% end %><%= image_tag "separator.png", :border => "0" %><%= image_tag "text-size.png", :border => "0", :alt => "Text size", :usemap => "#Map" %>
   </div>
   <map name="Map" id="Map">
     <area shape="rect" coords="69,7,84,26" alt="font-size small"  href="#" class="small font" />

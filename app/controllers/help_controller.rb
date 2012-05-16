@@ -18,7 +18,7 @@ class HelpController < ApplicationController
   def counseling
     @counseling = session[:counseling] = Counseling.new #start with a fresh object
     @options = CounselAssistance.employer_types
-    @hide_print_button = true
+    @hide_email_button = true
   end
 
   def employer_descriptions
@@ -145,7 +145,7 @@ class HelpController < ApplicationController
     @states = CounselAssistance.states
     @ask_aoa = [EMP_TYPE[:company], EMP_TYPE[:railroad], EMP_TYPE[:religious],
                 EMP_TYPE[:federal], EMP_TYPE[:military], EMP_TYPE[:unknown]].include?(@counseling.employer_type_id)
-    @hide_print_button = true
+    @hide_email_button = true
   end
 
   # ajax call to check if zipcode is in aoa coverage area
@@ -182,13 +182,15 @@ class HelpController < ApplicationController
       redirect_to :action => :step_3
       return
     end
+
+    @hide_email_button = true
     render :action => :step_2
   end
 
   def step_3 #employment dates, pension-earner, divorce questions
     @counseling = find_counseling
     @options = CounselAssistance.pension_earner_choices
-    @hide_print_button = true
+    @hide_email_button = true
   end
 
   def process_step_3
@@ -213,7 +215,7 @@ class HelpController < ApplicationController
     else
       redirect_to :action => :step_5
     end
-    @hide_print_button = true
+    @hide_email_button = true
   end
 
   def process_step_4
@@ -235,7 +237,7 @@ class HelpController < ApplicationController
     else
       redirect_to :action => :results
     end
-    @hide_print_button = true
+    @hide_email_button = true
   end
 
   def process_step_5
