@@ -56,7 +56,7 @@
 
     <div>
       <label for="partner_state_abbrev">
-        State:
+        <span class="reqnote">*</span>State:
       </label>
       <%= select("partner", "state_abbrev", State.find(:all).collect { |s| [s.abbrev, s.abbrev] }, { :include_blank => true }) %>
       <%= error_message_on :partner, :state_abbrev %>
@@ -184,7 +184,7 @@
     <div class="wide-label">
       <div>
         <label for="partner_law_practice_states">
-          <span class="reqnote">*</span>State(s):
+          State(s):
         </label>
         <%= f.text_field :law_practice_states, :size => 20 %>
       </div>

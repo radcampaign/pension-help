@@ -137,6 +137,7 @@
     <div class="checkboxes">
       <div>
         <span class="reqnote">*</span>Type of assistance:
+        <%= error_message_on :partner, :assistances %>
       </div>
 
       <% Assistance.find(:all).each do |assistance| %>
@@ -148,7 +149,6 @@
         </div>
       <% end %>
 
-      <%= error_message_on :partner, :assistances %>
     </div>
 
     <div class="wide-label">
