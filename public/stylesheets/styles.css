@@ -445,6 +445,15 @@ form.admin_form span.regular-label label {
   display: inline-block;
 }
 
+.partner-form .fieldWithErrors input {
+  border: 1px solid red;
+}
+
+.partner-form .formError {
+  display: inline-block;
+  color: red;
+}
+
 .partner-form div {
   margin: 5px 0px 10px 0px;
   line-height: 1.3;

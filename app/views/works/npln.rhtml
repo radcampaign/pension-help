@@ -32,7 +32,7 @@
 
     <div>
       <label for="partner_company">
-        <span class="reqnote">*</span>Firm:
+        Firm:
       </label>
       <%= f.text_field :company %>
       <%= error_message_on :partner, :company %>
@@ -56,7 +56,7 @@
 
     <div>
       <label for="partner_state_abbrev">
-        <span class="reqnote">*</span>State:
+        State:
       </label>
       <%= select("partner", "state_abbrev", State.find(:all).collect { |s| [s.abbrev, s.abbrev] }, { :include_blank => true }) %>
       <%= error_message_on :partner, :state_abbrev %>
@@ -191,7 +191,7 @@
 
       <div>
         <label for="partner_law_practice_circuits">
-          <span class="reqnote">*</span>Circuit(s) [First, Second, DC, etc.]:
+          Circuit(s) [First, Second, DC, etc.]:
         </label>
         <%= f.text_field :law_practice_circuits, :size => 20 %>
       </div>
