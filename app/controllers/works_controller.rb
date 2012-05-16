@@ -14,7 +14,7 @@ class WorksController < ApplicationController
     @partner = Partner.new params[:partner]
     if @partner.save
       flash[:notice] = "Thank you for registering!"
-      redirect_to "/"
+      redirect_to "/works"
     else
       if @partner.wants_npln?
         render :action => "npln"

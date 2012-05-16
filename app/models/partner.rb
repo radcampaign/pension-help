@@ -74,7 +74,7 @@ class Partner < ActiveRecord::Base
   end
 
   def validate
-    if self.assistances.count == 0
+    if self.assistances.count == 0 and !self.wants_npln
       self.errors.add(:assistances, "is required")
     end
   end
