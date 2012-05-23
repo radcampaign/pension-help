@@ -61,7 +61,7 @@
 
   <p>&nbsp;</p>
 
-  <%= image_submit_tag "/images/next.png", :id => 'nextLinkButton' %>
+  <%= image_submit_tag "/images/next-enabled.png", :id => "nextLinkButton" %>
 
   <% end -%>
   <p>&nbsp;</p>
@@ -122,19 +122,6 @@
         if (!result) {
           break;
         }
-      }
-      changeStateNextStepButton(result);
-    }
-
-    function changeStateNextStepButton(active) {
-      var next_step_button = document.getElementById('nextLinkButton');
-      if (active) {
-        next_step_button.src = '/images/next-enabled.png';
-        next_step_button.onclick = function() {return true};
-                          Event.stopObserving( 'nextLinkButton', 'mouseover');
-      } else {
-        next_step_button.onclick = function() {return false};
-        next_step_button.src = '/images/next.png';
       }
     }
 

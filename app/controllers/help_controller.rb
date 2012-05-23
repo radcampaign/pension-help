@@ -141,11 +141,17 @@ class HelpController < ApplicationController
   def step_2 #zip, AoA states, plan questions
     @zip_found = true
     @counseling = update_counseling
-    @counseling.step = 2
-    @states = CounselAssistance.states
-    @ask_aoa = [EMP_TYPE[:company], EMP_TYPE[:railroad], EMP_TYPE[:religious],
-                EMP_TYPE[:federal], EMP_TYPE[:military], EMP_TYPE[:unknown]].include?(@counseling.employer_type_id)
     @hide_email_button = true
+
+    if !@counseling.valid?
+      @options = CounselAssistance.employer_types
+      render :action => "counseling"
+    else
+      @counseling.step = 2
+      @states = CounselAssistance.states
+      @ask_aoa = [EMP_TYPE[:company], EMP_TYPE[:railroad], EMP_TYPE[:religious],
+                  EMP_TYPE[:federal], EMP_TYPE[:military], EMP_TYPE[:unknown]].include?(@counseling.employer_type_id)
+    end
   end
 
   # ajax call to check if zipcode is in aoa coverage area

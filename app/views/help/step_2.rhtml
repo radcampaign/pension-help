@@ -49,7 +49,7 @@
 
 <% end %>
 
-  <%= image_submit_tag "/images/next-enabled.png", :id => 'nextLinkButton', :name => 'continue' %>
+  <%= image_submit_tag "/images/next-enabled.png", :name => 'continue', :id => "nextLinkButton" %>
 
 <% end -%>
 <p>&nbsp;</p>
@@ -73,16 +73,12 @@
             if (nextPar != null) {
               hideQuestions(nextPar);
             }
-            changeStateNextStepButton(false);
           } else if (!hasState(this.value)) {
             if (nextPar == null) {
-              changeStateNextStepButton(true);
             } else {
               $(nextPar).show();
-              changeStateNextStepButton(false);
             }
           } else {
-            changeStateNextStepButton(true);
             if (this.next() != null) {
               hideQuestions(nextPar);
             }
@@ -95,8 +91,6 @@
       $('work_state_abbrev').show();
       $('hq_state_abbrev').hide();
       $('pension_state_abbrev').hide();
-      /*Next step button disabled*/
-      changeStateNextStepButton(false);
     });
 
     function hasState(state) {
@@ -126,18 +120,6 @@
 <% end %>
 
 <script>
-function changeStateNextStepButton(active) {
-  var next_step_button = document.getElementById('nextLinkButton');
-  if (active) {
-    next_step_button.src = '/images/next-enabled.png';
-    next_step_button.onclick = function() {return true};
-    Event.stopObserving( 'nextLinkButton', 'mouseover');
-  } else {
-    next_step_button.onclick = function() {return false};
-    next_step_button.src = '/images/next.png';
-  }
-}
-
 jQuery(document).ready(function() {
   // hide zip if non-us-resident box is checked upon page display
   if (jQuery("#counseling_non_us_resident").is(':checked')) {

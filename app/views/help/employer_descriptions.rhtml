@@ -78,7 +78,6 @@
 <script type="text/javascript">
   Event.observe( window, 'load', function() {
     addValidation();
-    changeStateNextStepButton(false);
   });
 
   function addValidation() {
@@ -91,24 +90,10 @@
   }
 
   function validateStep() {
-    changeStateNextStepButton(true);
-  }
-
-  function changeStateNextStepButton(active) {
-    var next_step_button = document.getElementById('nextLinkButton');
-    if (active) {
-      next_step_button.src = '/images/next-enabled.png';
-      next_step_button.onclick = function() {return true};
-      next_step_button.title = "";
-    } else {
-      next_step_button.onclick = function() {return false};
-      next_step_button.src = '/images/next.png';
-      next_step_button.title = "Answer all the questions on this page then click NEXT to continue.";
-    }
   }
 </script>
 
-<%= image_submit_tag "buttons/next_button.gif", :id => 'nextLinkButton' %>
+<%= image_submit_tag "buttons/next-enabled.png", :id => "nextLinkButton" %>
 
 <% end -%>
 <p>&nbsp;</p>
