@@ -93,6 +93,8 @@
   }
 </script>
 
+<%= hidden_field_tag :referrer, request.env["HTTP_REFERER"] %>
+<%= submit_tag "Previous", :name => "previous" %>
 <%= image_submit_tag "buttons/next-enabled.png", :id => "nextLinkButton" %>
 
 <% end -%>

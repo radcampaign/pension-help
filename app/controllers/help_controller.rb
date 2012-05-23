@@ -1,5 +1,6 @@
 class HelpController < ApplicationController
   before_filter :check_aoa_zip, :only => [:step3]
+  before_filter :go_back
 
   EARLIEST_EMPLOYMENT_YEAR = 1880
   LATEST_EMPLOYMENT_YEAR = 2025
@@ -372,6 +373,15 @@ class HelpController < ApplicationController
       c=Counseling.new
     end
     c
+  end
+
+
+  protected
+
+  def go_back
+    if params[:previous] && params[:referrer]
+      redirect_to params[:referrer]
+    end
   end
 
 end
