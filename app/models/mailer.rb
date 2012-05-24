@@ -72,6 +72,18 @@ class Mailer < ActionMailer::Base
          :feedback_email => counseling.feedback_email
   end
 
+  def counseling_results(email, counseling, results, lost_plan_resources)
+    @recipients = email
+    @from = EMAIL_FROM
+    @subject = "PHA: Help Search Results"
+
+    content_type "text/html"
+
+    body :counseling => counseling,
+         :results => results,
+         :lost_plan_resources => lost_plan_resources
+  end
+
   def links(errors)
     body["errors"] = errors
 

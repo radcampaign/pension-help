@@ -282,6 +282,26 @@ class HelpController < ApplicationController
     @results
   end
 
+  def email_results
+    if !params[:email].blank?
+      @counseling = find_counseling
+      @results = @counseling.matching_agencies
+      @lost_plan_resources = Content.find_by_url('lost_plan_resources').content rescue nil if @counseling.show_lost_plan_resources
+
+      Mailer.deliver_counseling_results(params[:email], @counseling, @results, @lost_plan_resources)
+
+      render :update do |page|
+        page.replace_html "resultsEmailResponse", "E-mail has been sent."
+        page.visual_effect :highlight, "resultsEmailResponse"
+      end
+    else
+      render :update do |page|
+        page.replace_html "resultsEmailResponse", "Invalid e-mail."
+        page.visual_effect :highlight, "resultsEmailResponse"
+      end
+    end
+  end
+
   def submit_email_address
     counseling = Counseling.find(params[:counseling][:id])
     if counseling
@@ -378,10 +398,10 @@ class HelpController < ApplicationController
 
   protected
 
+
   def go_back
     if params[:previous] && params[:referrer]
       redirect_to params[:referrer]
     end
   end
-
 end
