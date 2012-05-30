@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 98) do
+ActiveRecord::Schema.define(:version => 99) do
 
   create_table "addresses", :force => true do |t|
     t.column "location_id",    :integer
@@ -559,7 +559,6 @@ ActiveRecord::Schema.define(:version => 98) do
   create_table "partners", :force => true do |t|
     t.column "first_name",                                   :string,  :limit => 80
     t.column "last_name",                                    :string,  :limit => 80
-    t.column "middle_initial",                               :string,  :limit => 2
     t.column "company",                                      :string
     t.column "line_1",                                       :string
     t.column "line_2",                                       :string
@@ -570,54 +569,23 @@ ActiveRecord::Schema.define(:version => 98) do
     t.column "fax",                                          :string,  :limit => 20
     t.column "email",                                        :string
     t.column "url",                                          :string
-    t.column "reduced_fee_desc",                             :string
-    t.column "contingency_fee_desc",                         :string
-    t.column "consultation_fee",                             :decimal,               :precision => 10, :scale => 2
-    t.column "hourly_rate",                                  :decimal,               :precision => 10, :scale => 2
-    t.column "bar_admissions",                               :string
-    t.column "aaa_member",                                   :boolean
-    t.column "willing_to_provide",                           :boolean
-    t.column "willing_to_answer",                            :boolean
-    t.column "wont_charge_fees",                             :boolean
-    t.column "info_geo",                                     :string
-    t.column "info_industries",                              :string
-    t.column "profession_other",                             :string
-    t.column "sponsor_type_other",                           :string
-    t.column "plan_type_other",                              :string
-    t.column "claim_type_other",                             :string
-    t.column "npln_additional_area_other",                   :string
-    t.column "npln_participation_level_other",               :string
-    t.column "pal_additional_area_other",                    :string
-    t.column "pal_participation_level_other",                :string
-    t.column "help_additional_area_other",                   :string
-    t.column "certifications",                               :text
-    t.column "affiliations",                                 :text
     t.column "other_info",                                   :text
-    t.column "wants_npln",                                   :boolean,                                              :default => false
-    t.column "wants_pal",                                    :boolean,                                              :default => false, :null => false
-    t.column "wants_help",                                   :boolean,                                              :default => false
-    t.column "wants_search",                                 :boolean,                                              :default => false
-    t.column "user_id",                                      :integer
-    t.column "consultation_fee_desc",                        :string
-    t.column "hourly_rate_desc",                             :string
-    t.column "fee_shifting_desc",                            :string
-    t.column "willing_to_provide_plan_info",                 :boolean
+    t.column "wants_npln",                                   :boolean,               :default => false
+    t.column "wants_pal",                                    :boolean,               :default => false, :null => false
     t.column "preferred_method_of_contact",                  :integer
     t.column "fee_for_initial_consultation",                 :string
     t.column "hourly_continuous_fee",                        :string
     t.column "professional_certifications_and_affiliations", :string
     t.column "has_other_areas_of_expertise",                 :boolean
     t.column "other_areas_of_expertise",                     :string
-    t.column "dr_lawyer",                                    :boolean,                                              :default => false
-    t.column "has_other_level_of_participation",             :boolean,                                              :default => false
+    t.column "dr_lawyer",                                    :boolean,               :default => false
+    t.column "has_other_level_of_participation",             :boolean,               :default => false
     t.column "other_level_of_participation",                 :string
     t.column "law_practice_states",                          :string
     t.column "law_practice_circuits",                        :string
-    t.column "us_supreme_court",                             :boolean,                                              :default => false
-    t.column "malpractice_insurance",                        :boolean,                                              :default => false
+    t.column "us_supreme_court",                             :boolean,               :default => false
+    t.column "malpractice_insurance",                        :boolean,               :default => false
   end
-
-  add_index "partners", ["user_id"], :name => "user_id"
 
   create_table "partners_claim_types", :id => false, :force => true do |t|
     t.column "partner_id",    :integer, :null => false
@@ -1033,8 +1001,6 @@ ActiveRecord::Schema.define(:version => 98) do
 
   add_foreign_key "participations_partners", ["partner_id"], "partners", ["id"], :name => "participations_partners_ibfk_1"
   add_foreign_key "participations_partners", ["participation_id"], "participations", ["id"], :name => "participations_partners_ibfk_2"
-
-  add_foreign_key "partners", ["user_id"], "users", ["id"], :name => "partners_ibfk_1"
 
   add_foreign_key "partners_claim_types", ["partner_id"], "partners", ["id"], :name => "partners_claim_types_ibfk_1"
   add_foreign_key "partners_claim_types", ["claim_type_id"], "claim_types", ["id"], :name => "partners_claim_types_ibfk_2"

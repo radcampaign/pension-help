@@ -1,6 +1,5 @@
 First Name: <%= @partner.first_name %>
 Last Name: <%= @partner.last_name %>
-Middle Initial: <%= @partner.middle_initial %>
 Firm: <%= @partner.company %>
 Address Line 1: <%= @partner.line_1 %>
 Address Line 2: <%= @partner.line_2 %>
@@ -11,22 +10,8 @@ Phone: <%= @partner.phone %>
 Fax: <%= @partner.fax %>
 Email: <%= @partner.email %>
 Website: <%= @partner.url %>
-<% if !@partner.profession_other.blank? -%>
-Profession: <%= @partner.profession_other %>
-<% end -%>
 Profession: <%= @partner.professions.first.name unless @partner.professions.empty? %>
-Professional Affiliations: <%= @partner.affiliations %>
 I am most likely to have information about the following types of plans:
 <%= @partner.search_plan_types %>
-I am most likely to have information about plans in the following geographic areas:
--<%= @partner.info_geo %>
-I am most likely to have information about plans in the following industries:
--<%= @partner.info_industries %>
 Please provide any other information that might be helpful in making appropriate referrals:
 -<%= @partner.other_info %>
-
-<% if @partner.wont_charge_fees -%>
-I will not charge any fees for my services
-<% else -%>
-I prefer to charge fees for my services
-<% end -%>

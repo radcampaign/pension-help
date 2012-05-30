@@ -6,12 +6,11 @@
 	<% for item in NplnAdditionalArea.find(:all, :order => :position) %>
 		<tr>
 			<th><%= check_box_tag("npln_additional_areas[]", item.name, partner.npln_additional_areas.collect(&:name).include?(item.name)) %></th>
-			<td><%= item.name %> 
-			<%= p.text_field :npln_additional_area_other if item.name.match('Other') %>
+			<td><%= item.name %>
 			</td>
 		</tr>
 	<% end -%>
-		
+
 </table>
 </p>
 

@@ -5,8 +5,6 @@
 	<% conditions = [] %>
 	<% conditions << "use_for_npln=1" # if @partner.wants_npln %>
 	<% conditions << "use_for_pal=1" # if @partner.wants_pal %>
-	<% conditions << "use_for_help=1" # if @partner.wants_help %>
-	<% conditions << "use_for_search=1" # if @partner.wants_search %>
 	<% for item in SponsorType.find(:all, :conditions => conditions.join(" OR "), :order => :position) %>
 		<tr class="<%=sponsor_type_class_display(item).to_s %>" style="display:none;">
 			<% if item.name.match("Single-employer") %>
@@ -34,7 +32,6 @@
                       <%= check_box_tag("sponsor_types[]", item.name, partner.sponsor_types.collect(&:name).include?(item.name)) %>
 				<% end %>
 					<%= item.name %>
-					<%= p.text_field :sponsor_type_other if item.name.match('Other') %>
 				</td>
 		</tr>
 	<% end -%>

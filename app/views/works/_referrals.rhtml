@@ -6,17 +6,6 @@
 		<tr class="<%=refferals_class_display(item).to_s %>" style="display:none;">
 			<th><%= check_box_tag("referral_fees[]", item.name, partner.referral_fees.collect(&:name).include?(item.name)) %></th>
 			<td><%= item.name %>
-				<% if item.name.match('Hourly Rate') %>
-					<%= p.text_field :hourly_rate_str, :size => 10, :value => hourly_rate_display %> 
-					<br/>Describe: <%= p.text_field :hourly_rate_desc, :size => 25 %>
-				<% end %>
-				<% if item.name.match('Consultation Fee') %>
-					<%= p.text_field :consultation_fee_str, :size => 10, :value => consultation_fee_display %> 
-					<br/>Describe: <%= p.text_field :consultation_fee_desc, :size => 25 %>
-				<% end %>
-				<% if item.name.match('Contingency') %><br/>Describe: <%= p.text_field :contingency_fee_desc, :size => 25 %><% end %>
-				<% if item.name.match('Fee-Shifting') %><br/>Describe: <%= p.text_field :fee_shifting_desc, :size => 25 %><% end %>
-				<% if item.name.match('Reduced Rate') %><br/>Describe: <%= p.text_field :reduced_fee_desc, :size => 25 %><% end %>
 			</td>
 		</tr>
 	<% end -%>

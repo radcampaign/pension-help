@@ -29,7 +29,7 @@ class Partner < ActiveRecord::Base
   validates_presence_of   :first_name, :last_name, :line_1, :city,
                           :state_abbrev, :zip_code, :phone, :email
 
-  attr_accessor :hourly_rate_str, :consultation_fee_str, :basic_profile
+  attr_accessor :basic_profile
 
   #Updates questions answers from request params.
   def update_multiple_answer_questions params
@@ -66,12 +66,6 @@ class Partner < ActiveRecord::Base
 
   protected
 
-
-  def before_validation
-    self.hourly_rate = hourly_rate_str.gsub(/[$,]/,"") unless hourly_rate_str.nil?
-    self.consultation_fee = consultation_fee_str.gsub(/[$,]/,"") unless consultation_fee_str.nil?
-    puts (self.inspect)
-  end
 
   def validate
     if self.assistances.count == 0 and !self.wants_npln
