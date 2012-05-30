@@ -8,6 +8,7 @@ class WorksController < ApplicationController
 
   def pal
     @partner = Partner.new
+    @partner.wants_pal = true
   end
 
   def create
