@@ -172,10 +172,23 @@ class Counseling < ActiveRecord::Base
     end
   end
 
-  def aoa_dsp_npln
-    if aoa_coverage.empty?
+  def military_aoa_dsp_npln
+    if aoa_coverage.any?
+      aoa_coverage
+    else
       dsp=closest_dsp
       dsp.blank? ? result_type_match('NPLN') : [dsp]
+    end
+  end
+
+  def aoa_dsp_npln
+    if aoa_coverage.empty?
+      dsp = [closest_dsp]
+      if dsp.any?
+        dsp + [closest_nsp]
+      else
+        [closest_nsp] + result_type_match("NPLN")
+      end
     else
       aoa_coverage
     end
@@ -230,6 +243,7 @@ class Counseling < ActiveRecord::Base
     end
     dsp = closest_dsp
     agencies << dsp
+    agencies << nsp
     agencies << result_type_match('DOL')
     agencies << result_type_match('PBGC')
     agencies << result_type_match('NPLN') unless dsp
@@ -264,7 +278,9 @@ class Counseling < ActiveRecord::Base
     else
       # agencies << result_type_match('NARFE')
       dsp = closest_dsp
+      nsp = closest_nsp
       agencies << dsp
+      agencies << nsp
       agencies << result_type_match('NPLN') unless dsp
       agencies << result_type_match('OPM') unless selected_plan_id.blank?
       agencies << result_type_match('TSP') unless selected_plan_id.blank?
@@ -311,7 +327,7 @@ class Counseling < ActiveRecord::Base
       agencies << result_type_match('TSP')
     else
       agencies << military_branch_match
-      agencies << aoa_dsp_npln
+      agencies << military_aoa_dsp_npln
       if aoa_coverage.empty?
         agencies << result_type_match('DFAS')
         agencies << result_type_match('TSP')
