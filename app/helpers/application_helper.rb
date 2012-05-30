@@ -36,5 +36,7 @@ module ApplicationHelper
     %Q{<input src="/images/submit.png" type="image" />}
   end
 
-
+  def error_class_on(object, field)
+    return "class=\"form-error\"" if !object.errors[field].nil? && object.errors[field].any?
+  end
 end

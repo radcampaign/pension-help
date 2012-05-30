@@ -12,7 +12,7 @@ class Counseling < ActiveRecord::Base
   belongs_to :selected_plan, :class_name => "Plan", :foreign_key => "selected_plan_id"
   belongs_to :federal_plan
 
-  validates_presence_of :employer_type
+  validates_presence_of :employer_type_id
 
   #if Employer type = State Agency or Office
   validates_presence_of :work_state,

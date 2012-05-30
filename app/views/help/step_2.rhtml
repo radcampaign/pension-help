@@ -16,8 +16,8 @@
 <p>
   <table>
     <tr>
-      <td style='width:75px'><label>Zip Code:</label></td>
-      <td><%= form.text_field :zipcode, :size => 5 %></td>
+      <td style="width:75px" <%= error_class_on(@counseling, :zipcode) %>><label>Zip Code:</label></td>
+      <td <%= error_class_on(@counseling, :zipcode) %>><%= form.text_field :zipcode, :size => 5 %></td>
       <td>OR</td>
       <td><%= form.check_box :non_us_resident %></td>
       <td><label for="counseling_non_us_resident">Check this box if you don't have or know your zip code (e.g. for individuals living outside of the United States).</label></td>

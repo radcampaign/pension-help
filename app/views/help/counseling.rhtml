@@ -1,22 +1,42 @@
 <div id="content-no-sidebar" class="help" style="width: 760px">
+  <h1>Find Help</h1>
+  <div id="counseling_errors">
+    <%= render :partial => "help/counseling_errors",
+      :locals => { "counseling" => @counseling } %>
+  </div>
 
- <h1>Find Help</h1>
+  <p class="intro">
+    Ready to find resources to help you find answers to questions you have about
+    your retirement plan? Let's get started!
+  </p>
 
- <div id="counseling_errors">
-  <%= render :partial => 'help/counseling_errors', :locals => {'counseling' => @counseling} %>
- </div>
+  <p class="intro border-bottom">
+    To make sure you receive the right type of referral, PensionHelp America
+    will guide you through a series of questions.  After you've answered each
+    question, the grey NEXT button at the bottom of the page will turn yellow.
+    Click it to continue on to the next question.
+  </p>
 
-<p class="intro">Ready to find resources to help you find answers to questions you have about your retirement plan? Let's get started!</p>
-
-  <p class="intro border-bottom">To make sure you receive the right type of referral, PensionHelp America will guide you through a series of questions.  After you've answered each question, the grey NEXT button at the bottom of the page will turn yellow. Click it to continue on to the next question.</p>
   <h3>What type of employer</h3>
 
-  <p>This will help us determine what law governs your pension question. Make the menu selection that best describes the
-  employer offering the pension or retirement savings plan you have a question about.</p>
+  <p>
+    This will help us determine what law governs your pension question. Make
+    the menu selection that best describes the employer offering the pension or
+    retirement savings plan you have a question about.
+  </p>
 
-<% form_tag :action => :step_2 do -%>
-
-    <label>Employer type: <%= remote_select "counseling", "employer_type_id", @options, 'help', 'show_second_question', (@counseling.employer_type.id if @counseling.employer_type) %></label>
+  <% form_for :counseling, @counseling, :url => { :action => :step_2 } do |f| -%>
+    <label <%= error_class_on(@counseling, :employer_type_id) %>>
+      Employer type:
+      <%= f.select :employer_type_id, @options, { :include_blank => true }, {
+        :onchange => "new Ajax.Request(\"/help/show_second_question\", {
+          asynchronous: false,
+          evalScripts: true,
+          parameters: \"counseling[employer_type_id]=\" + escape(value),
+          onComplete: validateStep()
+        })"
+      } %>
+    </label>
 
     <div id="q2" class="counselingQuestion">
       <% if @next_question_2 -%>
