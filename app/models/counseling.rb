@@ -194,8 +194,8 @@ class Counseling < ActiveRecord::Base
     end
     nsp = closest_nsp
     dsp = closest_dsp
-    agencies << nsp
     agencies << dsp
+    agencies << nsp
     if employment_end.nil? or employment_end < d
       agencies << result_type_match('DOL')
     else
