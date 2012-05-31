@@ -242,6 +242,7 @@ class Counseling < ActiveRecord::Base
       return agencies << aoa_coverage
     end
     dsp = closest_dsp
+    nsp = closest_nsp
     agencies << dsp
     agencies << nsp
     agencies << result_type_match('DOL')
