@@ -335,17 +335,17 @@ class HelpController < ApplicationController
 
   # Used for populating state, county and local pulldowns
   def get_counties
-    counties = State.find(params[:counseling][:work_state_abbrev]).counties
+    counties = State.find(params[:counseling][:work_state_abbrev]).counties rescue []
     render :update do |page|
-      page.replace_html 'counties', :partial => 'county_selector', :locals => {'options' => counties.collect{|c| [c.name, c.id]}.sort, 'cities' => params[:local]}
+      page.replace_html 'counties', :partial => 'county_selector', :locals => {'options' => counties.collect{|c| [c.name, c.id]}.sort.push(["I don't know", "XX"]), 'cities' => params[:local]}
       page.visual_effect :highlight, 'county_container'
     end
   end
 
   def get_localities
-    localities = County.find(params[:counseling][:county_id]).cities
+    localities = County.find(params[:counseling][:county_id]).cities rescue []
     render :update do |page|
-      page.replace_html 'localities', :partial => 'city_selector', :locals => {'options' => localities.collect{|c| [c.name, c.id]}.sort, 'cities' => 'false'}
+      page.replace_html 'localities', :partial => 'city_selector', :locals => {'options' => localities.collect{|c| [c.name, c.id]}.sort.push(["I don't know", "XX"]), 'cities' => 'false'}
       page.visual_effect :highlight, 'city_container'
     end
   end

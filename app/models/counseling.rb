@@ -68,7 +68,12 @@ class Counseling < ActiveRecord::Base
     case employer_type_id
     when EMP_TYPE[:state]       : State.find(:first, :conditions => {:abbrev => work_state_abbrev} ).plan_matches
     when EMP_TYPE[:county]      : County.find(county_id).plan_matches
-    when EMP_TYPE[:city]        : City.find(city_id).plan_matches
+    when EMP_TYPE[:city]:
+      begin
+        City.find(city_id).plan_matches
+      rescue ActiveRecord::RecordNotFound
+        []
+      end
     # when EMP_TYPE[:farm_credit] : farm_credit_plan_matches  # not used
     else Array.new
     end
