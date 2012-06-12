@@ -1040,3 +1040,13 @@ form.admin_form span.regular-label label {
   height: 32px;
   line-height: 32px;
 }
+
+#used-for-disclaimer {
+  display: none;
+  font-weight: initial;
+  margin: 15px 0;
+}
+
+#used-for-other {
+  display: none;
+}

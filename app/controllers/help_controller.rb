@@ -2,11 +2,6 @@ require "email"
 
 class HelpController < ApplicationController
   before_filter :check_aoa_zip, :only => [:step3]
-  before_filter :go_back
-
-  EARLIEST_EMPLOYMENT_YEAR = 1880
-  LATEST_EMPLOYMENT_YEAR = 2025
-  DEFAULT_ZIP = '20036' # used for non-US residents
 
   def index
     @content = Content.find_by_url('help')
@@ -18,9 +13,14 @@ class HelpController < ApplicationController
     render :template => "site/show_page.rhtml"
   end
 
+  # Counseling session
+
+  EARLIEST_EMPLOYMENT_YEAR = 1880
+  LATEST_EMPLOYMENT_YEAR = 2025
+  DEFAULT_ZIP = "20036" # used for non-US residents
+
   def counseling
-    @counseling = session[:counseling] = Counseling.new #start with a fresh object
-    @options = CounselAssistance.employer_types
+    @counseling = session[:counseling] = Counseling.new
     @hide_email_button = true
   end
 
@@ -409,15 +409,5 @@ class HelpController < ApplicationController
       c=Counseling.new
     end
     c
-  end
-
-
-  protected
-
-
-  def go_back
-    if params[:previous] && params[:referrer]
-      redirect_to params[:referrer]
-    end
   end
 end

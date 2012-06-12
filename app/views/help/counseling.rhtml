@@ -12,31 +12,53 @@
 
   <p class="intro border-bottom">
     To make sure you receive the right type of referral, PensionHelp America
-    will guide you through a series of questions.  After you've answered each
+    will guide you through a series of questions. After you've answered each
     question, the grey NEXT button at the bottom of the page will turn yellow.
     Click it to continue on to the next question.
   </p>
 
-  <h3>What type of employer</h3>
-
-  <p>
-    This will help us determine what law governs your pension question. Make
-    the menu selection that best describes the employer offering the pension or
-    retirement savings plan you have a question about.
-  </p>
-
   <% form_for :counseling, @counseling, :url => { :action => :step_2 } do |f| -%>
-    <label <%= error_class_on(@counseling, :employer_type_id) %>>
-      Employer type:
-      <%= f.select :employer_type_id, @options, { :include_blank => true }, {
-        :onchange => "new Ajax.Request(\"/help/show_second_question\", {
-          asynchronous: false,
-          evalScripts: true,
-          parameters: \"counseling[employer_type_id]=\" + escape(value),
-          onComplete: validateStep()
-        })"
-      } %>
-    </label>
+    <p>
+      <label <%= error_class_on @counseling, :used_for %>>
+        Are you using PensionHelp America for yourself<br>
+        or on behalf of someone else?
+
+        <%= f.select :used_for, used_for_options, { :include_blank => true } %>
+      </label>
+    </p>
+
+    <p id="used-for-other">
+      <label <%= error_class_on @counseling, :used_for_other %>>
+        Please specify:
+        <%= f.text_field :used_for_other %>
+      </label>
+    </p>
+
+    <script type="text/javascript">
+    var usedForChange = function() {
+      var value;
+      if ((value = jQuery(this).val()) && value != "" && value != "self") {
+        jQuery("#used-for-disclaimer").show();
+      } else {
+        jQuery("#used-for-disclaimer").hide();
+      }
+
+      if ((value = jQuery(this).val()) && value == "other") {
+        jQuery("#used-for-other").show();
+      } else {
+        jQuery("#used-for-other").hide();
+      }
+    }
+
+    jQuery("#counseling_used_for").change(usedForChange);
+    usedForChange.apply(jQuery("#counseling_used_for"));
+    </script>
+
+    <div id="used-for-disclaimer">
+      If you are using PensionHelp America on behalf of someone else, please
+      answer the following questions based on the person on whose behalf you
+      are using this website.
+    </div>
 
     <div id="q2" class="counselingQuestion">
       <% if @next_question_2 -%>

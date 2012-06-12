@@ -1,4 +1,22 @@
 class Counseling < ActiveRecord::Base
+  attr_accessor :used_for, :used_for_other
+
+
+  USED_FOR_OPTIONS = {
+    "self"   => "Self",
+    "parent" => "Parent",
+    "client" => "Client",
+    "spouse" => "Spouse",
+    "other"  => "Other",
+    "none"   => "Prefer not to answer"
+  }
+
+  validates_presence_of  :used_for
+  validates_inclusion_of :used_for,       :in => USED_FOR_OPTIONS.keys
+  validates_presence_of  :used_for_other,
+                         :if => Proc.new { |c| c.used_for == "other" }
+
+
   has_enumerated :pension_earner
   has_enumerated :employer_type
   has_enumerated :military_service
