@@ -1023,7 +1023,7 @@ form.admin_form span.regular-label label {
 
 .help .form-error {
   background-color: #FF8A82;
-  padding: 10px;
+  /*padding: 10px;*/
 }
 
 .email-this-page {
