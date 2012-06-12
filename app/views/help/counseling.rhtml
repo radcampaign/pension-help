@@ -54,11 +54,37 @@
     usedForChange.apply(jQuery("#counseling_used_for"));
     </script>
 
-    <div id="used-for-disclaimer">
+    <p id="used-for-disclaimer">
       If you are using PensionHelp America on behalf of someone else, please
       answer the following questions based on the person on whose behalf you
       are using this website.
-    </div>
+    </p>
+
+    <p>
+      <label <%= error_class_on @counseling, :gender %>>
+        What is your gender?
+
+        <%= f.select :gender, gender_options, { :include_blank => true } %>
+      </label>
+    </p>
+
+    <p>
+      <label <%= error_class_on @counseling, :marital_status %>>
+        What is your current marital status?
+
+        <%= f.select :marital_status, marital_status_options, { :include_blank => true } %>
+      </label>
+    </p>
+
+    <p>
+      <label <%= error_class_on @counseling, :age %>>
+        Please enter the year of your birth. Some legal service providers offer
+        services based on certain age criteria. Answering this question will
+        help us find a legal service provider to assist you.
+
+        <%= f.text_field :age %>
+      </label>
+    </p>
 
     <div id="q2" class="counselingQuestion">
       <% if @next_question_2 -%>

@@ -1,6 +1,9 @@
 class Counseling < ActiveRecord::Base
-  attr_accessor :used_for, :used_for_other
-
+  attr_accessor :used_for,
+                :used_for_other,
+                :gender,
+                :marital_status,
+                :age
 
   USED_FOR_OPTIONS = {
     "self"   => "Self",
@@ -11,10 +14,44 @@ class Counseling < ActiveRecord::Base
     "none"   => "Prefer not to answer"
   }
 
-  validates_presence_of  :used_for
-  validates_inclusion_of :used_for,       :in => USED_FOR_OPTIONS.keys
-  validates_presence_of  :used_for_other,
-                         :if => Proc.new { |c| c.used_for == "other" }
+  GENDER_OPTIONS = {
+    "female" => "Female",
+    "male"   => "Male",
+    "none"   => "Prefer not to answer"
+  }
+
+  MARITAL_STATUS_OPTIONS = {
+    "single"    => "Single",
+    "married"   => "Married",
+    "separated" => "Separated",
+    "divorced"  => "Divorced",
+    "widowed"   => "Widowed",
+    "none"      => "Prefer not to answer"
+  }
+
+  validates_presence_of     :used_for
+  validates_inclusion_of    :used_for,
+                            :in => USED_FOR_OPTIONS.keys
+
+  validates_presence_of     :used_for_other,
+                            :if => Proc.new { |c| c.used_for == "other" }
+
+  validates_presence_of     :gender
+  validates_inclusion_of    :gender,
+                            :in => GENDER_OPTIONS.keys
+
+  validates_presence_of     :marital_status
+  validates_inclusion_of    :marital_status,
+                            :in => MARITAL_STATUS_OPTIONS.keys
+
+  validates_presence_of     :age
+  # validates_numericality_of :age
+
+  before_save :set_is_over_60
+
+  def set_is_over_60
+    self.is_over_60 = Date.today.year - self.age.to_i
+  end
 
 
   has_enumerated :pension_earner
