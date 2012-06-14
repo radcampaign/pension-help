@@ -18,32 +18,6 @@
   <p class="normal">&nbsp;</p>
 </div>
 
-<div id="incomeQuestion">
-
-<p class="normal">
-  <table cellpadding="0" cellspacing="0" id="ageIncomeQuestions">
-    <tr>
-      <td valign="top" align="right" >What is your household income: Monthly:&nbsp;</td>
-      <td><%= form.text_field :monthly_income_tmp, :size => 5 %></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>or</td>
-    </tr>
-    <tr>
-      <td align="right">Yearly:&nbsp;</td>
-      <td><%= form.text_field :yearly_income_tmp, :size => 5 %></td>
-    </tr>
-    <tr id="householdRow">
-      <td align="right">How many people live in your household:&nbsp;</td>
-      <td><%= form.text_field :number_in_household, :size => 5 %></td>
-    </tr>
-  </table>
-</p>
-
-<p>&nbsp;</p>
-</div>
-
 <p>&nbsp;</p>
 
 <%= hidden_field_tag :referrer, request.env["HTTP_REFERER"] %>

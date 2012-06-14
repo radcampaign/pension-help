@@ -1,12 +1,12 @@
 class Counseling < ActiveRecord::Base
-  attr_accessor :used_for,
-                :used_for_other,
+  attr_accessor :behalf,
+                :behalf_other,
                 :gender,
                 :marital_status,
                 :age,
                 :ethnicity
 
-  USED_FOR_OPTIONS = {
+  BEHALF_OPTIONS = {
     "self"   => "Self",
     "parent" => "Parent",
     "client" => "Client",
@@ -41,12 +41,12 @@ class Counseling < ActiveRecord::Base
     "none"     => "Prefer not to answer"
   }
 
-  validates_presence_of     :used_for
-  validates_inclusion_of    :used_for,
-                            :in => USED_FOR_OPTIONS.keys
+  validates_presence_of     :behalf
+  validates_inclusion_of    :behalf,
+                            :in => BEHALF_OPTIONS.keys
 
-  validates_presence_of     :used_for_other,
-                            :if => Proc.new { |c| c.used_for == "other" }
+  validates_presence_of     :behalf_other,
+                            :if => Proc.new { |c| c.behalf == "other" }
 
   validates_presence_of     :gender
   validates_inclusion_of    :gender,

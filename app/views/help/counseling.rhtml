@@ -19,17 +19,17 @@
 
   <% form_for :counseling, @counseling, :url => { :action => :step_2 } do |f| -%>
     <p>
-      <label <%= error_class_on @counseling, :used_for %>>
+      <label <%= error_class_on @counseling, :behalf %>>
         Are you using PensionHelp America for yourself<br>
         or on behalf of someone else?
-        <%= f.select :used_for, used_for_options, { :include_blank => true } %>
+        <%= f.select :behalf, behalf_options, { :include_blank => true } %>
       </label>
     </p>
 
     <p id="used-for-other">
-      <label <%= error_class_on @counseling, :used_for_other %>>
+      <label <%= error_class_on @counseling, :behalf_other %>>
         Please specify:
-        <%= f.text_field :used_for_other %>
+        <%= f.text_field :behalf_other %>
       </label>
     </p>
 
@@ -49,8 +49,8 @@
       }
     }
 
-    jQuery("#counseling_used_for").change(usedForChange);
-    usedForChange.apply(jQuery("#counseling_used_for"));
+    jQuery("#counseling_behalf").change(usedForChange);
+    usedForChange.apply(jQuery("#counseling_behalf"));
     </script>
 
     <p id="used-for-disclaimer">
@@ -125,6 +125,23 @@
       });
     });
     </script>
+
+    <p>
+      <label <%= error_class_on @counseling, :monthly_income %>>
+        What is the annual (monthly?) income of your household? Some legal
+        service providers offer services based on certain income criteria.
+        Answering this question will help us find a legal service provider to
+        assist you.
+        <%= f.text_field :monthly_income, :size => 5 %>
+      </label>
+    </p>
+
+    <p>
+      <label <%= error_class_on @counseling, :number_in_household %>>
+        How many people live in your household?
+        <%= f.text_field :number_in_household, :size => 5 %>
+      </label>
+    </p>
 
     <div id="q2" class="counselingQuestion">
       <% if @next_question_2 -%>

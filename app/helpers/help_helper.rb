@@ -1,6 +1,6 @@
 module HelpHelper
-  def used_for_options
-    Counseling::USED_FOR_OPTIONS.map { |key, value| [value, key] }
+  def behalf_options
+    Counseling::BEHALF_OPTIONS.map { |key, value| [value, key] }
   end
 
   def gender_options
