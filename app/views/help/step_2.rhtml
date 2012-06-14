@@ -9,21 +9,6 @@
 
 <% form_for :counseling, :url => {:action => :check_aoa_zip} do |form| -%>
 
-<h3>Where are you located?</h3>
-
-<p class="normal">Providing your Zip Code will allow us to look for a pension-help resource that is as close to your residence as possible.</p>
-
-<p>
-  <table>
-    <tr>
-      <td style="width:75px" <%= error_class_on(@counseling, :zipcode) %>><label>Zip Code:</label></td>
-      <td <%= error_class_on(@counseling, :zipcode) %>><%= form.text_field :zipcode, :size => 5 %></td>
-      <td>OR</td>
-      <td><%= form.check_box :non_us_resident %></td>
-      <td><label for="counseling_non_us_resident">Check this box if you don't have or know your zip code (e.g. for individuals living outside of the United States).</label></td>
-    </tr>
-  </table>
-</p>
 
 <br/>
 
@@ -120,27 +105,6 @@
 
 </script>
 <% end %>
-
-<script>
-jQuery(document).ready(function() {
-  // hide zip if non-us-resident box is checked upon page display
-  if (jQuery("#counseling_non_us_resident").is(':checked')) {
-    jQuery("#counseling_zipcode").val('');
-  }
-
-  // hide zip if user checks non-us-resident box
-  jQuery("#counseling_non_us_resident").click(function() {
-    if (jQuery("#counseling_non_us_resident").is(':checked')) {
-      jQuery("#counseling_zipcode").val('');
-    }
-  });
-
-  jQuery("#counseling_zipcode").change(function() {
-    if (jQuery("#counseling_zipcode").val().replace(/^\s+|\s+$/g, "").length > 0) {
-      jQuery("#counseling_non_us_resident").removeAttr('checked');
-    }
-  });
-});
 
 </script>
 

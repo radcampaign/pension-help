@@ -22,7 +22,6 @@
       <label <%= error_class_on @counseling, :used_for %>>
         Are you using PensionHelp America for yourself<br>
         or on behalf of someone else?
-
         <%= f.select :used_for, used_for_options, { :include_blank => true } %>
       </label>
     </p>
@@ -63,7 +62,6 @@
     <p>
       <label <%= error_class_on @counseling, :gender %>>
         What is your gender?
-
         <%= f.select :gender, gender_options, { :include_blank => true } %>
       </label>
     </p>
@@ -71,7 +69,6 @@
     <p>
       <label <%= error_class_on @counseling, :marital_status %>>
         What is your current marital status?
-
         <%= f.select :marital_status, marital_status_options, { :include_blank => true } %>
       </label>
     </p>
@@ -81,10 +78,53 @@
         Please enter the year of your birth. Some legal service providers offer
         services based on certain age criteria. Answering this question will
         help us find a legal service provider to assist you.
-
         <%= f.text_field :age %>
       </label>
     </p>
+
+    <p>
+      <label <%= error_class_on @counseling, :ethnicity %>>
+        What is your ethnicity?
+        <%= f.select :ethnicity, ethnicity_options, { :include_blank => true } %>
+      </label>
+    </p>
+
+    <p>
+      <label <%= error_class_on @counseling, :zipcode %>>
+        What is your five-digit zip code?
+        <%= f.text_field :zipcode, :size => 5 %>
+      </label>
+
+      OR
+
+      <label <%= error_class_on @counseling, :non_us_resident %>>
+        <%= f.check_box :non_us_resident %>
+        Check this box if you don't have or know your zip code (e.g. for
+        individuals living outside of the United States).
+      </label>
+    </p>
+
+    <script type="text/javascript">
+    jQuery(document).ready(function() {
+      // hide zip if non-us-resident box is checked upon page display
+      if (jQuery("#counseling_non_us_resident").is(':checked')) {
+        jQuery("#counseling_zipcode").val('');
+      }
+
+      // hide zip if user checks non-us-resident box
+      jQuery("#counseling_non_us_resident").click(function() {
+        if (jQuery("#counseling_non_us_resident").is(':checked')) {
+          jQuery("#counseling_zipcode").val('');
+        }
+      });
+
+      jQuery("#counseling_zipcode").change(function() {
+        if (jQuery("#counseling_zipcode").val().replace(/^\s+|\s+$/g, "").length > 0) {
+          jQuery("#counseling_non_us_resident").removeAttr('checked');
+        }
+      });
+    });
+    </script>
 
     <div id="q2" class="counselingQuestion">
       <% if @next_question_2 -%>

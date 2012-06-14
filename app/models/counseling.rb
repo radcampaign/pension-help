@@ -3,7 +3,8 @@ class Counseling < ActiveRecord::Base
                 :used_for_other,
                 :gender,
                 :marital_status,
-                :age
+                :age,
+                :ethnicity
 
   USED_FOR_OPTIONS = {
     "self"   => "Self",
@@ -27,6 +28,17 @@ class Counseling < ActiveRecord::Base
     "divorced"  => "Divorced",
     "widowed"   => "Widowed",
     "none"      => "Prefer not to answer"
+  }
+
+  ETHNICITY_OPTIONS = {
+    "white"    => "White, non-Hispanic",
+    "black"    => "Black or African American",
+    "indian"   => "American Indian or Alaska Native",
+    "hispanic" => "Hispanic or Latino",
+    "hawaiian" => "Native Hawaiian or Pacific Islander",
+    "asian"    => "Asian",
+    "other"    => "Other",
+    "none"     => "Prefer not to answer"
   }
 
   validates_presence_of     :used_for
