@@ -104,28 +104,6 @@
       </label>
     </p>
 
-    <script type="text/javascript">
-    jQuery(document).ready(function() {
-      // hide zip if non-us-resident box is checked upon page display
-      if (jQuery("#counseling_non_us_resident").is(':checked')) {
-        jQuery("#counseling_zipcode").val('');
-      }
-
-      // hide zip if user checks non-us-resident box
-      jQuery("#counseling_non_us_resident").click(function() {
-        if (jQuery("#counseling_non_us_resident").is(':checked')) {
-          jQuery("#counseling_zipcode").val('');
-        }
-      });
-
-      jQuery("#counseling_zipcode").change(function() {
-        if (jQuery("#counseling_zipcode").val().replace(/^\s+|\s+$/g, "").length > 0) {
-          jQuery("#counseling_non_us_resident").removeAttr('checked');
-        }
-      });
-    });
-    </script>
-
     <p>
       <label <%= error_class_on @counseling, :monthly_income_tmp %>>
         What is the monthly income of your household?
@@ -153,75 +131,9 @@
       </label>
     </p>
 
-    <div id="q2" class="counselingQuestion">
-      <% if @next_question_2 -%>
-          <%= render :partial => 'next_question', :locals => {'question' => @next_question_2, 'selected_value' => @selected_value_2} %>
-      <% end -%>
-    </div>
-    <div id="q3" class="counselingQuestion">
-      <% if @next_question_3 -%>
-          <%= render :partial => 'next_question', :locals => {'question' => @next_question_3, 'selected_value' => @selected_value_3} %>
-      <% end -%>
-    </div>
-    <div id="q4" class="counselingQuestion">
-      <% if @next_question_4 -%>
-          <%= render :partial => 'next_question', :locals => {'question' => @next_question_4, 'selected_value' => @selected_value_4} %>
-      <% end -%>
-    </div>
-    <div id="q5" class="counselingQuestion">
-      <% if @next_question_5 -%>
-          <%= render :partial => 'available_plans' %>
-      <% end %>
-    </div>
-
     <p>&nbsp;</p>
 
     <%= content_tag :p, image_submit_tag("/images/next-enabled.png", :value => "submit", :id => "nextLinkButton") %>
-
-<% end -%>
-<p>&nbsp;</p>
-
-<script type="text/javascript">
-    Event.observe(window, 'load', function() {
-        //trigger display of second question (but not for 'i don't know' as that would put us in an endless loop)
-        if (emp_type = $F("counseling[employer_type_id]")) {
-            if (emp_type != 9) {
-                new Ajax.Request('/help/show_second_question',
-                {asynchronous:true, evalScripts:true, parameters:'counseling[employer_type_id]=' + emp_type})
-            }
-        }
-    });
-
-    function addValidation() {
-        selects = document.getElementsByTagName('select');
-        // don't require entry in textfields on this page
-        // inputs = document.getElementsByTagName('input');
-        for (i = 0; i < selects.length; i++) {
-            if (selects[i].onchange == null) {
-                selects[i].onchange = validateStep;
-            }
-        }
-        // for (i = 0; i < inputs.length; i++) {
-        //     if (inputs[i].onchange == null) {
-        //         inputs[i].onchange = validateStep;
-        //                 inputs[i].onkeyup = validateStep;
-        //     }
-        // }
-    }
-
-    function validateStep() {
-        var selects = document.getElementsByTagName('select');
-        var next_step_enabled = true;
-
-        var result = true;
-        for (i = 0; i < selects.length; i++) {
-            result = selects[i].selectedIndex > 0
-            if (!result) {
-                break;
-            }
-        }
-    }
-
-    validateStep();
-</script>
+  <% end -%>
+  <p>&nbsp;</p>
 </div>
