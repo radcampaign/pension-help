@@ -17,7 +17,6 @@ class HelpController < ApplicationController
 
   EARLIEST_EMPLOYMENT_YEAR = 1880
   LATEST_EMPLOYMENT_YEAR = 2025
-  DEFAULT_ZIP = "20036" # used for non-US residents
 
   def counseling
     @counseling = session[:counseling] = Counseling.new
@@ -166,8 +165,7 @@ class HelpController < ApplicationController
     @ask_aoa = [EMP_TYPE[:company], EMP_TYPE[:railroad], EMP_TYPE[:religious],
                 EMP_TYPE[:federal], EMP_TYPE[:military], EMP_TYPE[:unknown],
                 EMP_TYPE[:farm_credit] ].include?(@counseling.employer_type_id)
-    @counseling.zipcode = DEFAULT_ZIP if @counseling.non_us_resident == '1'
-    if !@counseling.valid? # bad zip code entered
+        if !@counseling.valid? # bad zip code entered
       @zip_found = false
       @show_aoa_expansion = false
     elsif @counseling.aoa_coverage.empty? and @ask_aoa and

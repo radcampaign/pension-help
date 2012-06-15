@@ -6,40 +6,38 @@ class Counseling < ActiveRecord::Base
                 :age,
                 :ethnicity
 
-  BEHALF_OPTIONS = {
-    "self"   => "Self",
-    "parent" => "Parent",
-    "client" => "Client",
-    "spouse" => "Spouse",
-    "other"  => "Other",
-    "none"   => "Prefer not to answer"
-  }
+  BEHALF_OPTIONS = ActiveSupport::OrderedHash.new
+  BEHALF_OPTIONS["self"]   = "Self"
+  BEHALF_OPTIONS["parent"] = "Parent"
+  BEHALF_OPTIONS["client"] = "Client"
+  BEHALF_OPTIONS["spouse"] = "Spouse"
+  BEHALF_OPTIONS["other"]  = "Other"
+  BEHALF_OPTIONS["none"]   = "Prefer not to answer"
 
-  GENDER_OPTIONS = {
-    "female" => "Female",
-    "male"   => "Male",
-    "none"   => "Prefer not to answer"
-  }
+  GENDER_OPTIONS = ActiveSupport::OrderedHash.new
+  GENDER_OPTIONS["female"] = "Female"
+  GENDER_OPTIONS["male"]   = "Male"
+  GENDER_OPTIONS["none"]   = "Prefer not to answer"
 
-  MARITAL_STATUS_OPTIONS = {
-    "single"    => "Single",
-    "married"   => "Married",
-    "separated" => "Separated",
-    "divorced"  => "Divorced",
-    "widowed"   => "Widowed",
-    "none"      => "Prefer not to answer"
-  }
+  MARITAL_STATUS_OPTIONS = ActiveSupport::OrderedHash.new
+  MARITAL_STATUS_OPTIONS["single"]    = "Single"
+  MARITAL_STATUS_OPTIONS["married"]   = "Married"
+  MARITAL_STATUS_OPTIONS["separated"] = "Separated"
+  MARITAL_STATUS_OPTIONS["divorced"]  = "Divorced"
+  MARITAL_STATUS_OPTIONS["widowed"]   = "Widowed"
+  MARITAL_STATUS_OPTIONS["none"]      = "Prefer not to answer"
 
-  ETHNICITY_OPTIONS = {
-    "white"    => "White, non-Hispanic",
-    "black"    => "Black or African American",
-    "indian"   => "American Indian or Alaska Native",
-    "hispanic" => "Hispanic or Latino",
-    "hawaiian" => "Native Hawaiian or Pacific Islander",
-    "asian"    => "Asian",
-    "other"    => "Other",
-    "none"     => "Prefer not to answer"
-  }
+  ETHNICITY_OPTIONS = ActiveSupport::OrderedHash.new
+  ETHNICITY_OPTIONS["white"]    = "White, non-Hispanic"
+  ETHNICITY_OPTIONS["black"]    = "Black or African American"
+  ETHNICITY_OPTIONS["indian"]   = "American Indian or Alaska Native"
+  ETHNICITY_OPTIONS["hispanic"] = "Hispanic or Latino"
+  ETHNICITY_OPTIONS["hawaiian"] = "Native Hawaiian or Pacific Islander"
+  ETHNICITY_OPTIONS["asian"]    = "Asian"
+  ETHNICITY_OPTIONS["other"]    = "Other"
+  ETHNICITY_OPTIONS["none"]     = "Prefer not to answer"
+
+  DEFAULT_ZIP = "20036"
 
   validates_presence_of     :behalf
   validates_inclusion_of    :behalf,
@@ -59,18 +57,37 @@ class Counseling < ActiveRecord::Base
   validates_presence_of     :age
   # validates_numericality_of :age
 
-  before_save :set_is_over_60
+  validates_numericality_of :number_in_household,
+                            :if => Proc.new { |c|
+                              (!c.monthly_income_tmp.blank? || !c.yearly_income_tmp.blank?)
+                            }
 
-  def set_is_over_60
-    self.is_over_60 = Date.today.year - self.age.to_i
+  validates_format_of       :monthly_income_tmp,
+                            :with    => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
+                            :message => "^Monthly income doesn't seem to be a valid amount",
+                            :if      => Proc.new { |c|
+                              !c.is_over_60 && !c.monthly_income_tmp.blank?
+                            }
+
+  validates_format_of       :yearly_income_tmp,
+                            :with    => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
+                            :message => "^Yearly income doesn't seem to be a valid amount",
+                            :if => Proc.new { |c|
+                              !c.is_over_60 && !c.yearly_income_tmp.blank?
+                            }
+
+  def validate
+    errors.add :zipcode if (!zipcode.blank? && !ZipImport.find(zipcode) rescue true)
+    errors.add(:zipcode, "is required") if zipcode.blank?
+    errors.add(:employment_end, "date is required") if step == 3 && employer_type_id == 1 && employment_end.blank?
   end
-
 
   has_enumerated :pension_earner
   has_enumerated :employer_type
   has_enumerated :military_service
   has_enumerated :military_branch
   has_enumerated :military_employer
+
   belongs_to :city
   belongs_to :county
   belongs_to :work_state, :class_name => "State", :foreign_key => "work_state_abbrev"
@@ -85,17 +102,6 @@ class Counseling < ActiveRecord::Base
   validates_presence_of :work_state,
     :if => Proc.new { |c| (c.step == '2a') && (c.employer_type == EmployerType[6] || c.employer_type == EmployerType[7] || c.employer_type == EmployerType[8])}
   # if income is entered, then number_in_household must be entered along with it (ok to leave both income and household blank)
-  validates_numericality_of :number_in_household,
-    :if => Proc.new {|c| c.step == 4 && (!c.monthly_income_tmp.blank? || !c.yearly_income_tmp.blank?)}
-  validates_format_of :monthly_income_tmp,
-    :with => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
-    :message => "^Monthly income doesn't seem to be a valid amount",
-    :if => Proc.new {|c| c.step == 4 && !c.is_over_60 && !c.monthly_income_tmp.blank?}
-  validates_format_of :yearly_income_tmp,
-    :with => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
-    :message => "^Yearly income doesn't seem to be a valid amount",
-    :if => Proc.new {|c| c.step == 4 && !c.is_over_60 && !c.yearly_income_tmp.blank?}
-  # see also validate method below
 
   attr_accessor :monthly_income_tmp, :yearly_income_tmp, :step, :non_us_resident
 
@@ -576,18 +582,16 @@ class Counseling < ActiveRecord::Base
   end
 
   protected
+
   def before_validation
     if !self.yearly_income_tmp.blank?
       self.monthly_income = self.yearly_income_tmp.gsub(/[^0-9.]/, '' ).to_i / 12
     elsif !self.monthly_income_tmp.blank?
       self.monthly_income = self.monthly_income_tmp.gsub(/[^0-9.]/, '' )
     end
-  end
 
-  def validate
-    errors.add :zipcode if(!zipcode.blank? && !ZipImport.find(zipcode) rescue true)
-    errors.add(:zipcode, 'is required') if zipcode.blank? && step > 1
-    errors.add(:employment_end, 'date is required') if step == 3 && employer_type_id == 1 && employment_end.blank?
+    self.zipcode = DEFAULT_ZIP if self.zipcode.blank? && self.non_us_resident == "1"
+    self.is_over_60 = (Date.today.year - self.age.to_i) > 60
+    p self.is_over_60
   end
-
 end

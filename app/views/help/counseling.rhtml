@@ -127,12 +127,13 @@
     </script>
 
     <p>
-      <label <%= error_class_on @counseling, :monthly_income %>>
+      <label <%= error_class_on @counseling, :monthly_income_tmp %>>
         What is the annual (monthly?) income of your household? Some legal
         service providers offer services based on certain income criteria.
         Answering this question will help us find a legal service provider to
         assist you.
-        <%= f.text_field :monthly_income, :size => 5 %>
+        <%= f.text_field :monthly_income_tmp, :size => 5 %>
+        <%= f.text_field :yearly_income_tmp, :size => 5 %>
       </label>
     </p>
 
