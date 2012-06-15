@@ -128,13 +128,22 @@
 
     <p>
       <label <%= error_class_on @counseling, :monthly_income_tmp %>>
-        What is the annual (monthly?) income of your household? Some legal
-        service providers offer services based on certain income criteria.
-        Answering this question will help us find a legal service provider to
-        assist you.
+        What is the monthly income of your household?
         <%= f.text_field :monthly_income_tmp, :size => 5 %>
+      </label>
+
+      OR
+
+      <label <%= error_class_on @counseling, :yearly_income_tmp %>>
+        What is the annual income of your household?
         <%= f.text_field :yearly_income_tmp, :size => 5 %>
       </label>
+    </p>
+
+    <p>
+      Some legal service providers offer services based on certain income
+      criteria. Answering this question will help us find a legal service
+      provider to assist you.
     </p>
 
     <p>
