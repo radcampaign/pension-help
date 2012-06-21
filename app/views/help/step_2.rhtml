@@ -1,111 +1,32 @@
-<div id="content-no-sidebar" class="help" style="width: 760px;">
-<div id="counseling_errors">
-  <%= render :partial => 'help/counseling_errors', :locals => {'counseling' => @counseling} %>
+<div id="content-no-sidebar" class="help" style="width: 760px">
+  <div id="counseling_errors">
+    <%= render :partial => "help/counseling_errors",
+      :locals => { "counseling" => @counseling } %>
+  </div>
+
+  <% form_for :counseling, @counseling, :url => { :action => :step_2 } do |f| -%>
+
+    <p <%= error_class_on(@counseling, :employer_type_id) %>>
+      Employer type:
+
+      <% CounselAssistance.employer_types.each do |value, key| %>
+        <br>
+        <label>
+          <%= f.radio_button :employer_type_id, key %> <%= value %>
+        </label>
+      <% end %>
+    </p>
+
+    <%= hidden_field_tag :referrer, request.env["HTTP_REFERER"] %>
+    <%= submit_tag "Previous", :name => "previous" %>
+    <%= image_submit_tag "/images/next-enabled.png", :name => 'continue', :id => "nextLinkButton" %>
+
+  <% end -%>
+  <p>&nbsp;</p>
 </div>
 
-<p class="intro border-bottom">To make sure you receive the right type of referral, PensionHelp America will guide you through a series of questions.  After you've answered each question, the grey NEXT button at the bottom of the page will turn yellow. Click it to continue on to the next question.</p>
-
-<p>&nbsp;</p>
-
-<% form_for :counseling, :url => {:action => :check_aoa_zip} do |form| -%>
-
-
-<br/>
-
-<div id="aoa_expansion">
-  <h3>Where did you work?</h3>
-
-  <p class="normal">Some organizations provide assistance based on where the work occurred while earning the pension, where the company is headquartered, or where the benefit is being paid from.</p>
-
-  <p id="work_state_abbrev">Where did the work occur: <%= select :counseling, :work_state_abbrev, @states, :include_blank => true %></p>
-
-  <p id="hq_state_abbrev">Where is the employer located: <%= select :counseling, :hq_state_abbrev, @states, :include_blank => true %></p>
-
-  <p id="pension_state_abbrev">Where is the pension paid from: <%= select :counseling, :pension_state_abbrev, @states, :include_blank => true %></p>
-</div>
-<% if !@ask_aoa || (@counseling.work_state_abbrev.blank? && @counseling.hq_state_abbrev.blank? && @counseling.pension_state_abbrev.blank? && !@show_aoa_expansion) %>
 <script type="text/javascript">
-  $('aoa_expansion').hide();
+jQuery("input[type=radio]").click(function() {
+  (jQuery(this).val());
+});
 </script>
-<% else %>
-<script type="text/javascript">
-  new Effect.Highlight('aoa_expansion');
-</script>
-
-<% end %>
-
-  <%= hidden_field_tag :referrer, request.env["HTTP_REFERER"] %>
-  <%= submit_tag "Previous", :name => "previous" %>
-  <%= image_submit_tag "/images/next-enabled.png", :name => 'continue', :id => "nextLinkButton" %>
-
-<% end -%>
-<p>&nbsp;</p>
-
-<p>&nbsp;</p>
-
-<% if @zip_found && @show_aoa_expansion %>
-  <script type="text/javascript">
-    Event.observe( window, 'load', function() {
-      /* Select observers */
-      var selects = [$('counseling_work_state_abbrev'), $('counseling_hq_state_abbrev'),
-        $('counseling_pension_state_abbrev')];
-
-      for (i=0; i < selects.length; i++) {
-        var select = selects[i];
-
-        select.selectValidation = function selectValidation() {
-          /* Paragraph with next question */
-          var nextPar = this.up().next();
-          if (this.value == '') {
-            if (nextPar != null) {
-              hideQuestions(nextPar);
-            }
-          } else if (!hasState(this.value)) {
-            if (nextPar == null) {
-            } else {
-              $(nextPar).show();
-            }
-          } else {
-            if (this.next() != null) {
-              hideQuestions(nextPar);
-            }
-          }
-        };
-        Event.observe(select, 'change', select.selectValidation.bindAsEventListener(select))
-      }
-
-      /*Hide selects*/
-      $('work_state_abbrev').show();
-      $('hq_state_abbrev').hide();
-      $('pension_state_abbrev').hide();
-    });
-
-    function hasState(state) {
-      for (i = 0; i < aoa_states.length; i++) {
-        if (aoa_states[i] == state) {
-          return true;
-        }
-      }
-      return false;
-    }
-
-    /* Hide questions from this to the end, questions has to be one after another in HTML!*/
-    function hideQuestions(question) {
-      if (question != null) {
-        question.hide();
-        question.down().value = '';
-        hideQuestions(question.next());
-      }
-    }
-
-    var aoa_states = new Array();
-    <% for state in @aoa_states %>
-      aoa_states.push('<%= state.abbrev %>');
-    <% end %>
-
-</script>
-<% end %>
-
-</script>
-
-</div>

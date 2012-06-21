@@ -149,7 +149,7 @@ class HelpController < ApplicationController
       @options = CounselAssistance.employer_types
       render :action => "counseling"
     else
-      @counseling.step = 2
+      @counseling.step = 1
       @states = CounselAssistance.states
       @ask_aoa = [EMP_TYPE[:company], EMP_TYPE[:railroad], EMP_TYPE[:religious],
                   EMP_TYPE[:federal], EMP_TYPE[:military], EMP_TYPE[:unknown]].include?(@counseling.employer_type_id)
