@@ -2,6 +2,9 @@ require "email"
 
 class HelpController < ApplicationController
   before_filter :check_aoa_zip, :only => [:step3]
+  before_filter :hide_email_button, :only => [
+    :counseling, :step_2, :check_aoa_zip, :step_3, :step_4, :step_5
+  ]
 
   def index
     @content = Content.find_by_url('help')
@@ -20,7 +23,6 @@ class HelpController < ApplicationController
 
   def counseling
     @counseling = session[:counseling] = Counseling.new
-    @hide_email_button = true
   end
 
   def employer_descriptions
@@ -143,7 +145,6 @@ class HelpController < ApplicationController
   def step_2 #zip, AoA states, plan questions
     @zip_found = true
     @counseling = update_counseling(params)
-    @hide_email_button = true
 
     if !@counseling.valid?
       @options = CounselAssistance.employer_types
@@ -190,14 +191,12 @@ class HelpController < ApplicationController
       return
     end
 
-    @hide_email_button = true
     render :action => :step_2
   end
 
   def step_3 #employment dates, pension-earner, divorce questions
     @counseling = current_counseling
     @options = CounselAssistance.pension_earner_choices
-    @hide_email_button = true
   end
 
   def process_step_3
@@ -222,7 +221,6 @@ class HelpController < ApplicationController
     else
       redirect_to :action => :step_5
     end
-    @hide_email_button = true
   end
 
   def process_step_4
@@ -244,7 +242,6 @@ class HelpController < ApplicationController
     else
       redirect_to :action => :results
     end
-    @hide_email_button = true
   end
 
   def process_step_5
@@ -388,6 +385,10 @@ class HelpController < ApplicationController
 
   protected
 
+
+  def hide_email_button
+    @hide_email_button = true
+  end
 
   def current_counseling
     session[:counseling] ? session[:counseling] : Counseling.new
