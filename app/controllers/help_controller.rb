@@ -18,37 +18,26 @@ class HelpController < ApplicationController
     @counseling = session[:counseling] = Counseling.new
   end
 
-  # show question after employer type selection
   def show_second_question
     @counseling = update_counseling(params)
     @counseling.step = 1
+
     case @counseling.employer_type_id
-      when 1..10: # valid responses
-        @next_question = CAQuestion.get_next(@counseling, 'EMP_TYPE')
-        (@next_question.options = @next_question.options.delete_if {|opt| opt[1] == "AA" || opt[1] == "AE" or opt[1] == "AP"}) if @next_question # remove armed forces
-        render :update do |page|
-          if @next_question
-            page.replace_html 'q2', :partial => 'next_question', :locals => {'question' => @next_question, 'selected_value' => @counseling[@next_question.method]}
-            page.replace_html 'q3', ''
-            page.replace_html 'q4', ''
-            page.replace_html 'q5', ''
-            page.visual_effect :highlight, 'q2'
-          else
-            # no question found - clear page for now
-            # we should reach this once we define all the questions
-            page.replace_html 'q2', ''
-            page.replace_html 'q3', ''
-            page.replace_html 'q4', ''
-            page.replace_html 'q5', ''
-          end
-        end
-        return
-      else # start over
-        render :update do |page|
-          page.redirect_to(:controller => 'help', :action => 'counseling')
-        end
-        return
-    end #case
+    when 1..10:
+      @next_question = CAQuestion.get_next(@counseling, "EMP_TYPE")
+
+      if @next_question
+        @next_question.options = @next_question.options.delete_if { |opt|
+          ["AA", "AE", "AP"].include?(opt[1])
+        }
+      end
+
+      render :action => "show_second_question.rjs"
+    else
+      render :update do |page|
+        page.redirect_to(:controller => 'help', :action => 'counseling')
+      end
+    end
   end
 
   # Remote function - Displays 3nd pulldown based on info submitted from 2nd pulldown
