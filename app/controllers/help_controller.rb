@@ -18,10 +18,6 @@ class HelpController < ApplicationController
     @counseling = session[:counseling] = Counseling.new
   end
 
-  def employer_descriptions
-    @counseling = update_counseling(params)
-  end
-
   def update_employer_type
     @counseling = update_counseling(params)
     @options = CounselAssistance.employer_types
