@@ -24,17 +24,17 @@ class HelpController < ApplicationController
   end
 
   def employer_descriptions
-    @counseling = update_counseling
+    @counseling = update_counseling(params)
   end
 
   def update_employer_type
-    @counseling = update_counseling
+    @counseling = update_counseling(params)
     @options = CounselAssistance.employer_types
     render :action => :counseling
   end
 
   def process_counseling
-    @counseling = update_counseling
+    @counseling = update_counseling(params)
     @counseling.step = 1
     if @counseling.valid?
       redirect_to :action => :step_2
@@ -47,7 +47,7 @@ class HelpController < ApplicationController
 
   # show question after employer type selection
   def show_second_question
-    @counseling = update_counseling
+    @counseling = update_counseling(params)
     @counseling.step = 1
     case @counseling.employer_type_id
       when 1..10: # valid responses
@@ -80,7 +80,7 @@ class HelpController < ApplicationController
 
   # Remote function - Displays 3nd pulldown based on info submitted from 2nd pulldown
   def show_third_question
-    @counseling = update_counseling
+    @counseling = update_counseling(params)
     @counseling.step = 1
     @next_question = CAQuestion.get_next(@counseling, 'THIRD_QUESTION')
     render :update do |page|
@@ -95,7 +95,7 @@ class HelpController < ApplicationController
 
   # Remote function - Displays 4th pulldown based on info submitted from 3rd pulldown
   def show_fourth_question
-    @counseling = update_counseling
+    @counseling = update_counseling(params)
     @counseling.step = 1
     if @counseling[:federal_plan_id] == 5 # 'I don't know'
       # Don’t Know Federal Plan Loop
@@ -118,12 +118,12 @@ class HelpController < ApplicationController
   end
 
   def show_fifth_question
-    @counseling = update_counseling
+    @counseling = update_counseling(params)
     render :nothing => true
   end
 
   def show_available_plans
-    @counseling = update_counseling
+    @counseling = update_counseling(params)
     @counseling.step = 1
     @matching_plans = @counseling.matching_plans.sort{|a, b| a.name <=> b.name} # find plans for state/county/local
     if @matching_plans.blank?
@@ -142,7 +142,7 @@ class HelpController < ApplicationController
 
   def step_2 #zip, AoA states, plan questions
     @zip_found = true
-    @counseling = update_counseling
+    @counseling = update_counseling(params)
     @hide_email_button = true
 
     if !@counseling.valid?
@@ -158,7 +158,7 @@ class HelpController < ApplicationController
 
   # ajax call to check if zipcode is in aoa coverage area
   def check_aoa_zip
-    @counseling = update_counseling
+    @counseling = update_counseling(params)
     @counseling.zipcode = params[:zip] if !params[:zip].blank?
     #@counseling.step = 3
     @states = CounselAssistance.states
@@ -201,7 +201,7 @@ class HelpController < ApplicationController
   end
 
   def process_step_3
-    @counseling = update_counseling
+    @counseling = update_counseling(params)
 
     if @counseling.valid?
       redirect_to :action => :step_4
@@ -226,7 +226,7 @@ class HelpController < ApplicationController
   end
 
   def process_step_4
-    @counseling = update_counseling
+    @counseling = update_counseling(params)
     @counseling.step = 4
     if @counseling.valid?
       redirect_to :action => :step_5
@@ -248,7 +248,7 @@ class HelpController < ApplicationController
   end
 
   def process_step_5
-    @counseling = update_counseling
+    @counseling = update_counseling(params)
     @counseling.step = 5
     redirect_to :action => :results
   end
@@ -350,9 +350,9 @@ class HelpController < ApplicationController
 
   def get_after_plan_selection_questions
 
-    @counseling = update_counseling
+    @counseling = update_counseling(params)
     if params[:plan]=="IDK"
-      c = update_counseling #get counseling object from session
+      c = update_counseling(params) #get counseling object from session
       employees = c.employee_list
 
       if @counseling.employer_type_id == 6 # State agency or office
@@ -393,25 +393,38 @@ class HelpController < ApplicationController
     session[:counseling] ? session[:counseling] : Counseling.new
   end
 
-  def update_counseling
-    c = current_counseling
-    c.attributes = params[:counseling]
-    # if yrly amt is entered, we need to override what's been put into monthly amount by setting the attributes
-    c.yearly_income = params[:counseling][:yearly_income] if params[:counseling] and not params[:counseling][:yearly_income].blank?
-    # make IDK => 0
-    c.selected_plan_id = nil if (c.selected_plan_id=="IDK" or c.selected_plan_id=="OTHER" or c.selected_plan_id==0)
-    c.selected_plan_id = c.federal_plan.associated_plan_id if c.federal_plan_id and FederalPlan.find(c.federal_plan_id).associated_plan_id
-    c.selected_plan_id = params[:selected_plan_override] if !params[:selected_plan_override].blank?
-    # set date here if we have a year, but do validation on year elsewhere so we can redraw the page
-    # we'll have to limit the display of the date to the year only
-    c.employment_start = Date.new(params[:employment_start_year].to_i, 1, 1) if params[:employment_start_year] && params[:employment_start_year].to_i > EARLIEST_EMPLOYMENT_YEAR && params[:employment_start_year].to_i < LATEST_EMPLOYMENT_YEAR
-    c.employment_end = Date.new(params[:employment_end_year].to_i, 1, 1) if params[:employment_end_year] && params[:employment_end_year].to_i > EARLIEST_EMPLOYMENT_YEAR && params[:employment_end_year].to_i < LATEST_EMPLOYMENT_YEAR
-    # force currently_employed false if employment ended in a prior year
-    c.currently_employed = false if c.currently_employed.nil? and !c.employment_end.nil? and c.employment_end.year < Time.now.year
-    # c.employer_type = EmployerType.find(params[:employer_type]) if params[:employer_type]
-    # c.work_state = State.find(params[:state]) if params[:state]
-    # c.county = County.find(params[:county]) if params[:county]
-    # c.city = City.find(params[:city]) if params[:city]
-    c
+  def update_counseling(data)
+    counseling = current_counseling
+    counseling.attributes = data[:counseling]
+
+    if data[:counseling] && !data[:counseling][:yearly_income].blank?
+      counseling.yearly_income = data[:counseling][:yearly_income]
+    end
+
+    if ["IDK", "OTHER", 0].include?(counseling.selected_plan_id)
+      counseling.selected_plan_id = nil
+    end
+
+    if counseling.federal_plan_id && FederalPlan.find(counseling.federal_plan_id).associated_plan_id
+      counseling.selected_plan_id = counseling.federal_plan.associated_plan_id
+    end
+
+    if !data[:selected_plan_override].blank?
+      counseling.selected_plan_id = data[:selected_plan_override]
+    end
+
+    if data[:employment_start_year] && data[:employment_start_year].to_i > EARLIEST_EMPLOYMENT_YEAR && data[:employment_start_year].to_i < LATEST_EMPLOYMENT_YEAR
+      counseling.employment_start = Date.new(data[:employment_start_year].to_i, 1, 1)
+    end
+
+    if data[:employment_end_year] && data[:employment_end_year].to_i > EARLIEST_EMPLOYMENT_YEAR && data[:employment_end_year].to_i < LATEST_EMPLOYMENT_YEAR
+      counseling.employment_end = Date.new(data[:employment_end_year].to_i, 1, 1)
+    end
+
+    if counseling.currently_employed.nil? && !counseling.employment_end.nil? && counseling.employment_end.year < Time.now.year
+      counseling.currently_employed = false
+    end
+
+    counseling
   end
 end
