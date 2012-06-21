@@ -18,18 +18,6 @@ class HelpController < ApplicationController
     @counseling = session[:counseling] = Counseling.new
   end
 
-  def process_counseling
-    @counseling = update_counseling(params)
-    @counseling.step = 1
-    if @counseling.valid?
-      redirect_to :action => :step_2
-    else
-      @next_question_2 = CAQuestion.get_next(@counseling, 'EMP_TYPE')
-      @options = CounselAssistance.employer_types
-      render :template => 'help/counseling'
-    end
-  end
-
   # show question after employer type selection
   def show_second_question
     @counseling = update_counseling(params)
