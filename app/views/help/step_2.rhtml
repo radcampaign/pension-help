@@ -17,61 +17,27 @@
       <% end %>
     </p>
 
-    <div class="employer-type" id="employer-type-1">employer - 1</div>
-    <div class="employer-type" id="employer-type-2">employer - 2</div>
-    <div class="employer-type" id="employer-type-3">employer - 3</div>
-
-    <div class="employer-type" id="employer-type-4">
-      <label>
-        Which retirement plan do you have a question about?
-        <%= f.select :selected_plan_id, CounselAssistance.top_federal_plans,
-          { :include_blank => true } %>
-      </label>
+    <div id="q2" class="counselingQuestion">
+      <% if @next_question_2 -%>
+          <%= render :partial => 'next_question', :locals => {'question' => @next_question_2, 'selected_value' => @selected_value_2} %>
+      <% end -%>
+    </div>
+    <div id="q3" class="counselingQuestion">
+      <% if @next_question_3 -%>
+          <%= render :partial => 'next_question', :locals => {'question' => @next_question_3, 'selected_value' => @selected_value_3} %>
+      <% end -%>
+    </div>
+    <div id="q4" class="counselingQuestion">
+      <% if @next_question_4 -%>
+          <%= render :partial => 'next_question', :locals => {'question' => @next_question_4, 'selected_value' => @selected_value_4} %>
+      <% end -%>
+    </div>
+    <div id="q5" class="counselingQuestion">
+      <% if @next_question_5 -%>
+          <%= render :partial => 'available_plans' %>
+      <% end %>
     </div>
 
-    <div class="employer-type" id="employer-type-5">
-      <label>
-        Which retirement plan do you have a question about?
-        <%= f.select :selected_plan_id,
-          CounselAssistance.military_service_types,
-          { :include_blank => true } %>
-      </label>
-    </div>
-
-    <div class="employer-type" id="employer-type-6">
-      <label>
-        In what U.S. state or territory is your employer located?
-        <%= f.select :selected_plan_id, CounselAssistance.states,
-          { :include_blank => true }, :id => "state-territory",
-          :onchange => remote_function(
-            :url => {
-              :action => "plans_for_territory"
-            },
-            :with => "'state=' + $(this).value"
-          )
-        %>
-      </label>
-
-      <br>
-
-      <label class="">
-        Please select the plan that you are interested in.
-        <%= f.select :selected_plan_id, [],
-          { :include_blank => true }, :id => "state-plan" %>
-      </label>
-    </div>
-
-    <div class="employer-type" id="employer-type-7">employer - 7</div>
-    <div class="employer-type" id="employer-type-8">employer - 8</div>
-    <div class="employer-type" id="employer-type-9">
-    </div>
-
-    <div class="employer-type" id="employer-type-10">
-      <label>
-        Which Farm Credit plan do you have a question about?
-        <%= f.select :selected_plan_id, CounselAssistance.farm_credit_plans %>
-      </label>
-    </div>
 
     <%= hidden_field_tag :referrer, request.env["HTTP_REFERER"] %>
     <%= submit_tag "Previous", :name => "previous" %>
@@ -84,12 +50,7 @@
 <script type="text/javascript">
 jQuery(function() {
   jQuery("input[type=radio]").click(function() {
-    jQuery("input[type=radio]").each(function() {
-      jQuery("#employer-type-" + jQuery(this).val()).hide();
-    });
-
     var value = jQuery(this).val();
-    jQuery("#employer-type-" + value).show();
 
     new Ajax.Request("/help/show_second_question", {
       asynchronous: false,

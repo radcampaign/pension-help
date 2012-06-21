@@ -1,7 +1,3 @@
-<%= '<br/><h3>' + question.header + '</h3>' unless question.header.blank? %>
-
-<p class="normal"><%= question.text %></p>
-
 <% if question.county -%>
   <% if question.local -%>
 
@@ -21,9 +17,3 @@
 <% if question.local -%>
   <div id="city_container"><p>Local Government: <span id="localities"><select><option>-- Please select a county -- </option></select></span></p></div>
 <% end -%>
-
-<script type="text/javascript">
-  <%# This function is called on partial reload. %>
-  addValidation();
-  validateStep();
-</script>

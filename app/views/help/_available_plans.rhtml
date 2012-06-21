@@ -1,7 +1,7 @@
-<p id="plan_list_container">Please select the plan that you're interested in: 
+<p id="plan_list_container">Please select the plan that you're interested in:
 <select name="counseling[selected_plan_id]" id="selected_plan" onchange="new Ajax.Request('/help/get_after_plan_selection_questions', {
-							asynchronous:false, 
-							evalScripts:true, 
+							asynchronous:false,
+							evalScripts:true,
 							parameters:'plan='+escape(this.value),
 							onSuccess: function(response) {
 								$('question_container').update(response.responseText);
@@ -15,9 +15,3 @@
 </select></p>
 
 <div id="question_container">&nbsp;</div>
-
-
-<script type="text/javascript">
-  addValidation();
-  validateStep();
-</script>

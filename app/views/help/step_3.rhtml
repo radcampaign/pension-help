@@ -71,36 +71,6 @@
     elementsToValidate = new Array();
     employerTypeId = <%= @counseling.employer_type_id %>;
 
-    function addValidation() {
-      elems = findElements();
-      for (i = 0; i < elems.length; i++) {
-        elem = elems[i];
-        elem.onchange = validateStep;
-        if (elem.tagName.toLowerCase() == "select") {
-          elem.validate = function() { return this.selectedIndex > 0 };
-        } else if (elem.tagName.toLowerCase() == "input" && elem.type == "radio") {
-          elem.onclick = validateStep;
-          elem.validate = validateRadio;/*function() { return this.checked; };*/
-        } else {
-          elem.onkeyup = validateStep;
-          elem.validate = function() {return this.value.length > 0 }
-        }
-      }
-    }
-
-    function findElements() {
-      if (elementsToValidate.length == 0) {
-        elems = ['employment_end_year',  'counseling_pension_earner_id', 'counseling_currently_employed_true', 'counseling_currently_employed_false'];
-        for (i = 0; i < elems.length; i++) {
-          var elem = document.getElementById(elems[i]);
-          if (elem) {
-            elementsToValidate.push(elem);
-          }
-        }
-      }
-      return elementsToValidate;
-    }
-
     function validateRadio() {
       radios = document.getElementsByName(this.name);
       for (j = 0; j < radios.length; j++) {
@@ -113,18 +83,6 @@
 
     function validateSelect() {
        return this.selectedIndex > 0
-    }
-
-    function validateStep() {
-      elems = findElements();
-      result = true;
-
-      for(i = 0; i < elems.length; i++) {
-        result = elems[i].validate();
-        if (!result) {
-          break;
-        }
-      }
     }
 
     function checkForCurrentlyEmployed() {

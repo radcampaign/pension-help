@@ -2,7 +2,7 @@
     <%= remote_select "counseling", "county_id", options, "help", "get_localities" %>
 <% else -%>
     <select name="counseling[county_id]" onchange="new Ajax.Request('/help/show_available_plans',
-                    {asynchronous:false, 
+                    {asynchronous:false,
                     evalScripts:true,
                     parameters:'counseling[county_id]='+escape(value),
                     onComplete:validateStep()})">
@@ -10,9 +10,3 @@
       <%= options_for_select options %>
     </select>
 <% end -%>
-
-
-<script type="text/javascript">
-    addValidation();
-    validateStep();
-</script>
