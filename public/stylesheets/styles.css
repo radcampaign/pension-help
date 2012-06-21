@@ -1049,3 +1049,7 @@ form.admin_form span.regular-label label {
 #used-for-other {
   display: none;
 }
+
+.employer-type {
+  display: none;
+}

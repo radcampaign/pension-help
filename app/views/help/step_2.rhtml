@@ -17,6 +17,62 @@
       <% end %>
     </p>
 
+    <div class="employer-type" id="employer-type-1">employer - 1</div>
+    <div class="employer-type" id="employer-type-2">employer - 2</div>
+    <div class="employer-type" id="employer-type-3">employer - 3</div>
+
+    <div class="employer-type" id="employer-type-4">
+      <label>
+        Which retirement plan do you have a question about?
+        <%= f.select :selected_plan_id, CounselAssistance.top_federal_plans,
+          { :include_blank => true } %>
+      </label>
+    </div>
+
+    <div class="employer-type" id="employer-type-5">
+      <label>
+        Which retirement plan do you have a question about?
+        <%= f.select :selected_plan_id,
+          CounselAssistance.military_service_types,
+          { :include_blank => true } %>
+      </label>
+    </div>
+
+    <div class="employer-type" id="employer-type-6">
+      <label>
+        In what U.S. state or territory is your employer located?
+        <%= f.select :selected_plan_id, CounselAssistance.states,
+          { :include_blank => true }, :id => "state-territory",
+          :onchange => remote_function(
+            :url => {
+              :action => "plans_for_territory"
+            },
+            :with => "'state=' + $(this).value"
+          )
+        %>
+      </label>
+
+      <br>
+
+      <label class="">
+        Please select the plan that you are interested in.
+        <%= f.select :selected_plan_id, [],
+          { :include_blank => true }, :id => "state-plan" %>
+      </label>
+    </div>
+
+    <div class="employer-type" id="employer-type-7">employer - 7</div>
+    <div class="employer-type" id="employer-type-8">employer - 8</div>
+    <div class="employer-type" id="employer-type-9">
+    </div>
+
+    <div class="employer-type" id="employer-type-10">
+      <label>
+        Which Farm Credit plan do you have a question about?
+        <%= f.select :selected_plan_id, CounselAssistance.farm_credit_plans %>
+      </label>
+    </div>
+
     <%= hidden_field_tag :referrer, request.env["HTTP_REFERER"] %>
     <%= submit_tag "Previous", :name => "previous" %>
     <%= image_submit_tag "/images/next-enabled.png", :name => 'continue', :id => "nextLinkButton" %>
@@ -26,7 +82,13 @@
 </div>
 
 <script type="text/javascript">
-jQuery("input[type=radio]").click(function() {
-  (jQuery(this).val());
+jQuery(function() {
+  jQuery("input[type=radio]").click(function() {
+    jQuery("input[type=radio]").each(function() {
+      jQuery("#employer-type-" + jQuery(this).val()).hide();
+    });
+    jQuery("#employer-type-" + jQuery(this).val()).show();
+  });
 });
+
 </script>

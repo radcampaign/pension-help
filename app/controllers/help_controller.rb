@@ -408,4 +408,11 @@ class HelpController < ApplicationController
     end
     c
   end
+
+  def plans_for_territory
+    render :update do |page|
+      page.replace_html "state-plan", :partial => "state_plans", :layout => false
+      page.show "state-plan"
+    end
+  end
 end
