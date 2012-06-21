@@ -87,7 +87,15 @@ jQuery(function() {
     jQuery("input[type=radio]").each(function() {
       jQuery("#employer-type-" + jQuery(this).val()).hide();
     });
-    jQuery("#employer-type-" + jQuery(this).val()).show();
+
+    var value = jQuery(this).val();
+    jQuery("#employer-type-" + value).show();
+
+    new Ajax.Request("/help/show_second_question", {
+      asynchronous: false,
+      evalScripts: true,
+      parameters: "counseling[employer_type_id]=" + escape(value)
+    });
   });
 });
 
