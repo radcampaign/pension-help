@@ -7,19 +7,12 @@ class HelpController < ApplicationController
   ]
 
   def index
-    @content = Content.find_by_url('help')
-    render :template => "site/show_page.rhtml"
+    show_content("help")
   end
 
   def resources
-    @content = Content.find_by_url('help/resources')
-    render :template => "site/show_page.rhtml"
+    show_content("help/resources")
   end
-
-  # Counseling session
-
-  EARLIEST_EMPLOYMENT_YEAR = 1880
-  LATEST_EMPLOYMENT_YEAR = 2025
 
   def counseling
     @counseling = session[:counseling] = Counseling.new
@@ -379,6 +372,11 @@ class HelpController < ApplicationController
   protected
 
 
+  def show_content(url)
+    @content = Content.find_by_url(url)
+    render :template => "site/show_page.rhtml"
+  end
+
   def hide_email_button
     @hide_email_button = true
   end
@@ -386,6 +384,9 @@ class HelpController < ApplicationController
   def current_counseling
     session[:counseling] ? session[:counseling] : Counseling.new
   end
+
+  EARLIEST_EMPLOYMENT_YEAR = 1880
+  LATEST_EMPLOYMENT_YEAR = 2025
 
   def update_counseling(data)
     counseling = current_counseling
