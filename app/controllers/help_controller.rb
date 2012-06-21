@@ -195,7 +195,7 @@ class HelpController < ApplicationController
   end
 
   def step_3 #employment dates, pension-earner, divorce questions
-    @counseling = find_counseling
+    @counseling = current_counseling
     @options = CounselAssistance.pension_earner_choices
     @hide_email_button = true
   end
@@ -212,7 +212,7 @@ class HelpController < ApplicationController
   end
 
   def step_4
-    @counseling = find_counseling
+    @counseling = current_counseling
 
     @age_restrictions = @counseling.age_restrictions? # put this in an instance variable so we don't have to call it again from the view
     @income_restrictions = @counseling.income_restrictions? # put this in an instance variable so we don't have to call it again from the view
@@ -238,7 +238,7 @@ class HelpController < ApplicationController
   end
 
   def step_5
-    @counseling = find_counseling
+    @counseling = current_counseling
     if (@counseling.show_step5?)
       render :template => 'help/step_5'
     else
@@ -254,7 +254,7 @@ class HelpController < ApplicationController
   end
 
   def results
-    @counseling = find_counseling
+    @counseling = current_counseling
     if @counseling.attributes.values.uniq.compact.empty?
       flash[:error] = "Please answer the following questions in order to find out which agencies can best assist you."
       redirect_to "/help/counseling"
@@ -290,7 +290,7 @@ class HelpController < ApplicationController
           page.visual_effect :highlight, "resultsEmailResponse"
         end
       else
-        @counseling = find_counseling
+        @counseling = current_counseling
         @results = @counseling.matching_agencies
         @lost_plan_resources = Content.find_by_url('lost_plan_resources').content rescue nil if @counseling.show_lost_plan_resources
 
@@ -378,8 +378,23 @@ class HelpController < ApplicationController
     end
   end
 
+  def plans_for_territory
+    render :update do |page|
+      page.replace_html "state-plan", :partial => "state_plans", :layout => false
+      page.show "state-plan"
+    end
+  end
+
+
+  protected
+
+
+  def current_counseling
+    session[:counseling] ? session[:counseling] : Counseling.new
+  end
+
   def update_counseling
-    c = find_counseling
+    c = current_counseling
     c.attributes = params[:counseling]
     # if yrly amt is entered, we need to override what's been put into monthly amount by setting the attributes
     c.yearly_income = params[:counseling][:yearly_income] if params[:counseling] and not params[:counseling][:yearly_income].blank?
@@ -398,21 +413,5 @@ class HelpController < ApplicationController
     # c.county = County.find(params[:county]) if params[:county]
     # c.city = City.find(params[:city]) if params[:city]
     c
-  end
-
-  def find_counseling
-    if session[:counseling]
-      c=session[:counseling]
-    else
-      c=Counseling.new
-    end
-    c
-  end
-
-  def plans_for_territory
-    render :update do |page|
-      page.replace_html "state-plan", :partial => "state_plans", :layout => false
-      page.show "state-plan"
-    end
   end
 end
