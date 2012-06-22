@@ -42,8 +42,21 @@
       <% end %>
     </div>
 
+    <div class="clearfix narrow-field">
+      <label for="counseling_currently_employed">
+        Are you currently working for this employer?
+      </label>
+      <p>
+        <label>
+          <%= f.radio_button :currently_employed, true %> Yes
+        </label>
+        <label>
+          <%= f.radio_button :currently_employed, false %> No
+        </label>
+      </p>
+    </div>
 
-    <%= hidden_field_tag :referrer, request.env["HTTP_REFERER"] %>
+
     <%= submit_tag "Previous", :name => "previous" %>
     <%= image_submit_tag "/images/next-enabled.png", :name => 'continue', :id => "nextLinkButton" %>
 
