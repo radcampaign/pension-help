@@ -164,9 +164,13 @@ class HelpController < ApplicationController
     render :action => :step_2
   end
 
-  def step_3 #employment dates, pension-earner, divorce questions
+  def step_3
     @counseling = current_counseling
-    @options = CounselAssistance.pension_earner_choices
+    if @counseling.employer_type_id == EMP_TYPE[:military]
+      @options = CounselAssistance.pension_earner_choices
+    else
+      redirect_to :action => :step_4 and return
+    end
   end
 
   def process_step_3
@@ -183,14 +187,14 @@ class HelpController < ApplicationController
   def step_4
     @counseling = current_counseling
 
-    @age_restrictions = @counseling.age_restrictions? # put this in an instance variable so we don't have to call it again from the view
-    @income_restrictions = @counseling.income_restrictions? # put this in an instance variable so we don't have to call it again from the view
-    # show step_4 only if we need to
-    # if @counseling.aoa_coverage.empty? and (@age_restrictions || @income_restrictions)
-      render :template => 'help/step_4'
-    # else
-    #   redirect_to :action => :step_5
-    # end
+    @age_restrictions = @counseling.age_restrictions?
+    @income_restrictions = @counseling.income_restrictions?
+
+    if @counseling.aoa_coverage.empty? and (@age_restrictions || @income_restrictions)
+      render :template => "help/step_4"
+    else
+      redirect_to :action => :step_5
+    end
   end
 
   def process_step_4
