@@ -86,17 +86,17 @@ class HelpController < ApplicationController
   def show_available_plans
     @counseling = update_counseling(params)
     @counseling.step = 1
-    @matching_plans = @counseling.matching_plans.sort{|a, b| a.name <=> b.name} # find plans for state/county/local
+    @matching_plans = @counseling.matching_plans.sort { |a, b| a.name <=> b.name }
     if @matching_plans.blank?
       render :update do |page|
-        page.replace_html 'q5', :partial => 'other_plans'
-        page.visual_effect :highlight, 'q5'
+        page.replace_html "q5", :partial => "other_plans"
+        page.visual_effect :highlight, "q5"
       end
     else
       @show_option_other = [EMP_TYPE[:county], EMP_TYPE[:city]].include?(@counseling.employer_type_id)
       render :update do |page|
-        page.replace_html 'q5', :partial => 'available_plans'
-        page.visual_effect :highlight, 'q5'
+        page.replace_html "q5", :partial => "available_plans"
+        page.visual_effect :highlight, "q5"
       end
     end
   end

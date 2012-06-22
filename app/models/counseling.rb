@@ -140,8 +140,14 @@ class Counseling < ActiveRecord::Base
 
   def matching_plans
     case employer_type_id
-    when EMP_TYPE[:state]       : State.find(:first, :conditions => {:abbrev => work_state_abbrev} ).plan_matches
-    when EMP_TYPE[:county]      : County.find(county_id).plan_matches
+    when EMP_TYPE[:state]
+      state = State.find(:first, :conditions => { :abbrev => work_state_abbrev })
+      unless state.nil?
+        state.plan_matches
+      else
+        []
+      end
+    when EMP_TYPE[:county] : County.find(county_id).plan_matches
     when EMP_TYPE[:city]:
       begin
         City.find(city_id).plan_matches
