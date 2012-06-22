@@ -1059,3 +1059,18 @@ form.admin_form span.regular-label label {
   float: right;
   width: 34%;
 }
+
+.narrow-field label {
+  float: left;
+  width: 20%;
+}
+
+.narrow-field p {
+  float: right;
+  width: 78%;
+}
+
+.narrow-field p label {
+  float: initial;
+  width: initial;
+}

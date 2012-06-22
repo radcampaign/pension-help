@@ -6,16 +6,20 @@
 
   <% form_for :counseling, @counseling, :url => { :action => :step_2 } do |f| -%>
 
-    <p <%= error_class_on(@counseling, :employer_type_id) %>>
-      Employer type:
+    <div class="clearfix narrow-field">
+      <label>
+        Employer type:
+      </label>
 
-      <% CounselAssistance.employer_types.each do |value, key| %>
-        <br>
-        <label>
-          <%= f.radio_button :employer_type_id, key %> <%= value %>
-        </label>
-      <% end %>
-    </p>
+      <p>
+        <% CounselAssistance.employer_types.each do |value, key| %>
+          <label>
+            <%= f.radio_button :employer_type_id, key %> <%= value %>
+          </label>
+          <br />
+        <% end %>
+      </p>
+    </div>
 
     <div id="q2" class="counselingQuestion">
       <% if @next_question_2 -%>
