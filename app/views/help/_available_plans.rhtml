@@ -5,8 +5,7 @@
 							parameters:'plan='+escape(this.value),
 							onSuccess: function(response) {
 								$('question_container').update(response.responseText);
-							},
-                            onComplete: validateStep()
+							}
 							})">
 	<option value=""></option>
 	<%= options_for_select @matching_plans.collect{|p| [p.name, p.id]} %>

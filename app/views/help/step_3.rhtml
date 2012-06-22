@@ -93,7 +93,6 @@
               $('currentlyEmployedQuestion').show();
               document.getElementById('counseling_currently_employed_true').validate=validateRadio;
               document.getElementById('counseling_currently_employed_false').validate=validateRadio;
-              validateStep();
       }
       else {
         $('counseling_currently_employed_true').checked = $('counseling_currently_employed_false').checked = null;
@@ -101,7 +100,6 @@
         $('lostPlanQuestion').hide();
         document.getElementById('counseling_currently_employed_true').validate=function() { return true};
         document.getElementById('counseling_currently_employed_false').validate=function() { return true};
-        validateStep();
       }
       toggleLostPlanQuestion();
     }
@@ -121,7 +119,6 @@
     }
 
     addValidation();
-    validateStep();
     Event.observe(window, 'load', function() {
       $('currentlyEmployedQuestion').hide();
       if ($('employment_end_year') ) {

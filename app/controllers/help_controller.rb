@@ -74,7 +74,6 @@ class HelpController < ApplicationController
         page.visual_effect :highlight, 'q4'
       else
         page.replace_html 'q4', nil
-        page << 'validateStep();'
       end
     end
   end
