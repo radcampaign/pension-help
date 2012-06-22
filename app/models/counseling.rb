@@ -154,7 +154,6 @@ class Counseling < ActiveRecord::Base
       rescue ActiveRecord::RecordNotFound
         []
       end
-    # when EMP_TYPE[:farm_credit] : farm_credit_plan_matches  # not used
     else Array.new
     end
   end
