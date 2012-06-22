@@ -1,136 +1,41 @@
 <div id="content-no-sidebar" class="help" style="width: 760px;">
   <div id="counseling_errors">
-    <%= render :partial => 'help/counseling_errors', :locals => {'counseling' => @counseling} %>
+    <%= render :partial => "help/counseling_errors",
+      :locals => { "counseling" => @counseling } %>
   </div>
 
-  <p class="intro border-bottom">Almost there! Answer the question or questions below to help us connect you to the right service provider, then click <b style="color: #cc0000; ">NEXT</b> to continue.</p>
-
-  <div id="employmentDateQuestion">
-  <h3>What dates of employment?</h3>
-
-  <p class="normal">This tells us more about the governing law. Answer the question or questions below about the employment of the person who earned the pension or retirement savings plan you are interested in.</p>
-
-  <% form_for :counseling, :url => {:action => :process_step_3} do |form| -%>
-    <% if @counseling.employer_type_id == EMP_TYPE[:company] %>
-      <label>Year employment ended:</label>
-      <%= text_field_tag "employment_end_year", @counseling.employment_end ? @counseling.employment_end.strftime("%Y") : '', {:size => 4} %>
-      <span style="font-weight:normal">Enter the current year if still employed. (example: 1974)</span>
-    <% end %>
-  </div>
-
-  <div id="currentlyEmployedQuestion">
-    <p>&nbsp;</p>
-    <div><label>Still employed?</label>
-    <span class="answer">
-    <%= form.radio_button  :currently_employed, true %><label for="counseling_currently_employed_true">&nbsp;Yes&nbsp;&nbsp;&nbsp;</label>
-    <%= form.radio_button  :currently_employed, false %><label for="counseling_currently_employed_false">&nbsp;No</label>
-    </span></div>
-  </div>
-
-  <div id="lostPlanQuestion" style="display:none">
-    <p>&nbsp;</p>
-    <div>
-      <%= form.check_box :lost_plan %>
-      <span style="display:inline-block; vertical-align:top">
-        <label for="counseling_lost_plan">
-          Check this box if you are unable to locate or contact the employer offering
-          <br/>
-          the plan you have a question about.
+  <% form_for :counseling, @counseling, :url => { :action => :process_step_3 } do |f| -%>
+    <% if @counseling.employer_type_id == EMP_TYPE[:military] %>
+      <div class="clearfix narrow-field">
+        <label for="counseling_pension_earner_id">
+          Who is the pension earner?
         </label>
-      </span>
-    </div>
-  </div>
+        <p>
+          <%= f.select :pension_earner_id, @options,
+            { :include_blank => true }, {} %>
+        </p>
+      </div>
 
-  <% if @counseling.employer_type_id == EMP_TYPE[:military] %>
-    <p>&nbsp;</p>
-    <h3>Who is the pension-earner?</h3>
+      <div class="clearfix field">
+        <label for="counseling_is_divorce_related">
+          Does your question involve divorce?
+        </label>
+        <p>
+          <%= f.check_box :is_divorce_related %>
+        </p>
+      </div>
 
-    <p class="normal">Pension rights may vary depending on a person&#39;s relationship to the pension-earner. Please tell us who earned the pension or retirement savings plan you have a question about.</p>
+      <div class="clearfix field">
+        <label for="counseling_is_survivorship_related">
+          Does your question involve survivorship?
+        </label>
+        <p>
+          <%= f.check_box :is_survivorship_related %>
+        </p>
+      </div>
+    <% end -%>
 
-    <p class="normal"><label>Pension-earner:</label> <%= form.select :pension_earner_id, @options, {:include_blank => true}, {} %></p>
-
-    <h3>Does your question involve divorce or survivorship?</h3>
-
-    <p class="normal">Pension laws may provide certain protections in divorce and survivorship situations. You may select one, both or neither of the following choices.</p>
-
-    <div style="float:left"><%= form.check_box :is_divorce_related %><label for="counseling_is_divorce_related"> I have a divorce-related question.</label></div>
-    <div style="float:left"><%= form.check_box :is_survivorship_related %><label for="counseling_is_survivorship_related"> I have a survivorship-related question.</label></div>
-    <br/>
-    <div style="clear:both"></div>
+    <%= submit_tag "Previous", :name => "previous" %>
+    <%= image_submit_tag "/images/next-enabled.png", :id => "nextLinkButton" %>
   <% end -%>
-
-  <p>&nbsp;</p>
-
-  <%= hidden_field_tag :referrer, request.env["HTTP_REFERER"] %>
-  <%= submit_tag "Previous", :name => "previous" %>
-  <%= image_submit_tag "/images/next-enabled.png", :id => "nextLinkButton" %>
-
-  <% end -%>
-  <p>&nbsp;</p>
-  <script type="text/javascript">
-    elementsToValidate = new Array();
-    employerTypeId = <%= @counseling.employer_type_id %>;
-
-    function validateRadio() {
-      radios = document.getElementsByName(this.name);
-      for (j = 0; j < radios.length; j++) {
-        if (radios[j].checked) {
-          return true;
-        }
-      }
-      return false;
-    }
-
-    function validateSelect() {
-       return this.selectedIndex > 0
-    }
-
-    function checkForCurrentlyEmployed() {
-      if (!$('employment_end_year') ||
-         ($('employment_end_year') &&
-          $('employment_end_year').getValue().length == 4 &&
-          $('employment_end_year').getValue() >= new Date().getFullYear()) ) {
-              $('currentlyEmployedQuestion').show();
-              document.getElementById('counseling_currently_employed_true').validate=validateRadio;
-              document.getElementById('counseling_currently_employed_false').validate=validateRadio;
-      }
-      else {
-        $('counseling_currently_employed_true').checked = $('counseling_currently_employed_false').checked = null;
-        $('currentlyEmployedQuestion').hide();
-        $('lostPlanQuestion').hide();
-        document.getElementById('counseling_currently_employed_true').validate=function() { return true};
-        document.getElementById('counseling_currently_employed_false').validate=function() { return true};
-      }
-      toggleLostPlanQuestion();
-    }
-
-    function toggleLostPlanQuestion() {
-      if (<%= !@counseling.lost_plan_eligible? %>) { return false; }
-      if ($('employment_end_year').getValue().length == 4 &&
-          $('employment_end_year').getValue() < new Date().getFullYear()) {
-            $('lostPlanQuestion').show();
-      }
-      else if ($('counseling_currently_employed_false') && $('counseling_currently_employed_false').checked ) {
-        $('lostPlanQuestion').show();
-      }
-      else {
-        $('lostPlanQuestion').hide();
-      }
-    }
-
-    addValidation();
-    Event.observe(window, 'load', function() {
-      $('currentlyEmployedQuestion').hide();
-      if ($('employment_end_year') ) {
-        Event.observe('employment_end_year','change',checkForCurrentlyEmployed);
-        Event.observe('employment_end_year','keyup',checkForCurrentlyEmployed);
-      }
-      checkForCurrentlyEmployed();
-      toggleLostPlanQuestion();
-      Event.observe('counseling_currently_employed_true','change',toggleLostPlanQuestion);
-      Event.observe('counseling_currently_employed_false','change',toggleLostPlanQuestion);
-    });
-
-  </script>
-
 </div>
