@@ -1074,3 +1074,7 @@ form.admin_form span.regular-label label {
   float: initial;
   width: initial;
 }
+
+#employment-end {
+  display: none;
+}

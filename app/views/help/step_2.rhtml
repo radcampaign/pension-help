@@ -42,7 +42,7 @@
       <% end %>
     </div>
 
-    <div class="clearfix narrow-field">
+    <div id="currently-employed" class="clearfix field">
       <label for="counseling_currently_employed">
         Are you currently working for this employer?
       </label>
@@ -56,6 +56,26 @@
       </p>
     </div>
 
+    <div id="employment-end" class="clearfix field">
+      <label for="counseling_employment_end_year">
+        In what year did you stop working for this employer?
+      </label>
+      <p>
+        <%= text_field_tag "employment_end_year",
+          @counseling.employment_end ? @counseling.employment_end.strftime("%Y") : '',
+          { :size => 4 } %>
+      </p>
+    </div>
+
+    <div class="clearfix field">
+      <label for="counseling_lost_plan">
+        Check this box if you are unable to locate or contact the employer
+        offering the plan you have a question about.
+      </label>
+      <p>
+        <%= f.check_box :lost_plan %>
+      </p>
+    </div>
 
     <%= submit_tag "Previous", :name => "previous" %>
     <%= image_submit_tag "/images/next-enabled.png", :name => 'continue', :id => "nextLinkButton" %>
@@ -74,6 +94,14 @@ jQuery(function() {
       evalScripts: true,
       parameters: "counseling[employer_type_id]=" + escape(value)
     });
+  });
+
+  jQuery("#currently-employed input").change(function() {
+    if (jQuery(this).val() == "true") {
+      jQuery("#employment-end").hide();
+    } else {
+      jQuery("#employment-end").show();
+    }
   });
 });
 
