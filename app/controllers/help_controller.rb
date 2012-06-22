@@ -305,11 +305,11 @@ class HelpController < ApplicationController
   end
 
   def get_after_plan_selection_questions
-
     @counseling = update_counseling(params)
-    if params[:plan]=="IDK"
-      c = update_counseling(params) #get counseling object from session
-      employees = c.employee_list
+
+    if params[:plan] == "IDK"
+      counseling = update_counseling(params)
+      employees = counseling.employee_list
 
       if @counseling.employer_type_id == 6 # State agency or office
         render :update do |page|
