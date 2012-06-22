@@ -1053,3 +1053,13 @@ form.admin_form span.regular-label label {
 .employer-type {
   display: none;
 }
+
+.field label {
+  float: left;
+  width: 64%;
+}
+
+.field p {
+  float: right;
+  width: 34%;
+}
