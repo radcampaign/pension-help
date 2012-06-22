@@ -88,10 +88,14 @@ class HelpController < ApplicationController
     @counseling.step = 1
     @matching_plans = @counseling.matching_plans.sort { |a, b| a.name <=> b.name }
     if @matching_plans.blank?
-      render :update do |page|
-        page.replace_html "q5", :partial => "other_plans"
-        page.visual_effect :highlight, "q5"
-      end
+      # if @counseling.employer_type_id == EMP_TYPE[:state]
+      #   self.get_after_plan_selection_questions
+      # else
+        render :update do |page|
+          page.replace_html "q5", :partial => "other_plans"
+          page.visual_effect :highlight, "q5"
+        end
+      # end
     else
       @show_option_other = [EMP_TYPE[:county], EMP_TYPE[:city]].include?(@counseling.employer_type_id)
       render :update do |page|
