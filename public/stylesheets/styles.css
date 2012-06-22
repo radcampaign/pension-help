@@ -1017,10 +1017,6 @@ form.admin_form span.regular-label label {
   background-color: #CCC;
 }
 
-.help .fieldWithErrors {
-  display: inline;
-}
-
 .help .form-error {
   background-color: #FF8A82;
   /*padding: 10px;*/

@@ -97,3 +97,7 @@ unless '1.9'.respond_to?(:force_encoding)
     end
   end
 end
+
+ActionView::Base.field_error_proc = Proc.new { |html_tag, instance|
+  %Q{<span class="fieldWithErrors">#{html_tag}</span>}
+}
