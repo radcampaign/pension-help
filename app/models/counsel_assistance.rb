@@ -1,7 +1,7 @@
 class CounselAssistance
 
   def self.states
-    State.find(:all).collect{|s| [s.name, s.abbrev]}.delete_if { |opt| opt[1] == "AA" || opt[1] == "AE" or opt[1] == "AP" }.sort.push(["I don't know", "XX"])
+    State.find(:all).collect{|s| [s.name, s.abbrev]}.delete_if { |opt| opt[1] == "AA" || opt[1] == "AE" or opt[1] == "AP" }.sort
   end
 
   def self.employer_types
