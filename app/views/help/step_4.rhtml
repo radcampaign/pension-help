@@ -11,16 +11,6 @@
 
 <h3>We’re still looking...</h3>
 
-<div id="ageQuestion">
-  <p class="normal">Some organizations will help people based on certain age and income criteria. If you are interested in this type of referral, complete the information below and then click <b style="color: #cc0000; ">NEXT</b>. Otherwise, you may skip the question and click <b style="color: #cc0000; ">NEXT</b> to proceed.</p>
-
-  <p class="normal">Are you age 60 or over:&nbsp;&nbsp;&nbsp;<%= form.radio_button  :is_over_60, true %> &nbsp;Yes&nbsp;&nbsp;&nbsp;<%= form.radio_button  :is_over_60, false %> &nbsp;No</p>
-  <p class="normal">&nbsp;</p>
-</div>
-
-<p>&nbsp;</p>
-
-<%= hidden_field_tag :referrer, request.env["HTTP_REFERER"] %>
 <%= submit_tag "Previous", :name => "previous" %>
 <%= image_submit_tag "/images/next-enabled.png", :id => 'nextLinkButton' %>
 

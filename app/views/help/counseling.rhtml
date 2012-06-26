@@ -120,6 +120,12 @@
       </p>
     </div>
 
+    <p>
+      Some legal service providers offer services based on certain income
+      criteria. Answering this question will help us find a legal service
+      provider to assist you.
+    </p>
+
     <div class="field clearfix">
       <label <%= error_class_on @counseling, :monthly_income_tmp %> for="counseling_monthly_income_tmp">
         What is the monthly income of your household?
@@ -137,12 +143,6 @@
         <%= f.text_field :yearly_income_tmp, :size => 5 %>
       </p>
     </div>
-
-    <p>
-      Some legal service providers offer services based on certain income
-      criteria. Answering this question will help us find a legal service
-      provider to assist you.
-    </p>
 
     <div class="field clearfix">
       <label <%= error_class_on @counseling, :number_in_household %> for="counseling_number_in_household">

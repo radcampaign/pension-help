@@ -97,7 +97,7 @@ class Counseling < ActiveRecord::Base
   belongs_to :federal_plan
 
   validates_presence_of :employer_type_id,
-    :if => Proc.new { |c| c.step > 1 }
+    :if => Proc.new { |c| c.step.to_s > "1" }
 
   #if Employer type = State Agency or Office
   validates_presence_of :work_state,

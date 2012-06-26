@@ -5,3 +5,5 @@ config/environments/development.rb
 tmp/**/*
 .DS_Store
 .rvmrc
+.vagrant
+Vagrantfile
