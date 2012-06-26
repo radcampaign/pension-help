@@ -140,7 +140,6 @@ class HelpController < ApplicationController
       @show_aoa_expansion = false
     elsif @counseling.aoa_coverage.empty? && @ask_aoa &&
       (@counseling.hq_state_abbrev.blank? || @counseling.pension_state_abbrev.blank? || @counseling.work_state_abbrev.blank?)
-
       @counseling.step = "2a"
       @aoa_states = @counseling.aoa_covered_states
       @zip_found = true

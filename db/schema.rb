@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 85) do
+ActiveRecord::Schema.define(:version => 100) do
 
   create_table "addresses", :force => true do |t|
     t.column "location_id",    :integer
@@ -58,6 +58,18 @@ ActiveRecord::Schema.define(:version => 85) do
     t.column "position", :integer
   end
 
+  create_table "assistances", :force => true do |t|
+    t.column "name", :string
+  end
+
+  create_table "assistances_partners", :id => false, :force => true do |t|
+    t.column "partner_id",    :integer
+    t.column "assistance_id", :integer
+  end
+
+  add_index "assistances_partners", ["partner_id"], :name => "partner_id"
+  add_index "assistances_partners", ["assistance_id"], :name => "assistance_id"
+
   create_table "cities", :force => true do |t|
     t.column "name",         :string
     t.column "county_id",    :integer
@@ -74,7 +86,6 @@ ActiveRecord::Schema.define(:version => 85) do
   end
 
   add_index "cities_zips", ["zipcode", "city_id"], :name => "idx_cities_zips_on_zip_and_city"
-  add_index "cities_zips", ["city_id"], :name => "cities_zips_ibfk_1"
 
   create_table "claim_types", :force => true do |t|
     t.column "name",     :string
@@ -137,6 +148,12 @@ ActiveRecord::Schema.define(:version => 85) do
     t.column "job_function",            :string
     t.column "feedback_email",          :string
     t.column "lost_plan",               :boolean
+    t.column "behalf",                  :string
+    t.column "behalf_other",            :string
+    t.column "gender",                  :string
+    t.column "marital_status",          :string
+    t.column "age",                     :integer
+    t.column "enthinicty",              :string
   end
 
   add_index "counselings", ["employer_type_id"], :name => "employer_type_id"
@@ -175,6 +192,19 @@ ActiveRecord::Schema.define(:version => 85) do
     t.column "position", :integer
   end
 
+  create_table "expertises", :force => true do |t|
+    t.column "name", :string
+    t.column "form", :string
+  end
+
+  create_table "expertises_partners", :id => false, :force => true do |t|
+    t.column "expertise_id", :integer
+    t.column "partner_id",   :integer
+  end
+
+  add_index "expertises_partners", ["expertise_id"], :name => "expertise_id"
+  add_index "expertises_partners", ["partner_id"], :name => "partner_id"
+
   create_table "federal_plans", :force => true do |t|
     t.column "name",               :string
     t.column "position",           :integer
@@ -184,6 +214,18 @@ ActiveRecord::Schema.define(:version => 85) do
 
   add_index "federal_plans", ["parent_id"], :name => "parent_id"
   add_index "federal_plans", ["associated_plan_id"], :name => "associated_plan_id"
+
+  create_table "fee_arrangements", :force => true do |t|
+    t.column "name", :string
+  end
+
+  create_table "fee_arrangements_partners", :id => false, :force => true do |t|
+    t.column "partner_id",         :integer
+    t.column "fee_arrangement_id", :integer
+  end
+
+  add_index "fee_arrangements_partners", ["partner_id"], :name => "partner_id"
+  add_index "fee_arrangements_partners", ["fee_arrangement_id"], :name => "fee_arrangement_id"
 
   create_table "feedbacks", :force => true do |t|
     t.column "name",         :string
@@ -508,55 +550,48 @@ ActiveRecord::Schema.define(:version => 85) do
     t.column "position", :integer
   end
 
-  create_table "partners", :force => true do |t|
-    t.column "first_name",                     :string,  :limit => 80
-    t.column "last_name",                      :string,  :limit => 80
-    t.column "middle_initial",                 :string,  :limit => 2
-    t.column "company",                        :string
-    t.column "line_1",                         :string
-    t.column "line_2",                         :string
-    t.column "city",                           :string,  :limit => 50
-    t.column "state_abbrev",                   :string,  :limit => 2
-    t.column "zip_code",                       :string,  :limit => 10
-    t.column "phone",                          :string,  :limit => 20
-    t.column "fax",                            :string,  :limit => 20
-    t.column "email",                          :string
-    t.column "url",                            :string
-    t.column "reduced_fee_desc",               :string
-    t.column "contingency_fee_desc",           :string
-    t.column "consultation_fee",               :decimal,               :precision => 10, :scale => 2
-    t.column "hourly_rate",                    :decimal,               :precision => 10, :scale => 2
-    t.column "bar_admissions",                 :string
-    t.column "aaa_member",                     :boolean
-    t.column "willing_to_provide",             :boolean
-    t.column "willing_to_answer",              :boolean
-    t.column "wont_charge_fees",               :boolean
-    t.column "info_geo",                       :string
-    t.column "info_industries",                :string
-    t.column "profession_other",               :string
-    t.column "sponsor_type_other",             :string
-    t.column "plan_type_other",                :string
-    t.column "claim_type_other",               :string
-    t.column "npln_additional_area_other",     :string
-    t.column "npln_participation_level_other", :string
-    t.column "pal_additional_area_other",      :string
-    t.column "pal_participation_level_other",  :string
-    t.column "help_additional_area_other",     :string
-    t.column "certifications",                 :text
-    t.column "affiliations",                   :text
-    t.column "other_info",                     :text
-    t.column "wants_npln",                     :boolean,                                              :default => false
-    t.column "wants_pal",                      :boolean,                                              :default => false
-    t.column "wants_help",                     :boolean,                                              :default => false
-    t.column "wants_search",                   :boolean,                                              :default => false
-    t.column "user_id",                        :integer
-    t.column "consultation_fee_desc",          :string
-    t.column "hourly_rate_desc",               :string
-    t.column "fee_shifting_desc",              :string
-    t.column "willing_to_provide_plan_info",   :boolean
+  create_table "participations", :force => true do |t|
+    t.column "name", :string
   end
 
-  add_index "partners", ["user_id"], :name => "user_id"
+  create_table "participations_partners", :id => false, :force => true do |t|
+    t.column "partner_id",       :integer
+    t.column "participation_id", :integer
+  end
+
+  add_index "participations_partners", ["partner_id"], :name => "partner_id"
+  add_index "participations_partners", ["participation_id"], :name => "participation_id"
+
+  create_table "partners", :force => true do |t|
+    t.column "first_name",                                   :string,  :limit => 80
+    t.column "last_name",                                    :string,  :limit => 80
+    t.column "company",                                      :string
+    t.column "line_1",                                       :string
+    t.column "line_2",                                       :string
+    t.column "city",                                         :string,  :limit => 50
+    t.column "state_abbrev",                                 :string,  :limit => 2
+    t.column "zip_code",                                     :string,  :limit => 10
+    t.column "phone",                                        :string,  :limit => 20
+    t.column "fax",                                          :string,  :limit => 20
+    t.column "email",                                        :string
+    t.column "url",                                          :string
+    t.column "other_info",                                   :text
+    t.column "wants_npln",                                   :boolean,               :default => false
+    t.column "wants_pal",                                    :boolean,               :default => false, :null => false
+    t.column "preferred_method_of_contact",                  :integer
+    t.column "fee_for_initial_consultation",                 :string
+    t.column "hourly_continuous_fee",                        :string
+    t.column "professional_certifications_and_affiliations", :string
+    t.column "has_other_areas_of_expertise",                 :boolean
+    t.column "other_areas_of_expertise",                     :string
+    t.column "dr_lawyer",                                    :boolean,               :default => false
+    t.column "has_other_level_of_participation",             :boolean,               :default => false
+    t.column "other_level_of_participation",                 :string
+    t.column "law_practice_states",                          :string
+    t.column "law_practice_circuits",                        :string
+    t.column "us_supreme_court",                             :boolean,               :default => false
+    t.column "malpractice_insurance",                        :boolean,               :default => false
+  end
 
   create_table "partners_claim_types", :id => false, :force => true do |t|
     t.column "partner_id",    :integer, :null => false
@@ -564,7 +599,6 @@ ActiveRecord::Schema.define(:version => 85) do
   end
 
   add_index "partners_claim_types", ["claim_type_id", "partner_id"], :name => "index_partners_claim_types_on_claim_type_id_and_partner_id"
-  add_index "partners_claim_types", ["partner_id"], :name => "partners_claim_types_ibfk_1"
 
   create_table "partners_geo_areas", :force => true do |t|
     t.column "partner_id",  :integer
@@ -580,7 +614,6 @@ ActiveRecord::Schema.define(:version => 85) do
   end
 
   add_index "partners_help_additional_areas", ["help_additional_area_id", "partner_id"], :name => "partners_help_areas"
-  add_index "partners_help_additional_areas", ["partner_id"], :name => "partners_help_additional_areas_ibfk_1"
 
   create_table "partners_jurisdictions", :force => true do |t|
     t.column "partner_id",      :integer
@@ -596,7 +629,6 @@ ActiveRecord::Schema.define(:version => 85) do
   end
 
   add_index "partners_npln_additional_areas", ["npln_additional_area_id", "partner_id"], :name => "partners_npln_areas"
-  add_index "partners_npln_additional_areas", ["partner_id"], :name => "partners_npln_additional_areas_ibfk_1"
 
   create_table "partners_npln_participation_levels", :id => false, :force => true do |t|
     t.column "partner_id",                  :integer, :null => false
@@ -604,7 +636,6 @@ ActiveRecord::Schema.define(:version => 85) do
   end
 
   add_index "partners_npln_participation_levels", ["npln_participation_level_id", "partner_id"], :name => "partners_npln_participations"
-  add_index "partners_npln_participation_levels", ["partner_id"], :name => "partners_npln_participation_levels_ibfk_1"
 
   create_table "partners_pal_additional_areas", :id => false, :force => true do |t|
     t.column "partner_id",             :integer, :null => false
@@ -612,7 +643,6 @@ ActiveRecord::Schema.define(:version => 85) do
   end
 
   add_index "partners_pal_additional_areas", ["pal_additional_area_id", "partner_id"], :name => "partners_pal_areas"
-  add_index "partners_pal_additional_areas", ["partner_id"], :name => "partners_pal_additional_areas_ibfk_1"
 
   create_table "partners_pal_participation_levels", :id => false, :force => true do |t|
     t.column "partner_id",                 :integer, :null => false
@@ -620,7 +650,6 @@ ActiveRecord::Schema.define(:version => 85) do
   end
 
   add_index "partners_pal_participation_levels", ["pal_participation_level_id", "partner_id"], :name => "partners_pal_participations"
-  add_index "partners_pal_participation_levels", ["partner_id"], :name => "partners_pal_participation_levels_ibfk_1"
 
   create_table "partners_plan_types", :id => false, :force => true do |t|
     t.column "partner_id",   :integer, :null => false
@@ -628,7 +657,14 @@ ActiveRecord::Schema.define(:version => 85) do
   end
 
   add_index "partners_plan_types", ["plan_type_id", "partner_id"], :name => "index_partners_plan_types_on_plan_type_id_and_partner_id"
-  add_index "partners_plan_types", ["partner_id"], :name => "partners_plan_types_ibfk_1"
+
+  create_table "partners_practices", :id => false, :force => true do |t|
+    t.column "partner_id",  :integer
+    t.column "practice_id", :integer
+  end
+
+  add_index "partners_practices", ["partner_id"], :name => "partner_id"
+  add_index "partners_practices", ["practice_id"], :name => "practice_id"
 
   create_table "partners_professions", :id => false, :force => true do |t|
     t.column "partner_id",    :integer, :null => false
@@ -636,7 +672,6 @@ ActiveRecord::Schema.define(:version => 85) do
   end
 
   add_index "partners_professions", ["profession_id", "partner_id"], :name => "index_partners_professions_on_profession_id_and_partner_id"
-  add_index "partners_professions", ["partner_id"], :name => "partners_professions_ibfk_1"
 
   create_table "partners_referral_fees", :id => false, :force => true do |t|
     t.column "partner_id",      :integer, :null => false
@@ -644,7 +679,6 @@ ActiveRecord::Schema.define(:version => 85) do
   end
 
   add_index "partners_referral_fees", ["referral_fee_id", "partner_id"], :name => "index_partners_referral_fees_on_referral_fee_id_and_partner_id"
-  add_index "partners_referral_fees", ["partner_id"], :name => "partners_referral_fees_ibfk_1"
 
   create_table "partners_search_plan_types", :id => false, :force => true do |t|
     t.column "partner_id",          :integer, :null => false
@@ -652,7 +686,6 @@ ActiveRecord::Schema.define(:version => 85) do
   end
 
   add_index "partners_search_plan_types", ["search_plan_type_id", "partner_id"], :name => "partners_search_plans"
-  add_index "partners_search_plan_types", ["partner_id"], :name => "partners_search_plan_types_ibfk_1"
 
   create_table "partners_sponsor_types", :id => false, :force => true do |t|
     t.column "partner_id",      :integer, :null => false
@@ -660,7 +693,6 @@ ActiveRecord::Schema.define(:version => 85) do
   end
 
   add_index "partners_sponsor_types", ["sponsor_type_id", "partner_id"], :name => "index_partners_sponsor_types_on_sponsor_type_id_and_partner_id"
-  add_index "partners_sponsor_types", ["partner_id"], :name => "partners_sponsor_types_ibfk_1"
 
   create_table "pension_earners", :force => true do |t|
     t.column "name",     :string
@@ -734,6 +766,10 @@ ActiveRecord::Schema.define(:version => 85) do
     t.column "fpl",                 :decimal, :precision => 8, :scale => 2
   end
 
+  create_table "practices", :force => true do |t|
+    t.column "name", :string
+  end
+
   create_table "professions", :force => true do |t|
     t.column "name",     :string
     t.column "position", :integer
@@ -793,7 +829,6 @@ ActiveRecord::Schema.define(:version => 85) do
   end
 
   add_index "restrictions_cities", ["city_id", "restriction_id"], :name => "index_restrictions_cities_on_city_id_and_restriction_id"
-  add_index "restrictions_cities", ["restriction_id"], :name => "restrictions_cities_ibfk_1"
 
   create_table "restrictions_counties", :id => false, :force => true do |t|
     t.column "restriction_id", :integer, :null => false
@@ -801,7 +836,6 @@ ActiveRecord::Schema.define(:version => 85) do
   end
 
   add_index "restrictions_counties", ["county_id", "restriction_id"], :name => "index_restrictions_counties_on_county_id_and_restriction_id"
-  add_index "restrictions_counties", ["restriction_id"], :name => "restrictions_counties_ibfk_1"
 
   create_table "restrictions_reload", :id => false, :force => true do |t|
     t.column "discriminatory_count",            :integer
@@ -840,7 +874,6 @@ ActiveRecord::Schema.define(:version => 85) do
   end
 
   add_index "restrictions_states", ["state_abbrev", "restriction_id"], :name => "index_restrictions_states_on_state_abbrev_and_restriction_id"
-  add_index "restrictions_states", ["restriction_id"], :name => "restrictions_states_ibfk_1"
 
   create_table "restrictions_zips", :id => false, :force => true do |t|
     t.column "restriction_id", :integer,              :null => false
@@ -848,7 +881,6 @@ ActiveRecord::Schema.define(:version => 85) do
   end
 
   add_index "restrictions_zips", ["zipcode", "restriction_id"], :name => "index_restrictions_zips_on_zipcode_and_restriction_id"
-  add_index "restrictions_zips", ["restriction_id"], :name => "restrictions_zips_ibfk_1"
 
   create_table "result_types", :force => true do |t|
     t.column "name",     :string
@@ -936,6 +968,9 @@ ActiveRecord::Schema.define(:version => 85) do
   add_foreign_key "agencies", ["agency_category_id"], "agency_categories", ["id"], :name => "agencies_ibfk_1"
   add_foreign_key "agencies", ["result_type_id"], "result_types", ["id"], :name => "agencies_ibfk_2"
 
+  add_foreign_key "assistances_partners", ["partner_id"], "partners", ["id"], :name => "assistances_partners_ibfk_1"
+  add_foreign_key "assistances_partners", ["assistance_id"], "assistances", ["id"], :name => "assistances_partners_ibfk_2"
+
   add_foreign_key "cities", ["county_id"], "counties", ["id"], :name => "cities_ibfk_1"
 
   add_foreign_key "cities_zips", ["city_id"], "cities", ["id"], :name => "cities_zips_ibfk_1"
@@ -954,8 +989,14 @@ ActiveRecord::Schema.define(:version => 85) do
   add_foreign_key "counselings", ["city_id"], "cities", ["id"], :name => "counselings_ibfk_8"
   add_foreign_key "counselings", ["selected_plan_id"], "plans", ["id"], :name => "counselings_ibfk_9"
 
+  add_foreign_key "expertises_partners", ["expertise_id"], "expertises", ["id"], :name => "expertises_partners_ibfk_1"
+  add_foreign_key "expertises_partners", ["partner_id"], "partners", ["id"], :name => "expertises_partners_ibfk_2"
+
   add_foreign_key "federal_plans", ["parent_id"], "federal_plans", ["id"], :name => "federal_plans_ibfk_1"
   add_foreign_key "federal_plans", ["associated_plan_id"], "plans", ["id"], :name => "federal_plans_ibfk_2"
+
+  add_foreign_key "fee_arrangements_partners", ["partner_id"], "partners", ["id"], :name => "fee_arrangements_partners_ibfk_1"
+  add_foreign_key "fee_arrangements_partners", ["fee_arrangement_id"], "fee_arrangements", ["id"], :name => "fee_arrangements_partners_ibfk_2"
 
   add_foreign_key "images", ["parent_id"], "images", ["id"], :name => "images_ibfk_1"
 
@@ -964,7 +1005,8 @@ ActiveRecord::Schema.define(:version => 85) do
 
   add_foreign_key "locations", ["agency_id"], "agencies", ["id"], :name => "locations_ibfk_1"
 
-  add_foreign_key "partners", ["user_id"], "users", ["id"], :name => "partners_ibfk_1"
+  add_foreign_key "participations_partners", ["partner_id"], "partners", ["id"], :name => "participations_partners_ibfk_1"
+  add_foreign_key "participations_partners", ["participation_id"], "participations", ["id"], :name => "participations_partners_ibfk_2"
 
   add_foreign_key "partners_claim_types", ["partner_id"], "partners", ["id"], :name => "partners_claim_types_ibfk_1"
   add_foreign_key "partners_claim_types", ["claim_type_id"], "claim_types", ["id"], :name => "partners_claim_types_ibfk_2"
@@ -992,6 +1034,9 @@ ActiveRecord::Schema.define(:version => 85) do
 
   add_foreign_key "partners_plan_types", ["partner_id"], "partners", ["id"], :name => "partners_plan_types_ibfk_1"
   add_foreign_key "partners_plan_types", ["plan_type_id"], "plan_types", ["id"], :name => "partners_plan_types_ibfk_2"
+
+  add_foreign_key "partners_practices", ["partner_id"], "partners", ["id"], :name => "partners_practices_ibfk_1"
+  add_foreign_key "partners_practices", ["practice_id"], "practices", ["id"], :name => "partners_practices_ibfk_2"
 
   add_foreign_key "partners_professions", ["partner_id"], "partners", ["id"], :name => "partners_professions_ibfk_1"
   add_foreign_key "partners_professions", ["profession_id"], "professions", ["id"], :name => "partners_professions_ibfk_2"

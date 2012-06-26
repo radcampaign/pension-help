@@ -1,11 +1,4 @@
 class Counseling < ActiveRecord::Base
-  attr_accessor :behalf,
-                :behalf_other,
-                :gender,
-                :marital_status,
-                :age,
-                :ethnicity
-
   BEHALF_OPTIONS = ActiveSupport::OrderedHash.new
   BEHALF_OPTIONS["self"]   = "Self"
   BEHALF_OPTIONS["parent"] = "Parent"
