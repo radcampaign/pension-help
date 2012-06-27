@@ -573,7 +573,15 @@ class Counseling < ActiveRecord::Base
 
   def result_type_match(type)
     return nil if ResultType[type].nil?
-    Agency.find(:all, :conditions => ['result_type_id = ? and use_for_counseling = 1 and is_active = 1', ResultType[type]])
+
+    return nil if type == "DOL" && self.employment_end < Date.new(1974, 1, 1)
+
+    Agency.find(:all,
+      :conditions => [
+        'result_type_id = ? and use_for_counseling = 1 and is_active = 1',
+        ResultType[type]
+      ]
+    )
   end
 
   def show_lost_plan_resources
