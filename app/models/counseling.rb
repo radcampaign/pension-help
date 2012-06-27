@@ -574,7 +574,7 @@ class Counseling < ActiveRecord::Base
   def result_type_match(type)
     return nil if ResultType[type].nil?
 
-    return nil if type == "DOL" && self.employment_end < Date.new(1974, 1, 1)
+    return nil if type == "DOL" && self.employment_end && self.employment_end < Date.new(1974, 1, 1)
 
     Agency.find(:all,
       :conditions => [

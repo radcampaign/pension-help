@@ -78,6 +78,7 @@
     </div>
 
 
+    <%= if @show_aoa_expansion %>
     <div>
       <h3>Where did you work?</h3>
 
@@ -100,10 +101,10 @@
         <%= select :counseling, :pension_state_abbrev, @states, :include_blank => true %>
       </p>
     </div>
+    <% end %>
 
     <%= submit_tag "Previous", :name => "previous" %>
     <%= image_submit_tag "/images/next-enabled.png", :name => 'continue', :id => "nextLinkButton" %>
-
   <% end -%>
   <p>&nbsp;</p>
 </div>

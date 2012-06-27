@@ -252,7 +252,7 @@ class HelpController < ApplicationController
     @results
   end
 
-  def email_results
+  def email
     if !params[:email].blank?
       unless params[:email] =~ EMAIL_REGEX
         render :update do |page|
@@ -260,11 +260,18 @@ class HelpController < ApplicationController
           page.visual_effect :highlight, "resultsEmailResponse"
         end
       else
-        @counseling = current_counseling
+        @counseling = Counseling.find params[:id]
         @results = @counseling.matching_agencies
         @lost_plan_resources = Content.find_by_url('lost_plan_resources').content rescue nil if @counseling.show_lost_plan_resources
 
         Mailer.deliver_counseling_results(params[:email], @counseling, @results, @lost_plan_resources)
+
+        if params[:contact].to_s == "1"
+          counseling.feedback_email = params[:email]
+          counseling.save
+          Mailer.deliver_unavailable_plan_feedback(counseling)
+
+        end
 
         render :update do |page|
           page.replace_html "resultsEmailResponse", "E-mail has been sent."
@@ -275,28 +282,6 @@ class HelpController < ApplicationController
       render :update do |page|
         page.replace_html "resultsEmailResponse", "Invalid e-mail."
         page.visual_effect :highlight, "resultsEmailResponse"
-      end
-    end
-  end
-
-  def submit_email_address
-    counseling = Counseling.find(params[:counseling][:id])
-    if counseling
-      unless params[:counseling][:feedback_email] =~ EMAIL_REGEX
-        render :update do |page|
-          page.replace_html "feedbackEmailResponse", "Invalid e-mail."
-          page.visual_effect :highlight, "feedbackEmailResponse"
-        end
-      else
-        counseling.feedback_email = params[:counseling][:feedback_email]
-        counseling.save
-        Mailer.deliver_unavailable_plan_feedback(counseling)
-        render :update do |page|
-          page << "$('counseling_feedback_email').writeAttribute('disabled', true)"
-          page << "$('feedbackEmailSubmit').writeAttribute('disabled', true)"
-          page.replace_html 'feedbackEmailResponse', :partial => 'feedback_email_accepted'
-          page.visual_effect :highlight, 'feedbackEmailResponse'
-        end
       end
     end
   end
