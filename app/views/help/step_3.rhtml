@@ -36,6 +36,7 @@
     <% end -%>
 
     <%= submit_tag "Previous", :name => "previous" %>
+    <%= hidden_field_tag :previous_to, "/help/step_2" %>
     <%= image_submit_tag "/images/next-enabled.png", :id => "nextLinkButton" %>
   <% end -%>
 </div>

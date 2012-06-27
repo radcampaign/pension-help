@@ -11,6 +11,7 @@
 
     <%= hidden_field_tag :referrer, request.env["HTTP_REFERER"] %>
     <%= submit_tag "Previous", :name => "previous" %>
+    <%= hidden_field_tag :previous_to, "/help/step_4" %>
     <%= image_submit_tag "/images/next-enabled.png", :id => 'nextLinkButton', :name => 'continue' %>
 
   <% end %>

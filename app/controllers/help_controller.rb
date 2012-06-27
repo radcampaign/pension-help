@@ -5,6 +5,7 @@ class HelpController < ApplicationController
   before_filter :hide_email_button, :only => [
     :counseling, :step_2, :check_aoa_zip, :step_3, :step_4, :step_5
   ]
+  before_filter :step_back
 
   def index
     show_content("help")
@@ -335,6 +336,13 @@ class HelpController < ApplicationController
 
 
   protected
+
+
+  def step_back
+    if params[:previous] && params[:previous_to]
+      redirect_to(params[:previous_to]) and return
+    end
+  end
 
 
   def show_content(url)

@@ -104,6 +104,7 @@
     <% end %>
 
     <%= submit_tag "Previous", :name => "previous" %>
+    <%= hidden_field_tag :previous_to, "/help/counseling" %>
     <%= image_submit_tag "/images/next-enabled.png", :name => 'continue', :id => "nextLinkButton" %>
   <% end -%>
   <p>&nbsp;</p>
