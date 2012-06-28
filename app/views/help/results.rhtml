@@ -45,23 +45,5 @@
     </p>
   <% end %>
 
-  <% if @ask_user_for_email %>
-    <h3>We could not find information about your specific plan</h3>
-    <div class="agency_result_body">
-      <p class="normal">
-        We don't have information specific to the plan: <%= @counseling.plan_name %> <%= " for #{City.find(@counseling.city_id).name}" if @counseling.city_id %> <%= " in #{County.find(@counseling.county_id).name}" if @counseling.county_id %>.
-      </p>
-      <p class="normal">
-        If you'd like to be contacted with additional information once we research your request, please enter your email address below:
-      </p>
-
-      <% remote_form_for :counseling, :url => {:action => :submit_email_address} do |form| -%>
-        <%= form.text_field :feedback_email, :size => 30 %>
-        <%= form.hidden_field :id %>
-        <%= submit_tag 'contact me with more information', :id => 'feedbackEmailSubmit' %>
-      <% end %>
-      <div id="feedbackEmailResponse"></div>
-    </div>
-  <% end %>
   <%= render :partial => "results" %>
 </div>
