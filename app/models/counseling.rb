@@ -48,7 +48,7 @@ class Counseling < ActiveRecord::Base
                             :in => MARITAL_STATUS_OPTIONS.keys
 
   validates_presence_of     :age
-  # validates_numericality_of :age
+  validates_numericality_of :age
 
   validates_numericality_of :number_in_household,
                             :if => Proc.new { |c|
@@ -72,7 +72,9 @@ class Counseling < ActiveRecord::Base
   def validate
     errors.add :zipcode if (!zipcode.blank? && !ZipImport.find(zipcode) rescue true)
     errors.add(:zipcode, "is required") if zipcode.blank?
-    errors.add(:employment_end, "date is required") if step == 3 && employer_type_id == 1 && employment_end.blank?
+    if step == 3 && employer_type_id == 1 && employment_end.blank?
+      errors.add(:employment_end, "date is required") unless self.currently_employed == true
+    end
   end
 
   has_enumerated :pension_earner
