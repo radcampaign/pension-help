@@ -1,4 +1,4 @@
-<div id="content-no-sidebar" class="help" style="width: 760px">
+<div id="content-no-sidebar" class="help">
   <h1>Find Help</h1>
   <div id="counseling_errors">
     <%= render :partial => "help/counseling_errors",
@@ -7,18 +7,24 @@
 
   <p class="intro">
     Ready to find resources to help you find answers to questions you have about
-    your retirement plan? Let's get started!
+    your retirement plan?<br/>
+    Let's get started!
   </p>
 
-  <p class="intro border-bottom">
+  <p class="intro">
     To make sure you receive the right type of referral, PensionHelp America
-    will guide you through a series of questions. After you've answered each
-    question, the grey NEXT button at the bottom of the page will turn yellow.
-    Click it to continue on to the next question.
+    will guide you through a series of questions.
+  </p>
+
+  <div class="separator">&nbsp;</div>
+
+  <p class="mandatory-fields">
+    <%= image_tag "mandatory-field.png" %>
+    Marked fields are mandatory!
   </p>
 
   <% form_for :counseling, @counseling, :url => { :action => :step_2 } do |f| -%>
-    <div class="field clearfix">
+    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %>">
       <label <%= error_class_on @counseling, :behalf %> for="counseling_behalf">
         Are you using PensionHelp America for yourself or on behalf of
         someone else?
@@ -28,7 +34,7 @@
       </p>
     </div>
 
-    <div class="field clearfix" id="used-for-other">
+    <div class="field rq clearfix" id="used-for-other">
       <label <%= error_class_on @counseling, :behalf_other %> for="counseling_behalf_other">
         Please specify:
       </label>
@@ -63,7 +69,7 @@
       are using this website.
     </p>
 
-    <div class="field clearfix">
+    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %>">
       <label <%= error_class_on @counseling, :gender %> for="counseling_gender">
         What is your gender?
       </label>
@@ -72,7 +78,7 @@
       </p>
     </div>
 
-    <div class="field clearfix">
+    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %>">
       <label <%= error_class_on @counseling, :marital_status %> for="counseling_marital_status">
         What is your current marital status?
       </label>
@@ -81,18 +87,20 @@
       </p>
     </div>
 
-    <div class="field clearfix">
+    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %>">
       <label <%= error_class_on @counseling, :age %> for="counseling_age">
-        Please enter the year of your birth. Some legal service providers offer
+        Please enter the year of your birth.
+        <br/>
+        <span class="hint">Some legal service providers offer
         services based on certain age criteria. Answering this question will
-        help us find a legal service provider to assist you.
+        help us find a legal service provider to assist you.</span>
       </label>
       <p>
-        <%= f.text_field :age %>
+        <%= f.text_field :age, :size => 5 %>
       </p>
     </div>
 
-    <div class="field clearfix">
+    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %>">
       <label <%= error_class_on @counseling, :ethnicity %> for="counseling_ethnicity">
         What is your ethnicity?
       </label>
@@ -101,17 +109,17 @@
       </p>
     </div>
 
-    <div class="field clearfix">
+    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %>">
       <label <%= error_class_on @counseling, :zipcode %> for="counseling_zipcode">
         What is your five-digit zip code?
       </label>
-      <p>
+      <p class="rq">
         <%= f.text_field :zipcode, :size => 5 %>
       </p>
+    </div>
 
-      OR
-
-      <label <%= error_class_on @counseling, :non_us_resident %> for="counseling_non_us_resident">
+    <div class="field clearfix">
+      <label <%= error_class_on @counseling, :non_us_resident %> for="counseling_non_us_resident" class="hint">
         Check this box if you don't have or know your zip code (e.g. for
         individuals living outside of the United States).
       </label>
@@ -120,31 +128,38 @@
       </p>
     </div>
 
-    <p>
+    <div class="separator">&nbsp;</div>
+
+    <p class="intro">
       Some legal service providers offer services based on certain income
       criteria. Answering this question will help us find a legal service
       provider to assist you.
     </p>
 
-    <div class="field clearfix">
+    <div class="field clearfix  <%= cycle("field-odd", "field-even") %>">
       <label <%= error_class_on @counseling, :monthly_income_tmp %> for="counseling_monthly_income_tmp">
-        What is the monthly income of your household?
+        What is the income of your household?
       </label>
       <p>
         <%= f.text_field :monthly_income_tmp, :size => 5 %>
+        <span data="monthly" class="small income hint">Monthly</span>
+        <span class="small">or</span>
+        <span data="yearly" class="small income hint">Annual</span>
       </p>
-
-      OR
-
-      <label <%= error_class_on @counseling, :yearly_income_tmp %> for="counseling_yearly_income_tmp">
-        What is the annual income of your household?
-      </label>
-      <p>
-        <%= f.text_field :yearly_income_tmp, :size => 5 %>
-      </p>
+      <script type="text/javascript">
+      var selectIncomeInput = function(value) {
+        jQuery(".income").css("font-weight", "normal");
+        jQuery(".income[data=" + value + "]").css("font-weight", "bold");
+        jQuery("#counseling_monthly_income_tmp").attr("name", "counseling[" + value + "_income_tmp]");
+      }
+      jQuery(".income").click(function() {
+        selectIncomeInput(jQuery(this).attr("data"));
+      });
+      selectIncomeInput("<%= @counseling.monthly_income.blank? ? "yearly" : "monthly" %>");
+      </script>
     </div>
 
-    <div class="field clearfix">
+    <div class="field clearfix <%= cycle("field-odd", "field-even") %>">
       <label <%= error_class_on @counseling, :number_in_household %> for="counseling_number_in_household">
         How many people live in your household?
       </label>
@@ -153,6 +168,18 @@
       </p>
     </div>
 
-    <%= content_tag :p, image_submit_tag("/images/next-enabled.png", :value => "submit", :id => "nextLinkButton") %>
+    <div class="clearfix field-next">
+      <p>
+        <%= image_submit_tag("next.gif", :value => "submit", :id => "nextLinkButton") %>
+      </p>
+      <script type="text/javascript">
+      jQuery("#nextLinkButton").bind("mouseenter", function() {
+        jQuery(this).attr("src", "<%= image_path "next-hover.gif" %>");
+      });
+      jQuery("#nextLinkButton").bind("mouseleave", function() {
+        jQuery(this).attr("src", "<%= image_path "next.gif" %>");
+      });
+      </script>
+    </div>
   <% end -%>
 </div>

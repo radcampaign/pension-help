@@ -333,32 +333,6 @@ form.help input.message {
 
 }
 form.help label,
-.help label {
-  margin-bottom: 5px;
-  color: #222;
-  font-family: Verdana,Arial,sans-serif;
-  font-weight: bold;
-  font-size: 14px;
-}
-form.help select {
-  float: left;
-  clear: both;
-  margin-bottom: 15px;
-}
-form.help textarea {
-  float: left;
-  clear: both;
-  margin-bottom: 15px;
-}
-form.help p {
-  float: left
-}
-label {
-  font-weight: bold
-}
-.required {
-  color: #cc0000
-}
 .auto {
   width: auto
 }
@@ -1040,6 +1014,8 @@ form.admin_form span.regular-label label {
 #used-for-disclaimer {
   display: none;
   font-weight: initial;
+  font-size: 14px;
+  padding: 0 10px;
 }
 
 #used-for-other {
@@ -1050,24 +1026,143 @@ form.admin_form span.regular-label label {
   display: none;
 }
 
-.field label {
-  float: left;
-  width: 64%;
+#employment-end {
+  display: none;
 }
 
-.field p {
+/* ======== */
+/* = HELP = */
+/* ======== */
+
+.clearfix:after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+.clearfix {
+  display: inline-block;
+}
+
+html[xmlns] .clearfix {
+  display: block;
+}
+
+* html .clearfix {
+  height: 1%;
+}
+
+#content-no-sidebar.help {
+  margin: 0;
+  padding: 0;
+  width: 900px;
+}
+
+.help h1 {
+  color: #78233b;
+}
+
+.help p {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.help p.intro {
+  font-weight: normal;
+  font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;;
+}
+
+.help .separator {
+  background-image: url(../images/help-separator.png);
+  margin: 20px 0 0;
+  height: 21px;
+  width: 100%;
+}
+
+p.mandatory-fields {
+  color: #78233b;
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 18px;
+}
+
+p.mandatory-fields img {
+  vertical-align: bottom;
+}
+
+.help label {
+  color: #222;
+  font-family: Verdana,Arial,sans-serif;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+form.help select {
+  float: left;
+  clear: both;
+  margin-bottom: 15px;
+}
+
+form.help textarea {
+  float: left;
+  clear: both;
+  margin-bottom: 15px;
+}
+
+form.help p {
+  float: left
+}
+
+label {
+  font-weight: bold
+}
+
+.required {
+  color: #cc0000
+}
+
+.field, .help .field p {
+  line-height: 36px;
+  min-height: 32px;
+}
+
+.field {
+  padding: 2px 10px 2px 10px;
+}
+
+.field select {
+  margin: 9px 0;
+  height: 20px;
+}
+
+.field.rq p {
+  background: transparent url(../images/mandatory-field.png) 0 50% no-repeat;
+  padding-left: 25px;
+}
+
+.field label {
+  float: left;
+  width: 650px;
+}
+
+.field p, .field-next p {
   float: right;
-  width: 34%;
+  margin: 0;
+  width: 200px;
 }
 
 .narrow-field label {
   float: left;
-  width: 20%;
+  width: 700px;
 }
 
 .narrow-field p {
   float: right;
-  width: 78%;
+  width: 200px;
 }
 
 .narrow-field p label {
@@ -1075,6 +1170,39 @@ form.admin_form span.regular-label label {
   width: initial;
 }
 
-#employment-end {
-  display: none;
+.field-odd {
+  background-color: #f3f8f9;
+}
+
+.field-even {
+  background-color: #ffffff;
+}
+
+.help .hint {
+  color: #4f899a;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: initial;
+  margin-bottom: 5px;
+}
+
+.help .small {
+  font-size: 11px;
+}
+
+.help .field input {
+  background-color: #fdfbee;
+  border: 1px solid #4f899a;
+  font-size: 12px;
+  height: 20px;
+  margin: 9px 0;
+}
+
+.field-next {
+  background-color: #ddefef;
+  padding: 2px 10px;
+}
+
+.field-next a {
+  border: 0;
 }
