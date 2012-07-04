@@ -1,0 +1,13 @@
+<div class="clearfix field-next">
+  <p>
+    <%= image_submit_tag("next.gif", :value => "submit", :id => "nextLinkButton") %>
+  </p>
+  <script type="text/javascript">
+  jQuery("#nextLinkButton").bind("mouseenter", function() {
+    jQuery(this).attr("src", "<%= image_path "next-hover.gif" %>");
+  });
+  jQuery("#nextLinkButton").bind("mouseleave", function() {
+    jQuery(this).attr("src", "<%= image_path "next.gif" %>");
+  });
+  </script>
+</div>

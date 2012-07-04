@@ -24,8 +24,8 @@
   </p>
 
   <% form_for :counseling, @counseling, :url => { :action => :step_2 } do |f| -%>
-    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %>">
-      <label <%= error_class_on @counseling, :behalf %> for="counseling_behalf">
+    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :behalf %>">
+      <label for="counseling_behalf">
         Are you using PensionHelp America for yourself or on behalf of
         someone else?
       </label>
@@ -34,8 +34,8 @@
       </p>
     </div>
 
-    <div class="field rq clearfix" id="used-for-other">
-      <label <%= error_class_on @counseling, :behalf_other %> for="counseling_behalf_other">
+    <div class="field rq clearfix <%= error_class_on @counseling, :behalf %>" id="used-for-other">
+      <label for="counseling_behalf_other">
         Please specify:
       </label>
       <p>
@@ -69,8 +69,8 @@
       are using this website.
     </p>
 
-    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %>">
-      <label <%= error_class_on @counseling, :gender %> for="counseling_gender">
+    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :gender %>">
+      <label for="counseling_gender">
         What is your gender?
       </label>
       <p>
@@ -78,8 +78,8 @@
       </p>
     </div>
 
-    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %>">
-      <label <%= error_class_on @counseling, :marital_status %> for="counseling_marital_status">
+    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :marital_status %>">
+      <label for="counseling_marital_status">
         What is your current marital status?
       </label>
       <p>
@@ -87,8 +87,8 @@
       </p>
     </div>
 
-    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %>">
-      <label <%= error_class_on @counseling, :age %> for="counseling_age">
+    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :age %>">
+      <label for="counseling_age">
         Please enter the year of your birth.
         <br/>
         <span class="hint">Some legal service providers offer
@@ -100,8 +100,8 @@
       </p>
     </div>
 
-    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %>">
-      <label <%= error_class_on @counseling, :ethnicity %> for="counseling_ethnicity">
+    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :ethnicity %>">
+      <label for="counseling_ethnicity">
         What is your ethnicity?
       </label>
       <p>
@@ -109,8 +109,8 @@
       </p>
     </div>
 
-    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %>">
-      <label <%= error_class_on @counseling, :zipcode %> for="counseling_zipcode">
+    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :zipcode %>">
+      <label for="counseling_zipcode">
         What is your five-digit zip code?
       </label>
       <p class="rq">
@@ -118,8 +118,8 @@
       </p>
     </div>
 
-    <div class="field clearfix">
-      <label <%= error_class_on @counseling, :non_us_resident %> for="counseling_non_us_resident" class="hint">
+    <div class="field clearfix <%= error_class_on @counseling, :non_us_resident %>">
+      <label for="counseling_non_us_resident" class="hint">
         Check this box if you don't have or know your zip code (e.g. for
         individuals living outside of the United States).
       </label>
@@ -136,8 +136,8 @@
       provider to assist you.
     </p>
 
-    <div class="field clearfix  <%= cycle("field-odd", "field-even") %>">
-      <label <%= error_class_on @counseling, :monthly_income_tmp %> for="counseling_monthly_income_tmp">
+    <div class="field clearfix  <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :monthly_income_tmp %> <%= error_class_on @counseling, :yearly_income_tmp %> ">
+      <label for="counseling_monthly_income_tmp">
         What is the income of your household?
       </label>
       <p>
@@ -159,8 +159,8 @@
       </script>
     </div>
 
-    <div class="field clearfix <%= cycle("field-odd", "field-even") %>">
-      <label <%= error_class_on @counseling, :number_in_household %> for="counseling_number_in_household">
+    <div class="field clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :number_in_household %>">
+      <label for="counseling_number_in_household">
         How many people live in your household?
       </label>
       <p>
@@ -168,18 +168,6 @@
       </p>
     </div>
 
-    <div class="clearfix field-next">
-      <p>
-        <%= image_submit_tag("next.gif", :value => "submit", :id => "nextLinkButton") %>
-      </p>
-      <script type="text/javascript">
-      jQuery("#nextLinkButton").bind("mouseenter", function() {
-        jQuery(this).attr("src", "<%= image_path "next-hover.gif" %>");
-      });
-      jQuery("#nextLinkButton").bind("mouseleave", function() {
-        jQuery(this).attr("src", "<%= image_path "next.gif" %>");
-      });
-      </script>
-    </div>
+    <%= render :partial => "help/navigation" %>
   <% end -%>
 </div>

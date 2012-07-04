@@ -37,6 +37,7 @@ module ApplicationHelper
   end
 
   def error_class_on(object, field)
-    return "class=\"form-error\"" if !object.errors[field].nil? && object.errors[field].any?
+    return "form-error" if !object.errors[field].nil? && object.errors[field].any?
+    ""
   end
 end
