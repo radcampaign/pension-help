@@ -1,4 +1,4 @@
-<div id="content-no-sidebar" class="help" style="width: 760px">
+<div id="content-no-sidebar" class="help">
   <h3>
     Based on the information you have provided, we think the following
     organizations will be able to assist you. Each of the organizations listed
@@ -6,7 +6,7 @@
   </h3>
 
   <% unless @counseling.non_us_resident == "1" %>
-  <p class="intro border-bottom">
+  <p>
     The resources below are based on the zip code you entered
     (<%= @counseling.zipcode %>)
     <% unless @zip_import.city.blank? && @zip_import.state_abbrev.blank? %>
@@ -17,33 +17,38 @@
 
   <p><%= @currently_employed_text if @counseling.currently_employed %></p>
 
-  <p class="normal">We recommend that you print this page for your records.</p>
+  <p class="hint">We recommend that you print this page for your records.</p>
+
+  <p></p>
 
   <% if @results.any? || @ask_user_for_email %>
-    <p class="normal">
-      <% form_remote_tag :url => url_for(:controller => "help", :action => "email") do %>
-        Enter your email address below to receive a copy of these results in
-        your inbox:
-        <br />
-        <%= text_field_tag :email %>
+    <% form_remote_tag :url => url_for(:controller => "help", :action => "email") do %>  
+      <p class="field-odd email-results">
+        <label>
+          Enter your email address below to receive a copy of these results in
+          your inbox:
+          <span class="field">
+            <%= text_field_tag :email %>
+          </span>
+        </label>
         <%= hidden_field_tag :id, @counseling.id %>
-        <br />
-        <% if @ask_user_for_email %>
-          <label>
-            <%= check_box_tag :contact %>
-            Check here if you'd like us to contact you when we have more
-            information specific to the plan:
-            <%= @counseling.plan_name %><%= " for #{City.find(@counseling.city_id).name}" if @counseling.city_id %> <%= " in #{County.find(@counseling.county_id).name}" if @counseling.county_id %>.
-          </label>
-          <br />
-        <% end %>
         <%= submit_tag "E-mail results" %>
         <%=  %>
+        <br />
+        <div id="resultsEmailResponse"></div>
+      </p>
+      <% if !@ask_user_for_email %>
+        <label class="hint">
+          <%= check_box_tag :contact %>
+          Check here if you'd like us to contact you when we have more
+          information specific to the plan:
+          <%= @counseling.plan_name %><%= " for #{City.find(@counseling.city_id).name}" if @counseling.city_id %> <%= " in #{County.find(@counseling.county_id).name}" if @counseling.county_id %>.
+        </label>
       <% end %>
-      <br />
-      <div id="resultsEmailResponse"></div>
-    </p>
+    <% end %>    
   <% end %>
+
+  <br />
 
   <%= render :partial => "results" %>
 </div>
