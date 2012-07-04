@@ -1,22 +1,18 @@
-<div id="content-no-sidebar" class="help" style="width: 760px">
+<div id="content-no-sidebar" class="help">
   <div id="counseling_errors">
     <%= render :partial => "help/counseling_errors",
       :locals => { "counseling" => @counseling } %>
   </div>
 
   <% form_for :counseling, @counseling, :url => { :action => :check_aoa_zip } do |f| -%>
-
-    <div id="employer-type-radios" class="clearfix narrow-field">
-      <label>
-        Employer type:
-      </label>
+    <div id="employer-type-radios" class="clearfix">
+      Employer type:
 
       <p>
         <% CounselAssistance.employer_types.each do |value, key| %>
-          <label>
+          <label class="<%= cycle("field-odd", "field-even") %>">
             <%= f.radio_button :employer_type_id, key %> <%= value %>
           </label>
-          <br />
         <% end %>
       </p>
     </div>
@@ -42,15 +38,17 @@
       <% end %>
     </div>
 
-    <div id="currently-employed" class="clearfix field">
-      <label for="counseling_currently_employed">
-        Are you currently working for this employer?
-      </label>
+    <div class="separator">&nbsp;</div>
+
+    <div id="currently-employed">
+      Are you currently working for this employer?
       <p>
-        <label>
+        <label class="hint">
           <%= f.radio_button :currently_employed, true %> Yes
         </label>
-        <label>
+      </p>
+      <p>
+        <label class="hint">
           <%= f.radio_button :currently_employed, false %> No
         </label>
       </p>
@@ -67,14 +65,13 @@
       </p>
     </div>
 
-    <div class="clearfix field">
+    <div>
       <label for="counseling_lost_plan">
         Check this box if you are unable to locate or contact the employer
         offering the plan you have a question about.
-      </label>
-      <p>
+        <br />
         <%= f.check_box :lost_plan %>
-      </p>
+      </label>
     </div>
 
 
@@ -102,10 +99,11 @@
       </p>
     </div>
     <% end %>
+    
+    <p>&nbsp;</p>
 
-    <%= submit_tag "Previous", :name => "previous" %>
     <%= hidden_field_tag :previous_to, "/help/counseling" %>
-    <%= image_submit_tag "/images/next-enabled.png", :name => 'continue', :id => "nextLinkButton" %>
+    <%= render :partial => "help/navigation", :locals => { :previous => true } %>
   <% end -%>
   <p>&nbsp;</p>
 </div>

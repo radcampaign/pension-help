@@ -1144,7 +1144,7 @@ label {
   width: 650px;
 }
 
-.field p, .field-next p {
+.field p {
   float: right;
   margin: 0;
   width: 200px;
@@ -1207,4 +1207,21 @@ label {
   background: transparent url(/images/error-alert.png) no-repeat 0% 8px;
   padding-left: 24px;
   width: 626px;
+}
+
+#employer-type-radios label {
+  display: block;
+  line-height: 36px;
+  padding: 2px 10px 2px 10px;
+}
+
+.field-next .next {
+  float: right;
+  width: 30%;
+  text-align: right;
+}
+
+.field-next .previous {
+  float: left;
+  width: 30%;
 }

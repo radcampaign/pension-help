@@ -16,7 +16,11 @@ class HelpController < ApplicationController
   end
 
   def counseling
-    @counseling = session[:counseling] = Counseling.new
+    if params.has_key?(:previous)
+      @counseling = update_counseling({})
+    else
+      @counseling = session[:counseling] = Counseling.new
+    end
   end
 
   def show_second_question
@@ -339,8 +343,9 @@ class HelpController < ApplicationController
 
 
   def step_back
-    if params[:previous] && params[:previous_to]
-      redirect_to(params[:previous_to]) and return
+    
+    if (params[:"previous.x"] || params[:"previous.y"]) && params[:previous_to]
+      redirect_to("#{params[:previous_to]}?previous") and return
     end
   end
 

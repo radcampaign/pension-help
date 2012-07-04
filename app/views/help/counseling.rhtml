@@ -60,7 +60,9 @@
     }
 
     jQuery("#counseling_behalf").change(usedForChange);
-    usedForChange.apply(jQuery("#counseling_behalf"));
+    jQuery(function() {
+      usedForChange.apply(jQuery("#counseling_behalf"));      
+    });
     </script>
 
     <p id="used-for-disclaimer">
