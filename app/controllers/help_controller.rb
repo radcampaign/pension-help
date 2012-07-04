@@ -23,7 +23,7 @@ class HelpController < ApplicationController
     end
   end
 
-  def show_second_question
+  def SHOW_SECOND_QUESTION
     @counseling = update_counseling(params)
     @counseling.step = 1
 
@@ -376,6 +376,10 @@ class HelpController < ApplicationController
 
     if ["IDK", "OTHER", 0].include?(counseling.selected_plan_id)
       counseling.selected_plan_id = nil
+    end
+
+    if ["IDK", "OTHER", 0].include?(counseling.federal_plan_id)
+      counseling.federal_plan_id = nil
     end
 
     if counseling.federal_plan_id && FederalPlan.find(counseling.federal_plan_id).associated_plan_id

@@ -1,19 +1,43 @@
 <% if question.county -%>
   <% if question.local -%>
-
-    <p><label>State:</label> <%= remote_select question.object, question.method, question.options,"help","get_counties?local=true" %></p>
+  <div class="field clearfix">
+    <label>
+      State:
+      <%= remote_select question.object, question.method, question.options, "help", "get_counties?local=true" %>
+    </label>
+  </div>
   <% else -%>
-
-    <p><label>State:</label> <%= remote_select question.object, question.method, question.options,"help","get_counties?local=false" %></p>
+  <div class="field clearfix">
+    <label>
+      State:
+      <%= remote_select question.object, question.method, question.options,"help","get_counties?local=false" %>
+    </label>
+  </div>
   <% end -%>
 <% else -%>
-  <p><%= question.desc %>: <%= remote_select question.object, question.method, question.options, question.controller, question.action, selected_value %></p>
+  <div class="field clearfix">
+    <label>
+      <%= question.desc %>: 
+      <br>
+      <%= remote_select question.object, question.method, question.options, question.controller, question.action, selected_value %>
+    </label>
+  </div>
 <% end -%>
 
 <% if question.county -%>
-  <div id="county_container"><p>County: <span id="counties"><select><option>-- Please select a state -- </option></select></span></p></div>
+  <div class="field clearfix" id="county_container">
+    <label>
+      County: 
+      <span id="counties"><select><option>-- Please select a state -- </option></select></span>
+    </label>
+  </div>
 <% end -%>
 
 <% if question.local -%>
-  <div id="city_container"><p>Local Government: <span id="localities"><select><option>-- Please select a county -- </option></select></span></p></div>
+  <div class="field clearfix" id="city_container">
+    <label>
+      Local Government: 
+      <span id="localities"><select><option>-- Please select a county -- </option></select></span>
+    </label>
+  </div>
 <% end -%>

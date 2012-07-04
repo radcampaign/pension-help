@@ -17,22 +17,22 @@
       </p>
     </div>
 
-    <div id="q2" class="counselingQuestion">
+    <div id="q2" class="counselingQuestion field-odd">
       <% if @next_question_2 -%>
           <%= render :partial => 'next_question', :locals => {'question' => @next_question_2, 'selected_value' => @selected_value_2} %>
       <% end -%>
     </div>
-    <div id="q3" class="counselingQuestion">
+    <div id="q3" class="counselingQuestion field-even">
       <% if @next_question_3 -%>
           <%= render :partial => 'next_question', :locals => {'question' => @next_question_3, 'selected_value' => @selected_value_3} %>
       <% end -%>
     </div>
-    <div id="q4" class="counselingQuestion">
+    <div id="q4" class="counselingQuestion field-odd">
       <% if @next_question_4 -%>
           <%= render :partial => 'next_question', :locals => {'question' => @next_question_4, 'selected_value' => @selected_value_4} %>
       <% end -%>
     </div>
-    <div id="q5" class="counselingQuestion">
+    <div id="q5" class="counselingQuestion field-even">
       <% if @next_question_5 -%>
           <%= render :partial => 'available_plans' %>
       <% end %>
