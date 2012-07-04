@@ -173,7 +173,7 @@ class HelpController < ApplicationController
     if @counseling.employer_type_id == EMP_TYPE[:military]
       @options = CounselAssistance.pension_earner_choices
     else
-      redirect_to :action => :step_4 and return
+      redirect_to :action => :step_5 and return
     end
   end
 
@@ -181,7 +181,7 @@ class HelpController < ApplicationController
     @counseling = update_counseling(params)
 
     if @counseling.valid?
-      redirect_to :action => :step_4
+      redirect_to :action => :step_5
     else
       @options = CounselAssistance.pension_earner_choices
       render :template => 'help/step_3'
