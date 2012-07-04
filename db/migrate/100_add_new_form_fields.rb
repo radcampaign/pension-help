@@ -5,7 +5,7 @@ class AddNewFormFields < ActiveRecord::Migration
     add_column :counselings, :gender, :string
     add_column :counselings, :marital_status, :string
     add_column :counselings, :age, :integer
-    add_column :counselings, :enthinicty, :string
+    add_column :counselings, :ethnicity, :string
   end
 
   def self.down
