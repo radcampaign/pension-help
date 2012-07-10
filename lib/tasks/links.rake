@@ -62,7 +62,7 @@ namespace :links do
                   entry[:error] = "Invalid request"
                 end
               end
-            rescue SocketError, Errno::ECONNREFUSED, Errno::ETIMEDOUT, Errno::ECONNRESET, Errno::ENETUNREACH => e
+            rescue SocketError, Errno::ECONNREFUSED, Errno::ETIMEDOUT, Errno::ECONNRESET, Errno::ENETUNREACH, Errno::EHOSTUNREACH => e
               entry[:error] = "Error connecting to server"
             rescue NoMethodError, URI::InvalidURIError => e
               entry[:error] = "Invalid link"
