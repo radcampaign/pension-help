@@ -4,7 +4,7 @@
       :locals => { "counseling" => @counseling } %>
   </div>
 
-  <% form_for :counseling, @counseling, :url => { :action => :check_aoa_zip } do |f| -%>
+  <% form_for :counseling, @counseling, :url => { :action => :step_3 } do |f| -%>
     <div id="employer-type-radios" class="clearfix">
       Employer type:
 
@@ -99,7 +99,7 @@
       </p>
     </div>
     <% end %>
-    
+
     <p>&nbsp;</p>
 
     <%= hidden_field_tag :previous_to, "/help/counseling" %>
