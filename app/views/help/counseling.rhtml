@@ -61,7 +61,7 @@
 
     jQuery("#counseling_behalf").change(usedForChange);
     jQuery(function() {
-      usedForChange.apply(jQuery("#counseling_behalf"));      
+      usedForChange.apply(jQuery("#counseling_behalf"));
     });
     </script>
 
@@ -140,22 +140,19 @@
 
     <div class="field clearfix  <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :monthly_income_tmp %> <%= error_class_on @counseling, :yearly_income_tmp %> ">
       <label for="counseling_monthly_income_tmp">
-        What is the income of your household?
+        What is the
+        <%= select_tag "", options_for_select([["annual", "yearly"], ["monthly", "monthly"]]), :class => "income" %>
+        income of your household?
       </label>
       <p>
         <%= f.text_field :monthly_income_tmp, :size => 5 %>
-        <span data="monthly" class="small income hint">Monthly</span>
-        <span class="small">or</span>
-        <span data="yearly" class="small income hint">Annual</span>
       </p>
       <script type="text/javascript">
       var selectIncomeInput = function(value) {
-        jQuery(".income").css("font-weight", "normal");
-        jQuery(".income[data=" + value + "]").css("font-weight", "bold");
         jQuery("#counseling_monthly_income_tmp").attr("name", "counseling[" + value + "_income_tmp]");
       }
-      jQuery(".income").click(function() {
-        selectIncomeInput(jQuery(this).attr("data"));
+      jQuery(".income").change(function() {
+        selectIncomeInput(jQuery(this).val());
       });
       selectIncomeInput("<%= @counseling.monthly_income.blank? ? "yearly" : "monthly" %>");
       </script>
