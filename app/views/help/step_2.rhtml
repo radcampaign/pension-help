@@ -5,6 +5,7 @@
   </div>
 
   <% form_for :counseling, @counseling, :url => { :action => :check_aoa_zip } do |f| -%>
+    <% if !@show_aoa_expansion %>
     <div id="employer-type-radios" class="clearfix">
       Employer type:
 
@@ -74,8 +75,8 @@
       </label>
     </div>
 
+    <% else %>
 
-    <% if @show_aoa_expansion %>
     <div>
       <h3>Where did you work?</h3>
 
@@ -99,7 +100,7 @@
       </p>
     </div>
     <% end %>
-    
+
     <p>&nbsp;</p>
 
     <%= hidden_field_tag :previous_to, "/help/counseling" %>
