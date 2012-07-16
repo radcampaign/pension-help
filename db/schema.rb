@@ -153,7 +153,7 @@ ActiveRecord::Schema.define(:version => 100) do
     t.column "gender",                  :string
     t.column "marital_status",          :string
     t.column "age",                     :integer
-    t.column "enthinicty",              :string
+    t.column "ethnicity",               :string
   end
 
   add_index "counselings", ["employer_type_id"], :name => "employer_type_id"
