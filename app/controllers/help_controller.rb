@@ -119,39 +119,53 @@ class HelpController < ApplicationController
       render :action => "counseling"
     else
       @counseling.step = 1
-
       @states = CounselAssistance.states
-      @ask_aoa = [
-        EMP_TYPE[:company],
-        EMP_TYPE[:railroad],
-        EMP_TYPE[:religious],
-        EMP_TYPE[:federal],
-        EMP_TYPE[:military],
-        EMP_TYPE[:unknown],
-        EMP_TYPE[:farm_credit]
-      ].include?(@counseling.employer_type_id)
-
-      if @counseling.aoa_coverage.empty? && @ask_aoa && (@counseling.hq_state_abbrev.blank? || @counseling.pension_state_abbrev.blank? || @counseling.work_state_abbrev.blank?)
-        @counseling.step = "2a"
-        @aoa_states = @counseling.aoa_covered_states
-        @zip_found = true
-        @show_aoa_expansion = true
-      else # good zip with AoA coverage, or good zip but no need to ask AoA questions
-        if @counseling.aoa_coverage.empty?
-          # clear out extra state dropdowns, as we won't consider them in this case
-          @counseling.hq_state_abbrev = @counseling.pension_state_abbrev = nil
-
-          # but preserve work_state if user is state/county/local employee
-          unless [EMP_TYPE[:state], EMP_TYPE[:county], EMP_TYPE[:city]].include?(@counseling.employer_type_id)
-            @counseling.work_state_abbrev = nil
-          end
-        end
-        @zip_found = true
-        @show_aoa_expansion = false
-
-        redirect_to :action => :step_3 and return
-      end
+      @ask_aoa = [EMP_TYPE[:company], EMP_TYPE[:railroad], EMP_TYPE[:religious],
+                  EMP_TYPE[:federal], EMP_TYPE[:military], EMP_TYPE[:unknown]].include?(@counseling.employer_type_id)
     end
+  end
+
+  # ajax call to check if zipcode is in aoa coverage area
+  def check_aoa_zip
+    @counseling = update_counseling(params)
+
+    @states = CounselAssistance.states
+    @ask_aoa = [
+      EMP_TYPE[:company],
+      EMP_TYPE[:railroad],
+      EMP_TYPE[:religious],
+      EMP_TYPE[:federal],
+      EMP_TYPE[:military],
+      EMP_TYPE[:unknown],
+      EMP_TYPE[:farm_credit]
+    ].include?(@counseling.employer_type_id)
+
+    if !@counseling.valid?
+      @zip_found = false
+      @show_aoa_expansion = false
+    elsif @counseling.aoa_coverage.empty? && @ask_aoa &&
+      (@counseling.hq_state_abbrev.blank? || @counseling.pension_state_abbrev.blank? || @counseling.work_state_abbrev.blank?)
+      @counseling.step = "2a"
+      @aoa_states = @counseling.aoa_covered_states
+      @zip_found = true
+      @show_aoa_expansion = true
+    else # good zip with AoA coverage, or good zip but no need to ask AoA questions
+      if @counseling.aoa_coverage.empty?
+        # clear out extra state dropdowns, as we won't consider them in this case
+        @counseling.hq_state_abbrev = @counseling.pension_state_abbrev = nil
+
+        # but preserve work_state if user is state/county/local employee
+        unless [EMP_TYPE[:state], EMP_TYPE[:county], EMP_TYPE[:city]].include?(@counseling.employer_type_id)
+          @counseling.work_state_abbrev = nil
+        end
+      end
+      @zip_found = true
+      @show_aoa_expansion = false
+
+      redirect_to :action => :step_3 and return
+    end
+
+    render :action => :step_2
   end
 
   def step_3
@@ -329,7 +343,7 @@ class HelpController < ApplicationController
 
 
   def step_back
-
+    
     if (params[:"previous.x"] || params[:"previous.y"]) && params[:previous_to]
       redirect_to("#{params[:previous_to]}?previous") and return
     end
