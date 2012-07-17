@@ -91,7 +91,7 @@ class HelpController < ApplicationController
   def show_available_plans
     @counseling = update_counseling(params)
     @counseling.step = 1
-    @matching_plans = @counseling.matching_plans.sort { |a, b| a.name <=> b.name }
+    @matching_plans = @counseling.matching_plans.sort { |a, b| a.name <=> b.name } rescue []
     if @matching_plans.blank?
       # if @counseling.employer_type_id == EMP_TYPE[:state]
       #   self.get_after_plan_selection_questions
