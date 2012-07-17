@@ -76,6 +76,8 @@ namespace :links do
               case object
               when Plan, Location
                 entry[:object] = { :agency_id => object.agency, :id => object }
+              when Publication
+                entry[:object] = object.agency
               else
                 entry[:object] = object
               end
