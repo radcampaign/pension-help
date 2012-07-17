@@ -1144,6 +1144,14 @@ label {
   width: 650px;
 }
 
+.field.field-50 label {
+  width: 400px;
+}
+
+.field.field-50 p {
+  width: 350px;
+}
+
 .field p {
   float: right;
   margin: 0;
