@@ -1203,6 +1203,10 @@ label {
   border: 0;
 }
 
+.help .form-error {
+  background-color: rgb(255, 168, 168) !important;
+}
+
 .help .form-error label {
   background: transparent url(/images/error-alert.png) no-repeat 0% 8px;
   padding-left: 24px;
