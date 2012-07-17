@@ -23,7 +23,7 @@ class HelpController < ApplicationController
     end
   end
 
-  def SHOW_SECOND_QUESTION
+  def show_second_question
     @counseling = update_counseling(params)
     @counseling.step = 1
 
@@ -343,7 +343,7 @@ class HelpController < ApplicationController
 
 
   def step_back
-    
+
     if (params[:"previous.x"] || params[:"previous.y"]) && params[:previous_to]
       redirect_to("#{params[:previous_to]}?previous") and return
     end
