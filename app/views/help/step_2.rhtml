@@ -77,28 +77,39 @@
 
     <% else %>
 
-    <div>
-      <h3>Where did you work?</h3>
+    <h3>Where did you work?</h3>
 
-      <p class="normal">
-        Some organizations provide assistance based on where the work occurred while earning the pension, where the company is headquartered, or where the benefit is being paid from.
-      </p>
+    <p class="normal">
+      Some organizations provide assistance based on where the work occurred while earning the pension, where the company is headquartered, or where the benefit is being paid from.
+    </p>
 
-      <p id="work_state_abbrev">
-        Where did the work occur:
+    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :work_state_abbrev %>">
+      <label for="counseling_work_state_abbrev">
+        Where did you work?
+      </label>
+      <p>
         <%= select :counseling, :work_state_abbrev, @states, :include_blank => true %>
       </p>
+    </div>
 
-      <p id="hq_state_abbrev">
+    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :hq_state_abbrev %>">
+      <label for="counseling_hq_state_abbrev">
         Where is the employer located:
+      </label>
+      <p>
         <%= select :counseling, :hq_state_abbrev, @states, :include_blank => true %>
       </p>
+    </div>
 
-      <p id="pension_state_abbrev">
+    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :pension_state_abbrev %>">
+      <label for="counseling_pension_state_abbrev">
         Where is the pension paid from:
+      </label>
+      <p>
         <%= select :counseling, :pension_state_abbrev, @states, :include_blank => true %>
       </p>
     </div>
+
     <% end %>
 
     <p>&nbsp;</p>

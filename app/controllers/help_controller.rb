@@ -149,6 +149,10 @@ class HelpController < ApplicationController
       @aoa_states = @counseling.aoa_covered_states
       @zip_found = true
       @show_aoa_expansion = true
+
+      @counseling.errors.add(:hq_state_abbrev, "is required") if @counseling.hq_state_abbrev.blank?
+      @counseling.errors.add(:work_state_abbrev, "is required") if @counseling.work_state_abbrev.blank?
+      @counseling.errors.add(:pension_state_abbrev, "is required") if @counseling.pension_state_abbrev.blank?
     else # good zip with AoA coverage, or good zip but no need to ask AoA questions
       if @counseling.aoa_coverage.empty?
         # clear out extra state dropdowns, as we won't consider them in this case
