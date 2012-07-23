@@ -65,8 +65,6 @@ ExceptionNotifier.sender_address = %("PHA Application Error" <do_not_reply@gradi
 
 ExceptionNotifier.email_prefix = "[PHA ERROR] "
 
-
-
 #Roles
 ADMIN_ROLE='ADMIN'
 NETWORK_USER_ROLE='NETWORK_USER'

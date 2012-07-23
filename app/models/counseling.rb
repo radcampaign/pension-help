@@ -1,4 +1,17 @@
 class Counseling < ActiveRecord::Base
+  def self.human_attribute_name(*args)
+    case args[0].to_s
+    when "hq_state_abbrev"
+      "Employer state"
+    when "work_state_abbrev"
+      "Work state"
+    when "pension_state_abbrev"
+      "State where pension is paid from"
+    else
+      super
+    end
+  end
+
   BEHALF_OPTIONS = ActiveSupport::OrderedHash.new
   BEHALF_OPTIONS["self"]   = "Self"
   BEHALF_OPTIONS["parent"] = "Parent"
