@@ -123,6 +123,8 @@ class HelpController < ApplicationController
       @ask_aoa = [EMP_TYPE[:company], EMP_TYPE[:railroad], EMP_TYPE[:religious],
                   EMP_TYPE[:federal], EMP_TYPE[:military], EMP_TYPE[:unknown]].include?(@counseling.employer_type_id)
     end
+
+    @previous_to = "/help/counseling"
   end
 
   # ajax call to check if zipcode is in aoa coverage area
@@ -172,6 +174,7 @@ class HelpController < ApplicationController
       redirect_to :action => :step_3 and return
     end
 
+    @previous_to = "/help/step_2"
     render :action => :step_2
   end
 
