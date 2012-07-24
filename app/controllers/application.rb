@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   before_filter :basic_auth
 
   def domain_redirect
-    if request.env["HTTP_HOST"] =~ /pensionhelp\.org/
+    if request.env["HTTP_HOST"] =~ /pensionhelp\.org/ && ENV["RAILS_ENV"] == "production"
       redirect_to "#{request.env["HTTP_HOST"].gsub(".org", ".net")}#{request.env["REQUEST_URI"]}"
     end
   end
