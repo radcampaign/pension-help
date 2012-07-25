@@ -305,7 +305,11 @@ class HelpController < ApplicationController
   def get_counties
     counties = State.find(params[:counseling][:work_state_abbrev]).counties rescue []
     render :update do |page|
-      page.replace_html 'counties', :partial => 'county_selector', :locals => {'options' => counties.collect{|c| [c.name, c.id]}.sort.push(["I don't know", "XX"]), 'cities' => params[:local]}
+      page.replace_html "counties", :partial => "county_selector",
+        :locals => {
+          "options" => counties.collect { |c| [c.name, c.id] }.
+            sort { |one, two| (one[0] == "I don't know" || two[0] == "I don't know") ? -1 : one[0] <=> two[0] },
+          "cities" => params[:local] }
       page.visual_effect :highlight, 'county_container'
     end
   end
