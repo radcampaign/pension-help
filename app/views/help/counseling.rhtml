@@ -122,8 +122,9 @@
 
     <div class="field clearfix <%= error_class_on @counseling, :non_us_resident %>">
       <label for="counseling_non_us_resident" class="hint">
-        Check this box if you don't have or know your zip code (e.g. for
-        individuals living outside of the United States).
+        Check this box if you don't have or know your zip code
+        <br />
+        (e.g. for individuals living outside of the United States).
       </label>
       <p>
         <%= f.check_box :non_us_resident %>
