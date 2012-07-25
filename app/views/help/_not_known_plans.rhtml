@@ -1,7 +1,17 @@
-<div id="agency_name_container" class="normal"><label>What agency or department did you work for?</label>
-  <input name="counseling[agency_name]" type="text" id="agency_name" />
+<div class="field clearfix <%= cycle("field-odd", "field-even") %>">
+  <label for="agency_name">
+    What agency or department did you work for?
+  </label>
+  <p>
+    <input name="counseling[agency_name]" type="text" id="agency_name" />
+  </p>
 </div>
-<div id="plan_job_function_container" class="normal"><label>What was your job function?</label>
-  <input name="counseling[job_function]" type="text" id="job_function"
-/>
+
+<div class="field clearfix <%= cycle("field-odd", "field-even") %>">
+  <label for="job_function">
+    What was your job function?
+  </label>
+  <p>
+    <input name="counseling[job_function]" type="text" id="job_function" />
+  </p>
 </div>

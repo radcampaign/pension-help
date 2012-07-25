@@ -1,9 +1,16 @@
 <h3>We need a little more information...</h3>
-<p class="normal">
-  Answer the questions below to help identify the particular pension plan you have a question about. Then click “Next” to continue.
+<p class="intro">
+  Answer the questions below to help identify the particular pension plan you
+  have a question about.
 </p>
-<div id="plan_name_container" class="normal">
-  <label>What plan were you inquiring about?</label>
-  <input name="counseling[plan_name]" type="text" id="plan_name" />
+
+<div class="field clearfix <%= cycle("field-odd", "field-even") %>">
+  <label for="plan_name">
+    What plan were you inquiring about?
+  </label>
+  <p>
+    <input name="counseling[plan_name]" type="text" id="plan_name" />
+  </p>
 </div>
+
 <%= render :partial => 'not_known_plans' %>
