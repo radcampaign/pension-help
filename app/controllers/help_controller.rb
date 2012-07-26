@@ -317,7 +317,11 @@ class HelpController < ApplicationController
   def get_localities
     localities = County.find(params[:counseling][:county_id]).cities rescue []
     render :update do |page|
-      page.replace_html 'localities', :partial => 'city_selector', :locals => {'options' => localities.collect{|c| [c.name, c.id]}.sort.push(["I don't know", "XX"]), 'cities' => 'false'}
+      page.replace_html "localities", :partial => "city_selector",
+        :locals => {
+          "options" => localities.collect { |c| [c.name, c.id] }.
+            sort { |one, two| (one[0] == "I don't know" || two[0] == "I don't know") ? -1 : one[0] <=> two[0] },
+          "cities" => "false" }
       page.visual_effect :highlight, 'city_container'
     end
   end
