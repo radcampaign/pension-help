@@ -57,7 +57,7 @@ class Mailer < ActionMailer::Base
     @recipients = EMAIL_RECIPIENT
     @from = EMAIL_FROM
     @subject = "PHA: A user has requested information on a plan that is not in the PHA database"
-    body :state => counseling.work_state_abbrev, :county => County.find(counseling.county_id).name,
+    body :state => counseling.work_state_abbrev, :county => (County.find(counseling.county_id).name rescue nil),
          :city => (counseling.city_id ? City.find(counseling.city_id).name : nil),
          :plan_name => counseling.plan_name, :agency_name => counseling.agency_name, :job_function => counseling.job_function
   end
