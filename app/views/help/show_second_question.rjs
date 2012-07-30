@@ -5,10 +5,17 @@ if @next_question
       "question" => @next_question,
       "selected_value" => @counseling[@next_question.method]
     }
+
   page.replace_html "q3", ""
   page.replace_html "q4", ""
   page.replace_html "q5", ""
   page.visual_effect :highlight, "q2"
+
+  if !@counseling[@next_question.method].blank?
+    page << %Q{
+      $("#{@next_question.object}[#{@next_question.method}]").onchange();
+    }
+  end
 else
   page.replace_html "q2", ""
   page.replace_html "q3", ""

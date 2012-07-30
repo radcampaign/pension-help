@@ -122,7 +122,7 @@
 
 <script type="text/javascript">
 jQuery(function() {
-  jQuery("#employer-type-radios input[type=radio]").click(function() {
+  var loadSecondQuestion = function() {
     var value = jQuery(this).val();
 
     new Ajax.Request("/help/show_second_question", {
@@ -130,7 +130,13 @@ jQuery(function() {
       evalScripts: true,
       parameters: "counseling[employer_type_id]=" + escape(value)
     });
-  });
+  }
+
+  <% if !@counseling.employer_type_id.blank? && !@show_aoa_expansion %>
+  loadSecondQuestion.call(jQuery("#counseling_employer_type_id_<%= @counseling.employer_type_id %>"));
+  <% end %>
+
+  jQuery("#employer-type-radios input[type=radio]").click(loadSecondQuestion);
 
   jQuery("#currently-employed input").change(function() {
     if (jQuery(this).val() == "true") {

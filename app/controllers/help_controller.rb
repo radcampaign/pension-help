@@ -303,6 +303,8 @@ class HelpController < ApplicationController
 
   # Used for populating state, county and local pulldowns
   def get_counties
+    @counseling = update_counseling(params)
+
     counties = State.find(params[:counseling][:work_state_abbrev]).counties rescue []
     render :update do |page|
       page.replace_html "counties", :partial => "county_selector",
@@ -315,6 +317,8 @@ class HelpController < ApplicationController
   end
 
   def get_localities
+    @counseling = update_counseling(params)
+
     localities = County.find(params[:counseling][:county_id]).cities rescue []
     render :update do |page|
       page.replace_html "localities", :partial => "city_selector",
