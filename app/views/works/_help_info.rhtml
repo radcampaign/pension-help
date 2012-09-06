@@ -6,7 +6,6 @@
 		<tr>
 			<th><%= check_box_tag("help_additional_areas[]", item.name, partner.help_additional_areas.collect(&:name).include?(item.name)) %></th>
 			<td><%= item.name %>
-			<%= p.text_field :help_additional_area_other if item.name.match('Other') %>
 			</td>
 		</tr>
 	<% end -%>
@@ -15,30 +14,3 @@
 </p>
 
 <p>&nbsp;</p>
-
-<p class="works_question">I am willing to participate at the following levels (check all that apply):</p>
-
-<p>
-<table class="form">
-	<tr>
-		<th><%= p.check_box :willing_to_answer, {}, true, false %></th>
-		<td>
-			<label for="partner_willing_to_answer">
-				Provide basic answers to individuals' questions.
-			</label>
-		</td>
-	</tr>
-	<tr>
-		<th><%= p.check_box :willing_to_provide, {}, true, false %></th>
-		<td>
-			<label for="partner_willing_to_provide">
-				Provide these services free of charge.
-			</label>
-		</td>
-	</tr>
-</table>
-</p>
-
-<p>&nbsp;</p>
-
-<%= hidden_field_tag "partner[wants_help]", true %>

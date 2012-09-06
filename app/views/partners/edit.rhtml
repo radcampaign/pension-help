@@ -47,10 +47,10 @@
 		  <% fields_for :user, @partner.user do |f_user| %>
 		    <%= render :partial => 'shared/login_information', :object => f_user, :locals => {:existing_user => true} %>
 		  <% end %>
-		
+
   		<br/>
 		  <h2 style="margin-bottom:10px">I am interested in joining (you may select more than one):</h2>
-  
+
 		  <%= render :partial => 'shared/join_service' %>
 
 		  <p>
@@ -77,7 +77,6 @@
                  jQuery(this).remove();
                }
            });
-        if(!jQuery("#partner_wants_search").attr('checked')){
             jQuery("#geo_areas").remove();
         }
         return true;
@@ -105,25 +104,6 @@
       selectProfession();
     });
 
-    jQuery("#partner_wants_help").click(function (){
-      loadPlansType(jQuery(this).attr('checked'));
-      loadProfessions(jQuery(this).attr('checked'));
-      loadHelpInfo((jQuery(this).attr('checked')));
-      loadAdditionalInfo(jQuery(this).attr('checked'));
-      showHelpFields(jQuery(this).attr('checked'));
-      checkBoxes();
-      selectProfession();
-    });
-
-    jQuery("#partner_wants_search").click(function (){
-      loadProfessions(jQuery(this).attr('checked'));
-      loadGeoSearchInfo(jQuery(this).attr('checked'));
-      loadAdditionalInfo(jQuery(this).attr('checked'));
-      showSearchFields(jQuery(this).attr('checked'));
-      checkBoxes();
-      selectProfession();
-    });
-
 	jQuery("#a_contactInfo").click(function(){
 	  setActiveTab(0);
 
@@ -137,8 +117,6 @@
       loadNplnJurisdictions(true);
       loadProfessions(true);
       selectProfession();
-      loadGeoSearchInfo(true);
-      loadHelpInfo(true);
       loadReferrals(true);
       loadPalAaaInfo(true);
       loadAdditionalInfo(true);
@@ -157,10 +135,10 @@
         "geo_south",
         "geo_midwest"
       );
- 
+
        jQuery("#geo_codes INPUT[type='checkbox']").each(function(){
              jQuery(this).click(function(){
-                
+
                 if(!jQuery(this).attr('checked')){
                  for (var i = 0; i < geo_name.length; i++){
                     if(jQuery(this).hasClass(geo_name[i])){
@@ -186,7 +164,7 @@
              });
        });
 
-       jQuery("#geo_nationwide").click(function(){        
+       jQuery("#geo_nationwide").click(function(){
           jQuery("#geo_codes INPUT[type='checkbox']").attr('checked', jQuery(this).attr('checked'));
        });
 
@@ -231,7 +209,7 @@
     }
 
 
-    
+
     /*Add 'save reminder' to links and buttons */
     // temporarily removing due to some bugs that crop up in IE
     // var asr = new AdminSaveReminder();
@@ -239,7 +217,7 @@
    });
 
     function checkBoxes(){
-             if(!(jQuery("#partner_wants_npln").attr('checked') ||  jQuery("#partner_wants_pal").attr('checked') || jQuery("#partner_wants_help").attr('checked') || jQuery("#partner_wants_search").attr('checked'))){
+             if(!(jQuery("#partner_wants_npln").attr('checked') ||  jQuery("#partner_wants_pal").attr('checked'))){
                jQuery("#otherInfoNoSelection").show();
                jQuery("#otherInfoSelection").hide();
              }
@@ -264,7 +242,7 @@
            if(hideSponorsRow(this)){
              jQuery(this).addClass('remove_on_submit');
              jQuery(this).hide();
-          } 
+          }
           }
         });
     }
@@ -316,8 +294,6 @@
         var valuesArray = new Array(
                 jQuery("#partner_wants_npln").attr('checked'),
                 jQuery("#partner_wants_pal").attr('checked'),
-                jQuery("#partner_wants_help").attr('checked'),
-                jQuery("#partner_wants_search").attr('checked')
                 );
        var str = jQuery(row).attr('class');
        var classNames = new Array(
@@ -334,30 +310,28 @@
                 (jQuery(row).hasClass(classNames[3]))
        );
         for (var i = 0; i < 4; i++){
-            
+
             if(valuesArray[i] && questionValuesArray[i]){
                 return false;
             }
         }
         return true;
     }
-    
-    function loadSponsorType(){    
+
+    function loadSponsorType(){
        jQuery("#sponsor_types").html('<%= escape_javascript(render(:partial => 'works/sponsor_types', :locals => {:partner => @partner, :p => f})) %>');
        if(jQuery("#partner_wants_pal").attr('checked'))    showPalFileds(true);
-       if(jQuery("#partner_wants_help").attr('checked'))   showHelpFields(true);
        if(jQuery("#partner_wants_npln").attr('checked'))   showNplnFields(true);
-       if(jQuery("#partner_wants_search").attr('checked')) showSearchFields(true);
     }
     /* plan_types sponsor_types */
      function loadPlansType(condition) {
          if(!condition){
-            if(!(jQuery('#partner_wants_npln').attr('checked') || jQuery("#partner_wants_help").attr('checked') || jQuery("#partner_wants_pal").attr('checked'))){
+            if(!(jQuery('#partner_wants_npln').attr('checked') || jQuery("#partner_wants_pal").attr('checked'))){
                  jQuery("#plan_types").html('');
 
             }
          }
-         else  if((jQuery('#partner_wants_npln').attr('checked') || jQuery("#partner_wants_help").attr('checked') || jQuery("#partner_wants_pal").attr('checked'))){
+         else  if((jQuery('#partner_wants_npln').attr('checked') || jQuery("#partner_wants_pal").attr('checked'))){
              if(jQuery("#plan_types").html()==''){
                jQuery("#plan_types").html('<%= escape_javascript(render(:partial => 'works/plan_types', :locals => {:partner => @partner, :p => f})) %>');
             }
@@ -371,8 +345,7 @@
 
 
                 show_hide_professions();
-                hideShowProfessionOtherTextField()
-             
+
          }
      };
     /* nlpn_infp, npln_levels  */
@@ -404,47 +377,15 @@
          if(!condition){
             if(!jQuery("#partner_wants_pal").attr('checked')){
                  jQuery("#pal_info").html('');
-                 jQuery("#aaa_info").html('');
             }
          }
          else  if(jQuery("#partner_wants_pal").attr('checked')){
-             if(jQuery("#aaa_info").html()==''){
-                    jQuery("#aaa_info").html('<%= escape_javascript(render(:partial => 'works/aaa_info', :locals => {:partner => @partner, :p => f})) %>');
-             }
              if(jQuery("#pal_info").html()=='') {
                     jQuery("#pal_info").html('<%= escape_javascript(render(:partial => 'works/pal_info', :locals => {:partner => @partner, :p => f})) %>');
 
             }
          }
-        
-     };
-   /* partner_wants_help  */
-     function loadHelpInfo(condition) {
-         if(!condition){
-            if(!jQuery("#partner_wants_help").attr('checked')){
-                 jQuery("#help_info").html('');
-            }
-         }
-         else if(jQuery("#partner_wants_help").attr('checked')){
-             if(jQuery("#help_info").html()==''){
-                jQuery("#help_info").html('<%= escape_javascript(render(:partial => 'works/help_info', :locals => {:partner => @partner, :p => f})) %>');
-            }
-         }
-     };
-    /* search_info  */
-     function loadGeoSearchInfo(condition) {
-         if(!condition){
-            if(!jQuery("#partner_wants_search").attr('checked')){
-                 jQuery("#search_info").html('');
-                 jQuery("#geo_areas").hide();
-            }
-         }
-         else if(jQuery("#partner_wants_search").attr('checked')){
-          if(jQuery("#search_info").html()==''){
-              jQuery("#search_info").html('<%= escape_javascript(render(:partial => 'works/search_info', :locals => {:partner => @partner, :p => f})) %>');
-          }
-           jQuery("#geo_areas").show();
-         }
+
      };
   /* referrals  */
      function loadReferrals(condition) {
@@ -463,11 +404,11 @@
     /* plan_types additional_info */
      function loadAdditionalInfo(condition) {
          if(!condition){
-            if(!(jQuery('#partner_wants_npln').attr('checked') || jQuery('#partner_wants_search').attr('checked') || jQuery("#partner_wants_help").attr('checked') || jQuery("#partner_wants_pal").attr('checked'))){
+            if(!(jQuery('#partner_wants_npln').attr('checked') || jQuery("#partner_wants_pal").attr('checked'))){
                  jQuery("#additional_info").html('');
             }
          }
-         else if((jQuery('#partner_wants_npln').attr('checked') || jQuery('#partner_wants_search').attr('checked') || jQuery("#partner_wants_help").attr('checked') || jQuery("#partner_wants_pal").attr('checked'))){
+         else if((jQuery('#partner_wants_npln').attr('checked') || jQuery("#partner_wants_pal").attr('checked'))){
              if(jQuery("#additional_info").html()==''){
                jQuery("#additional_info").html('<%= escape_javascript(render(:partial => 'works/additional_info', :locals => {:partner => @partner, :p => f})) %>');
             }
@@ -476,23 +417,13 @@
 
      function selectProfession(){
        if (!(window.profession_selected == true)){
-        if (jQuery('#partner_wants_npln').attr('checked') && !jQuery('#partner_wants_pal').attr('checked') && !jQuery('#partner_wants_search').attr('checked') && !jQuery('#partner_wants_help').attr('checked'))
+        if (jQuery('#partner_wants_npln').attr('checked') && !jQuery('#partner_wants_pal').attr('checked'))
           jQuery('select#profession').val('Attorney');
-        else if (jQuery('#partner_wants_pal').attr('checked') && !jQuery('#partner_wants_npln').attr('checked') && !jQuery('#partner_wants_search').attr('checked') && !jQuery('#partner_wants_help').attr('checked'))
+        else if (jQuery('#partner_wants_pal').attr('checked') && !jQuery('#partner_wants_npln').attr('checked'))
           jQuery('select#profession').val('Actuary');
         else
           jQuery('select#profession').val('');
       }
-     }
-
-     function hideShowProfessionOtherTextField(){
-
-         jQuery('select#profession').change(function(){
-             if (jQuery('#profession :selected').val() == 'Other...')
-                jQuery('input#partner_profession_other').show();
-           else
-             jQuery('input#partner_profession_other').hide();
-         });
      }
 
   var show_hide_professions = function(){
@@ -501,17 +432,6 @@
            else
              jQuery('tr#partner_profession_other').hide();
      }
-
-     function hideShowProfessionOtherTextField(){
-         jQuery('select#profession').live('change', function(){
-         window.profession_selected = true;
-         show_hide_professions();
-         });
-     }
-
-
-
-	
 
 </script>
 <% end %>

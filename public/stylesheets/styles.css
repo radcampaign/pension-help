@@ -1254,4 +1254,40 @@ label {
 
 .help select option {
   font-size: 12px;
+
+.partner-form label {
+  display: inline-block;
+  font-weight: bold;
+  width: 120px;
+}
+
+.partner-form {
+  font-weight: normal;
+}
+
+.partner-form .wide-label label {
+  width: 380px;
+}
+
+.partner-form .checkboxes label {
+  display: inline;
+  font-weight: normal;
+}
+
+.partner-form .fieldWithErrors {
+  display: inline-block;
+}
+
+.partner-form .fieldWithErrors input {
+  border: 1px solid red;
+}
+
+.partner-form .formError {
+  display: inline-block;
+  color: red;
+}
+
+.partner-form div {
+  margin: 5px 0px 10px 0px;
+  line-height: 1.3;
 }

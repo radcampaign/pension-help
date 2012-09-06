@@ -5,12 +5,11 @@
 	<% for item in PalAdditionalArea.find(:all, :order => :position) %>
 		<tr>
 			<th><%= check_box_tag("pal_additional_areas[]", item.name, partner.pal_additional_areas.collect(&:name).include?(item.name)) %></th>
-			<td><%= item.name %> 
-			<%= p.text_field :pal_additional_area_other if item.name.match('Other') %>
+			<td><%= item.name %>
 			</td>
 		</tr>
 	<% end -%>
-	
+
 </table>
 </p>
 
@@ -23,12 +22,11 @@
 	<% for item in PalParticipationLevel.find(:all) %>
 		<tr>
 			<th><%= check_box_tag("pal_participation_levels[]", item.name, partner.pal_participation_levels.collect(&:name).include?(item.name))  %></th>
-			<td><%= item.name %> 
-			<%= p.text_field :pal_participation_level_other if item.name.match('Other') %>
+			<td><%= item.name %>
 			</td>
 		</tr>
 	<% end -%>
-	
+
 </table>
 </p>
 
