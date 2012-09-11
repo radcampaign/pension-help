@@ -75,7 +75,7 @@ class Mailer < ActionMailer::Base
   def counseling_results(email, counseling, results, lost_plan_resources)
     @recipients = email
     @from = EMAIL_FROM
-    @subject = "PHA: Help Search Results"
+    @subject = "Your PensionHelp America results"
 
     content_type "text/html"
 
