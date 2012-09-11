@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 102) do
+ActiveRecord::Schema.define(:version => 103) do
 
   create_table "addresses", :force => true do |t|
     t.column "location_id",    :integer
@@ -555,12 +555,12 @@ ActiveRecord::Schema.define(:version => 102) do
   end
 
   create_table "participations_partners", :id => false, :force => true do |t|
-    t.column "partner_id",       :integer
-    t.column "participation_id", :integer
+    t.column "partner_id",        :integer
+    t.column "participations_id", :integer
   end
 
   add_index "participations_partners", ["partner_id"], :name => "partner_id"
-  add_index "participations_partners", ["participation_id"], :name => "participation_id"
+  add_index "participations_partners", ["participations_id"], :name => "participations_id"
 
   create_table "partners", :force => true do |t|
     t.column "first_name",                                   :string,  :limit => 80
@@ -577,12 +577,12 @@ ActiveRecord::Schema.define(:version => 102) do
     t.column "url",                                          :string
     t.column "other_info",                                   :text
     t.column "wants_npln",                                   :boolean,               :default => false
-    t.column "wants_pal",                                    :boolean,               :default => false, :null => false
+    t.column "wants_pal",                                    :boolean,               :default => false
     t.column "preferred_method_of_contact",                  :integer
     t.column "fee_for_initial_consultation",                 :string
     t.column "hourly_continuous_fee",                        :string
     t.column "professional_certifications_and_affiliations", :string
-    t.column "has_other_areas_of_expertise",                 :boolean
+    t.column "has_other_areas_of_expertise",                 :boolean,               :default => false
     t.column "other_areas_of_expertise",                     :string
     t.column "dr_lawyer",                                    :boolean,               :default => false
     t.column "has_other_level_of_participation",             :boolean,               :default => false
@@ -1006,7 +1006,7 @@ ActiveRecord::Schema.define(:version => 102) do
   add_foreign_key "locations", ["agency_id"], "agencies", ["id"], :name => "locations_ibfk_1"
 
   add_foreign_key "participations_partners", ["partner_id"], "partners", ["id"], :name => "participations_partners_ibfk_1"
-  add_foreign_key "participations_partners", ["participation_id"], "participations", ["id"], :name => "participations_partners_ibfk_2"
+  add_foreign_key "participations_partners", ["participations_id"], "participations", ["id"], :name => "participations_partners_ibfk_2"
 
   add_foreign_key "partners_claim_types", ["partner_id"], "partners", ["id"], :name => "partners_claim_types_ibfk_1"
   add_foreign_key "partners_claim_types", ["claim_type_id"], "claim_types", ["id"], :name => "partners_claim_types_ibfk_2"
