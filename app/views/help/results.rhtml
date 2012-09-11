@@ -5,16 +5,6 @@
     below provides services free of charge.
   </h3>
 
-  <% unless @counseling.non_us_resident == "1" %>
-  <p>
-    The resources below are based on the zip code you entered
-    (<%= @counseling.zipcode %>)
-    <% unless @zip_import.city.blank? && @zip_import.state_abbrev.blank? %>
-      near <%= "#{@zip_import.city}, #{@zip_import.state_abbrev}" %>
-    <% end %>
-  </p>
-  <% end %>
-
   <p><%= @currently_employed_text if @counseling.currently_employed %></p>
 
   <p class="hint">We recommend that you print this page for your records.</p>
