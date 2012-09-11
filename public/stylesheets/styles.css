@@ -1254,10 +1254,11 @@ label {
 
 .help select option {
   font-size: 12px;
+}
 
 .partner-form label {
   display: inline-block;
-  font-weight: bold;
+  font-weight: normal;
   width: 120px;
 }
 
