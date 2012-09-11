@@ -245,6 +245,8 @@ abbr {
   font-size: 24px;
   color: #004e5a;
   text-decoration: none;
+	font-family:Arial, Helvetica, sans-serif;
+	font-weight:normal;
 }
 #sidebar p {
   font-size: 14px
