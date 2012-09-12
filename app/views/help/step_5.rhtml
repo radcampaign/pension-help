@@ -2,7 +2,11 @@
 
   <p class="intro border-bottom">This is the last step in getting you to the right pension-help resource. Answer the questions below and click <b style="color: #cc0000; ">NEXT</b> to continue.</p>
 
-  <p>&nbsp;</p>
+  <p class="mandatory-fields">
+    <%= image_tag "mandatory-field.png" %>
+    Marked fields are mandatory!
+  </p>
+  <div class="separator">&nbsp;</div>
 
   <% form_for :counseling, :url => {:action => :process_step_5} do |form| -%>
 

@@ -4,6 +4,12 @@
       :locals => { "counseling" => @counseling } %>
   </div>
 
+  <p class="mandatory-fields">
+    <%= image_tag "mandatory-field.png" %>
+    Marked fields are mandatory!
+  </p>
+  <div class="separator">&nbsp;</div>
+
   <% form_for :counseling, @counseling, :url => { :action => :process_step_3 } do |f| -%>
     <% if @counseling.employer_type_id == EMP_TYPE[:military] %>
       <div class="clearfix field field-50">
