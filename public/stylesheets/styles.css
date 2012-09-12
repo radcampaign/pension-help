@@ -1323,6 +1323,5 @@ label {
 }
 
 #find_help_now:active {
-		position:relative;
-		top:1px;
+		border-color:#FFF;
 }
