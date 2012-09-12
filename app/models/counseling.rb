@@ -295,7 +295,7 @@ class Counseling < ActiveRecord::Base
       agencies << result_type_match('DOL')
     end
     unless aoa_coverage.empty?
-      return agencies << aoa_coverage
+      return agencies.unshift(aoa_coverage)
     end
     nsp = closest_nsp
     dsp = closest_dsp
@@ -313,7 +313,7 @@ class Counseling < ActiveRecord::Base
 
   def other_matches
     agencies = Array.new
-    return agencies << aoa_coverage unless aoa_coverage.empty?
+    return agencies.unshift(aoa_coverage) unless aoa_coverage.empty?
     dsp = closest_dsp
     agencies << closest_dsp
     agencies << result_type_match('NPLN') unless dsp
@@ -331,7 +331,7 @@ class Counseling < ActiveRecord::Base
     agencies = Array.new
     agencies << result_type_match('IRS')
     unless aoa_coverage.empty?
-      return agencies << aoa_coverage
+      return agencies.unshift(aoa_coverage)
     end
     dsp = closest_dsp
     nsp = closest_nsp
@@ -347,7 +347,7 @@ class Counseling < ActiveRecord::Base
     agencies = Array.new
     agencies << result_type_match('RRB')
     unless aoa_coverage.empty?
-      return agencies << aoa_coverage
+      return agencies.unshift(aoa_coverage)
     end
     dsp = closest_dsp
     agencies << dsp
@@ -367,7 +367,7 @@ class Counseling < ActiveRecord::Base
       agencies << result_type_match('OPM')
     end
     unless aoa_coverage.empty?
-      agencies << aoa_coverage
+      agencies.unshift(aoa_coverage)
     else
       # agencies << result_type_match('NARFE')
       dsp = closest_dsp
@@ -412,7 +412,7 @@ class Counseling < ActiveRecord::Base
           (is_divorce_related? or is_survivorship_related?)
       agencies << result_type_match('DFAS')
       unless aoa_coverage.empty?
-        return agencies << aoa_coverage
+        return agencies.unshift(aoa_coverage)
       end
       agencies << result_type_match('EXPOSE')
       dsp = closest_dsp
