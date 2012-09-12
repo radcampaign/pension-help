@@ -30,9 +30,4 @@ jQuery(function() {
     });
   });
 
-  jQuery(".find-help-now").bind("mouseenter", function() {
-    jQuery(this).attr("src", "/images/find-help-now-on.png");
-  }).bind("mouseleave", function() {
-    jQuery(this).attr("src", "/images/find-help-now.png");
-  });
 });
