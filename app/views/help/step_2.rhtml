@@ -13,8 +13,7 @@
   <% form_for :counseling, @counseling, :url => { :action => :check_aoa_zip } do |f| -%>
     <% if !@show_aoa_expansion %>
     <div id="employer-type-radios" class="clearfix">
-      Employer type:
-
+      What type of employer did you work for?
       <p>
         <% CounselAssistance.employer_types.each do |value, key| %>
           <label class="<%= cycle("field-odd", "field-even") %>">
@@ -74,8 +73,7 @@
 
     <div>
       <label for="counseling_lost_plan">
-        Check this box if you are unable to locate or contact the employer
-        offering the plan you have a question about.
+        Check this box if you are unable to locate or contact this employer.
         <br />
         <%= f.check_box :lost_plan %>
       </label>
@@ -91,7 +89,9 @@
 
     <div class="field rq clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :work_state_abbrev %>">
       <label for="counseling_work_state_abbrev">
-        Where did you work?
+        In which U.S. state or territory did you work?
+				<br/>
+        <span class="hint">Please select the U.S. state or territory from the drop-down menu.</span>
       </label>
       <p>
         <%= select :counseling, :work_state_abbrev, @states, :include_blank => true %>
@@ -100,7 +100,9 @@
 
     <div class="field rq clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :hq_state_abbrev %>">
       <label for="counseling_hq_state_abbrev">
-        Where is the employer located:
+        In which U.S. state or territory is your employer’s headquarters located?
+				<br/>
+        <span class="hint">Please select the U.S. state or territory from the drop-down menu.</span>
       </label>
       <p>
         <%= select :counseling, :hq_state_abbrev, @states, :include_blank => true %>
@@ -109,7 +111,9 @@
 
     <div class="field rq clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :pension_state_abbrev %>">
       <label for="counseling_pension_state_abbrev">
-        Where is the pension paid from:
+				If you are currently receiving your pension, please tell us from which U.S. state or territory your pension is paid from.
+				<br/>
+        <span class="hint">Please select the U.S. state or territory from the drop-down menu.</span>
       </label>
       <p>
         <%= select :counseling, :pension_state_abbrev, @states, :include_blank => true %>
