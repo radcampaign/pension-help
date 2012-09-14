@@ -1,14 +1,15 @@
+<p class="intro">Answer these questions to tell us about your employer.</p>
 <div id="content-no-sidebar" class="help">
   <div id="counseling_errors">
     <%= render :partial => "help/counseling_errors",
       :locals => { "counseling" => @counseling } %>
   </div>
+  <div class="separator">&nbsp;</div>
 
   <p class="mandatory-fields">
     <%= image_tag "mandatory-field.png" %>
     Marked fields are mandatory!
   </p>
-  <div class="separator">&nbsp;</div>
 
   <% form_for :counseling, @counseling, :url => { :action => :check_aoa_zip } do |f| -%>
     <% if !@show_aoa_expansion %>
