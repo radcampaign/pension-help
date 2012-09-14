@@ -245,8 +245,8 @@ abbr {
   font-size: 24px;
   color: #004e5a;
   text-decoration: none;
-	font-family:Arial, Helvetica, sans-serif;
-	font-weight:normal;
+  font-family:Arial, Helvetica, sans-serif;
+  font-weight:normal;
 }
 #sidebar p {
   font-size: 14px
@@ -618,8 +618,13 @@ ul.links.inline li {
   background: none;
   padding: 0px;
 }
-#footer li a {
+#footer a,
+#footer table {
   color: #fff
+}
+#footer tbody td {
+  border:0px;
+  vertical-align:top;
 }
 .address-cc {
   float: left;
@@ -629,10 +634,13 @@ ul.links.inline li {
   margin-top: 9px;
   margin-right: 7px;
 }
-.address-cc p {
+#footer p {
   margin-bottom: 0px;
   margin-top: 10px;
   font-size: 12px;
+}
+#footer td img {
+  margin-top: 10px;
 }
 .translate {
   float: right;
@@ -846,21 +854,21 @@ table.border td {
   margin-left: 20px;
 }
 #spinner {
-	-moz-border-radius:6px;
-	-webkit-border-radius:6px;
-	border-radius:6px;
-	border:2px solid #12535E;
-	position:fixed;
-	top: 40%;
-	left: 40%;
-	height: 40px;
-	min-width:110px;
-	background-color:#DDD;
+  -moz-border-radius:6px;
+  -webkit-border-radius:6px;
+  border-radius:6px;
+  border:2px solid #12535E;
+  position:fixed;
+  top: 40%;
+  left: 40%;
+  height: 40px;
+  min-width:110px;
+  background-color:#DDD;
   padding: 10px 18px 0 18px;
-	color:#12535E;
+  color:#12535E;
 }
 #spinner img {
-	margin: 0 8px;
+  margin: 0 8px;
 }
 * html div#spinner {position: absolute;
 top:expression(eval(document.compatMode &&
@@ -1319,112 +1327,112 @@ label {
 }
 
 #find_help_now {
-		background-color:#F1EAA9;
-		-moz-border-radius:6px;
-		-webkit-border-radius:6px;
-		border-radius:6px;
-		border:2px solid #12535E;
-		display:inline-block;
-		color:#12535E;
-		font-family:arial;
-		font-size:32px;
-		font-weight:bold;
-		padding:14px 28px;
-		text-decoration:none;
-		margin: 12px 0;
+    background-color:#F1EAA9;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    border:2px solid #12535E;
+    display:inline-block;
+    color:#12535E;
+    font-family:arial;
+    font-size:32px;
+    font-weight:bold;
+    padding:14px 28px;
+    text-decoration:none;
+    margin: 12px 0;
 }
 
 #find_help_now:hover,
 #find_help_now a:hover {
-		background-color:#2B8C99;
-		color:#FFFFFF;
+    background-color:#2B8C99;
+    color:#FFFFFF;
 }
 
 #find_help_now a {
-		text-decoration:none;
+    text-decoration:none;
 }
 
 #find_help_now:active {
-		border-color:#FFF;
+    border-color:#FFF;
 }
 
 .btn {
-		background-color:#F1EAA9;
-		-moz-border-radius:6px;
-		-webkit-border-radius:6px;
-		border-radius:6px;
-		border:2px solid #12535E;
-		display:inline-block;
-		color:#12535E;
-		font-family:arial;
-		font-size:12px;
-		font-weight:bold;
-		padding:4px 8px;
-		text-decoration:none;
-		margin: 2px 0;
+    background-color:#F1EAA9;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    border:2px solid #12535E;
+    display:inline-block;
+    color:#12535E;
+    font-family:arial;
+    font-size:12px;
+    font-weight:bold;
+    padding:4px 8px;
+    text-decoration:none;
+    margin: 2px 0;
 }
 
 .btn:hover,
 .btn a:hover,
 #showHideLocations:hover,
 showHidePlans:hover {
-		background-color:#2B8C99;
-		color:#FFFFFF;
+    background-color:#2B8C99;
+    color:#FFFFFF;
 }
 
 .btn a {
-		text-decoration:none;
+    text-decoration:none;
 }
 
 .btn:active {
-		border-color:#FFF;
+    border-color:#FFF;
 }
 
 .plain,
 #showHideLocations,
 #showHidePlans {
-	text-decoration:none;
-	background-color:#FFF;
+  text-decoration:none;
+  background-color:#FFF;
 }
 
 .admin_table {
-	border: 1px solid #ccc;
-	padding: 6px;
-	margin: 6px;
+  border: 1px solid #ccc;
+  padding: 6px;
+  margin: 6px;
 }
 
 .admin_table th,
 #admin_list th {
-	text-align:center;
-	background-color:#DDD;
-	border:0;
+  text-align:center;
+  background-color:#DDD;
+  border:0;
 }
 
 .admin_table table {
-	border-bottom: 1px solid #ccc;
-	width:100%;
+  border-bottom: 1px solid #ccc;
+  width:100%;
 }
 
 #showHideLocations,
 #showHidePlans {
-	float:right;
+  float:right;
 }
 
 .none-found {
-	font-style:italic;
-	text-align:center;
-	color:#333;
-	font-weight:normal;
+  font-style:italic;
+  text-align:center;
+  color:#333;
+  font-weight:normal;
 }
 
 hr {
-	color:#333;
-	float:left;
-	width:90%;
+  color:#333;
+  float:left;
+  width:90%;
 }
 
 fieldset {
-	border: 1px solid #ccc;
-	padding:6px;
-	background-color:#eee;
+  border: 1px solid #ccc;
+  padding:6px;
+  background-color:#eee;
 }
