@@ -295,7 +295,7 @@ class HelpController < ApplicationController
       end
     else
       render :update do |page|
-        page.replace_html "resultsEmailResponse", "Invalid e-mail."
+        page.replace_html "resultsEmailResponse", "Invalid e-mail address."
         page.visual_effect :highlight, "resultsEmailResponse"
       end
     end

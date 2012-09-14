@@ -1,6 +1,5 @@
 <div id="header">
   <a id="logo" rel="home" title="Home" href="/"><%= image_tag "header.png", :alt => "Home", :class => "left" %></a>
-  <%= image_tag "loading.gif", :id => "spinner", :style => "display: none" %>
   <div class="right no-print">
     <%= image_tag "print.png", :border => "0", :onclick => "print_preview(); return false;", :alt => "Print this page" %><% unless @hide_email_button %><%= image_tag "separator.png", :border => "0" %><div class="email-this-page"><span class="st_email" displayText="E-mail this page"></span></div><% end %><%= image_tag "separator.png", :border => "0" %><%= image_tag "text-size.png", :border => "0", :alt => "Text size", :usemap => "#Map" %>
   </div>
