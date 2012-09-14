@@ -2,7 +2,7 @@
 <% if restrictions.empty? %>
 	<li class="clear left fullwidth" id="empty_restriction">
 		<fieldset class="clear left half"><legend class="desc">Restriction</legend>
-			No restrictions.<br/><br/><div class="right"></div>
+			<span class="none-found">No&nbsp;restrictions</span><br/><br/><div class="right"></div>
 		</fieldset>
 	</li>
 <% end %>
@@ -16,7 +16,7 @@
     :locals => {:is_location => is_location} %>
 
 <li class="clear left fullwidth" id="newRestrictionLink">
-  <%= link_to_function 'Add a new restriction', 'displayNewRestrictionDiv()', :id => 'addNewRestrictionLink'%>
+  <%= link_to_function 'Add a new restriction', 'displayNewRestrictionDiv()', :id => 'addNewRestrictionLink', :class => 'plain btn' %>
 </li>
 
 

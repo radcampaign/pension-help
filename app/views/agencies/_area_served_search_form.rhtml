@@ -59,15 +59,16 @@
 
       <div style="clear: both;">
         <span>
-          <input name="agency_name" id="agency_name">
+          <input name="agency_name" id="agency_name" style="width:300px">
           <label for="agency_name">Agency, Plan or Location Name</label>
         </span>
       </div>
     </div>
+    <div class='clear'>
+      <%= submit_tag 'Search', :class => 'plain btn' %>
+    </div>
+
   </fieldset>
-  <div class="clear">
-    <%= submit_tag 'Search' %>
-  </div>
   <%= observe_field :state_abbrevs,
       :frequency => 0.5,
       :update => 'county_ids_container',

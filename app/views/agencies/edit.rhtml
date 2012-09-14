@@ -92,12 +92,9 @@
     </ul>
     <div class="left fullwidth">
     <div class="admin_table">
-      <div class="showHideLinks">
-        <%= link_to_function 'Show/Hide inactive locations', "toggleRows('disabledLocation')", :id => 'showHideLocations' %>
-      </div>
       <table id="loc_table" cellspacing="0">
         <tbody id="location_list">
-        <tr><th colspan="8" id="table_title">AGENCY LOCATIONS</th></tr>
+        <tr><th colspan="8" id="table_title"><h3>AGENCY LOCATIONS</h3></th></tr>
         <% if @locations %>
           <tr>
             <th class="hq">HQ</th>
@@ -126,22 +123,24 @@
         <% end %>
         </tbody>
       </table>
+      <% if @locations.empty? %><div class="none-found">No locations found</div><% end %>
       <% if @agency.new_record? %>
         Please save changes to this agency before adding locations
       <% else %>
-        <%= link_to 'Add a new location',
+        <%= link_to 'Add a new location ...',
             new_agency_location_path(@agency),
-            :class => 'add_new' %>
+            :class => 'plain btn' %>
+        <%= link_to_function 'Show/Hide inactive locations',
+            "toggleRows('disabledLocation')",
+            :id => 'showHideLocations',
+            :class => 'btn' %>
       <% end -%>
     </div>
     <div class="admin_table">
-      <div class="showHideLinks">
-        <%= link_to_function 'Show/Hide inactive plans', "toggleRows('disabledPlan')", :id => 'showHidePlans' %>
-      </div>
       <table id="plan_table" cellspacing="0">
         <tbody id="plan_list">
         <tr>
-          <th colspan="4" id="table_title">PLANS</th></tr>
+          <th colspan="4" id="table_title"><h3>PLANS</h3></th></tr>
           <% if !@agency.new_record? %>
             <tr>
               <th width="5%">drag to sort</th>
@@ -160,12 +159,17 @@
           <% end %>
         </tbody>
       </table>
+      <% if @plans.empty? %><div class="none-found">No plans found</div><% end %>
       <% if @agency.new_record? %>
         Please save changes to this agency before adding plans
       <% else %>
-        <%= link_to 'Add a new plan',
+        <%= link_to 'Add a new plan ...',
           new_agency_plan_path(@agency),
-          :class => 'add_new' %>
+          :class => 'plain btn' %>
+        <%= link_to_function 'Show/Hide inactive plans',
+          "toggleRows('disabledPlan')",
+          :id => 'showHidePlans',
+          :class => 'btn' %>
       <% end -%>
       </div>
     </div>

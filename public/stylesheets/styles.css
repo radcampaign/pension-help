@@ -227,7 +227,7 @@ abbr {
   float: left;
   margin: 30px 30px 0 30px;
   padding-bottom: 30px;
-  width: 800px;
+  width: 850px;
   display: inline;
 }
 #main-content-no-sidebar {
@@ -846,8 +846,30 @@ table.border td {
   margin-left: 20px;
 }
 #spinner {
-  padding: 10px 18px 0 18px
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:2px solid #12535E;
+	position:fixed;
+	top: 40%;
+	left: 40%;
+	height: 40px;
+	min-width:110px;
+	background-color:#DDD;
+  padding: 10px 18px 0 18px;
+	color:#12535E;
 }
+#spinner img {
+	margin: 0 8px;
+}
+* html div#spinner {position: absolute;
+top:expression(eval(document.compatMode &&
+document.compatMode=='CSS1Compat') ?
+documentElement.scrollTop
++((documentElement.clientHeight-this.clientHeight)/2 )
+: document.body.scrollTop
++((document.body.clientHeight-this.clientHeight)/2));}
+
 .normal {
   font-weight: normal
 }
@@ -1324,4 +1346,85 @@ label {
 
 #find_help_now:active {
 		border-color:#FFF;
+}
+
+.btn {
+		background-color:#F1EAA9;
+		-moz-border-radius:6px;
+		-webkit-border-radius:6px;
+		border-radius:6px;
+		border:2px solid #12535E;
+		display:inline-block;
+		color:#12535E;
+		font-family:arial;
+		font-size:12px;
+		font-weight:bold;
+		padding:4px 8px;
+		text-decoration:none;
+		margin: 2px 0;
+}
+
+.btn:hover,
+.btn a:hover,
+#showHideLocations:hover,
+showHidePlans:hover {
+		background-color:#2B8C99;
+		color:#FFFFFF;
+}
+
+.btn a {
+		text-decoration:none;
+}
+
+.btn:active {
+		border-color:#FFF;
+}
+
+.plain,
+#showHideLocations,
+#showHidePlans {
+	text-decoration:none;
+	background-color:#FFF;
+}
+
+.admin_table {
+	border: 1px solid #ccc;
+	padding: 6px;
+	margin: 6px;
+}
+
+.admin_table th,
+#admin_list th {
+	text-align:center;
+	background-color:#DDD;
+	border:0;
+}
+
+.admin_table table {
+	border-bottom: 1px solid #ccc;
+	width:100%;
+}
+
+#showHideLocations,
+#showHidePlans {
+	float:right;
+}
+
+.none-found {
+	font-style:italic;
+	text-align:center;
+	color:#333;
+	font-weight:normal;
+}
+
+hr {
+	color:#333;
+	float:left;
+	width:90%;
+}
+
+fieldset {
+	border: 1px solid #ccc;
+	padding:6px;
+	background-color:#eee;
 }

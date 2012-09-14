@@ -1,8 +1,8 @@
 
-<%= link_to 'Add a new agency', new_agency_path, :class => 'add_new' %>
+<%= link_to 'Add a new agency ...', new_agency_path, :class => 'plain btn left' %>
 
 <div>
-  <%= link_to_function 'Open/Close All Locations', "$$(\".locationsRow\").each( function(e) {e.toggle()})" %>
+  <%= link_to_function 'Open/Close All Locations', "$$(\".locationsRow\").each( function(e) {e.toggle()})", :class => 'plain btn right' %>
 </div>
 
 <div class="clear">

@@ -9,7 +9,7 @@
     :html => { :method => (@plan.id ? :put : :post) , :class => 'admin_form', :id => 'plan_form' }) do |f| %>
     <br/>
     <div class="clear fullwidth buttons">
-      <%= submit_tag " Update Plan " %>
+      <%= submit_tag " Update Plan ", :class => 'btn'  %>
       <%= submit_tag " Update Plan and Return to Agency ", :name => 'update_and_return', :class => 'btn' %>
       <%= submit_tag ' Return to Agency Without Saving ', :name=>'cancel', :class => 'btn' %>
       <%= submit_tag ' Update Plan and Return to List ', :name => 'update_and_list', :class => 'btn' %>
@@ -91,7 +91,7 @@
 
 
   <div class="clear left fullwidth buttons">
-    <%= submit_tag " Update Plan " %>
+    <%= submit_tag " Update Plan ", :class => 'btn'  %>
     <%= submit_tag " Update Plan and Return to Agency ", :name => 'update_and_return', :class => 'btn' %>
     <%= submit_tag ' Return to Agency Without Saving ', :name=>'cancel', :class => 'btn' %>
     <%= submit_tag ' Update Plan and Return to List ', :name => 'update_and_list', :class => 'btn' %>
