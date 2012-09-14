@@ -43,8 +43,8 @@ ActionMailer::Base.smtp_settings = {
 }
 
 
-  EMAIL_RECIPIENT = "dan@gradientblue.com"
-  EMAIL_FROM = "dan@gradientblue.com"
-  LINK_CHECKER_RECIPIENT = "dan@gradientblue.com"
-  LINK_CHECKER_FROM = "dan@gradientblue.com"
+  EMAIL_RECIPIENT = "dan@freeportmetrics.com"
+  EMAIL_FROM = "dan@freeportmetrics.com"
+  LINK_CHECKER_RECIPIENT = "dan@freeportmetrics.com"
+  LINK_CHECKER_FROM = "dan@freeportmetrics.com"
 
