@@ -282,10 +282,9 @@ class HelpController < ApplicationController
         Mailer.deliver_counseling_results(params[:email], @counseling, @results, @lost_plan_resources)
 
         if params[:contact].to_s == "1"
-          counseling.feedback_email = params[:email]
-          counseling.save
-          Mailer.deliver_unavailable_plan_feedback(counseling)
-
+          @counseling.feedback_email = params[:email]
+          @counseling.save
+          Mailer.deliver_unavailable_plan_feedback(@counseling)
         end
 
         render :update do |page|
