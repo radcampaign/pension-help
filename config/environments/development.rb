@@ -47,7 +47,4 @@ ActionMailer::Base.smtp_settings = {
   EMAIL_FROM = "dan@gradientblue.com"
   LINK_CHECKER_RECIPIENT = "dan@gradientblue.com, dan@piltch.com, filip@freeportmetrics.com"
   LINK_CHECKER_FROM = "dan@gradientblue.com"
-  # LINK_CHECKER_RECIPIENT = "filip@freeportmetrics.com"
-  # LINK_CHECKER_FROM = "filip@freeportmetrics.com"
 
-# require "ruby-debug"
