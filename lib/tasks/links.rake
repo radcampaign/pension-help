@@ -14,6 +14,7 @@ namespace :links do
         :path => :edit_agency_plan_url
       },
       { :class => Publication, :fields => [[:url, "Url"]], :path => :edit_agency_url }
+
     ]
 
     errors = []
@@ -47,21 +48,12 @@ namespace :links do
 
               resource = resource.request request
 
-              unless resource.is_a?(Net::HTTPOK)
-                case resource.class
-                when Net::HTTPFound, Net::HTTPMovedPermanently
-                  entry[:error] = "Page moved"
-
-                when Net::HTTPForbidden
-                  entry[:error] = "Access forbidden"
-
-                when Net::HTTPNotFound
-                  entry[:error] = "Not found"
-
-                when Net::HTTPBadRequest, Net::HTTPUnsupportedMediaType, Net::HTTPServiceUnavailable, Net::HTTPInternalServerError
-                  entry[:error] = "Invalid request"
-                end
+              entry[:error] = resource.message unless resource.is_a?(Net::HTTPOK)
+              if resource.is_a?(Net::HTTPFound) or resource.is_a?(Net::HTTPMovedPermanently)
+                new_location = url.merge resource['location'] unless resource['location']  =~ /\Ahttps?:\/\// and new_location = resource['location']
+                entry[:error] << " --> #{new_location}"
               end
+
             rescue SocketError, Errno::ECONNREFUSED, Errno::ETIMEDOUT, Errno::ECONNRESET, Errno::ENETUNREACH, Errno::EHOSTUNREACH => e
               entry[:error] = "Error connecting to server"
             rescue NoMethodError, URI::InvalidURIError => e

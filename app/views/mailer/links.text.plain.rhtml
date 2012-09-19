@@ -1,4 +1,4 @@
-Invalid links found on <%= Time.now.strftime("%B %d, %Y")%>:
+<%= @errors.size %> invalid links found on <%= Time.now.strftime("%B %d, %Y")%>:
 
 <%- @errors.each do |error| -%>
   <%= error[:url] %>
