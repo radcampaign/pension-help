@@ -123,7 +123,7 @@
         <% end %>
         </tbody>
       </table>
-      <% if @locations.empty? %><div class="none-found">No locations found</div><% end %>
+      <% if @locations and @locations.empty? %><div class="none-found">No locations found</div><% end %>
       <% if @agency.new_record? %>
         Please save changes to this agency before adding locations
       <% else %>
@@ -159,7 +159,7 @@
           <% end %>
         </tbody>
       </table>
-      <% if @plans.empty? %><div class="none-found">No plans found</div><% end %>
+      <% if @plans and @plans.empty? %><div class="none-found">No plans found</div><% end %>
       <% if @agency.new_record? %>
         Please save changes to this agency before adding plans
       <% else %>
