@@ -251,7 +251,6 @@ class HelpController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       nil # continue on if we don't find anything
     end
-    @lost_plan_resources = Content.find_by_url('lost_plan_resources').content rescue nil if @counseling.show_lost_plan_resources
     @counseling.save
     if @counseling.selected_plan_id
       @results.each{|a| a.plans.delete_if {|p| p.id != @counseling.selected_plan_id.to_i &&
@@ -277,7 +276,8 @@ class HelpController < ApplicationController
       else
         @counseling = Counseling.find params[:id]
         @results = @counseling.matching_agencies
-        @lost_plan_resources = Content.find_by_url('lost_plan_resources').content rescue nil if @counseling.show_lost_plan_resources
+        @lost_plan_resources = Content.find_by_url('lost_plan_resources').content rescue nil if @counseling.show_lost_plan_resources and params[:lost_plan_request].to_s == "1"
+
 
         Mailer.deliver_counseling_results(params[:email], @counseling, @results, @lost_plan_resources)
 

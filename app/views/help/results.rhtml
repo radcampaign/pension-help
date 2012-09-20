@@ -11,7 +11,7 @@
 
   <p></p>
 
-  <% if @results.any? || @ask_user_for_email %>
+  <% if @results.any? || @ask_user_for_email || @counseling.lost_plan %>
     <div class="field-odd">
       <% form_remote_tag :url => url_for(:controller => "help", :action => "email") do %>
         <label>
@@ -24,6 +24,12 @@
               information specific to the plan
               <%=  @counseling.plan_name.blank? ? 'you inquired about' : @counseling.plan_name %>
               <%= " for #{City.find(@counseling.city_id).name}" if @counseling.city_id %> <%= " in #{County.find(@counseling.county_id).name}" if @counseling.county_id %>.<br/>
+            </label>
+          <% end %>
+          <% if @counseling.lost_plan %>
+            <label class="hint">
+              <%= check_box_tag :lost_plan_request %>
+              Check here if you'd like us to include resources to help you locate or contact a former employer
             </label>
           <% end %>
         </label>
