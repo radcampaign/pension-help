@@ -13,7 +13,10 @@
 
   <% if @results.any? || @ask_user_for_email || @counseling.lost_plan %>
     <div class="field-odd">
-      <% form_remote_tag :url => url_for(:controller => "help", :action => "email") do %>
+      <% form_remote_tag :url => url_for(:controller => "help", :action => "email"),
+          :loading => "jQuery('#resultsEmailResponse, #send-results-btn').hide(); jQuery('#send-results-pending').show();",
+          :success => "jQuery('#resultsEmailResponse').show();",
+          :failure => "jQuery('#resultsEmailResponse').show();" do %>
         <label>
           Enter your email address below to receive a copy of these results in
           your inbox:<br/>
@@ -38,8 +41,9 @@
             <%= text_field_tag :email, nil, :size => 50 %>
           </span>
           <%= hidden_field_tag :id, @counseling.id %>
-          <%= submit_tag "Send me the results", :class => 'btn' %>
-          <div id="resultsEmailResponse"></div>
+            <%= submit_tag "Send me the results", :class => 'btn', :id => "send-results-btn" %>
+            <span id="send-results-pending" class="hint" style="display:none"><img src="/images/loading.gif"/> sending....</span>
+          <span id="resultsEmailResponse"></span>
         </div>
         <br />
       <% end %>

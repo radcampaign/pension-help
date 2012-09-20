@@ -270,6 +270,8 @@ class HelpController < ApplicationController
     if !params[:email].blank?
       unless params[:email] =~ EMAIL_REGEX
         render :update do |page|
+          page.hide "send-results-pending"
+          page.show "send-results-btn"
           page.replace_html "resultsEmailResponse", "Invalid e-mail."
           page.visual_effect :highlight, "resultsEmailResponse"
         end
@@ -287,12 +289,15 @@ class HelpController < ApplicationController
         Mailer.deliver_counseling_results(params[:email], @counseling, @results, @lost_plan_resources)
 
         render :update do |page|
+          page.hide "send-results-pending"
           page.replace_html "resultsEmailResponse", "E-mail has been sent."
           page.visual_effect :highlight, "resultsEmailResponse"
         end
       end
     else
       render :update do |page|
+        page.hide "send-results-pending"
+        page.show "send-results-btn"
         page.replace_html "resultsEmailResponse", "Invalid e-mail address."
         page.visual_effect :highlight, "resultsEmailResponse"
       end
