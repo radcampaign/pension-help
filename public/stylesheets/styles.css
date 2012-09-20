@@ -1436,3 +1436,7 @@ fieldset {
   padding:6px;
   background-color:#eee;
 }
+
+#photo-header {
+  margin-top:8px;
+}

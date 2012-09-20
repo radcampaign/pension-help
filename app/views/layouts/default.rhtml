@@ -36,6 +36,7 @@
       <div id="page">
         <%= render :partial => "layouts/header" %>
         <%= render :partial => "layouts/navigation" %>
+        <%= image_tag "photo-header.jpg", :id => "photo-header" if request.path == '/' %>
         <div id="main-wrapper">
           <div id="main-content" class="clearfix">
             <div id="content">
