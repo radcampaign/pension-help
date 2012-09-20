@@ -276,16 +276,15 @@ class HelpController < ApplicationController
       else
         @counseling = Counseling.find params[:id]
         @results = @counseling.matching_agencies
-        @lost_plan_resources = Content.find_by_url('lost_plan_resources').content rescue nil if @counseling.show_lost_plan_resources and params[:lost_plan_request].to_s == "1"
-
-
-        Mailer.deliver_counseling_results(params[:email], @counseling, @results, @lost_plan_resources)
+        @lost_plan_resources = Content.find_by_url('lost_plan_resources').content rescue nil if  params[:lost_plan_request].to_s == "1"
 
         if params[:contact].to_s == "1"
           @counseling.feedback_email = params[:email]
           @counseling.save
           Mailer.deliver_unavailable_plan_feedback(@counseling)
         end
+
+        Mailer.deliver_counseling_results(params[:email], @counseling, @results, @lost_plan_resources)
 
         render :update do |page|
           page.replace_html "resultsEmailResponse", "E-mail has been sent."

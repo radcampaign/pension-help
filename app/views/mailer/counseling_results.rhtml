@@ -1,5 +1,9 @@
 Thank you for using PensionHelp America, a resource from the <a href="http://www.pensionrights.org/">Pension Rights Center</a>. Based on the information you entered on our website, the following organizations may be able to assist you, free of charge.
 
+We will contact you at <%= @counseling.feedback_email %> when we have more information specific to the plan
+<%=  @counseling.plan_name.blank? ? 'you inquired about' : @counseling.plan_name %>
+<%= " for #{City.find(@counseling.city_id).name}" if @counseling.city_id %> <%= " in #{County.find(@counseling.county_id).name} county" if @counseling.county_id %>.<br/>
+
 <%= render :partial => "../help/results" %>
 
 <hr/>

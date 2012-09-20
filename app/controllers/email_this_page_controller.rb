@@ -4,7 +4,6 @@ class EmailThisPageController < ApplicationController
     @email = PageEmail.new
     @email.page_title = PageEmail.get_page_title(params[:link])
     @email.link = params[:link]
-    puts ''
   end
 
   def create
