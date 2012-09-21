@@ -35,7 +35,7 @@ ActionMailer::Base.smtp_settings = {
 
 }
 
-EMAIL_RECIPIENT = "dan@gradientblue.com, JLeavelle@PensionRights.org"
-EMAIL_FROM = "do-not-reply@PensionRights.org"
-LINK_CHECKER_RECIPIENT = "dan@gradientblue.com, JLeavelle@PensionRights.org, KGarrett@PensionRights.org"
-LINK_CHECKER_FROM = "do-not-reply@PensionRights.org"
+EMAIL_RECIPIENT = "dan@freeportmetrics.com, JLeavelle@PensionRights.org"
+EMAIL_FROM = "webmaster@pensionhelp.org"
+LINK_CHECKER_RECIPIENT = "dan@freeportmetrics.com, JLeavelle@PensionRights.org, KGarrett@PensionRights.org"
+LINK_CHECKER_FROM = "webmaster@pensionhelp.org"

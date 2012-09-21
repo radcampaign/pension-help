@@ -31,13 +31,15 @@ ActionMailer::Base.smtp_settings = {
   # :address => 'mail.pensionrights.org',
   # :domain  => 'pensionrights.org',
   # :port => 25,
-  # :authentication => :none
+  # :authentication => :plain,
+  # :password => 'P@ssword1',
+  # :user_name => 'noreply@pensionrights.org'
   :address => 'smtp.gmail.com',
-  :domain  => 'gmail.com',
+  :domain  => 'pensionhelp.org',
   :port => 587,
   :authentication => :plain,
-  :user_name => 'pensionhelpamerica@gmail.com',
-  :password => 'gblue2011',
+  :user_name => 'webmaster@pensionhelp.org',
+  :password => 'pha:1021',
   :tls =>  true
 
 }
