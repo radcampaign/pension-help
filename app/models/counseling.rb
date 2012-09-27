@@ -7,6 +7,8 @@ class Counseling < ActiveRecord::Base
       "Work state"
     when "pension_state_abbrev"
       "State where pension is paid from"
+    when "age"
+      "Year of your birth"
     else
       super
     end
@@ -45,42 +47,41 @@ class Counseling < ActiveRecord::Base
 
   DEFAULT_ZIP = "20036"
 
-  validates_presence_of     :behalf
   validates_inclusion_of    :behalf,
-                            :in => BEHALF_OPTIONS.keys
+                            :in => BEHALF_OPTIONS.keys,
+                            :message => "of is required"
 
   validates_presence_of     :behalf_other,
                             :if => Proc.new { |c| c.behalf == "other" }
 
-  validates_presence_of     :gender
   validates_inclusion_of    :gender,
-                            :in => GENDER_OPTIONS.keys
+                            :in => GENDER_OPTIONS.keys,
+                            :message => "is required"
 
-  validates_presence_of     :marital_status
   validates_inclusion_of    :marital_status,
-                            :in => MARITAL_STATUS_OPTIONS.keys
+                            :in => MARITAL_STATUS_OPTIONS.keys,
+                            :message => "is required"
 
-  validates_presence_of     :age
   validates_numericality_of :age
 
   validates_numericality_of :number_in_household,
                             :if => Proc.new { |c|
-                              (!c.monthly_income_tmp.blank? || !c.yearly_income_tmp.blank?)
+                              (c.number_in_household_unanswered != '1')
                             }
 
   validates_format_of       :monthly_income_tmp,
                             :with    => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
-                            :message => "^Monthly income doesn't seem to be a valid amount",
+                            :message => "^Income doesn't seem to be a valid amount",
                             :if      => Proc.new { |c|
-                              !c.is_over_60 && !c.monthly_income_tmp.blank?
+                              c.income_unanswered != '1'
                             }
 
-  validates_format_of       :yearly_income_tmp,
-                            :with    => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
-                            :message => "^Yearly income doesn't seem to be a valid amount",
-                            :if => Proc.new { |c|
-                              !c.is_over_60 && !c.yearly_income_tmp.blank?
-                            }
+  # validates_format_of       :yearly_income_tmp,
+  #                           :with    => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
+  #                           :message => "^Yearly income doesn't seem to be a valid amount",
+  #                           :if => Proc.new { |c|
+  #                             !c.yearly_income_tmp.blank?
+  #                           }
 
   def validate
     errors.add :zipcode if (!zipcode.blank? && !ZipImport.find(zipcode) rescue true)
@@ -112,7 +113,12 @@ class Counseling < ActiveRecord::Base
     :if => Proc.new { |c| (c.step == '2a') && (c.employer_type == EmployerType[6] || c.employer_type == EmployerType[7] || c.employer_type == EmployerType[8])}
   # if income is entered, then number_in_household must be entered along with it (ok to leave both income and household blank)
 
-  attr_accessor :monthly_income_tmp, :yearly_income_tmp, :step, :non_us_resident
+  attr_accessor :monthly_income_tmp,
+                :yearly_income_tmp,
+                :step,
+                :non_us_resident,
+                :income_unanswered,
+                :number_in_household_unanswered
 
   def yearly_income
     @yearly_income

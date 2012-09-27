@@ -117,7 +117,7 @@
       <label for="counseling_zipcode">
         What is your five-digit zip code?
       </label>
-      <p class="rq">
+      <p>
         <%= f.text_field :zipcode, :size => 5 %>
       </p>
     </div>
@@ -139,14 +139,15 @@
       provider to assist you.
     </p>
 
-    <div class="field clearfix  <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :monthly_income_tmp %> <%= error_class_on @counseling, :yearly_income_tmp %> ">
+    <div class="field rq clearfix  <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :monthly_income_tmp %> <%= error_class_on @counseling, :yearly_income_tmp %> ">
       <label for="counseling_monthly_income_tmp">
         What is the
         <%= select_tag "", options_for_select([["annual", "yearly"], ["monthly", "monthly"]]), :class => "income" %>
         income of your household?
       </label>
       <p>
-        <%= f.text_field :monthly_income_tmp, :size => 5 %>
+        <%= f.text_field :monthly_income_tmp, :size => 5 %><br/>
+        <%= f.check_box  :income_unanswered %>&nbsp;<label for="counseling_income_unanswered" class="inline">I prefer not to answer</label>
       </p>
       <script type="text/javascript">
       var selectIncomeInput = function(value) {
@@ -159,12 +160,14 @@
       </script>
     </div>
 
-    <div class="field clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :number_in_household %>">
+    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :number_in_household %>">
       <label for="counseling_number_in_household">
         How many people live in your household?
       </label>
       <p>
-        <%= f.text_field :number_in_household, :size => 5 %>
+        <%= f.text_field :number_in_household, :size => 5 %><br/>
+        <%= f.check_box  :number_in_household_unanswered
+ %>&nbsp;<label for="counseling_number_in_household_unanswered" class="inline">I prefer not to answer</label>
       </p>
     </div>
 

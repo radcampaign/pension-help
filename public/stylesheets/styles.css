@@ -1128,6 +1128,14 @@ p.mandatory-fields img {
   font-size: 13px;
 }
 
+.help label.inline {
+  float: none;
+  font-weight:normal;
+  font-size: 11px;
+  vertical-align: middle;
+  padding-bottom: 7px;
+}
+
 form.help select {
   float: left;
   clear: both;
@@ -1171,7 +1179,7 @@ label {
 }
 
 .field.rq p {
-  background: transparent url(../images/mandatory-field.png) 0 50% no-repeat;
+  background: transparent url(../images/mandatory-field.png) no-repeat left 11px;
   padding-left: 25px;
 }
 
@@ -1255,6 +1263,11 @@ label {
   background: transparent url(/images/error-alert.png) no-repeat 0% 8px;
   padding-left: 24px;
   width: 606px;
+}
+
+.help .form-error label.inline {
+  background:none;
+  padding-left: 0;
 }
 
 #employer-type-radios label {
