@@ -71,17 +71,17 @@ class Counseling < ActiveRecord::Base
 
   validates_format_of       :monthly_income_tmp,
                             :with    => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
-                            :message => "^Income doesn't seem to be a valid amount",
+                            :message => "^Monthly income doesn't seem to be a valid amount",
                             :if      => Proc.new { |c|
-                              c.income_unanswered != '1'
+                              c.income_unanswered != '1' && c.yearly_income_tmp.blank? && !c.monthly_income_tmp.blank?
                             }
 
-  # validates_format_of       :yearly_income_tmp,
-  #                           :with    => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
-  #                           :message => "^Yearly income doesn't seem to be a valid amount",
-  #                           :if => Proc.new { |c|
-  #                             !c.yearly_income_tmp.blank?
-  #                           }
+  validates_format_of       :yearly_income_tmp,
+                            :with    => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
+                            :message => "^Yearly income doesn't seem to be a valid amount",
+                            :if => Proc.new { |c|
+                              c.income_unanswered != '1' && c.monthly_income_tmp.blank?
+                            }
 
   def validate
     errors.add :zipcode if (!zipcode.blank? && !ZipImport.find(zipcode) rescue true)

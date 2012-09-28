@@ -133,12 +133,6 @@
       </p>
     </div>
 
-    <p class="intro">
-      Some legal service providers offer services based on certain income
-      criteria. Answering this question will help us find a legal service
-      provider to assist you.
-    </p>
-
     <div class="field rq clearfix  <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :monthly_income_tmp %> <%= error_class_on @counseling, :yearly_income_tmp %> ">
       <label for="counseling_monthly_income_tmp">
         What is the
@@ -156,7 +150,15 @@
       jQuery(".income").change(function() {
         selectIncomeInput(jQuery(this).val());
       });
-      selectIncomeInput("<%= @counseling.monthly_income.blank? ? "yearly" : "monthly" %>");
+      <% if @counseling.monthly_income_tmp.blank? %>
+        selectIncomeInput("yearly");
+        jQuery("#counseling_monthly_income_tmp").val("<%= @counseling.yearly_income_tmp %>");
+        jQuery(".income").val("yearly");
+      <% else %>
+        selectIncomeInput("monthly");
+        jQuery("#counseling_monthly_income_tmp").val("<%= @counseling.monthly_income_tmp %>");
+        jQuery(".income").val("monthly");
+      <% end %>
       </script>
     </div>
 
