@@ -15,8 +15,8 @@ ActionMailer::Base.smtp_settings = {
   :user_name => 'webmaster@pensionhelp.org',
   :password => 'pha:1021',
   :tls =>  true
-
 }
+
 
 EMAIL_RECIPIENT = "dan@freeportmetrics.com"
 EMAIL_FROM = "webmaster@pensionhelp.org"

@@ -26,13 +26,12 @@ Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE)
 
 ActionMailer::Base.smtp_settings = {
   :address => 'smtp.gmail.com',
-  :domain  => 'gmail.com',
+  :domain  => 'pensionhelp.org',
   :port => 587,
   :authentication => :plain,
-  :user_name => 'pensionhelpamerica@gmail.com',
-  :password => 'gblue2011',
+  :user_name => 'webmaster@pensionhelp.org',
+  :password => 'pha:1021',
   :tls =>  true
-
 }
 
 EMAIL_RECIPIENT = "dan@freeportmetrics.com, JLeavelle@PensionRights.org"
