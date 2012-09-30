@@ -2,7 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-  before_filter :domain_redirect
+  # before_filter :domain_redirect
   before_filter :basic_auth
 
   def domain_redirect

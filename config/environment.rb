@@ -59,9 +59,9 @@ end
 
 # Include your application configuration below
 
-ExceptionNotifier.exception_recipients = %w(dan@gradientblue.com)
+ExceptionNotifier.exception_recipients = %w(dan@freeportmetrics.com)
 
-ExceptionNotifier.sender_address = %("PHA Application Error" <do_not_reply@gradientblue.com>)
+ExceptionNotifier.sender_address = %("PHA Application Error" <do_not_reply@freeportmetrics.com>)
 
 ExceptionNotifier.email_prefix = "[PHA ERROR] "
 
