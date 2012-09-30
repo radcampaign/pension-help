@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   def domain_redirect
     if request.env["HTTP_HOST"] =~ /pensionhelp\.org/ && ENV["RAILS_ENV"] == "production"
-      redirect_to "#{request.env["HTTP_HOST"].gsub(".org", ".net")}#{request.env["REQUEST_URI"]}"
+      redirect_to "#{request.env["SERVER_PORT"] == 443 ? 'https://' : 'http://'}#{request.env["HTTP_HOST"].gsub(".org", ".net")}#{request.env["REQUEST_URI"]}"
     end
   end
 
