@@ -34,6 +34,8 @@ class ApplicationController < ActionController::Base
   session :session_key => '_pha_session_id'
   layout 'default'
 
+  session_times_out_in 10.days
+
   def get_counties_for_states
     begin
       @states = params[:states].split(',').collect{|s| State.find_by_abbrev(s)}
