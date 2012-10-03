@@ -2,14 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-  before_filter :domain_redirect
   before_filter :basic_auth
-
-  def domain_redirect
-    if request.env["HTTP_HOST"] =~ /pensionhelp\.net/ && ENV["RAILS_ENV"] == "production"
-      redirect_to "#{request.env["SERVER_PORT"] == 443 ? 'https://' : 'http://'}#{request.env["HTTP_HOST"].gsub(".net", ".org")}#{request.env["REQUEST_URI"]}"
-    end
-  end
 
   def basic_auth
     if ENV["RAILS_ENV"] == "staging"
