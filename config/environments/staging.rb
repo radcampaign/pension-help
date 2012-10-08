@@ -20,5 +20,5 @@ ActionMailer::Base.smtp_settings = {
 
 EMAIL_RECIPIENT = "dan@freeportmetrics.com"
 EMAIL_FROM = "webmaster@pensionhelp.org"
-LINK_CHECKER_RECIPIENT = "dan@freeportmetrics.com, jleavelle@pensionrights.org"
+LINK_CHECKER_RECIPIENT = "dan@freeportmetrics.com"
 LINK_CHECKER_FROM = "webmaster@pensionhelp.org"
