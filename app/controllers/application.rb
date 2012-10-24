@@ -14,9 +14,10 @@ class ApplicationController < ActionController::Base
 
   include SslRequirement
 
-  # def ssl_required?
-  #   true unless ENV["RAILS_ENV"] == "development"
-  # end
+  def ssl_required?
+    true unless ENV["RAILS_ENV"] == "development"
+  end
+
 
   include AuthenticatedSystem
   include ExceptionNotifiable
