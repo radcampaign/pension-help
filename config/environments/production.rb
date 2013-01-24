@@ -34,7 +34,7 @@ ActionMailer::Base.smtp_settings = {
   :tls =>  true
 }
 
-EMAIL_RECIPIENT = "dan@freeportmetrics.com, pensionhelp@pensionrights.org"
+EMAIL_RECIPIENT = "pensionhelp@pensionrights.org"
 EMAIL_FROM = "webmaster@pensionhelp.org"
 LINK_CHECKER_RECIPIENT = "dan@freeportmetrics.com, pensionhelp@pensionrights.org"
 LINK_CHECKER_FROM = "webmaster@pensionhelp.org"
