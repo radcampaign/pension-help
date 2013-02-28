@@ -1,0 +1,8 @@
+<div class="field rq clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :gender %>">
+  <label for="counseling_gender">
+    What is your gender?
+  </label>
+  <p>
+    <%= f.select :gender, gender_options, { :include_blank => true } %>
+  </p>
+</div>

@@ -47,6 +47,8 @@ class Counseling < ActiveRecord::Base
 
   DEFAULT_ZIP = "20036"
 
+  AVAILABLE_PATHS = ['A', 'B', 'C']
+
   validates_inclusion_of    :behalf,
                             :in => BEHALF_OPTIONS.keys,
                             :message => "of is required"
@@ -621,5 +623,9 @@ class Counseling < ActiveRecord::Base
     self.zipcode = DEFAULT_ZIP if self.zipcode.blank? && self.non_us_resident == "1"
     self.is_over_60 = (Date.today.year - self.age.to_i) > 60
     p self.is_over_60
+  end
+
+  def after_initialize
+    self.abc_path ||= AVAILABLE_PATHS.choice
   end
 end

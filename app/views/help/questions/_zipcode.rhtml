@@ -1,0 +1,19 @@
+<div class="field rq clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :zipcode %>">
+  <label for="counseling_zipcode">
+    What is your five-digit zip code?
+  </label>
+  <p>
+    <%= f.text_field :zipcode, :size => 5 %>
+  </p>
+</div>
+
+<div class="field clearfix <%= error_class_on @counseling, :non_us_resident %>">
+  <label for="counseling_non_us_resident" class="hint">
+    Check this box if you don't have or know your zip code
+    <br />
+    (e.g. for individuals living outside of the United States).
+  </label>
+  <p>
+    <%= f.check_box :non_us_resident %>
+  </p>
+</div>

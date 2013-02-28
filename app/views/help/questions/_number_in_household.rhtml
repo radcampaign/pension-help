@@ -1,0 +1,9 @@
+<div class="field rq clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :number_in_household %>">
+  <label for="counseling_number_in_household">
+    How many people live in your household?
+  </label>
+  <p>
+    <%= f.text_field :number_in_household, :size => 5 %><br/>
+    <%= f.check_box  :number_in_household_unanswered %>&nbsp;<label for="counseling_number_in_household_unanswered" class="inline">I prefer not to answer</label>
+  </p>
+</div>

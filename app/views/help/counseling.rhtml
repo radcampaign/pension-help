@@ -26,152 +26,21 @@
   </p>
 
   <% form_for :counseling, @counseling, :url => { :action => :step_2 } do |f| -%>
-    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :behalf %>">
-      <label for="counseling_behalf">
-        Are you using PensionHelp America for yourself or on behalf of
-        someone else?
-      </label>
-      <p>
-        <%= f.select :behalf, behalf_options, { :include_blank => true } %>
-      </p>
-    </div>
 
-    <div class="field rq clearfix <%= error_class_on @counseling, :behalf %>" id="used-for-other">
-      <label for="counseling_behalf_other">
-        Please specify:
-      </label>
-      <p>
-        <%= f.text_field :behalf_other %>
-      </p>
-    </div>
+    <%- if @counseling.abc_path == 'A' -%>
+      <%= render :partial => "help/questions/behalf", :locals => { :f => f } %>
+      <%= render :partial => "help/questions/gender", :locals => { :f => f } %>
+      <%= render :partial => "help/questions/marital_status", :locals => { :f => f } %>
+      <%= render :partial => "help/questions/age", :locals => { :f => f } %>
+      <%= render :partial => "help/questions/ethnicity", :locals => { :f => f } %>
+    <%- end -%>
 
-    <script type="text/javascript">
-    var usedForChange = function() {
-      var value;
-      if ((value = jQuery(this).val()) && value != "" && value != "self") {
-        jQuery("#used-for-disclaimer").show();
-      } else {
-        jQuery("#used-for-disclaimer").hide();
-      }
+    <%= render :partial => "help/questions/zipcode", :locals => { :f => f } %>
 
-      if ((value = jQuery(this).val()) && value == "other") {
-        jQuery("#used-for-other").show();
-      } else {
-        jQuery("#used-for-other").hide();
-      }
-    }
-
-    jQuery("#counseling_behalf").change(usedForChange);
-    jQuery(function() {
-      usedForChange.apply(jQuery("#counseling_behalf"));
-    });
-    </script>
-
-    <p id="used-for-disclaimer">
-      If you are using PensionHelp America on behalf of someone else, please
-      answer the following questions based on the person on whose behalf you
-      are using this website.
-    </p>
-
-    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :gender %>">
-      <label for="counseling_gender">
-        What is your gender?
-      </label>
-      <p>
-        <%= f.select :gender, gender_options, { :include_blank => true } %>
-      </p>
-    </div>
-
-    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :marital_status %>">
-      <label for="counseling_marital_status">
-        What is your current marital status?
-      </label>
-      <p>
-        <%= f.select :marital_status, marital_status_options, { :include_blank => true } %>
-      </p>
-    </div>
-
-    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :age %>">
-      <label for="counseling_age">
-        Please enter the year of your birth.
-        <br/>
-        <span class="hint">Some legal service providers offer
-        services based on certain age criteria. Answering this question will
-        help us find a legal service provider to assist you.</span>
-      </label>
-      <p>
-        <%= f.text_field :age, :size => 5 %>
-      </p>
-    </div>
-
-    <div class="field clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :ethnicity %>">
-      <label for="counseling_ethnicity">
-        What is your ethnicity?
-      </label>
-      <p>
-        <%= f.select :ethnicity, ethnicity_options, { :include_blank => true } %>
-      </p>
-    </div>
-
-    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :zipcode %>">
-      <label for="counseling_zipcode">
-        What is your five-digit zip code?
-      </label>
-      <p>
-        <%= f.text_field :zipcode, :size => 5 %>
-      </p>
-    </div>
-
-    <div class="field clearfix <%= error_class_on @counseling, :non_us_resident %>">
-      <label for="counseling_non_us_resident" class="hint">
-        Check this box if you don't have or know your zip code
-        <br />
-        (e.g. for individuals living outside of the United States).
-      </label>
-      <p>
-        <%= f.check_box :non_us_resident %>
-      </p>
-    </div>
-
-    <div class="field rq clearfix  <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :monthly_income_tmp %> <%= error_class_on @counseling, :yearly_income_tmp %> ">
-      <label for="counseling_monthly_income_tmp">
-        What is the
-        <%= select_tag "", options_for_select([["annual", "yearly"], ["monthly", "monthly"]]), :class => "income" %>
-        income of your household?
-      </label>
-      <p>
-        <%= f.text_field :monthly_income_tmp, :size => 5 %><br/>
-        <%= f.check_box  :income_unanswered %>&nbsp;<label for="counseling_income_unanswered" class="inline">I prefer not to answer</label>
-      </p>
-      <script type="text/javascript">
-      var selectIncomeInput = function(value) {
-        jQuery("#counseling_monthly_income_tmp").attr("name", "counseling[" + value + "_income_tmp]");
-      }
-      jQuery(".income").change(function() {
-        selectIncomeInput(jQuery(this).val());
-      });
-      <% if @counseling.monthly_income_tmp.blank? %>
-        selectIncomeInput("yearly");
-        jQuery("#counseling_monthly_income_tmp").val("<%= @counseling.yearly_income_tmp %>");
-        jQuery(".income").val("yearly");
-      <% else %>
-        selectIncomeInput("monthly");
-        jQuery("#counseling_monthly_income_tmp").val("<%= @counseling.monthly_income_tmp %>");
-        jQuery(".income").val("monthly");
-      <% end %>
-      </script>
-    </div>
-
-    <div class="field rq clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :number_in_household %>">
-      <label for="counseling_number_in_household">
-        How many people live in your household?
-      </label>
-      <p>
-        <%= f.text_field :number_in_household, :size => 5 %><br/>
-        <%= f.check_box  :number_in_household_unanswered
- %>&nbsp;<label for="counseling_number_in_household_unanswered" class="inline">I prefer not to answer</label>
-      </p>
-    </div>
+    <%- if @counseling.abc_path == 'A' -%>
+      <%= render :partial => "help/questions/monthly_income_tmp", :locals => { :f => f } %>
+      <%= render :partial => "help/questions/number_in_household", :locals => { :f => f } %>
+    <%- end -%>
 
     <%= render :partial => "help/navigation", :locals => { :previous => false } %>
   <% end -%>
