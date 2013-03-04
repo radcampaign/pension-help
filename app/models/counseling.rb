@@ -51,38 +51,44 @@ class Counseling < ActiveRecord::Base
 
   validates_inclusion_of    :behalf,
                             :in => BEHALF_OPTIONS.keys,
-                            :message => "of is required"
+                            :message => "of is required",
+                            :if => Proc.new { |c| c.question_required?(:behalf) }
 
   validates_presence_of     :behalf_other,
                             :if => Proc.new { |c| c.behalf == "other" }
 
   validates_inclusion_of    :gender,
                             :in => GENDER_OPTIONS.keys,
-                            :message => "is required"
+                            :message => "is required",
+                            :if => Proc.new { |c| c.question_required?(:gender) }
 
   validates_inclusion_of    :marital_status,
                             :in => MARITAL_STATUS_OPTIONS.keys,
-                            :message => "is required"
+                            :message => "is required",
+                            :if => Proc.new { |c| c.question_required?(:marital_status) }
 
-  validates_numericality_of :age
+  validates_numericality_of :age,
+                            :if => Proc.new { |c| c.question_required?(:age) }
 
   validates_numericality_of :number_in_household,
                             :if => Proc.new { |c|
-                              (c.number_in_household_unanswered != '1')
+                              (c.question_required?(:number_in_household) && c.number_in_household_unanswered != '1')
                             }
 
   validates_format_of       :monthly_income_tmp,
                             :with    => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
                             :message => "^Monthly income doesn't seem to be a valid amount",
                             :if      => Proc.new { |c|
-                              c.income_unanswered != '1' && c.yearly_income_tmp.blank? && !c.monthly_income_tmp.blank?
+                              c.question_required?(:monthly_income_tmp) && c.income_unanswered != '1' &&
+                              c.yearly_income_tmp.blank? && !c.monthly_income_tmp.blank?
                             }
 
   validates_format_of       :yearly_income_tmp,
                             :with    => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
                             :message => "^Yearly income doesn't seem to be a valid amount",
                             :if => Proc.new { |c|
-                              c.income_unanswered != '1' && c.monthly_income_tmp.blank?
+                              c.question_required?(:yearly_income_tmp) && c.income_unanswered != '1' &&
+                              c.monthly_income_tmp.blank?
                             }
 
   def validate
@@ -609,6 +615,23 @@ class Counseling < ActiveRecord::Base
 
   def show_lost_plan_resources
     aoa_coverage.empty? and currently_employed == false and lost_plan
+  end
+
+  def has_last_step_questions?
+    step == 100 && (abc_path == 'B' || abc_path == 'C')
+  end
+
+  def question_required?(question)
+    case abc_path
+    when 'A'
+      step == 0
+    when 'B'
+      step == 100
+    when 'C'
+      step == 100 && [:age, :monthly_income_tmp, :number_in_household].include?(question)
+    else
+      false
+    end
   end
 
   protected

@@ -6,6 +6,7 @@ class HelpController < ApplicationController
     :counseling, :step_2, :check_aoa_zip, :step_3, :step_4, :step_5
   ]
   before_filter :step_back
+  before_filter :check_last_step, :only => :results
 
   def index
     show_content("help")
@@ -189,6 +190,7 @@ class HelpController < ApplicationController
 
   def process_step_3
     @counseling = update_counseling(params)
+    @counseling.step = 3
 
     if @counseling.valid?
       redirect_to :action => :step_5
@@ -236,6 +238,22 @@ class HelpController < ApplicationController
     @counseling = update_counseling(params)
     @counseling.step = 5
     redirect_to :action => :results
+  end
+
+  def last_step
+    get_previous_to_from_step
+    @counseling = update_counseling({})
+    @counseling.step = 100
+  end
+
+  def process_last_step
+    @counseling = update_counseling(params)
+    if @counseling.valid?
+      redirect_to :action => :results
+    else
+      @previous_to = params[:previous_to]
+      render :action => "last_step"
+    end
   end
 
   def results
@@ -365,12 +383,28 @@ class HelpController < ApplicationController
 
 
   def step_back
-
     if (params[:"previous.x"] || params[:"previous.y"]) && params[:previous_to]
+      current_counseling.step = 0
       redirect_to("#{params[:previous_to]}?previous") and return
     end
   end
 
+  def get_previous_to_from_step
+    case current_counseling.step
+    when 1
+      @previous_to = "/help/step_2"
+    when '2a'
+      @previous_to = "/help/check_aoa_zip"
+    else
+      @previous_to = "/help/step_#{current_counseling.step}"
+    end
+  end
+
+  def check_last_step
+    if current_counseling.has_last_step_questions?
+      redirect_to :action => 'last_step' and return
+    end
+  end
 
   def show_content(url)
     @content = Content.find_by_url(url)
