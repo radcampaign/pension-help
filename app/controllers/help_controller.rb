@@ -1,6 +1,7 @@
 require "email"
 
 class HelpController < ApplicationController
+  before_filter :set_abc_path, :only => :counseling
   before_filter :check_aoa_zip, :only => [:step3]
   before_filter :hide_email_button, :only => [
     :counseling, :step_2, :check_aoa_zip, :step_3, :step_4, :step_5
@@ -21,6 +22,7 @@ class HelpController < ApplicationController
       @counseling = update_counseling({})
     else
       @counseling = session[:counseling] = Counseling.new
+      @counseling.abc_path = session[:abc_path]
     end
   end
 
@@ -243,13 +245,14 @@ class HelpController < ApplicationController
   def last_step
     get_previous_to_from_step
     @counseling = update_counseling({})
-    @counseling.step = 100
+    @counseling.step = 10
   end
 
   def process_last_step
     @counseling = update_counseling(params)
     if @counseling.valid?
       redirect_to :action => :results
+      @counseling.step = 11
     else
       @previous_to = params[:previous_to]
       render :action => "last_step"
@@ -381,6 +384,10 @@ class HelpController < ApplicationController
 
   protected
 
+  def set_abc_path
+    session[:abc_path] ||= Counseling::AVAILABLE_PATHS.choice
+  end
+
 
   def step_back
     if (params[:"previous.x"] || params[:"previous.y"]) && params[:previous_to]
@@ -401,7 +408,7 @@ class HelpController < ApplicationController
   end
 
   def check_last_step
-    if current_counseling.has_last_step_questions?
+    if current_counseling.show_last_step_questions?
       redirect_to :action => 'last_step' and return
     end
   end

@@ -617,18 +617,18 @@ class Counseling < ActiveRecord::Base
     aoa_coverage.empty? and currently_employed == false and lost_plan
   end
 
-  def has_last_step_questions?
-    step == 100 && (abc_path == 'B' || abc_path == 'C')
+  def show_last_step_questions?
+    step.to_i < 10 && (abc_path == 'B' || abc_path == 'C')
   end
 
   def question_required?(question)
     case abc_path
     when 'A'
-      step == 0
+      step.to_i == 0
     when 'B'
-      step == 100
+      step.to_i >= 10
     when 'C'
-      step == 100 && [:age, :monthly_income_tmp, :number_in_household].include?(question)
+      step.to_i >= 10 && [:age, :monthly_income_tmp, :number_in_household].include?(question)
     else
       false
     end
