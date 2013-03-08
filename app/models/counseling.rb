@@ -221,7 +221,7 @@ class Counseling < ActiveRecord::Base
   #Conditions met to show step_5
   def show_step5?
     ask_afscme = [6,7,8].include?(employer_type_id)
-    ask_afscme and aoa_coverage.blank? and closest_dsp.blank?
+    ask_afscme and aoa_coverage.blank?
   end
 
   def employee_list
