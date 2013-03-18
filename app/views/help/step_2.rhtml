@@ -11,7 +11,7 @@
     Marked fields are mandatory.
   </p>
 
-  <% form_for :counseling, @counseling, :url => { :action => :check_aoa_zip } do |f| -%>
+  <% form_for :counseling, @counseling, :url => { :action => :check_aoa_zip, :abc_path => @counseling.abc_path } do |f| -%>
     <% if !@show_aoa_expansion %>
     <div id="employer-type-radios" class="clearfix">
       What type of employer did you work for?

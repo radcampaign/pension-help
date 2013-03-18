@@ -8,7 +8,7 @@
   </p>
   <div class="separator">&nbsp;</div>
 
-  <% form_for :counseling, :url => {:action => :process_step_5} do |form| -%>
+  <% form_for :counseling, :url => {:action => :process_step_5, :abc_path => @counseling.abc_path} do |form| -%>
 
     <p class="normal">The American Federation of State, County and Municipal Employees (AFSCME) assists its members with pension counseling.</p>
     <p class="normal">Are you, or was the pension earner, a member?: <%= form.radio_button :is_afscme_member, true %>&nbsp;Yes &nbsp;&nbsp;&nbsp;<%= form.radio_button :is_afscme_member, false %>&nbsp;No</p>

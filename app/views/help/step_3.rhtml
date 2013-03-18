@@ -10,7 +10,7 @@
   </p>
   <div class="separator">&nbsp;</div>
 
-  <% form_for :counseling, @counseling, :url => { :action => :process_step_3 } do |f| -%>
+  <% form_for :counseling, @counseling, :url => { :action => :process_step_3, :abc_path => @counseling.abc_path } do |f| -%>
     <% if @counseling.employer_type_id == EMP_TYPE[:military] %>
       <div class="clearfix field field-50">
         <label for="counseling_pension_earner_id">

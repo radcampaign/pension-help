@@ -25,7 +25,7 @@
     Marked fields are mandatory.
   </p>
 
-  <% form_for :counseling, @counseling, :url => { :action => :step_2 } do |f| -%>
+  <% form_for :counseling, @counseling, :url => { :action => :step_2, :abc_path => @counseling.abc_path } do |f| -%>
 
     <%- if @counseling.abc_path == 'A' -%>
       <%= render :partial => "help/questions/behalf", :locals => { :f => f } %>

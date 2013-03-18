@@ -385,14 +385,19 @@ class HelpController < ApplicationController
   protected
 
   def set_abc_path
-    session[:abc_path] ||= Counseling::AVAILABLE_PATHS.choice
+    if params[:abc_path].blank?
+      abc_path = session[:abc_path] || Counseling::AVAILABLE_PATHS.choice
+      redirect_to(:action => 'counseling', :abc_path => abc_path) and return
+    else
+      session[:abc_path] ||= params[:abc_path]
+    end
   end
 
 
   def step_back
     if (params[:"previous.x"] || params[:"previous.y"]) && params[:previous_to]
       current_counseling.step = 0
-      redirect_to("#{params[:previous_to]}?previous") and return
+      redirect_to("#{params[:previous_to]}?previous&abc_path=#{current_counseling.abc_path}") and return
     end
   end
 
@@ -409,7 +414,7 @@ class HelpController < ApplicationController
 
   def check_last_step
     if current_counseling.show_last_step_questions?
-      redirect_to :action => 'last_step' and return
+      redirect_to(:action => 'last_step', :abc_path => current_counseling.abc_path) and return
     end
   end
 
