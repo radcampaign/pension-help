@@ -385,11 +385,11 @@ class HelpController < ApplicationController
   protected
 
   def set_abc_path
-    if params[:abc_path].blank?
+    if params[:var].blank?
       abc_path = session[:abc_path] || Counseling::AVAILABLE_PATHS.choice
-      redirect_to(:action => 'counseling', :abc_path => abc_path) and return
+      redirect_to(:action => 'counseling', :var => abc_path) and return
     else
-      session[:abc_path] ||= params[:abc_path]
+      session[:abc_path] ||= params[:var]
     end
   end
 
@@ -397,7 +397,7 @@ class HelpController < ApplicationController
   def step_back
     if (params[:"previous.x"] || params[:"previous.y"]) && params[:previous_to]
       current_counseling.step = 0
-      redirect_to("#{params[:previous_to]}?previous&abc_path=#{current_counseling.abc_path}") and return
+      redirect_to("#{params[:previous_to]}?previous&var=#{current_counseling.abc_path}") and return
     end
   end
 
