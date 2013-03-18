@@ -414,7 +414,7 @@ class HelpController < ApplicationController
 
   def check_last_step
     if current_counseling.show_last_step_questions?
-      redirect_to(:action => 'last_step', :abc_path => current_counseling.abc_path) and return
+      redirect_to(:action => 'last_step', :var => current_counseling.abc_path) and return
     end
   end
 
