@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<%= yield(:head_javascripts) %>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Pension Help America</title>
 <%= javascript_include_tiny_mce_if_used %>
@@ -28,7 +29,6 @@
 <script type="text/javascript">var switchTo5x=true;</script>
 <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
 <script type="text/javascript">stLight.options({ publisher: "ced6544d-83c0-42b8-8039-dd01bbf94b6e" }); </script>
-<%= yield(:head_javascripts) %>
 </head>
 <body>
   <div id='spinner' style='display:none'><%= image_tag 'loading.gif', :id => 'ajax_spinner' %>Loading . . .</div>
