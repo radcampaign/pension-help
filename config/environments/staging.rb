@@ -22,3 +22,5 @@ EMAIL_RECIPIENT = "dan@freeportmetrics.com"
 EMAIL_FROM = "webmaster@pensionhelp.org"
 LINK_CHECKER_RECIPIENT = "dan@freeportmetrics.com"
 LINK_CHECKER_FROM = "webmaster@pensionhelp.org"
+
+GA_ACCOUNT = 'UA-39402011-1'
