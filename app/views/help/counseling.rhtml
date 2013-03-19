@@ -1,4 +1,4 @@
-<%- if @counseling.abc_path == 'A' && ENV['RAILS_ENV']=='staging' -%>
+<%- if ENV['RAILS_ENV']=='staging' && @counseling.abc_path.nil? -%>
   <% content_for :head_javascripts do %>
     <script>
       function utmx_section(){}

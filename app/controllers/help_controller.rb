@@ -174,7 +174,7 @@ class HelpController < ApplicationController
       @zip_found = true
       @show_aoa_expansion = false
 
-      redirect_to :action => :step_3 and return
+      redirect_to(:action => :step_3, :var => current_counseling.abc_path) and return
     end
 
     @previous_to = "/help/step_2"
@@ -186,7 +186,7 @@ class HelpController < ApplicationController
     if @counseling.employer_type_id == EMP_TYPE[:military]
       @options = CounselAssistance.pension_earner_choices
     else
-      redirect_to :action => :step_5 and return
+      redirect_to(:action => :step_5, :var => current_counseling.abc_path) and return
     end
   end
 
@@ -195,7 +195,7 @@ class HelpController < ApplicationController
     @counseling.step = 3
 
     if @counseling.valid?
-      redirect_to :action => :step_5
+      redirect_to(:action => :step_5, :var => current_counseling.abc_path)
     else
       @options = CounselAssistance.pension_earner_choices
       render :template => 'help/step_3'
@@ -211,7 +211,7 @@ class HelpController < ApplicationController
     if @counseling.aoa_coverage.empty? and (@age_restrictions || @income_restrictions)
       render :template => "help/step_4"
     else
-      redirect_to :action => :step_5
+      redirect_to(:action => :step_5, :var => current_counseling.abc_path)
     end
   end
 
@@ -219,7 +219,7 @@ class HelpController < ApplicationController
     @counseling = update_counseling(params)
     @counseling.step = 4
     if @counseling.valid?
-      redirect_to :action => :step_5
+      redirect_to(:action => :step_5, :var => current_counseling.abc_path)
     else
       @age_restrictions = @counseling.age_restrictions? # put this in an instance variable so we don't have to call it again from the view
       @income_restrictions = @counseling.income_restrictions? # put this in an instance variable so we don't have to call it again from the view
@@ -385,12 +385,13 @@ class HelpController < ApplicationController
   protected
 
   def set_abc_path
-    if params[:var].blank?
-      abc_path = session[:abc_path] || Counseling::AVAILABLE_PATHS.choice
-      redirect_to(:action => 'counseling', :var => abc_path) and return
-    else
+    # google will choose abc path for us
+    # if params[:var].blank?
+    #   abc_path = session[:abc_path] || Counseling::AVAILABLE_PATHS.choice
+    #   redirect_to(:action => 'counseling', :var => abc_path) and return
+    # else
       session[:abc_path] ||= params[:var]
-    end
+    # end
   end
 
 
