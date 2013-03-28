@@ -1457,3 +1457,9 @@ fieldset {
 #photo-header {
   margin-top:8px;
 }
+
+
+#lsp_form label{
+  width: 140px;
+  vertical-align: top;
+}

@@ -12,7 +12,7 @@
 
 <h2>Legal Service Providers (LSP) Network</h2>
 
-<% form_for :partner, @partner, :url => { :controller => "works", :action => "create" } do |f| %>
+<% form_for :partner, @partner, :url => { :controller => "works", :action => "create" }, :html => {:id => 'lsp_form'} do |f| %>
   <%= f.hidden_field :wants_lsp %>
   <div class="form partner-form">
     <div>

@@ -40,7 +40,7 @@ class Mailer < ActionMailer::Base
     @recipients = EMAIL_RECIPIENT
     @from = EMAIL_FROM
     @sent_on = Time.now
-    @subject = "PHA: LSP Application"
+    @subject = "PHA: Legal Service Provider Application"
 
     # Email body substitutions
     @body["partner"] = partner
