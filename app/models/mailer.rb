@@ -13,6 +13,7 @@ class Mailer < ActionMailer::Base
     @body["email"] = feedback.email
     @body["phone"] = feedback.phone
     @body["availability"] = feedback.availability
+    @body["state"] = feedback.state_abbrev
   end
 
   def npln_application(partner)

@@ -11,6 +11,8 @@
         <%= f.text_field :phone %>
         <label>Best Time to Reach You:</label>
         <%= f.text_field :availability %>
+        <label for="partner_state_abbrev">In what state do you reside?</label>
+        <%= f.select("state_abbrev", State.find(:all).collect { |s| [s.abbrev, s.abbrev] }, { :include_blank => true }) %>
         <label>What does your feedback concern:</label><p class="req">*</p>
         <select name="feedback[category]">
         <option value="">Select...</option>
