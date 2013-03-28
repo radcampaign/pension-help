@@ -36,6 +36,16 @@ class Mailer < ActionMailer::Base
     @body["partner"] = partner
   end
 
+  def lsp_application(partner)
+    @recipients = EMAIL_RECIPIENT
+    @from = EMAIL_FROM
+    @sent_on = Time.now
+    @subject = "PHA: LSP Application"
+
+    # Email body substitutions
+    @body["partner"] = partner
+  end
+
   def user_application_confirmation(partner)
     @recipients = partner.user.email
     @from = EMAIL_FROM

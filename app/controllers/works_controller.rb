@@ -1,6 +1,11 @@
 class WorksController < ApplicationController
   helper :partners
 
+  def lsp
+    @partner = Partner.new
+    @partner.wants_lsp = true
+  end
+
   def npln
     @partner = Partner.new
     @partner.wants_npln = true
@@ -17,12 +22,15 @@ class WorksController < ApplicationController
       flash[:notice] = "Thank you for registering!"
       Mailer.deliver_npln_application(@partner) if @partner.wants_npln
       Mailer.deliver_aaa_application(@partner) if @partner.wants_pal
+      Mailer.deliver_lsp_application(@partner) if @partner.wants_lsp
       redirect_to "/works"
     else
       if @partner.wants_npln?
         render :action => "npln"
-      else
+      elsif @partner.wants_pal?
         render :action => "pal"
+      else
+        render :action => "lsp"
       end
     end
   end

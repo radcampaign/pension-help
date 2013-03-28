@@ -68,8 +68,14 @@ class Partner < ActiveRecord::Base
 
 
   def validate
-    if self.assistances.count == 0 and !self.wants_npln
-      self.errors.add(:assistances, "is required")
+    if self.wants_pal
+      if self.assistances.count == 0
+        self.errors.add(:assistances, "is required")
+      end
+    elsif self.wants_lsp
+      if self.company.blank?
+        self.errors.add(:company, "can't be blank")
+      end
     end
   end
 end

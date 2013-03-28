@@ -1,0 +1,149 @@
+<% content_for :sidebar do %>
+<div id="sidebar">
+  <div class="callout-box">
+    <h3>Legal Service Providers (LSP) Network</h3>
+    <p>
+      If you are a legal service provider and provide free assistance to individuals who have problems with their pension or retirement savings plans, complete the form to join our network.
+    </p>
+  </div>
+</div>
+<% end %>
+
+
+<h2>Legal Service Providers (LSP) Network</h2>
+
+<% form_for :partner, @partner, :url => { :controller => "works", :action => "create" } do |f| %>
+  <%= f.hidden_field :wants_lsp %>
+  <div class="form partner-form">
+    <div>
+      <label for="partner_company">
+        <span class="reqnote">*</span>Organization name:
+      </label>
+      <%= f.text_field :company %>
+      <%= error_message_on :partner, :company %>
+    </div>
+
+    <div>
+      <label for="partner_line_1">
+        <span class="reqnote">*</span>Address Line 1:
+      </label>
+      <%= f.text_field :line_1 %>
+      <%= error_message_on :partner, :line_1 %>
+    </div>
+
+    <div>
+      <label for="partner_line_2">
+        Address Line 2:
+      </label>
+      <%= f.text_field :line_2 %>
+      <%= error_message_on :partner, :line_2 %>
+    </div>
+
+    <div>
+      <label for="partner_city">
+        <span class="reqnote">*</span>City:
+      </label>
+      <%= f.text_field :city %>
+      <%= error_message_on :partner, :city %>
+    </div>
+
+    <div>
+      <label for="partner_state_abbrev">
+        <span class="reqnote">*</span>State:
+      </label>
+      <%= select("partner", "state_abbrev", State.find(:all).collect { |s| [s.abbrev, s.abbrev] }, { :include_blank => true }) %>
+      <%= error_message_on :partner, :state_abbrev %>
+    </div>
+
+    <div>
+      <label for="partner_zip_code">
+        <span class="reqnote">*</span>Zip:
+      </label>
+      <%= f.text_field :zip_code%>
+      <%= error_message_on :partner, :zip_code %>
+    </div>
+
+    <div>
+      <label for="partner_url">
+        Website:
+      </label>
+      <%= f.text_field :url %>
+      <%= error_message_on :partner, :url %>
+    </div>
+
+    <div>
+      <label for="partner_other_info">
+        Description:
+      </label>
+      <%= f.text_area :other_info, :rows => 6, :cols => 60 %>
+    </div>
+
+    <div>
+      <label for="partner_tollfree_number">
+        Toll Free Phone:
+      </label>
+      <%= f.text_field :tollfree_number, :size => 15 %>
+      <%= error_message_on :partner, :tollfree_number %>
+    </div>
+
+    <div>
+      <label for="partner_local_number">
+        Local phone number:
+      </label>
+      <%= f.text_field :local_number, :size => 15 %>
+      <%= error_message_on :partner, :local_number %>
+    </div>
+
+    <div>
+      <label for="partner_office_location">
+        Office location information
+        <br/>
+        (if there are multiple locations):
+      </label>
+      <%= f.text_area :office_location, :rows => 6, :cols => 60 %>
+    </div>
+
+    <h3>Contact Person</h3>
+
+    <div>
+      <label for="partner_first_name">
+        <span class="reqnote">*</span>First Name:
+      </label>
+      <%= f.text_field :first_name %>
+      <%= error_message_on :partner, :first_name %>
+    </div>
+
+    <div>
+      <label for="partner_last_name">
+        <span class="reqnote">*</span>Last Name:
+      </label>
+      <%= f.text_field :last_name %>
+      <%= error_message_on :partner, :last_name %>
+    </div>
+
+    <div>
+      <label for="partner_email">
+        <span class="reqnote">*</span>E-mail:
+      </label>
+      <%= f.text_field :email %>
+      <%= error_message_on :partner, :email %>
+    </div>
+
+    <div>
+      <label for="partner_phone">
+        <span class="reqnote">*</span>Phone:
+      </label>
+      <%= f.text_field :phone %>
+      <%= error_message_on :partner, :phone %>
+    </div>
+
+    <input type="submit" value="Submit" />
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  jQuery(document).ready(function(){
+    jQuery("#partner_tollfree_number").mask("(999) 999-9999");
+    jQuery("#partner_local_number").mask("(999) 999-9999");
+   });
+</script>
