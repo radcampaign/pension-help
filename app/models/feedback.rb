@@ -14,6 +14,7 @@
 #  created_at   :datetime
 #  updated_at   :datetime
 #
+require "email"
 
 class Feedback < ActiveRecord::Base
   acts_as_commentable
@@ -87,4 +88,15 @@ class Feedback < ActiveRecord::Base
     "Service Provider Referral",
     "General Feedback"
   ]
+
+
+  protected
+
+  def validate
+    if email.blank?
+      self.errors.add(:email, "can't be blank")
+    elsif email !~ EMAIL_REGEX
+      self.errors.add(:email, "is invalid")
+    end
+  end
 end
