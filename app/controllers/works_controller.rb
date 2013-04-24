@@ -1,10 +1,10 @@
 class WorksController < ApplicationController
   helper :partners
 
-  def lsp
-    @partner = Partner.new
-    @partner.wants_lsp = true
-  end
+  # def lsp
+  #   @partner = Partner.new
+  #   @partner.wants_lsp = true
+  # end
 
   def npln
     @partner = Partner.new
@@ -30,7 +30,7 @@ class WorksController < ApplicationController
       elsif @partner.wants_pal?
         render :action => "pal"
       else
-        render :action => "lsp"
+        # render :action => "lsp"
       end
     end
   end
