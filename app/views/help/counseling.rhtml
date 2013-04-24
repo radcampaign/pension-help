@@ -4,7 +4,7 @@
       function utmx_section(){}
       function utmx(){}(
         function(){
-          var k='70321422-0',d=document,l=d.location,c=d.cookie;
+          var k='<%=GA_EXPERIMENTS%>',d=document,l=d.location,c=d.cookie;
           if(l.search.indexOf('utm_expid='+k)>0)return;
           function f(n){
             if(c){

@@ -40,3 +40,4 @@ LINK_CHECKER_RECIPIENT = "dan@freeportmetrics.com, pensionhelp@pensionrights.org
 LINK_CHECKER_FROM = "webmaster@pensionhelp.org"
 
 GA_ACCOUNT = 'UA-3486550-1'
+GA_EXPERIMENTS = '6831056-1'
