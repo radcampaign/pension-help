@@ -1,4 +1,4 @@
-<%- if params[:var]=='A' || @counseling.abc_path == 'A' -%>
+<%- if params[:var].blank? -%>
   <% content_for :head_javascripts do %>
       <!-- Google Analytics Content Experiment code -->
       <script>function utmx_section(){}function utmx(){}(function(){var

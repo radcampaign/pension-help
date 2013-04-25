@@ -1,7 +1,6 @@
 require "email"
 
 class HelpController < ApplicationController
-  before_filter :set_abc_path, :only => :counseling
   before_filter :check_aoa_zip, :only => [:step3]
   before_filter :hide_email_button, :only => [
     :counseling, :step_2, :check_aoa_zip, :step_3, :step_4, :step_5
@@ -22,7 +21,7 @@ class HelpController < ApplicationController
       @counseling = update_counseling({})
     else
       @counseling = session[:counseling] = Counseling.new
-      @counseling.abc_path = session[:abc_path]
+      @counseling.abc_path = params[:var] || 'A'
     end
   end
 
@@ -127,7 +126,7 @@ class HelpController < ApplicationController
                   EMP_TYPE[:federal], EMP_TYPE[:military], EMP_TYPE[:unknown]].include?(@counseling.employer_type_id)
     end
 
-    @previous_to = "/help/counseling?var=#{@counseling.abc_path || 'A'}"
+    @previous_to = "/help/counseling"
   end
 
   # ajax call to check if zipcode is in aoa coverage area
@@ -263,7 +262,7 @@ class HelpController < ApplicationController
     @counseling = current_counseling
     if @counseling.attributes.values.uniq.compact.empty?
       flash[:error] = "Please answer the following questions in order to find out which agencies can best assist you."
-      redirect_to "/help/counseling?var=#{@counseling.abc_path || 'A'}"
+      redirect_to "/help/counseling"
     end
     @zip_import = ZipImport.find_by_zipcode(@counseling.zipcode)
     @results = @counseling.matching_agencies
@@ -383,11 +382,6 @@ class HelpController < ApplicationController
 
 
   protected
-
-  def set_abc_path
-    session[:abc_path] = params[:var]
-  end
-
 
   def step_back
     if (params[:"previous.x"] || params[:"previous.y"]) && params[:previous_to]
