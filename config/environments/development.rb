@@ -50,3 +50,5 @@ ActionMailer::Base.smtp_settings = {
   LINK_CHECKER_RECIPIENT = "dan@freeportmetrics.com"
   LINK_CHECKER_FROM = "dan@freeportmetrics.com"
 
+GA_ACCOUNT = '123TEST'
+GA_EXPERIMENTS = '123TEST'
