@@ -1,4 +1,4 @@
-<%- if (ENV['RAILS_ENV']=='staging' || ENV['RAILS_ENV']=='production') && @counseling.abc_path.nil? -%>
+<%- if (ENV['RAILS_ENV']=='staging' || ENV['RAILS_ENV']=='production') && @counseling.abc_path == 'A' -%>
   <% content_for :head_javascripts do %>
     <script>
       function utmx_section(){}
@@ -54,6 +54,8 @@
   </p>
 
   <% form_for :counseling, @counseling, :url => { :action => :step_2, :var => @counseling.abc_path } do |f| -%>
+
+    <%= f.hidden_field :abc_path %>
 
     <%- if @counseling.abc_path == 'A' -%>
       <%= render :partial => "help/questions/behalf", :locals => { :f => f } %>

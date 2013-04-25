@@ -390,7 +390,7 @@ class HelpController < ApplicationController
     #   abc_path = session[:abc_path] || Counseling::AVAILABLE_PATHS.choice
     #   redirect_to(:action => 'counseling', :var => abc_path) and return
     # else
-      session[:abc_path] ||= params[:var]
+      session[:abc_path] = params[:var]
     # end
   end
 
