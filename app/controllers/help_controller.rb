@@ -127,7 +127,7 @@ class HelpController < ApplicationController
                   EMP_TYPE[:federal], EMP_TYPE[:military], EMP_TYPE[:unknown]].include?(@counseling.employer_type_id)
     end
 
-    @previous_to = "/help/counseling"
+    @previous_to = "/help/counseling?var=#{@counseling.abc_path || 'A'}"
   end
 
   # ajax call to check if zipcode is in aoa coverage area
@@ -263,7 +263,7 @@ class HelpController < ApplicationController
     @counseling = current_counseling
     if @counseling.attributes.values.uniq.compact.empty?
       flash[:error] = "Please answer the following questions in order to find out which agencies can best assist you."
-      redirect_to "/help/counseling"
+      redirect_to "/help/counseling?var=#{@counseling.abc_path || 'A'}"
     end
     @zip_import = ZipImport.find_by_zipcode(@counseling.zipcode)
     @results = @counseling.matching_agencies
@@ -385,12 +385,7 @@ class HelpController < ApplicationController
   protected
 
   def set_abc_path
-    if params[:var].blank?
-      # we've set up A as the original version
-      redirect_to(:action => 'counseling', :var => 'A') and return
-    else
-      session[:abc_path] = params[:var]
-    end
+    session[:abc_path] = params[:var]
   end
 
 
