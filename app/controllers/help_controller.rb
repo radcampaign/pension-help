@@ -385,13 +385,12 @@ class HelpController < ApplicationController
   protected
 
   def set_abc_path
-    # google will choose abc path for us
-    # if params[:var].blank?
-    #   abc_path = session[:abc_path] || Counseling::AVAILABLE_PATHS.choice
-    #   redirect_to(:action => 'counseling', :var => abc_path) and return
-    # else
+    if params[:var].blank?
+      # we've set up A as the original version
+      redirect_to(:action => 'counseling', :var => 'A') and return
+    else
       session[:abc_path] = params[:var]
-    # end
+    end
   end
 
 

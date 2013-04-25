@@ -647,8 +647,4 @@ class Counseling < ActiveRecord::Base
     self.is_over_60 = (Date.today.year - self.age.to_i) > 60
     p self.is_over_60
   end
-
-  def after_initialize
-    self.abc_path ||= AVAILABLE_PATHS.choice
-  end
 end
