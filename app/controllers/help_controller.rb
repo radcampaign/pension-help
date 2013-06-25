@@ -21,7 +21,7 @@ class HelpController < ApplicationController
       @counseling = update_counseling({})
     else
       @counseling = session[:counseling] = Counseling.new
-      @counseling.abc_path = params[:var] || 'A'
+      @counseling.abc_path = 'B' # B was the winner of the a/b test --- everyone gets B now
     end
   end
 

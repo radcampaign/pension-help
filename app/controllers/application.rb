@@ -2,8 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-  # IMPORTANT!!!! uncomment when a/b/c tests are finished
-  #before_filter :basic_auth
+  before_filter :basic_auth
 
   def basic_auth
     if ENV["RAILS_ENV"] == "staging"
