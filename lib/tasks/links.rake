@@ -6,21 +6,14 @@ namespace :links do
         :class => Location,
         :fields => [[:url, "URL2"], [:url2, "URL2"]],
         :path => :edit_agency_location_url
-      },
-      {
-        :class => Plan,
-        :fields => [[:url, "Url"], [:admin_url, "Admin Url"],
-          [:tpa_url, "Tpa Url"], [:spd_url, "Spd Url"]],
-        :path => :edit_agency_plan_url
-      },
-      { :class => Publication, :fields => [[:url, "Url"]], :path => :edit_agency_url }
-
+      }
     ]
 
     errors = []
 
     checks.each do |check|
       check[:class].find(:all).each do |object|
+        next if (object.respond_to?(:is_active) and !object.is_active) or (object.respond_to?(:is_provider) and !object.is_provider)
         check[:fields].each do |pair|
           field = pair[0]
           label = pair[1]
