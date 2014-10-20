@@ -5,6 +5,10 @@ INSTALLATION
 rvm ree-1.8.7-2012.02@pha --create
 
 
+# downgrade rubygems
+
+gem update --system 1.8.25 (Kuba: I had to do it)
+
 # install gems
 
 gem install rails -v=1.2.6
@@ -16,6 +20,10 @@ gem install rake -v=0.8.7
 config.load_paths += Dir["#{RAILS_ROOT}/vendor/gems/**"].map do |dir|
   File.directory?(lib = "#{dir}/lib") ? lib : dir
 end
+
+or
+
+export RAILS_ENV='development'
 
 
 # create database.yml, example:
@@ -29,7 +37,7 @@ development:
   host: localhost
 
 
-#create database and load schema
+#create database and load schema (Kuba: not working as of 2014-10-20, see next step)
 
 rake _0.8.7_ db:create
 rake _0.8.7_ db:schema:load
@@ -37,9 +45,9 @@ rake _0.8.7_ db:schema:load
 
 # loading data
 
-Two options
+Download dump from qa server .Then load sql file into the database (from command line, via sequel pro or other tool)
 
-- download from wiki: https://collab.freeportmetrics.com/attachments/2413/pha.devt.20120415.sql.gz
-- clone pha-rubbi: git@freeportmetrics.beanstalkapp.com:/pha-rubbi.git and get data/dump.sql
+# running app
+script/server
 
-then load sql file into the database (from command line, via sequel pro or other tool)
+(NY postal code: 10001)
