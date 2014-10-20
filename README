@@ -51,3 +51,17 @@ Download dump from qa server .Then load sql file into the database (from command
 script/server
 
 (NY postal code: 10001)
+
+# SELENIUM CONFIGURATION
+
+Download Selenium IDE plugin for firefox and install it
+
+http://release.seleniumhq.org/selenium-ide/2.8.0/selenium-ide-2.8.0.xpi
+
+HOW TO RUN TEST
+
+1. Copy and paste specific test case file content from test/selenium directory
+2. Paste it inside plugin input window ( Firefox browser )
+3. Run test case
+
+- Important! You have to run rails server to perform tests!
