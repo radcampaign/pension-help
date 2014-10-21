@@ -61,7 +61,7 @@ http://release.seleniumhq.org/selenium-ide/2.8.0/selenium-ide-2.8.0.xpi
 HOW TO RUN TEST
 
 1. Copy and paste specific test case file content from test/selenium directory
-2. Paste it inside plugin input window ( Firefox browser )
+2. Paste it inside plugin input window ( Firefox browser ), or switch to selenium Window and use File -> Open Test Case
 3. Run test case
 
 - Important! You have to run rails server to perform tests!
