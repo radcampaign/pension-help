@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+require 'yaml'
+
+
+
+config = YAML.load(File.new('./config/database.yml'))
+db = config[ENV['RAILS_ENV']]
+
+puts 'Loading data...'
+system "mysql -u #{db['username']} #{db['password'] ? '-p' + db['password'] : ''} -h #{db['host']}  #{db['database']} < db/dumps/pha_2014-10-22.sql"
+
+puts 'Migrating...'
+system 'rake _0.8.7_ db:migrate'
+
+
+
+
