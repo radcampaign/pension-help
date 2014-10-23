@@ -17,34 +17,79 @@
   <td></td>
 </tr>
 <tr>
-  <td>select</td>
-  <td>counseling[employer_type_id]</td>
-  <td>label=County agency or office</td>
+    <td>type</td>
+    <td>counseling_zipcode</td>
+    <td>06824</td>
+</tr>
+<tr>
+    <td>clickAndWait</td>
+    <td>nextLinkButton</td>
+    <td></td>
 </tr>
 <tr>
   <td>click</td>
-  <td>//option[@value='7']</td>
-  <td></td>
+  <td>counseling_employer_type_id_7</td>
+  <td>exact:County agency or office</td>
 </tr>
 <tr>
-  <td>select</td>
-  <td>counseling[work_state_abbrev]</td>
-  <td>label=Connecticut</td>
+    <td>select</td>
+    <td>counseling[work_state_abbrev]</td>
+    <td>exact:Connecticut</td>
 </tr>
 <tr>
-  <td>click</td>
-  <td>//option[@value='CT']</td>
-  <td></td>
+    <td>select</td>
+    <td>counseling[county_id]</td>
+    <td>exact:Fairfield</td>
 </tr>
 <tr>
-  <td>click</td>
-  <td>counseling[county_id]</td>
-  <td></td>
+    <td>click</td>
+    <td>counseling_currently_employed_false</td>
+    <td></td>
 </tr>
 <tr>
-  <td>select</td>
-  <td>counseling[county_id]</td>
-  <td>label=Fairfield</td>
+    <td>type</td>
+    <td>employment_end_year</td>
+    <td>2012</td>
+</tr>
+<tr>
+    <td>clickAndWait</td>
+    <td>nextLinkButton</td>
+    <td></td>
+</tr>
+<tr>
+    <td>select</td>
+    <td>counseling[behalf]</td>
+    <td>exact:Prefer not to answer</td>
+</tr>
+<tr>
+    <td>select</td>
+    <td>counseling[gender]</td>
+    <td>exact:Prefer not to answer</td>
+</tr>
+<tr>
+    <td>select</td>
+    <td>counseling[marital_status]</td>
+    <td>exact:Prefer not to answer</td>
+</tr>
+<tr>
+    <td>type</td>
+    <td>counseling_age</td>
+    <td>1987</td>
+</tr>
+<tr>
+    <td>select</td>
+    <td>counseling[ethnicity]</td>
+    <td>exact:Prefer not to answer</td>
+</tr>
+<tr>
+    <td>click</td>
+    <td>counseling[income_unanswered]</td>
+    <td>id=counseling_income_unanswered</td>
+</tr>
+<tr>
+    <td>click</td>
+    <td>counseling[number_in_household_unanswered]</td>
+    <td>id=counseling_number_in_household_unanswered</td>
 </tr>
 <tr>
   <td>clickAndWait</td>
@@ -52,34 +97,14 @@
   <td></td>
 </tr>
 <tr>
-  <td>type</td>
-  <td>counseling_zipcode</td>
-  <td>06824</td>
+  <td>verifyText</td>
+  <td>//div[@id='content-no-sidebar']</td>
+  <td>*We could not find information about your specific plan*</td>
 </tr>
 <tr>
-  <td>clickAndWait</td>
-  <td>nextLinkButton</td>
-  <td></td>
-</tr>
-<tr>
-  <td>click</td>
-  <td>counseling_currently_employed_false</td>
-  <td></td>
-</tr>
-<tr>
-  <td>clickAndWait</td>
-  <td>nextLinkButton</td>
-  <td></td>
-</tr>
-<tr>
-  <td>verifyTextPresent</td>
-  <td>We could not find information about your specific plan</td>
-  <td></td>
-</tr>
-<tr>
-  <td>verifyTextPresent</td>
-  <td>New England Pension Assistance Project</td>
-  <td></td>
+  <td>verifyText</td>
+  <td>//div[@id='content-no-sidebar']</td>
+  <td>*New England Pension Assistance Project*</td>
 </tr>
 
 </tbody></table>

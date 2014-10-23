@@ -17,34 +17,34 @@
 	<td></td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>id=counseling_employer_type_id</td>
-	<td>label=Federal agency or office</td>
+    <td>type</td>
+    <td>counseling_zipcode</td>
+    <td>04032</td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>id=counseling[federal_plan_id]</td>
-	<td>label=Federal Employee Retirement System (FERS)</td>
-</tr>
-<tr>
-	<td>open</td>
-	<td>/help/counseling</td>
-	<td></td>
-</tr>
-<tr>
-	<td>select</td>
-	<td>counseling[employer_type_id]</td>
-	<td>label=Federal agency or office</td>
+    <td>clickAndWait</td>
+    <td>nextLinkButton</td>
+    <td></td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>//option[@value='4']</td>
-	<td></td>
+	<td>counseling_employer_type_id_4</td>
+	<td>exact:Federal agency or office</td>
 </tr>
 <tr>
 	<td>select</td>
 	<td>counseling[federal_plan_id]</td>
-	<td>label=Federal Employee Retirement System (FERS)</td>
+	<td>exact:Federal Employee Retirement System (FERS)</td>
+</tr>
+<tr>
+    <td>click</td>
+    <td>counseling_currently_employed_false</td>
+    <td></td>
+</tr>
+<tr>
+    <td>type</td>
+    <td>employment_end_year</td>
+    <td>2012</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -52,24 +52,39 @@
 	<td></td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>counseling_zipcode</td>
-	<td>04032</td>
+    <td>select</td>
+    <td>counseling[behalf]</td>
+    <td>exact:Prefer not to answer</td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>nextLinkButton</td>
-	<td></td>
+    <td>select</td>
+    <td>counseling[gender]</td>
+    <td>exact:Prefer not to answer</td>
 </tr>
 <tr>
-	<td>verifyVisible</td>
-	<td>currentlyEmployedQuestion</td>
-	<td></td>
+    <td>select</td>
+    <td>counseling[marital_status]</td>
+    <td>exact:Prefer not to answer</td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>counseling_currently_employed_false</td>
-	<td></td>
+    <td>type</td>
+    <td>counseling_age</td>
+    <td>1987</td>
+</tr>
+<tr>
+    <td>select</td>
+    <td>counseling[ethnicity]</td>
+    <td>exact:Prefer not to answer</td>
+</tr>
+<tr>
+    <td>click</td>
+    <td>counseling[income_unanswered]</td>
+    <td>id=counseling_income_unanswered</td>
+</tr>
+<tr>
+    <td>click</td>
+    <td>counseling[number_in_household_unanswered]</td>
+    <td>id=counseling_number_in_household_unanswered</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
