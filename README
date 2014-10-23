@@ -37,10 +37,20 @@ development:
   host: localhost
 
 
-#create database and load schema (Kuba: not working as of 2014-10-20, see next step)
+#create database and load schema
 
-rake _0.8.7_ db:create
-rake _0.8.7_ db:schema:load
+As migration script were broken as of 2014-10-22. Use dump that reflects state of dba at 107_add_fields_to_partners.rb.
+To set up your env load db/dumps/pha_2014-10-22.sql. From now on migrations should be run.
+
+You can use script/reload-and-migrate-db to clear and repopulate your db from dump.
+
+export RAILS_ENV='development'; ./script/reload-db
+
+Password to all accounts: stuart eg. stuart/fmetrics1017
+
+To migrate:
+
+rake _0.8.7_ db:migrate
 
 
 # loading data
