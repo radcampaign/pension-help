@@ -9,63 +9,105 @@
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
 <tr><td rowspan="1" colspan="3">MT_out_state_AOA</td></tr>
-</thead><tbody>
-<tr>
-  <td>open</td>
-  <td>/help/counseling</td>
-  <td></td>
-</tr>
-<tr>
-  <td>select</td>
-  <td>counseling[employer_type_id]</td>
-  <td>label=Company or nonprofit</td>
-</tr>
-<tr>
-  <td>clickAndWait</td>
-  <td>nextLinkButton</td>
-  <td></td>
-</tr>
-<tr>
-  <td>type</td>
-  <td>counseling_zipcode</td>
-  <td>15122</td>
-</tr>
-<tr>
-  <td>clickAndWait</td>
-  <td>nextLinkButton</td>
-  <td></td>
-</tr>
-<tr>
-  <td>type</td>
-  <td>employment_end_year</td>
-  <td>1990</td>
-</tr>
-<tr>
-  <td>clickAndWait</td>
-  <td>nextLinkButton</td>
-  <td></td>
-</tr>
-<tr>
-  <td>verifyTextPresent</td>
-  <td>Department of Labor</td>
-  <td></td>
-</tr>
-<tr>
-  <td>verifyTextPresent</td>
-  <td>Mid-America Pension Rights Project</td>
-  <td></td>
-</tr>
-<tr>
-  <td>verifyTextPresent</td>
-  <td>Pro Seniors, Inc.</td>
-  <td></td>
-</tr>
-<tr>
-  <td>verifyXpathCount</td>
-  <td>//div[@class='agency_result']</td>
-  <td>2</td>
-</tr>
+</thead>
+    <tbody>
+    <tr>
+        <td>open</td>
+        <td>/help/counseling</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>type</td>
+        <td>counseling_zipcode</td>
+        <td>15122</td>
+    </tr>
+    <tr>
+        <td>clickAndWait</td>
+        <td>nextLinkButton</td>
+        <td></td>
+    </tr>
+    <tr><!-- Company Non Profit -->
+        <td>click</td>
+        <td>counseling[employer_type_id]</td>
+        <td>value=1</td>
+    </tr>
+    <tr>
+        <td>click</td>
+        <td>counseling[currently_employed]</td>
+        <td>id=counseling_currently_employed_false</td>
+    </tr>
+    <tr>
+        <td>type</td>
+        <td>employment_end_year</td>
+        <td>1990</td>
+    </tr>
+    <tr>
+        <td>clickAndWait</td>
+        <td>nextLinkButton</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>select</td>
+        <td>counseling[behalf]</td>
+        <td>exact:Prefer not to answer</td>
+    </tr>
+    <tr>
+        <td>select</td>
+        <td>counseling[gender]</td>
+        <td>exact:Prefer not to answer</td>
+    </tr>
+    <tr>
+        <td>select</td>
+        <td>counseling[marital_status]</td>
+        <td>exact:Prefer not to answer</td>
+    </tr>
+    <tr>
+        <td>type</td>
+        <td>counseling_age</td>
+        <td>1987</td>
+    </tr>
+    <tr>
+        <td>select</td>
+        <td>counseling[ethnicity]</td>
+        <td>exact:Prefer not to answer</td>
+    </tr>
+    <tr>
+        <td>click</td>
+        <td>counseling[income_unanswered]</td>
+        <td>id=counseling_income_unanswered</td>
+    </tr>
+    <tr>
+        <td>click</td>
+        <td>counseling[number_in_household_unanswered]</td>
+        <td>id=counseling_number_in_household_unanswered</td>
+    </tr>
+    <tr>
+        <td>clickAndWait</td>
+        <td>nextLinkButton</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>verifyText</td>
+        <td>//div[@id='content-no-sidebar']</td>
+        <td>*Department of Labor*</td>
+    </tr>
+    <tr>
+        <td>verifyText</td>
+        <td>//div[@id='content-no-sidebar']</td>
+        <td>*Mid-America Pension Rights Project*</td>
+    </tr>
+    <tr>
+        <td>verifyText</td>
+        <td>//div[@id='content-no-sidebar']</td>
+        <td>*Pro Seniors, Inc.*</td>
+    </tr>
+    <tr>
+        <td>verifyXpathCount</td>
+        <td>//div[@class='agency_result']</td>
+        <td>2</td>
+    </tr>
 
-</tbody></table>
+    </tbody>
+</table>
 </body>
 </html>

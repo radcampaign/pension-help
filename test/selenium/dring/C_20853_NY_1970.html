@@ -17,34 +17,49 @@
   <td></td>
 </tr>
 <tr>
-  <td>select</td>
-  <td>counseling[employer_type_id]</td>
-  <td>label=Company or nonprofit</td>
+    <td>type</td>
+    <td>counseling_zipcode</td>
+    <td>20853</td>
 </tr>
 <tr>
-  <td>clickAndWait</td>
-  <td>nextLinkButton</td>
-  <td></td>
+    <td>clickAndWait</td>
+    <td>nextLinkButton</td>
+    <td></td>
 </tr>
 <tr>
-  <td>type</td>
-  <td>counseling_zipcode</td>
-  <td>20853</td>
+  <td>click</td>
+  <td>counseling_employer_type_id_1</td>
+  <td>exact:Company or nonprofit</td>
+</tr>
+<tr>
+    <td>click</td>
+    <td>counseling_currently_employed_false</td>
+    <td></td>
+</tr>
+<tr>
+    <td>type</td>
+    <td>employment_end_year</td>
+    <td>1970</td>
+</tr>
+<tr>
+    <td>clickAndWait</td>
+    <td>nextLinkButton</td>
+    <td></td>
 </tr>
 <tr>
   <td>select</td>
   <td>counseling_work_state_abbrev</td>
-  <td>label=Maryland</td>
+  <td>exact:Maryland</td>
 </tr>
 <tr>
   <td>select</td>
   <td>counseling_hq_state_abbrev</td>
-  <td>label=Maryland</td>
+  <td>exact:Maryland</td>
 </tr>
 <tr>
   <td>select</td>
   <td>counseling_pension_state_abbrev</td>
-  <td>label=New York</td>
+  <td>exact:New York</td>
 </tr>
 <tr>
   <td>clickAndWait</td>
@@ -52,9 +67,39 @@
   <td></td>
 </tr>
 <tr>
-  <td>type</td>
-  <td>employment_end_year</td>
-  <td>1970</td>
+    <td>select</td>
+    <td>counseling[behalf]</td>
+    <td>exact:Prefer not to answer</td>
+</tr>
+<tr>
+    <td>select</td>
+    <td>counseling[gender]</td>
+    <td>exact:Prefer not to answer</td>
+</tr>
+<tr>
+    <td>select</td>
+    <td>counseling[marital_status]</td>
+    <td>exact:Prefer not to answer</td>
+</tr>
+<tr>
+    <td>type</td>
+    <td>counseling_age</td>
+    <td>1940</td>
+</tr>
+<tr>
+    <td>select</td>
+    <td>counseling[ethnicity]</td>
+    <td>exact:Prefer not to answer</td>
+</tr>
+<tr>
+    <td>click</td>
+    <td>counseling[income_unanswered]</td>
+    <td>id=counseling_income_unanswered</td>
+</tr>
+<tr>
+    <td>click</td>
+    <td>counseling[number_in_household_unanswered]</td>
+    <td>id=counseling_number_in_household_unanswered</td>
 </tr>
 <tr>
   <td>clickAndWait</td>
@@ -62,14 +107,14 @@
   <td></td>
 </tr>
 <tr>
-  <td>verifyTextPresent</td>
-  <td>Tax-Exempt and Government Entities Division</td>
-  <td></td>
+  <td>verifyText</td>
+  <td>//div[@id='content-no-sidebar']</td>
+  <td>*Tax-Exempt and Government Entities Division*</td>
 </tr>
 <tr>
-  <td>verifyTextPresent</td>
-  <td>Mid-Atlantic Pension Rights Project</td>
-  <td></td>
+  <td>verifyText</td>
+  <td>//div[@id='content-no-sidebar']</td>
+  <td>*Mid-Atlantic Pension Rights Project*</td>
 </tr>
 
 </tbody></table>
