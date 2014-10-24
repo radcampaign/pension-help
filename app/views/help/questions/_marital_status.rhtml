@@ -1,8 +1,0 @@
-<div class="field rq clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :marital_status %>">
-  <label for="counseling_marital_status">
-    What is your current marital status?
-  </label>
-  <p>
-    <%= f.select :marital_status, marital_status_options, { :include_blank => true } %>
-  </p>
-</div>

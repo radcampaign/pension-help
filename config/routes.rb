@@ -1,43 +1,56 @@
-ActionController::Routing::Routes.draw do |map|
-  map.resources :partners
-  map.resources :passwords
-  map.resources :restrictions
-  map.resources :users, :has_one => [:password]
-
-  map.resources :agencies do |agency|
-    agency.resources :locations
-    agency.resources :plans
-  end
-
-  map.resources :feedbacks,
-      :controller => :feedback
-
+Rails.application.routes.draw do
   # The priority is based upon order of creation: first created -> highest priority.
+  # See how all your routes lay out with "rake routes".
 
-  # Sample of regular route:
-  # map.connect 'products/:id', :controller => 'catalog', :action => 'view'
-  # Keep in mind you can assign values other than :controller and :action
+  # You can have the root of your site routed with "root"
+  # root 'welcome#index'
 
-  # Sample of named route:
-  # map.purchase 'products/:id/purchase', :controller => 'catalog', :action => 'purchase'
-  # This route can be invoked with purchase_url(:id => product.id)
+  # Example of regular route:
+  #   get 'products/:id' => 'catalog#view'
 
-  # You can have the root of your site routed by hooking up ''
-  # -- just remember to delete public/index.html.
-  # map.connect '', :controller => "welcome"
+  # Example of named route that can be invoked with purchase_url(id: product.id)
+  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
 
-  # Install the default route as the lowest priority.
-  map.connect ':controller/:action/:id.:format'
-  map.connect ':controller/:action.:format'
-  map.connect ':controller/:action/:id'
+  # Example resource route (maps HTTP verbs to controller actions automatically):
+  #   resources :products
 
-  # Site URLs
-  map.with_options(:controller => 'site') do |site|
-    site.homepage          '',              :action => 'show_page', :url => '/'
-    site.not_found         'site/404',     :action => 'not_found'
-    site.error             'site/500',     :action => 'error'
+  # Example resource route with options:
+  #   resources :products do
+  #     member do
+  #       get 'short'
+  #       post 'toggle'
+  #     end
+  #
+  #     collection do
+  #       get 'sold'
+  #     end
+  #   end
 
-    # Everything else
-    site.connect           '*url',          :action => 'show_page'
-  end
+  # Example resource route with sub-resources:
+  #   resources :products do
+  #     resources :comments, :sales
+  #     resource :seller
+  #   end
+
+  # Example resource route with more complex sub-resources:
+  #   resources :products do
+  #     resources :comments
+  #     resources :sales do
+  #       get 'recent', on: :collection
+  #     end
+  #   end
+
+  # Example resource route with concerns:
+  #   concern :toggleable do
+  #     post 'toggle'
+  #   end
+  #   resources :posts, concerns: :toggleable
+  #   resources :photos, concerns: :toggleable
+
+  # Example resource route within a namespace:
+  #   namespace :admin do
+  #     # Directs /admin/products/* to Admin::ProductsController
+  #     # (app/controllers/admin/products_controller.rb)
+  #     resources :products
+  #   end
 end
