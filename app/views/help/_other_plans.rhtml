@@ -1,0 +1,17 @@
+<div class="separator">&nbsp;</div>
+<h3>We need a little more information...</h3>
+<p class="intro">
+  Answer the questions below to help identify the particular pension plan you
+  have a question about.
+</p>
+
+<div class="field clearfix <%= cycle("field-odd", "field-even") %>">
+  <label for="plan_name">
+    What plan were you inquiring about?
+  </label>
+  <p>
+    <input name="counseling[plan_name]" type="text" id="plan_name" value="<%= @counseling.plan_name %>" />
+  </p>
+</div>
+
+<%= render :partial => 'not_known_plans' %>

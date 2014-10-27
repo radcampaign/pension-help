@@ -1,0 +1,381 @@
+/* Admin form styles */
+body.admin #content {
+	width: 960px;
+	font-size: 85%;
+	font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif;
+}
+body.admin {
+	background-image:none; /* no need for left blue bar on admin pages */
+}
+input, textarea, select {
+	font-size: small;
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+form.admin_form input.btn {
+	width:auto;
+	overflow:visible;
+}
+form.admin_form label.desc,
+legend.desc {
+	display: block;
+	font-weight: bold;
+	font-size: small;
+}
+fieldset legend,
+form.admin_form legend {
+	color: #000;
+	display:inline;
+}
+form.admin_form div label,
+form.admin_form span label {
+	clear: both;
+	display: block;
+	font-size: 9px;
+	margin: 0;
+	padding-top: 1px;
+}
+form.admin_form span#addRestriction label { 
+	display: inline;
+	font-size: inherit;
+	padding-left: 4px;
+}
+form.admin_form div,
+form.admin_form span {
+	padding-bottom: 12px;
+	margin-right: 4px;
+}	
+form.admin_form span {
+	float: left;
+	display:block;
+}
+form.admin_form .left {
+	float: left;
+	padding-right: 12px;
+}
+form.admin_form .half {
+	width: 48%;
+}
+form.admin_form li {
+	list-style:none;
+}
+
+.admin_table {
+  padding: 20px 0 0 20px;
+}
+.admin_table .showHideLinks {
+  margin-bottom: 5px;
+}
+.admin_table table {
+  border: 1px solid #00D6F0;
+	width: 800px;
+}
+.admin_table #table_title {
+	text-align: center;
+}
+.admin_table .selected {
+	background-color: #DDD;
+}
+.admin_table th {
+	font-weight: bold;
+	background-color: #00D6F0;
+}
+.admin_table th,
+.admin_table td {
+	padding: 2px 6px;
+	border-bottom: 1px solid #EEE;
+	text-align:left;
+}
+#location_list td,
+#plan_list td {
+	border-bottom: 1px solid #00D6F0;
+}
+#location_list .center,
+#plan_list .center {
+	text-align: center;
+}
+#loc_table .hq {
+	width: 20px;
+	text-align: center;
+}
+#loc_table .loc,
+#loc_table .city {
+	width: 225px;
+}
+#loc_table .hq input {
+	margin:0;
+	padding:0;
+}
+#loc_detail, #plan_detail {
+	clear: both;
+	padding: 4px;
+	margin: 12px 0;
+	background-color:#FEE;
+	border: 1px solid #c00;
+	width: 95%;
+}
+#agency_details {
+	margin-top: 8px;
+}
+form.admin_form .radio_group {
+	border: 1px solid #333;
+}
+form.admin_form table#coverage td {
+	padding: 2px 8px;
+}
+#area_textbox {
+	width: 400px;
+}
+#addressGroup {
+	width:98%;
+}
+.admin_form li.fullwidth > fieldset {
+	width: 98%;
+}
+#loc_detail #phone_web {
+	width: 90%;
+}
+#newRestrictionLink {
+	margin-bottom: 20px;
+}
+#status_group {
+	padding: 8px 0 0 4px;
+	margin-bottom: 10px;
+}
+#catchall_save input,
+#return_button input {
+	position: relative;
+	left: 32%;
+}
+.right {
+	float: right;
+	/*height: 1px;*/
+	padding-right:1px;
+}
+#govt_emp_type {
+	margin-bottom: 12px;
+	margin-right: 12px;
+}
+#pha_contact {
+	margin-top: 12px;
+}
+form.admin_form textarea {
+	margin: 0 12px 0 0;
+}
+form.admin_form fieldset {
+	display: inline;
+	padding: 8px 4px 0px;
+	margin-bottom: 8px;
+	background-color: #FDD;
+}
+a.close_window {
+background:url(close.gif) no-repeat center;
+	float: right;
+	width: 11px;
+	height: 11px;
+	padding: 2px;
+	border:1px solid #F00;
+}
+a.close_window:hover {
+	text-decoration: none;
+	cursor:pointer;
+}
+a.add_new {
+	background:url(add.gif) no-repeat left;
+	padding-left: 14px;
+	display:block;
+	margin: 8px 0 8px 30px;
+	text-decoration:none;
+}
+.fullwidth {
+	width: 100%;
+}
+table#admin_list {
+	width: 99%;
+}
+table#admin_list td {
+	padding: 4px 0;
+}
+table#admin_list th {
+	text-align: left;
+	background-color: #AE3200;
+	padding:3px;
+}
+table#admin_list th.sorted {
+	background-image:url(asc.gif);
+	background-position: left center;
+	background-repeat: no-repeat;
+	padding-left:14px;
+}
+table#admin_list th.sorted.desc {
+	background-image:url(desc.gif);
+}
+table#admin_list th a,
+table#admin_list .columnHeading {
+	color:#FFF;
+	font-weight:normal;
+}
+table#admin_list .center {
+	text-align: center;
+}
+table#admin_list .location_name {
+	padding-left:24px;
+}
+table#admin_list .locationsRow td {
+	border-top:1px solid #DDD;
+}
+table.newsTable {
+	border:1px solid #F00;
+	padding:6px;
+	background-color:#FEE;
+}
+table.newsTable caption{
+	font-weight:bold;
+}
+table.newsTable tr.active {
+	font-weight:bold;
+}
+table.contentsTable td{
+	padding:0 12px 0 0;
+}
+table.contentsTable th {
+  text-align: left;
+	text-decoration: underline;
+}
+table.contentsTable caption{
+
+}
+table.contentsTable tr.active {
+	font-weight:bold;
+}
+li.agency_header {
+	margin: 0 0 15px;
+}
+.wip {
+	color: #F00;
+}
+
+.legacy {
+	border: 1px solid black;
+	background-color: #CCC;
+	padding: 6px;
+	margin: 0 0 6px 12px;
+	font-size: 85%;
+	height: auto !important;
+}
+.legacy#legacyGeo {
+  clear: both;
+	overflow:auto;
+	width:575px;
+	height:100px !important;
+}
+form.admin_form li.legacy_item {
+	list-style-type: disc;
+	list-style-position: inside;
+}
+form.button-to,
+form.button-to div{
+	display: inline;
+}
+
+ul.menuList {
+	list-style-type: none;
+	margin-left:20px;
+}
+ul.menuList li {
+	margin: 4px 0;
+}
+h2#agency_heading {
+	font-size: 125%;
+	font-weight: bold;
+}
+#geo_view_container {
+	width: 900px;
+}
+
+/* Feedbacks */
+div#feedbackFilter {
+  width: 100%;
+  clear: both;
+}
+table.feedbackTable {
+	border:1px solid #F00;
+	padding:6px;
+	background-color:#FEE;
+  width: 100%;
+}
+table.feedbackTable caption{
+	font-weight:bold;
+}
+table.feedbackTable tr.active {
+	font-weight:bold;
+}
+table.feedbackTable td{
+	padding:0 12px 0 0;
+   border-top: 1px solid grey;
+}
+table.feedbackTable th {
+  text-align: left;
+	text-decoration: underline;
+}
+table.feedbackTable tr.active {
+	font-weight:bold;
+}
+
+#feedback, #feedback div, #feedback table {
+  margin: 5px;
+}
+#manageFeedback, #manageFeedback form {
+  margin: 5px;
+}
+#feedback table.form td.label, #manageFeedback table.form td.label {
+  width: 25%;
+}
+#feedback table.form td.element, #manageFeedback table.form td.element {
+  width: 75%;
+}
+/* Comments */
+.comments {
+  margin: 5px;
+  width: 100%;
+}
+.comments div.comment {
+  margin: 5px;
+  border: 1px solid #CC0000;
+  padding: 5px;
+}
+.comments div.comment span {
+  margin-bottom: 5px;
+  text-decoration: underline;
+  display: block;
+}
+/* /END Feedback Table */
+
+.btn {
+		background-color:#F1EAA9;
+		-moz-border-radius:6px;
+		-webkit-border-radius:6px;
+		border-radius:6px;
+		border:2px solid #12535E;
+		display:inline-block;
+		color:#12535E;
+		font-family:arial;
+		font-size:32px;
+		font-weight:bold;
+		padding:14px 28px;
+		text-decoration:none;
+		margin: 12px 0;
+}
+
+.btn:hover,
+.btn a:hover {
+		background-color:#2B8C99;
+		color:#FFFFFF;
+}
+
+.btn a {
+		text-decoration:none;
+}
+
+.btn:active {
+		border-color:#FFF;
+}

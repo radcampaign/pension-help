@@ -1,0 +1,44 @@
+<div class="separator">&nbsp;</div>
+<% if question.county -%>
+  <% if question.local -%>
+  <div class="field clearfix">
+    <label>
+      State:
+      <%= remote_select question.object, question.method, question.options, "help", "get_counties?local=true", nil, @counseling %>
+    </label>
+  </div>
+  <% else -%>
+  <div class="field clearfix">
+    <label>
+      State:
+      <%= remote_select question.object, question.method, question.options,"help","get_counties?local=false", nil, @counseling %>
+    </label>
+  </div>
+  <% end -%>
+<% else -%>
+  <div class="field clearfix">
+    <label>
+      <%= question.desc %>:
+      <br>
+      <%= remote_select question.object, question.method, question.options, question.controller, question.action, selected_value, @counseling %>
+    </label>
+  </div>
+<% end -%>
+
+<% if question.county -%>
+  <div class="field clearfix" id="county_container">
+    <label>
+      County:
+      <span id="counties"><select><option>-- Please select a state -- </option></select></span>
+    </label>
+  </div>
+<% end -%>
+
+<% if question.local -%>
+  <div class="field clearfix" id="city_container">
+    <label>
+      Local Government:
+      <span id="localities"><select><option>-- Please select a county -- </option></select></span>
+    </label>
+  </div>
+<% end -%>

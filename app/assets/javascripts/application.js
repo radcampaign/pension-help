@@ -13,4 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require tinymce
+//= require tinymce-jquery
+//= require maskedinput
 //= require_tree .

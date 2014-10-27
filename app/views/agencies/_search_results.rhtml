@@ -1,0 +1,48 @@
+
+<%= link_to 'Add a new agency ...', new_agency_path, :class => 'plain btn left' %>
+
+<div>
+  <%= link_to_function 'Open/Close All Locations', "$$(\".locationsRow\").each( function(e) {e.toggle()})", :class => 'plain btn right' %>
+</div>
+
+<div class="clear">
+  <table id="admin_list">
+    <tr>
+      <th class="<%= (params[:order]=='name' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
+        <%= agencies_filter_link_to_remote 'Agency Name', params, :order => 'name',
+            :desc => (params[:order]=='name' && params[:desc].blank?) ? true : nil %>
+      </th>
+      <th class="<%= (params[:order]=='state' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
+        <%= agencies_filter_link_to_remote 'State', params, :order => 'state',
+            :desc => (params[:order]=='state' && params[:desc].blank?) ? true : nil %>
+      </th>
+      <th class="center <%= (params[:order]=='category' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
+        <%= agencies_filter_link_to_remote 'Category', params, :order => 'category',
+            :desc => (params[:order]=='category' && params[:desc].blank?) ? true : nil %>
+      </th>
+      <th class="center <%= (params[:order]=='result' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
+        <%= agencies_filter_link_to_remote 'Results', params, :order => 'result',
+            :desc => (params[:order]=='result' && params[:desc].blank?) ? true : nil %>
+      </th>
+      <th class="center <%= (params[:order]=='counseling' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>" width="40" >
+        <%= agencies_filter_link_to_remote 'C & A', params, :order => 'counseling',
+            :desc => (params[:order]=='counseling' && params[:desc].blank?) ? true : nil %>
+      </th>
+      <th class="center <%= (params[:order]=='provider' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
+        <%= agencies_filter_link_to_remote 'Provider', params, :order => 'provider',
+            :desc => (params[:order]=='provider' && params[:desc].blank?) ? true : nil %>
+      </th>
+      <th class="center <%= (params[:order]=='active' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
+        <%= agencies_filter_link_to_remote 'Active', params, :order => 'active',
+            :desc => (params[:order]=='active' && params[:desc].blank?) ? true : nil %>
+      </th>
+      <th class="center <%= (params[:order]=='nspdsp' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
+        <%= agencies_filter_link_to_remote 'DSP/NSP', params, :order => 'nspdsp',
+            :desc => (params[:order]=='nspdsp' && params[:desc].blank?) ? true : nil %>
+      </th>
+    </tr>
+
+    <%= render :partial => 'search_result', :collection => search_results %>
+
+  </table>
+</div>

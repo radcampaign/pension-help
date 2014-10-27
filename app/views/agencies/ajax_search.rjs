@@ -1,0 +1,2 @@
+# TODO Operate on the page object
+page.replace_html 'area_served_results', :partial => 'search_results', :object => @search_results

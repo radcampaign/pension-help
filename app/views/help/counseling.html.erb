@@ -1,0 +1,68 @@
+<%- if params[:var].blank? -%>
+  <% content_for :head_javascripts do %>
+      <!-- Google Analytics Content Experiment code -->
+      <script>function utmx_section(){}function utmx(){}(function(){var
+      k='<%=GA_EXPERIMENTS%>',d=document,l=d.location,c=d.cookie;
+      if(l.search.indexOf('utm_expid='+k)>0)return;
+      function f(n){if(c){var i=c.indexOf(n+'=');if(i>-1){var j=c.
+      indexOf(';',i);return escape(c.substring(i+n.length+1,j<0?c.
+      length:j))}}}var x=f('__utmx'),xx=f('__utmxx'),h=l.hash;d.write(
+      '<sc'+'ript src="'+'http'+(l.protocol=='https:'?'s://ssl':
+      '://www')+'.google-analytics.com/ga_exp.js?'+'utmxkey='+k+
+      '&utmx='+(x?x:'')+'&utmxx='+(xx?xx:'')+'&utmxtime='+new Date().
+      valueOf()+(h?'&utmxhash='+escape(h.substr(1)):'')+
+      '" type="text/javascript" charset="utf-8"><\/sc'+'ript>')})();
+      </script><script>utmx('url','A/B');</script>
+      <!-- End of Google Analytics Content Experiment code -->
+  <%- end -%>
+<%- end -%>
+
+<div id="content-no-sidebar" class="help">
+  <h1>Find Help</h1>
+  <div id="counseling_errors">
+    <%= render :partial => "help/counseling_errors",
+      :locals => { "counseling" => @counseling } %>
+  </div>
+
+  <p class="intro">
+    Ready to find resources to help you find answers to questions you have about
+    your retirement plan?<br/>
+    Let's get started!
+  </p>
+
+  <p class="intro">
+    To make sure you receive the right type of referral, PensionHelp America
+    will guide you through a series of questions. Some legal service providers
+    offer services based on certain criteria. Answering these questions will
+    help us find a legal service provider to assist you.
+  </p>
+
+  <div class="separator">&nbsp;</div>
+
+  <p class="mandatory-fields">
+    <%= image_tag "mandatory-field.png" %>
+    Marked fields are mandatory.
+  </p>
+
+  <% form_for :counseling, @counseling, :url => { :action => :step_2, :var => @counseling.abc_path } do |f| -%>
+
+    <%= f.hidden_field :abc_path %>
+
+    <%- if @counseling.abc_path == 'A' -%>
+      <%= render :partial => "help/questions/behalf", :locals => { :f => f } %>
+      <%= render :partial => "help/questions/gender", :locals => { :f => f } %>
+      <%= render :partial => "help/questions/marital_status", :locals => { :f => f } %>
+      <%= render :partial => "help/questions/age", :locals => { :f => f } %>
+      <%= render :partial => "help/questions/ethnicity", :locals => { :f => f } %>
+    <%- end -%>
+
+    <%= render :partial => "help/questions/zipcode", :locals => { :f => f } %>
+
+    <%- if @counseling.abc_path == 'A' -%>
+      <%= render :partial => "help/questions/monthly_income_tmp", :locals => { :f => f } %>
+      <%= render :partial => "help/questions/number_in_household", :locals => { :f => f } %>
+    <%- end -%>
+
+    <%= render :partial => "help/navigation", :locals => { :previous => false } %>
+  <% end -%>
+</div>

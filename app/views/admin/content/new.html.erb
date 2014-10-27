@@ -1,0 +1,11 @@
+<div id="content-no-sidebar">
+<h1>New content</h1>
+
+<% form_tag :action => 'create' do %>
+  <%= hidden_field_tag :parent_id, params[:parent_id] unless params[:parent_id].blank? %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Create" %>
+<% end %>
+
+<%= link_to 'Back', :action => 'list' %>
+</div>

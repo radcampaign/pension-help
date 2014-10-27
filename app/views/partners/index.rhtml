@@ -1,0 +1,33 @@
+<div id="content-no-sidebar">
+
+<h2>Listing partners</h2>
+<div id="return_button">
+<%= button_to 'Back to Management Menu', :controller => '/admin/menu', :action => 'index' %>
+</div>
+<table class="admin_table">
+  <tr>
+    <th>Name</th>
+    <th>Company</th>
+    <th>City</th>
+    <th>State</th>
+    <th>Email</th>
+    <th>Url</th>
+		<th>&nbsp;</th>
+  </tr>
+  
+<% for partner in @partners %>
+  <tr class="<%= cycle('odd','even') %> ">
+    <td><%= link_to((h partner.first_name), edit_partner_path(partner)) %> <%= link_to((h partner.last_name), edit_partner_path(partner)) %></td>
+    <td><%=h partner.company %></td>
+    <td><%=h partner.city %></td>
+    <td><%=h partner.state_abbrev %></td>
+    <td><a href="mailto:<%=h partner.email %>"><%=h partner.email%></a></td>
+    <td><a href="<%=h partner.url %>"<%=h partner.url %></td>
+    <td><%= link_to 'Delete', partner_path(partner), :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+</div>

@@ -1,0 +1,87 @@
+<h1>New partner</h1>
+
+<%= error_messages_for :partner %>
+
+<% form_for(:partner, :url => partners_path) do |f| %>
+  <p>
+    <b>First name</b><br />
+    <%= f.text_field :first_name %>
+  </p>
+
+  <p>
+    <b>Last name</b><br />
+    <%= f.text_field :last_name %>
+  </p>
+
+  <p>
+    <b>Company</b><br />
+    <%= f.text_field :company %>
+  </p>
+
+  <p>
+    <b>Line 1</b><br />
+    <%= f.text_field :line_1 %>
+  </p>
+
+  <p>
+    <b>Line 2</b><br />
+    <%= f.text_field :line_2 %>
+  </p>
+
+  <p>
+    <b>City</b><br />
+    <%= f.text_field :city %>
+  </p>
+
+  <p>
+    <b>State abbrev</b><br />
+    <%= f.text_field :state_abbrev %>
+  </p>
+
+  <p>
+    <b>Zip code</b><br />
+    <%= f.text_field :zip_code %>
+  </p>
+
+  <p>
+    <b>Phone</b><br />
+    <%= f.text_field :phone %>
+  </p>
+
+  <p>
+    <b>Fax</b><br />
+    <%= f.text_field :fax %>
+  </p>
+
+  <p>
+    <b>Email</b><br />
+    <%= f.text_field :email %>
+  </p>
+
+  <p>
+    <b>Url</b><br />
+    <%= f.text_field :url %>
+  </p>
+
+  <% fields_for :user, @partner.user do |user_fields| %>
+    <%= render :partial => 'shared/login_information', :object => user_fields %>
+  <% end %>
+
+  <h3>Network selection:</h3>
+  <%= render :partial => 'shared/join_service' %>
+
+  <p>
+    <%= submit_tag "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', partners_path %>
+
+<script type="text/javascript">
+  /* Hide inactive locations and plans. */
+  Event.observe( window, 'load', function() {
+    /*Add 'save reminder' to links and buttons */
+    var asr = new AdminSaveReminder();
+    asr.addObserverToLinkButtons([], ['commit']);
+  });
+</script>

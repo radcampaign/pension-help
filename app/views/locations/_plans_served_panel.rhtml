@@ -1,0 +1,26 @@
+<div class="admin_table">
+	<table id="plan_table" cellspacing="0">
+		<tbody id="plan_list">
+		<tr>
+			<th colspan="4" id="table_title"><h2>Plans served by <%= @location.name %></h2></th></tr>
+				<tr>
+          <th class="center">Served by this Location</th>
+					<th class="center">HQ for this Plan</th>
+					<th>Plan Name</th>
+					<th>Catch-all Employees</th>
+				</tr>
+				<% @location.agency.plans.sort_by{|p| p.name }.each_with_index do |plan, i| %>
+				<tr id="plan_<%=plan.id.to_s%>">
+					<td class="center"><%= check_box_tag 'location[new_plans][]', plan.id, @location.plans_served.include?(plan), :id => "new_plan_#{plan.id}" %></td>
+					<td class="center">
+					<% if !plan.location_plan_relationships.empty? %>
+						<%= image_tag 'check_blue.gif' if !plan.location_plan_relationships.select{|rel| rel.location_id == @location.id and rel.is_hq?}.empty? %>
+					<% end %>
+					</td>
+          <td><%= link_to plan.name, edit_agency_plan_url(@location.agency, plan) %></td>
+					<td><%= plan.catchall_employees %></td>
+				</tr>
+				<% end %>
+		</tbody>
+	</table>
+</div>

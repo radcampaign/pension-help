@@ -1,0 +1,14 @@
+<% fields_for "#{is_location ? 'location' : 'plan'}[restriction_attr][]", new_restriction_form do |r| %>
+<%= r.hidden_field :create_new, :value => false %>
+
+<% if is_location %>
+  <%= r.hidden_field :location_id %>
+<% else %>
+  <%= r.hidden_field :plan_id %>
+<% end %>
+
+<li id="restriction_<%= new_restriction_form.id %>"class="clear left fullwidth">
+  <%= render :partial => '/shared/restriction_fields',
+        :locals => {:restriction_form => new_restriction_form, :is_location => is_location, :r => r} %>
+</li>
+<% end -%>

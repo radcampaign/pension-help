@@ -1,4 +1,21 @@
 Rails.application.routes.draw do
+
+  root 'site#show_page', :url => '/'
+
+  get '*url', to: 'site#show_page'
+
+  namespace :admin do
+    resources :content , only: [:index, :show, :update]
+    resources :images , only: [:index]
+    resources :menu , only: [:index]
+  end
+
+  resources :feedbacks, only: [:index, :show, :update, :delete], :controller => :feedback do
+    collection do
+      get :show_form
+    end
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

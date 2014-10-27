@@ -1,0 +1,5 @@
+<% unless session[:seen_js_disabled_warning] -%>
+  <noscript>
+    <meta http-equiv="refresh" content="0; URL=<%= url_for :controller => '/warning', :action => :show, :js_disabled => true %>"/>
+  </noscript>
+<% end -%>

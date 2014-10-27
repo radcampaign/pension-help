@@ -1,0 +1,28 @@
+<div class="field rq clearfix  <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :monthly_income_tmp %> <%= error_class_on @counseling, :yearly_income_tmp %> ">
+  <label for="counseling_monthly_income_tmp">
+    What is the
+    <%= select_tag "", options_for_select([["annual", "yearly"], ["monthly", "monthly"]]), :class => "income" %>
+    income of your household?
+  </label>
+  <p>
+    <%= f.text_field :monthly_income_tmp, :size => 5 %><br/>
+    <%= f.check_box  :income_unanswered %>&nbsp;<label for="counseling_income_unanswered" class="inline">I prefer not to answer</label>
+  </p>
+  <script type="text/javascript">
+  var selectIncomeInput = function(value) {
+    jQuery("#counseling_monthly_income_tmp").attr("name", "counseling[" + value + "_income_tmp]");
+  }
+  jQuery(".income").change(function() {
+    selectIncomeInput(jQuery(this).val());
+  });
+  <% if @counseling.monthly_income_tmp.blank? %>
+    selectIncomeInput("yearly");
+    jQuery("#counseling_monthly_income_tmp").val("<%= @counseling.yearly_income_tmp %>");
+    jQuery(".income").val("yearly");
+  <% else %>
+    selectIncomeInput("monthly");
+    jQuery("#counseling_monthly_income_tmp").val("<%= @counseling.monthly_income_tmp %>");
+    jQuery(".income").val("monthly");
+  <% end %>
+  </script>
+</div>

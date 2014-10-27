@@ -1,0 +1,8 @@
+<div class="field clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :ethnicity %>">
+  <label for="counseling_ethnicity">
+    What is your ethnicity?
+  </label>
+  <p>
+    <%= f.select :ethnicity, ethnicity_options, { :include_blank => true } %>
+  </p>
+</div>

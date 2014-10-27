@@ -1,0 +1,53 @@
+<%= javascript_include_tag("jquery-1.3.2.min.js", "jquery.noconflict.js", "jquery-ui-1.7.2.custom.min.js") %><%= stylesheet_link_tag("smoothness/jquery-ui-1.7.2.custom.css")%>
+
+<h2>
+  Service &amp; Referral Networks for Pension Professionals
+</h2><% if (not @partner.nil? and not @partner.errors.empty?) -%>
+<div class="warningBox">
+  <table class="warningTable">
+    <tr class="warningRow">
+      <td class="warningCell2">
+        <% @partner.errors.full_messages.each do |msg| -%>
+        <p>
+          <%= msg %>
+        </p><% end -%>
+      </td>
+    </tr>
+  </table>
+</div>
+<p>
+  <br>
+  <% end -%>
+</p>
+<p>
+Would you like to become part of a nationwide network of pension professionals? The Pension Rights Center works with the <a href="http://www.umb.edu/pensionaction/npln" target="_blank">National Pension Lawyers Network</a> and the <a href="http://www.actuary.org/" target="_blank">American Academy of Actuaries</a> to connect pension lawyers, actuaries and other professionals with individuals who need assistance obtaining the pensions they have earned. Click on a link below to join one of these networks.
+</p>
+<div class="callout-box">
+  <h3>
+    National Pension Lawyers Network (NPLN):
+  </h3>
+  <p>
+Administered by the Pension Rights Center, the National Pension Lawyer Network is no-cost referral service that connects workers and retirees with attorneys who can help them understand and enforce their pension rights.
+  </p>
+  <a href="http://www.pensionrights.org/help/npln/attorney" target="_blank">Join the National Pension Lawyers Network</a>
+</div>
+
+<div class="callout-box">
+  <h3>
+    Pension Assistance List (PAL) Actuary Network:
+  </h3>
+  <p>
+Created by the American Academy of Actuaries, the <a href="http://www.actuary.org/content/pension-assistance-list-pal" target="_blank">Pension Assistance List</a> connects individuals needing assistance with pension benefit calculations with the professionals who can help them.
+  </p>
+  <a href="/works/pal">Join the Pension Assistance List (PAL) Actuary Network</a>
+</div>
+
+<!-- <div class="callout-box">
+  <h3>
+    Legal Service Providers (LSP) Network:
+  </h3>
+  <p>
+If you are a legal service provider and provide free assistance to individuals who have problems with their pension or retirement savings plans, complete the form to join our network.
+  </p>
+  <a href="/works/lsp">Join the Legal Service Providers (LSP) Network</a>
+</div> -->

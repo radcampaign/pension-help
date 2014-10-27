@@ -1,0 +1,20 @@
+<div class="admin_table">
+	<table id="location_table" cellspacing="0">
+		<tbody id="location_list">
+		<tr>
+			<th colspan="4" id="table_title"><h2>Locations for <%= @plan.name %></h2></th></tr>
+				<tr>
+          <th class="center">Served by this Location</th>
+					<th class="center">HQ for this Plan</th>
+					<th>Location Name</th>
+				</tr>
+				<% @plan.agency.locations.sort_by{|l| l.name}.each_with_index do |location, i| %>
+				<tr id="location_<%=location.id.to_s%>">
+					<td class="center"><%= check_box_tag 'plan[new_locations][]', location.id, @plan.serving_locations.include?(location) %></td>
+					<td class="center"><%= radio_button_tag "plan[location_hq]", location.id, (!@plan.location_plan_relationships.select{|rel| rel.location_id == location.id and rel.is_hq?}.empty? unless @plan.location_plan_relationships.empty?) %>
+          <td><%= link_to location.name, edit_agency_location_url(@plan.agency, location) %></td>
+				</tr>
+				<% end %>
+		</tbody>
+	</table>
+</div>

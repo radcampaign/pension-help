@@ -1,0 +1,16 @@
+Thank you for using PensionHelp America, a resource from the <a href="http://www.pensionrights.org/">Pension Rights Center</a>. Based on the information you entered on our website, the following organizations may be able to assist you, free of charge.
+
+<% unless @counseling.feedback_email.blank? %>
+  We will contact you at <%= @counseling.feedback_email %> when we have more information specific to the plan
+  <%=  @counseling.plan_name.blank? ? 'you inquired about' : @counseling.plan_name %>
+  <%= " for #{City.find(@counseling.city_id).name}" if @counseling.city_id %> <%= " in #{County.find(@counseling.county_id).name} county" if @counseling.county_id %>.<br/>
+<% end %>
+
+<%= render :partial => "../help/results" %>
+
+<hr/>
+<br/>
+
+<%= @lost_plan_resources %>
+
+Pension Rights Center | 1350 Connecticut Avenue NW, Suite 206 | Washington, DC 20036 | (202) 296-3776 | <a href="http://www.pensionrights.org/">www.pensionrights.org</a>

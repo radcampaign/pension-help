@@ -1,0 +1,17 @@
+<div class="field clearfix <%= cycle("field-odd", "field-even") %>">
+  <label for="agency_name">
+    What agency or department did you work for?
+  </label>
+  <p>
+    <input name="counseling[agency_name]" type="text" id="agency_name" value="<%= @counseling.agency_name %>" />
+  </p>
+</div>
+
+<div class="field clearfix <%= cycle("field-odd", "field-even") %>">
+  <label for="job_function">
+    What was your job function?
+  </label>
+  <p>
+    <input name="counseling[job_function]" type="text" id="job_function" value="<%= @counseling.job_function %>" />
+  </p>
+</div>

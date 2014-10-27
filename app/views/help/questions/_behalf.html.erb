@@ -1,0 +1,46 @@
+<div class="field rq clearfix <%= cycle("field-odd", "field-even") %> <%= error_class_on @counseling, :behalf %>">
+  <label for="counseling_behalf">
+    Are you using PensionHelp America for yourself or on behalf of
+    someone else?
+  </label>
+  <p>
+    <%= f.select :behalf, behalf_options, { :include_blank => true } %>
+  </p>
+</div>
+
+<div class="field rq clearfix <%= error_class_on @counseling, :behalf %>" id="used-for-other">
+  <label for="counseling_behalf_other">
+    Please specify:
+  </label>
+  <p>
+    <%= f.text_field :behalf_other %>
+  </p>
+</div>
+
+<script type="text/javascript">
+var usedForChange = function() {
+  var value;
+  if ((value = jQuery(this).val()) && value != "" && value != "self") {
+    jQuery("#used-for-disclaimer").show();
+  } else {
+    jQuery("#used-for-disclaimer").hide();
+  }
+
+  if ((value = jQuery(this).val()) && value == "other") {
+    jQuery("#used-for-other").show();
+  } else {
+    jQuery("#used-for-other").hide();
+  }
+}
+
+jQuery("#counseling_behalf").change(usedForChange);
+jQuery(function() {
+  usedForChange.apply(jQuery("#counseling_behalf"));
+});
+</script>
+
+<p id="used-for-disclaimer">
+  If you are using PensionHelp America on behalf of someone else, please
+  answer the following questions based on the person on whose behalf you
+  are using this website.
+</p>

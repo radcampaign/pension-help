@@ -1,0 +1,24 @@
+<%= error_messages_for 'content' %>
+
+<!--[form:content]-->
+<p><label for="content_is_active">Active</label><br/>
+<%= check_box 'content', 'is_active' %></p>
+
+<p><label for="content_title">URL</label><br/>
+<%= text_field 'content', 'url'  %></p>
+
+<p><label for="content_title">Title</label><br/>
+<%= text_field 'content', 'title'  %></p>
+
+<p><label for="content_content">Content</label><br/>
+<%= text_area 'content', 'content', :cols => 70  %></p>
+
+<!--[eoform:content]-->
+<script type="text/javascript">
+  /* Hide inactive locations and plans. */
+  Event.observe( window, 'load', function() {
+    /*Add 'save reminder' to links and buttons */
+    var asr = new AdminSaveReminder();
+    asr.addObserverToLinkButtons(['javascript:;'], ['commit']);
+  });
+</script>

@@ -1,0 +1,92 @@
+
+	<fieldset>
+    <legend class="desc">Restriction</legend>
+		<div class="collapsible">
+		<% if is_location %>
+      <%# only show these fields for location restriction %>
+			<div class="left">
+				<div class="left"><%= r.text_field :minimum_age %><label>Minimum Age</label></div>
+				<div class="left"><%= r.text_field :age_restricted_phone, :id=>restriction_form.id.to_s+'_ageRestrictedPhone' %><label>Special Age Services Hotline</label></div>
+				<div class="left"><%= r.text_field :max_poverty, :value => number_to_percentage(restriction_form.max_poverty, :precision => 0) %><label>Income Limit (% of FPL, eg 120)</label></div>
+        <div class="left"><label for="location_age_and_income"><%= r.check_box :age_and_income %>Restricted by age <b><u>and</u></b> income</label></div>
+			</div>
+		<% end %>
+
+    <% id_prefix = "#{restriction_form.id}_" %>
+    <div class="clear fullwidth" id="geo_edit_container_<%= id_prefix %>" style="display:none">
+      <span>
+        <select name="<%= id_prefix %>state_abbrevs[]" id="state_abbrevs_<%= id_prefix %>" multiple=true size=6>
+          <option value="">-- Unrestricted --</option>
+          <%= options_for_select State.find(:all, :order => 'abbrev').collect{|s| [s.name, s.abbrev]}, restriction_form.state_abbrevs %>
+        </select><label>State</label>
+      </span>
+      <span id="county_ids_container_<%= id_prefix %>">
+        <%= render :partial => 'shared/counties',
+              :locals => {:states => restriction_form.states, :county_ids => restriction_form.county_ids,
+                      :id_prefix => id_prefix } %>
+      </span>
+      <span id="city_ids_container_<%= id_prefix %>">
+        <%= render :partial => 'shared/cities',
+              :locals => {:states => restriction_form.states, :counties => restriction_form.counties,
+                    :city_ids => restriction_form.city_ids, :id_prefix => id_prefix } %>
+      </span>
+      <span id="zip_ids_container_<%= id_prefix %>">
+        <%= render :partial => 'shared/zips',
+            :locals => {:states => restriction_form.states, :counties => restriction_form.counties,
+                    :zip_ids => restriction_form.zip_ids, :id_prefix => id_prefix } %>
+      </span>
+    </div>
+
+			<div class="clear left geo-link"><%= link_to_function('Edit geographic restrictions', nil, :id=>"geo_edit_link_#{id_prefix}", :class => 'plain btn') do |page|
+            page[:"geo_edit_container_#{id_prefix}"].show()
+            page[:"geo_edit_link_#{id_prefix}"].hide()
+        end %>
+    </div>
+    <div class="clear left fullwidth" id="geo_view_container">
+      States: <%= (restriction_form.states.empty? ? '<i>n/a</i>' : restriction_form.states.collect(&:abbrev).sort.join(', ')) %><br/>
+      Counties: <%= (restriction_form.counties.empty? ? '<i>n/a</i>' : restriction_form.counties.collect{|c| c.state_abbrev + ":" + c.name}.sort.join(', ')) %><br/>
+      Cities: <%= (restriction_form.cities.empty? ? '<i>n/a</i>' : restriction_form.cities.collect(&:name).sort.join(', ')) %><br/>
+      ZIPs: <%= (restriction_form.zips.empty? ? '<i>n/a</i>' : restriction_form.zips.collect(&:zipcode).sort.join(', ')) %><br/>
+		</div>
+
+    <div class="clear fullwdith">
+      <span><%= r.text_field :special_district, :size => 60 %><label>Special District</label></span>
+      <span><%= r.text_field :other_restrictions, :size => 60 %><label>Other Restrictions</label></span>
+    </div>
+
+    <div class="clear fullwidth">
+      <span id="addRestriction"><%= r.check_box(:delete_marker) %><label for="location[restriction_attr]_<%= restriction_form.id %>_delete_marker">Remove this restriction</label></span>
+    </div>
+		</div>
+    <%= observe_field :"state_abbrevs_#{id_prefix}",
+      :frequency => 0.5,
+      :update => "county_ids_container_#{id_prefix}",
+      :before => "Element.show('spinner')",
+      :complete => "Element.hide('spinner')",
+      :url => {:action => 'get_counties_for_states'},
+      :with => "'id_prefix=#{id_prefix}&states=' + encodeURIComponent(value) +
+      '&county_ids=' +  $('county_ids_#{id_prefix}').value" %>
+    <%# clear city/zips when changing state %>
+    <%= observe_field :"state_abbrevs_#{id_prefix}",
+      :frequency => 0.5,
+      :update => "city_ids_container_#{id_prefix}",
+      :before => "Element.show('spinner')",
+      :complete => "Element.hide('spinner')",
+      :url => {:action => 'get_cities_for_counties'},
+      :with => "'counties="  +
+        "&id_prefix=#{id_prefix}'"%>
+    <%= observe_field :"state_abbrevs_#{id_prefix}",
+      :frequency => 0.5,
+      :update => "zip_ids_container_#{id_prefix}",
+      :before => "Element.show('spinner')",
+      :complete => "Element.hide('spinner')",
+      :url => {:action => 'get_zips_for_counties'},
+      :with => "'counties=" +
+        "&id_prefix=#{id_prefix}'"%>
+	</fieldset>
+
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+			jQuery("#<%= restriction_form.id.to_s+'_ageRestrictedPhone' %>").mask("(999) 999-9999");
+		 });
+	</script>

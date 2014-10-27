@@ -1,0 +1,18 @@
+<% if cities == "true" -%>
+  <%= remote_select "counseling", "county_id", options, "help", "get_localities", nil, @counseling %>
+  <% if !@counseling.county_id.blank? %>
+  <script type="text/javascript">
+    $("counseling[county_id]").onchange();
+  </script>
+  <% end %>
+<% else -%>
+  <select id="counseling[county_id]" name="counseling[county_id]" onchange="new Ajax.Request('/help/show_available_plans', { asynchronous: false, evalScripts: true, parameters: 'counseling[county_id]=' + escape(value) });">
+    <option></option>
+    <%= options_for_select options, @counseling.county_id %>
+  </select>
+  <% if !@counseling.county_id.blank? %>
+  <script type="text/javascript">
+     $("counseling[county_id]").onchange();
+  </script>
+  <% end %>
+<% end -%>
