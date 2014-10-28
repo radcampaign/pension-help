@@ -1,0 +1,74 @@
+<div id="content-no-sidebar">
+  <h2>New location</h2>
+
+  <%= error_messages_for :location %>
+
+  <% form_for(:location, :url => locations_path) do |f| %>
+    <p>
+      <b>Name</b><br />
+      <%= f.text_field :name %>
+    </p>
+
+    <p>
+      <b><label for="location_is_hq">Is hq</label></b><br />
+      <%= f.check_box :is_hq %>
+    </p>
+
+    <p>
+      <b>Phone</b><br />
+      <%= f.text_field :phone %>
+    </p>
+
+    <p>
+      <b>Phone ext</b><br />
+      <%= f.text_field :phone_ext %>
+    </p>
+
+    <p>
+      <b>Tollfree</b><br />
+      <%= f.text_field :tollfree %>
+    </p>
+
+    <p>
+      <b>Tollfree ext</b><br />
+      <%= f.text_field :tollfree_ext %>
+    </p>
+
+    <p>
+      <b>Fax</b><br />
+      <%= f.text_field :fax %>
+    </p>
+
+    <p>
+      <b>Tty</b><br />
+      <%= f.text_field :tty %>
+    </p>
+
+    <p>
+      <b>Tty ext</b><br />
+      <%= f.text_field :tty_ext %>
+    </p>
+
+    <p>
+      <b>Email</b><br />
+      <%= f.text_field :email %>
+    </p>
+
+    <p>
+      <b>Hours of operation</b><br />
+      <%= f.text_field :hours_of_operation %>
+    </p>
+
+    <p>
+      <b>Logistics</b><br />
+      <%= f.text_field :logistics %>
+    </p>
+
+    <p>
+      <%= submit_tag "Create" %>
+    </p>
+  <% end %>
+
+  <%= link_to 'Back', locations_path %>
+
+</div>

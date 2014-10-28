@@ -1,0 +1,32 @@
+<div id="content-no-sidebar" style="width: 760px">
+<div class="admin_table">
+<table id="catchall_employees" cellspacing="0">
+	<tbody id="catchall_employee_list">
+	<tr>
+		<th colspan="4" id="table_title">CATCH-ALL EMPLOYEES</th>
+	</tr>
+	<tr>
+		<th width="5%">drag to sort</th>
+		<th>Employee Type</th>
+      <th>Plan</th>
+	</tr>
+	<% @plan_employees.each_with_index do |plan_employee, i| %>
+		<% plan = Plan.find(plan_employee.plan_id) %>
+		<tr id="plan_<%=plan_employee.id.to_s%>" >
+			<td class="center"><%= image_tag 'play.gif'%></td>
+			<td><%= link_to h(EmployeeType.find(plan_employee.employee_type_id).name), edit_agency_plan_url(:agency_id => plan.agency_id, :id => plan) %></td>
+			<td><%= link_to h(plan.name), edit_agency_plan_url(:agency_id => plan.agency_id, :id => plan) %></td>
+		</tr>
+	<% end %>
+	</tbody>
+</table>
+</div><br/>
+<div id="catchall_save">
+<%= button_to 'Save and Return to List', {:action => 'index'}, :class => "center" %>
+</div>
+
+<%= sortable_element 'catchall_employee_list', 
+			:tag => 'tr',
+      :url => { :action => "sort_catchall_employee" } %>
+
+</div>

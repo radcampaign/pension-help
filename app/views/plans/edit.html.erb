@@ -1,0 +1,118 @@
+<div id="content-no-sidebar">
+<h2>Agency / Plan Administration</h2>
+
+<h3 id="agency_heading"><label>Agency: </label><%= @agency.name %>:<%= @agency.name2 %></h3>
+<%= error_messages_for :plan %>
+
+  <% form_for(:plan,
+    :url => (@plan.id ? plan_path(@plan.agency, @plan) : plans_path),
+    :html => { :method => (@plan.id ? :put : :post) , :class => 'admin_form', :id => 'plan_form' }) do |f| %>
+    <br/>
+    <div class="clear fullwidth buttons">
+      <%= submit_tag " Update Plan ", :class => 'btn'  %>
+      <%= submit_tag " Update Plan and Return to Agency ", :name => 'update_and_return', :class => 'btn' %>
+      <%= submit_tag ' Return to Agency Without Saving ', :name=>'cancel', :class => 'btn' %>
+      <%= submit_tag ' Update Plan and Return to List ', :name => 'update_and_list', :class => 'btn' %>
+    </div>
+    <div id="agency_details" class="left agency_header fullwidth">
+      <span class="regular-label"><b><label for="plan_is_active">Active:</label> </b><%= f.check_box :is_active %>&nbsp;&nbsp;&nbsp;</span>
+      <%if @plan.updated_at %>
+        <span><b>Last updated: </b><%= @plan.updated_at.strftime("%m/%d/%Y %I:%M %p") if @plan.updated_at %>
+        <%if @plan.updated_by %>by <%= @plan.updated_by %><% end -%></span>
+      <% end -%>
+    </div>
+
+
+  <ul>
+  <li class="clear left fullwidth">
+    <div><%= f.text_field :name, :size => 142 %><label>Plan Name: </label></div>
+    <div><%= f.text_field :name2, :size => 142 %><label>Plan Name 2: </label></div>
+    <span><%= f.text_field :plan_type1, :size => 65 %><label>Plan Type 1</label></span>
+    <span><%= f.text_field :plan_type2, :size => 65 %><label>Plan Type 2</label></span></li>
+  <li class="clear left fullwidth">
+    <span><%= f.text_field :start_date_formatted, :size => 15 %><label>Start Date</label></span>
+    <span><%= f.text_field :end_date_formatted, :size => 15 %><label>End Date</label></span>
+    <span><%= f.text_field :govt_employee_type, :size => 35 %><label>Government Employee Type</label></span>
+  </li>
+  <li class="clear left fullwidth">
+    <fieldset><legend class="desc">Details</legend>
+    <span><%= f.text_area :description, :rows => 6, :cols => 60 %>
+    <label>Description</label></span>
+    <span><%= f.text_area :comments, :rows => 6, :cols => 60 %>
+    <label>Comments</label></span>
+    <span><%= f.text_area :covered_employees, :rows => 6, :cols => 60 %>
+    <label>Covered Employees</label></span>
+    <span><%= f.text_area :catchall_employees, :rows => 6, :cols => 60 %>
+    <label>Catch-all Employees</label></span>
+    </fieldset>
+  </li>
+  <li class="clear left fullwidth">
+    <span>
+      <%#= f.text_field :catchall_employees %>
+      <%#= text_field_with_auto_complete :plan, :catchall_employees, {}, :url =>{ :controller => 'plans', :action => 'auto_complete_for_plan_catchall_employees', :id => @plan.id }%>
+    </span>
+  </li>
+  <%#= render :partial => '/shared/restrictions', :locals => {:restriction => @plan.restriction} %>
+  <%= render :partial => '/shared/restrictions_panel',
+    :locals => {:restrictions => @plan.restrictions, :new_restrictions => @new_restrictions, :is_location => false} %>
+
+
+  <% unless @plan.agency.locations.empty? %>
+  <li class="clear left">
+    <%= render :partial => 'plans/serving_locations_panel' %>
+  </li>
+  <% end %>
+
+  <li class="clear left fullwidth" id="phone_web">
+        <fieldset class="clear left fullwidth"><legend class="desc">Plan Contact Information</legend>
+        <fieldset class="clear left">
+        <span><%= f.text_field :url_title, :size => 62 %><label for="tollfree">Plan URL Title</label></span>
+        <span><%= f.text_field :url, :size => 62 %><label for="tollfree">Plan URL</label></span>
+        <div class="clear left"><%= f.text_field :email, :size => 30 %><label for="email">Plan Email</label></div>
+        </fieldset>
+        <fieldset class="clear left">
+        <span><%= f.text_field :admin_url_title, :size => 62 %><label for="local">Admin URL Title</label></span>
+        <span><%= f.text_field :admin_url, :size => 62 %><label for="tollfree">Admin URL</label></span>
+        </fieldset>
+        <fieldset class="clear left">
+        <span><%= f.text_field :spd_url_title, :size => 62 %><label for="tty">SPD URL Title</label></span>
+        <span><%= f.text_field :spd_url, :size => 62 %><label for="tollfree">SPD URL</label></span>
+        </fieldset>
+        <fieldset class="clear left">
+        <span><%= f.text_field :tpa_url_title, :size => 62 %><label for="tty">Third Party Administrator URL Title</label></span>
+        <span><%= f.text_field :tpa_url, :size => 62 %><label for="tollfree">Third Party Administrator URL</label></span>
+        </fieldset>
+        </fieldset>
+    </li>
+    <li class="clear left fullwidth" id="pha_contact">
+      <%= render :partial => 'shared/pha_contact', :object => @plan.pha_contact %>
+    </li>
+</ul>
+
+
+  <div class="clear left fullwidth buttons">
+    <%= submit_tag " Update Plan ", :class => 'btn'  %>
+    <%= submit_tag " Update Plan and Return to Agency ", :name => 'update_and_return', :class => 'btn' %>
+    <%= submit_tag ' Return to Agency Without Saving ', :name=>'cancel', :class => 'btn' %>
+    <%= submit_tag ' Update Plan and Return to List ', :name => 'update_and_list', :class => 'btn' %>
+  </div>
+
+<% end -%>
+<script type="text/javascript">
+  /* Hide inactive locations and plans. */
+  Event.observe( window, 'load', function() {
+    /*Add 'save reminder' to links and buttons */
+    var asr = new AdminSaveReminder();
+    asr.addObserverToLinkButtons(['geo_edit_link','addNewRestrictionLink'],
+      ['commit', 'update_and_return', 'update_and_list'],
+      ['plan[restriction_attr][-4][create_new]','plan[restriction_attr][-3][create_new]','plan[restriction_attr][-2][create_new]','plan[restriction_attr][-1][create_new]']);
+  });
+</script>
+
+<script type="text/javascript">
+  jQuery(document).ready(function(){
+    jQuery("#pha_contact_phone").mask("(999) 999-9999");
+   });
+</script>
+
+</div>

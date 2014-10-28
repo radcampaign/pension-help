@@ -1,0 +1,9 @@
+<%= @errors.size %> invalid links found on <%= Time.now.strftime("%B %d, %Y")%>:
+
+<%- @errors.each do |error| -%>
+  <%= error[:url] %>
+  <%= error[:error] %>
+  Found on <%= error[:object].respond_to?(:name) ? error[:object].name.to_s : error[:object][:id].name.to_s %>
+  <%= send(error[:path], error[:object]) %> (<%= error[:label] %> field)
+
+<%- end -%>

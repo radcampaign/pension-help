@@ -1,0 +1,22 @@
+
+<%= error_messages_for :user %>
+<p>
+  Enter new password
+</p>
+
+
+
+<% form_for(:user, :url => {:controller=>'passwords', :action=>'update'},:id=>@user.id, :html => { :method => :put }) do |f| %>
+    <p><label for="passwordField">New password</label><br/>
+      <%= f.password_field :password, :id => "passwordField" %>
+    <p><label for="password_confirmationField">Retype the new password</label><br/>
+      <%= f.password_field :password_confirmation, :id => "password_confirmationField" %></p>
+    <p><%= submit_tag 'Send' %></p>
+<% end %>
+
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        jQuery("#passwordField").focus();
+    });
+</script>

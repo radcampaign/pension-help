@@ -1,0 +1,93 @@
+<div id="loc_detail" >
+<a class="close_window" onclick="$('loc_detail').hide()">&nbsp;</a>
+<h2>Location Detail</h2>
+<% error_messages_for :location %>
+<% form_for :location, @location,
+            :url => (@location.id ? location_path(:agency_id => @agency.id, :location_id => @location.id) : locations_path),
+            :html => {:method => (@location.id ? :put : :post), :class => 'admin_form'} do |f| %>
+<ul class="fullwidth">
+<li class="clear left">
+	<span><%= f.text_field :name, :size => 100 %><label>Location Name</label>
+	</span>
+	<span>&nbsp;&nbsp;&nbsp;<b><label for="location_is_hq">Is this a headquarters location?</label></b><%= f.check_box :is_hq %></span>
+</li>
+<li id="agency_dropin" class="clear left">
+	<% fields_for :dropin_address, @location.dropin_address do |d_addr| %>
+	<label class="desc">Drop-in Address</label>
+	<div><%= d_addr.text_field :line1, :size => 50 %>
+	<label>Street Address 1</label></div>
+	<div><%= d_addr.text_field :line2, :size => 50 %>
+	<label>Street Address 2</label></div>
+	<span><%= d_addr.text_field :city, :size => 29 %>
+	<label>City</label></span>
+	<span><%= d_addr.select :state_abbrev, State.find(:all, :order => 'abbrev').collect(&:abbrev) %>
+		<label>State</label></span>
+		<span><%= d_addr.text_field :zip, :size => 5 %>
+		<label>Zip Code</label></span>
+	<% end -%>
+</li>
+<li id="agency_mail" class="left">
+  <% fields_for :mailing_address, @location.mailing_address do |m_addr| %>
+  <label class="desc">Mailing Address</label>
+	<div><%= m_addr.text_field :line1, :size => 50 %>
+	<label>Street Address 1</label></div>
+	<div><%= m_addr.text_field :line2, :size => 50 %>
+	<label>Street Address 2</label></div>
+	<span><%= m_addr.text_field :city, :size => 29 %>
+	<label>City</label></span>
+	<span><%= m_addr.select :state_abbrev, State.find(:all, :order => 'abbrev').collect(&:abbrev) %>
+		<label>State</label></span>
+		<span><%= m_addr.text_field :zip, :size => 5 %>
+		<label>Zip Code</label></span>
+  <% end %>
+</li>
+<li class="clear left fullwidth">
+	<span><%= f.text_area :logistics, :rows => 5, :cols => 40 %>
+	<label>Logistics</label></span>
+	<span><%= f.text_area :hours_of_operation, :rows => 5, :cols => 40 %>
+	<label>Hours of Operation</label></span>
+</li>
+
+<!-- li class="clear left fullwidth">
+	<label class="desc">Area Served</label>
+	<span><select name="location_state_abbrevs[]" id="location_state_abbrevs" multiple=true size=6>
+	<= options_for_select State.find(:all, :order => 'abbrev').collect{|s| [s.name, s.abbrev]} %>
+	</select><label>State</label></span>
+	<= observe_field :location_state_abbrevs,
+										:frequency => 0.5,
+										:update => 'county_ids_container',
+										:before => "Element.show('spinner')",
+										:complete => "Element.hide('spinner')",
+										:url => {:action => 'get_counties_for_states'},
+										:with => "'states=' + encodeURIComponent(value) +
+															'&county_ids=' +  $('location_county_ids').value +
+															'&context=location'" %>
+	<span id="county_ids_container">
+		<= render :partial => 'shared/counties', :locals => {:states => @location.states, :context => 'location', :county_ids => @location.county_ids } %>
+	</span>
+</li -->
+
+		<li class="clear left" id="phone_web">
+			<label class="desc">Phone and Web Contact Information</label>
+			<fieldset><legend>Toll Free Phone</legend>
+			<span><%= f.text_field :tollfree, :size => 15 %><label for="tollfree">Toll Free Phone</label></span>
+			<span><%= f.text_field :tollfree_ext, :size => 8 %><label for="tollfree">Ext</label></span>
+			</fieldset>
+			<fieldset><legend>Local Phone</legend>
+			<span><%= f.text_field :phone, :size => 15 %><label for="local">Local Phone</label></span>
+			<span><%= f.text_field :phone_ext, :size => 8 %><label for="tollfree">Ext</label></span>
+			</fieldset>
+			<fieldset><legend>TTY</legend>
+			<span><%= f.text_field :tty, :size => 15 %><label for="tty">TTY</label></span>
+			<span><%= f.text_field :tty_ext, :size => 8 %><label for="tollfree">Ext</label></span>
+			</fieldset>
+			<fieldset><legend>Fax</legend>
+			<span><%= f.text_field :fax, :size => 15 %><label for="fax">Fax</label></span><br/>
+			</fieldset>
+			<span><%= f.text_field :email, :size => 30 %><label for="email">Email</label></span>									</li>
+		<li class="clear"><!-- input type="submit" value="save location details"/ --></li>
+		</ul>
+<% end -%>
+
+<div class="clear"></div>
+</div>

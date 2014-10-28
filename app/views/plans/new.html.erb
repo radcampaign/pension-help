@@ -1,0 +1,129 @@
+<div id="content-no-sidebar">
+<h2>New plan</h2>
+
+<%= error_messages_for :plan %>
+
+<% form_for(:plan, :url => plans_path) do |f| %>
+  <p>
+    <b>Name</b><br />
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <b>Name2</b><br />
+    <%= f.text_field :name2 %>
+  </p>
+
+  <p>
+    <b>Start date</b><br />
+    <%= f.date_select :start_date %>
+  </p>
+
+  <p>
+    <b>End date</b><br />
+    <%= f.date_select :end_date %>
+  </p>
+
+  <p>
+    <b>Covered employees</b><br />
+    <%= f.text_area :covered_employees %>
+  </p>
+
+  <p>
+    <b>Catchall employees</b><br />
+    <%= f.text_area :catchall_employees %>
+  </p>
+
+  <p>
+    <b>Description</b><br />
+    <%= f.text_area :description %>
+  </p>
+
+  <p>
+    <b>Service description</b><br />
+    <%= f.text_area :service_description %>
+  </p>
+
+  <p>
+    <b>Comments</b><br />
+    <%= f.text_area :comments %>
+  </p>
+
+  <p>
+    <b>Status</b><br />
+    <%= f.text_field :status %>
+  </p>
+
+  <p>
+    <b>Govt employee type</b><br />
+    <%= f.text_field :govt_employee_type %>
+  </p>
+
+  <p>
+    <b>Special district</b><br />
+    <%= f.text_field :special_district %>
+  </p>
+
+  <p>
+    <b>Plan type1</b><br />
+    <%= f.text_field :plan_type1 %>
+  </p>
+
+  <p>
+    <b>Plan type2</b><br />
+    <%= f.text_field :plan_type2 %>
+  </p>
+
+  <p>
+    <b>Plan type3</b><br />
+    <%= f.text_field :plan_type3 %>
+  </p>
+
+  <p>
+    <b>Url</b><br />
+    <%= f.text_field :url %>
+  </p>
+
+  <p>
+    <b>Url title</b><br />
+    <%= f.text_field :url_title %>
+  </p>
+
+  <p>
+    <b>Admin url</b><br />
+    <%= f.text_field :admin_url %>
+  </p>
+
+  <p>
+    <b>Admin url title</b><br />
+    <%= f.text_field :admin_url_title %>
+  </p>
+
+  <p>
+    <b>Tpa url</b><br />
+    <%= f.text_field :tpa_url %>
+  </p>
+
+  <p>
+    <b>Tpa url title</b><br />
+    <%= f.text_field :tpa_url_title %>
+  </p>
+
+  <p>
+    <b>Spd url</b><br />
+    <%= f.text_field :spd_url %>
+  </p>
+
+  <p>
+    <b>Spd url title</b><br />
+    <%= f.text_field :spd_url_title %>
+  </p>
+
+  <p>
+    <%= submit_tag "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', plans_path %>
+
+</div>
