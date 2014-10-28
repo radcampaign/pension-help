@@ -1,0 +1,45 @@
+<div id="content-no-sidebar">
+<h1>New agency</h1>
+
+<%= error_messages_for :agency %>
+
+<% form_for(:agency, :url => agencies_path) do |f| %>
+  <p>
+    <b>Name</b><br />
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <b>Name2</b><br />
+    <%= f.text_field :name2 %>
+  </p>
+
+  <p>
+    <b>Data source</b><br />
+    <%= f.text_field :data_source %>
+  </p>
+
+  <p>
+    <b><label for="agency_is_active">Active</label></b><br />
+    <%= f.check_box :is_active %>
+  </p>
+
+  <p>
+    <b>Url</b><br />
+    <%= f.text_field :url %>
+  </p>
+
+  <p>
+    <b>Url title</b><br />
+    <%= f.text_field :url_title %>
+  </p>
+
+  <p>
+    <%= submit_tag "Create" %>
+  </p>
+<% end %>
+
+
+<%= link_to 'Back', agencies_path %>
+
+  </div>

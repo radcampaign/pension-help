@@ -1,0 +1,34 @@
+<p>
+  <b>Name:</b>
+  <%=h @agency.name %>
+</p>
+
+<p>
+  <b>Name2:</b>
+  <%=h @agency.name2 %>
+</p>
+
+<p>
+  <b>Data source:</b>
+  <%=h @agency.data_source %>
+</p>
+
+<p>
+  <b>Is active:</b>
+  <%=h @agency.is_active %>
+</p>
+
+<p>
+  <b>Url:</b>
+  <%=h @agency.url %>
+</p>
+
+<p>
+  <b>Url title:</b>
+  <%=h @agency.url_title %>
+</p>
+
+<%= link_to 'Add location', new_location_path(@agency) %> |
+<%= link_to 'Add plan', new_plan_path(@agency) %> |
+<%= link_to 'Edit', edit_agency_path(@agency) %> |
+<%= link_to 'Back', agencies_path %>

@@ -1,0 +1,56 @@
+<tr id="" class="<%= row_cycle = cycle("even", "odd") %>">
+  <td>
+    <%= link_to (h(search_result.name)), edit_agency_path(search_result) %>
+ 		<%= link_to_function image_tag('add_blue.gif'), "$$(\".locations_#{search_result.id}\").each( function(e) {e.toggle()})" if search_result.has_visible_locations? %>
+  </td>
+  <td class="center">
+    <%= search_result.locations.first.dropin_address.state_abbrev unless search_result.locations.empty? or
+			 																		search_result.locations.first.dropin_address.blank? %>
+  </td>
+  <td class="center"> 
+	  <%= search_result.agency_category.name if search_result.agency_category %>
+	</td>
+	<td class="center">
+    <%= search_result.result_type.name if search_result.result_type %>
+  </td>
+  <td class="center">
+    <span id="<%= 'use_for_counseling_' + search_result.id.to_s %>">
+      <%= render :partial=> 'agencies/counseling_check', :locals => {:agency => search_result} %>
+    </span>
+  </td>
+  <td class="center">
+    <%= image_tag(search_result.is_provider ? 'check_blue.gif' : 'close.gif') %>
+  </td>
+  <td class="center">
+    <span id="<%= 'active_' + search_result.id.to_s %>">
+      <%= render :partial=> 'agencies/active_check', :locals => {:agency => search_result} %>
+    </span>
+  </td>
+  <td class="center"><%= search_result.get_provider_type %></td>
+</tr>
+<% search_result.locations.each do |loc| %>
+  <% if loc.visible_in_view %>
+  <tr style="display:none" class="locationsRow locations_<%=search_result.id%> <%= row_cycle %>">
+    <td class="location_name"><%= link_to "#{loc.name}", edit_agency_location_url(:agency_id => search_result, :id => loc) %></td>
+    <td class="center"><%= loc.dropin_address.state_abbrev %></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class="center"><%= image_tag(loc.is_provider ? 'check_blue.gif' : 'close.gif')%></td>
+    <td class="center"><%= image_tag(loc.is_active ? 'check_blue.gif' : 'close.gif')%></td>
+    <td class="center"><%= loc.get_provider_type %></td>
+   </tr>
+    <% end %>
+<% end %>
+
+<%# hide plan information for now to match /agencies view %>
+<%# plans = @plans.find_all {|item| item.agency_id == search_result.id }
+    plans.each do |plan| %>
+  <!-- <tr style="" class="locationsRow locations_<%=search_result.id%>">
+    <td class="location_name"><%#= link_to "#{plan.name}", edit_plan_url(:agency_id => search_result, :id => plan) %></td>
+    <td class="center">&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class="center">&nbsp;</td>
+    <td>&nbsp;</td>
+   </tr> -->
+<%# end %>

@@ -2,9 +2,7 @@ class SiteController < ApplicationController
   
   def show_page
     url = params[:url].to_s
-    puts "-----------#{url}"
     @content = Content.find_by_url_and_is_active(url, true)
-    puts "-----------#{@content}"
     if @content.nil?
       render :template => 'site/404', :status => 404
       return

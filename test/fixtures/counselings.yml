@@ -1,0 +1,76 @@
+# == Schema Information
+# Schema version: 41
+#
+# Table name: counselings
+#
+#  id                      :integer(11)   not null, primary key
+#  zipcode                 :string(255)   
+#  employment_start        :date          
+#  employment_end          :date          
+#  is_divorce_related      :boolean(1)    
+#  is_survivorship_related :boolean(1)    
+#  work_state_abbrev       :string(255)   
+#  hq_state_abbrev         :string(255)   
+#  pension_state_abbrev    :string(255)   
+#  is_over_60              :boolean(1)    
+#  monthly_income          :integer(11)   
+#  number_in_household     :integer(11)   
+#  employer_type_id        :integer(11)   
+#  federal_plan_id         :integer(11)   
+#  military_service_id     :integer(11)   
+#  military_branch_id      :integer(11)   
+#  military_employer_id    :integer(11)   
+#  pension_earner_id       :integer(11)   
+#  state_abbrev            :string(255)   
+#  county_id               :integer(11)   
+#  city_id                 :integer(11)   
+#  created_at              :datetime      
+#  is_afscme_member        :boolean(1)    
+#  selected_plan_id        :integer(11)   
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  zipcode: MyString
+  employment_start: 2007-12-12
+  employment_end: 2007-12-12
+  is_divorce_related: false
+  is_survivorship_related: false
+  work_state_abbrev: MyString
+  hq_state_abbrev: MyString
+  pension_state_abbrev: MyString
+  is_over_60: false
+  monthly_income: 1
+  number_in_household: 1
+  employer_type_id: 
+  federal_plan_id: 
+  military_service_id: 
+  military_branch_id: 
+  military_employer_id: 
+  pension_earner_id: 
+  state_abbrev: MyString
+  county_id: 
+  city_id: 
+two:
+  id: 2
+  zipcode: MyString
+  employment_start: 2007-12-12
+  employment_end: 2007-12-12
+  is_divorce_related: false
+  is_survivorship_related: false
+  work_state_abbrev: MyString
+  hq_state_abbrev: MyString
+  pension_state_abbrev: MyString
+  is_over_60: false
+  monthly_income: 1
+  number_in_household: 1
+  employer_type_id: 
+  federal_plan_id: 
+  military_service_id: 
+  military_branch_id: 
+  military_employer_id: 
+  pension_earner_id: 
+  state_abbrev: MyString
+  county_id: 
+  city_id: 

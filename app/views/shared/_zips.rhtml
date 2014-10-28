@@ -1,8 +1,0 @@
-<select name="<%= id_prefix %>zip_ids[]" id="zip_ids_<%= id_prefix %>" multiple=true size=6>
-  <% if !counties || counties.empty? %>
-    <option value=""> - Please select a county - </option>
-  <% else -%>
-    <option value=""> -- unrestricted -- </option>
-    <%= options_for_select counties.collect{|c| c.zips}.flatten.collect{|z| [z.state_abbrev+':'+z.zipcode, z.zipcode]}.sort, zip_ids %>
-  <% end -%>
-</select><label>ZIP Codes</label>

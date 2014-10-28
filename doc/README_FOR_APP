@@ -1,0 +1,8 @@
+RE: Selenium on rails
+
+This plugin was written for Selenium Core 0.8.3 (instead of 1.0 beta).  We can (and did) config selenium_path to point to version 1.0b (see vendor/plugins/selenium-on-rails/config.yml).  However, there are still some troubles when trying to convert rselenese (.rsel) into valid selenese for commands that have been added since 0.8.3.
+
+Consider:
+verify_xpath_count which should be valid but isn't
+
+Also - when exporting tests from the IDE, exporting as ruby will not really produce valid .rsel file for use with selenium_on_rails.  You can use script/generate selenium sample_test_case.rsel to see a (very) basic .rsel template.
