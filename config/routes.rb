@@ -2,8 +2,6 @@ Rails.application.routes.draw do
 
   root 'site#show_page', :url => '/'
 
-  # get '*url', to: 'site#show_page'
-
   namespace :admin do
     resources :content , only: [:index, :show, :update]
     resources :images , only: [:index]
@@ -17,6 +15,7 @@ Rails.application.routes.draw do
   end
 
   match ':controller/:action(/:id)', via: [:get, :post]
+  get '*url', to: 'site#show_page'
 
 
 
