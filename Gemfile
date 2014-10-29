@@ -39,6 +39,12 @@ gem 'mysql'
 # Gem for tiny mce editor
 gem 'tinymce-rails'
 
+# Gem for enumerating active record models
+gem 'power_enum'
+
+# Gem for sending mails
+gem 'tlsmail'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

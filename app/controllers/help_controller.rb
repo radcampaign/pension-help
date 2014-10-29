@@ -30,7 +30,7 @@ class HelpController < ApplicationController
     @counseling.step = 1
 
     case @counseling.employer_type_id
-    when 1..10:
+    when 1..10
       @next_question = CAQuestion.get_next(@counseling, "EMP_TYPE")
 
       if @next_question

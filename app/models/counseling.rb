@@ -76,7 +76,7 @@ class Counseling < ActiveRecord::Base
                             }
 
   validates_format_of       :monthly_income_tmp,
-                            :with    => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
+                            :with    => /\A\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?\z/,
                             :message => "^Monthly income doesn't seem to be a valid amount",
                             :if      => Proc.new { |c|
                               c.question_required?(:monthly_income_tmp) && c.income_unanswered != '1' &&
@@ -84,7 +84,7 @@ class Counseling < ActiveRecord::Base
                             }
 
   validates_format_of       :yearly_income_tmp,
-                            :with    => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
+                            :with    => /\A\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?\z/,
                             :message => "^Yearly income doesn't seem to be a valid amount",
                             :if => Proc.new { |c|
                               c.question_required?(:yearly_income_tmp) && c.income_unanswered != '1' &&
@@ -145,15 +145,24 @@ class Counseling < ActiveRecord::Base
 
   def matching_agencies
     agencies = case employer_type ? employer_type.name : nil
-    when 'Company or nonprofit':     company_matches
-    when 'Railroad':                 railroad_matches
-    when 'Religious institution':    religious_matches
-    when 'Federal agency or office': federal_matches
-    when 'Uniformed services':       military_matches
-    when 'State agency or office':   state_plan_matches + aoa_afscme_dsp
-    when 'County agency or office':  county_plan_agency_matches + aoa_afscme_dsp
-    when 'City or other local government agency or office': city_plan_agency_matches + aoa_afscme_dsp
-    when 'Farm Credit District, Bank or System Affiliate' : farm_credit_matches
+                 when 'Company or nonprofit'
+                   company_matches
+                 when 'Railroad'
+                   railroad_matches
+                 when 'Religious institution'
+                   religious_matches
+                 when 'Federal agency or office'
+                   federal_matches
+                 when 'Uniformed services'
+                   military_matches
+                 when 'State agency or office'
+                   state_plan_matches + aoa_afscme_dsp
+                 when 'County agency or office'
+                   county_plan_agency_matches + aoa_afscme_dsp
+                 when 'City or other local government agency or office'
+                   city_plan_agency_matches + aoa_afscme_dsp
+                 when 'Farm Credit District, Bank or System Affiliate'
+                   farm_credit_matches
     else other_matches # for "I Don't Know" employer type
     end
 
@@ -169,8 +178,9 @@ class Counseling < ActiveRecord::Base
       else
         []
       end
-    when EMP_TYPE[:county] : County.find(county_id).plan_matches
-    when EMP_TYPE[:city]:
+      when EMP_TYPE[:county]
+        County.find(county_id).plan_matches
+    when EMP_TYPE[:city]
       begin
         City.find(city_id).plan_matches
       rescue ActiveRecord::RecordNotFound
@@ -583,20 +593,24 @@ class Counseling < ActiveRecord::Base
   def military_branch_match
     return nil unless military_branch
     case military_branch.name
-      when /Army/:        result_type_match('RSO')
-      when /Navy/:        result_type_match('NRAO')
-      when /Air Force/:   result_type_match('AFRSB')
-      when /Coast Guard/: result_type_match('OHSPSC')
-      when /Marine Corps/:
-                          result_type_match('USMCP')
-      when /National Oceanic and Atmospheric Administration Commissioned Corps/:
-                          result_type_match('OPMOSB')
-      when /U.S. Public Health Service Commissioned Corps/:
-                          result_type_match('PHSRC')
-      when /Thrift Savings Plan/:
-                          result_type_match('TSP')
-      when /I don&rsquo;t know/:
-                          result_type_match('DFAS')
+      when /Army/
+        result_type_match('RSO')
+      when /Navy/
+        result_type_match('NRAO')
+      when /Air Force/
+        result_type_match('AFRSB')
+      when /Coast Guard/
+        result_type_match('OHSPSC')
+      when /Marine Corps/
+        result_type_match('USMCP')
+      when /National Oceanic and Atmospheric Administration Commissioned Corps/
+        result_type_match('OPMOSB')
+      when /U.S. Public Health Service Commissioned Corps/
+        result_type_match('PHSRC')
+      when /Thrift Savings Plan/
+        result_type_match('TSP')
+      when /I don&rsquo;t know/
+        result_type_match('DFAS')
   end
   end
 

@@ -1,4 +1,4 @@
-<%- if params[:var].blank? -%>
+<% if params[:var].blank? %>
   <% content_for :head_javascripts do %>
       <!-- Google Analytics Content Experiment code -->
       <script>function utmx_section(){}function utmx(){}(function(){var
@@ -14,8 +14,8 @@
       '" type="text/javascript" charset="utf-8"><\/sc'+'ript>')})();
       </script><script>utmx('url','A/B');</script>
       <!-- End of Google Analytics Content Experiment code -->
-  <%- end -%>
-<%- end -%>
+  <% end %>
+<% end %>
 
 <div id="content-no-sidebar" class="help">
   <h1>Find Help</h1>
@@ -44,25 +44,25 @@
     Marked fields are mandatory.
   </p>
 
-  <% form_for :counseling, @counseling, :url => { :action => :step_2, :var => @counseling.abc_path } do |f| -%>
+  <%= form_for :counseling, :url => { :action => :step_2, :var => @counseling.abc_path } do |f| %>
 
     <%= f.hidden_field :abc_path %>
 
-    <%- if @counseling.abc_path == 'A' -%>
+    <% if @counseling.abc_path == 'A' %>
       <%= render :partial => "help/questions/behalf", :locals => { :f => f } %>
       <%= render :partial => "help/questions/gender", :locals => { :f => f } %>
       <%= render :partial => "help/questions/marital_status", :locals => { :f => f } %>
       <%= render :partial => "help/questions/age", :locals => { :f => f } %>
       <%= render :partial => "help/questions/ethnicity", :locals => { :f => f } %>
-    <%- end -%>
+    <% end %>
 
     <%= render :partial => "help/questions/zipcode", :locals => { :f => f } %>
 
-    <%- if @counseling.abc_path == 'A' -%>
+    <% if @counseling.abc_path == 'A' %>
       <%= render :partial => "help/questions/monthly_income_tmp", :locals => { :f => f } %>
       <%= render :partial => "help/questions/number_in_household", :locals => { :f => f } %>
-    <%- end -%>
+    <% end %>
 
     <%= render :partial => "help/navigation", :locals => { :previous => false } %>
-  <% end -%>
+  <% end %>
 </div>

@@ -14,10 +14,12 @@ Rails.application.routes.draw do
     end
   end
 
-  match ':controller/:action(/:id)', via: [:get, :post]
+  match ':controller/:action.:format', via: [:get, :post]
+  match ':controller/:action/:id.:format', via: [:get, :post]
+  match ':controller/:action/:id', via: [:get, :post]
+  match ':controller/:action/', via: [:get, :post]
+
   get '*url', to: 'site#show_page'
-
-
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
