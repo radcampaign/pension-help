@@ -75,4 +75,30 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  require 'tlsmail'
+
+  config.action_mailer.default_url_options = {
+      :host => "www.pensionhelp.org",
+  }
+
+  Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE)
+
+  ActionMailer::Base.smtp_settings = {
+      :address => 'smtp.gmail.com',
+      :domain  => 'pensionhelp.org',
+      :port => 587,
+      :authentication => :plain,
+      :user_name => 'webmaster@pensionhelp.org',
+      :password => 'pha:1021',
+      :tls =>  true
+  }
+
+  EMAIL_RECIPIENT = "pensionhelp@pensionrights.org"
+  EMAIL_FROM = "webmaster@pensionhelp.org"
+  LINK_CHECKER_RECIPIENT = "dan@freeportmetrics.com, pensionhelp@pensionrights.org"
+  LINK_CHECKER_FROM = "webmaster@pensionhelp.org"
+
+  GA_ACCOUNT = 'UA-3486550-1'
+  GA_EXPERIMENTS = '6831056-1'
 end

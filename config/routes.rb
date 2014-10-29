@@ -2,8 +2,6 @@ Rails.application.routes.draw do
 
   root 'site#show_page', :url => '/'
 
-  get '*url', to: 'site#show_page'
-
   namespace :admin do
     resources :content , only: [:index, :show, :update]
     resources :images , only: [:index]
@@ -15,6 +13,13 @@ Rails.application.routes.draw do
       get :show_form
     end
   end
+
+  match ':controller/:action.:format', via: [:get, :post]
+  match ':controller/:action/:id.:format', via: [:get, :post]
+  match ':controller/:action/:id', via: [:get, :post]
+  match ':controller/:action/', via: [:get, :post]
+
+  get '*url', to: 'site#show_page'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
