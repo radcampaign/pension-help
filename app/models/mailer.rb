@@ -7,13 +7,14 @@ class Mailer < ActionMailer::Base
     @subject = "PHA: Feedback [#{feedback.category}]"
 
     # Email body substitutions
-    @body["type"] = feedback.category
-    @body["feedback"] = feedback.feedback
-    @body["name"] = feedback.name
-    @body["email"] = feedback.email
-    @body["phone"] = feedback.phone
-    @body["availability"] = feedback.availability
-    @body["state"] = feedback.state_abbrev
+    @type = feedback.category
+    @feedback = feedback.feedback
+    @name = feedback.name
+    @email = feedback.email
+    @phone = feedback.phone
+    @availability = feedback.availability
+    @state = feedback.state_abbrev
+    mail(to: EMAIL_RECIPIENT, subject: @subject, from: EMAIL_FROM, date: @sent_on)
   end
 
   def npln_application(partner)
@@ -50,7 +51,6 @@ class Mailer < ActionMailer::Base
     @recipients = partner.user.email
     @from = EMAIL_FROM
     @subject = "Thank for joining our nationwide pension assistance network"
-    body["username"] = partner.user.login unless partner.user.nil?
   end
 
   def unavailable_plan(counseling)

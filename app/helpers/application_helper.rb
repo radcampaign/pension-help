@@ -32,9 +32,6 @@ module ApplicationHelper
     flash.collect{ |key,msg| content_tag(:div, msg, :class => key) }.join
   end
 
-  def image_submit_button
-    %Q{<input src="/images/submit.png" type="image" />}
-  end
 
   def error_class_on(object, field)
     return "form-error" if !object.errors[field].nil? && object.errors[field].any?

@@ -46,6 +46,7 @@ class Feedback < ActiveRecord::Base
 
   validates_presence_of :category, :message => "^Feedback concern can't be blank"
   validates_presence_of :feedback
+  validate :validate_email
 
   private
 
@@ -92,7 +93,7 @@ class Feedback < ActiveRecord::Base
 
   protected
 
-  def validate
+  def validate_email
     if email.blank?
       self.errors.add(:email, "can't be blank")
     elsif email !~ EMAIL_REGEX

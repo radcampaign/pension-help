@@ -5,18 +5,15 @@ require 'tlsmail'
 
 config.action_mailer.default_url_options = { :host => "qa.pensionhelp.org" }
 
-Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE)
-
 ActionMailer::Base.smtp_settings = {
     :address => 'smtp.gmail.com',
-    :domain  => 'pensionhelp.org',
+    :domain => 'pensionhelp.org',
     :port => 587,
+    :enable_starttls_auto => true,
     :authentication => :plain,
     :user_name => 'webmaster@pensionhelp.org',
-    :password => 'pha:1021',
-    :tls =>  true
+    :password => 'pha:1021'
 }
-
 
 EMAIL_RECIPIENT = "dan@freeportmetrics.com"
 EMAIL_FROM = "webmaster@pensionhelp.org"

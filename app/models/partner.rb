@@ -29,6 +29,8 @@ class Partner < ActiveRecord::Base
   validates_presence_of   :first_name, :last_name, :line_1, :city,
                           :state_abbrev, :zip_code, :phone, :email
 
+  validate :validate_wants
+
   attr_accessor :basic_profile
 
   #Updates questions answers from request params.
@@ -67,7 +69,7 @@ class Partner < ActiveRecord::Base
   protected
 
 
-  def validate
+  def validate_wants
     if self.wants_pal
       if self.assistances.count == 0
         self.errors.add(:assistances, "is required")
