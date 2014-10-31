@@ -91,7 +91,9 @@ class Counseling < ActiveRecord::Base
                               c.monthly_income_tmp.blank?
                             }
 
-  def validate
+  validate :validate_zip_and_employment
+
+  def validate_zip_and_employment
     errors.add :zipcode if (!zipcode.blank? && !ZipImport.find(zipcode) rescue true)
     errors.add(:zipcode, "is required") if zipcode.blank?
     if step == 3 && employer_type_id == 1 && employment_end.blank?

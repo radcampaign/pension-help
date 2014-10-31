@@ -26,6 +26,8 @@ class Address < ActiveRecord::Base
 
   before_save :geocode_zip
 
+  validate :validate_zip
+
   private
   def geocode_zip
     begin
@@ -38,7 +40,7 @@ class Address < ActiveRecord::Base
     self.latitude, self.longitude = geo.latitude, geo.longitude if geo
   end                   
   
-  def validate
+  def validate_zip
     geocode_zip
     super
   end

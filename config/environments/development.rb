@@ -10,7 +10,7 @@ Rails.application.configure do
   config.eager_load = false
 
   # Show full error reports and disable caching.
-  config.consider_all_requests_local       = true
+  config.consider_all_requests_local = true
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send.
@@ -40,33 +40,22 @@ Rails.application.configure do
       :host => "localhost:3000",
   }
 
-  require 'tlsmail'
-
-  Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE)
   config.action_mailer.raise_delivery_errors = true
 
   ActionMailer::Base.smtp_settings = {
-      # :address => 'mail.pensionrights.org',
-      # :domain  => 'pensionrights.org',
-      # :port => 25,
-      # :authentication => :plain,
-      # :password => 'P@ssword1',
-      # :user_name => 'noreply@pensionrights.org'
-      :address => 'smtp.gmail.com',
-      :domain  => 'pensionhelp.org',
-      :port => 587,
-      :authentication => :plain,
-      :user_name => 'webmaster@pensionhelp.org',
-      :password => 'pha:1021',
-      :tls =>  true
+        :address => 'smtp.gmail.com',
+        :domain => 'pensionhelp.org',
+        :port => 587,
+        :enable_starttls_auto => true,
+        :authentication => :plain,
+        :user_name => 'webmaster@pensionhelp.org',
+        :password => 'pha:1021'
+    }
 
-  }
-
-
-  EMAIL_RECIPIENT = "dan@freeportmetrics.com"
-  EMAIL_FROM = "dan@freeportmetrics.com"
-  LINK_CHECKER_RECIPIENT = "dan@freeportmetrics.com"
-  LINK_CHECKER_FROM = "dan@freeportmetrics.com"
+  EMAIL_RECIPIENT = "jakub@freeportmetrics.com"
+  EMAIL_FROM = "jakub@freeportmetrics.com"
+  LINK_CHECKER_RECIPIENT = "jakub@freeportmetrics.com"
+  LINK_CHECKER_FROM = "jakub@freeportmetrics.com"
 
   GA_ACCOUNT = '123TEST'
   GA_EXPERIMENTS = '123TEST'

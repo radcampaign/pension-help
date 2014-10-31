@@ -27,6 +27,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    acts_as_commentable (4.0.2)
     arel (5.0.1.20140414130214)
     awesome_nested_set (3.0.1)
       activerecord (>= 4.0.0, < 5)
@@ -46,6 +47,7 @@ GEM
       responders
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
+    dynamic_form (1.1.4)
     erubis (2.7.0)
     execjs (2.2.2)
     hike (1.2.3)
@@ -130,8 +132,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  acts_as_commentable
   awesome_nested_set
   coffee-rails (~> 4.0.0)
+  dynamic_form
   devise
   jbuilder (~> 2.0)
   jquery-rails

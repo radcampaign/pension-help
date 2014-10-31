@@ -409,7 +409,7 @@ class HelpController < ApplicationController
 
   def show_content(url)
     @content = Content.find_by_url(url)
-    render :template => "site/show_page.rhtml"
+    render 'site/show_page'
   end
 
   def hide_email_button
