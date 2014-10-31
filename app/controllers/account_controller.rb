@@ -1,7 +1,9 @@
 class AccountController < ApplicationController
 
+  include AccountHelper
+
   # If you want "remember me" functionality, add this before_filter to Application Controller
-  before_filter :login_from_cookie
+  #before_filter :login_from_cookie
 
   # say something nice, you goof!  something sweet.
   def index

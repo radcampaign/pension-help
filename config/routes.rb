@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  devise_for :users
   root 'site#show_page', :url => '/'
 
   namespace :admin do
@@ -12,6 +13,11 @@ Rails.application.routes.draw do
     collection do
       get :show_form
     end
+  end
+
+  devise_scope :user do
+    get "account/login", :to => "devise/sessions#new"
+    post "users/sign_in", :to => 'session#create'
   end
 
   match ':controller/:action.:format', via: [:get, :post]

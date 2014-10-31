@@ -45,6 +45,9 @@ gem 'power_enum'
 # Gem for sending mails
 gem 'tlsmail'
 
+# Gem for authentication replacement for act_as_authenticated
+gem 'devise'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

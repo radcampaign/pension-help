@@ -16,11 +16,17 @@
 
 require 'digest/sha1'
 class User < ActiveRecord::Base
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable , :authentication_keys => [:login]
   has_and_belongs_to_many :roles
   has_one :partner
 
   # Virtual attribute for the unencrypted password
   attr_accessor :password
+  attr_accessor :login
+  # Setup accessible (or protected) attributes for your model
 
   validates_presence_of     :login, :email
   validates_presence_of     :password,                   :if => :password_required?
@@ -60,7 +66,7 @@ class User < ActiveRecord::Base
   def remember_me
     self.remember_token_expires_at = 2.weeks.from_now.utc
     self.remember_token            = encrypt("#{email}--#{remember_token_expires_at}")
-    save(false)
+   # save(false)
   end
 
   def forget_me
@@ -111,5 +117,11 @@ class User < ActiveRecord::Base
       end
     end
     return is_relevant
+  end
+
+  def self.find_for_database_authentication(warden_conditions)
+    conditions = warden_conditions.dup
+    login = conditions.delete(:login)
+    where(conditions).where(["lower(login) = :value", { :value => login.downcase }]).first
   end
 end
