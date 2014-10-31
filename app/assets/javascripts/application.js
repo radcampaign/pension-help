@@ -10,6 +10,11 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require prototype
+//= require prototype_ujs
+//= require effects
+//= require dragdrop
+//= require controls
 //= require jquery
 //= require jquery_ujs
 //= require tinymce
@@ -18,6 +23,8 @@
 //= require admin_save_reminder
 //= require print
 //= require_tree .
+
+jQuery.noConflict();
 
 jQuery(function() {
 

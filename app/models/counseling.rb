@@ -93,6 +93,8 @@ class Counseling < ActiveRecord::Base
 
   validate :validate_zip_and_employment
 
+  before_validation :before_validation_callback
+
   def validate_zip_and_employment
     errors.add :zipcode if (!zipcode.blank? && !ZipImport.find(zipcode) rescue true)
     errors.add(:zipcode, "is required") if zipcode.blank?
@@ -174,7 +176,7 @@ class Counseling < ActiveRecord::Base
   def matching_plans
     case employer_type_id
     when EMP_TYPE[:state]
-      state = State.find(:first, :conditions => { :abbrev => work_state_abbrev })
+      state = State.where(abbrev: work_state_abbrev).first
       unless state.nil?
         state.plan_matches
       else
@@ -634,25 +636,16 @@ class Counseling < ActiveRecord::Base
   end
 
   def show_last_step_questions?
-    step.to_i < 10 && (abc_path == 'B' || abc_path == 'C')
+    step.to_i < 10
   end
 
   def question_required?(question)
-    case abc_path
-    when 'A'
-      step.to_i == 0
-    when 'B'
-      step.to_i >= 10
-    when 'C'
-      step.to_i >= 10 && [:age, :monthly_income_tmp, :number_in_household].include?(question)
-    else
-      false
-    end
+    (step.to_i >= 10) && [:age, :monthly_income_tmp, :number_in_household].include?(question)
   end
 
   protected
 
-  def before_validation
+  def before_validation_callback
     if !self.yearly_income_tmp.blank?
       self.monthly_income = self.yearly_income_tmp.gsub(/[^0-9.]/, '' ).to_i / 12
     elsif !self.monthly_income_tmp.blank?
@@ -661,6 +654,5 @@ class Counseling < ActiveRecord::Base
 
     self.zipcode = DEFAULT_ZIP if self.zipcode.blank? && self.non_us_resident == "1"
     self.is_over_60 = (Date.today.year - self.age.to_i) > 60
-    p self.is_over_60
   end
 end

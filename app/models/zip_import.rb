@@ -22,7 +22,7 @@
 #
 
 class ZipImport < ActiveRecord::Base
-  set_table_name 'zip_import'
+  self.table_name = 'zip_import'
   self.primary_key = 'zipcode'
   acts_as_mappable :default_units => :miles, :default_formula => :flat, 
                    :lat_column_name => 'latitude', :lng_column_name => 'longitude'

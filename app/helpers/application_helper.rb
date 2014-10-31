@@ -2,9 +2,10 @@
 module ApplicationHelper
 
   def scroll_arrow
-    "<script type=\"text/javascript\" language=\"javascript\">
+    output = "<script type=\"text/javascript\" language=\"javascript\">
       $('scrollDownIcon').show();
     </script>"
+    output.html_safe
   end
 
   # Create select tag that submits an Ajax call onchange
@@ -17,8 +18,9 @@ module ApplicationHelper
         option_tags << "<option value='#{option[1]}'>#{option[0]}</option>"
       end
     end
-    "<select name=\"#{object}[#{method}]\" id=\"#{object}[#{method}]\" onchange=\";new Ajax.Request('/#{controller}/#{action}',
+    output = "<select name=\"#{object}[#{method}]\" id=\"#{object}[#{method}]\" onchange=\";new Ajax.Request('/#{controller}/#{action}',
     {asynchronous:false, evalScripts:true, parameters:'#{object}[#{method}]='+escape(value)})\">" + option_tags + "</select>"
+    output.html_safe
   end
 
   def current_class(*urls)
@@ -29,7 +31,7 @@ module ApplicationHelper
   end
 
   def show_flash_message
-    flash.collect{ |key,msg| content_tag(:div, msg, :class => key) }.join.html_safe
+    flash.collect{ |key,msg| content_tag(:div, msg, :class => key) }.join
   end
 
 

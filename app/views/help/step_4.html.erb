@@ -1,6 +1,6 @@
 <div id="content-no-sidebar" class="help" style="width: 760px;">
   <div id="counseling_errors">
-          <%= render :partial => 'help/counseling_errors', :locals => {'counseling' => @counseling} %>
+          <%= render :partial => 'help/counseling_errors', :locals => {:counseling => @counseling} %>
   </div>
 
 <p class="intro border-bottom">Almost there! Answer the question or questions below to help us connect you to the right service provider, then click <b style="color: #cc0000; ">NEXT</b> to continue.</p>
@@ -12,7 +12,7 @@
 <div class="separator">&nbsp;</div>
 
 
-<% form_for :counseling, :url => {:action => :process_step_4, :var => @counseling.abc_path} do |form| -%>
+    <%= form_for @counseling, :url => {:action => :process_step_4} do |form| -%>
 
 <h3>We’re still looking...</h3>
 
