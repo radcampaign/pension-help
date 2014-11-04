@@ -653,5 +653,6 @@ class Counseling < ActiveRecord::Base
 
     self.zipcode = DEFAULT_ZIP if self.zipcode.blank? && self.non_us_resident == "1"
     self.is_over_60 = (Date.today.year - self.age.to_i) > 60
+    true
   end
 end
