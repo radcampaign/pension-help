@@ -6,7 +6,7 @@ Thank you for using PensionHelp America, a resource from the <a href="http://www
   <%= " for #{City.find(@counseling.city_id).name}" if @counseling.city_id %> <%= " in #{County.find(@counseling.county_id).name} county" if @counseling.county_id %>.<br/>
 <% end %>
 
-<%= render :partial => "../help/results" %>
+<%= render :partial => "help/results" %>
 
 <hr/>
 <br/>

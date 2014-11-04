@@ -269,9 +269,9 @@ class HelpController < ApplicationController
   def process_last_step
     @counseling = update_counseling(counseling_params)
     if @counseling.valid?
+      @counseling.step = 11
       update_session
       redirect_to :action => :results
-      @counseling.step = 11
     else
       update_session
       @previous_to = params[:previous_to]
@@ -288,7 +288,7 @@ class HelpController < ApplicationController
     @zip_import = ZipImport.find_by_zipcode(@counseling.zipcode)
     @results = @counseling.matching_agencies
     begin
-      @currently_employed_text = Content.find_by_url('currently_employed_text').content
+      @currently_employed_text = Content.find_by_url('currently_employed_text').content.html_safe
     rescue ActiveRecord::RecordNotFound
       nil # continue on if we don't find anything
     end
@@ -308,7 +308,6 @@ class HelpController < ApplicationController
   def email
     if !params[:email].blank?
       unless params[:email] =~ EMAIL_REGEX
-        update_session
         render :update do |page|
           page.hide "send-results-pending"
           page.show "send-results-btn"
@@ -322,13 +321,12 @@ class HelpController < ApplicationController
 
         if params[:contact].to_s == "1"
           @counseling.feedback_email = params[:email]
-          @counseling.save
-          Mailer.deliver_unavailable_plan_feedback(@counseling)
+          @counseling.save!
+          Mailer.unavailable_plan_feedback(@counseling).deliver
         end
 
-        Mailer.deliver_counseling_results(params[:email], @counseling, @results, @lost_plan_resources)
+        Mailer.counseling_results(params[:email], @counseling, @results, @lost_plan_resources).deliver
 
-        update_session
         render :update do |page|
           page.hide "send-results-pending"
           page.replace_html "resultsEmailResponse", "E-mail has been sent."
@@ -336,7 +334,6 @@ class HelpController < ApplicationController
         end
       end
     else
-      update_session
       render :update do |page|
         page.hide "send-results-pending"
         page.show "send-results-btn"

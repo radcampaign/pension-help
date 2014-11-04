@@ -66,10 +66,14 @@ class Mailer < ActionMailer::Base
     @recipients = EMAIL_RECIPIENT
     @from = EMAIL_FROM
     @subject = "PHA: A user has requested to be contacted regarding a plan that is not in the PHA database"
-    body :state => counseling.work_state_abbrev, :county => County.find(counseling.county_id).name,
-         :city => (counseling.city_id ? City.find(counseling.city_id).name : nil),
-         :plan_name => counseling.plan_name, :agency_name => counseling.agency_name, :job_function => counseling.job_function,
-         :feedback_email => counseling.feedback_email
+    @state = counseling.work_state_abbrev,
+    @county = County.find(counseling.county_id).name,
+    @city =  (counseling.city_id ? City.find(counseling.city_id).name : nil),
+    @plan_name = counseling.plan_name,
+    @agency_name = counseling.agency_name,
+    @job_function = counseling.job_function,
+    @feedback_email = counseling.feedback_email
+    mail(to: EMAIL_RECIPIENT, subject: @subject, from: EMAIL_FROM, date: @sent_on)
   end
 
   def counseling_results(email, counseling, results, lost_plan_resources)
@@ -77,11 +81,12 @@ class Mailer < ActionMailer::Base
     @from = EMAIL_FROM
     @subject = "Your PensionHelp America results"
 
-    content_type "text/html"
 
-    body :counseling => counseling,
-         :results => results,
-         :lost_plan_resources => lost_plan_resources
+    @counseling = counseling
+    @results = results
+    @lost_plan_resources = lost_plan_resources
+
+    mail(to: @recipients, subject: @subject, from: EMAIL_FROM, date: @sent_on)
   end
 
   def links(errors)
