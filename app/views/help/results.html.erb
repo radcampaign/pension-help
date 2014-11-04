@@ -13,7 +13,8 @@
 
   <% if @results.any? || @ask_user_for_email || @counseling.lost_plan %>
     <div class="field-odd">
-      <% form_remote_tag :url => url_for(:controller => "help", :action => "email"),
+      <%= form_tag :url => url_for(:controller => "help", :action => "email"),
+          :remote => true,
           :loading => "jQuery('#resultsEmailResponse, #send-results-btn').hide(); jQuery('#send-results-pending').show();",
           :success => "jQuery('#resultsEmailResponse').show();",
           :failure => "jQuery('#resultsEmailResponse').show();" do %>

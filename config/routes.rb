@@ -4,9 +4,9 @@ Rails.application.routes.draw do
   root 'site#show_page', :url => '/'
 
   namespace :admin do
-    resources :content , only: [:index, :show, :update]
-    resources :images , only: [:index]
-    resources :menu , only: [:index]
+    resources :content, only: [:index, :show, :update]
+    resources :images, only: [:index]
+    resources :menu, only: [:index]
   end
 
   resources :feedbacks, only: [:index, :show, :update, :delete], :controller => :feedback do
@@ -20,10 +20,10 @@ Rails.application.routes.draw do
     post "users/sign_in", :to => 'session#create'
   end
 
-  match ':controller/:action.:format', via: [:get, :post]
-  match ':controller/:action/:id.:format', via: [:get, :post]
-  match ':controller/:action/:id', via: [:get, :post]
-  match ':controller/:action/', via: [:get, :post]
+  match ':controller/:action.:format', via: [:get, :post, :patch]
+  match ':controller/:action/:id.:format', via: [:get, :post, :patch]
+  match ':controller/:action/:id', via: [:get, :post, :patch]
+  match ':controller/:action/', via: [:get, :post, :patch]
 
   get '*url', to: 'site#show_page'
 
