@@ -1,6 +1,13 @@
 # Load the Rails application.
 require File.expand_path('../application', __FILE__)
 
+Rails.application.config.middleware.use ExceptionNotification::Rack,
+                           :email => {
+                               :email_prefix => "[PHA ERROR] ",
+                               :sender_address => %("PHA Application Error" <do_not_reply@freeportmetrics.com>),
+                               :exception_recipients => %w(dan@freeportmetrics.com)
+                           }
+
 ADMIN_ROLE='ADMIN'
 NETWORK_USER_ROLE='NETWORK_USER'
 

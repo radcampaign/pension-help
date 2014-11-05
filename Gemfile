@@ -42,8 +42,6 @@ gem 'tinymce-rails'
 # Gem for enumerating active record models
 gem 'power_enum'
 
-gem 'acts_as_commentable'
-
 gem 'dynamic_form'
 
 # Gem for authentication replacement for act_as_authenticated
@@ -61,6 +59,9 @@ gem 'acts_as_commentable'
 
 # Gem for generating comments for models, fixtures and so on. To annotate, enter project directory and run command 'annotate'
 gem 'annotate', github: 'ctran/annotate_models'
+
+# Gem for sending email notifications to given person if error in application occurs
+gem 'exception_notification'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
