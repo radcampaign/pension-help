@@ -23,7 +23,7 @@ class WorksController < ApplicationController
       Mailer.deliver_npln_application(@partner) if @partner.wants_npln
       Mailer.deliver_aaa_application(@partner) if @partner.wants_pal
       Mailer.deliver_lsp_application(@partner) if @partner.wants_lsp
-      redirect_to "/works"
+      redirect_to '/works/index'
     else
       if @partner.wants_npln?
         render :action => "npln"

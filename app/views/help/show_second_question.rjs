@@ -2,8 +2,8 @@ if @next_question
   page.replace_html "q2",
     :partial => "next_question",
     :locals => {
-      "question" => @next_question,
-      "selected_value" => @counseling[@next_question.method]
+      :question => @next_question,
+      :selected_value => @counseling[@next_question.method]
     }
 
   page.replace_html "q3", ""

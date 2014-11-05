@@ -1345,11 +1345,15 @@ label {
   font-weight: normal;
 }
 
-.partner-form .fieldWithErrors {
+.field_with_errors{
+    display: inline;
+}
+
+.partner-form .field_with_errors {
   display: inline-block;
 }
 
-.partner-form .fieldWithErrors input {
+.partner-form .field_with_errors input {
   border: 1px solid red;
 }
 

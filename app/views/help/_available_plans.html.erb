@@ -10,7 +10,7 @@
 	<option value=""></option>
 	<%= options_for_select @matching_plans.collect{|p| [p.name, p.id]}, @counseling.selected_plan_id %>
     <option value="IDK">I don't know</option>
-    <%= "<option value=\"OTHER\">Other</option>" if @show_option_other %>
+    <%= "<option value=\"OTHER\">Other</option>".html_safe if @show_option_other %>
 </select></p>
 
 <div id="question_container">&nbsp;</div>

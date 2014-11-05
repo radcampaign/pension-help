@@ -9,9 +9,9 @@
     Marked fields are mandatory.
   </p>
 
-  <% form_for :counseling, @counseling, :url => { :action => :process_last_step, :var => @counseling.abc_path} do |f| -%>
+    <%= form_for @counseling, :url => { :action => :process_last_step} do |f| -%>
 
-    <%- if @counseling.abc_path == 'B' -%>
+
       <%= render :partial => "help/questions/behalf", :locals => { :f => f } %>
       <%= render :partial => "help/questions/gender", :locals => { :f => f } %>
       <%= render :partial => "help/questions/marital_status", :locals => { :f => f } %>
@@ -19,13 +19,7 @@
       <%= render :partial => "help/questions/ethnicity", :locals => { :f => f } %>
       <%= render :partial => "help/questions/monthly_income_tmp", :locals => { :f => f } %>
       <%= render :partial => "help/questions/number_in_household", :locals => { :f => f } %>
-    <%- end -%>
 
-    <%- if @counseling.abc_path == 'C' -%>
-      <%= render :partial => "help/questions/age", :locals => { :f => f } %>
-      <%= render :partial => "help/questions/monthly_income_tmp", :locals => { :f => f } %>
-      <%= render :partial => "help/questions/number_in_household", :locals => { :f => f } %>
-    <%- end -%>
 
     <%= hidden_field_tag :previous_to, @previous_to %>
     <%= render :partial => "help/navigation", :locals => { :previous => true } %>

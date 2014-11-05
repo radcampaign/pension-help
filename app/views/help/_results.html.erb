@@ -16,7 +16,7 @@
         <% end -%>
         <br/>
       </h3>
-      <%= '<h3>' + loc.name2 + '<br/></h3>' if !loc.name2.blank? -%>
+      <%= ('<h3>' + loc.name2 + '<br/></h3>').html_safe if !loc.name2.blank? -%>
 
       <div class="agency_result_body">
         <p class="normal">

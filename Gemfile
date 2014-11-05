@@ -49,6 +49,10 @@ gem 'dynamic_form'
 # Gem for authentication replacement for act_as_authenticated
 gem 'devise'
 
+gem 'geokit-rails'
+
+gem 'prototype-rails'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

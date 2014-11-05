@@ -1,9 +1,12 @@
+require 'restrictions_updater'
+
 class Plan < ActiveRecord::Base
   include RestrictionsUpdater
   belongs_to :agency
+  belongs_to :plan_category
   has_one :publication
   has_many :restrictions, :dependent => :destroy
-  has_many :plan_catch_all_employees, :dependent => :destroy, :order => :position
+  has_many :plan_catch_all_employees, ->{order(postion:'asc')}, :dependent => :destroy
   has_many :employee_types, :through => :plan_catch_all_employees
   has_many :location_plan_relationships, :dependent => :destroy
   has_many :serving_locations, :through => :location_plan_relationships, :source => :location

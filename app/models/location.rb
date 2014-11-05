@@ -1,3 +1,5 @@
+require 'restrictions_updater'
+
 class Location < ActiveRecord::Base
   #include restrictions update code which exactly same for Locations and Plans
   include RestrictionsUpdater
@@ -7,11 +9,8 @@ class Location < ActiveRecord::Base
   has_many :restrictions, :dependent => :destroy
   has_many :location_plan_relationships, :dependent => :destroy
   has_many :plans_served, :through => :location_plan_relationships, :source => :plan
-
-  has_one :mailing_address, :class_name => 'Address',
-            :conditions => "address_type = 'mailing'"
-  has_one :dropin_address, :class_name => 'Address',
-            :conditions => "address_type =  'dropin'"
+  has_one :mailing_address, -> { where(address_type: 'mailing') }, :class_name => 'Address'
+  has_one :dropin_address, -> { where(address_type: 'dropin') }, :class_name => 'Address'
   before_save :update_plans_served
 
   validates_presence_of     :name
