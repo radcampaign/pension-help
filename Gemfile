@@ -63,6 +63,9 @@ gem 'annotate', github: 'ctran/annotate_models'
 # Gem for sending email notifications to given person if error in application occurs
 gem 'exception_notification'
 
+# Gem as replacement for generating foreign keys in schema
+gem "schema_plus"
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
