@@ -1,5 +1,5 @@
 class Admin::MenuController < ApplicationController
-  before_filter :login_required
+  before_filter :authenticate_user!, :authorized?
 
   def authorized?
     current_user.is_admin?

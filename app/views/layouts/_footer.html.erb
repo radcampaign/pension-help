@@ -9,9 +9,9 @@
     <li><%= link_to_unless_current 'Feedback', :controller => '/feedback', :action => :show_form %></li>
     <li>|</li>
     <li><%= link_to_unless_current 'Site Administration', :controller => '/admin/menu', :action => :index %></li>
-    <%- if session[:user] %>
+    <% if user_signed_in? %>
       <li>|</li>
-      <li><%= link_to_unless_current 'Logout', '/account/logout'%></li>
+      <%= render 'devise/menu/login_items' %>
     <% end %>
 
   </ul>

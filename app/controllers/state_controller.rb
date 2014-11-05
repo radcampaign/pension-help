@@ -1,8 +1,12 @@
 class StateController < ApplicationController
-    before_filter :login_required
-    
+  before_filter :authenticate_user!, :authorized?
+
+  def authorized?
+    current_user.is_admin?
+  end
+
   def index
-    @states=State.find(:all)
+    @states=State.all
   end
 
   def catchall_employees

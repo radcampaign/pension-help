@@ -1,12 +1,18 @@
 Rails.application.routes.draw do
 
   devise_for :users
+
   root 'site#show_page', :url => '/'
 
   namespace :admin do
     resources :content , only: [:index, :show, :update]
     resources :images , only: [:index]
     resources :menu , only: [:index]
+  end
+
+  resources :agencies do
+    resources :locations
+    resources :plans
   end
 
   resources :feedbacks, only: [:index, :show, :update, :delete], :controller => :feedback do
@@ -17,6 +23,7 @@ Rails.application.routes.draw do
 
   devise_scope :user do
     get "account/login", :to => "devise/sessions#new"
+    delete "users/sign_out", :to => 'devise/sessions#destroy'
     post "users/sign_in", :to => 'session#create'
   end
 

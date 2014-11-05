@@ -1,5 +1,5 @@
 class AgenciesController < ApplicationController
-  before_filter :login_required, :except => :show
+  before_filter :authenticate_user!, :authorized?, :except => :show
 
   def authorized?
     current_user.is_admin?

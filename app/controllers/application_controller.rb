@@ -13,4 +13,16 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:email, :password, :password_confirmation, :current_password) }
   end
 
+  def after_sign_in_path_for(resource)
+
+    if current_user.is_admin?
+      '/admin/menu'
+    elsif current_user.is_network_user?
+     '/partners/edit'
+    else
+     '/'
+    end
+
+  end
+
 end
