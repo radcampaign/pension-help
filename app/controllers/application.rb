@@ -3,12 +3,11 @@
 
 class ApplicationController < ActionController::Base
 
-  include SslRequirement
+  force_ssl :if => :ssl_configured?
 
-  def ssl_required?
-    true unless ENV["RAILS_ENV"] == "development"
+  def ssl_configured?
+    !Rails.env.development?
   end
-
 
   include AuthenticatedSystem
   include ExceptionNotifiable
