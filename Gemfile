@@ -53,6 +53,9 @@ gem 'geokit-rails'
 
 gem 'prototype-rails'
 
+# Gem for custom error messages with use of '^' carat
+gem 'custom_error_message', git: 'https://github.com/thethanghn/custom-err-msg.git'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
