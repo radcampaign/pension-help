@@ -6,6 +6,12 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   http_basic_authenticate_with name: "pha", password: "ph2012a", if: :http_authentication_required , only: [:new]
 
+  include SslRequirement
+
+  def ssl_required?
+    true unless ENV["RAILS_ENV"] == "development"
+  end
+
   protected
 
   def configure_permitted_parameters

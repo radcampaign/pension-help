@@ -53,6 +53,9 @@ gem 'geokit-rails'
 
 gem 'prototype-rails'
 
+#Gem for ssl_encryption
+gem 'bartt-ssl_requirement', '~>1.4.0', require: 'ssl_requirement'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
