@@ -40,7 +40,7 @@
             <div id="main-wrapper">
                 <div id="main-content" class="clearfix">
                     <div id="content">
-                        <%= show_flash_message %>
+                        <%= raw(show_flash_message) %>
                         <%= yield %>
                     </div>
                     <%= yield(:sidebar) %>

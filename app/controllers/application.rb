@@ -2,15 +2,6 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-  before_filter :basic_auth
-
-  def basic_auth
-    if ENV["RAILS_ENV"] == "staging"
-      authenticate_or_request_with_http_basic do |username, password|
-        username == "pha" && password == "ph2012a"
-      end
-    end
-  end
 
   include SslRequirement
 
