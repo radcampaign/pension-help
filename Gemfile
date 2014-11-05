@@ -59,6 +59,9 @@ gem 'custom_error_message', git: 'https://github.com/thethanghn/custom-err-msg.g
 # Gem for commenting models and adding custom public, private comments to object and present it to the view
 gem 'acts_as_commentable'
 
+# Gem for generating comments for models, fixtures and so on. To annotate, enter project directory and run command 'annotate'
+gem 'annotate', github: 'ctran/annotate_models'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
