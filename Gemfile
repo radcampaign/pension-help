@@ -56,6 +56,9 @@ gem 'prototype-rails'
 # Gem for custom error messages with use of '^' carat
 gem 'custom_error_message', git: 'https://github.com/thethanghn/custom-err-msg.git'
 
+# Gem for commenting models and adding custom public, private comments to object and present it to the view
+gem 'acts_as_commentable'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
