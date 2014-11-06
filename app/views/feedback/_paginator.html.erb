@@ -1,9 +1,4 @@
 <div class="counter">
-   Displaying <%= paginator.current.first_item %>
-   - <%= paginator.current.last_item %>
-   of <%= paginator.item_count %>    
-
-   <%= link_to('&laquo; Previous', search_params.merge({:page => paginator.current.previous}))  + " | " if paginator.current.previous %>
-   <%= pagination_links(paginator, :window_size => 4, :params => search_params) %>
-   <%= " | " + link_to('Next &raquo;', search_params.merge({:page => paginator.current.next})) if paginator.current.next %>
+  <%= will_paginate feedbacks %>
+  <%= page_entries_info feedbacks %>
  </div>

@@ -1,4 +1,4 @@
-<% form_tag '/feedbacks', :method => :get ,:class => 'admin_form' do -%>
+<%= form_tag '/feedbacks', :method => :get ,:class => 'admin_form' do %>
   <fieldset>
     <span>
       <select id="resolved_select" name="resolved">
@@ -18,4 +18,4 @@
   <div class="clear"></div>
 
   <%= submit_tag 'Filter' %>
-<% end -%>
+<% end %>

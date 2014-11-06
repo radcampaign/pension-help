@@ -1,6 +1,8 @@
 class FeedbackController < ApplicationController
 
-  before_filter :login_required, :only => [:index, :show, :edit, :update]
+  before_filter :authenticate_user!, :authorized?, :only => [:index, :show, :edit, :update]
+
+  require 'will_paginate/array'
 
   def authorized?
     current_user.is_admin?
@@ -26,9 +28,7 @@ class FeedbackController < ApplicationController
     #show unresolved as default
     params[:resolved] = '0' if params[:resolved].blank?
     p = Feedback.get_parameters_for_pagination(params)
-
-    @paginator, @feedbacks = paginate :feedback, :per_page => 20, :select => p[:select],
-                                      :conditions => p[:conditions], :order => p[:order]
+    @feedbacks = Feedback.where(p[:conditions]).order(p[:order]).paginate(:page => params[:page]).per_page(20)
   end
 
   def show

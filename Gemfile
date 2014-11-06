@@ -66,6 +66,9 @@ gem 'exception_notification'
 # Gem as replacement for generating foreign keys in schema
 gem "schema_plus"
 
+# Gem for pagination used on
+gem 'will_paginate', '~> 3.0'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

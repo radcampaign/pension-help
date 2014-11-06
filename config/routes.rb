@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     resources :plans
   end
 
-  resources :feedbacks, only: [:index, :show, :update, :delete], :controller => :feedback do
+  resources :feedbacks, only: [:index, :show, :update, :edit, :delete], :controller => :feedback do
     collection do
       get :show_form
     end

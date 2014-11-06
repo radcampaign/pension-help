@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141105131737) do
+ActiveRecord::Schema.define(version: 20141029154928) do
 
   create_table "agency_categories", force: true do |t|
     t.string  "name"
@@ -222,27 +222,6 @@ ActiveRecord::Schema.define(version: 20141105131737) do
     t.integer  "user_id",                     default: 0,  null: false
     t.index ["user_id"], :name => "user_id"
     t.foreign_key ["user_id"], "users", ["id"], :on_update => :restrict, :on_delete => :restrict, :name => "comments_ibfk_1"
-  end
-
-  create_table "contacts", force: true do |t|
-    t.string  "first_name",       limit: 80
-    t.string  "last_name",        limit: 80
-    t.string  "middle_initial",   limit: 2
-    t.string  "company"
-    t.string  "line_1"
-    t.string  "line_2"
-    t.string  "city",             limit: 50
-    t.string  "state_abbrev",     limit: 2
-    t.string  "zip_code",         limit: 10
-    t.string  "phone",            limit: 20
-    t.string  "fax",              limit: 20
-    t.string  "email"
-    t.string  "url"
-    t.integer "profession_id"
-    t.string  "profession_other"
-    t.string  "affiliations"
-    t.boolean "wants_npln"
-    t.boolean "wants_aaa"
   end
 
   create_table "contents", force: true do |t|
@@ -635,20 +614,6 @@ ActiveRecord::Schema.define(version: 20141105131737) do
     t.integer "position"
   end
 
-  create_table "help_nets", force: true do |t|
-    t.integer "contact_id"
-    t.boolean "exp_erisa_single"
-    t.boolean "exp_erisa_multi"
-    t.boolean "exp_fed"
-    t.boolean "exp_state"
-    t.boolean "exp_church"
-    t.string  "exp_other"
-    t.string  "other_info"
-    t.boolean "wont_charge_fees"
-    t.index ["contact_id"], :name => "fk__help_nets_contact_id"
-    t.foreign_key ["contact_id"], "contacts", ["id"], :on_update => :restrict, :on_delete => :restrict, :name => "fk_help_nets_contact_id"
-  end
-
   create_table "images", force: true do |t|
     t.integer "parent_id"
     t.string  "thumbnail"
@@ -1024,17 +989,6 @@ ActiveRecord::Schema.define(version: 20141105131737) do
 
   create_table "schema_info", id: false, force: true do |t|
     t.integer "version"
-  end
-
-  create_table "search_nets", force: true do |t|
-    t.integer "contact_id"
-    t.boolean "wont_charge_fees"
-    t.string  "info_plans"
-    t.string  "info_geo"
-    t.string  "info_industries"
-    t.string  "info_referrals"
-    t.index ["contact_id"], :name => "fk__search_nets_contact_id"
-    t.foreign_key ["contact_id"], "contacts", ["id"], :on_update => :restrict, :on_delete => :restrict, :name => "fk_search_nets_contact_id"
   end
 
   create_table "states", primary_key: "abbrev", force: true do |t|
