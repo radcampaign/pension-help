@@ -510,33 +510,38 @@ class Counseling < ActiveRecord::Base
       end
     end
 
-    address = Address.find(:first, :origin => ZipImport.find(zipcode), :order => 'distance',
-                           :joins => 'join locations l on addresses.location_id = l.id
-                                             and l.is_provider = 1 and l.is_active = 1
-                       join agencies a on l.agency_id = a.id and a.use_for_counseling=1 and a.is_active=1
-                       left join restrictions r on r.location_id = l.id
-                       left join restrictions_states rs on rs.restriction_id = r.id
-                       left join restrictions_counties rc on rc.restriction_id = r.id
-                       left join restrictions_zips rz on rz.restriction_id = r.id',
-                           :conditions => [conditions, home_state_abbrev])
+    address = Address.includes(:location).joins(
+        'join locations l on addresses.location_id = l.id
+            and l.is_provider = 1 and l.is_active = 1
+            join agencies a on l.agency_id = a.id and a.use_for_counseling=1 and a.is_active=1
+            left join restrictions r on r.location_id = l.id
+            left join restrictions_states rs on rs.restriction_id = r.id
+            left join restrictions_counties rc on rc.restriction_id = r.id
+            left join restrictions_zips rz on rz.restriction_id = r.id'
+    ).where(
+        conditions, home_state_abbrev
+    ).by_distance(origin: ZipImport.find(zipcode)).first
+
     return address.location.agency unless address.nil?
   end
 
   def closest_nsp
     return nil unless zipcode
 
-    address = Address.find(:first, :origin => ZipImport.find(zipcode), :order => 'distance',
-                           :include => :location,
-                           :joins => 'join locations l on addresses.location_id = l.id
-                                             and l.is_provider = 1 and l.is_active = 1
-                      join agencies a on l.agency_id = a.id and a.use_for_counseling=1 and a.is_active=1
-                      left join restrictions r on r.location_id = l.id',
-                           :conditions => "a.agency_category_id=#{AgencyCategory['Service Provider'].id}
-                           and (a.result_type_id is null or a.result_type_id=999)
-                           and ((r.minimum_age is null and r.max_poverty is null)
-                           or r.id is null)
-                           and addresses.address_type='dropin'
-                           and addresses.latitude is not null")
+    address = Address.includes(:location).joins(
+        'join locations l on addresses.location_id = l.id
+            and l.is_provider = 1 and l.is_active = 1
+            join agencies a on l.agency_id = a.id and a.use_for_counseling=1 and a.is_active=1
+            left join restrictions r on r.location_id = l.id'
+    ).where(
+        "a.agency_category_id=#{AgencyCategory['Service Provider'].id}
+            and (a.result_type_id is null or a.result_type_id=999)
+            and ((r.minimum_age is null and r.max_poverty is null)
+            or r.id is null)
+            and addresses.address_type='dropin'
+            and addresses.latitude is not null"
+    ).by_distance(origin: ZipImport.find(zipcode)).first
+
     if address
       # create a new agency with just this one location (to avoid returning the 'wrong' location from the agency)
       a=Agency.new
@@ -627,7 +632,7 @@ class Counseling < ActiveRecord::Base
   def result_type_match(type)
     return nil if ResultType[type].nil?
     return nil if type == "DOL" && self.employment_end && self.employment_end < Date.new(1974, 1, 1)
-    Agency.where(result_type_id: ResultType[type], use_for_counseling: 1, is_active:1)
+    Agency.where(result_type_id: ResultType[type], use_for_counseling: 1, is_active: 1)
   end
 
   def show_lost_plan_resources

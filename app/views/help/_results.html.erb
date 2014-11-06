@@ -5,11 +5,11 @@
       <%= '<h2>' + agency.name2 + '<br/></h2>' if !agency.name2.blank? -%>
 
       <h3>
-        <% if agency.plans[0] -%>
-          <% if @counseling.selected_plan and agency.plans.include?(@counseling.selected_plan) %>
+        <% if agency.matching_plans[0] -%>
+          <% if @counseling.selected_plan and agency.matching_plans.include?(@counseling.selected_plan) %>
             <%= @counseling.selected_plan.name %>
           <% else %>
-            <%= agency.plans.first.name if agency.plans.first.name and !agency.name.eql?(agency.plans.first.name) -%>
+            <%= agency.matching_plans.first.name if agency.matching_plans.first.name and !agency.name.eql?(agency.matching_plans.first.name) -%>
           <% end %>
         <% else -%>
           <%= loc.name if !agency.name.eql?(loc.name) -%>
@@ -20,8 +20,8 @@
 
       <div class="agency_result_body">
         <p class="normal">
-          <% if agency.plans[0] and agency.plans.first.description %>
-            <%= (@counseling.selected_plan and agency.plans.include?(@counseling.selected_plan)) ? @counseling.selected_plan.description : agency.plans.first.description %>
+          <% if agency.matching_plans[0] and agency.matching_plans.first.description %>
+            <%= (@counseling.selected_plan and agency.matching_plans.include?(@counseling.selected_plan)) ? @counseling.selected_plan.description : agency.matching_plans.first.description %>
           <% elsif agency.description %>
             <%= agency.description %>
           <% else %>

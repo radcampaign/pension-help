@@ -44,13 +44,13 @@ To set up your env load db/dumps/pha_2014-10-22.sql. From now on migrations shou
 
 You can use script/reload-and-migrate-db to clear and repopulate your db from dump.
 
-export RAILS_ENV='development'; ./script/reload-db
+export RAILS_ENV='development'; ./script/reload-and-migrate-db
 
 Password to all accounts: stuart eg. stuart/fmetrics1017
 
 To migrate:
 
-rake _0.8.7_ db:migrate
+rake db:migrate
 
 
 # loading data
