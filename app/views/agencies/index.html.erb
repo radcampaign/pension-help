@@ -42,10 +42,10 @@
         <td>
           <%= link_to (h agency.name), edit_agency_path(agency) %>
           <% unless agency.name2.empty? -%><br/>&nbsp;&nbsp;&nbsp;&nbsp;<%=h agency.name2 %> <% end -%>
-          <%= link_to_function image_tag('add_blue.gif'), "$$(\".locations_#{agency.id}\").each( function(e) {e.toggle()})" unless agency.locations.size < 2 %>
+          <%= link_to_function image_tag('add_blue.gif'), "$$(\".locations_#{agency.id}\").each( function(e) {e.toggle()})" unless agency.locations_sorted.size < 2 %>
         </td>
         <td class="center">
-          <%= agency.locations.first.dropin_address.state_abbrev unless agency.locations.empty? or agency.locations.first.dropin_address.blank? %>
+          <%= agency.locations_sorted.first.dropin_address.state_abbrev unless agency.locations.empty? or agency.locations_sorted.first.dropin_address.blank? %>
         </td>
         <td class="center">
           <%= agency.agency_category.name if agency.agency_category %>
@@ -65,7 +65,7 @@
           </span>
         </td>
 
-        <% agency.locations.each do |loc| %>
+        <% agency.locations_sorted.each do |loc| %>
       </tr>
       <tr style="display:none" class="locationsRow locations_<%=agency.id%>">
         <td class="location_name"><%= link_to "#{loc.name}", edit_location_url(:agency_id => agency, :id => loc) %></td>

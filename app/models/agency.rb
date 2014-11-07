@@ -28,12 +28,12 @@
 #
 
 class Agency < ActiveRecord::Base
-  has_many :locations, -> { order('is_hq desc, position asc') }, :dependent => :destroy
+  has_many :locations,  :dependent => :destroy
   has_many :plans, :dependent => :destroy
   has_many :publications, :dependent => :destroy
   has_one :publication, :class_name => "Publication"
   has_one :hq, -> { where(is_hq: 1, is_provider: 1) }, :class_name => "Location"
-  has_many :dropin_addresses, -> { where(address_type: 'dropin').order('is_hq desc') }, :through => :locations, :source => :addresses
+  has_many :dropin_addresses, -> { where(address_type: 'dropin') }, :through => :locations, :source => :addresses
   has_many :mailing_addresses, -> { where(address_type: 'email').order('is_hq desc') }, :through => :locations, :source => :addresses
   has_one :restriction, :dependent => :destroy
 
@@ -53,6 +53,14 @@ class Agency < ActiveRecord::Base
 
 
 
+  def dropin_addresses_hq_first
+    dropin_addresses.order('is_hq desc')
+  end
+
+  def locations_sorted
+    locations.order('is_hq desc, position asc')
+  end
+
 
   def matching_plans
     @matching_plans ||= plans.to_a
@@ -69,7 +77,7 @@ class Agency < ActiveRecord::Base
     return selected_plan.best_location(counseling) if (selected_plan and self==selected_plan.agency)
 
     # out of state should find hq
-    if hq && counseling.home_state_abbrev == dropin_addresses.first.state_abbrev
+    if hq && counseling.home_state_abbrev == dropin_addresses_hq_first.first.state_abbrev
       # in home state
       order = 'distance'
     else
@@ -226,7 +234,7 @@ class Agency < ActiveRecord::Base
   end
 
   def has_visible_locations?
-    locations.detect() { |loc| loc.visible_in_view }
+    locations_sorted.detect() { |loc| loc.visible_in_view }
   end
 
 #Sorts agencies by given column and direction.
@@ -353,22 +361,21 @@ class Agency < ActiveRecord::Base
 
 #Compares two agencies by state
   def compare_state(b, dir = 1)
-    #consider refactoring as: if (self.best_state.nil?) && (!b.best_state.nil?) and so on
-    if (locations.empty? || locations.first.dropin_address.blank?) && (!b.locations.empty? && !b.locations.first.dropin_address.blank?)
+    if (locations_sorted.empty? || locations_sorted.first.dropin_address.blank?) && (!b.locations_sorted.empty? && !b.locations_sorted.first.dropin_address.blank?)
       1 * dir
-    elsif (!locations.empty? && !locations.first.dropin_address.blank?) && (b.locations.empty? || b.locations.first.dropin_address.blank?)
+    elsif (!locations_sorted.empty? && !locations_sorted.first.dropin_address.blank?) && (b.locations_sorted.empty? || b.locations_sorted.first.dropin_address.blank?)
       -1 * dir
-    elsif (locations.empty? && locations.first.dropin_address.blank?) && (b.locations.empty? && b.locations.first.dropin_address.blank?)
+    elsif (locations_sorted.empty? && locations_sorted.first.dropin_address.blank?) && (b.locations_sorted.empty? && b.locations_sorted.first.dropin_address.blank?)
       if block_given?
         yield
       else
         0
       end
     else
-      if (locations.first.dropin_address.state_abbrev.blank? || b.locations.first.dropin_address.state_abbrev.blank?)
-        if (locations.first.dropin_address.state_abbrev.blank? && !b.locations.first.dropin_address.state_abbrev.blank?)
+      if (locations_sorted.first.dropin_address.state_abbrev.blank? || b.locations_sorted.first.dropin_address.state_abbrev.blank?)
+        if (locations_sorted.first.dropin_address.state_abbrev.blank? && !b.locations_sorted.first.dropin_address.state_abbrev.blank?)
           1 * dir
-        elsif (!locations.first.dropin_address.state_abbrev.blank? && b.locations.first.dropin_address.state_abbrev.blank?)
+        elsif (!locations_sorted.first.dropin_address.state_abbrev.blank? && b.locations_sorted.first.dropin_address.state_abbrev.blank?)
           -1 * dir
         else
           if block_given?
@@ -378,9 +385,9 @@ class Agency < ActiveRecord::Base
           end
         end
       else
-        if (locations.first.dropin_address.state_abbrev < b.locations.first.dropin_address.state_abbrev)
+        if (locations_sorted.first.dropin_address.state_abbrev < b.locations_sorted.first.dropin_address.state_abbrev)
           -1 * dir
-        elsif (locations.first.dropin_address.state_abbrev > b.locations.first.dropin_address.state_abbrev)
+        elsif (locations_sorted.first.dropin_address.state_abbrev > b.locations_sorted.first.dropin_address.state_abbrev)
           1 * dir
         else
           if block_given?
@@ -528,7 +535,7 @@ class Agency < ActiveRecord::Base
   def get_provider_type
     #Hash with counts for each type of provider type
     providers = Hash.new
-    locations.each do |loc|
+    locations_sorted.each do |loc|
       loc_provider = loc.get_provider_type
       if providers[loc_provider].nil?
         providers[loc_provider] = 0
@@ -564,7 +571,7 @@ class Agency < ActiveRecord::Base
 #sets visibility flag for a given location
   def self.mark_locations_visible(agencies, locations)
     agencies.each do |agency|
-      locs = locations.find_all { |loc| loc.agency_id == agency.id }
+      locs = locations_sorted.find_all { |loc| loc.agency_id == agency.id }
       agency.locations.each do |location|
         location.visible_in_view = true if locs.find { |elem| elem.id == location.id }
       end
@@ -572,9 +579,5 @@ class Agency < ActiveRecord::Base
 
   end
 
-#helper method to get most relevant state for an agency
-  def best_state
-    dropin_addresses.first.state_abbrev unless dropin_addresses.blank?
-  end
 
 end

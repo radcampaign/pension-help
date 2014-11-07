@@ -182,8 +182,8 @@ class HelpController < ApplicationController
     end
 
     @previous_to = "/help/step_2"
-    render :action => :step_2
     update_session
+    render :action => :step_2
   end
 
   def step_3
