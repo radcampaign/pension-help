@@ -40,7 +40,7 @@ class Agency < ActiveRecord::Base
   has_enumerated :agency_category
   has_enumerated :result_type
 
-  composed_of :pha_contact, :class_name => PhaContact,
+  composed_of :pha_contact, class_name: 'PhaContact',
               :mapping => [
                   [:pha_contact_name, :name],
                   [:pha_contact_title, :title],
@@ -180,18 +180,14 @@ class Agency < ActiveRecord::Base
       conditions_params << "%#{filter.get_agency_name}%"
     end
 
-    search_params = {
-        :include => [
-            :plans,
-            {:locations => [:agency, :dropin_address, :restrictions]}
-        ]
-    }
+    search_params = { }
+
 
     if conditions_query.any?
       search_params[:conditions] = ([conditions_query.join(" AND ")] + conditions_params).flatten
     end
 
-    all_agencies = Hash[*Agency.find(:all, search_params).collect { |agency| [agency.id, agency] }.flatten]
+    all_agencies = Agency.all.includes(:plans, locations: [:agency, :dropin_address, :restrictions]).where(search_params).collect { |agency| [agency.id, agency] }.flatten
 
     #if we filter by agency's provider type, and given agency is not 'proper',
     # we put its id in this table so we don't have to check it again.
@@ -203,7 +199,7 @@ class Agency < ActiveRecord::Base
         #checks if we already have this agency or should be ignored
         if (!agencies_ids.include?(agency_id) && !ignored_agencies_ids.include?(agency_id))
           agency_tmp = all_agencies[agency_id]
-          next if agency_tmp.nil?
+          next if agency_tmp.nil? || !agency_tmp.instance_of?(Agency)
 
           #filter DSP/NSP
           unless filter.get_provider_type.blank?
@@ -218,7 +214,6 @@ class Agency < ActiveRecord::Base
         end
       end
     end
-
     agencies = agencies.values
     #mark which locations should be visible
     Agency.mark_locations_visible(agencies, locations)

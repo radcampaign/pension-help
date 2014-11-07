@@ -9,8 +9,8 @@
   <table id="admin_list">
     <tr>
       <th class="<%= (params[:order]=='name' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
-        <%= agencies_filter_link_to_remote 'Agency Name', params, :order => 'name',
-            :desc => (params[:order]=='name' && params[:desc].blank?) ? true : nil %>
+        <%= agencies_filter_link_to_remote('Agency Name', params, :order => 'name',
+            :desc => (params[:order]=='name' && params[:desc].blank?) ? true : nil) %>
       </th>
       <th class="<%= (params[:order]=='state' ? 'sorted' : '') %> <%= (params[:desc] ? 'desc' : '') %>">
         <%= agencies_filter_link_to_remote 'State', params, :order => 'state',

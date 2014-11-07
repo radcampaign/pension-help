@@ -4,16 +4,16 @@
 
 <%= error_messages_for :agency %>
 
-  <% form_for(:agency, :url => (@agency.id ? agency_path(@agency) : agencies_path), :html => { :method => (@agency.id ? :put : :post) , :class => 'admin_form' }) do |f| %>
+  <%= form_for(:agency, :url => (@agency.id ? agency_path(@agency) : agencies_path), :html => { :method => (@agency.id ? :put : :post) , :class => 'admin_form' }) do |f| %>
     <div class="clear">
       <%= submit_tag " Update Agency ", :class => 'btn' %>
       <%= submit_tag " Update Agency and Return to List ", :name => 'update_and_return', :class => 'btn' %>
       <%= submit_tag ' Return to Agency List Without Saving ', :name=>'cancel', :class => 'btn' %>
     </div>
     <div id="agency_details" class="left agency_header fullwidth">
-      <span><b>Category: </b><%= select :agency, :agency_category, AgencyCategory.find(:all, :order => 'position').collect{|c| [c.name, c.name]}, {:selected => (@agency.agency_category ? @agency.agency_category.name : "")}%>
+      <span><b>Category: </b><%= select :agency, :agency_category, AgencyCategory.order('position').all.collect{|c| [c.name, c.name]}, {:selected => (@agency.agency_category ? @agency.agency_category.name : "")}%>
       &nbsp;&nbsp;</span>
-      <span><b>Result Type: </b><%= select :agency, :result_type, ResultType.find(:all, :order => 'position').collect{|c| [c.name, c.name]}, {:selected => (@agency.result_type ? @agency.result_type.name : "")}%>
+      <span><b>Result Type: </b><%= select :agency, :result_type, ResultType.order('position').all.collect{|c| [c.name, c.name]}, {:selected => (@agency.result_type ? @agency.result_type.name : "")}%>
       &nbsp;&nbsp;&nbsp;</span>
       <span class="regular-label">
         <b>

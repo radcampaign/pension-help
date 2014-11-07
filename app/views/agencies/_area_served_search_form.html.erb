@@ -1,5 +1,5 @@
 <%# AJAX form for picking geographical restrictions %>
-<% form_remote_tag :url =>{:action => :ajax_search},
+<% form_tag :url =>{:action => :ajax_search},
       :before => "Element.show('spinner')",
       :complete => "Element.hide('spinner')",
       :html => {:class => 'admin_form'} do |f|  %>
@@ -10,7 +10,7 @@
       <span>
         <select name="state_abbrevs[]" id="state_abbrevs" multiple=true size=6>
           <option value="">-- Unrestricted --</option>
-          <%= options_for_select State.find(:all, :order => 'name').collect{|s| [s.name, s.abbrev]}, params[:state_abbrevs] %>
+          <%= options_for_select State.all.order('name').collect{|s| [s.name, s.abbrev]}, params[:state_abbrevs] %>
         </select>
         <label>State</label>
       </span>
@@ -69,28 +69,5 @@
     </div>
 
   </fieldset>
-  <%= observe_field :state_abbrevs,
-      :frequency => 0.5,
-      :update => 'county_ids_container',
-      :before => "Element.show('spinner')",
-      :complete => "Element.hide('spinner')",
-      :url => {:action => 'get_counties_for_states'},
-      :with => "'states=' + encodeURIComponent(value) +
-      '&county_ids=' +  $('county_ids_').value" %>
 
-  <%# clear city/zips when changing state %>
-  <%= observe_field :state_abbrevs,
-      :frequency => 0.5,
-      :update => 'city_ids_container_',
-      :before => "Element.show('spinner')",
-      :complete => "Element.hide('spinner')",
-      :url => {:action => 'get_cities_for_counties'},
-      :with => "'counties='" %>
-  <%= observe_field :state_abbrevs,
-      :frequency => 0.5,
-      :update => 'zip_ids_container_',
-      :before => "Element.show('spinner')",
-      :complete => "Element.hide('spinner')",
-      :url => {:action => 'get_zips_for_counties'},
-      :with => "'counties='" %>
 <% end %>

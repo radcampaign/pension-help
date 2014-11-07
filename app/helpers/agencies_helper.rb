@@ -3,11 +3,12 @@ module AgenciesHelper
   #Prepares link_to_remote for Served Area page,
   #options contains new values for params, or markers for omitting those params
   def agencies_filter_link_to_remote(label, params, options = {})
-    link_to_remote label,
+    link_to label,
         :update => 'search_results',
         :url => prepare_url_params(params, options),
         :before => "Element.show('spinner')",
-        :complete => "Element.hide('spinner')"
+        :complete => "Element.hide('spinner')",
+        :remote => true
   end
 
   def agencies_filter_button_to_remote(label, params, options = {})
