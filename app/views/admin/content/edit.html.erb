@@ -1,10 +1,10 @@
 <div id="content-no-sidebar">
   <h2>Updating <%= @content.url %></h2>
 
-  <% form_tag :action => 'update', :id => @content do %>
+  <%= form_tag :action => 'update', :id => @content do %>
     <p>
       <label for="parent_id">Parent page:</label><br/>
-      <%= select_for_parent_contents(@contents, @content.id, @content.parent_id) %>
+      <%= raw(select_for_parent_contents(@contents, @content.id, @content.parent_id)) %>
     </p>
 
     <%= render :partial => 'form' %>

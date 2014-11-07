@@ -1,41 +1,30 @@
 class Admin::ContentController < ApplicationController
-  before_filter :login_required  
+  before_filter :authenticate_user!, :authorized?
   
   def authorized?
     current_user.is_admin?
   end
+  #
+  # tinymce(:options => {:theme => 'advanced',
+  #                            :browsers => %w{msie gecko safari opera},
+  #                            :theme_advanced_styles => 'Offsite Link=offsite',
+  #                            :theme_advanced_buttons1 => %w{bold italic underline strikethrough separator justifyleft justifycenter justifyright separator indent outdent separator bullist numlist separator undo redo separator link unlink anchor separator styleselect formatselect separator code ts_image},
+  #                           :extended_valid_elements => %w{a[name|href|target|title|onclick|class|id] img[class|src|border=0|alt|title|hspace|vspace|width|height|align|name|usemap] hr[class|width|size|noshade] font[face|size|color|style] span[class|align|style] map[id|name] area[shape|coords|href|alt|target]},
+  #                            :theme_advanced_buttons2 => [],
+  #                            :theme_advanced_buttons3 => [],
+  #                            :forced_root_block => 'p',
+  #                            :plugins => %w{contextmenu paste safari}},
+  #               :only => [:new, :edit])
 
-  uses_tiny_mce(:options => {:theme => 'advanced',
-                             :browsers => %w{msie gecko safari opera},
-                             :theme_advanced_toolbar_location => "top",
-                             :theme_advanced_toolbar_align => "left",
-                             :paste_auto_cleanup_on_paste => true,
-                             :content_css => '/stylesheets/styles.css',
-                             :width => 631,
-                             :height => 400,
-                             :relative_urls => false,
-                             :theme_advanced_styles => 'Offsite Link=offsite',
-                             :theme_advanced_buttons1 => %w{bold italic underline strikethrough separator justifyleft justifycenter justifyright separator indent outdent separator bullist numlist separator undo redo separator link unlink anchor separator styleselect formatselect separator code ts_image},
-                              :extended_valid_elements => %w{a[name|href|target|title|onclick|class|id] img[class|src|border=0|alt|title|hspace|vspace|width|height|align|name|usemap] hr[class|width|size|noshade] font[face|size|color|style] span[class|align|style] map[id|name] area[shape|coords|href|alt|target]},
-                             :theme_advanced_buttons2 => [],
-                             :theme_advanced_buttons3 => [],
-                             :forced_root_block => 'p',
-                             :plugins => %w{contextmenu paste safari}},
-                :only => [:new, :edit])
-  
   
   def index
     list
     render :action => 'list'
   end
 
-  # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
-  verify :method => :post, :only => [ :destroy, :create, :update ],
-         :redirect_to => { :action => :list }
-
   def list
-    collec = Content.root.children
-    @content_pages, @contents = paginate_collection collec, :per_page => 20
+    #collec = Content.root.children
+    @contents = Content.root.children.paginate(:page => params[:page]).per_page(20)
   end
 
   def show
@@ -82,15 +71,15 @@ class Admin::ContentController < ApplicationController
   end
   
   private
-  def paginate_collection(collection, options = {})
-    default_options = {:per_page => 10, :page => 1}
-    options = default_options.merge options
-
-    pages = Paginator.new self, collection.size, options[:per_page], options[:page]
-    first = pages.current.offset
-    last = [first + options[:per_page], collection.size].min
-    slice = collection[first...last]
-    return [pages, slice]
-  end
+  # def paginate_collection(collection, options = {})
+  #   default_options = {:per_page => 10, :page => 1}
+  #   options = default_options.merge options
+  #
+  #   pages = Paginator.new self, collection.size, options[:per_page], options[:page]
+  #   first = pages.current.offset
+  #   last = [first + options[:per_page], collection.size].min
+  #   slice = collection[first...last]
+  #   return [pages, slice]
+  # end
 
 end

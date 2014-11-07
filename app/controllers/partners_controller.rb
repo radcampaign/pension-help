@@ -1,6 +1,5 @@
 class PartnersController < ApplicationController
-  before_filter :login_required
-
+  before_filter :authenticate_user!, :authorized?
 
   def authorized?
     if current_user.is_admin?
@@ -14,7 +13,7 @@ class PartnersController < ApplicationController
   # GET /partners
   # GET /partners.xml
   def index
-    @partners = Partner.find(:all)
+    @partners = Partner.all
 
     respond_to do |format|
       format.html # index.rhtml

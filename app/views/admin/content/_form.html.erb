@@ -11,7 +11,21 @@
 <%= text_field 'content', 'title'  %></p>
 
 <p><label for="content_content">Content</label><br/>
-<%= text_area 'content', 'content', :cols => 70  %></p>
+<%= text_area 'content', 'content', :class => "tinymce", :cols => 70  %></p>
+
+<%= tinymce :width => 700,
+            :height => 400,
+            :content_css => '/assets/application.css',
+            :paste_auto_cleanup_on_paste => true,
+            :relative_urls => false,
+            :theme_advanced_toolbar_align => "left",
+            :theme_advanced_toolbar_location => "top",
+            :menubar => "false",
+            :toolbar => ['bold | italic | underline | strikethrough | alignleft | aligncenter | alignright | indent | outdent | bullist | numlist | undo | redo | link | unlink | anchor | styleselect | formatselect | code | image'],
+            :plugins => ['contextmenu', 'paste', 'code', 'image', 'link', 'anchor'],
+            :contextmenu => 'copy cut paste link image',
+            :extended_valid_elements => 'name|href|target|title|onclick|class|id] img[class|src|border=0|alt|title|hspace|vspace|width|height|align|name|usemap] hr[class|width|size|noshade] font[face|size|color|style] span[class|align|style] map[id|name] area[shape|coords|href|alt|target]}'
+%>
 
 <!--[eoform:content]-->
 <script type="text/javascript">
@@ -22,3 +36,4 @@
     asr.addObserverToLinkButtons(['javascript:;'], ['commit']);
   });
 </script>
+

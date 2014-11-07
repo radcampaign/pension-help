@@ -8,14 +8,14 @@
     <th>URL</th>
     <th>Updated By</th>
   </tr>
-  
-<% for content in @contents %>
+
+<% @contents.each do |content| %>
   <tr class="<%= (content.is_active ? 'active' : 'inactive') %>">
     <td><span style="margin-left:<%= (content.level - 1) * 2%>em;"><%= link_to h(content.title), :action => 'edit', :id => content %></span></td>
     <td width="30%"><%= h content.url %></td>
     <td><%= h content.updated_by %> on <%= h content.updated_at.strftime("%Y-%m-%d") %></td>
   </tr>
-  <% for child in content.all_children %>
+  <% content.children.each do |child| %>
     <tr class="<%= (child.is_active ? 'active' : 'inactive') %>">
       <td><div style="margin-left:<%= (child.level - 1) * 2%>em;"><%= link_to h(child.title), :action => 'edit', :id => child %></div></td>
       <td width="30%"><%= h child.url %></td>
@@ -25,8 +25,8 @@
 <% end %>
 </table>
 
-<%= link_to 'Previous page', { :page => @content_pages.current.previous } if @content_pages.current.previous %>
-<%= link_to 'Next page', { :page => @content_pages.current.next } if @content_pages.current.next %> 
+<%= will_paginate @contents %>
+<%= page_entries_info @contents %>
 
 <script type="text/javascript">
   var toggleLink = $('showHideInactiveContent');

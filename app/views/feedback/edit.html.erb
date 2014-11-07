@@ -7,7 +7,7 @@
 
 <h2>Manage Feedback</h2>
 <div id="manageFeedback">
-  <% form_for @feedback, :url => feedback_path(), :html => {:method => "put"} do |f| %>
+  <%=  form_for @feedback, :url => feedback_path(), :html => {:method => "put"} do |f| %>
     <table class="form">
       <tr>
         <td class="label"><label for="feedback_is_resolved">Resolved:</label></td>
