@@ -51,6 +51,15 @@ class Agency < ActiveRecord::Base
   validates_presence_of(:agency_category)
   validates_presence_of(:name)
 
+
+
+
+  def matching_plans
+    @matching_plans ||= plans.to_a
+    @matching_plans
+  end
+
+
   def best_location(counseling)
 
     return hq unless counseling.zipcode || hq.nil?

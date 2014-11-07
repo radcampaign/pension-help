@@ -294,7 +294,7 @@ class HelpController < ApplicationController
     end
     @counseling.save
     if @counseling.selected_plan_id
-      @results.each { |a| a.plans.delete_if { |p| p.id != @counseling.selected_plan_id.to_i &&
+      @results.each { |a| a.matching_plans.delete_if { |p| p.id != @counseling.selected_plan_id.to_i &&
           a.agency_category_id==3 } }
     end
     if [EMP_TYPE[:county], EMP_TYPE[:city]].include?(@counseling.employer_type_id) &&

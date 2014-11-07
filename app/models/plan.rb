@@ -6,7 +6,7 @@ class Plan < ActiveRecord::Base
   belongs_to :plan_category
   has_one :publication
   has_many :restrictions, :dependent => :destroy
-  has_many :plan_catch_all_employees, ->{order(postion:'asc')}, :dependent => :destroy
+  has_many :plan_catch_all_employees, ->{order('position asc')}, :dependent => :destroy
   has_many :employee_types, :through => :plan_catch_all_employees
   has_many :location_plan_relationships, :dependent => :destroy
   has_many :serving_locations, :through => :location_plan_relationships, :source => :location
@@ -100,7 +100,7 @@ class Plan < ActiveRecord::Base
   end
 
   def closest_serving_location(zip)
-    serving_locations.map{|loc| loc.dropin_address}.sort_by_distance_from(zip).first.location
+    serving_locations.map{|loc| loc.dropin_address}.sort_by{|a| a.distance_from(zip)}.first.location
   end
 
 end
