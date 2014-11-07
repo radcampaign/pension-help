@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   root 'site#show_page', :url => '/'
 
   namespace :admin do
-    resources :content, only: [:index, :show, :update]
+
+    resources :content
     resources :images, only: [:index]
     resources :menu, only: [:index]
   end
