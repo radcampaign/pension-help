@@ -59,4 +59,7 @@ Rails.application.configure do
 
   GA_ACCOUNT = '123TEST'
   GA_EXPERIMENTS = '123TEST'
+
+
+  # config.log_level = :error
 end

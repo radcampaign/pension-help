@@ -85,7 +85,8 @@ class Agency < ActiveRecord::Base
       order = 'is_hq desc, distance'
     end
 
-    address = dropin_addresses.with_distance_from(origin: counseling.home_zip).joins(
+
+    address = dropin_addresses.with_distance_from(domain_table: 'addresses', origin: counseling.home_zip).joins(
         "left join restrictions r on r.location_id = locations.id
                                  left join restrictions_states rs on rs.restriction_id = r.id
                                  left join restrictions_counties rc on rc.restriction_id = r.id
@@ -107,12 +108,12 @@ class Agency < ActiveRecord::Base
 
     if result_type==ResultType['RRB'] and address.nil?
       # If RRB doesn't match on an office by restriction, find the closest office, regardless of restrictions
-      address = dropin_addresses.with_distance_from(origin: counseling.home_zip).order('distance asc').first
+      address = dropin_addresses.with_distance_from(domain_table: 'addresses', origin: counseling.home_zip).order('distance asc').first
     end
 
     if result_type==ResultType['AoA'] and address.nil?
       # If AoA doesn't match on an office (say because of restrictions), find the hq or the closest office
-      address = dropin_addresses.with_distance_from(origin: counseling.home_zip).order('is_hq des, distance asc').first
+      address = dropin_addresses.with_distance_from(domain_table: 'addresses', origin: counseling.home_zip).order('is_hq des, distance asc').first
     end
 
     # return the relevant location instead of the address

@@ -2,7 +2,7 @@
   <% if loc=agency.best_location(@counseling) %> <%# if we can't find a best_location, don't show the agency %>
     <div class="agency_result">
       <h2 id="agency_name_header"><%= agency.name -%><br/></h2>
-      <%= '<h2>' + agency.name2 + '<br/></h2>' if !agency.name2.blank? -%>
+      <%= ('<h2>' + agency.name2 + '<br/></h2>').html_safe if !agency.name2.blank? -%>
 
       <h3>
         <% if agency.matching_plans[0] -%>

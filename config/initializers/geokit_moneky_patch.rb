@@ -11,7 +11,7 @@ module Geokit
         units = extract_units_from_options(options)
         formula = extract_formula_from_options(options)
         distance_column_name = distance_sql(origin, units, formula)
-        select("*, #{distance_column_name} distance")
+        select("#{options[:domain_table]}.*, #{distance_column_name} distance")
       end
 
     end
