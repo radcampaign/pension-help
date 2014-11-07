@@ -46,7 +46,7 @@ class FeedbackController < ApplicationController
     @comments = Comment.find_comments_for_commentable('Feedback', @feedback.id)
 
     respond_to do |format|
-      if @feedback.update_attributes(params[:feedback])
+      if @feedback.update_attributes(feedback_params)
         @feedback.add_comment(params[:comment], current_user)
         flash[:notice] = 'Feedback was successfully updated.'
         format.html { redirect_to feedback_url(@feedback) }
@@ -62,7 +62,7 @@ class FeedbackController < ApplicationController
 
 
   def feedback_params
-    params.require(:feedback).permit(:title, :name, :email, :phone, :availability, :state_abbrev, :category, :feedback)
+    params.require(:feedback).permit(:title, :name, :email, :phone, :availability, :state_abbrev, :category, :resolved, :feedback, :is_resolved)
   end
 
 end

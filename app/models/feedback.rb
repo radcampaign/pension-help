@@ -60,7 +60,7 @@ class Feedback < ActiveRecord::Base
       sql_param << params[:resolved]
     end
 
-    if params[:category]
+    if params[:category] && params[:category] != ''
       sql_cond << 'feedbacks.category = ?'
       sql_param << (@@CATEGORIES.include?(params[:category]) ? params[:category] : '')
     end
