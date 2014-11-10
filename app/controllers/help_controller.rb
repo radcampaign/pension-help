@@ -127,7 +127,6 @@ class HelpController < ApplicationController
       end
     else
       @show_option_other = [EMP_TYPE[:county], EMP_TYPE[:city]].include?(@counseling.employer_type_id)
-      puts @show_option_other
       update_session
       render :update do |page|
         page.replace_html "q5", :partial => "available_plans"
@@ -182,8 +181,8 @@ class HelpController < ApplicationController
     end
 
     @previous_to = "/help/step_2"
-    render :action => :step_2
     update_session
+    render :action => :step_2
   end
 
   def step_3
@@ -303,6 +302,7 @@ class HelpController < ApplicationController
     end
 
     @results
+
   end
 
   def email
@@ -348,7 +348,6 @@ class HelpController < ApplicationController
     @counseling = update_counseling(counseling_params)
     counties = State.find(params[:counseling][:work_state_abbrev]).counties rescue []
 
-    puts params[:counseling][:work_state_abbrev]
     update_session
     render :update do |page|
       page.replace_html "counties", :partial => "county_selector",
@@ -442,8 +441,6 @@ class HelpController < ApplicationController
   end
 
   def update_session
-    puts "------------>"
-    puts "Storing"
     serialized_counseling= @counseling.to_json(methods: [
         :monthly_income_tmp,
         :yearly_income_tmp,
@@ -452,7 +449,6 @@ class HelpController < ApplicationController
         :income_unanswered,
         :number_in_household_unanswered
     ])
-    puts serialized_counseling
     session[:counseling] = serialized_counseling
   end
 
@@ -462,16 +458,6 @@ class HelpController < ApplicationController
       # see http://alisdair.mcdiarmid.org/2013/02/02/fixing-rails-auto-loading-for-serialized-objects.html
       Counseling.class
       @counseling = session[:counseling] ? Counseling.new(ActiveSupport::JSON.decode(session[:counseling])) : Counseling.new
-      puts "<------------"
-      puts "Loaded"
-      puts @counseling.to_json(methods: [
-          :monthly_income_tmp,
-          :yearly_income_tmp,
-          :step,
-          :non_us_resident,
-          :income_unanswered,
-          :number_in_household_unanswered
-      ])
     end
     @counseling
   end
