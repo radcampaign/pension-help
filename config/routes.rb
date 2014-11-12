@@ -5,7 +5,6 @@ Rails.application.routes.draw do
   root 'site#show_page', :url => '/'
 
   namespace :admin do
-
     resources :content
     resources :images, only: [:index]
     resources :menu, only: [:index]
@@ -17,6 +16,13 @@ Rails.application.routes.draw do
   end
 
   resources :partners, only: [:index, :show, :edit, :destroy]
+
+
+  resources :works, only: [:index, :create] do
+    get 'pal'
+    get 'npln'
+    get 'questions'
+  end
 
   resources :feedbacks, only: [:index, :show, :update, :edit, :delete], :controller => :feedback do
     collection do
