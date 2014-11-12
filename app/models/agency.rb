@@ -567,7 +567,7 @@ class Agency < ActiveRecord::Base
 #sets visibility flag for a given location
   def self.mark_locations_visible(agencies, locations)
     agencies.each do |agency|
-      locs = locations_sorted.find_all { |loc| loc.agency_id == agency.id }
+      locs = locations.find_all { |loc| loc.agency_id == agency.id }
       agency.locations.each do |location|
         location.visible_in_view = true if locs.find { |elem| elem.id == location.id }
       end
