@@ -51,6 +51,8 @@ gem 'geokit-rails'
 
 gem 'prototype-rails'
 
+gem 'prototype_legacy_helper', '0.0.0' ,github: 'jvennix-r7/prototype_legacy_helper', branch: 'staging/rails-4.0'
+
 # Gem for custom error messages with use of '^' carat
 gem 'custom_error_message', git: 'https://github.com/thethanghn/custom-err-msg.git'
 

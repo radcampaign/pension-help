@@ -5,8 +5,8 @@
 <h3 id="agency_heading"><label>Agency: </label><%= @agency.name %> <%= (@agency.name2.blank? ? '' : ':')%> <%= @agency.name2 %></h3>
 <%= error_messages_for :location %>
 
-  <% form_for(:location,
-    :url => (@location.id ? location_path(@location.agency, @location) : locations_path),
+  <%= form_for(:location,
+    :url => (@location.id ? agency_location_path(@agency, @location) : agency_locations_path(@agency,@location)),
     :html => { :method => (@location.id ? :put : :post) , :class => 'admin_form', :id => 'location_form' }) do |f| %><br/>
     <div class="clear fullwidth buttons">
       <%= submit_tag " Update Location ", :class => 'btn' %>
@@ -19,7 +19,7 @@
       <span class="regular-label"><b><label for="location_is_provider">Provider:</label> </b><%= f.check_box :is_provider %>&nbsp;&nbsp;&nbsp;</span>
       <span class="regular-label"><b><label for="location_is_active">Active:</label> </b><%= f.check_box :is_active %>&nbsp;&nbsp;&nbsp;</span>
       <span><b>Last updated: </b><%= @location.updated_at.strftime("%m/%d/%Y %I:%M %p") if @location.updated_at %>
-        <%if @location.updated_by %>by <%= @location.updated_by %><% end -%></span>
+        <% if @location.updated_by %>by <%= @location.updated_by %><% end %></span>
     </div>
 
 <ul>
@@ -30,7 +30,7 @@
 <li class="clear fullwidth left">
 <fieldset id="addressGroup"><legend class="desc">Addresses</legend>
 <span class="half">
-  <% fields_for :dropin_address, @location.dropin_address do |d_addr| %>
+  <%= fields_for :dropin_address, @location.dropin_address do |d_addr| %>
   <fieldset>
   <legend class="desc">Drop-in Address</legend>
   <div><%= d_addr.text_field :line1, :size => 50 %>
@@ -39,15 +39,15 @@
   <label>Street Address 2</label></div>
   <span><%= d_addr.text_field :city, :size => 29 %>
   <label>City</label></span>
-  <span><%= d_addr.select :state_abbrev, State.find(:all, :order => 'abbrev').collect(&:abbrev) %>
+  <span><%= d_addr.select :state_abbrev, State.all.order('abbrev').collect(&:abbrev) %>
     <label>State</label></span>
     <span><%= d_addr.text_field :zip, :size => 10 %>
     <label>Zip Code</label></span>
   </fieldset>
-  <% end -%>
+  <% end %>
 </span>
 <span class="half">
-  <% fields_for :mailing_address, @location.mailing_address do |m_addr| %>
+  <%= fields_for :mailing_address, @location.mailing_address do |m_addr| %>
   <fieldset>
   <legend class="desc">Mailing Address</legend>
   <div><%= m_addr.text_field :line1, :size => 50 %>
@@ -56,7 +56,7 @@
   <label>Street Address 2</label></div>
   <span><%= m_addr.text_field :city, :size => 29 %>
   <label>City</label></span>
-  <span><%= m_addr.select :state_abbrev, State.find(:all, :order => 'abbrev').collect(&:abbrev) %>
+  <span><%= m_addr.select :state_abbrev, State.all.order('abbrev').collect(&:abbrev) %>
     <label>State</label></span>
     <span><%= m_addr.text_field :zip, :size => 10 %>
     <label>Zip Code</label></span>
@@ -132,7 +132,7 @@
     <%= submit_tag ' Update Location and Return to List ', :name => 'update_and_list', :class => 'btn' %>
   </div>
 
-<% end -%>
+<% end %>
 
 <script type="text/javascript">
   /* Hide inactive locations and plans. */

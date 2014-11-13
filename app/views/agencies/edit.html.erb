@@ -61,7 +61,7 @@
     <%# Agencies do not have any restrictions. See TRAC #63
      render :partial => '/shared/restrictions', :locals => {:restriction => @agency.restriction} %>
     <li class="left" id="phone_web">
-      <% fields_for :publication, @agency.publication do |pub| %>
+      <%= fields_for :publication, @agency.publication do |pub| %>
         <fieldset><legend class="desc">Publication Contact Information</legend>
         <fieldset class="left">
         <span><%= pub.text_field :tollfree, :size => 15 %><label for="tollfree">Toll Free Phone</label></span>
@@ -84,7 +84,7 @@
         <label for="agency_url">Publication URL</label></div>
         <div class="clear left"><%= pub.text_field :email, :size => 30 %><label for="email">Email</label></div>
         </fieldset>
-      <% end -%>
+      <% end %>
     </li>
                 <li class="left" id="pha_contact">
                   <%= render :partial => 'shared/pha_contact', :object => @agency.pha_contact %>
@@ -106,17 +106,17 @@
             <th class="">AND</th>
             <th class="">Active</th>
           </tr>
-          <% @locations.each_with_index do |location, i| -%>
+          <% @locations.each_with_index do |location, i| %>
           <tr id="location_<%=location.id.to_s%>" class="<%= 'disabledLocation' unless location.is_active %>">
-            <td class="hq"><%= (location.is_hq? ? image_tag('check.gif') : '&nbsp;') %></td>
-            <td class="hq"><%= (location.is_provider? ? image_tag('check_blue.gif')  : '&nbsp;') %></td>
+            <td class="hq"><%= location.is_hq? ? image_tag('check.gif') : '&nbsp;'.html_safe  %></td>
+            <td class="hq"><%= location.is_provider? ? image_tag('check_blue.gif')  : '&nbsp;'.html_safe %></td>
             <td class="loc "><%= link_to h(location.name), edit_agency_location_url(:agency_id => @agency, :id => location) %></td>
             <td class="city "><%  if location.dropin_address -%>
-              <%= location.dropin_address.city %><% if !location.dropin_address.city.blank? -%>, <% end -%><%= location.dropin_address.state_abbrev %>
-            <%end -%></td>
-            <td><%= (location.age_restrictions? ? image_tag('check.gif') : '&nbsp;')%></td>
-            <td><%= (location.income_restrictions? ? image_tag('check.gif') : '&nbsp;')%></td>
-            <td><%= (location.and_restrictions? ? image_tag('check.gif') : '&nbsp;')%></td>
+              <%= location.dropin_address.city %><% if !location.dropin_address.city.blank? %>, <% end %><%= location.dropin_address.state_abbrev %>
+            <%end %></td>
+            <td><%= location.age_restrictions? ? image_tag('check.gif') : '&nbsp;'.html_safe %></td>
+            <td><%= location.income_restrictions? ? image_tag('check.gif') : '&nbsp;'.html_safe %></td>
+            <td><%= location.and_restrictions? ? image_tag('check.gif') : '&nbsp;'.html_safe %></td>
             <td><%= image_tag(location.is_active ? 'check_blue.gif' : 'close.gif')%></td>
           </tr>
           <% end %>

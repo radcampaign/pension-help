@@ -48,10 +48,8 @@ class Agency < ActiveRecord::Base
                   [:pha_contact_email, :email],
               ]
 
-  validates_presence_of(:agency_category)
-  validates_presence_of(:name)
-
-
+  validates_presence_of :agency_category
+  validates_presence_of :name
 
   def dropin_addresses_hq_first
     dropin_addresses.order('is_hq desc')
@@ -61,12 +59,10 @@ class Agency < ActiveRecord::Base
     locations.order('is_hq desc, position asc')
   end
 
-
   def matching_plans
     @matching_plans ||= plans.to_a
     @matching_plans
   end
-
 
   def best_location(counseling)
 
@@ -189,14 +185,13 @@ class Agency < ActiveRecord::Base
       conditions_params << "%#{filter.get_agency_name}%"
     end
 
-    search_params = { }
-
+    search_params = ""
 
     if conditions_query.any?
-      search_params[:conditions] = ([conditions_query.join(" AND ")] + conditions_params).flatten
+      search_params= ([conditions_query.join(" AND ")] + conditions_params).flatten
     end
 
-    all_agencies = Agency.all.includes(:plans, locations: [:agency, :dropin_address, :restrictions]).where(search_params).collect { |agency| [agency.id, agency] }.flatten
+    all_agencies = Agency.joins(:plans, locations: [:agency, :dropin_address, :restrictions]).where(search_params).to_a.uniq{ |agency| agency.name }.collect { |agency| [agency.id, agency] }.flatten
 
     #if we filter by agency's provider type, and given agency is not 'proper',
     # we put its id in this table so we don't have to check it again.
@@ -230,7 +225,7 @@ class Agency < ActiveRecord::Base
   end
 
   def has_visible_locations?
-    locations_sorted.detect() { |loc| loc.visible_in_view }
+    locations.detect() { |loc| loc.visible_in_view }
   end
 
 #Sorts agencies by given column and direction.
@@ -571,9 +566,7 @@ class Agency < ActiveRecord::Base
       agency.locations.each do |location|
         location.visible_in_view = true if locs.find { |elem| elem.id == location.id }
       end
+
     end
-
   end
-
-
 end

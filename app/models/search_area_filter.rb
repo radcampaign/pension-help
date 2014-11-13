@@ -45,6 +45,10 @@ class SearchAreaFilter
      @search_params[name] = value
   end
 
+  def set_params(params)
+     @search_params = params
+  end
+
   #Checks if user has selected any condition for filtering.
   def has_any_conditions?
     has_state_condition? || has_county_condition? ||
@@ -140,6 +144,10 @@ class SearchAreaFilter
     SQL
 
     prepare_sql_query(query)
+  end
+
+  def get_params
+    @search_params
   end
 
   def get_states
@@ -307,4 +315,6 @@ class SearchAreaFilter
     #selected locations must fullfil all conditions from filter
     return [cond.join(' AND '), cond_params]
   end
+
+
 end

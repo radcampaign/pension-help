@@ -7,6 +7,13 @@ GIT
       rake (>= 0.8.7)
 
 GIT
+  remote: git://github.com/jvennix-r7/prototype_legacy_helper.git
+  revision: a2cdc758d72b228a42d85b528e6c2d1e01d44233
+  branch: staging/rails-4.0
+  specs:
+    prototype_legacy_helper (0.0.0)
+
+GIT
   remote: https://github.com/thethanghn/custom-err-msg.git
   revision: b913309360995472507ea444c6f1a80315b99d28
   specs:
@@ -173,6 +180,7 @@ DEPENDENCIES
   mysql
   power_enum
   prototype-rails
+  prototype_legacy_helper (= 0.0.0)!
   rails (= 4.1.6)
   sass-rails (~> 4.0.3)
   schema_plus

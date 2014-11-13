@@ -42,7 +42,7 @@ class Address < ActiveRecord::Base
   
   def validate_zip
     geocode_zip
-    super
+    #super
   end
 
 end

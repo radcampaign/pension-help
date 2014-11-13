@@ -34,8 +34,8 @@ class AgenciesController < ApplicationController
   def edit
     order = SORT_ORDER_LOC[params[:order]] if params[:order]
     @agency = Agency.find(params[:id])
-    @locations = Location.where(params[:id]).includes(:dropin_address).order(order)
-    @plans = Plan.where(params[:id]).order('position')
+    @locations = Location.joins(:dropin_address).where(agency_id: params[:id]).order(order)
+    @plans = Plan.where(agency_id: params[:id]).order('position')
     #@agency.build_restriction if !@agency.restriction
   end
 
@@ -45,10 +45,10 @@ class AgenciesController < ApplicationController
     if params['cancel']
       redirect_to agencies_url and return
     end
-    @agency = Agency.new(params[:agency])
+    @agency = Agency.new(agencies_params)
     @agency.updated_by = current_user.login
 
-    publication = Publication.new(params[:publication])
+    publication = Publication.new(publication_params)
     @agency.publications << publication unless publication.empty?
 
     #@agency.build_restriction
@@ -91,9 +91,9 @@ class AgenciesController < ApplicationController
     @agency = Agency.find(params[:id])
     @agency.updated_by = current_user.login
     if @agency.publication
-      @agency.publications[0].update_attributes(params[:publication])
+      @agency.publications[0].update_attributes(publication_params)
     else
-      publication = Publication.new(params[:publication])
+      publication = Publication.new(publication_params)
       unless publication.empty?
         @agency.publications << publication
         @agency.publications.last.save!
@@ -111,7 +111,7 @@ class AgenciesController < ApplicationController
     update_pha_contact
 
     begin
-      if @agency.update_attributes(params[:agency])
+      if @agency.update_attributes(agencies_params)
         flash[:notice] = 'Agency was successfully updated.'
         redirect_to agencies_url() and return if params['update_and_return']
         redirect_to edit_agency_url(@agency)
@@ -163,6 +163,7 @@ class AgenciesController < ApplicationController
 
     filter = find_search_filter
     filter.put_params(params, session[:back])
+
     params[:state_abbrevs] = filter.get_states
     params[:county_ids] = filter.get_counties
     params[:city_ids] = filter.get_cities
@@ -183,6 +184,36 @@ class AgenciesController < ApplicationController
 
     search_results = Agency.find_agencies filter
     @search_results = Agency.sort_agencies(search_results, order, dir)
+  end
+
+  def get_counties_for_states
+    begin
+      @states = params[:states].split(',').collect{|s| State.find_by_abbrev(s)}
+    rescue ActiveRecord::RecordNotFound
+      nil
+    end
+    @county_ids = params[:county_ids]
+    render :partial => '/shared/counties', :locals => {:states => @states, :id_prefix => params[:id_prefix]}, :layout => false
+  end
+
+  def get_cities_for_counties
+    begin
+      @counties = params[:counties].split(',').collect{|c| County.find(c)} if (params[:counties] != nil)
+    rescue ActiveRecord::RecordNotFound
+      nil
+    end
+    @city_ids = params[:city_ids]
+    render :partial => '/shared/cities', :locals => {:counties => @counties, :id_prefix => params[:id_prefix]}, :layout => false
+  end
+
+  def get_zips_for_counties
+    begin
+      @counties = params[:counties].split(',').collect{|c| County.find(c)} if (params[:counties]!=nil)
+    rescue ActiveRecord::RecordNotFound
+      nil
+    end
+    @zip_ids = params[:zip_ids]
+    render :partial => '/shared/zips', :locals => {:counties => @counties, :id_prefix => params[:id_prefix]}, :layout => false
   end
 
   private
@@ -231,10 +262,23 @@ class AgenciesController < ApplicationController
 
   SORT_ORDER_LOC = {
     'name' => 'locations.name',
-    'state' => 'if(addresses.state_abbrev is null or addresses.state_abbrev="", "ZZZ", addresses.state_abbrev), locations.name'
+    'state' => 'COALESCE(NULLIF(addresses.state_abbrev, ""), "ZZZ"), locations.name'
   }
   def find_search_filter
-    session['search_filter'] = SearchAreaFilter.new unless session['search_filter']
-    session['search_filter']
+    if (@SearchAreaFilter)
+      @SearchAreaFilter = SearchAreaFilter.from_json(session[:search_filter])
+    else
+      @SearchAreaFilter = SearchAreaFilter.new
+      session[:search_filter] = @SearchAreaFilter.as_json
+    end
+    @SearchAreaFilter
+  end
+
+  def agencies_params
+    params.require(:agency).permit(:agency_category, :result_type, :is_active, :use_for_counseling, :name, :name2, :url_title, :url, :url2_title, :url2, :description, :comments)
+  end
+
+  def publication_params
+    params.require(:publication).permit(:tollfree, :tollfree_ext, :phone, :phone_ext, :tty, :tty_ext, :fax, :url_title, :url, :email, pha_contact: [ :name, :title, :phone, :email])
   end
 end

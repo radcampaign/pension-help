@@ -13,9 +13,9 @@ class Location < ActiveRecord::Base
   has_one :dropin_address, -> { where(address_type: 'dropin') }, :class_name => 'Address'
   before_save :update_plans_served
 
-  validates_presence_of     :name
+  validates_presence_of :name
 
-  composed_of :pha_contact, :class_name => PhaContact,
+  composed_of :pha_contact, :class_name => 'PhaContact',
     :mapping => [
       [:pha_contact_name, :name],
       [:pha_contact_title, :title],

@@ -24,7 +24,7 @@ class State < ActiveRecord::Base
         end
         args << abbrev
       end
-      result = State.find(:all, :conditions => [cond, args].flatten)
+      result = State.all.where([cond, args].flatten)
     end
     result
   end

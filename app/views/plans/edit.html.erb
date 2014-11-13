@@ -4,8 +4,8 @@
 <h3 id="agency_heading"><label>Agency: </label><%= @agency.name %>:<%= @agency.name2 %></h3>
 <%= error_messages_for :plan %>
 
-  <% form_for(:plan,
-    :url => (@plan.id ? plan_path(@plan.agency, @plan) : plans_path),
+  <%= form_for(:plan,
+    :url => (@plan.id ? agency_plan_path(@agency, @plan) : agency_plans_path(@agency, @plan)),
     :html => { :method => (@plan.id ? :put : :post) , :class => 'admin_form', :id => 'plan_form' }) do |f| %>
     <br/>
     <div class="clear fullwidth buttons">

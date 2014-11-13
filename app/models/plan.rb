@@ -14,7 +14,7 @@ class Plan < ActiveRecord::Base
 
   validates_presence_of     :name
 
-  composed_of :pha_contact, :class_name => PhaContact,
+  composed_of :pha_contact, :class_name => 'PhaContact',
     :mapping => [
       [:pha_contact_name, :name],
       [:pha_contact_title, :title],

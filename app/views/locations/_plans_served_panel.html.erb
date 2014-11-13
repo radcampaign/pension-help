@@ -9,7 +9,7 @@
 					<th>Plan Name</th>
 					<th>Catch-all Employees</th>
 				</tr>
-				<% @location.agency.plans.sort_by{|p| p.name }.each_with_index do |plan, i| %>
+				<% @location.agency.plans.sort_by{|p| p.name ? p.name : "ZZZ" }.each_with_index do |plan, i| %>
 				<tr id="plan_<%=plan.id.to_s%>">
 					<td class="center"><%= check_box_tag 'location[new_plans][]', plan.id, @location.plans_served.include?(plan), :id => "new_plan_#{plan.id}" %></td>
 					<td class="center">

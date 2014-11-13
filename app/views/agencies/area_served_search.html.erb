@@ -3,11 +3,11 @@
   <div class="center border-bottom" id="footer_links">
           <%= link_to_unless_current 'Home', '/' %>
           |
-          <% if session[:user] -%>
+          <% if user_signed_in? %>
                   <%= link_to_unless_current 'Management', :controller => '/admin', :action => 'menu' %>
                   |
                   <%= link_to 'Logout', :controller => '/account', :action => 'logout' %>
-          <% end -%>
+          <% end %>
   </div>
 
   <%= render :partial => 'area_served_search_form', :locals => {:restriction => @restriction,

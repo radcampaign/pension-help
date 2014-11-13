@@ -1,5 +1,5 @@
 class LocationsController < ApplicationController
-  before_filter :login_required
+  before_filter :authenticate_user!, :authorized?
   before_filter :find_agency, :except => [:get_counties_for_states, :get_cities_for_counties, :get_zips_for_counties]
  
 
@@ -84,16 +84,16 @@ class LocationsController < ApplicationController
     @location.updated_by = current_user.login
 
     @location.build_mailing_address() if !@location.mailing_address
-    @location.mailing_address.attributes = params[:mailing_address]
+    @location.mailing_address.update_attributes(mailing_address_parameters)
     @location.mailing_address.address_type='mailing'
 
     @location.build_dropin_address() if !@location.dropin_address
-    @location.dropin_address.attributes = params[:dropin_address]
+    @location.dropin_address.update_attributes(dropin_address_parameters)
     @location.dropin_address.address_type='dropin'
 
     update_pha_contact
-    @location.attributes = params[:location]
-  
+    @location.attributes = location_parameters
+
     if @location.mailing_address.valid? and @location.dropin_address.valid? and @location.valid?
       @location.mailing_address.save 
       @location.dropin_address.save
@@ -102,7 +102,7 @@ class LocationsController < ApplicationController
       flash[:notice] = 'Location was successfully updated.'
       redirect_to edit_agency_url(@agency) and return if params['update_and_return']
       redirect_to agencies_path() and return if params['update_and_list']
-      redirect_to edit_location_url(:agency_id => @agency, :id => @location)
+      redirect_to edit_agency_location_url(:agency_id => @agency, :id => @location)
     else
       flash[:error] = "There was a problem trying to save your information." # flash not being set by validations ????
       # setting object @new_restrictions in order to correct displaying partial _new_restriction_form.rhtml
@@ -131,5 +131,19 @@ class LocationsController < ApplicationController
   def update_pha_contact
     @location.pha_contact = PhaContact.new(params[:pha_contact][:name], params[:pha_contact][:title],
       params[:pha_contact][:phone], params[:pha_contact][:email])
+  end
+
+  private
+
+  def location_parameters
+    params.require(:location).permit(:is_hq, :is_provider, :is_active, :name, :name2, :tollfree, :tollfree_ext, :phone, :phone_ext, :tty, :tty_ext, :fax, :url_title, :url, :url2_title, :url2, :email, :logistics, :hours_of_operation, :comment, new_plans: [], pha_contact: [:name,:title,:phone,:email])
+  end
+
+  def dropin_address_parameters
+    params.require(:dropin_address).permit(:line1, :line2, :city, :state_abbrev)
+  end
+
+  def mailing_address_parameters
+    params.require(:mailing_address).permit(:line1, :line2, :city, :state_abbrev)
   end
 end
