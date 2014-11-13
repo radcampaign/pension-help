@@ -14,7 +14,7 @@ class Mailer < ActionMailer::Base
     @phone = feedback.phone
     @availability = feedback.availability
     @state = feedback.state_abbrev
-    mail(to: EMAIL_RECIPIENT, subject: @subject, from: EMAIL_FROM, date: @sent_on)
+    mail(to: @recipients, subject: @subject, from: @from, date: @sent_on)
   end
 
   def npln_application(partner)
@@ -33,8 +33,8 @@ class Mailer < ActionMailer::Base
     @sent_on = Time.now
     @subject = "PHA: PAL Application"
 
-    # Email body substitutions
-    @body["partner"] = partner
+    @partner = partner
+    mail(to: @recipients, subject: @subject, from: @from, date: @sent_on)
   end
 
   def lsp_application(partner)
@@ -73,7 +73,7 @@ class Mailer < ActionMailer::Base
     @agency_name = counseling.agency_name,
     @job_function = counseling.job_function,
     @feedback_email = counseling.feedback_email
-    mail(to: EMAIL_RECIPIENT, subject: @subject, from: EMAIL_FROM, date: @sent_on)
+    mail(to: @recipients, subject: @subject, from: @from, date: @sent_on)
   end
 
   def counseling_results(email, counseling, results, lost_plan_resources)
@@ -86,15 +86,14 @@ class Mailer < ActionMailer::Base
     @results = results
     @lost_plan_resources = lost_plan_resources
 
-    mail(to: @recipients, subject: @subject, from: EMAIL_FROM, date: @sent_on)
+    mail(to: @recipients, subject: @subject, from: @from, date: @sent_on)
   end
 
   def links(errors)
-    body["errors"] = errors
-
     @from = LINK_CHECKER_FROM
     @recipients = LINK_CHECKER_RECIPIENT
     @subject = "Link checker results"
-    @headers["return-path"] = LINK_CHECKER_FROM
+    @errors = errors
+    mail(to: @recipients, subject: @subject, from: @from, date: @sent_on,"return-path"=>LINK_CHECKER_FROM)
   end
 end

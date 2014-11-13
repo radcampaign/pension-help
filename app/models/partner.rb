@@ -71,7 +71,7 @@ class Partner < ActiveRecord::Base
 
   def validate_wants
     if self.wants_pal
-      if self.assistances.count == 0
+      if self.assistances.size == 0
         self.errors.add(:assistances, "is required")
       end
     elsif self.wants_lsp

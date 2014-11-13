@@ -11,7 +11,7 @@
 
 <h2>Service &amp; Referral Networks for Pension Professionals</h2>
 
-<% form_for :partner, @partner, :url => { :controller => "works", :action => "create" } do |f| %>
+<%= form_for @partner, :url => { :controller => "works", :action => "create" } do |f| %>
   <%= f.hidden_field :wants_pal %>
   <div class="form partner-form">
     <div>
@@ -58,7 +58,7 @@
       <label for="partner_state_abbrev">
         <span class="reqnote">*</span>State:
       </label>
-      <%= select("partner", "state_abbrev", State.find(:all).collect { |s| [s.abbrev, s.abbrev] }, { :include_blank => true }) %>
+      <%= select("partner", "state_abbrev", State.all.collect { |s| [s.abbrev, s.abbrev] }, { :include_blank => true }) %>
       <%= error_message_on :partner, :state_abbrev %>
     </div>
 
@@ -116,7 +116,7 @@
         Area(s) of expertise:
       </div>
 
-      <% Expertise.find(:all, :conditions => { :form => "pal" }).each do |expertise| %>
+      <% Expertise.where(form: 'pal').each do |expertise| %>
         <div>
           <label>
             <%= check_box_tag "partner[expertise_ids][]", expertise.id, @partner.expertises.include?(expertise) %>
@@ -140,7 +140,7 @@
         <%= error_message_on :partner, :assistances %>
       </div>
 
-      <% Assistance.find(:all).each do |assistance| %>
+      <% Assistance.all.each do |assistance| %>
         <div>
           <label>
             <%= check_box_tag "partner[assistance_ids][]", assistance.id, @partner.assistances.include?(assistance) %>

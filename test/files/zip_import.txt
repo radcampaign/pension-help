@@ -1,0 +1,13 @@
+IZIPCode	ZIPType	CityName	CityType	CountyName	CountyFIPS	StateName	StateAbbr	StateFIPS	MSACode	AreaCode	TimeZone	UTC	DST	Latitude	Longitude
+00501	U	Holtsville	D	Suffolk	36103	New York	NY	36	5380	631	Eastern	-5.0	Y	  40.813078	 -73.046388
+00501	U	Internal Revenue Service	N	Suffolk	36103	New York	NY	36	5380	631	Eastern	-5.0	Y	  40.813078	 -73.046388
+00544	U	Holtsville	D	Suffolk	36103	New York	NY	36	5380	631	Eastern	-5.0	Y	  40.813223	 -73.049288
+00544	U	Internal Revenue Service	N	Suffolk	36103	New York	NY	36	5380	631	Eastern	-5.0	Y	  40.813223	 -73.049288
+00601	S	Adjuntas	D	Adjuntas	72001	Puerto Rico	PR	72	0000	787/939	Atlantic	-4.0	N	  18.165950	 -66.723627
+00601	S	Colinas Del Gigante	N	Adjuntas	72001	Puerto Rico	PR	72	0000	787/939	Atlantic	-4.0	N	  18.165950	 -66.723627
+00601	S	Jard de Adjuntas	N	Adjuntas	72001	Puerto Rico	PR	72	0000	787/939	Atlantic	-4.0	N	  18.165950	 -66.723627
+00601	S	Urb San Joaquin	N	Adjuntas	72001	Puerto Rico	PR	72	0000	787/939	Atlantic	-4.0	N	  18.165950	 -66.723627
+00602	S	Aguada	D	Aguada	72003	Puerto Rico	PR	72	0060	787/939	Atlantic	-4.0	N	  18.383005	 -67.186553
+00674	S	Urb Camino del Sol Ii	N	Manati	72091	Puerto Rico	PR	72	7440	787/939	Atlantic	-4.0	N	  18.430555	 -66.484708
+00674	S	Urb Camino del Sol Ii	N	Manati	72091	Puerto Rico	PR	72	7440	787/939	Atlantic	-4.0	N	  18.430555	 -66.484708
+00674	S	Urb Flamboyan	N	Manati	72091	Puerto Rico	PR	72	7440	787/939	Atlantic	-4.0	N	  18.430555	 -66.484708
