@@ -90,11 +90,10 @@ class Mailer < ActionMailer::Base
   end
 
   def links(errors)
-    body["errors"] = errors
-
     @from = LINK_CHECKER_FROM
     @recipients = LINK_CHECKER_RECIPIENT
     @subject = "Link checker results"
-    @headers["return-path"] = LINK_CHECKER_FROM
+    @errors = errors
+    mail(to: @recipients, subject: @subject, from: @from, date: @sent_on,"return-path"=>LINK_CHECKER_FROM)
   end
 end
