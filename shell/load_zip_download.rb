@@ -11,8 +11,8 @@ db_user = 'root'
 db_pass = ''
 db_name = 'pha_development'
 
-zip_user = 'kgarrett@pensionrights.org'
-zip_pass = 'studebaker'
+# zip_user = 'kgarrett@pensionrights.org'
+# zip_pass = 'studebaker'
 
 filedir = '/tmp'
 
@@ -21,8 +21,6 @@ opts.on("--db_user=[OPT]")      {|val| db_user  = val }
 opts.on("--db_pass=[OPT]")      {|val| db_pass  = val }
 opts.on("--db_host=[OPT]")      {|val| db_host  = val }
 opts.on("--db_name=[OPT]")      {|val| db_name  = val }
-opts.on("--zip_user=[OPT]")     {|val| zip_user = val }
-opts.on("--zip_pass=[OPT]")     {|val| zip_pass = val }
 opts.on("--filedir=[OPT]")      {|val| filedir  = val }
 
 opts.parse(ARGV)
