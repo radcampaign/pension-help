@@ -294,7 +294,7 @@ class HelpController < ApplicationController
     @counseling.save!
     if [EMP_TYPE[:county], EMP_TYPE[:city]].include?(@counseling.employer_type_id) &&
         @counseling.selected_plan_id.nil?
-      @ask_user_for_email = true
+        @ask_user_for_email = true
     end
     @results
   end
