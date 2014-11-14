@@ -62,7 +62,7 @@ class State < ActiveRecord::Base
   end
   
   def catchall_employees
-    PlanCatchAllEmployee.find(:all, :conditions => ['plan_id in (?)', State.agency_matches(self.abbrev).collect{|agency| agency.plans}.flatten], :order => :position)
+    PlanCatchAllEmployee.all.where(['plan_id in (?)', State.agency_matches(self.abbrev).collect{|agency| agency.plans}.flatten]).order(:position)
     # State.agency_matches(self.abbrev).collect{|agency| agency.plans}.flatten.collect{|plan| plan.plan_catch_all_employees}.flatten
   end
   

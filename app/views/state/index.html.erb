@@ -1,6 +1,6 @@
 <div id="content-no-sidebar" style="width: 760px">
   <div id="return_button">
-  <%= button_to 'Back to Management Menu', :controller => '/admin/menu', :action => 'index' %>
+  <%= button_to 'Back to Management Menu', admin_menu_index_path, :method => :get %>
   </div>
   <div class="admin_table">
   <table id="plan_table" cellspacing="0">
