@@ -1,4 +1,4 @@
-<% fields_for :restriction, restriction do |r| %>
+<%= fields_for :restriction, restriction do |r| %>
 <%= r.hidden_field :id %>
 <li class="clear left fullwidth">
 	<fieldset><legend class="desc">Restrictions</legend>
@@ -49,7 +49,6 @@
 			:url => {:action => 'get_counties_for_states'},
 			:with => "'states=' + encodeURIComponent(value) +
 			'&county_ids=' +  $('county_ids').value" %>
-
 			<%# clear city/zips when changing state %>
 			<%= observe_field :state_abbrevs,
 				:frequency => 0.5,

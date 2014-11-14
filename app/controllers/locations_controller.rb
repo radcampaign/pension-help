@@ -16,7 +16,7 @@ class LocationsController < ApplicationController
   # GET /locations/1
   # GET /locations/1.xml
   def show
-    redirect_to edit_location_url(@location) 
+    redirect_to edit_agency_location_url(@location)
   end
 
   # GET /locations/new
@@ -52,6 +52,7 @@ class LocationsController < ApplicationController
     @location.mailing_address.address_type='mailing'
     @location.dropin_address = @location.build_dropin_address(params[:dropin_address])
     @location.dropin_address.address_type='dropin'
+
     update_pha_contact
     
     if @location.mailing_address.valid? and @location.dropin_address.valid? and @location.valid?
@@ -97,7 +98,7 @@ class LocationsController < ApplicationController
     if @location.mailing_address.valid? and @location.dropin_address.valid? and @location.valid?
       @location.mailing_address.save 
       @location.dropin_address.save
-      @location.update_restrictions(params)  
+      @location.update_restrictions(params)
       @location.save
       flash[:notice] = 'Location was successfully updated.'
       redirect_to edit_agency_url(@agency) and return if params['update_and_return']
@@ -136,14 +137,17 @@ class LocationsController < ApplicationController
   private
 
   def location_parameters
-    params.require(:location).permit(:is_hq, :is_provider, :is_active, :name, :name2, :tollfree, :tollfree_ext, :phone, :phone_ext, :tty, :tty_ext, :fax, :url_title, :url, :url2_title, :url2, :email, :logistics, :hours_of_operation, :comment, new_plans: [], pha_contact: [:name,:title,:phone,:email])
+    params.require(:location).permit(:is_hq, :is_provider, :is_active, :name, :name2, :tollfree, :tollfree_ext, :phone,
+                                     :phone_ext, :tty, :tty_ext, :fax, :url_title, :url, :url2_title, :url2, :email, :logistics,
+                                     :hours_of_operation, :comment, plan_hq: [], new_plans: [], pha_contact: [:name,:title,:phone,:email],
+                                     restriction_attr: [:id, :minimum_age, :age_restricted_phone, :max_poverty, :age_and_income, :special_district, :other_restrictions, :delete_marker])
   end
 
   def dropin_address_parameters
-    params.require(:dropin_address).permit(:line1, :line2, :city, :state_abbrev)
+    params.require(:dropin_address).permit(:line1, :line2, :city, :state_abbrev, :plan_hq)
   end
 
   def mailing_address_parameters
-    params.require(:mailing_address).permit(:line1, :line2, :city, :state_abbrev)
+    params.require(:mailing_address).permit(:line1, :line2, :city, :state_abbrev, :plan_hq)
   end
 end

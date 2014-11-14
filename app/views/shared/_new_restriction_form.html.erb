@@ -1,4 +1,4 @@
-<% fields_for "#{is_location ? 'location' : 'plan'}[restriction_attr][]", new_restriction_form do |r| %>
+<%= fields_for "#{is_location ? 'location' : 'plan'}[restriction_attr][]", new_restriction_form do |r| %>
 <%= r.hidden_field :create_new, :value => false %>
 
 <% if is_location %>

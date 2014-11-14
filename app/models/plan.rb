@@ -57,7 +57,7 @@ class Plan < ActiveRecord::Base
     return if @catchall_employees.nil?
     @catchall_employees.split(', ').each do |e|
       # MySQL is case insensitive, so we grab all matching employees and do the comparisons on our own
-      unless et=EmployeeType.find(:all, :conditions => ['name = ?', e]).select{|emp| emp.name==e}.first
+      unless et=EmployeeType.all.where(['name = ?', e]).select{|emp| emp.name==e}.first
         et=EmployeeType.new
         et.name = e
         et.save!

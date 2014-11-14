@@ -113,7 +113,7 @@ class PlansController < ApplicationController
     else
       # setting object @new_restrictions in order to correct displaying partial _new_restriction_form.rhtml
       @new_restrictions = @plan.get_empty_restrictions
-      render :action => "edit"
+      render :edit
     end
   end
 
@@ -143,7 +143,10 @@ class PlansController < ApplicationController
   private
 
   def plans_parameters
-    params.require(:plan).permit(:plan, :is_active, :name, :name2, :plan_type1, :plan_type2, :start_date_formatted, :end_date_formatted, :govt_employee_type, :description, :comments, :covered_employees, :catchall_employees, :url_title, :url, :email, :admin_url_title, :admin_url, :spd_url_title, :spd_url, :tpa_url_title, :tpa_url);
+    params.require(:plan).permit(:is_active, :name, :name2, :plan_type1, :plan_type2, :start_date_formatted, :end_date_formatted,
+                                 :govt_employee_type,:description, :comments, :covered_employees, :catchall_employees, :url_title, :url,
+                                 :email, :admin_url_title, :admin_url, :spd_url_title, :spd_url, :tpa_url_title, :tpa_url,:location_hq, new_locations: [],
+    restriction_attr: [:id, :minimum_age, :age_restricted_phone, :max_poverty, :age_and_income, :special_district, :other_restrictions, :delete_marker, :plan_id, :create_new])
   end
 
 end

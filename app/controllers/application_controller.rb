@@ -12,6 +12,36 @@ class ApplicationController < ActionController::Base
     !Rails.env.development?
   end
 
+  def get_counties_for_states
+    begin
+      @states = params[:states].split(',').collect{|s| State.find_by_abbrev(s)}
+    rescue ActiveRecord::RecordNotFound
+      nil
+    end
+    @county_ids = params[:county_ids]
+    render :partial => '/shared/counties', :locals => {:states => @states, :id_prefix => params[:id_prefix]}, :layout => false
+  end
+
+  def get_cities_for_counties
+    begin
+      @counties = params[:counties].split(',').collect{|c| County.find(c)} if (params[:counties] != nil)
+    rescue ActiveRecord::RecordNotFound
+      nil
+    end
+    @city_ids = params[:city_ids]
+    render :partial => '/shared/cities', :locals => {:counties => @counties, :id_prefix => params[:id_prefix]}, :layout => false
+  end
+
+  def get_zips_for_counties
+    begin
+      @counties = params[:counties].split(',').collect{|c| County.find(c)} if (params[:counties]!=nil)
+    rescue ActiveRecord::RecordNotFound
+      nil
+    end
+    @zip_ids = params[:zip_ids]
+    render :partial => '/shared/zips', :locals => {:counties => @counties, :id_prefix => params[:id_prefix]}, :layout => false
+  end
+
   protected
 
   def configure_permitted_parameters

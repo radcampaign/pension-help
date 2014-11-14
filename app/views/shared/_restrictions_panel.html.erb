@@ -12,7 +12,7 @@
     :locals => {:is_location => is_location} %>
 
 <%= render :partial => '/shared/new_restriction_form',
-    :collection => new_restrictions,
+    :collection => @new_restrictions,
     :locals => {:is_location => is_location} %>
 
 <li class="clear left fullwidth" id="newRestrictionLink">
@@ -21,13 +21,13 @@
 
 
 <script type="text/javascript">
-  var restrictionsLiIds = [<%= new_restrictions.collect{|r| "#{r.id}, "} %>];
+  var restrictionsLiIds = <%= raw new_restrictions.collect{|r| "#{r.id}"} %>;
   var currIndex = -1; //currently displayed new restriction <LI>
   Event.observe( window, 'load',
     function() {
       restrictionsLiIds.each(
         function(item) {
-          $('restriction_' + item).hide();
+            jQuery('#restriction_' + item).hide();
         }
       );
     }
@@ -37,9 +37,9 @@
     currIndex++;
     /* show a new Restriction div */
     if (currIndex < restrictionsLiIds.length) {
-      if ($('empty_restriction')) { $('empty_restriction').hide() };
-      $('restriction_' + restrictionsLiIds[currIndex]).show();
-      $('<%= is_location ? 'location' : 'plan' %>[restriction_attr]_' + restrictionsLiIds[currIndex] + '_create_new').value = '1';
+      if (jQuery('#empty_restriction')) { jQuery('#empty_restriction').hide() };
+        jQuery('#restriction_' + restrictionsLiIds[currIndex]).show();
+        jQuery('#<%= is_location ? 'location' : 'plan' %>[restriction_attr]_' + restrictionsLiIds[currIndex] + '_create_new').value = '1';
     }
   }
 </script>
