@@ -76,7 +76,6 @@ HOW TO RUN TEST
 
 - Important! You have to run rails server to perform tests!
 
-
 TO RUN SELENIUM TEST FROM CONSOLE YOU HAVE TO RUN FOLLOWING COMMAND IN CONSOLE ( you have to be in directory where selenium-server file is placed )
 
 java -jar selenium-server-standalone-2.44.0.jar -port 4444 -htmlSuite "*firefox /Applications/Firefox.app/Contents/MacOS/firefox-bin" "http://localhost:3000/" "./selenium/complete_test_suite.html" "TestSuiteResult.html"
@@ -86,3 +85,7 @@ java -jar selenium-server-standalone-2.44.0.jar -port 4444 -htmlSuite "*firefox 
 
 Please reaload db afterwards as zip file contains only couple sample codes
 
+# Staging configuration
+
+staging:
+secret_key_base: = e855b0eabe27a7fd8cd2cff7600a29bcde404f2141c09f9e99fa77aabcbb5b166bacb88a123a46a1ed7a78dcc753cfe30d6916e4cab82e1114783e278e4c0d0d
