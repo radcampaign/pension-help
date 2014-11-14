@@ -174,8 +174,13 @@ class Counseling < ActiveRecord::Base
                  else
                    other_matches # for "I Don't Know" employer type
                end
-
-    agencies.flatten.uniq.compact
+    results = agencies.flatten.uniq.compact
+    if selected_plan_id
+      results.each do |a|
+        a.matching_plans.delete_if { |p| (p.id != selected_plan_id.to_i) && (a.agency_category_id == 3);}
+      end
+    end
+    results
   end
 
   def matching_plans

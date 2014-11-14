@@ -81,6 +81,8 @@ TO RUN SELENIUM TEST FROM CONSOLE YOU HAVE TO RUN FOLLOWING COMMAND IN CONSOLE (
 
 java -jar selenium-server-standalone-2.44.0.jar -port 4444 -htmlSuite "*firefox /Applications/Firefox.app/Contents/MacOS/firefox-bin" "http://localhost:3000/" "./selenium/complete_test_suite.html" "TestSuiteResult.html"
 
-# Testing zipimport
+# Testing zip import
 > ruby shell/load_zip_download.rb --db_user=root --db_pass= --db_host=localhost --db_name=pha_development --filedir=test/files/
+
+Please reaload db afterwards as zip file contains only couple sample codes
 
