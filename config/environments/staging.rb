@@ -1,8 +1,8 @@
 Rails.application.configure do
 
 config.cache_classes = true
-config.action_controller.consider_all_requests_local = false
-config.action_controller.perform_caching             = true
+config.consider_all_requests_local = false
+config.perform_caching = true
 
 config.action_mailer.default_url_options = { :host => "ec2-107-20-224-223.compute-1.amazonaws.com" }
 
