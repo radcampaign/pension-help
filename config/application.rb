@@ -21,6 +21,8 @@ module PensionHelp
     # config.i18n.default_locale = :de
 
     # see. http://stackoverflow.com/questions/5267998/rails-3-field-with-errors-wrapper-changes-the-page-appearance-how-to-avoid-t
+
+    config.active_record.default_timezone = :local
     config.action_view.field_error_proc = Proc.new { |html_tag, instance|
       "<span class=\"fieldWithErrors\">#{html_tag}</span>".html_safe
 
