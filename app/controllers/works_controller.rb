@@ -20,9 +20,7 @@ class WorksController < ApplicationController
     @partner = Partner.new(partner_params)
     if @partner.save
       flash[:notice] = "Thank you for registering!"
-      Mailer.deliver_npln_application(@partner) if @partner.wants_npln
       Mailer.aaa_application(@partner).deliver if @partner.wants_pal
-      Mailer.deliver_lsp_application(@partner) if @partner.wants_lsp
       redirect_to '/works/index'
     else
       if @partner.wants_npln?
