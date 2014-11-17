@@ -1,0 +1,5 @@
+environments:
+  staging:
+    precompile_assets: true
+  production:
+    precompile_assets: true
