@@ -95,4 +95,5 @@ run "ln -nfs #{config.shared_path}/config/secrets.yml #{config.release_path}/con
 - Add secret key to secrets.yml file on QA server ( shared folder )
 
 staging:
+airbrake_key_base: 8eeeb09ec76d2442a745fea6cc48a2cf
 secret_key_base: e855b0eabe27a7fd8cd2cff7600a29bcde404f2141c09f9e99fa77aabcbb5b166bacb88a123a46a1ed7a78dcc753cfe30d6916e4cab82e1114783e278e4c0d0d

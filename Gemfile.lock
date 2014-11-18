@@ -49,6 +49,9 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     acts_as_commentable (4.0.2)
+    airbrake (4.1.0)
+      builder
+      multi_json
     arel (5.0.1.20140414130214)
     awesome_nested_set (3.0.1)
       activerecord (>= 4.0.0, < 5)
@@ -166,6 +169,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_commentable
+  airbrake
   annotate!
   awesome_nested_set
   coffee-rails (~> 4.0.0)

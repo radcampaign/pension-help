@@ -71,6 +71,9 @@ gem "schema_plus"
 # Gem for pagination used on
 gem 'will_paginate', '~> 3.0'
 
+# Gem for integration with airbrake.io ( for exception logging )
+gem 'airbrake'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
