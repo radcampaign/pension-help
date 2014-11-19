@@ -9,7 +9,6 @@ class ApplicationController < ActionController::Base
 
   force_ssl :if => :ssl_configured?
 
-  include AuthenticatedSystem
   include ExceptionNotification
 
   def ssl_configured?
@@ -60,9 +59,9 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
 
-    if current_user.is_admin?
+    if resource.is_admin?
       '/admin/menu'
-    elsif current_user.is_network_user?
+    elsif resource.is_network_user?
      '/partners/edit'
     else
      '/'

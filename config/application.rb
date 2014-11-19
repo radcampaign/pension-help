@@ -28,6 +28,7 @@ module PensionHelp
 
     }
 
+    config.autoload_paths << Rails.root.join('app')
     config.autoload_paths << Rails.root.join('lib')
   end
 end

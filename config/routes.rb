@@ -17,7 +17,6 @@ Rails.application.routes.draw do
 
   resources :partners, only: [:index, :show, :edit, :destroy]
 
-
   resources :works, only: [:index, :create] do
     get 'pal'
     get 'npln'
@@ -35,6 +34,20 @@ Rails.application.routes.draw do
     delete "users/sign_out", :to => 'devise/sessions#destroy'
     post "users/sign_in", :to => 'session#create'
   end
+
+  # resources :help do
+  #   collection do
+  #     get :counseling
+  #     post :step_2
+  #     get :step_3
+  #     get :step_5
+  #     get :results
+  #     get :last_step
+  #     post :email
+  #     post :check_aoa_zip
+  #     post :process_last_step
+  #   end
+  # end
 
   match ':controller/:action.:format', via: [:get, :post, :patch]
   match ':controller/:action/:id.:format', via: [:get, :post, :patch]
