@@ -7,14 +7,14 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   http_basic_authenticate_with name: "pha", password: "ph2012a", if: :http_authentication_required , only: [:new]
 
-  # force_ssl :if => :ssl_configured?
+  force_ssl :if => :ssl_configured?
 
   include AuthenticatedSystem
   include ExceptionNotification
 
-  # def ssl_configured?
-  #   !Rails.env.development?
-  # end
+  def ssl_configured?
+    !Rails.env.development?
+  end
 
   def get_counties_for_states
     begin
