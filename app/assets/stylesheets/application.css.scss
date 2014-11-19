@@ -216,13 +216,13 @@ abbr {
 #page-wrapper {
   width: 1044px;
   margin: 0px auto;
-  background: url("shadow-left.png") repeat-y;
+  background: asset_data_url("shadow-left.png") repeat-y;
 }
 #page-wrapper-inner {
-  background: url("shadow-right.png") top right repeat-y
+  background: asset_data_url("shadow-right.png") top right repeat-y
 }
 #header {
-  background: url("header-background.png") repeat-y scroll 0 0 transparent;
+  background: asset_data_url("header-background.png") repeat-y scroll 0 0 transparent;
   height: 165px;
 }
 #header img.left {
@@ -1047,7 +1047,7 @@ form.admin_form span.regular-label label {
 }
 
 .email-this-page {
-  background-image: url('email-this-page.png');
+  background-image: asset_data_url('email-this-page.png');
   height: 39px;
   width: 140px;
   display: inline-block;
