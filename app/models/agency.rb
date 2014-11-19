@@ -185,20 +185,18 @@ class Agency < ActiveRecord::Base
       conditions_params << "%#{filter.get_agency_name}%"
     end
 
-    search_params = ""
+    search_params = {}
 
     if conditions_query.any?
-      search_params= ([conditions_query.join(" AND ")] + conditions_params).flatten
+      search_params = ([conditions_query.join(" AND ")] + conditions_params).flatten
     end
 
-    all_agencies = Agency.joins(:plans, locations: [:agency, :dropin_address, :restrictions]).where(search_params).to_a.uniq{ |agency| agency.name }.collect { |agency| [agency.id, agency] }.flatten
-
+    all_agencies = Hash[*Agency.joins(:plans, locations: [:agency, :dropin_address, :restrictions]).where(search_params).to_a.uniq{ |agency| agency.name }.collect { |agency| [agency.id, agency] }.flatten]
     #if we filter by agency's provider type, and given agency is not 'proper',
     # we put its id in this table so we don't have to check it again.
     ignored_agencies_ids = Array.new
     #    [locations, plans].each do |arr|
-    [locations].each do |arr|
-      arr.each do |elem|
+    locations.each do |elem|
         agency_id = elem.agency_id
         #checks if we already have this agency or should be ignored
         if (!agencies_ids.include?(agency_id) && !ignored_agencies_ids.include?(agency_id))
@@ -216,7 +214,6 @@ class Agency < ActiveRecord::Base
           agencies[agency_id] = agency_tmp
           agencies_ids << agency_id
         end
-      end
     end
     agencies = agencies.values
     #mark which locations should be visible
