@@ -27,5 +27,7 @@ module PensionHelp
       "<span class=\"fieldWithErrors\">#{html_tag}</span>".html_safe
 
     }
+
+    config.autoload_paths << Rails.root.join('lib')
   end
 end
