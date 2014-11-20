@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: comments
+#
+#  id               :integer          not null, primary key
+#  title            :string(50)       default("")
+#  comment          :text
+#  created_at       :datetime         not null
+#  commentable_id   :integer          default(0), not null
+#  commentable_type :string(15)       default(""), not null
+#  user_id          :integer          default(0), not null
+#
+
 class Comment < ActiveRecord::Base
   belongs_to :commentable, :polymorphic => true
   
@@ -7,15 +20,6 @@ class Comment < ActiveRecord::Base
   
   # NOTE: Comments belong to a user
   belongs_to :user
-  
-  # Helper class method to lookup all comments assigned
-  # to all commentable types for a given user.
-  def self.find_comments_by_user(user)
-    find(:all,
-      :conditions => ["user_id = ?", user.id],
-      :order => "created_at DESC"
-    )
-  end
   
   # Helper class method to look up all comments for 
   # commentable class name and commentable id.

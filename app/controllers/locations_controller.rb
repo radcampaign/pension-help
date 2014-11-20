@@ -29,7 +29,6 @@ class LocationsController < ApplicationController
     @location.is_provider = true 
     @location.is_active = true 
     render :template => 'locations/edit'
-    #render :partial => 'locations/location_detail', :layout => false
   end
 
   # GET /locations/1;edit

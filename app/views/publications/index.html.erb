@@ -15,9 +15,9 @@
     <th>Url title</th>
   </tr>
   
-<% for publication in @publications %>
+<% @publications.each do |publication| %>
   <tr>
-    <td><%=h publication.name %></td>
+    <td><%=h publication.agency.name %></td>
     <td><%=h publication.phone %></td>
     <td><%=h publication.phone_ext %></td>
     <td><%=h publication.tollfree %></td>

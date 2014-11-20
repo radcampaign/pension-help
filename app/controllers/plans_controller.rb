@@ -32,7 +32,6 @@ class PlansController < ApplicationController
     #@plan.build_restriction
     @plan.is_active = true
     render :template => 'plans/edit'
-#    render :partial => 'plans/plan_detail', :layout => false
   end
 
   # GET /plans/1;edit
@@ -40,7 +39,6 @@ class PlansController < ApplicationController
     @plan = @agency.plans.find(params[:id])
     @new_restrictions = @plan.get_empty_restrictions
     #@plan.build_restriction if !@plan.restriction
-#    render :partial => 'plans/plan_detail', :layout => false
   end
 
   # POST /plans
