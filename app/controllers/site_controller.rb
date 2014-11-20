@@ -14,5 +14,9 @@ class SiteController < ApplicationController
     @dest_url = params[:dest] ? CGI::unescape(params[:dest]) : self.request.host+":"+self.request.port.to_s
     @dest_url = "http://" + @dest_url unless @dest_url.include? "http://" or @dest_url.include? "https://"
   end
+
+  def internal_error
+    render 'site/505', :status => 500
+  end
   
 end

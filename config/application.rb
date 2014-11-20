@@ -27,7 +27,7 @@ module PensionHelp
       "<span class=\"fieldWithErrors\">#{html_tag}</span>".html_safe
 
     }
-
+    config.exceptions_app = self.routes
     config.autoload_paths << Rails.root.join('app')
     config.autoload_paths << Rails.root.join('lib')
   end

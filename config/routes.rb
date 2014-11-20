@@ -54,6 +54,8 @@ Rails.application.routes.draw do
   match ':controller/:action/:id', via: [:get, :post, :patch]
   match ':controller/:action/', via: [:get, :post, :patch]
 
+  match "/500", :to => "sites#internal_error", via: 'get'
+
   get '*url', to: 'site#show_page'
 
   # The priority is based upon order of creation: first created -> highest priority.
