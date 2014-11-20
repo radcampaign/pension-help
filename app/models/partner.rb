@@ -1,3 +1,42 @@
+# == Schema Information
+#
+# Table name: partners
+#
+#  id                                           :integer          not null, primary key
+#  first_name                                   :string(80)
+#  last_name                                    :string(80)
+#  company                                      :string(255)
+#  line_1                                       :string(255)
+#  line_2                                       :string(255)
+#  city                                         :string(50)
+#  state_abbrev                                 :string(2)
+#  zip_code                                     :string(10)
+#  phone                                        :string(20)
+#  fax                                          :string(20)
+#  email                                        :string(255)
+#  url                                          :string(255)
+#  other_info                                   :text
+#  wants_npln                                   :boolean          default(FALSE)
+#  wants_pal                                    :boolean          default(FALSE)
+#  preferred_method_of_contact                  :integer
+#  fee_for_initial_consultation                 :string(255)
+#  hourly_continuous_fee                        :string(255)
+#  professional_certifications_and_affiliations :string(255)
+#  has_other_areas_of_expertise                 :boolean          default(FALSE)
+#  other_areas_of_expertise                     :string(255)
+#  dr_lawyer                                    :boolean          default(FALSE)
+#  has_other_level_of_participation             :boolean          default(FALSE)
+#  other_level_of_participation                 :string(255)
+#  law_practice_states                          :string(255)
+#  law_practice_circuits                        :string(255)
+#  us_supreme_court                             :boolean          default(FALSE)
+#  malpractice_insurance                        :boolean          default(FALSE)
+#  tollfree_number                              :string(255)
+#  local_number                                 :string(255)
+#  office_location                              :text
+#  wants_lsp                                    :boolean          default(FALSE)
+#
+
 class Partner < ActiveRecord::Base
   has_and_belongs_to_many :professions
   has_and_belongs_to_many :sponsor_types

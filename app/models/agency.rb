@@ -1,3 +1,36 @@
+# == Schema Information
+#
+# Table name: agencies
+#
+#  id                 :integer          not null, primary key
+#  agency_category_id :integer
+#  result_type_id     :integer
+#  name               :string(255)
+#  name2              :string(255)
+#  description        :text
+#  data_source        :string(255)
+#  is_active          :boolean
+#  url                :string(255)
+#  url_title          :string(255)
+#  url2               :string(255)
+#  url2_title         :string(255)
+#  comments           :text
+#  services_provided  :text
+#  use_for_counseling :boolean
+#  created_at         :datetime
+#  updated_at         :datetime
+#  updated_by         :string(255)
+#  legacy_code        :string(10)
+#  legacy_status      :string(255)
+#  legacy_category1   :string(255)
+#  legacy_category2   :string(255)
+#  fmp2_code          :string(10)
+#  pha_contact_name   :string(255)
+#  pha_contact_title  :string(255)
+#  pha_contact_phone  :string(20)
+#  pha_contact_email  :string(255)
+#
+
 # Schema version: 41
 #
 # Table name: agencies

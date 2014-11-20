@@ -1,3 +1,46 @@
+# == Schema Information
+#
+# Table name: counselings
+#
+#  id                      :integer          not null, primary key
+#  zipcode                 :string(255)
+#  employment_start        :date
+#  employment_end          :date
+#  is_divorce_related      :boolean
+#  is_survivorship_related :boolean
+#  work_state_abbrev       :string(255)
+#  hq_state_abbrev         :string(255)
+#  pension_state_abbrev    :string(255)
+#  is_over_60              :boolean
+#  monthly_income          :decimal(10, 2)
+#  number_in_household     :integer
+#  employer_type_id        :integer
+#  federal_plan_id         :integer
+#  military_service_id     :integer
+#  military_branch_id      :integer
+#  military_employer_id    :integer
+#  pension_earner_id       :integer
+#  state_abbrev            :string(255)
+#  county_id               :integer
+#  city_id                 :integer
+#  created_at              :datetime
+#  is_afscme_member        :boolean
+#  selected_plan_id        :integer
+#  currently_employed      :boolean
+#  plan_name               :string(255)
+#  agency_name             :string(255)
+#  job_function            :string(255)
+#  feedback_email          :string(255)
+#  lost_plan               :boolean
+#  behalf                  :string(255)
+#  behalf_other            :string(255)
+#  gender                  :string(255)
+#  marital_status          :string(255)
+#  age                     :integer
+#  ethnicity               :string(255)
+#  abc_path                :string(255)
+#
+
 class Counseling < ActiveRecord::Base
   def self.human_attribute_name(*args)
     case args[0].to_s

@@ -1,10 +1,9 @@
 # == Schema Information
-# Schema version: 41
 #
 # Table name: states
 #
-#  abbrev :string(2)     not null, primary key
-#  name   :string(50)    
+#  abbrev :string(2)        default(""), not null, primary key
+#  name   :string(50)
 #
 
 class State < ActiveRecord::Base

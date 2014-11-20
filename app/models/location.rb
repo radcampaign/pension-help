@@ -1,3 +1,41 @@
+# == Schema Information
+#
+# Table name: locations
+#
+#  id                 :integer          not null, primary key
+#  agency_id          :integer
+#  name               :string(255)
+#  name2              :string(255)
+#  is_hq              :boolean
+#  is_provider        :boolean
+#  tollfree           :string(20)
+#  tollfree_ext       :string(10)
+#  phone              :string(20)
+#  phone_ext          :string(10)
+#  tty                :string(20)
+#  tty_ext            :string(10)
+#  fax                :string(20)
+#  email              :string(255)
+#  hours_of_operation :string(255)
+#  logistics          :string(255)
+#  updated_at         :datetime
+#  legacy_code        :string(10)
+#  legacy_subcode     :string(10)
+#  fmp2_code          :string(10)
+#  updated_by         :string(255)
+#  url                :string(255)
+#  url_title          :string(255)
+#  url2               :string(255)
+#  url2_title         :string(255)
+#  position           :integer
+#  pha_contact_name   :string(255)
+#  pha_contact_title  :string(255)
+#  pha_contact_phone  :string(20)
+#  pha_contact_email  :string(255)
+#  comment            :text
+#  is_active          :boolean          default(TRUE)
+#
+
 require 'restrictions_updater'
 
 class Location < ActiveRecord::Base
