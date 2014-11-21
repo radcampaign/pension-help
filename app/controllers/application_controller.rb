@@ -61,8 +61,6 @@ class ApplicationController < ActionController::Base
 
     if resource.is_admin?
       '/admin/menu'
-    elsif resource.is_network_user?
-     '/partners/edit'
     else
      '/'
     end

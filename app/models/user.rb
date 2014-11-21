@@ -57,10 +57,6 @@ class User < ActiveRecord::Base
     has_relevant_roles([ADMIN_ROLE])
   end
 
-  def is_network_user?
-    has_relevant_roles([NETWORK_USER_ROLE])
-  end
-
   #Only admins can do that.
   def can_manage_partners?
     has_relevant_roles([ADMIN_ROLE])
