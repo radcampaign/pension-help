@@ -54,7 +54,7 @@ class ApplicationController < ActionController::Base
   end
 
   def http_authentication_required
-    Rails.env === "staging" && is_a?(::DeviseController)
+    Rails.env === "staging"
   end
 
   def after_sign_in_path_for(resource)
