@@ -423,7 +423,7 @@ ul.links.inline li {
   -moz-border-radius: 4px 4px 4px 4px
 }
 #content .ui-widget-content {
-  background: url("ui-bg_flat_75_ffffff_40x100.png") repeat-x scroll 50% 50% #FFFFFF;
+  background: asset_data_url("ui-bg_flat_75_ffffff_40x100.png") repeat-x scroll 50% 50% #FFFFFF;
   border: 1px solid #AAAAAA;
   color: #222222;
 }
@@ -476,7 +476,7 @@ ul.links.inline li {
 }
 #content .ui-state-active,
 #content .ui-widget-content .ui-state-active {
-  background: url("ui-bg_glass_65_f1e9b1_1x400.png") repeat-x scroll 50% 50% #FFFFFF;
+  background: asset_data_url("ui-bg_glass_65_f1e9b1_1x400.png") repeat-x scroll 50% 50% #FFFFFF;
   border: 1px solid #AAAAAA;
   color: #212121;
   font-weight: normal;
@@ -484,7 +484,7 @@ ul.links.inline li {
 }
 #content .ui-state-default,
 #content .ui-widget-content .ui-state-default {
-  background: url("ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 50% #E6E6E6;
+  background: asset_data_url("ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 50% #E6E6E6;
   border: 1px solid #D3D3D3;
   color: #555555;
   font-weight: normal;
@@ -496,7 +496,7 @@ ul.links.inline li {
 }
 #content .ui-state-default,
 #content .ui-widget-content .ui-state-default {
-  background: url("ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 50% #E6E6E6;
+  background: asset_data_url("ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 50% #E6E6E6;
   border: 1px solid #D3D3D3;
   color: #555555;
   font-weight: normal;
@@ -504,7 +504,7 @@ ul.links.inline li {
 }
 #content .ui-state-active,
 #content .ui-widget-content .ui-state-active {
-  background: url("ui-bg_glass_65_f1e9b1_1x400.png") repeat-x scroll 50% 50% #FFFFFF;
+  background: asset_data_url("ui-bg_glass_65_f1e9b1_1x400.png") repeat-x scroll 50% 50% #FFFFFF;
   border: 1px solid #AAAAAA;
   color: #212121;
   font-weight: normal;
@@ -535,7 +535,7 @@ ul.links.inline li {
   color: #ff002e
 }
 .more {
-  background: url("triangle.png") no-repeat scroll 7px 2px transparent;
+  background: asset_data_url("triangle.png") no-repeat scroll 7px 2px transparent;
   list-style: none outside none;
   margin: 0 0 10px;
   padding: 0 25px;
@@ -1126,7 +1126,7 @@ html[xmlns] .clearfix {
 }
 
 .help .separator {
-  background-image: url('help-separator.png');
+  background-image: asset_data_url('help-separator.png');
   margin: 20px 0 0;
   height: 21px;
   width: 100%;
@@ -1200,7 +1200,7 @@ label {
 }
 
 .field.rq p {
-  background: transparent url('mandatory-field.png') no-repeat left 11px;
+  background: transparent asset_data_url('mandatory-field.png') no-repeat left 11px;
   padding-left: 25px;
 }
 
@@ -1280,7 +1280,7 @@ label {
 }
 
 .help .form-error label {
-  background: transparent url('error-alert.png') no-repeat 0% 8px;
+  background: transparent asset_data_url('error-alert.png') no-repeat 0% 8px;
   padding-left: 24px;
   width: 606px;
 }
