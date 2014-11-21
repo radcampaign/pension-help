@@ -21,7 +21,7 @@ class WorksController < ApplicationController
     if @partner.save
       flash[:notice] = "Thank you for registering!"
       Mailer.aaa_application(@partner).deliver if @partner.wants_pal
-      redirect_to '/works/index'
+      redirect_to works_path
     else
       if @partner.wants_npln?
         render :action => "npln"

@@ -22,7 +22,7 @@
 </table>
 </div><br/>
 <div id="catchall_save">
-<%= button_to 'Save and Return to List', {:action => 'index'}, :class => "center" %>
+<%= button_to 'Save and Return to List', state_index_path, :class => "center", method: :get %>
 </div>
 
 <%= sortable_element 'catchall_employee_list', 

@@ -4,9 +4,9 @@
           <%= link_to_unless_current 'Home', '/' %>
           |
           <% if user_signed_in? %>
-                  <%= link_to_unless_current 'Management', :controller => '/admin', :action => 'menu' %>
+                  <%= link_to_unless_current 'Management', :controller => '/admin/menu', :action => :index %>
                   |
-                  <%= link_to 'Logout', :controller => '/account', :action => 'logout' %>
+                  <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
           <% end %>
   </div>
 

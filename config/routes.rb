@@ -2,25 +2,78 @@ Rails.application.routes.draw do
 
   devise_for :users
 
+  devise_scope :user do
+    get "account/login", :to => "devise/sessions#new"
+    delete "users/sign_out", :to => 'devise/sessions#destroy'
+    post "users/sign_in", :to => 'session#create'
+  end
+
   root 'site#show_page', :url => '/'
 
   namespace :admin do
-    resources :content
+    get :menu
+
+    resources :content do
+      collection do
+        get :list
+      end
+    end
     resources :images, only: [:index]
     resources :menu, only: [:index]
+    resources :site do
+      collection do
+        get :show_page
+      end
+    end
+    resources :feedback do
+      collection do
+        get :show_form
+      end
+    end
   end
 
   resources :agencies do
-    resources :locations
-    resources :plans
+    resources :locations do
+      collection do
+        get :get_cities_for_counties
+        get :get_zips_for_counties
+        get :get_counties_for_states
+      end
+    end
+    resources :plans do
+      collection do
+        get :get_cities_for_counties
+        get :get_zips_for_counties
+        get :get_counties_for_states
+      end
+    end
+    collection do
+      get :go_to_agencies
+      get :get_cities_for_counties
+      get :get_zips_for_counties
+      get :get_counties_for_states
+      get :switch_counseling
+      get :switch_active
+      get :sort_plan
+      post :ajax_search
+      post :sort_plan
+    end
+  end
+
+
+  resources :state do
+    collection do
+      get :catchall_employees
+      post :sort_catchall_employee
+    end
   end
 
   resources :partners, only: [:index, :show, :edit, :destroy]
 
-  resources :works, only: [:index, :create] do
-    get 'pal'
-    get 'npln'
-    get 'questions'
+  resources :feedback do
+    collection do
+      post :save_feedback
+    end
   end
 
   resources :feedbacks, only: [:index, :show, :update, :edit, :delete], :controller => :feedback do
@@ -29,30 +82,28 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_scope :user do
-    get "account/login", :to => "devise/sessions#new"
-    delete "users/sign_out", :to => 'devise/sessions#destroy'
-    post "users/sign_in", :to => 'session#create'
+  resources :help do
+    collection do
+      get :counseling
+      get :resources
+      get :step_3
+      get :step_5
+      get :results
+      get :last_step
+      post :step_2
+      post :email
+      post :check_aoa_zip
+      post :process_last_step
+    end
   end
 
-  # resources :help do
-  #   collection do
-  #     get :counseling
-  #     post :step_2
-  #     get :step_3
-  #     get :step_5
-  #     get :results
-  #     get :last_step
-  #     post :email
-  #     post :check_aoa_zip
-  #     post :process_last_step
-  #   end
-  # end
-
-  match ':controller/:action.:format', via: [:get, :post, :patch]
-  match ':controller/:action/:id.:format', via: [:get, :post, :patch]
-  match ':controller/:action/:id', via: [:get, :post, :patch]
-  match ':controller/:action/', via: [:get, :post, :patch]
+  resources :works, only: [:index, :create] do
+    collection do
+      get :pal
+      get :npln
+      get :questions
+    end
+  end
 
   match "/500", :to => "site#internal_error", via: [:get]
 
