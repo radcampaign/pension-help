@@ -6,7 +6,7 @@ Rails.application.config.middleware.use ExceptionNotification::Rack,
                            :email => {
                                :email_prefix => "[PHA ERROR] ",
                                :sender_address => %("PHA Application Error" <do_not_reply@freeportmetrics.com>),
-                               :exception_recipients => %w(jakub@freeportmetrics.com matuszewski@freeportmetrics.com dan@freeportmetrics.com)
+                               :exception_recipients => %w(jakub@freeportmetrics.com matuszewski@freeportmetrics.com alicja@freeportmetrics.com dan@freeportmetrics.com)
                            }
 end
 

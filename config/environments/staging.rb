@@ -61,10 +61,10 @@ ActionMailer::Base.smtp_settings = {
     :password => 'pha:1021'
 }
 
-EMAIL_RECIPIENT = "jakub@freeportmetrics.com"
-EMAIL_FROM = "jakub@freeportmetrics.com"
-LINK_CHECKER_RECIPIENT = "jakub@freeportmetrics.com"
-LINK_CHECKER_FROM = "jakub@freeportmetrics.com"
+EMAIL_RECIPIENT = "alicja@freeportmetrics.com"
+EMAIL_FROM = "alicja@freeportmetrics.com"
+LINK_CHECKER_RECIPIENT = "alicja@freeportmetrics.com"
+LINK_CHECKER_FROM = "alicja@freeportmetrics.com"
 
 GA_ACCOUNT = '123TEST'
 GA_EXPERIMENTS = '123TEST'
