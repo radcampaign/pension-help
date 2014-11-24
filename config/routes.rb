@@ -11,8 +11,6 @@ Rails.application.routes.draw do
   root 'site#show_page', :url => '/'
 
   namespace :admin do
-    get :menu
-
     resources :content do
       collection do
         get :list
@@ -60,13 +58,14 @@ Rails.application.routes.draw do
     end
   end
 
-
   resources :state do
     collection do
       get :catchall_employees
       post :sort_catchall_employee
     end
   end
+
+  resources :publications
 
   resources :partners, only: [:index, :show, :edit, :destroy]
 
