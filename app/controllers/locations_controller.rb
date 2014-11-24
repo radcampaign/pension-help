@@ -45,11 +45,11 @@ class LocationsController < ApplicationController
     end
     params[:location][:new_plans] ||= []  # in case no checkboxes are checked
     params[:location][:plan_hq] ||= []  # in case no checkboxes are checked
-    @location = @agency.locations.build(params[:location])
+    @location = @agency.locations.build(location_parameters)
     @location.updated_by = current_user.login
-    @location.mailing_address = @location.build_mailing_address(params[:mailing_address])
+    @location.mailing_address = @location.build_mailing_address(mailing_address_parameters)
     @location.mailing_address.address_type='mailing'
-    @location.dropin_address = @location.build_dropin_address(params[:dropin_address])
+    @location.dropin_address = @location.build_dropin_address(dropin_address_parameters)
     @location.dropin_address.address_type='dropin'
 
     update_pha_contact
@@ -62,7 +62,7 @@ class LocationsController < ApplicationController
       flash[:notice] = 'Location was successfully created.'
       redirect_to edit_agency_url(@agency) and return if params['update_and_return']
       redirect_to agencies_path() and return if params['update_and_list']
-      redirect_to edit_location_url(:agency_id => @agency, :id => @location)
+      redirect_to edit_agency_location_url(:agency_id => @agency, :id => @location)
     else
       flash[:error] = "There was a problem trying to save your information."  # flash not being set by validations ????
       # setting object @new_restrictions in order to correct displaying partial _new_restriction_form.rhtml
