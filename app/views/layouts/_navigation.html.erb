@@ -1,4 +1,4 @@
-<div id="navigation" class="no-print">
+ <div id="navigation" class="no-print">
  <ul>
   <%= content_tag :li, :class => current_class('home')  do %>
       <%= link_to "Home",'/' %>
@@ -13,11 +13,11 @@
   <% end %>
 
   <%= content_tag :li, :class => current_class('about_us')  do %>
-      <%= link_to 'About Us', :controller => 'site', :action => "show_page", :url => 'about_us' %>
+      <%= link_to 'About Us',  '/about_us' %>
   <% end %>
 
   <%= content_tag :li, :class => current_class('feedback')  do %>
-    <%= link_to 'Contact Us', :controller => "feedback", :action => "show_form" %>
+    <%= link_to 'Contact Us', "/feedbacks/show_form" %>
   <% end %>
  </ul>
 </div>
