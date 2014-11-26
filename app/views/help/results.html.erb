@@ -13,7 +13,7 @@
 
     <% if @results.any? || @ask_user_for_email || @counseling.lost_plan %>
         <div class="field-odd">
-            <%= form_tag url_for(:controller => "help", :action => "email"), id: 'emailResultForm', :remote => true do %>
+            <%= form_tag url_for(:controller => "help", :action => "email"), :onsubmit => "new Ajax.Request('/help/email', {asynchronous:true, evalScripts:true, method:'post', parameters:Form.serialize(this)}); return false;" do %>
                 <label>
                     Enter your email address below to receive a copy of these results in
                     your inbox:<br/>

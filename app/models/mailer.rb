@@ -22,7 +22,6 @@ class Mailer < ActionMailer::Base
     @from = EMAIL_FROM
     @sent_on = Time.now
     @subject = "PHA: PAL Application"
-
     @partner = partner
     mail(to: @recipients, subject: @subject, from: @from, date: @sent_on)
   end
@@ -46,12 +45,9 @@ class Mailer < ActionMailer::Base
     @recipients = email
     @from = EMAIL_FROM
     @subject = "Your PensionHelp America results"
-
-
     @counseling = counseling
     @results = results
     @lost_plan_resources = lost_plan_resources
-
     mail(to: @recipients, subject: @subject, from: @from, date: @sent_on)
   end
 

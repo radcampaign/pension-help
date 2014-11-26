@@ -311,7 +311,7 @@ class HelpController < ApplicationController
       else
         @counseling = Counseling.find params[:id]
         @results = @counseling.matching_agencies
-        @lost_plan_resources = Content.find_by_url('lost_plan_resources').content rescue nil if  params[:lost_plan_request].to_s == "1"
+        @lost_plan_resources = Content.find_by_url('lost_plan_resources').content.html_safe rescue nil if  params[:lost_plan_request].to_s == "1"
 
         if params[:contact].to_s == "1"
           @counseling.feedback_email = params[:email]
