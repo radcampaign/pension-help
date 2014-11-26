@@ -89,10 +89,19 @@ Rails.application.routes.draw do
       get :step_5
       get :results
       get :last_step
+      post :get_after_plan_selection_questions
+      post :show_available_plans
+      post :show_second_question
+      post :show_third_question
+      post :show_fourth_question
+      post :show_fifth_question
       post :step_2
       post :email
       post :check_aoa_zip
       post :process_last_step
+      post :process_step_3
+      post :process_step_5
+      post :get_counties
     end
   end
 
