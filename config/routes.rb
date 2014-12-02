@@ -85,6 +85,7 @@ Rails.application.routes.draw do
     collection do
       get :counseling
       get :resources
+      get :step_2
       get :step_3
       get :step_5
       get :results
@@ -95,7 +96,6 @@ Rails.application.routes.draw do
       post :show_third_question
       post :show_fourth_question
       post :show_fifth_question
-      post :step_2
       post :email
       post :check_aoa_zip
       post :process_last_step
