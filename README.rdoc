@@ -46,7 +46,7 @@ You can use script/reload-and-migrate-db to clear and repopulate your db from du
 
 export RAILS_ENV='development'; ./script/reload-and-migrate-db
 
-Password to all accounts: stuart eg. stuart/fmetrics1017
+Password to all accounts: stuart eg. stuart/fmetrics1017 (old passwords before add_devise.. migration)
 
 To migrate:
 
