@@ -36,6 +36,9 @@ Rails.application.routes.draw do
         get :get_cities_for_counties
         get :get_zips_for_counties
         get :get_counties_for_states
+        post :get_cities_for_counties
+        post :get_zips_for_counties
+        post :get_counties_for_states
       end
     end
     resources :plans do
@@ -96,6 +99,7 @@ Rails.application.routes.draw do
       post :show_third_question
       post :show_fourth_question
       post :show_fifth_question
+      post :step_2
       post :email
       post :check_aoa_zip
       post :process_last_step

@@ -25,7 +25,7 @@
     Marked fields are mandatory.
   </p>
 
-  <%= form_for :counseling, :url => { :action => :step_2 }, method: 'GET' do |f| %>
+  <%= form_for :counseling, :url => { :action => :step_2 } do |f| %>
 
     <%= render :partial => "help/questions/zipcode", :locals => { :f => f } %>
 
