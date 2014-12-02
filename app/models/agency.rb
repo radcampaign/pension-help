@@ -224,7 +224,7 @@ class Agency < ActiveRecord::Base
       search_params = ([conditions_query.join(" AND ")] + conditions_params).flatten
     end
 
-    all_agencies = Hash[*Agency.joins(:plans, locations: [:agency, :dropin_address, :restrictions]).where(search_params).to_a.uniq{ |agency| agency.name }.collect { |agency| [agency.id, agency] }.flatten]
+    all_agencies = Hash[*Agency.where(search_params).includes(:plans, locations: [:agency, :dropin_address, :restrictions]).references(:plans).to_a.uniq{ |agency| agency.name }.collect { |agency| [agency.id, agency] }.flatten]
     #if we filter by agency's provider type, and given agency is not 'proper',
     # we put its id in this table so we don't have to check it again.
     ignored_agencies_ids = Array.new
