@@ -90,8 +90,6 @@ class Counseling < ActiveRecord::Base
 
   DEFAULT_ZIP = "20036"
 
-  AVAILABLE_PATHS = ['A', 'B', 'C']
-
   validates_inclusion_of :behalf,
                          :in => BEHALF_OPTIONS.keys,
                          :message => "of is required",
