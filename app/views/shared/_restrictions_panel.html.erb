@@ -39,7 +39,7 @@
     if (currIndex < restrictionsLiIds.length) {
       if (jQuery('#empty_restriction')) { jQuery('#empty_restriction').hide() };
         jQuery('#restriction_' + restrictionsLiIds[currIndex]).show();
-        jQuery('#<%= is_location ? 'location' : 'plan' %>[restriction_attr]_' + restrictionsLiIds[currIndex] + '_create_new').value = '1';
+        jQuery('#<%= is_location ? 'location' : 'plan' %>_restriction_attr_' + restrictionsLiIds[currIndex] + '_create_new').val('true');
     }
   }
 </script>

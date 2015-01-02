@@ -41,6 +41,10 @@ class Restriction < ActiveRecord::Base
   def should_be_destroyed?
     delete_marker.to_i == 1
   end
+
+  def should_be_created?
+    create_new == 'true'
+  end
   
   def state_abbrevs
     states.collect(&:abbrev)

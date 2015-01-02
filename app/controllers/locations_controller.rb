@@ -139,7 +139,7 @@ class LocationsController < ApplicationController
     params.require(:location).permit(:is_hq, :is_provider, :is_active, :name, :name2, :tollfree, :tollfree_ext, :phone,
                                      :phone_ext, :tty, :tty_ext, :fax, :url_title, :url, :url2_title, :url2, :email, :logistics,
                                      :hours_of_operation, :comment, plan_hq: [], new_plans: [], pha_contact: [:name,:title,:phone,:email],
-                                     restriction_attr: [:id, :minimum_age, :age_restricted_phone, :max_poverty, :age_and_income, :special_district, :other_restrictions, :delete_marker])
+                                     restriction_attr: [:id, :minimum_age, :age_restricted_phone, :max_poverty, :age_and_income, :special_district, :other_restrictions, :delete_marker, :create_new])
   end
 
   def dropin_address_parameters
