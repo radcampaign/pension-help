@@ -141,6 +141,7 @@ class Counseling < ActiveRecord::Base
   def validate_zip_and_employment
     errors.add :zipcode if (!zipcode.blank? && !ZipImport.find(zipcode) rescue true)
     errors.add(:zipcode, "is required") if zipcode.blank?
+    errors.add(:zipcode, "has to be 5 digit number") if zipcode.size != 5
     if step == 3 && employer_type_id == 1 && employment_end.blank?
       errors.add(:employment_end, "date is required") unless self.currently_employed == true
     end
