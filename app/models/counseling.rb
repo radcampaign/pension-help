@@ -90,8 +90,6 @@ class Counseling < ActiveRecord::Base
 
   DEFAULT_ZIP = "20036"
 
-  AVAILABLE_PATHS = ['A', 'B', 'C']
-
   validates_inclusion_of :behalf,
                          :in => BEHALF_OPTIONS.keys,
                          :message => "of is required",
@@ -138,6 +136,8 @@ class Counseling < ActiveRecord::Base
 
   before_validation :before_validation_callback
 
+  has_many :result_rows
+
   def validate_zip_and_employment
     errors.add :zipcode if (!zipcode.blank? && !ZipImport.find(zipcode) rescue true)
     errors.add(:zipcode, "is required") if zipcode.blank?
@@ -176,6 +176,9 @@ class Counseling < ActiveRecord::Base
                 :non_us_resident,
                 :income_unanswered,
                 :number_in_household_unanswered
+
+
+  after_create :save_result
 
 
   def yearly_income
@@ -221,7 +224,7 @@ class Counseling < ActiveRecord::Base
     results = agencies.flatten.uniq.compact
     if selected_plan_id
       results.each do |a|
-        a.matching_plans.delete_if { |p| (p.id != selected_plan_id.to_i) && (a.agency_category_id == 3);}
+        a.matching_plans.delete_if { |p| (p.id != selected_plan_id.to_i) && (a.agency_category_id == 3); }
       end
     end
     results
@@ -706,7 +709,16 @@ class Counseling < ActiveRecord::Base
     end
 
     self.zipcode = DEFAULT_ZIP if self.zipcode.blank? && self.non_us_resident == "1"
+    puts self.zipcode.blank?
+    puts self.non_us_resident
     self.is_over_60 = (Date.today.year - self.age.to_i) > 60
     true
+  end
+
+
+  def save_result
+    matching_agencies.each do |agency|
+      ResultRow.create!(location: agency.best_location(self), counseling: self)
+    end
   end
 end

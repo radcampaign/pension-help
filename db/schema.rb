@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141121085637) do
+ActiveRecord::Schema.define(version: 20141223025511) do
 
   create_table "agency_categories", force: true do |t|
     t.string  "name"
@@ -971,6 +971,15 @@ ActiveRecord::Schema.define(version: 20141121085637) do
     t.string  "zipcode",        limit: 5, null: false
     t.index ["zipcode", "restriction_id"], :name => "index_restrictions_zips_on_zipcode_and_restriction_id"
     t.foreign_key ["restriction_id"], "restrictions", ["id"], :on_update => :restrict, :on_delete => :restrict, :name => "restrictions_zips_ibfk_1"
+  end
+
+  create_table "result_rows", force: true do |t|
+    t.integer "location_id",   null: false
+    t.integer "counseling_id", null: false
+    t.index ["counseling_id"], :name => "fk__result_rows_counseling_id"
+    t.index ["location_id"], :name => "fk__result_rows_location_id"
+    t.foreign_key ["counseling_id"], "counselings", ["id"], :on_update => :restrict, :on_delete => :restrict, :name => "fk_result_rows_counseling_id"
+    t.foreign_key ["location_id"], "locations", ["id"], :on_update => :restrict, :on_delete => :restrict, :name => "fk_result_rows_location_id"
   end
 
   create_table "roles", force: true do |t|

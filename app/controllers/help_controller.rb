@@ -34,7 +34,6 @@ class HelpController < ApplicationController
       @options = CounselAssistance.employer_types
       update_session
       render :action => "counseling"
-
     else
       @counseling.step = 1
       @states = CounselAssistance.states
@@ -262,6 +261,7 @@ class HelpController < ApplicationController
     get_previous_to_from_step
     @counseling = update_counseling({})
     @counseling.step = 10
+    puts @counseling.id
     update_session
   end
 
@@ -296,6 +296,7 @@ class HelpController < ApplicationController
         @counseling.selected_plan_id.nil?
         @ask_user_for_email = true
     end
+    update_session
     @results
   end
 
@@ -451,7 +452,14 @@ class HelpController < ApplicationController
       # yaml doesn't load rails classes in production so we just reference it before reloading
       # see http://alisdair.mcdiarmid.org/2013/02/02/fixing-rails-auto-loading-for-serialized-objects.html
       Counseling.class
-      @counseling = session[:counseling] ? Counseling.new(ActiveSupport::JSON.decode(session[:counseling])) : Counseling.new
+      if session[:counseling]
+        attributes = ActiveSupport::JSON.decode(session[:counseling])
+        id = attributes['id']
+        @counseling = id ? Counseling.find(id.to_i) : Counseling.new
+        @counseling.attributes = attributes # to refresh non persistent attributes
+      else
+        @counseling = Counseling.new
+      end
     end
     @counseling
   end
@@ -553,3 +561,5 @@ class HelpController < ApplicationController
   end
 
 end
+
+
