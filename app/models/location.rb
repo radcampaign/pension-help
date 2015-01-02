@@ -1,3 +1,43 @@
+# == Schema Information
+#
+# Table name: locations
+#
+#  id                 :integer          not null, primary key
+#  agency_id          :integer
+#  name               :string(255)
+#  name2              :string(255)
+#  is_hq              :boolean
+#  is_provider        :boolean
+#  tollfree           :string(20)
+#  tollfree_ext       :string(10)
+#  phone              :string(20)
+#  phone_ext          :string(10)
+#  tty                :string(20)
+#  tty_ext            :string(10)
+#  fax                :string(20)
+#  email              :string(255)
+#  hours_of_operation :string(255)
+#  logistics          :string(255)
+#  updated_at         :datetime
+#  legacy_code        :string(10)
+#  legacy_subcode     :string(10)
+#  fmp2_code          :string(10)
+#  updated_by         :string(255)
+#  url                :string(255)
+#  url_title          :string(255)
+#  url2               :string(255)
+#  url2_title         :string(255)
+#  position           :integer
+#  pha_contact_name   :string(255)
+#  pha_contact_title  :string(255)
+#  pha_contact_phone  :string(20)
+#  pha_contact_email  :string(255)
+#  comment            :text
+#  is_active          :boolean          default(TRUE)
+#
+
+require 'restrictions_updater'
+
 class Location < ActiveRecord::Base
   #include restrictions update code which exactly same for Locations and Plans
   include RestrictionsUpdater
@@ -7,16 +47,13 @@ class Location < ActiveRecord::Base
   has_many :restrictions, :dependent => :destroy
   has_many :location_plan_relationships, :dependent => :destroy
   has_many :plans_served, :through => :location_plan_relationships, :source => :plan
-
-  has_one :mailing_address, :class_name => 'Address',
-            :conditions => "address_type = 'mailing'"
-  has_one :dropin_address, :class_name => 'Address',
-            :conditions => "address_type =  'dropin'"
+  has_one :mailing_address, -> { where(address_type: 'mailing') }, :class_name => 'Address'
+  has_one :dropin_address, -> { where(address_type: 'dropin') }, :class_name => 'Address'
   before_save :update_plans_served
 
-  validates_presence_of     :name
+  validates_presence_of :name
 
-  composed_of :pha_contact, :class_name => PhaContact,
+  composed_of :pha_contact, :class_name => 'PhaContact',
     :mapping => [
       [:pha_contact_name, :name],
       [:pha_contact_title, :title],

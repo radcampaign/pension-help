@@ -1,0 +1,34 @@
+<div id="content-no-sidebar" class="help">
+  <h1>Find Help</h1>
+  <div id="counseling_errors">
+    <%= render :partial => "help/counseling_errors",
+      :locals => { "counseling" => @counseling } %>
+  </div>
+
+  <p class="intro">
+    Ready to find resources to help you find answers to questions you have about
+    your retirement plan?<br/>
+    Let's get started!
+  </p>
+
+  <p class="intro">
+    To make sure you receive the right type of referral, PensionHelp America
+    will guide you through a series of questions. Some legal service providers
+    offer services based on certain criteria. Answering these questions will
+    help us find a legal service provider to assist you.
+  </p>
+
+  <div class="separator">&nbsp;</div>
+
+  <p class="mandatory-fields">
+    <%= image_tag "mandatory-field.png" %>
+    Marked fields are mandatory.
+  </p>
+
+  <%= form_for :counseling, :url => { :action => :step_2 } do |f| %>
+
+    <%= render :partial => "help/questions/zipcode", :locals => { :f => f } %>
+
+    <%= render :partial => "help/navigation", :locals => { :previous => false } %>
+  <% end %>
+</div>

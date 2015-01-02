@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Pension Help America</title>
+    <%= stylesheet_link_tag 'application', media: 'screen'%>
+    <%= stylesheet_link_tag 'print', media: 'print' %>
+    <%= javascript_include_tag 'application'%>
+    <%= csrf_meta_tags %>
+    <%= tinymce_assets %>
+    <% if ENV['RAILS_ENV']=='production' || ENV['RAILS_ENV']=='staging' %>
+        <script type="text/javascript">
+
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', "<%= GA_ACCOUNT %>"]);
+            _gaq.push(['_trackPageview']);
+
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+    <% end %>
+    <link rel="shortcut icon" href="/favicon.ico"/>
+    <script type="text/javascript">var switchTo5x = true;</script>
+    <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">stLight.options({ publisher: "ced6544d-83c0-42b8-8039-dd01bbf94b6e" }); </script>
+</head>
+<body data-no-turbolink>
+<div id='spinner' style='display:none'><%= image_tag 'loading.gif', :id => 'ajax_spinner' %>Loading . . .</div>
+<div id="page-wrapper">
+    <div id="page-wrapper-inner">
+        <div id="page">
+            <%= render :partial => "layouts/header" %>
+            <%= render :partial => "layouts/navigation" %>
+            <%= image_tag "photo-header.jpg", :id => "photo-header" if request.path == '/' %>
+            <div id="main-wrapper">
+                <div id="main-content" class="clearfix">
+                    <div id="content">
+                        <%= raw(show_flash_message) %>
+                        <%= yield %>
+                    </div>
+                    <%= yield(:sidebar) %>
+                </div>
+            </div>
+            <%= render :partial => 'layouts/footer' %>
+        </div>
+    </div>
+</div>
+</body>
+</html>

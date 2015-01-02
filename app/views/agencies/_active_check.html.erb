@@ -1,0 +1,3 @@
+<%= link_to_remote image_tag(agency.is_active ? 'check_blue.gif' : 'close.gif'),
+		{:update => 'active_'+agency.id.to_s,
+		:url => {:controller => 'agencies', :action => 'switch_active', :id => agency.id}, :remote => true}  %>

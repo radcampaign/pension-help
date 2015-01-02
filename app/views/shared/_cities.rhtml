@@ -1,8 +1,0 @@
-<select name="<%= id_prefix %>city_ids[]" id="city_ids_<%= id_prefix %>" multiple=true size=6>
-  <% if !counties || counties.empty? %>
-    <option value=""> - Please select a county - </option>
-  <% else -%>
-    <option value=""> -- unrestricted -- </option>
-                <%= options_for_select counties.collect{|c| c.cities}.flatten.collect{|ct| [ct.state_abbrev+':'+ct.name, ct.id]}.sort, city_ids %>
-  <% end -%>
-</select><label>City</label>

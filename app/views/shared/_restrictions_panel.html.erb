@@ -1,0 +1,45 @@
+<%# partial params: restrictions(collection), is_location(boolean), new_restriction(collection)%>
+<% if restrictions.empty? %>
+  <li class="clear left fullwidth" id="empty_restriction">
+    <fieldset class="clear left"><legend class="desc">Restriction</legend>
+      <span class="none-found">No&nbsp;restrictions</span><br/><br/><div class="right"></div>
+    </fieldset>
+  </li>
+<% end %>
+
+<%= render :partial => '/shared/restriction_form',
+    :collection => restrictions,
+    :locals => {:is_location => is_location} %>
+
+<%= render :partial => '/shared/new_restriction_form',
+    :collection => @new_restrictions,
+    :locals => {:is_location => is_location} %>
+
+<li class="clear left fullwidth" id="newRestrictionLink">
+  <%= link_to_function 'Add a new restriction', 'displayNewRestrictionDiv()', :id => 'addNewRestrictionLink', :class => 'plain btn' %>
+</li>
+
+
+<script type="text/javascript">
+  var restrictionsLiIds = <%= raw new_restrictions.collect{|r| "#{r.id}"} %>;
+  var currIndex = -1; //currently displayed new restriction <LI>
+  Event.observe( window, 'load',
+    function() {
+      restrictionsLiIds.each(
+        function(item) {
+            jQuery('#restriction_' + item).hide();
+        }
+      );
+    }
+  );
+
+  function displayNewRestrictionDiv() {
+    currIndex++;
+    /* show a new Restriction div */
+    if (currIndex < restrictionsLiIds.length) {
+      if (jQuery('#empty_restriction')) { jQuery('#empty_restriction').hide() };
+        jQuery('#restriction_' + restrictionsLiIds[currIndex]).show();
+        jQuery('#<%= is_location ? 'location' : 'plan' %>_restriction_attr_' + restrictionsLiIds[currIndex] + '_create_new').val('true');
+    }
+  }
+</script>

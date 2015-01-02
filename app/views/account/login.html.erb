@@ -1,0 +1,32 @@
+<%= form_tag({},{:id=>'login_form'}) do %>
+<p><label for="login">Login</label><br/>
+<%= text_field_tag 'login' %></p>
+
+<p><label for="password">Password</label><br/>
+<%= password_field_tag 'password' %></p>
+
+<!-- Uncomment this if you want this functionality
+<p><label for="remember_me">Remember me:</label>
+<%= check_box_tag 'remember_me' %></p>
+-->
+
+<p><%= submit_tag 'Log in' %></p>
+<script type="text/javascript">
+	Form.focusFirstElement('login_form');
+</script>
+<% end %>
+
+<%= form_for(:user,  :html => {:id => 'login_form'}, :url => user_session_path, :remote => :true, :format => :json) do |f| %>
+    <p><label for="login">Login</label><br/>
+    <%= f.text_field :login, :autofocus => true, :placeholder => "login", :id => 'login' %>
+
+    <p><label for="password">Password</label><br/>
+    <%= f.password_field :password, :placeholder => "password", :id => 'login_password' %>
+
+    <% if devise_mapping.rememberable? %>
+        <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
+    <% end %>
+
+    <p><%= submit_tag 'Log in' %></p>
+<% end %>
+<%= link_to 'I forgot my password', :controller=>'passwords', :action=>'new' %>

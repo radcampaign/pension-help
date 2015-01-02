@@ -1,0 +1,141 @@
+<% @results.each_with_index do |agency, index| %>
+  <% if loc=agency.best_location(@counseling) %> <%# if we can't find a best_location, don't show the agency %>
+    <div class="agency_result">
+      <h2 id="agency_name_header"><%= agency.name -%><br/></h2>
+      <%= ('<h2>' + agency.name2 + '<br/></h2>').html_safe if !agency.name2.blank? -%>
+
+      <h3>
+        <% if agency.matching_plans[0] -%>
+          <% if @counseling.selected_plan and agency.matching_plans.include?(@counseling.selected_plan) %>
+            <%= @counseling.selected_plan.name %>
+          <% else %>
+            <%= agency.matching_plans.first.name if agency.matching_plans.first.name and !agency.name.eql?(agency.matching_plans.first.name) -%>
+          <% end %>
+        <% else -%>
+          <%= loc.name if !agency.name.eql?(loc.name) -%>
+        <% end -%>
+        <br/>
+      </h3>
+      <%= ('<h3>' + loc.name2 + '<br/></h3>').html_safe if !loc.name2.blank? -%>
+
+      <div class="agency_result_body">
+        <p class="normal">
+          <% if agency.matching_plans[0] and agency.matching_plans.first.description %>
+            <%= (@counseling.selected_plan and agency.matching_plans.include?(@counseling.selected_plan)) ? @counseling.selected_plan.description : agency.matching_plans.first.description %>
+          <% elsif agency.description %>
+            <%= agency.description %>
+          <% else %>
+          <% end %>
+        </p>
+
+        <table class="dropin_address">
+          <tr>
+            <td width="80px">Address:</td>
+            <td width="250px">
+              <%= loc.dropin_address.line1 %><br/>
+              <% if not loc.dropin_address.line2.blank? %>
+                <%= loc.dropin_address.line2 %><br/>
+              <% end -%>
+              <%= loc.dropin_address.city + ', ' + loc.dropin_address.state_abbrev + ' ' + loc.dropin_address.zip %>
+            </td>
+          </tr>
+        </table>
+
+        <table class="phone_info">
+          <% if @counseling.is_over_60 and loc.restrictions and not loc.restrictions.select{|r| not r.age_restricted_phone.blank?}.empty? %>
+            <tr>
+              <td width="80px">Toll Free:</td>
+              <td><%= loc.restrictions.map{|r| r.age_restricted_phone}.first %></td>
+            </tr>
+          <% elsif not loc.tollfree.blank? %>
+            <tr>
+              <td width="80px">Toll Free:</td>
+              <td><%= loc.tollfree + ' ' +  loc.tollfree_ext %></td>
+            </tr>
+          <% end %>
+
+          <% if not loc.phone.blank? %>
+            <tr>
+              <td width="80px">Local:</td><td><%= loc.phone + ' ' + loc.phone_ext %></td>
+            </tr>
+          <% end %>
+
+          <% if not loc.email.blank? %>
+            <tr>
+              <td width="80px">Email:</td><td><a href="mailto:<%= loc.email %>"><%= loc.email %></a></td>
+            </tr>
+          <% end %>
+        </table>
+
+        <% if not loc.mailing_address.line1.eql?(loc.dropin_address.line1) %>
+          <table class="mailing_address">
+            <tr>
+              <td width="80px">Mailing Address:</td>
+              <td width="250px">
+                <%= loc.mailing_address.line1 %><br/>
+                <% if not loc.mailing_address.line2.blank? %>
+                  <%= loc.mailing_address.line2 %><br/>
+                <% end %>
+                <%= loc.mailing_address.city + ', ' + loc.mailing_address.state_abbrev + ' ' + loc.mailing_address.zip %>
+              </td>
+            </tr>
+          </table>
+        <% end %>
+
+        <div class="result_buffer"></div>
+
+        <% if !loc.hours_of_operation.blank? %>
+          <table class="results_hours">
+            <tr>
+              <td style="padding-right:5px"><b>Hours:</b></td>
+              <td><%= loc.hours_of_operation %></td>
+            </tr>
+          </table>
+        <% end %>
+
+        <% if !loc.logistics.blank? %>
+          <table class="results_logistics">
+            <tr>
+              <td style="padding-right:5px"><b>Helpful Information:</b></td>
+              <td><%= loc.logistics %></td>
+            </tr>
+          </table>
+        <% end %>
+
+        <% if !agency.url.blank? || !agency.url2.blank? || !loc.url.blank? || !loc.url2.blank? %>
+          <table class="results_web">
+            <% unless loc.url.blank? %>
+              <tr>
+                <td style="padding-right:5px; width:105px"><b>On the Web:</b></td>
+                <td><%= link_to loc.url, loc.url %></td>
+              </tr>
+            <% end %>
+            <% unless loc.url2.blank? %>
+              <tr>
+                <td style="padding-right:5px; width:105px"><b>On the Web:</b></td>
+                <td><%= link_to loc.url2, loc.url2 %></td>
+              </tr>
+            <% end %>
+
+            <% unless agency.url.blank? %>
+              <tr>
+                <td style="padding-right:5px; width:105px"><b>On the Web:</b></td>
+                <td><%= link_to agency.url, agency.url %></td>
+              </tr>
+            <% end %>
+
+            <% unless agency.url2.blank? %>
+              <tr>
+                <td style="padding-right:5px; width:105px"><b>On the Web:</b></td>
+                <td><%= link_to agency.url2, agency.url2 %></td>
+              </tr>
+            <% end %>
+          </table>
+        <% end %>
+      </div>
+      <hr/><br/>
+    </div>
+  <% end -%>
+<% end -%>
+
+<p> If the service providers listed above are not able to assist you, contact the Pension Rights Center at (202) 296-3776 or www.pensionrights.org.</p>

@@ -1,9 +1,53 @@
+# == Schema Information
+#
+# Table name: plans
+#
+#  id                    :integer          not null, primary key
+#  agency_id             :integer
+#  name                  :string(255)
+#  name2                 :string(255)
+#  description           :text
+#  comments              :text
+#  start_date            :date
+#  end_date              :date
+#  covered_employees     :text
+#  plan_type1            :string(255)
+#  plan_type2            :string(255)
+#  plan_type3            :string(255)
+#  url                   :string(255)
+#  url_title             :string(255)
+#  admin_url             :string(255)
+#  admin_url_title       :string(255)
+#  tpa_url               :string(255)
+#  tpa_url_title         :string(255)
+#  spd_url               :string(255)
+#  spd_url_title         :string(255)
+#  govt_employee_type    :string(255)
+#  fmp2_code             :string(255)
+#  legacy_category       :string(255)
+#  legacy_status         :string(255)
+#  updated_at            :datetime
+#  updated_by            :string(255)
+#  email                 :string(255)
+#  position              :integer
+#  pha_contact_name      :string(255)
+#  pha_contact_title     :string(255)
+#  pha_contact_phone     :string(20)
+#  pha_contact_email     :string(255)
+#  is_active             :boolean          default(TRUE)
+#  previous_gov_employee :string(255)
+#  plan_category_id      :integer
+#
+
+require 'restrictions_updater'
+
 class Plan < ActiveRecord::Base
   include RestrictionsUpdater
   belongs_to :agency
+  belongs_to :plan_category
   has_one :publication
   has_many :restrictions, :dependent => :destroy
-  has_many :plan_catch_all_employees, :dependent => :destroy, :order => :position
+  has_many :plan_catch_all_employees, ->{order('position asc')}, :dependent => :destroy
   has_many :employee_types, :through => :plan_catch_all_employees
   has_many :location_plan_relationships, :dependent => :destroy
   has_many :serving_locations, :through => :location_plan_relationships, :source => :location
@@ -11,7 +55,7 @@ class Plan < ActiveRecord::Base
 
   validates_presence_of     :name
 
-  composed_of :pha_contact, :class_name => PhaContact,
+  composed_of :pha_contact, :class_name => 'PhaContact',
     :mapping => [
       [:pha_contact_name, :name],
       [:pha_contact_title, :title],
@@ -54,7 +98,7 @@ class Plan < ActiveRecord::Base
     return if @catchall_employees.nil?
     @catchall_employees.split(', ').each do |e|
       # MySQL is case insensitive, so we grab all matching employees and do the comparisons on our own
-      unless et=EmployeeType.find(:all, :conditions => ['name = ?', e]).select{|emp| emp.name==e}.first
+      unless et=EmployeeType.all.where(['name = ?', e]).select{|emp| emp.name==e}.first
         et=EmployeeType.new
         et.name = e
         et.save!
@@ -97,7 +141,7 @@ class Plan < ActiveRecord::Base
   end
 
   def closest_serving_location(zip)
-    serving_locations.map{|loc| loc.dropin_address}.sort_by_distance_from(zip).first.location
+    serving_locations.map{|loc| loc.dropin_address}.sort_by{|a| a.distance_from(zip)}.first.location
   end
 
 end

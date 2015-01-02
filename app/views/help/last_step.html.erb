@@ -1,0 +1,27 @@
+<div id="content-no-sidebar" class="help">
+  <div id="counseling_errors">
+    <%= render :partial => "help/counseling_errors",
+      :locals => { "counseling" => @counseling } %>
+  </div>
+
+  <p class="mandatory-fields">
+    <%= image_tag "mandatory-field.png" %>
+    Marked fields are mandatory.
+  </p>
+
+    <%= form_for @counseling, :url => { :action => :process_last_step} do |f| -%>
+
+
+      <%= render :partial => "help/questions/behalf", :locals => { :f => f } %>
+      <%= render :partial => "help/questions/gender", :locals => { :f => f } %>
+      <%= render :partial => "help/questions/marital_status", :locals => { :f => f } %>
+      <%= render :partial => "help/questions/age", :locals => { :f => f } %>
+      <%= render :partial => "help/questions/ethnicity", :locals => { :f => f } %>
+      <%= render :partial => "help/questions/monthly_income_tmp", :locals => { :f => f } %>
+      <%= render :partial => "help/questions/number_in_household", :locals => { :f => f } %>
+
+
+    <%= hidden_field_tag :previous_to, @previous_to %>
+    <%= render :partial => "help/navigation", :locals => { :previous => true } %>
+  <% end -%>
+</div>

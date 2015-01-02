@@ -1,24 +1,25 @@
 # == Schema Information
-# Schema version: 41
 #
 # Table name: restrictions
 #
-#  id                  :integer(11)   not null, primary key
-#  agency_id           :integer(11)   
-#  location_id         :integer(11)   
-#  plan_id             :integer(11)   
-#  minimum_age         :decimal(5, 2) 
-#  max_poverty         :decimal(5, 2) 
-#  special_district    :string(255)   
-#  other_restrictions  :text          
-#  created_at          :datetime      
-#  updated_at          :datetime      
-#  legacy_geo_states   :string(255)   
-#  legacy_code         :string(10)    
-#  legacy_subcode      :string(10)    
-#  fmp2_code           :string(10)    
-#  legacy_geo_counties :text          
-#  legacy_geo_cities   :text          
+#  id                   :integer          not null, primary key
+#  agency_id            :integer
+#  location_id          :integer
+#  plan_id              :integer
+#  minimum_age          :integer
+#  max_poverty          :integer
+#  special_district     :string(255)
+#  other_restrictions   :text
+#  created_at           :datetime
+#  updated_at           :datetime
+#  legacy_geo_states    :string(255)
+#  legacy_code          :string(10)
+#  legacy_subcode       :string(10)
+#  fmp2_code            :string(10)
+#  legacy_geo_counties  :text
+#  legacy_geo_cities    :text
+#  age_and_income       :boolean
+#  age_restricted_phone :string(20)
 #
 
 class Restriction < ActiveRecord::Base
@@ -39,6 +40,10 @@ class Restriction < ActiveRecord::Base
   
   def should_be_destroyed?
     delete_marker.to_i == 1
+  end
+
+  def should_be_created?
+    create_new == 'true'
   end
   
   def state_abbrevs

@@ -1,15 +1,18 @@
 # == Schema Information
-# Schema version: 41
 #
 # Table name: contents
 #
-#  id         :integer(11)   not null, primary key
+#  id         :integer          not null, primary key
 #  url        :string(255)
 #  title      :string(255)
 #  content    :text
 #  created_at :string(255)
 #  updated_at :datetime
 #  updated_by :string(255)
+#  parent_id  :integer
+#  lft        :integer
+#  rgt        :integer
+#  is_active  :boolean
 #
 
 class Content < ActiveRecord::Base
@@ -17,7 +20,7 @@ class Content < ActiveRecord::Base
 
   #Returns list of contents, ommits element with given id
   def Content.get_content_list(content_id = nil)
-    Content.root.full_set.collect{|elem| elem unless (content_id && elem.id == content_id) }.compact
+    Content.root.self_and_descendants.collect{|elem| elem unless (content_id && elem.id == content_id) }.compact
   end
 
   def show_sidebar?(url)

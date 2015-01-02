@@ -1,10 +1,9 @@
 # == Schema Information
-# Schema version: 41
 #
 # Table name: states
 #
-#  abbrev :string(2)     not null, primary key
-#  name   :string(50)    
+#  abbrev :string(2)        default(""), not null, primary key
+#  name   :string(50)
 #
 
 class State < ActiveRecord::Base
@@ -24,7 +23,7 @@ class State < ActiveRecord::Base
         end
         args << abbrev
       end
-      result = State.find(:all, :conditions => [cond, args].flatten)
+      result = State.all.where([cond, args].flatten)
     end
     result
   end
@@ -62,7 +61,7 @@ class State < ActiveRecord::Base
   end
   
   def catchall_employees
-    PlanCatchAllEmployee.find(:all, :conditions => ['plan_id in (?)', State.agency_matches(self.abbrev).collect{|agency| agency.plans}.flatten], :order => :position)
+    PlanCatchAllEmployee.all.where(['plan_id in (?)', State.agency_matches(self.abbrev).collect{|agency| agency.plans}.flatten]).order(:position)
     # State.agency_matches(self.abbrev).collect{|agency| agency.plans}.flatten.collect{|plan| plan.plan_catch_all_employees}.flatten
   end
   

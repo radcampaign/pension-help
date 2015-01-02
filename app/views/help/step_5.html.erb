@@ -1,0 +1,20 @@
+<div id="content-no-sidebar" style="width: 760px;">
+
+  <p class="intro border-bottom">This is the last step in getting you to the right pension-help resource. Answer the questions below and click <b style="color: #cc0000; ">NEXT</b> to continue.</p>
+
+  <p class="mandatory-fields">
+    <%= image_tag "mandatory-field.png" %>
+    Marked fields are mandatory.
+  </p>
+  <div class="separator">&nbsp;</div>
+
+    <%= form_for @counseling, :url => {:action => :process_step_5} do |form| -%>
+
+    <p class="normal">The American Federation of State, County and Municipal Employees (AFSCME) assists its members with pension counseling.</p>
+    <p class="normal">Are you, or was the pension earner, a member?: <%= form.radio_button :is_afscme_member, true %>&nbsp;Yes &nbsp;&nbsp;&nbsp;<%= form.radio_button :is_afscme_member, false %>&nbsp;No</p>
+
+    <%= hidden_field_tag :previous_to, "/help/step_2" %>
+    <%= render :partial => "help/navigation", :locals => { :previous => true } %>
+  <% end %>
+
+</div>

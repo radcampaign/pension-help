@@ -1,12 +1,11 @@
 # == Schema Information
-# Schema version: 41
 #
 # Table name: counties
 #
-#  id           :integer(11)   not null, primary key
-#  name         :string(255)   
-#  fips_code    :string(255)   
-#  state_abbrev :string(255)   
+#  id           :integer          not null, primary key
+#  name         :string(255)
+#  fips_code    :string(255)
+#  state_abbrev :string(255)
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

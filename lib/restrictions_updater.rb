@@ -47,7 +47,6 @@ module RestrictionsUpdater
           #create a new restriction or update attributes of exisitng one.
           if restriction.nil?
             restriction = Restriction.new(@restriction_attr[key])
-            restrictions << restriction
           else
             restriction.attributes = @restriction_attr[key]
           end
@@ -59,11 +58,14 @@ module RestrictionsUpdater
           restriction.zips = (zips_ids.nil? || zips_ids.empty? || zips_ids[0].blank? ) ? [] : Zip.find(zips_ids)
 
           #restriction is marked for deletion, however we skip 'new' restriction, that has not been saved yet.
-          if (restriction.should_be_destroyed? && !restriction.create_new)
+          if (restriction.should_be_destroyed? && !restriction.should_be_created?)
             restriction.destroy
           else
-            #update exisiting restriction, but leave creation o a new to one to calling save! on Location/Plans
-            restriction.save! if @restriction_attr[key][:create_new].blank?
+            #update exisiting restriction, but leave creation to a new to one to calling save! on Location/Plans
+            if @restriction_attr[key][:create_new] == 'true' || !(-4..-1).to_a.include?(key.to_i)
+              restrictions << restriction
+              restriction.save!
+            end
           end
         end
       end

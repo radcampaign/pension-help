@@ -17,13 +17,11 @@ class WorksController < ApplicationController
   end
 
   def create
-    @partner = Partner.new params[:partner]
+    @partner = Partner.new(partner_params)
     if @partner.save
       flash[:notice] = "Thank you for registering!"
-      Mailer.deliver_npln_application(@partner) if @partner.wants_npln
-      Mailer.deliver_aaa_application(@partner) if @partner.wants_pal
-      Mailer.deliver_lsp_application(@partner) if @partner.wants_lsp
-      redirect_to "/works"
+      Mailer.aaa_application(@partner).deliver if @partner.wants_pal
+      redirect_to works_path
     else
       if @partner.wants_npln?
         render :action => "npln"
@@ -62,4 +60,46 @@ class WorksController < ApplicationController
       render :action => :index
     end
   end
+
+
+  def partner_params
+    params.require(:partner).permit(
+        :first_name,
+        :last_name,
+        :company,
+        :line_1,
+        :line_2,
+        :city,
+        :state_abbrev,
+        :zip_code,
+        :phone,
+        :fax,
+        :email,
+        :url,
+        :other_info,
+        :wants_npln,
+        :wants_pal,
+        :preferred_method_of_contact,
+        :fee_for_initial_consultation,
+        :hourly_continuous_fee,
+        :professional_certifications_and_affiliations,
+        :has_other_areas_of_expertise,
+        :other_areas_of_expertise,
+        :dr_lawyer,
+        :has_other_level_of_participation,
+        :other_level_of_participation,
+        :law_practice_states,
+        :law_practice_circuits,
+        :us_supreme_court,
+        :malpractice_insurance,
+        :tollfree_number,
+        :local_number,
+        :office_location,
+        :wants_lsp,
+        :expertise_ids => [],
+        :assistance_ids => []
+    )
+  end
+
+
 end

@@ -1,19 +1,20 @@
 # == Schema Information
-# Schema version: 41
 #
 # Table name: feedbacks
 #
-#  id           :integer(11)   not null, primary key
+#  id           :integer          not null, primary key
 #  name         :string(255)
 #  email        :string(255)
 #  phone        :string(255)
 #  availability :string(255)
 #  category     :string(255)
 #  feedback     :text
-#  is_resolved  :boolean(1)
+#  is_resolved  :boolean          default(FALSE)
 #  created_at   :datetime
 #  updated_at   :datetime
+#  state_abbrev :string(2)
 #
+
 require "email"
 
 class Feedback < ActiveRecord::Base
@@ -46,6 +47,7 @@ class Feedback < ActiveRecord::Base
 
   validates_presence_of :category, :message => "^Feedback concern can't be blank"
   validates_presence_of :feedback
+  validate :validate_email
 
   private
 
@@ -59,7 +61,7 @@ class Feedback < ActiveRecord::Base
       sql_param << params[:resolved]
     end
 
-    if params[:category]
+    if params[:category] && params[:category] != ''
       sql_cond << 'feedbacks.category = ?'
       sql_param << (@@CATEGORIES.include?(params[:category]) ? params[:category] : '')
     end
@@ -92,7 +94,7 @@ class Feedback < ActiveRecord::Base
 
   protected
 
-  def validate
+  def validate_email
     if email.blank?
       self.errors.add(:email, "can't be blank")
     elsif email !~ EMAIL_REGEX

@@ -1,0 +1,23 @@
+ <div id="navigation" class="no-print">
+ <ul>
+  <%= content_tag :li, :class => current_class('home')  do %>
+      <%= link_to "Home",'/' %>
+  <% end %>
+
+  <%= content_tag :li, :class => current_class('counseling', 'employer_descriptions', 'help')  do %>
+      <%= link_to "Find Help", '/help/counseling' %>
+  <% end %>
+
+  <%= content_tag :li, :class => current_class('resources')  do %>
+      <%= link_to "Resources", "/help/resources" %>
+  <% end %>
+
+  <%= content_tag :li, :class => current_class('about_us')  do %>
+      <%= link_to 'About Us',  '/about_us' %>
+  <% end %>
+
+  <%= content_tag :li, :class => current_class('feedback')  do %>
+    <%= link_to 'Contact Us', "/feedbacks/show_form" %>
+  <% end %>
+ </ul>
+</div>

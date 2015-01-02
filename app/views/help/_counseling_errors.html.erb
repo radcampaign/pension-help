@@ -1,0 +1,6 @@
+<% if @counseling.errors.count > 0 %>
+	<div id="errorExplanation" class="errorExplanation">
+		<h4>Sorry, but we found a problem with your entries.</h4>
+		<p class="required"><%=  @counseling.errors.full_messages.join("<br/>").html_safe %></p>
+	</div>
+<% end -%>

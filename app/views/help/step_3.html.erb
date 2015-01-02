@@ -1,0 +1,49 @@
+<div id="content-no-sidebar" class="help">
+  <div id="counseling_errors">
+    <%= render :partial => "help/counseling_errors",
+      :locals => { "counseling" => @counseling } %>
+  </div>
+
+  <p class="mandatory-fields">
+    <%= image_tag "mandatory-field.png" %>
+    Marked fields are mandatory.
+  </p>
+  <div class="separator">&nbsp;</div>
+
+    <%= form_for @counseling, :url => { :action => :process_step_3 } do |f| -%>
+    <% if @counseling.employer_type_id == EMP_TYPE[:military] %>
+      <div class="clearfix field field-50">
+        <label for="counseling_pension_earner_id">
+          Who is the pension earner?
+        </label>
+        <p>
+          <%= f.select :pension_earner_id, @options,
+            { :include_blank => true }, {} %>
+        </p>
+      </div>
+
+      <div class="clearfix field field-odd">
+        <label for="counseling_is_divorce_related">
+          Does your question involve divorce?
+        </label>
+        <p>
+          <%= f.check_box :is_divorce_related %>
+        </p>
+      </div>
+
+      <div class="clearfix field">
+        <label for="counseling_is_survivorship_related">
+          Does your question involve survivorship?
+        </label>
+        <p>
+          <%= f.check_box :is_survivorship_related %>
+        </p>
+      </div>
+    <% end -%>
+
+    <p>&nbsp;</p>
+
+    <%= hidden_field_tag :previous_to, "/help/step_2" %>
+    <%= render :partial => "help/navigation", :locals => { :previous => true } %>
+  <% end -%>
+</div>

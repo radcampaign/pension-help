@@ -2,17 +2,18 @@ module AgenciesHelper
 
   #Prepares link_to_remote for Served Area page,
   #options contains new values for params, or markers for omitting those params
-  def agencies_filter_link_to_remote(label, params, options = {})
+  def agencies_filter_link_to_remote(label ,params, options = {})
     link_to_remote label,
         :update => 'search_results',
-        :url => prepare_url_params(params, options),
+        :url => render_url_from_params(params, options),
         :before => "Element.show('spinner')",
         :complete => "Element.hide('spinner')"
   end
 
   def agencies_filter_button_to_remote(label, params, options = {})
+
     function = remote_function(:update => 'search_results',
-        :url => prepare_url_params(params, options),
+        :url => render_url_from_params(params, options),
         :before => "Element.show('spinner')",
         :complete => "Element.hide('spinner')")
 
@@ -32,12 +33,12 @@ module AgenciesHelper
   end
 
   private
-  def prepare_url_params params, options
+
+  def render_url_from_params(params, options)
     url = Hash.new
     #these params does not change
     url[:action] = :ajax_search
     url[:report] = 'search'
-
     SEARCH_PARAMS.each do |param|
       #this param's value should be replaced
       if options.has_key?(param)
@@ -47,12 +48,12 @@ module AgenciesHelper
         url[param] = params[param]
       end
     end
-    return url
+    url
   end
 
   SEARCH_PARAMS = [
-    :state_abbrevs, :county_ids, :city_ids, :zip_ids, :order,
-    :active, :desc, :counseling, :agency_category_id, :provider, :commit,
-    :agency_name
+      :state_abbrevs, :county_ids, :city_ids, :zip_ids, :order,
+      :active, :desc, :counseling, :agency_category_id, :provider, :commit,
+      :agency_name
   ]
 end

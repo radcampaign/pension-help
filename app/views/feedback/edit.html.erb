@@ -1,0 +1,24 @@
+<h1>Edit Feedback</h1>
+<div id="feedback">
+  <%= render :partial => 'feedback_read_only', :locals => {:f => @feedback} %>
+</div>
+
+<%= render :partial => 'comments', :object => @comments %>
+
+<h2>Manage Feedback</h2>
+<div id="manageFeedback">
+  <%=  form_for @feedback, :url => feedback_path(), :html => {:method => "put"} do |f| %>
+    <table class="form">
+      <tr>
+        <td class="label"><label for="feedback_is_resolved">Resolved:</label></td>
+        <td class="element"><%= f.check_box :is_resolved %></td>
+      </tr>
+      <tr>
+        <td class="label">Comment: </td>
+        <td class="element"><%= text_area_tag :comment, params[:comment], {:cols => 50, :rows => 5} %></td>
+      </tr>
+    </table>
+    <%= submit_tag 'Save' %>
+  <% end %>
+</div>
+<%= link_to 'Return to list', feedbacks_path() %>

@@ -1,71 +1,112 @@
+# == Schema Information
+#
+# Table name: counselings
+#
+#  id                      :integer          not null, primary key
+#  zipcode                 :string(255)
+#  employment_start        :date
+#  employment_end          :date
+#  is_divorce_related      :boolean
+#  is_survivorship_related :boolean
+#  work_state_abbrev       :string(255)
+#  hq_state_abbrev         :string(255)
+#  pension_state_abbrev    :string(255)
+#  is_over_60              :boolean
+#  monthly_income          :decimal(10, 2)
+#  number_in_household     :integer
+#  employer_type_id        :integer
+#  federal_plan_id         :integer
+#  military_service_id     :integer
+#  military_branch_id      :integer
+#  military_employer_id    :integer
+#  pension_earner_id       :integer
+#  state_abbrev            :string(255)
+#  county_id               :integer
+#  city_id                 :integer
+#  created_at              :datetime
+#  is_afscme_member        :boolean
+#  selected_plan_id        :integer
+#  currently_employed      :boolean
+#  plan_name               :string(255)
+#  agency_name             :string(255)
+#  job_function            :string(255)
+#  feedback_email          :string(255)
+#  lost_plan               :boolean
+#  behalf                  :string(255)
+#  behalf_other            :string(255)
+#  gender                  :string(255)
+#  marital_status          :string(255)
+#  age                     :integer
+#  ethnicity               :string(255)
+#  abc_path                :string(255)
+#
+
 class Counseling < ActiveRecord::Base
   def self.human_attribute_name(*args)
     case args[0].to_s
-    when "hq_state_abbrev"
-      "Employer state"
-    when "work_state_abbrev"
-      "Work state"
-    when "pension_state_abbrev"
-      "State where pension is paid from"
-    when "age"
-      "Year of your birth"
-    else
-      super
+      when "hq_state_abbrev"
+        "Employer state"
+      when "work_state_abbrev"
+        "Work state"
+      when "pension_state_abbrev"
+        "State where pension is paid from"
+      when "age"
+        "Year of your birth"
+      else
+        super
     end
   end
 
   BEHALF_OPTIONS = ActiveSupport::OrderedHash.new
-  BEHALF_OPTIONS["self"]   = "Self"
+  BEHALF_OPTIONS["self"] = "Self"
   BEHALF_OPTIONS["parent"] = "Parent"
   BEHALF_OPTIONS["client"] = "Client"
   BEHALF_OPTIONS["spouse"] = "Spouse"
-  BEHALF_OPTIONS["other"]  = "Other"
-  BEHALF_OPTIONS["none"]   = "Prefer not to answer"
+  BEHALF_OPTIONS["other"] = "Other"
+  BEHALF_OPTIONS["none"] = "Prefer not to answer"
 
   GENDER_OPTIONS = ActiveSupport::OrderedHash.new
   GENDER_OPTIONS["female"] = "Female"
-  GENDER_OPTIONS["male"]   = "Male"
-  GENDER_OPTIONS["none"]   = "Prefer not to answer"
+  GENDER_OPTIONS["male"] = "Male"
+  GENDER_OPTIONS["none"] = "Prefer not to answer"
 
   MARITAL_STATUS_OPTIONS = ActiveSupport::OrderedHash.new
-  MARITAL_STATUS_OPTIONS["single"]    = "Single"
-  MARITAL_STATUS_OPTIONS["married"]   = "Married"
+  MARITAL_STATUS_OPTIONS["single"] = "Single"
+  MARITAL_STATUS_OPTIONS["married"] = "Married"
   MARITAL_STATUS_OPTIONS["separated"] = "Separated"
-  MARITAL_STATUS_OPTIONS["divorced"]  = "Divorced"
-  MARITAL_STATUS_OPTIONS["widowed"]   = "Widowed"
-  MARITAL_STATUS_OPTIONS["none"]      = "Prefer not to answer"
+  MARITAL_STATUS_OPTIONS["divorced"] = "Divorced"
+  MARITAL_STATUS_OPTIONS["widowed"] = "Widowed"
+  MARITAL_STATUS_OPTIONS["none"] = "Prefer not to answer"
 
   ETHNICITY_OPTIONS = ActiveSupport::OrderedHash.new
-  ETHNICITY_OPTIONS["white"]    = "White, non-Hispanic"
-  ETHNICITY_OPTIONS["black"]    = "Black or African American"
-  ETHNICITY_OPTIONS["indian"]   = "American Indian or Alaska Native"
+  ETHNICITY_OPTIONS["white"] = "White, non-Hispanic"
+  ETHNICITY_OPTIONS["black"] = "Black or African American"
+  ETHNICITY_OPTIONS["indian"] = "American Indian or Alaska Native"
   ETHNICITY_OPTIONS["hispanic"] = "Hispanic or Latino"
   ETHNICITY_OPTIONS["hawaiian"] = "Native Hawaiian or Pacific Islander"
-  ETHNICITY_OPTIONS["asian"]    = "Asian"
-  ETHNICITY_OPTIONS["other"]    = "Other"
-  ETHNICITY_OPTIONS["none"]     = "Prefer not to answer"
+  ETHNICITY_OPTIONS["asian"] = "Asian"
+  ETHNICITY_OPTIONS["other"] = "Other"
+  ETHNICITY_OPTIONS["none"] = "Prefer not to answer"
 
   DEFAULT_ZIP = "20036"
 
-  AVAILABLE_PATHS = ['A', 'B', 'C']
+  validates_inclusion_of :behalf,
+                         :in => BEHALF_OPTIONS.keys,
+                         :message => "of is required",
+                         :if => Proc.new { |c| c.question_required?(:behalf) }
 
-  validates_inclusion_of    :behalf,
-                            :in => BEHALF_OPTIONS.keys,
-                            :message => "of is required",
-                            :if => Proc.new { |c| c.question_required?(:behalf) }
+  validates_presence_of :behalf_other,
+                        :if => Proc.new { |c| c.behalf == "other" }
 
-  validates_presence_of     :behalf_other,
-                            :if => Proc.new { |c| c.behalf == "other" }
+  validates_inclusion_of :gender,
+                         :in => GENDER_OPTIONS.keys,
+                         :message => "is required",
+                         :if => Proc.new { |c| c.question_required?(:gender) }
 
-  validates_inclusion_of    :gender,
-                            :in => GENDER_OPTIONS.keys,
-                            :message => "is required",
-                            :if => Proc.new { |c| c.question_required?(:gender) }
-
-  validates_inclusion_of    :marital_status,
-                            :in => MARITAL_STATUS_OPTIONS.keys,
-                            :message => "is required",
-                            :if => Proc.new { |c| c.question_required?(:marital_status) }
+  validates_inclusion_of :marital_status,
+                         :in => MARITAL_STATUS_OPTIONS.keys,
+                         :message => "is required",
+                         :if => Proc.new { |c| c.question_required?(:marital_status) }
 
   validates_numericality_of :age,
                             :if => Proc.new { |c| c.question_required?(:age) }
@@ -75,25 +116,32 @@ class Counseling < ActiveRecord::Base
                               (c.question_required?(:number_in_household) && c.number_in_household_unanswered != '1')
                             }
 
-  validates_format_of       :monthly_income_tmp,
-                            :with    => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
-                            :message => "^Monthly income doesn't seem to be a valid amount",
-                            :if      => Proc.new { |c|
-                              c.question_required?(:monthly_income_tmp) && c.income_unanswered != '1' &&
-                              c.yearly_income_tmp.blank? && !c.monthly_income_tmp.blank?
-                            }
+  validates_format_of :monthly_income_tmp,
+                      :with => /\A\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?\z/,
+                      :message => "^Monthly income doesn't seem to be a valid amount",
+                      :if => Proc.new { |c|
+                        c.question_required?(:monthly_income_tmp) && c.income_unanswered != '1' &&
+                            c.yearly_income_tmp.blank? && !c.monthly_income_tmp.blank?
+                      }
 
-  validates_format_of       :yearly_income_tmp,
-                            :with    => /^\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?$/,
-                            :message => "^Yearly income doesn't seem to be a valid amount",
-                            :if => Proc.new { |c|
-                              c.question_required?(:yearly_income_tmp) && c.income_unanswered != '1' &&
-                              c.monthly_income_tmp.blank?
-                            }
+  validates_format_of :yearly_income_tmp,
+                      :with => /\A\$?((\d+)|(\d{1,3}(,\d{3})+))(\.\d{2})?\z/,
+                      :message => "^Yearly income doesn't seem to be a valid amount",
+                      :if => Proc.new { |c|
+                        c.question_required?(:yearly_income_tmp) && c.income_unanswered != '1' &&
+                            c.monthly_income_tmp.blank?
+                      }
 
-  def validate
+  validate :validate_zip_and_employment
+
+  before_validation :before_validation_callback
+
+  has_many :result_rows
+
+  def validate_zip_and_employment
     errors.add :zipcode if (!zipcode.blank? && !ZipImport.find(zipcode) rescue true)
     errors.add(:zipcode, "is required") if zipcode.blank?
+    errors.add(:zipcode, "has to be 5 digit number") if zipcode.size != 5
     if step == 3 && employer_type_id == 1 && employment_end.blank?
       errors.add(:employment_end, "date is required") unless self.currently_employed == true
     end
@@ -114,12 +162,13 @@ class Counseling < ActiveRecord::Base
   belongs_to :federal_plan
 
   validates_presence_of :employer_type_id,
-    :if => Proc.new { |c| c.step.to_s > "1" }
+                        :if => Proc.new { |c| c.step.to_s > "1" }
 
   #if Employer type = State Agency or Office
   validates_presence_of :work_state,
-    :if => Proc.new { |c| (c.step == '2a') && (c.employer_type == EmployerType[6] || c.employer_type == EmployerType[7] || c.employer_type == EmployerType[8])}
+                        :if => Proc.new { |c| (c.step == '2a') && (c.employer_type == EmployerType[6] || c.employer_type == EmployerType[7] || c.employer_type == EmployerType[8]) }
   # if income is entered, then number_in_household must be entered along with it (ok to leave both income and household blank)
+
 
   attr_accessor :monthly_income_tmp,
                 :yearly_income_tmp,
@@ -128,9 +177,14 @@ class Counseling < ActiveRecord::Base
                 :income_unanswered,
                 :number_in_household_unanswered
 
+
+  after_create :save_result
+
+
   def yearly_income
     @yearly_income
   end
+
   def yearly_income=(yearly_inc)
     @yearly_income = yearly_inc
     self.monthly_income = yearly_inc.to_i / 12 if !yearly_inc.blank?
@@ -139,44 +193,62 @@ class Counseling < ActiveRecord::Base
   def step=(step)
     @step=step
   end
+
   def step
     @step || 0
   end
 
   def matching_agencies
     agencies = case employer_type ? employer_type.name : nil
-    when 'Company or nonprofit':     company_matches
-    when 'Railroad':                 railroad_matches
-    when 'Religious institution':    religious_matches
-    when 'Federal agency or office': federal_matches
-    when 'Uniformed services':       military_matches
-    when 'State agency or office':   state_plan_matches + aoa_afscme_dsp
-    when 'County agency or office':  county_plan_agency_matches + aoa_afscme_dsp
-    when 'City or other local government agency or office': city_plan_agency_matches + aoa_afscme_dsp
-    when 'Farm Credit District, Bank or System Affiliate' : farm_credit_matches
-    else other_matches # for "I Don't Know" employer type
+                 when 'Company or nonprofit'
+                   company_matches
+                 when 'Railroad'
+                   railroad_matches
+                 when 'Religious institution'
+                   religious_matches
+                 when 'Federal agency or office'
+                   federal_matches
+                 when 'Uniformed services'
+                   military_matches
+                 when 'State agency or office'
+                   state_plan_matches + aoa_afscme_dsp
+                 when 'County agency or office'
+                   county_plan_agency_matches + aoa_afscme_dsp
+                 when 'City or other local government agency or office'
+                   city_plan_agency_matches + aoa_afscme_dsp
+                 when 'Farm Credit District, Bank or System Affiliate'
+                   farm_credit_matches
+                 else
+                   other_matches # for "I Don't Know" employer type
+               end
+    results = agencies.flatten.uniq.compact
+    if selected_plan_id
+      results.each do |a|
+        a.matching_plans.delete_if { |p| (p.id != selected_plan_id.to_i) && (a.agency_category_id == 3); }
+      end
     end
-
-    agencies.flatten.uniq.compact
+    results
   end
 
   def matching_plans
     case employer_type_id
-    when EMP_TYPE[:state]
-      state = State.find(:first, :conditions => { :abbrev => work_state_abbrev })
-      unless state.nil?
-        state.plan_matches
+      when EMP_TYPE[:state]
+        state = State.where(abbrev: work_state_abbrev).first
+        unless state.nil?
+          state.plan_matches
+        else
+          []
+        end
+      when EMP_TYPE[:county]
+        County.find(county_id).plan_matches
+      when EMP_TYPE[:city]
+        begin
+          City.find(city_id).plan_matches
+        rescue ActiveRecord::RecordNotFound
+          []
+        end
       else
-        []
-      end
-    when EMP_TYPE[:county] : County.find(county_id).plan_matches
-    when EMP_TYPE[:city]:
-      begin
-        City.find(city_id).plan_matches
-      rescue ActiveRecord::RecordNotFound
-        []
-      end
-    else Array.new
+        Array.new
     end
   end
 
@@ -193,8 +265,8 @@ class Counseling < ActiveRecord::Base
       where a.result_type_id = ?
         and a.use_for_counseling = 1 and a.is_active = 1
         and l.is_active = 1
-        SQL
-     State.find_by_sql([sql, ResultType['AoA']])
+    SQL
+    State.find_by_sql([sql, ResultType['AoA']])
   end
 
   def aoa_coverage
@@ -212,7 +284,7 @@ class Counseling < ActiveRecord::Base
         ELSE 3
         END
         LIMIT 1
-        SQL
+    SQL
     # CASE orders aoa agencies so that home state appears first (if there's more than one aoa covered state involved)
     Agency.find_by_sql([sql, ResultType['AoA'], work_state_abbrev,
                         hq_state_abbrev, pension_state_abbrev, home_state_abbrev, home_state_abbrev, work_state_abbrev])
@@ -220,12 +292,12 @@ class Counseling < ActiveRecord::Base
 
   #Conditions met to show step_5
   def show_step5?
-    ask_afscme = [6,7,8].include?(employer_type_id)
+    ask_afscme = [6, 7, 8].include?(employer_type_id)
     ask_afscme and aoa_coverage.blank?
   end
 
   def employee_list
-    PlanCatchAllEmployee.find(:all, :conditions => ['plan_id in (?)', matching_agencies.collect{|a| a.plans}.flatten], :order => :position).compact.collect{|emp| [EmployeeType.find(emp.employee_type_id).name, emp.plan_id]}
+    PlanCatchAllEmployee.where('plan_id', matching_agencies.collect { |a| a.plans }.flatten).to_a.compact.collect { |emp| [EmployeeType.find(emp.employee_type_id).name, emp.plan_id] }
   end
 
   def lost_plan_eligible?
@@ -233,7 +305,7 @@ class Counseling < ActiveRecord::Base
   end
 
   #######
-#  private
+  #  private
   #######
 
   def home_zip
@@ -261,7 +333,7 @@ class Counseling < ActiveRecord::Base
     sql = <<-SQL
       select 100 * (?/fpl) as value from poverty_levels
       where number_in_household = ? and geographic = ? order by year desc
-      SQL
+    SQL
     return Agency.find_by_sql([sql, monthly_income*12, hh, geo]).first.value
   end
 
@@ -302,7 +374,7 @@ class Counseling < ActiveRecord::Base
 
   def company_matches
     agencies = Array.new
-    d = Date.new(1976,1,1)
+    d = Date.new(1976, 1, 1)
     if employment_end.nil? or employment_end < d
       agencies << result_type_match('IRS')
     else
@@ -394,25 +466,25 @@ class Counseling < ActiveRecord::Base
     end
 
 ##########  OLD LOGIC
-    # if federal_plan.nil? or federal_plan.name == 'Thrift Savings Plan (TSP)'
-    #   agencies << result_type_match('TSP')
-    #   unless aoa_coverage.empty?
-    #     return agencies << aoa_coverage
-    #   end
-    #   agencies << result_type_match('NARFE')
-    #   dsp = closest_dsp
-    #   agencies << dsp
-    #   agencies << result_type_match('OPM')
-    # else
-    #   agencies << result_type_match('OPM')
-    #   unless aoa_coverage.empty?
-    #     return agencies << aoa_coverage
-    #   end
-    #   agencies << result_type_match('NARFE')
-    #   dsp = closest_dsp
-    #   agencies << dsp
-    #   agencies << tsp_by_date
-    # end
+# if federal_plan.nil? or federal_plan.name == 'Thrift Savings Plan (TSP)'
+#   agencies << result_type_match('TSP')
+#   unless aoa_coverage.empty?
+#     return agencies << aoa_coverage
+#   end
+#   agencies << result_type_match('NARFE')
+#   dsp = closest_dsp
+#   agencies << dsp
+#   agencies << result_type_match('OPM')
+# else
+#   agencies << result_type_match('OPM')
+#   unless aoa_coverage.empty?
+#     return agencies << aoa_coverage
+#   end
+#   agencies << result_type_match('NARFE')
+#   dsp = closest_dsp
+#   agencies << dsp
+#   agencies << tsp_by_date
+# end
 ############
 
     agencies.flatten.uniq
@@ -423,7 +495,7 @@ class Counseling < ActiveRecord::Base
     agencies << Plan.find(selected_plan_id).agency unless (selected_plan_id.blank? or Plan.find(selected_plan_id).nil?)
     agencies << result_type_match('DFAS') if self.military_service_id == 5 # Military service = I don't know
     if !pension_earner.nil? && pension_earner.name.include?("spouse") and
-          (is_divorce_related? or is_survivorship_related?)
+        (is_divorce_related? or is_survivorship_related?)
       agencies << result_type_match('DFAS')
       unless aoa_coverage.empty?
         return agencies.unshift(aoa_coverage)
@@ -490,33 +562,38 @@ class Counseling < ActiveRecord::Base
       end
     end
 
-    address = Address.find(:first, :origin => ZipImport.find(zipcode), :order => 'distance',
-            :joins => 'join locations l on addresses.location_id = l.id
-                                             and l.is_provider = 1 and l.is_active = 1
-                       join agencies a on l.agency_id = a.id and a.use_for_counseling=1 and a.is_active=1
-                       left join restrictions r on r.location_id = l.id
-                       left join restrictions_states rs on rs.restriction_id = r.id
-                       left join restrictions_counties rc on rc.restriction_id = r.id
-                       left join restrictions_zips rz on rz.restriction_id = r.id',
-            :conditions => [conditions, home_state_abbrev])
+    address = Address.includes(:location).joins(
+        'join locations l on addresses.location_id = l.id
+            and l.is_provider = 1 and l.is_active = 1
+            join agencies a on l.agency_id = a.id and a.use_for_counseling=1 and a.is_active=1
+            left join restrictions r on r.location_id = l.id
+            left join restrictions_states rs on rs.restriction_id = r.id
+            left join restrictions_counties rc on rc.restriction_id = r.id
+            left join restrictions_zips rz on rz.restriction_id = r.id'
+    ).where(
+        conditions, home_state_abbrev
+    ).by_distance(origin: ZipImport.find(zipcode)).first
+
     return address.location.agency unless address.nil?
   end
 
   def closest_nsp
     return nil unless zipcode
 
-    address = Address.find(:first, :origin => ZipImport.find(zipcode), :order => 'distance',
-      :include => :location,
-            :joins => 'join locations l on addresses.location_id = l.id
-                                             and l.is_provider = 1 and l.is_active = 1
-                      join agencies a on l.agency_id = a.id and a.use_for_counseling=1 and a.is_active=1
-                      left join restrictions r on r.location_id = l.id',
-            :conditions => "a.agency_category_id=#{AgencyCategory['Service Provider'].id}
-                           and (a.result_type_id is null or a.result_type_id=999)
-                           and ((r.minimum_age is null and r.max_poverty is null)
-                           or r.id is null)
-                           and addresses.address_type='dropin'
-                           and addresses.latitude is not null")
+    address = Address.includes(:location).joins(
+        'join locations l on addresses.location_id = l.id
+            and l.is_provider = 1 and l.is_active = 1
+            join agencies a on l.agency_id = a.id and a.use_for_counseling=1 and a.is_active=1
+            left join restrictions r on r.location_id = l.id'
+    ).where(
+        "a.agency_category_id=#{AgencyCategory['Service Provider'].id}
+            and (a.result_type_id is null or a.result_type_id=999)
+            and ((r.minimum_age is null and r.max_poverty is null)
+            or r.id is null)
+            and addresses.address_type='dropin'
+            and addresses.latitude is not null"
+    ).by_distance(origin: ZipImport.find(zipcode)).first
+
     if address
       # create a new agency with just this one location (to avoid returning the 'wrong' location from the agency)
       a=Agency.new
@@ -538,7 +615,7 @@ class Counseling < ActiveRecord::Base
         join plans p on p.agency_id = a.id
         and a.agency_category_id = 6
         and a.use_for_counseling = 1 and a.is_active = 1 and p.is_active = 1
-        SQL
+    SQL
     Agency.find_by_sql([sql])
   end
 
@@ -554,7 +631,7 @@ class Counseling < ActiveRecord::Base
         and a.agency_category_id = 3
         and rc.county_id = ?
         and a.use_for_counseling = 1 and a.is_active = 1 and p.is_active = 1
-        SQL
+    SQL
     Agency.find_by_sql([sql, county_id])
   end
 
@@ -570,12 +647,12 @@ class Counseling < ActiveRecord::Base
         where a.agency_category_id = 3
         and rc.city_id = ?
         and a.use_for_counseling = 1 and a.is_active = 1 and p.is_active = 1
-        SQL
+    SQL
     Agency.find_by_sql([sql, city_id])
   end
 
   def tsp_by_date
-    if !employment_end.nil? and employment_end > Date.new(2001,10,9)
+    if !employment_end.nil? and employment_end > Date.new(2001, 10, 9)
       return result_type_match('TSP')
     end
   end
@@ -583,34 +660,31 @@ class Counseling < ActiveRecord::Base
   def military_branch_match
     return nil unless military_branch
     case military_branch.name
-      when /Army/:        result_type_match('RSO')
-      when /Navy/:        result_type_match('NRAO')
-      when /Air Force/:   result_type_match('AFRSB')
-      when /Coast Guard/: result_type_match('OHSPSC')
-      when /Marine Corps/:
-                          result_type_match('USMCP')
-      when /National Oceanic and Atmospheric Administration Commissioned Corps/:
-                          result_type_match('OPMOSB')
-      when /U.S. Public Health Service Commissioned Corps/:
-                          result_type_match('PHSRC')
-      when /Thrift Savings Plan/:
-                          result_type_match('TSP')
-      when /I don&rsquo;t know/:
-                          result_type_match('DFAS')
-  end
+      when /Army/
+        result_type_match('RSO')
+      when /Navy/
+        result_type_match('NRAO')
+      when /Air Force/
+        result_type_match('AFRSB')
+      when /Coast Guard/
+        result_type_match('OHSPSC')
+      when /Marine Corps/
+        result_type_match('USMCP')
+      when /National Oceanic and Atmospheric Administration Commissioned Corps/
+        result_type_match('OPMOSB')
+      when /U.S. Public Health Service Commissioned Corps/
+        result_type_match('PHSRC')
+      when /Thrift Savings Plan/
+        result_type_match('TSP')
+      when /I don&rsquo;t know/
+        result_type_match('DFAS')
+    end
   end
 
   def result_type_match(type)
     return nil if ResultType[type].nil?
-
     return nil if type == "DOL" && self.employment_end && self.employment_end < Date.new(1974, 1, 1)
-
-    Agency.find(:all,
-      :conditions => [
-        'result_type_id = ? and use_for_counseling = 1 and is_active = 1',
-        ResultType[type]
-      ]
-    )
+    Agency.where(result_type_id: ResultType[type], use_for_counseling: 1, is_active: 1)
   end
 
   def show_lost_plan_resources
@@ -618,33 +692,33 @@ class Counseling < ActiveRecord::Base
   end
 
   def show_last_step_questions?
-    step.to_i < 10 && (abc_path == 'B' || abc_path == 'C')
+    step.to_i < 10
   end
 
   def question_required?(question)
-    case abc_path
-    when 'A'
-      step.to_i == 0
-    when 'B'
-      step.to_i >= 10
-    when 'C'
-      step.to_i >= 10 && [:age, :monthly_income_tmp, :number_in_household].include?(question)
-    else
-      false
-    end
+    step.to_i >= 10
   end
 
   protected
 
-  def before_validation
+  def before_validation_callback
     if !self.yearly_income_tmp.blank?
-      self.monthly_income = self.yearly_income_tmp.gsub(/[^0-9.]/, '' ).to_i / 12
+      self.monthly_income = self.yearly_income_tmp.gsub(/[^0-9.]/, '').to_i / 12
     elsif !self.monthly_income_tmp.blank?
-      self.monthly_income = self.monthly_income_tmp.gsub(/[^0-9.]/, '' )
+      self.monthly_income = self.monthly_income_tmp.gsub(/[^0-9.]/, '')
     end
 
     self.zipcode = DEFAULT_ZIP if self.zipcode.blank? && self.non_us_resident == "1"
+    puts self.zipcode.blank?
+    puts self.non_us_resident
     self.is_over_60 = (Date.today.year - self.age.to_i) > 60
-    p self.is_over_60
+    true
+  end
+
+
+  def save_result
+    matching_agencies.each do |agency|
+      ResultRow.create!(location: agency.best_location(self), counseling: self)
+    end
   end
 end

@@ -1,0 +1,99 @@
+INSTALLATION
+
+# create .rvmrc file with the following code:
+
+rvm ree-1.8.7-2012.02@pha --create
+
+
+# downgrade rubygems
+
+gem update --system 1.8.25 (Kuba: I had to do it)
+
+# install gems
+
+gem install rails -v=1.2.6
+gem install rake -v=0.8.7
+
+
+# to use gems from vendor/gems add the following code into environment.rb
+
+config.load_paths += Dir["#{RAILS_ROOT}/vendor/gems/**"].map do |dir|
+  File.directory?(lib = "#{dir}/lib") ? lib : dir
+end
+
+or
+
+export RAILS_ENV='development'
+
+
+# create database.yml, example:
+
+development:
+  adapter: mysql
+  encoding: utf8
+  database: pha_development
+  username: root
+  password:
+  host: localhost
+
+
+#create database and load schema
+
+As migration script were broken as of 2014-10-22. Use dump that reflects state of dba at 107_add_fields_to_partners.rb.
+To set up your env load db/dumps/pha_2014-10-22.sql. From now on migrations should be run.
+
+You can use script/reload-and-migrate-db to clear and repopulate your db from dump.
+
+export RAILS_ENV='development'; ./script/reload-and-migrate-db
+
+Password to all accounts: stuart eg. stuart/fmetrics1017 (old passwords before add_devise.. migration)
+
+To migrate:
+
+rake db:migrate
+
+
+# loading data
+
+Download dump from qa server .Then load sql file into the database (from command line, via sequel pro or other tool)
+
+# running app
+script/server
+
+(NY postal code: 10001)
+
+# SELENIUM CONFIGURATION
+
+Download Selenium IDE plugin for firefox and install it
+
+http://release.seleniumhq.org/selenium-ide/2.8.0/selenium-ide-2.8.0.xpi
+
+HOW TO RUN TEST
+
+1. Copy and paste specific test case file content from test/selenium directory
+2. Paste it inside plugin input window ( Firefox browser ), or switch to selenium Window and use File -> Open Test Case
+3. Run test case
+
+- Important! You have to run rails server to perform tests!
+
+TO RUN SELENIUM TEST FROM CONSOLE YOU HAVE TO RUN FOLLOWING COMMAND IN CONSOLE ( you have to be in directory where selenium-server file is placed )
+
+java -jar selenium-server-standalone-2.44.0.jar -port 4444 -htmlSuite "*firefox /Applications/Firefox.app/Contents/MacOS/firefox-bin" "http://localhost:3000/" "./selenium/complete_test_suite.html" "TestSuiteResult.html"
+
+# Testing zip import
+> ruby shell/load_zip_download.rb --db_user=root --db_pass= --db_host=localhost --db_name=pha_development --filedir=test/files/
+
+Please reaload db afterwards as zip file contains only couple sample codes
+
+# Staging configuration
+
+- Add secret before_bundle.rb to deploy folder with following commands ( deploy folder is located in project dir )
+
+run "rm -rf #{config.release_path}/config/secrets.yml"
+run "ln -nfs #{config.shared_path}/config/secrets.yml #{config.release_path}/config/secrets.yml"
+
+- Add secret key to secrets.yml file on QA server ( shared folder )
+
+staging:
+airbrake_key_base: 8eeeb09ec76d2442a745fea6cc48a2cf
+secret_key_base: e855b0eabe27a7fd8cd2cff7600a29bcde404f2141c09f9e99fa77aabcbb5b166bacb88a123a46a1ed7a78dcc753cfe30d6916e4cab82e1114783e278e4c0d0d

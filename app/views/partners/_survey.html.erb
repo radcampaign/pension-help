@@ -1,0 +1,46 @@
+<br/>
+<style>.fieldWithErrors {
+    padding: 2px;
+    background-color: red;
+    display: table;
+}</style>
+<% if (not @partner.nil? and not @partner.errors.empty?) %>
+    <div class="warningBox">
+      <table class="warningTable">
+        <tr class="warningRow">
+          <td class="warningCell2">
+            <% @partner.errors.full_messages.each do |msg| %>
+                <p><%= msg %></p>
+            <% end %>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <br/>
+<% end %>
+
+<h2>Be a part of our nationwide pension assistance network!</h2>
+
+<p>Please provide these additional details so that we may properly refer potential clients who are seeking specific
+  pension counseling legal advice.</p>
+
+
+<div id="networkForm">
+  <div id="plan_types"></div>
+  <div id="sponsor_types"></div>
+  <div id="npln_info"></div>
+  <div id="pal_info"></div>
+  <div id="npln_levels"></div>
+  <div id="help_info"></div>
+  <div id="geo_areas" style="display:none" class="use_for_search">
+        <%= render :partial => 'works/geo_areas', :locals => {:partner => @partner, :p => p} %>
+  </div>
+  <div id="search_info"></div>
+  <div id="referrals"></div>
+  <div id="jurisdictions"></div>
+  <div id="professions"></div>
+  <div id="additional_info"></div>
+</div>
+
+<%= submit_tag 'Update' %>
+
