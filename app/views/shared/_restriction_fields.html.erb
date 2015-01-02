@@ -43,10 +43,10 @@
         end %>
     </div>
     <div class="clear left fullwidth" id="geo_view_container">
-      States: <%= (restriction_form.states.empty? ? '<i>n/a</i>' : restriction_form.states.collect(&:abbrev).sort.join(', ')) %><br/>
-      Counties: <%= (restriction_form.counties.empty? ? '<i>n/a</i>' : restriction_form.counties.collect{|c| c.state_abbrev + ":" + c.name}.sort.join(', ')) %><br/>
-      Cities: <%= (restriction_form.cities.empty? ? '<i>n/a</i>' : restriction_form.cities.collect(&:name).sort.join(', ')) %><br/>
-      ZIPs: <%= (restriction_form.zips.empty? ? '<i>n/a</i>' : restriction_form.zips.collect(&:zipcode).sort.join(', ')) %><br/>
+      States: <%= (restriction_form.states.empty? ? 'n/a' : restriction_form.states.collect(&:abbrev).sort.join(', ')) %><br/>
+      Counties: <%= (restriction_form.counties.empty? ? 'n/a' : restriction_form.counties.collect{|c| c.state_abbrev + ":" + c.name}.sort.join(', ')) %><br/>
+      Cities: <%= (restriction_form.cities.empty? ? 'n/a' : restriction_form.cities.collect(&:name).sort.join(', ')) %><br/>
+      ZIPs: <%= (restriction_form.zips.empty? ? 'n/a' : restriction_form.zips.collect(&:zipcode).sort.join(', ')) %><br/>
 		</div>
 
     <div class="clear fullwdith">
