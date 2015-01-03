@@ -718,7 +718,8 @@ class Counseling < ActiveRecord::Base
 
   def save_result
     matching_agencies.each do |agency|
-      ResultRow.create!(location: agency.best_location(self), counseling: self)
+      # if we can't find a best_location, the agency won't show in results and we don't need to add it here
+      ResultRow.create!(location: agency.best_location(self), counseling: self) unless agency.best_location(self).blank?
     end
   end
 end
