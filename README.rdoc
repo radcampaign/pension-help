@@ -1,20 +1,5 @@
 INSTALLATION
 
-# create .rvmrc file with the following code:
-
-rvm ree-1.8.7-2012.02@pha --create
-
-
-# downgrade rubygems
-
-gem update --system 1.8.25 (Kuba: I had to do it)
-
-# install gems
-
-gem install rails -v=1.2.6
-gem install rake -v=0.8.7
-
-
 # to use gems from vendor/gems add the following code into environment.rb
 
 config.load_paths += Dir["#{RAILS_ROOT}/vendor/gems/**"].map do |dir|
@@ -83,17 +68,17 @@ java -jar selenium-server-standalone-2.44.0.jar -port 4444 -htmlSuite "*firefox 
 # Testing zip import
 > ruby shell/load_zip_download.rb --db_user=root --db_pass= --db_host=localhost --db_name=pha_development --filedir=test/files/
 
-Please reaload db afterwards as zip file contains only couple sample codes
+Please reload db afterwards as zip file contains only couple sample codes
 
 # Staging configuration
 
-- Add secret before_bundle.rb to deploy folder with following commands ( deploy folder is located in project dir )
+- Add secret before_bundle.rb to deploy folder with following commands ( deploy folder is located in project dir ).  {This appears to be already in repository, so we can skip this step - Dan 2015-01-02}
 
 run "rm -rf #{config.release_path}/config/secrets.yml"
 run "ln -nfs #{config.shared_path}/config/secrets.yml #{config.release_path}/config/secrets.yml"
 
-- Add secret key to secrets.yml file on QA server ( shared folder )
+- Add secret key to secrets.yml file on QA server ( shared folder ).  Use same airbrake key for all environments.  Use unique key for devise for each environment.
 
 staging:
-airbrake_key_base: 8eeeb09ec76d2442a745fea6cc48a2cf
-secret_key_base: e855b0eabe27a7fd8cd2cff7600a29bcde404f2141c09f9e99fa77aabcbb5b166bacb88a123a46a1ed7a78dcc753cfe30d6916e4cab82e1114783e278e4c0d0d
+  airbrake_key_base: 8eeeb09ec76d2442a745fea6cc48a2cf
+  secret_key_base: e855b0eabe27a7fd8cd2cff7600a29bcde404f2141c09f9e99fa77aabcbb5b166bacb88a123a46a1ed7a78dcc753cfe30d6916e4cab82e1114783e278e4c0d0d

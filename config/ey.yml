@@ -1,5 +1,7 @@
 environments:
   QA:
     precompile_assets: true
+  staging:
+    precompile_assets: true
   production:
     precompile_assets: true
