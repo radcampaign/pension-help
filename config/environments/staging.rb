@@ -49,7 +49,7 @@ Rails.application.configure do
   # Set to :debug to see everything in the log.
   config.log_level = :debug
 
-config.action_mailer.default_url_options = { :host => "ec2-107-20-224-223.compute-1.amazonaws.com" }
+config.action_mailer.default_url_options = { :host => "qa.pensionhelp.org" }
 
 ActionMailer::Base.smtp_settings = {
     :address => 'smtp.gmail.com',

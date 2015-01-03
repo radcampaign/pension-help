@@ -3,5 +3,9 @@ environments:
     precompile_assets: true
   staging:
     precompile_assets: true
+  staging2:
+    precompile_assets: true
   production:
+    precompile_assets: true
+  PHA_production:
     precompile_assets: true
