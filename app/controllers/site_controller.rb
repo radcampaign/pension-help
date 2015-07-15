@@ -4,7 +4,7 @@ class SiteController < ApplicationController
     url = params[:url].to_s
     @content = Content.find_by_url_and_is_active(url, true)
     if @content.nil?
-      render 'site/404', :status => 404
+      render 'site/404.html.erb', :status => 404
       return
     end
   end
@@ -16,7 +16,7 @@ class SiteController < ApplicationController
   end
 
   def internal_error
-    render 'site/505', :status => 500
+    render 'site/505.html.erb', :status => 500
   end
   
 end
