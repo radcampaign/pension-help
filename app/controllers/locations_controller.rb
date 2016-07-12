@@ -143,10 +143,10 @@ class LocationsController < ApplicationController
   end
 
   def dropin_address_parameters
-    params.require(:dropin_address).permit(:line1, :line2, :city, :state_abbrev, :plan_hq)
+    params.require(:dropin_address).permit(:line1, :line2, :city, :state_abbrev, :plan_hq, :zip)
   end
 
   def mailing_address_parameters
-    params.require(:mailing_address).permit(:line1, :line2, :city, :state_abbrev, :plan_hq)
+    params.require(:mailing_address).permit(:line1, :line2, :city, :state_abbrev, :plan_hq, :zip)
   end
 end
