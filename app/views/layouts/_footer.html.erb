@@ -6,7 +6,7 @@
     <li>|</li>
     <li><%= link_to_unless_current 'Privacy Policy', '/privacy-policy' %></li>
     <li>|</li>
-    <li><%= link_to_unless_current 'Feedback', :controller => '/feedback', :action => :show_form %></li>
+    <li><%= link_to 'Feedback', "http://www.pensionrights.org/contact-us" %></li>
     <li>|</li>
     <li><%= link_to_unless_current 'Site Administration', :controller => '/admin/menu', :action => :index %></li>
     <% if user_signed_in? %>
