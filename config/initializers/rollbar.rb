@@ -67,5 +67,5 @@ Rollbar.configure do |config|
   # https://devcenter.heroku.com/articles/deploying-to-a-custom-rails-environment
   config.environment = ENV['ROLLBAR_ENV'].presence || Rails.env
 
-  Rollbar.config.scrub_fields |= ['X-HTTP_AUTHORIZATION', 'HTTP_AUTHORIZATION' 'Authorization', '_pension-help_session', 'remember_user_token']
+  config.scrub_fields |= ['X-HTTP_AUTHORIZATION', 'HTTP_AUTHORIZATION' 'Authorization', '_pension-help_session', 'remember_user_token']
 end
