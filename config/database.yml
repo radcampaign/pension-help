@@ -30,4 +30,3 @@ development:
    database: pha_development
    username: root
    password:
-   host: localhost
