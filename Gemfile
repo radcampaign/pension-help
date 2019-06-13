@@ -77,6 +77,8 @@ gem 'pothoven-attachment_fu', '~> 3.2.14'
 # Gem for integration with Rollbar ( for exception logging )
 gem 'rollbar'
 
+gem 'byebug', group: :development
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
