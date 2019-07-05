@@ -1,4 +1,6 @@
 environments:
+  development:
+    precompile_assets: true
   QA:
     precompile_assets: true
   staging:
