@@ -24,9 +24,9 @@
 #  <<: *default
 #  database: db/production.sqlite3
 
-development:
-   adapter: mysql
-   encoding: utf8
-   database: pha_development
-   username: root
-   password:
+# development:
+#   adapter: mysql
+#   encoding: utf8
+#   database: pensionhelp_website
+#   username: root
+#   password:
